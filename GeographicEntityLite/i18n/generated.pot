@@ -1,0 +1,83 @@
+# ArchGenXML generated POT File
+# Tom Elliott and Sean Gillies <maia@unc.edu>, 2006.
+msgid ""
+msgstr ""
+"Project-Id-Version: GeographicEntityLite\n"
+"POT-Creation-Date: Thu Aug  3 20:32:27 2006\n"
+"PO-Revision-Date: Thu Aug  3 20:32:27 2006\n"
+"Last-Translator: Tom Elliott and Sean Gillies <maia@unc.edu>\n"
+"Language-Team: Tom Elliott and Sean Gillies <maia@unc.edu>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"Language-Code: en\n"
+"Language-Name: English\n"
+"Preferred-Encodings: latin1 utf-8\n"
+"Domain: GeographicEntityLite\n"
+
+#. Default: "Awmcid"
+#: GeographicEntityLite.py
+msgid "GeographicEntityLite_label_awmcID"
+msgstr ""
+
+#. Default: "Batlasgrid"
+#: GeographicEntityLite.py
+msgid "GeographicEntityLite_label_bAtlasGrid"
+msgstr ""
+
+#. Default: "Batlasmap"
+#: GeographicEntityLite.py
+msgid "GeographicEntityLite_label_bAtlasMap"
+msgstr ""
+
+#. Default: "Geoentitytype"
+#: GeographicEntityLite.py
+msgid "GeographicEntityLite_label_geoEntityType"
+msgstr ""
+
+#. Default: "Language"
+#: GeographicNameLite.py
+msgid "GeographicEntityLite_label_language"
+msgstr ""
+
+#. Default: "Modern"
+#: GeographicNameLite.py
+msgid "GeographicEntityLite_label_modern"
+msgstr ""
+
+#. Default: "Modernlocation"
+#: GeographicEntityLite.py
+msgid "GeographicEntityLite_label_modernLocation"
+msgstr ""
+
+#. Default: "Namestring"
+#: GeographicNameLite.py
+msgid "GeographicEntityLite_label_nameString"
+msgstr ""
+
+#. Default: "References"
+#: GeographicEntityLite.py
+msgid "GeographicEntityLite_label_references"
+msgstr ""
+
+#. Default: "Script"
+#: GeographicNameLite.py
+msgid "GeographicEntityLite_label_script"
+msgstr ""
+
+#. Default: "Spatialcoordinates"
+#: GeographicEntityLite.py
+msgid "GeographicEntityLite_label_spatialCoordinates"
+msgstr ""
+
+#. Default: "Spatialgeometrytype"
+#: GeographicEntityLite.py
+msgid "GeographicEntityLite_label_spatialGeometryType"
+msgstr ""
+
+#. Default: "Timeperiods"
+#: GeographicEntityLite.py
+msgid "GeographicEntityLite_label_timePeriods"
+msgstr ""
+
