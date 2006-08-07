@@ -40,7 +40,7 @@ schema = Schema((
     StringField(
         name='nameString',
         widget=StringWidget(
-            label='Namestring',
+            label="Name String",
             label_msgid='GeographicEntityLite_label_nameString',
             i18n_domain='GeographicEntityLite',
         )
@@ -50,7 +50,7 @@ schema = Schema((
         name='modern',
         default="0",
         widget=BooleanWidget(
-            label='Modern',
+            label="Modern",
             label_msgid='GeographicEntityLite_label_modern',
             i18n_domain='GeographicEntityLite',
         )
@@ -59,7 +59,7 @@ schema = Schema((
     StringField(
         name='language',
         widget=SelectionWidget(
-            label='Language',
+            label="Language",
             label_msgid='GeographicEntityLite_label_language',
             i18n_domain='GeographicEntityLite',
         ),
@@ -69,7 +69,7 @@ schema = Schema((
     StringField(
         name='script',
         widget=SelectionWidget(
-            label='Script',
+            label="Script",
             label_msgid='GeographicEntityLite_label_script',
             i18n_domain='GeographicEntityLite',
         ),

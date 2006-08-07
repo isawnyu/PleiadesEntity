@@ -1,5 +1,5 @@
 <?xml version = '1.0' encoding = 'UTF-8' ?>
-<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Thu Aug 03 15:31:29 CDT 2006'>
+<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Mon Aug 07 13:41:32 CDT 2006'>
   <XMI.header>  <XMI.header>
     <XMI.documentation>
       <XMI.exporter>ArgoUML (using Netbeans XMI Writer version 1.0)</XMI.exporter>
@@ -36,6 +36,14 @@
                   </UML:Multiplicity.range>
                 </UML:Multiplicity>
               </UML:StructuralFeature.multiplicity>
+              <UML:ModelElement.taggedValue>
+                <UML:TaggedValue xmi.id = '.:0000000000000C41' isSpecification = 'false'>
+                  <UML:TaggedValue.dataValue>AWMC Inventory Number</UML:TaggedValue.dataValue>
+                  <UML:TaggedValue.type>
+                    <UML:TagDefinition xmi.idref = '.:0000000000000C50'/>
+                  </UML:TaggedValue.type>
+                </UML:TaggedValue>
+              </UML:ModelElement.taggedValue>
               <UML:StructuralFeature.type>
                 <UML:DataType xmi.idref = '.:0000000000000C25'/>
               </UML:StructuralFeature.type>
@@ -69,6 +77,12 @@
                     <UML:TagDefinition xmi.idref = '.:0000000000000C3C'/>
                   </UML:TaggedValue.type>
                 </UML:TaggedValue>
+                <UML:TaggedValue xmi.id = '.:0000000000000C45' isSpecification = 'false'>
+                  <UML:TaggedValue.dataValue>Barrington Atlas Map Number</UML:TaggedValue.dataValue>
+                  <UML:TaggedValue.type>
+                    <UML:TagDefinition xmi.idref = '.:0000000000000C50'/>
+                  </UML:TaggedValue.type>
+                </UML:TaggedValue>
               </UML:ModelElement.taggedValue>
               <UML:StructuralFeature.type>
                 <UML:DataType xmi.idref = '.:0000000000000C25'/>
@@ -84,6 +98,14 @@
                   </UML:Multiplicity.range>
                 </UML:Multiplicity>
               </UML:StructuralFeature.multiplicity>
+              <UML:ModelElement.taggedValue>
+                <UML:TaggedValue xmi.id = '.:0000000000000C46' isSpecification = 'false'>
+                  <UML:TaggedValue.dataValue>Barrington Atlas Grid Reference</UML:TaggedValue.dataValue>
+                  <UML:TaggedValue.type>
+                    <UML:TagDefinition xmi.idref = '.:0000000000000C50'/>
+                  </UML:TaggedValue.type>
+                </UML:TaggedValue>
+              </UML:ModelElement.taggedValue>
               <UML:StructuralFeature.type>
                 <UML:DataType xmi.idref = '.:0000000000000C25'/>
               </UML:StructuralFeature.type>
@@ -117,6 +139,12 @@
                     <UML:TagDefinition xmi.idref = '.:0000000000000C3C'/>
                   </UML:TaggedValue.type>
                 </UML:TaggedValue>
+                <UML:TaggedValue xmi.id = '.:0000000000000C53' isSpecification = 'false'>
+                  <UML:TaggedValue.dataValue>Entity Type</UML:TaggedValue.dataValue>
+                  <UML:TaggedValue.type>
+                    <UML:TagDefinition xmi.idref = '.:0000000000000C50'/>
+                  </UML:TaggedValue.type>
+                </UML:TaggedValue>
               </UML:ModelElement.taggedValue>
               <UML:StructuralFeature.type>
                 <UML:DataType xmi.idref = '.:0000000000000C25'/>
@@ -132,6 +160,14 @@
                   </UML:Multiplicity.range>
                 </UML:Multiplicity>
               </UML:StructuralFeature.multiplicity>
+              <UML:ModelElement.taggedValue>
+                <UML:TaggedValue xmi.id = '.:0000000000000C47' isSpecification = 'false'>
+                  <UML:TaggedValue.dataValue>Modern Name / Location</UML:TaggedValue.dataValue>
+                  <UML:TaggedValue.type>
+                    <UML:TagDefinition xmi.idref = '.:0000000000000C50'/>
+                  </UML:TaggedValue.type>
+                </UML:TaggedValue>
+              </UML:ModelElement.taggedValue>
               <UML:StructuralFeature.type>
                 <UML:DataType xmi.idref = '.:0000000000000C25'/>
               </UML:StructuralFeature.type>
@@ -146,6 +182,14 @@
                   </UML:Multiplicity.range>
                 </UML:Multiplicity>
               </UML:StructuralFeature.multiplicity>
+              <UML:ModelElement.taggedValue>
+                <UML:TaggedValue xmi.id = '.:0000000000000C48' isSpecification = 'false'>
+                  <UML:TaggedValue.dataValue>Time Periods</UML:TaggedValue.dataValue>
+                  <UML:TaggedValue.type>
+                    <UML:TagDefinition xmi.idref = '.:0000000000000C50'/>
+                  </UML:TaggedValue.type>
+                </UML:TaggedValue>
+              </UML:ModelElement.taggedValue>
               <UML:StructuralFeature.type>
                 <UML:DataType xmi.idref = '.:0000000000000C25'/>
               </UML:StructuralFeature.type>
@@ -160,6 +204,14 @@
                   </UML:Multiplicity.range>
                 </UML:Multiplicity>
               </UML:StructuralFeature.multiplicity>
+              <UML:ModelElement.taggedValue>
+                <UML:TaggedValue xmi.id = '.:0000000000000C49' isSpecification = 'false'>
+                  <UML:TaggedValue.dataValue>References</UML:TaggedValue.dataValue>
+                  <UML:TaggedValue.type>
+                    <UML:TagDefinition xmi.idref = '.:0000000000000C50'/>
+                  </UML:TaggedValue.type>
+                </UML:TaggedValue>
+              </UML:ModelElement.taggedValue>
               <UML:StructuralFeature.type>
                 <UML:DataType xmi.idref = '.:0000000000000C25'/>
               </UML:StructuralFeature.type>
@@ -174,6 +226,14 @@
                   </UML:Multiplicity.range>
                 </UML:Multiplicity>
               </UML:StructuralFeature.multiplicity>
+              <UML:ModelElement.taggedValue>
+                <UML:TaggedValue xmi.id = '.:0000000000000C4A' isSpecification = 'false'>
+                  <UML:TaggedValue.dataValue>Spatial Coordinates</UML:TaggedValue.dataValue>
+                  <UML:TaggedValue.type>
+                    <UML:TagDefinition xmi.idref = '.:0000000000000C50'/>
+                  </UML:TaggedValue.type>
+                </UML:TaggedValue>
+              </UML:ModelElement.taggedValue>
               <UML:StructuralFeature.type>
                 <UML:DataType xmi.idref = '.:0000000000000C25'/>
               </UML:StructuralFeature.type>
@@ -188,6 +248,14 @@
                   </UML:Multiplicity.range>
                 </UML:Multiplicity>
               </UML:StructuralFeature.multiplicity>
+              <UML:ModelElement.taggedValue>
+                <UML:TaggedValue xmi.id = '.:0000000000000C4B' isSpecification = 'false'>
+                  <UML:TaggedValue.dataValue>Spatial Geometry Type</UML:TaggedValue.dataValue>
+                  <UML:TaggedValue.type>
+                    <UML:TagDefinition xmi.idref = '.:0000000000000C50'/>
+                  </UML:TaggedValue.type>
+                </UML:TaggedValue>
+              </UML:ModelElement.taggedValue>
               <UML:StructuralFeature.type>
                 <UML:DataType xmi.idref = '.:0000000000000C25'/>
               </UML:StructuralFeature.type>
@@ -208,6 +276,14 @@
                   </UML:Multiplicity.range>
                 </UML:Multiplicity>
               </UML:StructuralFeature.multiplicity>
+              <UML:ModelElement.taggedValue>
+                <UML:TaggedValue xmi.id = '.:0000000000000C4C' isSpecification = 'false'>
+                  <UML:TaggedValue.dataValue>Name String</UML:TaggedValue.dataValue>
+                  <UML:TaggedValue.type>
+                    <UML:TagDefinition xmi.idref = '.:0000000000000C50'/>
+                  </UML:TaggedValue.type>
+                </UML:TaggedValue>
+              </UML:ModelElement.taggedValue>
               <UML:StructuralFeature.type>
                 <UML:DataType xmi.idref = '.:0000000000000C25'/>
               </UML:StructuralFeature.type>
@@ -225,6 +301,14 @@
               <UML:Attribute.initialValue>
                 <UML:Expression xmi.id = '.:0000000000000C15' language = 'Java' body = '0'/>
               </UML:Attribute.initialValue>
+              <UML:ModelElement.taggedValue>
+                <UML:TaggedValue xmi.id = '.:0000000000000C4D' isSpecification = 'false'>
+                  <UML:TaggedValue.dataValue>Modern</UML:TaggedValue.dataValue>
+                  <UML:TaggedValue.type>
+                    <UML:TagDefinition xmi.idref = '.:0000000000000C50'/>
+                  </UML:TaggedValue.type>
+                </UML:TaggedValue>
+              </UML:ModelElement.taggedValue>
               <UML:StructuralFeature.type>
                 <UML:DataType xmi.idref = '.:0000000000000C3D'/>
               </UML:StructuralFeature.type>
@@ -256,6 +340,12 @@
                   <UML:TaggedValue.dataValue>SelectionWidget</UML:TaggedValue.dataValue>
                   <UML:TaggedValue.type>
                     <UML:TagDefinition xmi.idref = '.:0000000000000C33'/>
+                  </UML:TaggedValue.type>
+                </UML:TaggedValue>
+                <UML:TaggedValue xmi.id = '.:0000000000000C4E' isSpecification = 'false'>
+                  <UML:TaggedValue.dataValue>Language</UML:TaggedValue.dataValue>
+                  <UML:TaggedValue.type>
+                    <UML:TagDefinition xmi.idref = '.:0000000000000C50'/>
                   </UML:TaggedValue.type>
                 </UML:TaggedValue>
               </UML:ModelElement.taggedValue>
@@ -290,6 +380,12 @@
                   <UML:TaggedValue.dataValue>ATVocabularyManager</UML:TaggedValue.dataValue>
                   <UML:TaggedValue.type>
                     <UML:TagDefinition xmi.idref = '.:0000000000000C3C'/>
+                  </UML:TaggedValue.type>
+                </UML:TaggedValue>
+                <UML:TaggedValue xmi.id = '.:0000000000000C4F' isSpecification = 'false'>
+                  <UML:TaggedValue.dataValue>Script</UML:TaggedValue.dataValue>
+                  <UML:TaggedValue.type>
+                    <UML:TagDefinition xmi.idref = '.:0000000000000C50'/>
                   </UML:TaggedValue.type>
                 </UML:TaggedValue>
               </UML:ModelElement.taggedValue>
@@ -392,6 +488,26 @@
         </UML:TagDefinition>
         <UML:DataType xmi.id = '.:0000000000000C3D' name = 'boolean' isSpecification = 'false'
           isRoot = 'false' isLeaf = 'false' isAbstract = 'false'/>
+        <UML:TagDefinition xmi.id = '.:0000000000000C42' name = 'label' isSpecification = 'false'
+          tagType = 'String'>
+          <UML:TagDefinition.multiplicity>
+            <UML:Multiplicity xmi.id = '.:0000000000000C44'>
+              <UML:Multiplicity.range>
+                <UML:MultiplicityRange xmi.id = '.:0000000000000C43' lower = '0' upper = '1'/>
+              </UML:Multiplicity.range>
+            </UML:Multiplicity>
+          </UML:TagDefinition.multiplicity>
+        </UML:TagDefinition>
+        <UML:TagDefinition xmi.id = '.:0000000000000C50' name = 'widget:label' isSpecification = 'false'
+          tagType = 'String'>
+          <UML:TagDefinition.multiplicity>
+            <UML:Multiplicity xmi.id = '.:0000000000000C52'>
+              <UML:Multiplicity.range>
+                <UML:MultiplicityRange xmi.id = '.:0000000000000C51' lower = '0' upper = '1'/>
+              </UML:Multiplicity.range>
+            </UML:Multiplicity>
+          </UML:TagDefinition.multiplicity>
+        </UML:TagDefinition>
       </UML:Namespace.ownedElement>
     </UML:Model>
   </XMI.content>

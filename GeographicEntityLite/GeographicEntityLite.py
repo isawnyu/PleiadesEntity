@@ -40,7 +40,7 @@ schema = Schema((
     StringField(
         name='awmcID',
         widget=StringWidget(
-            label='Awmcid',
+            label="AWMC Inventory Number",
             label_msgid='GeographicEntityLite_label_awmcID',
             i18n_domain='GeographicEntityLite',
         )
@@ -49,7 +49,7 @@ schema = Schema((
     StringField(
         name='bAtlasMap',
         widget=SelectionWidget(
-            label='Batlasmap',
+            label="Barrington Atlas Map Number",
             label_msgid='GeographicEntityLite_label_bAtlasMap',
             i18n_domain='GeographicEntityLite',
         ),
@@ -59,7 +59,7 @@ schema = Schema((
     StringField(
         name='bAtlasGrid',
         widget=StringWidget(
-            label='Batlasgrid',
+            label="Barrington Atlas Grid Reference",
             label_msgid='GeographicEntityLite_label_bAtlasGrid',
             i18n_domain='GeographicEntityLite',
         )
@@ -68,7 +68,7 @@ schema = Schema((
     StringField(
         name='geoEntityType',
         widget=SelectionWidget(
-            label='Geoentitytype',
+            label="Entity Type",
             label_msgid='GeographicEntityLite_label_geoEntityType',
             i18n_domain='GeographicEntityLite',
         ),
@@ -78,7 +78,7 @@ schema = Schema((
     StringField(
         name='modernLocation',
         widget=StringWidget(
-            label='Modernlocation',
+            label="Modern Name / Location",
             label_msgid='GeographicEntityLite_label_modernLocation',
             i18n_domain='GeographicEntityLite',
         )
@@ -87,7 +87,7 @@ schema = Schema((
     StringField(
         name='timePeriods',
         widget=StringWidget(
-            label='Timeperiods',
+            label="Time Periods",
             label_msgid='GeographicEntityLite_label_timePeriods',
             i18n_domain='GeographicEntityLite',
         )
@@ -96,7 +96,7 @@ schema = Schema((
     StringField(
         name='references',
         widget=StringWidget(
-            label='References',
+            label="References",
             label_msgid='GeographicEntityLite_label_references',
             i18n_domain='GeographicEntityLite',
         )
@@ -105,7 +105,7 @@ schema = Schema((
     StringField(
         name='spatialCoordinates',
         widget=StringWidget(
-            label='Spatialcoordinates',
+            label="Spatial Coordinates",
             label_msgid='GeographicEntityLite_label_spatialCoordinates',
             i18n_domain='GeographicEntityLite',
         )
@@ -114,7 +114,7 @@ schema = Schema((
     StringField(
         name='spatialGeometryType',
         widget=StringWidget(
-            label='Spatialgeometrytype',
+            label="Spatial Geometry Type",
             label_msgid='GeographicEntityLite_label_spatialGeometryType',
             i18n_domain='GeographicEntityLite',
         )

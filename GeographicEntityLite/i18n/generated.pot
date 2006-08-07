@@ -3,8 +3,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GeographicEntityLite\n"
-"POT-Creation-Date: Thu Aug  3 20:32:27 2006\n"
-"PO-Revision-Date: Thu Aug  3 20:32:27 2006\n"
+"POT-Creation-Date: Mon Aug  7 18:40:52 2006\n"
+"PO-Revision-Date: Mon Aug  7 18:40:52 2006\n"
 "Last-Translator: Tom Elliott and Sean Gillies <maia@unc.edu>\n"
 "Language-Team: Tom Elliott and Sean Gillies <maia@unc.edu>\n"
 "MIME-Version: 1.0\n"
@@ -16,22 +16,22 @@ msgstr ""
 "Preferred-Encodings: latin1 utf-8\n"
 "Domain: GeographicEntityLite\n"
 
-#. Default: "Awmcid"
+#. Default: "AWMC Inventory Number"
 #: GeographicEntityLite.py
 msgid "GeographicEntityLite_label_awmcID"
 msgstr ""
 
-#. Default: "Batlasgrid"
+#. Default: "Barrington Atlas Grid Reference"
 #: GeographicEntityLite.py
 msgid "GeographicEntityLite_label_bAtlasGrid"
 msgstr ""
 
-#. Default: "Batlasmap"
+#. Default: "Barrington Atlas Map Number"
 #: GeographicEntityLite.py
 msgid "GeographicEntityLite_label_bAtlasMap"
 msgstr ""
 
-#. Default: "Geoentitytype"
+#. Default: "Entity Type"
 #: GeographicEntityLite.py
 msgid "GeographicEntityLite_label_geoEntityType"
 msgstr ""
@@ -46,12 +46,12 @@ msgstr ""
 msgid "GeographicEntityLite_label_modern"
 msgstr ""
 
-#. Default: "Modernlocation"
+#. Default: "Modern Name / Location"
 #: GeographicEntityLite.py
 msgid "GeographicEntityLite_label_modernLocation"
 msgstr ""
 
-#. Default: "Namestring"
+#. Default: "Name String"
 #: GeographicNameLite.py
 msgid "GeographicEntityLite_label_nameString"
 msgstr ""
@@ -66,17 +66,17 @@ msgstr ""
 msgid "GeographicEntityLite_label_script"
 msgstr ""
 
-#. Default: "Spatialcoordinates"
+#. Default: "Spatial Coordinates"
 #: GeographicEntityLite.py
 msgid "GeographicEntityLite_label_spatialCoordinates"
 msgstr ""
 
-#. Default: "Spatialgeometrytype"
+#. Default: "Spatial Geometry Type"
 #: GeographicEntityLite.py
 msgid "GeographicEntityLite_label_spatialGeometryType"
 msgstr ""
 
-#. Default: "Timeperiods"
+#. Default: "Time Periods"
 #: GeographicEntityLite.py
 msgid "GeographicEntityLite_label_timePeriods"
 msgstr ""
