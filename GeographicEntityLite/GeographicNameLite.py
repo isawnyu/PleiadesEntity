@@ -1,9 +1,7 @@
-# -*- coding: utf-8 -*-
-#
 # File: GeographicNameLite.py
 #
-# Copyright (c) 2006 by Tom Elliott and Sean Gillies
-# Generator: ArchGenXML Version 1.5.0 svn/devel
+# Copyright (c) 2006 by []
+# Generator: ArchGenXML Version 1.4.1
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
@@ -24,7 +22,7 @@
 # 02110-1301, USA.
 #
 
-__author__ = """Tom Elliott and Sean Gillies <maia@unc.edu>"""
+__author__ = """unknown <unknown>"""
 __docformat__ = 'plaintext'
 
 from AccessControl import ClassSecurityInfo
@@ -102,14 +100,13 @@ class GeographicNameLite(BaseContent):
     allowed_content_types = []
     filter_content_types = 0
     global_allow = 0
+    allow_discussion = False
     #content_icon = 'GeographicNameLite.gif'
     immediate_view = 'base_view'
     default_view = 'base_view'
     suppl_views = ()
     typeDescription = "GeographicNameLite"
     typeDescMsgId = 'description_edit_geographicnamelite'
-
-    _at_rename_after_creation = True
 
     schema = GeographicNameLite_schema
 
@@ -118,7 +115,8 @@ class GeographicNameLite(BaseContent):
 
     # Methods
 
-registerType(GeographicNameLite, PROJECTNAME)
+
+registerType(GeographicNameLite,PROJECTNAME)
 # end of class GeographicNameLite
 
 ##code-section module-footer #fill in your manual code here

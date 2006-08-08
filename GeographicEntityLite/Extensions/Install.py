@@ -1,9 +1,7 @@
-# -*- coding: utf-8 -*-
-#
 # File: Install.py
 #
-# Copyright (c) 2006 by Tom Elliott and Sean Gillies
-# Generator: ArchGenXML Version 1.5.0 svn/devel
+# Copyright (c) 2006 by []
+# Generator: ArchGenXML Version 1.4.1
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
@@ -24,7 +22,7 @@
 # 02110-1301, USA.
 #
 
-__author__ = """Tom Elliott and Sean Gillies <maia@unc.edu>"""
+__author__ = """unknown <unknown>"""
 __docformat__ = 'plaintext'
 
 
@@ -71,24 +69,25 @@ def install(self):
     install_subskin(self, out, GLOBALS)
 
 
+
+               
     # Create vocabularies in vocabulary lib
-    from Products.ATVocabularyManager.config import TOOL_NAME as ATVOCABULARYTOOL
-    atvm = getToolByName(self, ATVOCABULARYTOOL)
-    vocabmap = {'geographictype': ('SimpleVocabulary', 'SimpleVocabularyTerm'),
-         'nameScript': ('SimpleVocabulary', 'SimpleVocabularyTerm'),
-         'nameLanguages': ('SimpleVocabulary', 'SimpleVocabularyTerm'),
-         'bAtlasMapNumbers': ('SimpleVocabulary', 'SimpleVocabularyTerm'),
+    atvm = getToolByName(self, 'portal_vocabularies')
+    vocabmap = {u'geographictype': ('SimpleVocabulary', 'SimpleVocabularyTerm'),
+         u'nameScript': ('SimpleVocabulary', 'SimpleVocabularyTerm'),
+         u'nameLanguages': ('SimpleVocabulary', 'SimpleVocabularyTerm'),
+         u'bAtlasMapNumbers': ('SimpleVocabulary', 'SimpleVocabularyTerm'),
         }
     for vocabname in vocabmap.keys():
         if not vocabname in atvm.contentIds():
             atvm.invokeFactory(vocabmap[vocabname][0], vocabname)
-
+            
         if len(atvm[vocabname].contentIds()) < 1:
             if vocabmap[vocabname][0] == "VdexVocabulary":
                 vdexpath = os.path.join(
                     package_home(GLOBALS), 'data', '%s.vdex' % vocabname)
                 if not (os.path.exists(vdexpath) and os.path.isfile(vdexpath)):
-                    print >>out, 'No VDEX import file provided at %s.' % vdexpath
+                    print >>out, 'No VDEX import file provided at %s.' % vdexpath 
                     continue
                 try:
                     #read data
@@ -96,9 +95,9 @@ def install(self):
                     data = f.read()
                     f.close()
                 except:
-                    print >>out, 'Problems while reading VDEX import file provided at %s.' % vdexpath
+                    print >>out, 'Problems while reading VDEX import file provided at %s.' % vdexpath 
                     continue
-                atvm[vocabname].importXMLBinding(data)
+                atvm[vocabname].importXMLBinding(data)                   
             else:
                 atvm[vocabname].invokeFactory(vocabmap[vocabname][1],'default')
                 atvm[vocabname]['default'].setTitle('Default term, replace it by your own stuff')
@@ -106,8 +105,9 @@ def install(self):
     # try to call a workflow install method
     # in 'InstallWorkflows.py' method 'installWorkflows'
     try:
-        installWorkflows = ExternalMethod('temp', 'temp',
-                                          PROJECTNAME+'.InstallWorkflows',
+        installWorkflows = ExternalMethod('temp',
+                                          'temp',
+                                          PROJECTNAME+'.InstallWorkflows', 
                                           'installWorkflows').__of__(self)
     except NotFound:
         installWorkflows = None
@@ -123,8 +123,6 @@ def install(self):
     # enable portal_factory for given types
     factory_tool = getToolByName(self,'portal_factory')
     factory_types=[
-        "GeographicEntityLite",
-        "GeographicNameLite",
         ] + factory_tool.getFactoryTypes().keys()
     factory_tool.manage_setPortalFactoryTypes(listOfTypeIds=factory_types)
 
@@ -185,7 +183,7 @@ def uninstall(self):
     # in 'InstallWorkflows.py' method 'uninstallWorkflows'
     try:
         uninstallWorkflows = ExternalMethod('temp', 'temp',
-                                            PROJECTNAME+'.InstallWorkflows',
+                                            PROJECTNAME+'.InstallWorkflows', 
                                             'uninstallWorkflows').__of__(self)
     except NotFound:
         uninstallWorkflows = None
@@ -200,7 +198,7 @@ def uninstall(self):
     # try to call a custom uninstall method
     # in 'AppInstall.py' method 'uninstall'
     try:
-        uninstall = ExternalMethod('temp', 'temp',
+        uninstall = ExternalMethod('temp', 'temp', 
                                    PROJECTNAME+'.AppInstall', 'uninstall')
     except:
         uninstall = None
@@ -216,50 +214,3 @@ def uninstall(self):
         print >>out,'no custom uninstall'
 
     return out.getvalue()
-
-def beforeUninstall(self, reinstall, product, cascade):
-    """ try to call a custom beforeUninstall method in 'AppInstall.py'
-        method 'beforeUninstall'
-    """
-    out = StringIO()
-    try:
-        beforeuninstall = ExternalMethod('temp', 'temp',
-                                   PROJECTNAME+'.AppInstall', 'beforeUninstall')
-    except:
-        beforeuninstall = []
-
-    if beforeuninstall:
-        print >>out, 'Custom beforeUninstall:'
-        res = beforeuninstall(self, reinstall=reinstall
-                                  , product=product
-                                  , cascade=cascade)
-        if res:
-            print >>out, res
-        else:
-            print >>out, 'no output'
-    else:
-        print >>out, 'no custom beforeUninstall'
-    return (out,cascade)
-
-def afterInstall(self, reinstall, product):
-    """ try to call a custom afterInstall method in 'AppInstall.py' method
-        'afterInstall'
-    """
-    out = StringIO()
-    try:
-        afterinstall = ExternalMethod('temp', 'temp',
-                                   PROJECTNAME+'.AppInstall', 'afterInstall')
-    except:
-        afterinstall = None
-
-    if afterinstall:
-        print >>out, 'Custom afterInstall:'
-        res = afterinstall(self, product=None
-                               , reinstall=None)
-        if res:
-            print >>out, res
-        else:
-            print >>out, 'no output'
-    else:
-        print >>out, 'no custom afterInstall'
-    return out

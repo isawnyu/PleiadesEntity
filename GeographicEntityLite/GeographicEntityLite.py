@@ -1,9 +1,7 @@
-# -*- coding: utf-8 -*-
-#
 # File: GeographicEntityLite.py
 #
-# Copyright (c) 2006 by Tom Elliott and Sean Gillies
-# Generator: ArchGenXML Version 1.5.0 svn/devel
+# Copyright (c) 2006 by []
+# Generator: ArchGenXML Version 1.4.1
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
@@ -24,7 +22,7 @@
 # 02110-1301, USA.
 #
 
-__author__ = """Tom Elliott and Sean Gillies <maia@unc.edu>"""
+__author__ = """unknown <unknown>"""
 __docformat__ = 'plaintext'
 
 from AccessControl import ClassSecurityInfo
@@ -146,14 +144,13 @@ class GeographicEntityLite(OrderedBaseFolder):
     allowed_content_types = ['GeographicNameLite']
     filter_content_types = 1
     global_allow = 1
+    allow_discussion = False
     #content_icon = 'GeographicEntityLite.gif'
     immediate_view = 'base_view'
     default_view = 'base_view'
     suppl_views = ()
     typeDescription = "GeographicEntityLite"
     typeDescMsgId = 'description_edit_geographicentitylite'
-
-    _at_rename_after_creation = True
 
     schema = GeographicEntityLite_schema
 
@@ -162,7 +159,8 @@ class GeographicEntityLite(OrderedBaseFolder):
 
     # Methods
 
-registerType(GeographicEntityLite, PROJECTNAME)
+
+registerType(GeographicEntityLite,PROJECTNAME)
 # end of class GeographicEntityLite
 
 ##code-section module-footer #fill in your manual code here
