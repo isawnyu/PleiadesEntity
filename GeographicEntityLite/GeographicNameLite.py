@@ -40,7 +40,8 @@ schema = Schema((
             label="Name as Attested",
             label_msgid='GeographicEntityLite_label_nameString',
             i18n_domain='GeographicEntityLite',
-        )
+        ),
+        required=1
     ),
 
     BooleanField(
@@ -61,7 +62,8 @@ schema = Schema((
             i18n_domain='GeographicEntityLite',
         ),
         enforceVocabulary=1,
-        vocabulary= ['Greek (ancient; ISO639-2:grc)', 'Latin (ISO639-1:la)']
+        vocabulary= ['Greek (ancient; ISO639-2:grc)', 'Latin (ISO639-1:la)'],
+        required=1
     ),
 
     StringField(
@@ -72,7 +74,8 @@ schema = Schema((
             i18n_domain='GeographicEntityLite',
         ),
         enforceVocabulary=1,
-        vocabulary= ['Greek Characters (ISO15924:Grek)', 'Latin Characters (ISO15924:Latn)']
+        vocabulary= ['Greek Characters (ISO15924:Grek)', 'Latin Characters (ISO15924:Latn)'],
+        required=1
     ),
 
 ),
@@ -108,6 +111,8 @@ class GeographicNameLite(BaseContent):
     suppl_views = ()
     typeDescription = "Geographic Name (Lite)"
     typeDescMsgId = 'description_edit_geographicnamelite'
+
+    _at_rename_after_creation = True
 
     schema = GeographicNameLite_schema
 

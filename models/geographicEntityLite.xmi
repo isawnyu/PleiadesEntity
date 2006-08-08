@@ -1,5 +1,5 @@
 <?xml version = '1.0' encoding = 'UTF-8' ?>
-<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Tue Aug 08 16:50:02 CDT 2006'>
+<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Tue Aug 08 17:26:09 CDT 2006'>
   <XMI.header>  <XMI.header>
     <XMI.documentation>
       <XMI.exporter>ArgoUML (using Netbeans XMI Writer version 1.0)</XMI.exporter>
@@ -25,6 +25,12 @@
               <UML:TaggedValue.dataValue>Geographic Entity (Lite)</UML:TaggedValue.dataValue>
               <UML:TaggedValue.type>
                 <UML:TagDefinition xmi.idref = '.:0000000000000CD6'/>
+              </UML:TaggedValue.type>
+            </UML:TaggedValue>
+            <UML:TaggedValue xmi.id = '.:0000000000000CEE' isSpecification = 'false'>
+              <UML:TaggedValue.dataValue>1</UML:TaggedValue.dataValue>
+              <UML:TaggedValue.type>
+                <UML:TagDefinition xmi.idref = '.:0000000000000CEA'/>
               </UML:TaggedValue.type>
             </UML:TaggedValue>
           </UML:ModelElement.taggedValue>
@@ -299,6 +305,12 @@
                 <UML:TagDefinition xmi.idref = '.:0000000000000CD6'/>
               </UML:TaggedValue.type>
             </UML:TaggedValue>
+            <UML:TaggedValue xmi.id = '.:0000000000000CED' isSpecification = 'false'>
+              <UML:TaggedValue.dataValue>1</UML:TaggedValue.dataValue>
+              <UML:TaggedValue.type>
+                <UML:TagDefinition xmi.idref = '.:0000000000000CEA'/>
+              </UML:TaggedValue.type>
+            </UML:TaggedValue>
           </UML:ModelElement.taggedValue>
           <UML:Classifier.feature>
             <UML:Attribute xmi.id = '.:0000000000000C97' name = 'nameString' visibility = 'public'
@@ -316,6 +328,12 @@
                   <UML:TaggedValue.dataValue>Name as Attested</UML:TaggedValue.dataValue>
                   <UML:TaggedValue.type>
                     <UML:TagDefinition xmi.idref = '.:0000000000000CCC'/>
+                  </UML:TaggedValue.type>
+                </UML:TaggedValue>
+                <UML:TaggedValue xmi.id = '.:0000000000000CE6' isSpecification = 'false'>
+                  <UML:TaggedValue.dataValue>1</UML:TaggedValue.dataValue>
+                  <UML:TaggedValue.type>
+                    <UML:TagDefinition xmi.idref = '.:0000000000000CE3'/>
                   </UML:TaggedValue.type>
                 </UML:TaggedValue>
               </UML:ModelElement.taggedValue>
@@ -386,6 +404,12 @@
                     <UML:TagDefinition xmi.idref = '.:0000000000000CBF'/>
                   </UML:TaggedValue.type>
                 </UML:TaggedValue>
+                <UML:TaggedValue xmi.id = '.:0000000000000CE7' isSpecification = 'false'>
+                  <UML:TaggedValue.dataValue>1</UML:TaggedValue.dataValue>
+                  <UML:TaggedValue.type>
+                    <UML:TagDefinition xmi.idref = '.:0000000000000CE3'/>
+                  </UML:TaggedValue.type>
+                </UML:TaggedValue>
               </UML:ModelElement.taggedValue>
               <UML:StructuralFeature.type>
                 <UML:DataType xmi.idref = '.:0000000000000CAE'/>
@@ -424,6 +448,12 @@
                   <UML:TaggedValue.dataValue>1</UML:TaggedValue.dataValue>
                   <UML:TaggedValue.type>
                     <UML:TagDefinition xmi.idref = '.:0000000000000CCF'/>
+                  </UML:TaggedValue.type>
+                </UML:TaggedValue>
+                <UML:TaggedValue xmi.id = '.:0000000000000CE8' isSpecification = 'false'>
+                  <UML:TaggedValue.dataValue>1</UML:TaggedValue.dataValue>
+                  <UML:TaggedValue.type>
+                    <UML:TagDefinition xmi.idref = '.:0000000000000CE3'/>
                   </UML:TaggedValue.type>
                 </UML:TaggedValue>
               </UML:ModelElement.taggedValue>
@@ -582,6 +612,26 @@
           isRoot = 'false' isLeaf = 'false' isAbstract = 'false'/>
         <UML:DataType xmi.id = '.:0000000000000CDD' name = 'multiselection' isSpecification = 'false'
           isRoot = 'false' isLeaf = 'false' isAbstract = 'false'/>
+        <UML:TagDefinition xmi.id = '.:0000000000000CE3' name = 'required' isSpecification = 'false'
+          tagType = 'String'>
+          <UML:TagDefinition.multiplicity>
+            <UML:Multiplicity xmi.id = '.:0000000000000CE5'>
+              <UML:Multiplicity.range>
+                <UML:MultiplicityRange xmi.id = '.:0000000000000CE4' lower = '0' upper = '1'/>
+              </UML:Multiplicity.range>
+            </UML:Multiplicity>
+          </UML:TagDefinition.multiplicity>
+        </UML:TagDefinition>
+        <UML:TagDefinition xmi.id = '.:0000000000000CEA' name = 'rename_after_creation'
+          isSpecification = 'false' tagType = 'String'>
+          <UML:TagDefinition.multiplicity>
+            <UML:Multiplicity xmi.id = '.:0000000000000CEC'>
+              <UML:Multiplicity.range>
+                <UML:MultiplicityRange xmi.id = '.:0000000000000CEB' lower = '0' upper = '1'/>
+              </UML:Multiplicity.range>
+            </UML:Multiplicity>
+          </UML:TagDefinition.multiplicity>
+        </UML:TagDefinition>
       </UML:Namespace.ownedElement>
     </UML:Model>
   </XMI.content>

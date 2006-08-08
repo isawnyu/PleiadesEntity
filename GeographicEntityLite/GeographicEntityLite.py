@@ -156,6 +156,8 @@ class GeographicEntityLite(BaseFolder):
     typeDescription = "Geographic Entity (Lite)"
     typeDescMsgId = 'description_edit_geographicentitylite'
 
+    _at_rename_after_creation = True
+
     schema = GeographicEntityLite_schema
 
     ##code-section class-header #fill in your manual code here
