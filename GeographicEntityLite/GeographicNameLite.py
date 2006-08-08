@@ -37,7 +37,7 @@ schema = Schema((
     StringField(
         name='nameString',
         widget=StringWidget(
-            label="Name String",
+            label="Attested Name",
             label_msgid='GeographicEntityLite_label_nameString',
             i18n_domain='GeographicEntityLite',
         )
@@ -54,10 +54,10 @@ schema = Schema((
     ),
 
     StringField(
-        name='language',
+        name='nameLanguage',
         widget=SelectionWidget(
             label="Language",
-            label_msgid='GeographicEntityLite_label_language',
+            label_msgid='GeographicEntityLite_label_nameLanguage',
             i18n_domain='GeographicEntityLite',
         ),
         enforceVocabulary=1,
@@ -94,7 +94,7 @@ class GeographicNameLite(BaseContent):
     __implements__ = (getattr(BaseContent,'__implements__',()),)
 
     # This name appears in the 'add' box
-    archetype_name = 'GeographicNameLite'
+    archetype_name = 'Geographic Name (Lite)'
 
     meta_type = 'GeographicNameLite'
     portal_type = 'GeographicNameLite'
@@ -106,7 +106,7 @@ class GeographicNameLite(BaseContent):
     immediate_view = 'base_view'
     default_view = 'base_view'
     suppl_views = ()
-    typeDescription = "GeographicNameLite"
+    typeDescription = "Geographic Name (Lite)"
     typeDescMsgId = 'description_edit_geographicnamelite'
 
     schema = GeographicNameLite_schema

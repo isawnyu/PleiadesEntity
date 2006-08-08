@@ -35,15 +35,6 @@ from Products.GeographicEntityLite.config import *
 schema = Schema((
 
     StringField(
-        name='awmcID',
-        widget=StringWidget(
-            label="AWMC Inventory Number",
-            label_msgid='GeographicEntityLite_label_awmcID',
-            i18n_domain='GeographicEntityLite',
-        )
-    ),
-
-    StringField(
         name='bAtlasMap',
         widget=SelectionWidget(
             label="Barrington Atlas Map Number",
@@ -52,6 +43,15 @@ schema = Schema((
         ),
         enforceVocabulary=1,
         vocabulary= ['65', '66', '67']
+    ),
+
+    StringField(
+        name='awmcID',
+        widget=StringWidget(
+            label="AWMC Inventory Number",
+            label_msgid='GeographicEntityLite_label_awmcID',
+            i18n_domain='GeographicEntityLite',
+        )
     ),
 
     StringField(
@@ -128,20 +128,20 @@ schema = Schema((
 ##code-section after-local-schema #fill in your manual code here
 ##/code-section after-local-schema
 
-GeographicEntityLite_schema = OrderedBaseFolderSchema.copy() + \
+GeographicEntityLite_schema = BaseFolderSchema.copy() + \
     schema.copy()
 
 ##code-section after-schema #fill in your manual code here
 ##/code-section after-schema
 
-class GeographicEntityLite(OrderedBaseFolder):
+class GeographicEntityLite(BaseFolder):
     """
     """
     security = ClassSecurityInfo()
-    __implements__ = (getattr(OrderedBaseFolder,'__implements__',()),)
+    __implements__ = (getattr(BaseFolder,'__implements__',()),)
 
     # This name appears in the 'add' box
-    archetype_name = 'GeographicEntityLite'
+    archetype_name = 'Geographic Entity (Lite)'
 
     meta_type = 'GeographicEntityLite'
     portal_type = 'GeographicEntityLite'
@@ -153,7 +153,7 @@ class GeographicEntityLite(OrderedBaseFolder):
     immediate_view = 'base_view'
     default_view = 'base_view'
     suppl_views = ()
-    typeDescription = "GeographicEntityLite"
+    typeDescription = "Geographic Entity (Lite)"
     typeDescMsgId = 'description_edit_geographicentitylite'
 
     schema = GeographicEntityLite_schema
