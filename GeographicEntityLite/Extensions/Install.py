@@ -70,37 +70,6 @@ def install(self):
 
 
 
-               
-    # Create vocabularies in vocabulary lib
-    atvm = getToolByName(self, 'portal_vocabularies')
-    vocabmap = {u'geographictype': ('SimpleVocabulary', 'SimpleVocabularyTerm'),
-         u'nameScript': ('SimpleVocabulary', 'SimpleVocabularyTerm'),
-         u'nameLanguages': ('SimpleVocabulary', 'SimpleVocabularyTerm'),
-         u'bAtlasMapNumbers': ('SimpleVocabulary', 'SimpleVocabularyTerm'),
-        }
-    for vocabname in vocabmap.keys():
-        if not vocabname in atvm.contentIds():
-            atvm.invokeFactory(vocabmap[vocabname][0], vocabname)
-            
-        if len(atvm[vocabname].contentIds()) < 1:
-            if vocabmap[vocabname][0] == "VdexVocabulary":
-                vdexpath = os.path.join(
-                    package_home(GLOBALS), 'data', '%s.vdex' % vocabname)
-                if not (os.path.exists(vdexpath) and os.path.isfile(vdexpath)):
-                    print >>out, 'No VDEX import file provided at %s.' % vdexpath 
-                    continue
-                try:
-                    #read data
-                    f = open(vdexpath, 'r')
-                    data = f.read()
-                    f.close()
-                except:
-                    print >>out, 'Problems while reading VDEX import file provided at %s.' % vdexpath 
-                    continue
-                atvm[vocabname].importXMLBinding(data)                   
-            else:
-                atvm[vocabname].invokeFactory(vocabmap[vocabname][1],'default')
-                atvm[vocabname]['default'].setTitle('Default term, replace it by your own stuff')
 
     # try to call a workflow install method
     # in 'InstallWorkflows.py' method 'installWorkflows'

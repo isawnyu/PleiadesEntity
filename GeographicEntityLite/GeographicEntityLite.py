@@ -27,7 +27,6 @@ __docformat__ = 'plaintext'
 
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
-from Products.ATVocabularyManager.namedvocabulary import NamedVocabulary
 from Products.GeographicEntityLite.config import *
 
 ##code-section module-header #fill in your manual code here
@@ -51,7 +50,8 @@ schema = Schema((
             label_msgid='GeographicEntityLite_label_bAtlasMap',
             i18n_domain='GeographicEntityLite',
         ),
-        vocabulary=NamedVocabulary("""bAtlasMapNumbers""")
+        enforceVocabulary=1,
+        vocabulary= ['65', '66', '67']
     ),
 
     StringField(
@@ -70,12 +70,13 @@ schema = Schema((
             label_msgid='GeographicEntityLite_label_geoEntityType',
             i18n_domain='GeographicEntityLite',
         ),
-        vocabulary=NamedVocabulary("""geographictype""")
+        enforceVocabulary=1,
+        vocabulary= ['settlement (ancient)', 'fort', 'bridge']
     ),
 
-    StringField(
+    TextField(
         name='modernLocation',
-        widget=StringWidget(
+        widget=TextAreaWidget(
             label="Modern Name / Location",
             label_msgid='GeographicEntityLite_label_modernLocation',
             i18n_domain='GeographicEntityLite',
@@ -91,9 +92,9 @@ schema = Schema((
         )
     ),
 
-    StringField(
+    TextField(
         name='references',
-        widget=StringWidget(
+        widget=TextAreaWidget(
             label="References",
             label_msgid='GeographicEntityLite_label_references',
             i18n_domain='GeographicEntityLite',
@@ -111,11 +112,14 @@ schema = Schema((
 
     StringField(
         name='spatialGeometryType',
+        default="point",
         widget=StringWidget(
             label="Spatial Geometry Type",
             label_msgid='GeographicEntityLite_label_spatialGeometryType',
             i18n_domain='GeographicEntityLite',
-        )
+        ),
+        enforceVocabulary=1,
+        vocabulary= ['point']
     ),
 
 ),

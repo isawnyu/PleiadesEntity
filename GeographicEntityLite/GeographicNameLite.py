@@ -27,7 +27,6 @@ __docformat__ = 'plaintext'
 
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
-from Products.ATVocabularyManager.namedvocabulary import NamedVocabulary
 from Products.GeographicEntityLite.config import *
 
 ##code-section module-header #fill in your manual code here
@@ -61,7 +60,8 @@ schema = Schema((
             label_msgid='GeographicEntityLite_label_language',
             i18n_domain='GeographicEntityLite',
         ),
-        vocabulary=NamedVocabulary("""nameLanguages""")
+        enforceVocabulary=1,
+        vocabulary= ['grc', 'la']
     ),
 
     StringField(
@@ -71,7 +71,8 @@ schema = Schema((
             label_msgid='GeographicEntityLite_label_script',
             i18n_domain='GeographicEntityLite',
         ),
-        vocabulary=NamedVocabulary("""nameScript""")
+        enforceVocabulary=1,
+        vocabulary= ['grec', 'latn']
     ),
 
 ),
