@@ -35,6 +35,15 @@ from Products.GeographicEntityLite.config import *
 schema = Schema((
 
     StringField(
+        name='awmcID',
+        widget=StringWidget(
+            label="AWMC Inventory Number",
+            label_msgid='GeographicEntityLite_label_awmcID',
+            i18n_domain='GeographicEntityLite',
+        )
+    ),
+
+    StringField(
         name='bAtlasMap',
         widget=SelectionWidget(
             label="Barrington Atlas Map Number",
@@ -43,15 +52,6 @@ schema = Schema((
         ),
         enforceVocabulary=1,
         vocabulary= ['65', '66', '67']
-    ),
-
-    StringField(
-        name='awmcID',
-        widget=StringWidget(
-            label="AWMC Inventory Number",
-            label_msgid='GeographicEntityLite_label_awmcID',
-            i18n_domain='GeographicEntityLite',
-        )
     ),
 
     StringField(

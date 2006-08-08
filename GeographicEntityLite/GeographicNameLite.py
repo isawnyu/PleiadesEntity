@@ -37,7 +37,7 @@ schema = Schema((
     StringField(
         name='nameString',
         widget=StringWidget(
-            label="Attested Name",
+            label="Name as Attested",
             label_msgid='GeographicEntityLite_label_nameString',
             i18n_domain='GeographicEntityLite',
         )
@@ -47,7 +47,7 @@ schema = Schema((
         name='modern',
         default="0",
         widget=BooleanWidget(
-            label="Modern",
+            label="Name is Modern",
             label_msgid='GeographicEntityLite_label_modern',
             i18n_domain='GeographicEntityLite',
         )
@@ -56,23 +56,23 @@ schema = Schema((
     StringField(
         name='nameLanguage',
         widget=SelectionWidget(
-            label="Language",
+            label="Language of Attested Name",
             label_msgid='GeographicEntityLite_label_nameLanguage',
             i18n_domain='GeographicEntityLite',
         ),
         enforceVocabulary=1,
-        vocabulary= ['grc', 'la']
+        vocabulary= ['Greek (ancient; ISO639-2:grc)', 'Latin (ISO639-1:la)']
     ),
 
     StringField(
-        name='script',
+        name='nameScript',
         widget=SelectionWidget(
-            label="Script",
-            label_msgid='GeographicEntityLite_label_script',
+            label="Writing System of Attested Name",
+            label_msgid='GeographicEntityLite_label_nameScript',
             i18n_domain='GeographicEntityLite',
         ),
         enforceVocabulary=1,
-        vocabulary= ['grec', 'latn']
+        vocabulary= ['Greek Characters (ISO15924:Grek)', 'Latin Characters (ISO15924:Latn)']
     ),
 
 ),
