@@ -92,11 +92,11 @@ schema = Schema((
         )
     ),
 
-    TextField(
-        name='references',
-        widget=TextAreaWidget(
-            label="References",
-            label_msgid='GeographicEntityLite_label_references',
+    LinesField(
+        name='secondaryReferences',
+        widget=LinesWidget(
+            label="Secondary References",
+            label_msgid='GeographicEntityLite_label_secondaryReferences',
             i18n_domain='GeographicEntityLite',
         )
     ),

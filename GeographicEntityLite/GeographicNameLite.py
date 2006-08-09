@@ -78,6 +78,24 @@ schema = Schema((
         required=1
     ),
 
+    LinesField(
+        name='primaryReferences',
+        widget=LinesWidget(
+            label="Primary References",
+            label_msgid='GeographicEntityLite_label_primaryReferences',
+            i18n_domain='GeographicEntityLite',
+        )
+    ),
+
+    LinesField(
+        name='secondaryReferences',
+        widget=LinesWidget(
+            label="Secondary References",
+            label_msgid='GeographicEntityLite_label_secondaryReferences',
+            i18n_domain='GeographicEntityLite',
+        )
+    ),
+
 ),
 )
 
