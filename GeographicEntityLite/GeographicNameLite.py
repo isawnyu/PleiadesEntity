@@ -114,7 +114,7 @@ class GeographicNameLite(BaseContent):
     filter_content_types = 0
     global_allow = 0
     allow_discussion = False
-    #content_icon = 'GeographicNameLite.gif'
+    content_icon = 'geonlite_icon.gif'
     immediate_view = 'base_view'
     default_view = 'base_view'
     suppl_views = ()

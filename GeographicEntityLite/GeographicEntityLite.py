@@ -149,7 +149,7 @@ class GeographicEntityLite(BaseFolder):
     filter_content_types = 1
     global_allow = 1
     allow_discussion = False
-    #content_icon = 'GeographicEntityLite.gif'
+    content_icon = 'geoelite_icon.gif'
     immediate_view = 'base_view'
     default_view = 'base_view'
     suppl_views = ()
