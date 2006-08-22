@@ -49,6 +49,26 @@ schema = Schema((
         required=1
     ),
 
+    StringField(
+        name='nameLanguage',
+        widget=SelectionWidget(
+            label="Language and Writing System of Attested Name",
+            label_msgid='GeographicEntityLite_label_nameLanguage',
+            i18n_domain='GeographicEntityLite',
+        ),
+        vocabulary= 'trelanguages'
+    ),
+
+    BooleanField(
+        name='certain',
+        default="0",
+        widget=BooleanWidget(
+            label='Certain',
+            label_msgid='GeographicEntityLite_label_certain',
+            i18n_domain='GeographicEntityLite',
+        )
+    ),
+
     BooleanField(
         name='modern',
         default="0",
@@ -59,14 +79,54 @@ schema = Schema((
         )
     ),
 
-    StringField(
-        name='nameLanguage',
-        widget=SelectionWidget(
-            label="Language and Writing System of Attested Name",
-            label_msgid='GeographicEntityLite_label_nameLanguage',
+    BooleanField(
+        name='inaccurate',
+        default="0",
+        widget=BooleanWidget(
+            label='Inaccurate',
+            label_msgid='GeographicEntityLite_label_inaccurate',
             i18n_domain='GeographicEntityLite',
-        ),
-        vocabulary= 'trelanguages'
+        )
+    ),
+
+    BooleanField(
+        name='inferred',
+        default="0",
+        widget=BooleanWidget(
+            label='Inferred',
+            label_msgid='GeographicEntityLite_label_inferred',
+            i18n_domain='GeographicEntityLite',
+        )
+    ),
+
+    BooleanField(
+        name='reconstructed',
+        default="0",
+        widget=BooleanWidget(
+            label='Reconstructed',
+            label_msgid='GeographicEntityLite_label_reconstructed',
+            i18n_domain='GeographicEntityLite',
+        )
+    ),
+
+    BooleanField(
+        name='fragmentary',
+        default="0",
+        widget=BooleanWidget(
+            label='Fragmentary',
+            label_msgid='GeographicEntityLite_label_fragmentary',
+            i18n_domain='GeographicEntityLite',
+        )
+    ),
+
+    BooleanField(
+        name='abbreviated',
+        default="0",
+        widget=BooleanWidget(
+            label='Abbreviated',
+            label_msgid='GeographicEntityLite_label_abbreviated',
+            i18n_domain='GeographicEntityLite',
+        )
     ),
 
     LinesField(
