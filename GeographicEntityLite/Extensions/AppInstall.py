@@ -25,12 +25,18 @@ def installLanguages(self, vocabfilepath):
     logger = logging.getLogger(PROJECTNAME + '.AppInstall.installLanguages')
     logger.info('Installing languages from ' + vocabfilepath)
     desired_languages = {}
+    # testing - kill off test languages
     
     # get a reference to the Plone Language Tool so we can access its methods
     ltoolid = LanguageTool.id
     ltool = getToolByName(self, ltoolid, None)
     if ltool is None:
         return None
+    ltool.removeLanguage('grc')
+    ltool.removeLanguage('grc-Latn')
+    ltool.removeLanguage('la-Grek')
+    
+    
     available_languages = ltool.getAvailableLanguageInformation()
     
     vocabfile = open(vocabfilepath, 'r')
@@ -70,21 +76,24 @@ def installLanguages(self, vocabfilepath):
         if lang_names.has_key(lang_code):
             lang_info["native"] = lang_names[lang_code]
             logger.info('native = ' + lang_info["native"])
+        else:
+            lang_info["native"] = '     '
         if lang_names.has_key("en"):
             lang_info["english"] = lang_names["en"]
             logger.info('english = ' + lang_info["english"])
+        else:
+            lang_info["english"] = '     '
         if available_languages.has_key(lang_code):
             logger.info('this language is already available')
             if available_languages[lang_code]['selected']:
                 logger.info('this language is selected as supported')
             else:
-                logger.info('this language is not supported by default ... trying to add it')
+                logger.info('this language is not supported by default ... trying to select it')
                 ltool.addSupportedLanguage(lang_code)
         else:
-            logger.info('this language is not available')
-        
-        #ltool.addLanguage(lang_code, lang_info)
-            
+            logger.info('this language is not available ... trying to add it')
+            ltool.addLanguage(lang_code, lang_info)
+            ltool.addSupportedLanguage(lang_code)
             # {code : {native, english, flag}}.
             
             
