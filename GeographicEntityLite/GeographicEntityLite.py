@@ -37,28 +37,10 @@ from Products.GeographicEntityLite.config import *
 schema = Schema((
 
     StringField(
-        name='awmcID',
+        name='identifier',
         widget=StringWidget(
-            label="AWMC Inventory Number",
-            label_msgid='GeographicEntityLite_label_awmcID',
-            i18n_domain='GeographicEntityLite',
-        )
-    ),
-
-    StringField(
-        name='bAtlasMap',
-        widget=StringWidget(
-            label="Barrington Atlas Map Number",
-            label_msgid='GeographicEntityLite_label_bAtlasMap',
-            i18n_domain='GeographicEntityLite',
-        )
-    ),
-
-    StringField(
-        name='bAtlasGrid',
-        widget=StringWidget(
-            label="Barrington Atlas Grid Reference",
-            label_msgid='GeographicEntityLite_label_bAtlasGrid',
+            label="Identifier",
+            label_msgid='GeographicEntityLite_label_identifier',
             i18n_domain='GeographicEntityLite',
         )
     ),
@@ -81,9 +63,9 @@ schema = Schema((
         )
     ),
 
-    StringField(
+    LinesField(
         name='timePeriods',
-        widget=StringWidget(
+        widget=LinesWidget(
             label="Time Periods",
             label_msgid='GeographicEntityLite_label_timePeriods',
             i18n_domain='GeographicEntityLite',
