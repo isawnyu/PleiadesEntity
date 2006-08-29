@@ -1,7 +1,9 @@
+# -*- coding: utf-8 -*-
+#
 # File: GeographicEntityLite.py
 #
 # Copyright (c) 2006 by []
-# Generator: ArchGenXML Version 1.4.1
+# Generator: ArchGenXML Version 1.5.0
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
@@ -36,9 +38,9 @@ __docformat__ = 'plaintext'
 #   - To register a customisation policy, create a file CustomizationPolicy.py
 #       with a method register(context) to register the policy.
 
-from zLOG import LOG, INFO
+from zLOG import LOG, INFO, DEBUG
 
-LOG('GeographicEntityLite',INFO, 'Installing Product')
+LOG('GeographicEntityLite', DEBUG, 'Installing Product')
 
 try:
     import CustomizationPolicy
@@ -49,7 +51,7 @@ from Globals import package_home
 from Products.CMFCore import utils as cmfutils
 from Products.CMFCore import CMFCorePermissions
 from Products.CMFCore import DirectoryView
-from Products.CMFPlone.PloneUtilities import ToolInit
+from Products.CMFPlone.utils import ToolInit
 from Products.Archetypes.atapi import *
 from Products.Archetypes import listTypes
 from Products.Archetypes.utils import capitalize

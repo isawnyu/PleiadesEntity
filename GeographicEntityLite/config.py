@@ -1,7 +1,9 @@
+# -*- coding: utf-8 -*-
+#
 # File: GeographicEntityLite.py
 #
 # Copyright (c) 2006 by []
-# Generator: ArchGenXML Version 1.4.1
+# Generator: ArchGenXML Version 1.5.0
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)

@@ -1,7 +1,9 @@
+# -*- coding: utf-8 -*-
+#
 # File: GeographicNameLite.py
 #
 # Copyright (c) 2006 by []
-# Generator: ArchGenXML Version 1.4.1
+# Generator: ArchGenXML Version 1.5.0
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
@@ -51,12 +53,11 @@ schema = Schema((
 
     StringField(
         name='nameLanguage',
-        widget=SelectionWidget(
+        widget=StringWidget(
             label="Language and Writing System of Attested Name",
             label_msgid='GeographicEntityLite_label_nameLanguage',
             i18n_domain='GeographicEntityLite',
-        ),
-        vocabulary= 'trelanguages'
+        )
     ),
 
     BooleanField(
@@ -173,7 +174,6 @@ class GeographicNameLite(BaseContent):
     allowed_content_types = []
     filter_content_types = 0
     global_allow = 0
-    allow_discussion = False
     content_icon = 'geonlite_icon.gif'
     immediate_view = 'base_view'
     default_view = 'base_view'
@@ -190,51 +190,8 @@ class GeographicNameLite(BaseContent):
 
     # Methods
 
-    # Manually created methods
 
-    def trelanguages(self):
-        """
-        Get a display list of language codes and associated names 
-        derived from the languages selected as 'supported' in the Plone Language Tool
-        """
-        # get a reference to the Plone Language Tool so we can access its methods
-        ltoolid = LanguageTool.id
-        ltool = getToolByName(self, ltoolid, None)
-        if ltool is None:
-            return None
-            
-        # request the entire dictionary of available languages from the plone language tool
-        # (the other, more specific, methods don't return all the data we would like to have access to)
-        langs = ltool.getAvailableLanguageInformation()
-        
-        # build a list of language tuples, where the first item in each tuple is the ISO language code
-        # and the second item is a language name string, made as sensible as possible to all users
-        # Ideally, we'd like to have first the native form of the language name (if known/appropriate),
-        # followed by the name of that language in the language/locale of the current user. But
-        # the PLT doesn't support this configuration (it does only native/english), so we'd have to add 
-        # alot of functionality here to get what we want -- better to patch the PLT eventually?
-        supported_langs = []
-        for lang_code, lang_info in langs.iteritems():
-            if lang_info['selected']:
-                if lang_info.has_key('native') and lang_info.has_key('english'):
-                    if lang_info['native'] != lang_info['english']:
-                        lang_name = lang_info['native'] + ' / ' + lang_info['english']
-                    else:
-                        lang_name = lang_info['native']
-                elif lang_info.has_key('native'):
-                    lang_name = lang_info['native']
-                elif lang_info.has_key('english'):
-                    lang_name = lang_info['english']
-                else:
-                    lang_name = 'language without a name'
-                scruple = (lang_code, lang_name)
-                supported_langs.append(scruple)
-                
-        return DisplayList(sorted(supported_langs, key=operator.itemgetter(1)))
-                
-
-
-registerType(GeographicNameLite,PROJECTNAME)
+registerType(GeographicNameLite, PROJECTNAME)
 # end of class GeographicNameLite
 
 ##code-section module-footer #fill in your manual code here
