@@ -42,16 +42,6 @@ import operator
 schema = Schema((
 
     StringField(
-        name='nameString',
-        widget=StringWidget(
-            label="Name as Attested",
-            label_msgid='GeographicEntityLite_label_nameString',
-            i18n_domain='GeographicEntityLite',
-        ),
-        required=1
-    ),
-
-    StringField(
         name='nameLanguage',
         widget=StringWidget(
             label="Language and Writing System of Attested Name",
@@ -125,6 +115,7 @@ class GeographicNameLite(BaseContent):
     schema = GeographicNameLite_schema
 
     ##code-section class-header #fill in your manual code here
+    schema['title'].widget.label = 'Name as Attested'
     ##/code-section class-header
 
     # Methods
