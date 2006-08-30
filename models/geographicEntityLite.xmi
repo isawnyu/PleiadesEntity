@@ -1,5 +1,5 @@
 <?xml version = '1.0' encoding = 'UTF-8' ?>
-<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Tue Aug 29 15:58:59 CDT 2006'>
+<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Wed Aug 30 12:32:51 CDT 2006'>
   <XMI.header>    <XMI.documentation>
       <XMI.exporter>ArgoUML (using Netbeans XMI Writer version 1.0)</XMI.exporter>
       <XMI.exporterVersion>0.20.x</XMI.exporterVersion>
@@ -296,29 +296,28 @@
                 <UML:DataType xmi.idref = '.:0000000000000ABC'/>
               </UML:StructuralFeature.type>
             </UML:Attribute>
-            <UML:Attribute xmi.id = '.:0000000000000A91' name = 'modern' visibility = 'public'
-              isSpecification = 'false' ownerScope = 'instance' changeability = 'changeable'
-              targetScope = 'instance'>
+            <UML:Attribute xmi.id = '-64--88-0-3--94f26f3:10d601dfb88:-8000:0000000000000AD1'
+              name = 'timePeriods' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
+              changeability = 'changeable' targetScope = 'instance'>
               <UML:StructuralFeature.multiplicity>
-                <UML:Multiplicity xmi.id = '.:0000000000000A8E'>
+                <UML:Multiplicity xmi.id = '-64--88-0-3--94f26f3:10d601dfb88:-8000:0000000000000AD2'>
                   <UML:Multiplicity.range>
-                    <UML:MultiplicityRange xmi.id = '.:0000000000000A8D' lower = '1' upper = '1'/>
+                    <UML:MultiplicityRange xmi.id = '-64--88-0-3--94f26f3:10d601dfb88:-8000:0000000000000AD3'
+                      lower = '1' upper = '1'/>
                   </UML:Multiplicity.range>
                 </UML:Multiplicity>
               </UML:StructuralFeature.multiplicity>
-              <UML:Attribute.initialValue>
-                <UML:Expression xmi.id = '.:0000000000000A8F' language = 'Java' body = '0'/>
-              </UML:Attribute.initialValue>
               <UML:ModelElement.taggedValue>
-                <UML:TaggedValue xmi.id = '.:0000000000000A90' isSpecification = 'false'>
-                  <UML:TaggedValue.dataValue>Name is Modern</UML:TaggedValue.dataValue>
+                <UML:TaggedValue xmi.id = '-64--88-0-3--94f26f3:10d601dfb88:-8000:0000000000000AD4'
+                  isSpecification = 'false'>
+                  <UML:TaggedValue.dataValue>Time Periods</UML:TaggedValue.dataValue>
                   <UML:TaggedValue.type>
                     <UML:TagDefinition xmi.idref = '.:0000000000000ADA'/>
                   </UML:TaggedValue.type>
                 </UML:TaggedValue>
               </UML:ModelElement.taggedValue>
               <UML:StructuralFeature.type>
-                <UML:DataType xmi.idref = '.:0000000000000AD4'/>
+                <UML:Class xmi.idref = '.:0000000000000AED'/>
               </UML:StructuralFeature.type>
             </UML:Attribute>
             <UML:Attribute xmi.id = '.:0000000000000AB5' name = 'primaryReferences'
@@ -353,6 +352,10 @@
                   </UML:Multiplicity.range>
                 </UML:Multiplicity>
               </UML:StructuralFeature.multiplicity>
+              <UML:Attribute.initialValue>
+                <UML:Expression xmi.id = '-64--88-0-3--94f26f3:10d601dfb88:-8000:0000000000000AD0'
+                  language = '' body = ''/>
+              </UML:Attribute.initialValue>
               <UML:ModelElement.taggedValue>
                 <UML:TaggedValue xmi.id = '.:0000000000000AB8' isSpecification = 'false'>
                   <UML:TaggedValue.dataValue>Secondary References</UML:TaggedValue.dataValue>

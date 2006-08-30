@@ -60,12 +60,11 @@ schema = Schema((
         )
     ),
 
-    BooleanField(
-        name='modern',
-        default="0",
-        widget=BooleanWidget(
-            label="Name is Modern",
-            label_msgid='GeographicEntityLite_label_modern',
+    LinesField(
+        name='timePeriods',
+        widget=LinesWidget(
+            label="Time Periods",
+            label_msgid='GeographicEntityLite_label_timePeriods',
             i18n_domain='GeographicEntityLite',
         )
     ),
