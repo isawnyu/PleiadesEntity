@@ -46,15 +46,6 @@ from Products.GeographicEntityLite.config import *
 schema = Schema((
 
     StringField(
-        name='identifier',
-        widget=StringWidget(
-            label="Identifier",
-            label_msgid='GeographicEntityLite_label_identifier',
-            i18n_domain='GeographicEntityLite',
-        )
-    ),
-
-    StringField(
         name='geoEntityType',
         widget=StringWidget(
             label="Entity Type",
@@ -147,6 +138,7 @@ class GeographicEntityLite(BaseFolder):
     schema = GeographicEntityLite_schema
 
     ##code-section class-header #fill in your manual code here
+    schema['title'].widget.label = 'Identifier'
     ##/code-section class-header
 
     # Methods
