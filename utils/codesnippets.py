@@ -7,7 +7,11 @@
 # Author:      Philipp Auersperg
 #
 # Created:     2003/16/04
-# RCS-ID:      $Id: codesnippets.py 6586 2006-06-12 04:22:34Z pupq $
+#
+# Hacked by: Tom Elliott, to produce a more appropriate header
+#                    for the Pleiades product: GeographicEntityLite
+# Hack date:  2006/08/30
+#
 # Copyright:   (c) 2003-2005, BlueDynamics, Austria
 # Licence:     GPL
 #-----------------------------------------------------------------------------
@@ -142,16 +146,25 @@ REGISTER_ARCHTYPE = """registerType(%s, PROJECTNAME)\n"""
 IMPORT_INTERFACE = """from Interface import Base"""
 
 MODULE_INFO_HEADER = '''\
-# -*- coding: %(encoding)s -*-
-#
-# %(filename_or_id)s
-#
+# ===========================================================================
 # %(copyright)s
+
 %(date)s# Generator: ArchGenXML %(version)s
 #            http://plone.org/products/archgenxml
 #
 # %(license)s
 #
+# About Pleiades
+# --------------
+#
+# Pleiades is an international research network and associated web portal and
+# content management system devoted to the study of ancient geography. 
+#
+# See http://icon.stoa.org/trac/pleiades/wiki.
+#
+# Funding for the creation of this software was provided by a grant from the 
+# U.S. National Endowment for the Humanities (http://www.neh.gov).
+# ===========================================================================
 
 __author__ = """%(authorline)s"""
 __docformat__ = 'plaintext'
@@ -161,20 +174,19 @@ __docformat__ = 'plaintext'
 COPYRIGHT = """Copyright (c) %s by %s"""
 
 GPLTEXT = """\
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version.
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
 #
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 #
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
-# 02110-1301, USA."""
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA."""
 
 LGPLTEXT = """\
 # This library is free software; you can redistribute it and/or
