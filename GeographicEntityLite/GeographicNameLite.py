@@ -46,6 +46,7 @@ from Products.PloneLanguageTool import LanguageTool
 from Products.CMFCore.utils import getToolByName
 import sys,logging
 import operator
+import transaction
 ##/code-section module-header
 
 schema = Schema((
@@ -119,7 +120,7 @@ class GeographicNameLite(BaseContent):
     typeDescription = "Geographic Name (Lite)"
     typeDescMsgId = 'description_edit_geographicnamelite'
 
-    _at_rename_after_creation = True
+    _at_rename_after_creation = False
 
     schema = GeographicNameLite_schema
 
@@ -128,6 +129,26 @@ class GeographicNameLite(BaseContent):
     ##/code-section class-header
 
     # Methods
+
+    # Manually created methods
+
+    security.declarePrivate('at_post_edit_script')
+    def at_post_edit_script(self):
+        newID = self.cookMyID()
+        transaction.savepoint(optimistic=True)
+        self.setId(value=newID)
+
+    security.declarePrivate('cookMyID')
+    def cookMyID(self):
+        rawID = self.title
+        cookedID = rawID.replace(' ', '')
+        cookedID = cookedID.lower()
+        return cookedID.encode('ascii', 'replace')
+
+    security.declarePrivate('at_post_create_script')
+    def at_post_create_script(self):
+        self.at_post_edit_script()
+
 
 
 registerType(GeographicNameLite, PROJECTNAME)

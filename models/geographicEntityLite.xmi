@@ -1,5 +1,5 @@
 <?xml version = '1.0' encoding = 'UTF-8' ?>
-<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Wed Aug 30 14:35:41 CDT 2006'>
+<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Tue Sep 05 15:19:12 CDT 2006'>
   <XMI.header>    <XMI.documentation>
       <XMI.exporter>ArgoUML (using Netbeans XMI Writer version 1.0)</XMI.exporter>
       <XMI.exporterVersion>0.20.x</XMI.exporterVersion>
@@ -26,7 +26,7 @@
               </UML:TaggedValue.type>
             </UML:TaggedValue>
             <UML:TaggedValue xmi.id = '.:0000000000000A54' isSpecification = 'false'>
-              <UML:TaggedValue.dataValue>1</UML:TaggedValue.dataValue>
+              <UML:TaggedValue.dataValue>0</UML:TaggedValue.dataValue>
               <UML:TaggedValue.type>
                 <UML:TagDefinition xmi.idref = '.:0000000000000AEC'/>
               </UML:TaggedValue.type>
@@ -204,7 +204,7 @@
               </UML:TaggedValue.type>
             </UML:TaggedValue>
             <UML:TaggedValue xmi.id = '.:0000000000000A87' isSpecification = 'false'>
-              <UML:TaggedValue.dataValue>1</UML:TaggedValue.dataValue>
+              <UML:TaggedValue.dataValue>0</UML:TaggedValue.dataValue>
               <UML:TaggedValue.type>
                 <UML:TagDefinition xmi.idref = '.:0000000000000AEC'/>
               </UML:TaggedValue.type>
