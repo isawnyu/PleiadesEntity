@@ -47,9 +47,29 @@ from Products.CMFCore.utils import getToolByName
 import sys,logging
 import operator
 import transaction
+from Products.GeographicEntityLite.cooking import *
 ##/code-section module-header
 
 schema = Schema((
+
+    StringField(
+        name='nameAttested',
+        widget=StringWidget(
+            label="Name as Attested",
+            label_msgid='GeographicEntityLite_label_nameAttested',
+            i18n_domain='GeographicEntityLite',
+        ),
+        required=1
+    ),
+
+    StringField(
+        name='nameTransliterated',
+        widget=StringWidget(
+            label="Transliterated Name",
+            label_msgid='GeographicEntityLite_label_nameTransliterated',
+            i18n_domain='GeographicEntityLite',
+        )
+    ),
 
     StringField(
         name='nameLanguage',
@@ -117,7 +137,7 @@ class GeographicNameLite(BaseContent):
     immediate_view = 'base_view'
     default_view = 'base_view'
     suppl_views = ()
-    typeDescription = "Geographic Name (Lite)"
+    typeDescription = "A simple content type for storing information about geographic names as they apply to simple geographic entities (features)."
     typeDescMsgId = 'description_edit_geographicnamelite'
 
     _at_rename_after_creation = False
@@ -125,7 +145,7 @@ class GeographicNameLite(BaseContent):
     schema = GeographicNameLite_schema
 
     ##code-section class-header #fill in your manual code here
-    schema['title'].widget.label = 'Name as Attested'
+    schema['title'].widget.label = 'Identifier'
     ##/code-section class-header
 
     # Methods
@@ -134,16 +154,9 @@ class GeographicNameLite(BaseContent):
 
     security.declarePrivate('at_post_edit_script')
     def at_post_edit_script(self):
-        newID = self.cookMyID()
+        newID = cookZopeID(self.title)
         transaction.savepoint(optimistic=True)
         self.setId(value=newID)
-
-    security.declarePrivate('cookMyID')
-    def cookMyID(self):
-        rawID = self.title
-        cookedID = rawID.replace(' ', '')
-        cookedID = cookedID.lower()
-        return cookedID.encode('ascii', 'replace')
 
     security.declarePrivate('at_post_create_script')
     def at_post_create_script(self):
