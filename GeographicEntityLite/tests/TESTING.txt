@@ -1,0 +1,9 @@
+Testing PleiadesGeocoder
+========================
+
+Credits
+-------
+
+framework.py is from PloneLanguageTool
+coverage.py: Ned Batchelder
+

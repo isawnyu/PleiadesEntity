@@ -1,0 +1,40 @@
+PublishGeoEntity.txt
+====================
+
+Test publishing of GeographicEntityLite objects.
+
+A lot of this is cribbed from optilude's tutorial on plone.org.
+
+Setup the test fixture
+
+    >>> folder = self.folder
+
+Add one entity to the folder
+
+    >>> folder.invokeFactory('GeographicEntityLite', id='aaa')
+    'aaa'
+    >>> entity = folder.aaa
+    
+Initialize the test browser
+
+    >>> from Products.Five.testbrowser import Browser
+    >>> browser = Browser()
+    >>> browser.handleErrors = False
+
+Let us log all exceptions, which is useful for debugging. Also, clear portlet
+slots, to make the test browser less confused by things like the recent portlet
+and the navtree.
+
+    >>> self.portal.error_log._ignored_exceptions = ()
+    >>> self.portal.left_slots = self.portal.right_slots = []
+
+Get our entity url
+
+    >>> entity_url = entity.absolute_url()
+
+Test entity view
+
+    >>> browser.open(entity_url)
+    >>> browser.contents
+    'foo'
+

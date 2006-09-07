@@ -1,0 +1,9 @@
+#!/bin/sh
+
+PYTHON="/home/sean/pleiades/plone-sites/p1/bin/python"
+INSTANCE_HOME="/home/sean/pleiades/plone-sites/p1/zope-instance"
+SOFTWARE_HOME="/home/sean/pleiades/plone-sites/p1/Zope-2.9.3/lib/python"
+PYTHONPATH="$SOFTWARE_HOME"
+export PYTHONPATH INSTANCE_HOME SOFTWARE_HOME
+"$PYTHON" runalltests.py
+
