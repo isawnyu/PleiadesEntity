@@ -28,13 +28,15 @@ and the navtree.
     >>> self.portal.error_log._ignored_exceptions = ()
     >>> self.portal.left_slots = self.portal.right_slots = []
 
-Get our entity url
+Browse the entity
 
     >>> entity_url = entity.absolute_url()
-
-Test entity view
-
     >>> browser.open(entity_url)
-    >>> browser.contents
+
+Check the URL and title
+
+    >>> browser.url == entity_url
+    True
+    >>> browser.title
     'foo'
 

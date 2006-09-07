@@ -13,7 +13,7 @@ from Testing.ZopeTestCase import FunctionalDocFileSuite as Suite
 #zcml.load_config('configure.zcml', package=Products.PleiadesGeocoder)
 
 PRODUCT_NAME = 'GeographicEntityLite'
-TEST_PACKAGE = "Products/%s/tests" % PRODUCT_NAME
+TEST_PACKAGE = "Products.%s.tests" % PRODUCT_NAME
 
 PloneTestCase.installProduct(PRODUCT_NAME)
 PloneTestCase.setupPloneSite(products=[PRODUCT_NAME])

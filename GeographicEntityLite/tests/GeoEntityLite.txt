@@ -1,0 +1,25 @@
+PublishGeoEntity.txt
+====================
+
+Test publishing of GeographicEntityLite objects.
+
+A lot of this is cribbed from optilude's tutorial on plone.org.
+
+Setup the test fixture
+
+    >>> folder = self.folder
+
+Add one entity to the folder
+
+    >>> folder.invokeFactory('GeographicEntityLite', id='aaa')
+    'aaa'
+
+Check the id and portal type
+
+    >>> entity = folder.aaa
+    >>> entity.id
+    'aaa'
+    >>> entity.portal_type
+    'GeographicEntityLite'
+    
+    
