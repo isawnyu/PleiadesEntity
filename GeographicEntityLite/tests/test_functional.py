@@ -36,7 +36,7 @@ def list_nontestbrowser_tests():
             if os.path.basename(filename) not in REQUIRE_TESTBROWSER]
 
 def test_suite():
-
+ 
     # BBB: We can obviously remove this when testbrowser is Plone
     #      mainstream, read: with Five 1.4.
     try:
@@ -45,10 +45,13 @@ def test_suite():
         print >> sys.stderr, ("WARNING: testbrowser not found - you probably"
                               "need to add Five 1.4 to the Products folder. "
                               "testbrowser tests skipped")
+        from Products import Five
+        print >> sys.stderr, ("Five location: %s" % Five.__file__)
+        raise
         filenames = list_nontestbrowser_tests()
     else:
         filenames = list_doctests()
-
+ 
     return unittest.TestSuite(
         [Suite(os.path.basename(filename),
                optionflags=OPTIONFLAGS,
@@ -56,4 +59,3 @@ def test_suite():
                test_class=PloneTestCase.FunctionalTestCase)
          for filename in filenames]
         )
-
