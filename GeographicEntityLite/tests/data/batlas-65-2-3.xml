@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<geoEntity xmlns="http://www.unc.edu/awmc/ns/geoEntity/0.1" xmlns:gml="http://www.opengis.net/gml" xmlns:tei=""http://www.tei-c.org/ns/1.0"">
+<geoEntity xmlns="http://www.unc.edu/awmc/ns/geoEntity/0.1" xmlns:georss="http://www.georss.org/georss" xmlns:tei="http://www.tei-c.org/ns/1.0">
     <featureID>batlas-65-2-3</featureID>
     <timePeriod>
         <timePeriodName>Classical</timePeriodName>
@@ -14,9 +14,7 @@
         </classificationScheme>
     </classificationSection>
     <spatialLocation>
-        <gml:Point srsName="epsg4326">
-            <gml:coordinate>36.5583700, 30.5590499</gml:coordinate>
-        </gml:Point>
+        <georss.point>36.5583700, 30.5590499</georss.point>
     </spatialLocation>
     <secondaryReferences>
         <tei:bibl>BAtlas 65 E4 Ağva</tei:bibl>
