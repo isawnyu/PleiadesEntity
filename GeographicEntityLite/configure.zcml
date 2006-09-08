@@ -4,14 +4,14 @@
   >
 
   <adapter
-    for="Products.PleiadesGeocoder.interfaces.IGeoreferenceable"
+    for=".interfaces.IGeoEntityLite"
     provides="Products.PleiadesGeocoder.interfaces.IGeoItemSimple"
     factory=".adapters.GeoEntitySimple"
     />
 
   <five:implements
     class=".GeographicEntityLite.GeographicEntityLite"
-    interface="Products.PleiadesGeocoder.interfaces.IGeoreferenceable"
+    interface=".interfaces.IGeoEntityLite"
     />
 
 </configure>
