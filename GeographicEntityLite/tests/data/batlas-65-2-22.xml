@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<geoEntity xmlns="http://www.unc.edu/awmc/ns/geoEntity/0.1"
+    xmlns:georss="http://www.georss.org/georss" xmlns:tei="http://www.tei-c.org/ns/1.0">
+    <ID>batlas-65-2-22/ID>
+    <modernLocation>
+        <tei:geogName>Dinar</tei:geogName>
+    </modernLocation>
+
+    <timePeriod>
+        <timePeriodName>Classical</timePeriodName>
+    </timePeriod>
+    <timePeriod>
+        <timePeriodName>Hellenistic</timePeriodName>
+    </timePeriod>
+    <timePeriod>
+        <timePeriodName>Roman</timePeriodName>
+    </timePeriod>
+    <timePeriod>
+        <timePeriodName>Late Antique</timePeriodName>
+    </timePeriod>
+    <classificationSection>
+        <classificationTerm>settlement</classificationTerm>
+        <classificationScheme>
+            <schemeName>geoEntityType</schemeName>
+        </classificationScheme>
+    </classificationSection>
+    <spatialLocation>
+        <georss:point>38.0709999, 30.1660499</georss:point>
+    </spatialLocation>
+    <secondaryReferences>
+        <tei:bibl>BAtlas 65 D1 Apamea/Kelainai/Kibotos</tei:bibl>
+        <tei:bibl>RE 6</tei:bibl>
+        <tei:bibl>TIB Phrygien 188-89</tei:bibl>
+        <tei:bibl>Cohen 1995, 281-85</tei:bibl>
+        <tei:bibl>NPauly Kelainai</tei:bibl>
+    </secondaryReferences>
+</geoEntity>
