@@ -16,7 +16,7 @@ Create a batch of entities
 
 Check count of created entities
 
-    >>> entities=folder.listFolderContents(contentFilter='GeographicEntityLite')
+    >>> entities = folder.listFolderContents(contentFilter='GeographicEntityLite')
     >>> len(entities)
     4
 
