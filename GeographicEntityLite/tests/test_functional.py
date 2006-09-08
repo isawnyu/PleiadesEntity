@@ -8,9 +8,9 @@ from Products.PloneTestCase import PloneTestCase
 from Testing.ZopeTestCase import FunctionalDocFileSuite as Suite
 
 # Shouldn't be necessary with latest SVN PTC
-#from Products.Five import zcml
-#import Products
-#zcml.load_config('configure.zcml', package=Products.PleiadesGeocoder)
+from Products.Five import zcml
+from Products import GeographicEntityLite
+zcml.load_config('configure.zcml', package=GeographicEntityLite)
 
 PRODUCT_NAME = 'GeographicEntityLite'
 TEST_PACKAGE = "Products.%s.tests" % PRODUCT_NAME

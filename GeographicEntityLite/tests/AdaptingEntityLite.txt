@@ -5,6 +5,8 @@ Test publishing of GeographicEntityLite objects.
 
 A lot of this is cribbed from optilude's tutorial on plone.org.
 
+    >>> from Products.PleiadesGeocoder.interfaces import IGeoItemSimple
+
 Setup the test fixture
 
     >>> folder = self.folder
@@ -22,3 +24,9 @@ Check the id and portal type
     >>> entity.portal_type
     'GeographicEntityLite'
     
+Adapt
+
+    >>> item = IGeoItemSimple(entity)
+    >>> item.isGeoreferenced()
+    True
+
