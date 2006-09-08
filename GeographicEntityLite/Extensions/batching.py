@@ -34,14 +34,14 @@
 import glob
 import sys
 
-from xmlutil import *
+from Products.GeographicEntityLite.Extensions.xmlutil import *
 #from creationutil import *
 
 def loaden(self, sourcedir):
     for xml in glob.glob("%s/*.xml" % sourcedir):
         load_entity(self, xml)
         
-def load_one(plonefolder, source):
+def load_entity(plonefolder, source):
     """Create a new GeographicEntityLite in plonefolder and populate it with
     the data found in the xml file at sourcepath."""
     ge = geoEntity(source)
