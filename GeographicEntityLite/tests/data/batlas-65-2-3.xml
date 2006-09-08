@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <geoEntity xmlns="http://www.unc.edu/awmc/ns/geoEntity/0.1" xmlns:georss="http://www.georss.org/georss" xmlns:tei="http://www.tei-c.org/ns/1.0">
-    <featureID>batlas-65-2-3</featureID>
+    <ID>batlas-65-2-3</ID>
+    <modernLocation>
+        <tei:geogName xml:lang="tr">Ağva</tei:geogName>
+    </modernLocation>
     <timePeriod>
         <timePeriodName>Classical</timePeriodName>
     </timePeriod>
@@ -14,7 +17,7 @@
         </classificationScheme>
     </classificationSection>
     <spatialLocation>
-        <georss.point>36.5583700, 30.5590499</georss.point>
+        <georss:point>36.5583700, 30.5590499</georss:point>
     </spatialLocation>
     <secondaryReferences>
         <tei:bibl>BAtlas 65 E4 Ağva</tei:bibl>
