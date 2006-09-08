@@ -33,6 +33,7 @@
 
 import glob
 import sys
+import re
 
 from Products.GeographicEntityLite.Extensions.xmlutil import *
 #from creationutil import *
@@ -50,9 +51,12 @@ def load_entity(plonefolder, source):
     en.setModernLocation(ge.modernLocation)
     en.setTimePeriods(ge.timePeriods)
     en.setSecondaryReferences(ge.secondaryReferences)
-    coords = ge.spatialLocations[0][1]
-    coords = coords.replace(',', ' ')
-    en.setSpatialCoordinates(coords)
+    en.setDescription('No description')
+    coords = ge.spatialLocations[0][1].replace(',', ' ')
+    values = [v for v in coords.split()]
+    if len(values) == 2:
+        values.append('0.0')
+    en.setSpatialCoordinates(' '.join(values))
 
 
 class geoEntity:
