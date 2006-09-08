@@ -19,5 +19,5 @@ Add one blank entity to the folder, and adapt
     >>> item.isGeoreferenced()
     False
     >>> item.getInfo()
-    {'srs': 'EPSG:4326', 'geometryType': 'point', 'description': '', 'spatialCoordinates': (), 'url': 'http://nohost/plone/Members/test_user_1_/aaa', 'title': 'aaa', 'id': 'aaa'}
+    {'srs': 'EPSG:4326', 'geometryType': 'point', 'description': '', 'spatialCoordinates': '', 'url': 'http://nohost/plone/Members/test_user_1_/aaa', 'title': 'aaa', 'id': 'aaa'}
 
