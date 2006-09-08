@@ -31,16 +31,30 @@
 #from Products.GeographicEntityLite.Extensions.xmlutil import getXMLDOM, getXMLText
 #from Products.GeographicEntityLite.Extensions.creationutil import setupContentItem
 
+import glob
+import sys
+
 from xmlutil import *
 #from creationutil import *
 
-def loaden(plonefolder, source):
-    """
-    Create a new GeographicEntityLite in plonefolder and populate it with the data found in the xml file at sourcepath.
-    """
-    
+def loaden(self, sourcedir):
+    for xml in glob.glob("%s/*.xml" % sourcedir):
+        load_entity(self, xml)
+        
+def load_one(plonefolder, source):
+    """Create a new GeographicEntityLite in plonefolder and populate it with
+    the data found in the xml file at sourcepath."""
     ge = geoEntity(source)
-    
+    id = plonefolder.invokeFactory('GeographicEntityLite', id=ge.identifier)
+    en = getattr(plonefolder, id)
+    en.setModernLocation(ge.modernLocation)
+    en.setTimePeriods(ge.timePeriods)
+    en.setSecondaryReferences(ge.secondaryReferences)
+    coords = ge.spatialLocations[0][1]
+    coords = coords.replace(',', ' ')
+    en.setSpatialCoordinates(coords)
+
+
 class geoEntity:
     
     def __init__(self, source):
@@ -85,7 +99,7 @@ class geoEntity:
         
     def hdl_ID(self, node):
         "Handle an identifier tag"
-        self.identifier = node.nodeValue
+        self.identifier = getXMLText([node])
         
     def hdl_modernLocation(self, node):
         location = getXMLText(node.childNodes)

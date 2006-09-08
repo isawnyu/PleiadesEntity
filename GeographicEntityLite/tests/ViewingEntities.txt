@@ -41,12 +41,12 @@ and the navtree.
 Check logical view
 
     >>> folder_url = folder.absolute_url()
-    >>> browser.open("%s/@@geoinfo/forRSS" % folder_url)
+    >>> browser.open("%s/@@geo/forRSS" % folder_url)
     >>> browser.contents
     "[{'srs': 'EPSG:4326', 'geometryType': 'point', 'description': 'A testing entity', 'spatialCoordinates': '0.0 0.0', 'url': 'http://nohost/plone/Members/test_user_1_/aaa', 'geom_element': '<georss:point>0.0 0.0</georss:point>', 'title': 'AAA', 'id': 'aaa'}]"
 
     >>> folder_url = folder.absolute_url()
-    >>> browser.open("%s/@@geoinfo/forKML" % folder_url)
+    >>> browser.open("%s/@@geo/forKML" % folder_url)
     >>> browser.contents
     '[{\'srs\': \'EPSG:4326\', \'desc_body\': \'<![CDATA[<p>A testing entity</p><p><a href="http://nohost/plone/Members/test_user_1_/aaa">AAA</a></p>]]>\', \'geometryType\': \'point\', \'description\': \'A testing entity\', \'spatialCoordinates\': \'0.0 0.0 0.0\', \'url\': \'http://nohost/plone/Members/test_user_1_/aaa\', \'geom_element\': \'<Point><coordinates>0.000000,0.000000,0.000000</coordinates></Point>\', \'title\': \'AAA\', \'id\': \'aaa\'}]'
 

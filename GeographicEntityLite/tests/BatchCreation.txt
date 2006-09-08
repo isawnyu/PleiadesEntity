@@ -11,12 +11,22 @@ Setup the test fixture
 
 Create a batch of entities
 
-    >>> from Products.GeographicEntityLite.Extensions.batching import loaden
-    >>> loaden(folder, source)
+    >>> import os
+    >>> source_dir = os.path.sep.join([os.environ['SOFTWARE_HOME'], 'Products', 'GeographicEntityLite', 'tests', 'data'])
+
+    >>> from Products.GeographicEntityLite.Extensions.batching import load_one
+    >>> source = "%s/batlas-65-2-3.xml" % (source_dir)
+    >>> load_one(folder, source)
 
 Check count of created entities
 
-    >>> entities = folder.listFolderContents(contentFilter='GeographicEntityLite')
+    >>> entities = folder.listFolderContents()
     >>> len(entities)
-    4
+    1
+
+    >>> en = entities[0]
+    >>> en.getId()
+    'batlas-65-2-3'
+    >>> en.getSpatialCoordinates()
+    '36.5583700 30.5590499'
 
