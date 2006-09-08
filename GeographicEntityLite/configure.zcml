@@ -1,0 +1,18 @@
+<configure
+  xmlns="http://namespaces.zope.org/zope"
+  xmlns:five="http://namespaces.zope.org/five"
+  >
+
+  <adapter
+    for="Products.PleiadesGeocoder.interfaces.IGeoreferenceable"
+    provides="Products.PleiadesGeocoder.interfaces.IGeoItemSimple"
+    factory=".adapters.GeoEntitySimple"
+    />
+
+  <five:implements
+    class=".GeographicEntityLite.GeographicEntityLite"
+    interface="Products.PleiadesGeocoder.interfaces.IGeoreferenceable"
+    />
+
+</configure>
+
