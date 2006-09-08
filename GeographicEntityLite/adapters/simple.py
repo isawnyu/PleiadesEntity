@@ -55,7 +55,7 @@ class GeoEntitySimple(object):
 
     def getSpatialCoordinates(self):
         values = [float(v) for v in \
-                    self.context.getSpatialCoordinates().split()]
+            self.context.getSpatialCoordinates().split()]
         nvalues = len(values)
         npoints = nvalues/3
         coords = []
@@ -77,26 +77,19 @@ class GeoEntitySimple(object):
         
     def isGeoreferenced(self):
         """Return True if the object is "on the map"."""
-        return bool(self.context.getSpatialCoordinates())
+        return bool(self.getSpatialCoordinates())
         
     def getInfo(self, dims=3):
         """Return an informative dict."""
         context = self.context
-        info = {'srs':                  context.getSRS(),
-                'geometryType':         context.getGeometryType(),
+        info = {'srs':                  self.getSRS(),
+                'geometryType':         self.getGeometryType(),
                }
-        if dims == 3:
-            info['spatialCoordinates'] = context.getSpatialCoordinates()
-        elif dims == 2:
-            values = context.getSpatialCoordinates().split()
-            nvalues = len(values)
-            npoints = nvalues/3
-            coords = []
-            for i in range(npoints):
-                coords.extend(values[3*i:3*i+2])
-            info['spatialCoordinates'] = ' '.join(coords)
-        else:
-            raise ValueError, "Invalid dims: %d" % (dims)
+        points = self.getSpatialCoordinates()
+        coords = []
+        for i in range(len(points)):
+            coords.extend([str(v) for v in points[i][0:dims]])
+        info['spatialCoordinates'] = ' '.join(coords)
 
         # Content objects
         info.update(
