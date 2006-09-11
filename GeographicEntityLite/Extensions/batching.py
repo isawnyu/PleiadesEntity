@@ -58,7 +58,57 @@ def load_entity(plonefolder, source):
         values.append('0.0')
     en.setSpatialCoordinates(' '.join(values))
 
-
+class geoName:
+    
+    def __init__(self, sourcenode):
+        self.nameString = u''
+        self.timePeriods = []
+        self.secondaryReferences = []
+        self.classifications = {}
+        
+        self.parse_Node(sourcenode)
+        
+    def parse_Node(self, node):
+        parseMethod = getattr(self, "parse_%s" % node.__class__.__name__)
+        parseMethod(node)
+        
+    def parse_Document(self, node):
+        self.parse_Node(node.documentElement)
+        
+    def parse_Text(self, node): 
+        pass
+        
+    def parse_Element(self, node): 
+        handlerMethod = getattr(self, "hdl_%s" % node.tagName)
+        handlerMethod(node)
+        
+    def parse_Comment(self, node):
+        pass
+        
+    def hdl_name(self, node):
+        for childnode in node.childNodes:
+            self.parse_Node(childnode)
+            
+    def hdl_nameString(self, node):
+        self.nameString = getXMLText([node])
+        
+    def hdl_classificationSection(self, node):
+        thesaurus =  getXMLText(node.getElementsByTagName('classificationScheme')[0].getElementsByTagName('schemeName'))
+        term = getXMLText(node.getElementsByTagName('classificationTerm'))
+        self.classifications[thesaurus] = term
+        
+    def hdl_timePeriod(self, node):
+        period_name = getXMLText(node.getElementsByTagName('timePeriodName'))
+        self.timePeriods.append(period_name)
+        
+    def hdl_secondaryReferences(self, node):
+        for childnode in node.childNodes:
+            if childnode.nodeType == node.ELEMENT_NODE:
+                if childnode.tagName == 'tei:bibl':
+                    reference = getXMLText([childnode])
+                    self.secondaryReferences.append(reference)
+            
+        
 class geoEntity:
     
     def __init__(self, source):
@@ -68,6 +118,8 @@ class geoEntity:
         self.spatialLocations = []
         self.secondaryReferences = []
         self.classifications = {}
+        self.names = []
+        
         self.loadSource(source)
         
     def _load(self, source):
@@ -118,13 +170,19 @@ class geoEntity:
         term = getXMLText(node.getElementsByTagName('classificationTerm'))
         self.classifications[thesaurus] = term
         
+    def hdl_name(self, node):
+        self.names.append(geoName(node))
+    
     def hdl_spatialLocation(self, node):
         for childnode in node.childNodes:
             if childnode.nodeType == node.ELEMENT_NODE:
                 self.spatialLocations.append((childnode.tagName, getXMLText(childnode.childNodes)))
     
     def hdl_secondaryReferences(self, node):
-        reference = getXMLText(node.getElementsByTagName('tei:bibl'))
-        self.secondaryReferences.append(reference)
-        
+        for childnode in node.childNodes:
+            if childnode.nodeType == node.ELEMENT_NODE:
+                if childnode.tagName == 'tei:bibl':
+                    reference = getXMLText([childnode])
+                    self.secondaryReferences.append(reference)
+            
     
