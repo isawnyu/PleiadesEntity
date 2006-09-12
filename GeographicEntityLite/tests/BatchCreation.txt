@@ -1,90 +1,103 @@
 BatchCreation.txt
 =====================
 
-Test batch creation of GeographicEntityLite objects.
+Test batch creation of GeographicEntityLite objects. The values against which verifications are performed in these tests are loaded from the xml file batlas-65-2-24.xml, located in GeographicEntityLite/tests/data.
 
 A lot of this is cribbed from optilude's tutorial on plone.org.
 
 Setup the test fixture
-
     >>> folder = self.folder
 
-Create a batch of entities
-
+Load a single entity
     >>> import os
     >>> source_dir = os.path.sep.join([os.environ['SOFTWARE_HOME'], 'Products', 'GeographicEntityLite', 'tests', 'data'])
-
     >>> from Products.GeographicEntityLite.Extensions.batching import load_entity
     >>> source = "%s/batlas-65-2-24.xml" % (source_dir)
     >>> load_entity(folder, source)
 
 Check count of created entities
-
     >>> entities = folder.listFolderContents()
     >>> len(entities)
     1
 
-Check details
+Get entity reference for further testing
     >>> en = entities[0]
     
+Verify the id is properly set
     >>> en.getId()
     'batlas-65-2-24'
 
+Verify the title is properly set
     >>> en.Title()
     'batlas-65-2-24'
 
+Verify the description is properly set
     >>> en.Description()
     'No description'
     
+Verify the entity type is properly set
     >>> en.getGeoEntityType()
     'settlement'
 
+Verify the modern location is properly set
     >>> en.getModernLocation()
     'Geyre'
 
+Verify the time period(s) are properly set
     >>> en.getTimePeriods()
     ('Classical', 'Roman', 'Late Antique')
 
+Verify the secondary reference(s) are properly set
     >>> en.getSecondaryReferences()
     ('BAtlas 65 A2 Aphrodisias/Ninoe', 'RE 2', 'NPauly 1', 'RE')
 
+Verify the spatial coordinates are properly set
     >>> en.getSpatialCoordinates()
     '37.7144599999992 28.7288599999993 0.0'
 
 Check count of names
-
     >>> names = en.listFolderContents()
     >>> len(names)
     2
     
+Get reference to the first name for further testing
     >>> nm0 = names[0]
 
+Verify the id is properly set
     >>> nm0.getId()
     'batlas-65-2-24-n1'
     
+Verify the title is properly set
     >>> nm0.Title()
     'batlas-65-2-24-n1'
     
+Verify the attested name is properly set
     >>> nm0.getNameAttested()
     ''
-    
+
+Verify the transliterated name is properly set    
     >>> nm0.getNameTransliterated()
     'Aphrodisias'
 
+Verify the name language is properly set
     >>> nm0.getNameLanguage()
     ''
 
+Verify the time period(s) for this name are properly set
     >>> nm0.getTimePeriods()
     ('Roman', 'Late Antique')
     
+Verify the primary references for this name are properly set
     >>> nm0.getPrimaryReferences()
     ()
     
+Verify the secondary references for this name properly set
     >>> nm0.getSecondaryReferences()
     ('RE 2', 'NPauly 1')
     
+Do the same things for the second name
     >>> nm1 = names[1]
-    
+
     >>> nm1.getId()
     'batlas-65-2-24-n2'
     
@@ -108,7 +121,4 @@ Check count of names
     
     >>> nm1.getSecondaryReferences()
     ('RE',)
-    
-    
-    
 
