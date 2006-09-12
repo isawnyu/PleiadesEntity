@@ -66,7 +66,7 @@ def load_entity(plonefolder, source):
     
     en.setSecondaryReferences(ge.secondaryReferences)
     
-    en.setDescription('No description')
+    en.setDescription(ge.description)
     
     coords = ge.spatialLocations[0][1].replace(',', ' ')
     values = [v for v in coords.split()]
@@ -152,6 +152,7 @@ class geoEntity:
     
     def __init__(self, source):
         self.identifier = u''
+        self.description =u'No Description'
         self.modernLocation = u''
         self.timePeriods = []
         self.spatialLocations = []
@@ -161,6 +162,8 @@ class geoEntity:
         
         self.loadSource(source)
         
+        self.description = self.calc_Description()
+        
     def _load(self, source):
         """load xml source for entity"""
         xmldoc = getXMLDOM(source)
@@ -169,6 +172,39 @@ class geoEntity:
     def loadSource(self, source):
         source = self._load(source)
         
+    def calc_Description(self):
+        identification = u"An ancient %s" % (self.classifications['geoEntityType'])
+        if len(self.timePeriods) == 0: 
+            periodization = u", attestation unkown"
+        elif len(self.timePeriods) == 1:
+            periodization = u", attested during the %s period" % (self.timePeriods[0])
+        else:
+            periodization = u", attested from the %s through the %s periods" % (self.timePeriods[0], self.timePeriods[len(self.timePeriods)-1])
+        if self.modernLocation != u'':
+            localization = u" (modern location: %s)" % (self.modernLocation)
+        else:
+            localization = u""
+        namecount = len(self.names)
+        if namecount == 0:
+            nomination = u"Its ancient name is not known."
+        else:
+            namelist = u""
+            if namecount == 1:
+                print self.names[0]
+                namelist = u": " + self.names[0]
+            else:
+                namelist = u"s: "
+                for i, name in enumerate(self.names):
+                    namelist += "'" + name.nameStringTransliterated +"'"
+                    if i == namecount -2:
+                        namelist += u" and "
+                    elif i != namecount -1:
+                        namelist += u", "
+                
+            nomination = u"It was known in antiquity by the name%s." % (namelist)
+        newDesc = u"%s%s%s. %s" % (identification, periodization, localization, nomination)
+        return newDesc
+          
     def parse_Node(self, node):
         parseMethod = getattr(self, "parse_%s" % node.__class__.__name__)
         parseMethod(node)

@@ -33,7 +33,7 @@ Verify the title is properly set
 
 Verify the description is properly set
     >>> en.Description()
-    'No description'
+    "An ancient settlement, attested from the Classical through the Late Antique periods (modern location: Geyre). It was known in antiquity by the names: 'Aphrodisias' and 'Ninoe'."
     
 Verify the entity type is properly set
     >>> en.getGeoEntityType()
