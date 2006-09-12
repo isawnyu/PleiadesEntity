@@ -101,12 +101,64 @@ Browse the entity
     >>> entity_url = en.absolute_url()
     >>> browser.open(entity_url)
 
-Check the URL and title
+Check the URL 
 
     >>> browser.url == entity_url
     True
+    >>> browser.url.endswith('batlas-65-2-12')
+    True
     
+Check the html title
     >>> title = browser.title
     >>> title.strip().startswith('batlas-65-2-12\n')
     True
+    
+Check the html content of the view page (description will not appear here)
+This is an imperfect text. Ideally, we'd parse the html and get specific, but
+not yet.
+    >>> browser.contents
+    '...batlas-65-2-12...'
+    >>> browser.contents
+    '...settlement...'
+    >>> browser.contents
+    '...Hisartepe, near K\xc3\x84\xc2\xb1z\xc3\x84\xc2\xb1lca...'
+    >>> browser.contents
+    '...Hellenistic (Roman Republic)...'
+    >>> browser.contents
+    '...Roman...'
+    >>> browser.contents
+    '...Late Antique...'
+    >>> browser.contents
+    '...BAtlas 65 G2 Amblada...'
+    >>> browser.contents
+    '...von Aulock 1977, 22-23...'
+    >>> browser.contents
+    '...TIB Galatien 122...'
+    >>> browser.contents
+    '...37.5254199999999 31.7393100000008 0.0...'
 
+Browse to the name
+    >>> link = browser.getLink('batlas-65-2-12-n1')
+    >>> link.click()
+    
+Check the url
+    >>> browser.url == entity_url + '/batlas-65-2-12-n1/'
+    True
+    
+Check the html title
+    >>> title = browser.title
+    >>> title.strip().startswith('batlas-65-2-12-n1\n')
+    True    
+    
+Check the html content of the view page (description will not appear here)
+This is an imperfect text. Ideally, we'd parse the html and get specific, but
+not yet.
+    >>> browser.contents
+    '...batlas-65-2-12-n1...'
+    >>> browser.contents
+    '...\xc3\xa1\xc2\xbc\xc2\x8c\xc3\x8e\xc2\xbc\xc3\x8e\xc2\xb2\xc3\x8e\xc2\xbb\xc3\x8e\xc2\xb1\xc3\x8e\xc2\xb4\xc3\x8e\xc2\xb1...'
+    >>> browser.contents
+    '...Amblada...'
+    >>> browser.contents
+    '...Ancient Greek...'
+    
