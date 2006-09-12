@@ -1,7 +1,7 @@
 BatchCreation.txt
 =====================
 
-Test batch creation of GeographicEntityLite objects. The values against which verifications are performed in these tests are loaded from the xml file batlas-65-2-24.xml, located in GeographicEntityLite/tests/data.
+Test batch creation of GeographicEntityLite objects. The values against which verifications are performed in these tests are loaded from the xml file batlas-65-2-24.xml, located in GeographicEntityLite/tests/data. We begin by loading from file, and thoroughly testing, a single entity. Then, we batch load all the xml files in GeographicEntityLite/tests/data and perform some basic tests (counting, checking ids), but -- for now at least -- we do not test everything derived from every single file.
 
 A lot of this is cribbed from optilude's tutorial on plone.org.
 
@@ -121,4 +121,43 @@ Do the same things for the second name
     
     >>> nm1.getSecondaryReferences()
     ('RE',)
+
+Delete the entity and check for result
+    >>> folder.manage_delObjects(['batlas-65-2-24'])
+    >>> entities = folder.listFolderContents()
+    >>> len(entities)
+    0
+
+Load a whole batch of entities
+    >>> from Products.GeographicEntityLite.Extensions.batching import loaden
+    >>> loaden(folder, source_dir)
+
+Check count of created entities
+    >>> entities = folder.listFolderContents()
+    >>> len(entities)
+    7
+    
+Check ids of created entities
+    >>> en_ids = []
+    >>> en_ids.append(entities[0].getId())
+    >>> en_ids.append(entities[1].getId())
+    >>> en_ids.append(entities[2].getId())
+    >>> en_ids.append(entities[3].getId())
+    >>> en_ids.append(entities[4].getId())
+    >>> en_ids.append(entities[5].getId())
+    >>> en_ids.append(entities[6].getId())
+    >>> 'batlas-65-2-3' in en_ids
+    True
+    >>> 'batlas-65-2-4' in en_ids
+    True
+    >>> 'batlas-65-2-12' in en_ids
+    True
+    >>> 'batlas-65-2-19' in en_ids
+    True
+    >>> 'batlas-65-2-20' in en_ids
+    True
+    >>> 'batlas-65-2-22' in en_ids
+    True
+    >>> 'batlas-65-2-24' in en_ids
+    True
 
