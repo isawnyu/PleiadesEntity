@@ -33,6 +33,9 @@ Check details
     >>> en.Title()
     'batlas-65-2-24'
 
+    >>> en.Description()
+    'No description'
+    
     >>> en.getGeoEntityType()
     'settlement'
 
