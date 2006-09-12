@@ -14,9 +14,9 @@ Create a batch of entities
     >>> import os
     >>> source_dir = os.path.sep.join([os.environ['SOFTWARE_HOME'], 'Products', 'GeographicEntityLite', 'tests', 'data'])
 
-    >>> from Products.GeographicEntityLite.Extensions.batching import load_one
-    >>> source = "%s/batlas-65-2-3.xml" % (source_dir)
-    >>> load_one(folder, source)
+    >>> from Products.GeographicEntityLite.Extensions.batching import load_entity
+    >>> source = "%s/batlas-65-2-24.xml" % (source_dir)
+    >>> load_entity(folder, source)
 
 Check count of created entities
 
@@ -24,9 +24,88 @@ Check count of created entities
     >>> len(entities)
     1
 
+Check details
     >>> en = entities[0]
+    
     >>> en.getId()
-    'batlas-65-2-3'
+    'batlas-65-2-24'
+
+    >>> en.Title()
+    'batlas-65-2-24'
+
+    >>> en.getGeoEntityType()
+    'settlement'
+
+    >>> en.getModernLocation()
+    'Geyre'
+
+    >>> en.getTimePeriods()
+    ('Classical', 'Roman', 'Late Antique')
+
+    >>> en.getSecondaryReferences()
+    ('BAtlas 65 A2 Aphrodisias/Ninoe', 'RE 2', 'NPauly 1', 'RE')
+
     >>> en.getSpatialCoordinates()
-    '36.5583700 30.5590499'
+    '37.7144599999992 28.7288599999993 0.0'
+
+Check count of names
+
+    >>> names = en.listFolderContents()
+    >>> len(names)
+    2
+    
+    >>> nm0 = names[0]
+
+    >>> nm0.getId()
+    'batlas-65-2-24-n1'
+    
+    >>> nm0.Title()
+    'batlas-65-2-24-n1'
+    
+    >>> nm0.getNameAttested()
+    ''
+    
+    >>> nm0.getNameTransliterated()
+    'Aphrodisias'
+
+    >>> nm0.getNameLanguage()
+    ''
+
+    >>> nm0.getTimePeriods()
+    ('Roman', 'Late Antique')
+    
+    >>> nm0.getPrimaryReferences()
+    ()
+    
+    >>> nm0.getSecondaryReferences()
+    ('RE 2', 'NPauly 1')
+    
+    >>> nm1 = names[1]
+    
+    >>> nm1.getId()
+    'batlas-65-2-24-n2'
+    
+    >>> nm1.Title()
+    'batlas-65-2-24-n2'
+    
+    >>> nm1.getNameAttested()
+    ''
+    
+    >>> nm1.getNameTransliterated()
+    'Ninoe'
+
+    >>> nm1.getNameLanguage()
+    ''
+
+    >>> nm1.getTimePeriods()
+    ('Classical',)
+    
+    >>> nm1.getPrimaryReferences()
+    ()
+    
+    >>> nm1.getSecondaryReferences()
+    ('RE',)
+    
+    
+    
 
