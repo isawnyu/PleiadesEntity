@@ -1,26 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<geoEntity xmlns="http://www.unc.edu/awmc/ns/geoEntity/0.1" xmlns:georss="http://www.georss.org/georss" xmlns:tei="http://www.tei-c.org/ns/1.0">
-    <ID>batlas-65-2-3</ID>
-    <modernLocation>
-        <tei:geogName xml:lang="tr">Ağva</tei:geogName>
-    </modernLocation>
-    <timePeriod>
-        <timePeriodName>Classical</timePeriodName>
-    </timePeriod>
-    <timePeriod>
-        <timePeriodName>Hellenistic</timePeriodName>
-    </timePeriod>
-    <classificationSection>
-        <classificationTerm>settlement</classificationTerm>
-        <classificationScheme>
-            <schemeName>geoEntityType</schemeName>
-        </classificationScheme>
-    </classificationSection>
-    <spatialLocation>
-        <georss:point>36.5583700, 30.5590499</georss:point>
-    </spatialLocation>
-    <secondaryReferences>
-        <tei:bibl>BAtlas 65 E4 Ağva</tei:bibl>
-        <tei:bibl>Özoral 1980</tei:bibl>
-    </secondaryReferences>
+<geoEntity xmlns="http://www.unc.edu/awmc/gazetteer/schemata/ns/0.3"><ID>batlas-65-2-3</ID>
+<timePeriod><timePeriodName>Classical</timePeriodName>
+</timePeriod>
+<timePeriod><timePeriodName>Hellenistic (Roman Republic)</timePeriodName>
+</timePeriod>
+<classificationSection><classificationTerm>settlement</classificationTerm>
+<classificationScheme><schemeName>geoEntityType</schemeName>
+</classificationScheme>
+</classificationSection>
+<secondaryReferences><tei:bibl xmlns:tei="http://www.unc.edu/awmc/gazetteer/schemata/ns/0.3">BAtlas 65 E4 Ağva</tei:bibl>
+<tei:bibl xmlns:tei="http://www.unc.edu/awmc/gazetteer/schemata/ns/0.3">Özoral 1980</tei:bibl>
+</secondaryReferences>
+<spatialLocation><georss:point xmlns:georss="http://www.georss.org/georss">36.5583700000007 30.5590499999998</georss:point>
+</spatialLocation>
+<name><nameStringTransliterated>Ağva</nameStringTransliterated>
+<classificationSection><classificationTerm>geogname-modern</classificationTerm>
+<classificationScheme><schemeName>geoNameType</schemeName>
+</classificationScheme>
+</classificationSection>
+</name>
 </geoEntity>
