@@ -27,9 +27,9 @@ Verify the id is properly set
     >>> en.getId()
     'batlas-65-2-24'
 
-Verify the title is properly set
+Verify the title is properly set 
     >>> en.Title()
-    'batlas-65-2-24'
+    'Aphrodisias/Ninoe'
 
 Verify the description is properly set
     >>> en.Description()

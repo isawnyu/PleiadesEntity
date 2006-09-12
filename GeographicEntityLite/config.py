@@ -1,7 +1,7 @@
 # ===========================================================================
 # Copyright (c) 2006 by Ancient World Mapping Center, University of North
 # Carolina at Chapel Hill, U.S.A.
-#
+
 # Generator: ArchGenXML Version 1.5.0
 #            http://plone.org/products/archgenxml
 #

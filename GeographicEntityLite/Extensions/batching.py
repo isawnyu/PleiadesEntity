@@ -88,6 +88,9 @@ def load_entity(plonefolder, source):
         en_name.setSecondaryReferences(name.secondaryReferences)
         # classifications!
         
+    # rename the entity to reflect the names of its children
+    setGeoTitleFromNames(en)
+    
 class geoName:
     
     def __init__(self, sourcenode):
