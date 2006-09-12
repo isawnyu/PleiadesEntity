@@ -36,7 +36,7 @@ import sys
 import re
 
 from Products.GeographicEntityLite.Extensions.xmlutil import *
-#from creationutil import *
+from Products.GeographicEntityLite.cooking import *
 
 def loaden(self, sourcedir):
     for xml in glob.glob("%s/*.xml" % sourcedir):
@@ -45,24 +45,56 @@ def loaden(self, sourcedir):
 def load_entity(plonefolder, source):
     """Create a new GeographicEntityLite in plonefolder and populate it with
     the data found in the xml file at sourcepath."""
+    
+    # instantiation of geoEntity attempts to load the file via the path source
     ge = geoEntity(source)
-    id = plonefolder.invokeFactory('GeographicEntityLite', id=ge.identifier)
-    en = getattr(plonefolder, id)
+    
+    # create the corresponding entity instance in plone and set its fields
+    enID = plonefolder.invokeFactory('GeographicEntityLite', id=ge.identifier)
+    
+    en = getattr(plonefolder, enID)
+    
+    en.setTitle(ge.identifier)
+    newEnID = enID
+    #newEnID = setIDFromTitle(en)
+    
+    en.setGeoEntityType(ge.classifications['geoEntityType'])
+    
     en.setModernLocation(ge.modernLocation)
+    
     en.setTimePeriods(ge.timePeriods)
+    
     en.setSecondaryReferences(ge.secondaryReferences)
+    
     en.setDescription('No description')
+    
     coords = ge.spatialLocations[0][1].replace(',', ' ')
     values = [v for v in coords.split()]
     if len(values) == 2:
         values.append('0.0')
     en.setSpatialCoordinates(' '.join(values))
-
+    
+    # add any names as children of the entity
+    for i, name in enumerate(ge.names):
+        nameID = en.invokeFactory('GeographicNameLite', id=newEnID + '-n' + `i+1`)
+        en_name = getattr(en, nameID)
+        en_name.setTitle(nameID)
+        en_name.setNameAttested(name.nameString)
+        en_name.setNameTransliterated(name.nameStringTransliterated)
+        en_name.setNameLanguage(name.language)
+        en_name.setTimePeriods(name.timePeriods)
+        en_name.setPrimaryReferences(name.primaryReferences)
+        en_name.setSecondaryReferences(name.secondaryReferences)
+        # classifications!
+        
 class geoName:
     
     def __init__(self, sourcenode):
         self.nameString = u''
+        self.nameStringTransliterated = u''
+        self.language = ''
         self.timePeriods = []
+        self.primaryReferences = []
         self.secondaryReferences = []
         self.classifications = {}
         
@@ -91,6 +123,9 @@ class geoName:
             
     def hdl_nameString(self, node):
         self.nameString = getXMLText([node])
+        
+    def hdl_nameStringTransliterated(self, node):
+        self.nameStringTransliterated = getXMLText([node])
         
     def hdl_classificationSection(self, node):
         thesaurus =  getXMLText(node.getElementsByTagName('classificationScheme')[0].getElementsByTagName('schemeName'))
