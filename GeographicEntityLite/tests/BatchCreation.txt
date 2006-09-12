@@ -69,15 +69,15 @@ Verify the id is properly set
     
 Verify the title is properly set
     >>> nm0.Title()
+    'Aphrodisias'
+    
+Verify the identifier is properly set
+    >>> nm0.getIdentifier()
     'batlas-65-2-24-n1'
     
 Verify the attested name is properly set
     >>> nm0.getNameAttested()
     ''
-
-Verify the transliterated name is properly set    
-    >>> nm0.getNameTransliterated()
-    'Aphrodisias'
 
 Verify the name language is properly set
     >>> nm0.getNameLanguage()
@@ -102,14 +102,14 @@ Do the same things for the second name
     'batlas-65-2-24-n2'
     
     >>> nm1.Title()
+    'Ninoe'
+    
+    >>> nm1.getIdentifier()
     'batlas-65-2-24-n2'
     
     >>> nm1.getNameAttested()
     ''
     
-    >>> nm1.getNameTransliterated()
-    'Ninoe'
-
     >>> nm1.getNameLanguage()
     ''
 

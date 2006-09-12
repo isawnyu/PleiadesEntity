@@ -51,8 +51,12 @@ Add one complete entity to the folder and check that it is complete
     
     >>> en_name = getattr(en, nameID)
 
-    >>> en_name.setTitle(nameID)
+    >>> en_name.setTitle('Amblada')
     >>> en_name.Title()
+    'Amblada'
+
+    >>> en_name.setIdentifier('batlas-65-2-12-n1')
+    >>> en_name.getIdentifier()
     'batlas-65-2-12-n1'
     
     >>> en_name.setDescription(u'An attested name for an ancient settlement located at modern Hisartepe, near Kızılca.')
@@ -63,9 +67,6 @@ Add one complete entity to the folder and check that it is complete
     >>> en_name.getNameAttested()
     '\xc3\xa1\xc2\xbc\xc2\x8c\xc3\x8e\xc2\xbc\xc3\x8e\xc2\xb2\xc3\x8e\xc2\xbb\xc3\x8e\xc2\xb1\xc3\x8e\xc2\xb4\xc3\x8e\xc2\xb1'
     
-    >>> en_name.setNameTransliterated('Amblada')
-    >>> en_name.getNameTransliterated()
-    'Amblada'
     
     >>> en_name.setNameLanguage('Ancient Greek')
     >>> en_name.getNameLanguage()
@@ -153,7 +154,7 @@ Check the url
     
 Check the html title
     >>> title = browser.title
-    >>> title.strip().startswith('batlas-65-2-12-n1\n')
+    >>> title.strip().startswith('Amblada\n')
     True    
     
 Check the html content of the view page (description will not appear here)

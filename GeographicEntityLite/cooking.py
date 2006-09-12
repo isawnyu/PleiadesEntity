@@ -58,7 +58,7 @@ def setGeoTitleFromNames(obj):
     for i, name in enumerate(names):
         if i > 0:
             newTitle += '/'
-        newTitle += name.getNameTransliterated()
+        newTitle += name.Title()
     
     obj.setTitle(newTitle)
     return newTitle

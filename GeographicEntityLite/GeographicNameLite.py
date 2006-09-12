@@ -47,20 +47,20 @@ from Products.GeographicEntityLite.cooking import *
 schema = Schema((
 
     StringField(
-        name='nameAttested',
+        name='identifier',
         widget=StringWidget(
-            label="Name as Attested",
-            label_msgid='GeographicEntityLite_label_nameAttested',
+            label="Identifier",
+            label_msgid='GeographicEntityLite_label_identifier',
             i18n_domain='GeographicEntityLite',
         ),
         required=1
     ),
 
     StringField(
-        name='nameTransliterated',
+        name='nameAttested',
         widget=StringWidget(
-            label="Transliterated Name",
-            label_msgid='GeographicEntityLite_label_nameTransliterated',
+            label="Name as Attested",
+            label_msgid='GeographicEntityLite_label_nameAttested',
             i18n_domain='GeographicEntityLite',
         )
     ),
@@ -139,7 +139,7 @@ class GeographicNameLite(BaseContent):
     schema = GeographicNameLite_schema
 
     ##code-section class-header #fill in your manual code here
-    schema['title'].widget.label = 'Identifier'
+    schema['title'].widget.label = 'Transliterated Name'
     ##/code-section class-header
 
     # Methods
