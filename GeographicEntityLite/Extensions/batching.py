@@ -79,6 +79,7 @@ def load_entity(plonefolder, source):
         nameID = en.invokeFactory('GeographicNameLite', id=newEnID + '-n' + `i+1`)
         en_name = getattr(en, nameID)
         en_name.setTitle(nameID)
+        en_name.setDescription('No description')
         en_name.setNameAttested(name.nameString)
         en_name.setNameTransliterated(name.nameStringTransliterated)
         en_name.setNameLanguage(name.language)
