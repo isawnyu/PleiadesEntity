@@ -71,6 +71,8 @@ def load_entity(plonefolder, source):
     newEnID = enID
     #newEnID = setIDFromTitle(en)
     
+    en.setIdentifier(ge.identifier)
+    
     en.setGeoEntityType(ge.classifications['geoEntityType'])
     
     en.setModernLocation(ge.modernLocation)

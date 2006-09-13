@@ -47,6 +47,10 @@ Verify the description is properly set
     >>> en.Description()
     'An ancient settlement, attested from the Classical through the Late Antique periods (modern location: Geyre). It was known in antiquity by the name(s): Aphrodisias and Ninoe.'
     
+Verify the identifier field is properly set
+    >>> en.getIdentifier()
+    'batlas-65-2-24'
+    
 Verify the entity type is properly set
     >>> en.getGeoEntityType()
     'settlement'
@@ -67,6 +71,10 @@ Verify the spatial coordinates are properly set
     >>> en.getSpatialCoordinates()
     '37.7144599999992 28.7288599999993 0.0'
 
+Verify the spatial geometry type is properly set
+    >>> en.getSpatialGeometryType()
+    'point'
+    
 Check count of names
     >>> names = en.listFolderContents()
     >>> len(names)
@@ -82,6 +90,10 @@ Verify the id is properly set
 Verify the title is properly set
     >>> nm0.Title()
     'Aphrodisias'
+    
+Verify the description is properly set
+    >>> nm0.Description()
+    'No description'
     
 Verify the identifier is properly set
     >>> nm0.getIdentifier()
@@ -115,6 +127,9 @@ Do the same things for the second name
     
     >>> nm1.Title()
     'Ninoe'
+    
+    >>> nm1.Description()
+    'No description'
     
     >>> nm1.getIdentifier()
     'batlas-65-2-24-n2'
@@ -172,4 +187,5 @@ Check ids of created entities
     True
     >>> 'batlas-65-2-24' in en_ids
     True
+
 
