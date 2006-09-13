@@ -8,6 +8,18 @@ A lot of this is cribbed from optilude's tutorial on plone.org.
 Setup the test fixture
     >>> folder = self.folder
 
+Utility test
+
+    >>> from Products.GeographicEntityLite.Extensions.batching import format_listofstrings
+    >>> format_listofstrings([])
+    u''
+    >>> format_listofstrings(['x'])
+    u'x'
+    >>> format_listofstrings(['x', 'y'])
+    u'x and y'
+    >>> format_listofstrings(['x', 'y', 'z'])
+    u'x, y, and z'
+    
 Load a single entity
     >>> import os
     >>> source_dir = os.path.sep.join([os.environ['SOFTWARE_HOME'], 'Products', 'GeographicEntityLite', 'tests', 'data'])
@@ -33,7 +45,7 @@ Verify the title is properly set
 
 Verify the description is properly set
     >>> en.Description()
-    "An ancient settlement, attested from the Classical through the Late Antique periods (modern location: Geyre). It was known in antiquity by the names: 'Aphrodisias' and 'Ninoe'."
+    'An ancient settlement, attested from the Classical through the Late Antique periods (modern location: Geyre). It was known in antiquity by the name(s): Aphrodisias and Ninoe.'
     
 Verify the entity type is properly set
     >>> en.getGeoEntityType()

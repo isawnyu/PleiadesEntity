@@ -38,6 +38,19 @@ import re
 from Products.GeographicEntityLite.Extensions.xmlutil import *
 from Products.GeographicEntityLite.cooking import *
 
+def format_listofstrings(list):
+    """convert ['x', 'y', 'z'] to u'x, y, and z'"""
+    length = len(list)
+    out = u''
+    if length == 0:
+        pass
+    elif length < 3:
+        out = unicode(' and '.join(list))
+    else:
+        out = unicode(', '.join(list[:-1]))
+        out = unicode(', and '.join([out, list[-1]]))
+    return out
+    
 def loaden(self, sourcedir):
     for xml in glob.glob("%s/*.xml" % sourcedir):
         load_entity(self, xml)
@@ -152,7 +165,7 @@ class geoEntity:
     
     def __init__(self, source):
         self.identifier = u''
-        self.description =u'No Description'
+        self.description = u'No Description'
         self.modernLocation = u''
         self.timePeriods = []
         self.spatialLocations = []
@@ -173,35 +186,41 @@ class geoEntity:
         source = self._load(source)
         
     def calc_Description(self):
-        identification = u"An ancient %s" % (self.classifications['geoEntityType'])
+        identification = unicode("An ancient %s" % self.classifications['geoEntityType'])
         if len(self.timePeriods) == 0: 
-            periodization = u", attestation unkown"
+            periodization = u', attestation unkown'
         elif len(self.timePeriods) == 1:
-            periodization = u", attested during the %s period" % (self.timePeriods[0])
+            periodization = unicode(", attested during the %s period" % self.timePeriods[0])
         else:
-            periodization = u", attested from the %s through the %s periods" % (self.timePeriods[0], self.timePeriods[len(self.timePeriods)-1])
-        if self.modernLocation != u'':
-            localization = u" (modern location: %s)" % (self.modernLocation)
+            periodization = unicode(", attested from the %s through the %s periods" % (self.timePeriods[0], self.timePeriods[len(self.timePeriods)-1]))
+        
+        if self.modernLocation:
+            localization = unicode(" (modern location: %s)" % self.modernLocation)
         else:
-            localization = u""
+            localization = u''
         namecount = len(self.names)
         if namecount == 0:
-            nomination = u"Its ancient name is not known."
+            nomination = u'Its ancient name is not known.'
         else:
-            namelist = u""
-            if namecount == 1:
-                print self.names[0]
-                namelist = u": " + self.names[0]
-            else:
-                namelist = u"s: "
-                for i, name in enumerate(self.names):
-                    namelist += "'" + name.nameStringTransliterated +"'"
-                    if i == namecount -2:
-                        namelist += u" and "
-                    elif i != namecount -1:
-                        namelist += u", "
-                
-            nomination = u"It was known in antiquity by the name%s." % (namelist)
+            nomination \
+                = unicode("It was known in antiquity by the name(s): %s." \
+                % format_listofstrings([n.nameStringTransliterated for n in self.names]))
+
+        # TODO: improve the grammar?
+        #    namelist = u''
+        #    if namecount == 1:
+        #        #print self.names[0]
+        #        namelist = unicode(": %s" % self.names[0])
+        #    else:
+        #        namelist = u's: '
+        #        for i, name in enumerate(self.names):
+        #            namelist += "'" + name.nameStringTransliterated +"'"
+        #            if i == namecount -2:
+        #                namelist += u" and "
+        #            elif i != namecount -1:
+        #                namelist += u", "
+        #        
+        #    nomination = u"It was known in antiquity by the name%s." % (namelist)
         newDesc = u"%s%s%s. %s" % (identification, periodization, localization, nomination)
         return newDesc
           
