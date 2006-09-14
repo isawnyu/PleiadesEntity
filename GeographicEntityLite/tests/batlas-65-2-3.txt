@@ -1,0 +1,64 @@
+
+    >>> folder = self.folder
+        
+    
+    >>> enID = 'batlas-65-2-3'
+    >>> folder.invokeFactory('GeographicEntityLite', id=enID)
+    'batlas-65-2-3'
+    >>> en = getattr(folder, enID)
+    >>> en.setTitle(enID)
+    >>> en.Title()
+    'batlas-65-2-3'
+    >>> en.setIdentifier(enID)
+    >>> en.getIdentifier()
+    'batlas-65-2-3'
+    
+    
+    >>> en.setTimePeriods(['Classical', 'Hellenistic (Roman Republic)'])
+    >>> en.getTimePeriods()
+    ('Classical', 'Hellenistic (Roman Republic)')
+        
+    
+    
+    >>> en.setGeoEntityType('settlement')
+    >>> en.getGeoEntityType()
+    'settlement'
+    
+    
+        
+    >>> en.setSecondaryReferences(['BAtlas 65 E4 A\x11Fva', '\xD6zoral1980'])
+    >>> en.getSecondaryReferences()
+    ('BAtlas 65 E4 A\x11Fva', '\xD6zoral1980')
+        
+        
+    
+    
+        
+    >>> en.setSpatialCoordinates('36.5583700000007 30.5590499999998 0.0')
+    >>> en.getSpatialCoordinates()
+    '36.5583700000007 30.5590499999998 0.0'        
+    >>> en.setSpatialGeometryType('point')
+    >>> en.getSpatialGeometryType()
+    'point'        
+    
+    
+    
+    >>> nameID = 'batlas-65-2-3-n1'
+    >>> en.invokeFactory('GeographicNameLite', id=nameID)
+    'batlas-65-2-3-n1'
+    >>> en_name = getattr(en, nameID)
+    >>> en_name.setIdentifier('batlas-65-2-3-n1')
+    >>> en_name.getIdentifier()
+    'batlas-65-2-3-n1'
+        
+        
+    >>> en_name.setTitle('Ağva')
+    >>> en_name.Title()
+    'Ağva'
+    
+        
+    >>> test_msg = 'There is an xml element in the test data that was not handled by the maketest.xsl transformation. Element name = classificationSection'
+    >>> print test_msg
+    ''
+    
+    

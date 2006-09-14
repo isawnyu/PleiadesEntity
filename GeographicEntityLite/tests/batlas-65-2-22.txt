@@ -1,0 +1,128 @@
+
+    >>> folder = self.folder
+        
+    >>> enID = 'batlas-65-2-22'
+    >>> folder.invokeFactory('GeographicEntityLite', id=enID)
+    'batlas-65-2-22'
+    >>> en = getattr(folder, enID)
+    >>> en.setTitle(enID)
+    >>> en.Title()
+    'batlas-65-2-22'
+    >>> en.setIdentifier(enID)
+    >>> en.getIdentifier()
+    'batlas-65-2-22'
+    
+
+    >>> en.setModernLocation(u'Dinar')
+    >>> en.getModernLocation()
+    'Dinar'
+    
+
+    >>> en.setTimePeriods(['Classical', 'Hellenistic (Roman Republic)', 'Roman', 'Late Antique'])
+    >>> en.getTimePeriods()
+    ('Classical', 'Hellenistic (Roman Republic)', 'Roman', 'Late Antique')
+        
+
+
+
+
+    >>> en.setGeoEntityType('settlement')
+    >>> en.getGeoEntityType()
+    'settlement'
+    
+
+    >>> en.setSecondaryReferences(['BAtlas 65 D1 Apamea/Kelainai/Kibotos', 'RE 6', 'TIB Phrygien 188-89', 'Cohen1995,281-85', 'NPauly Kelainai'])
+    >>> en.getSecondaryReferences()
+    ('BAtlas 65 D1 Apamea/Kelainai/Kibotos', 'RE 6', 'TIB Phrygien 188-89', 'Cohen1995,281-85', 'NPauly Kelainai')
+        
+
+
+
+
+
+
+    >>> en.setSpatialCoordinates('38.0709999999999 30.1660499999998 0.0')
+    >>> en.getSpatialCoordinates()
+    '38.0709999999999 30.1660499999998 0.0'        
+    >>> en.setSpatialGeometryType('point')
+    >>> en.getSpatialGeometryType()
+    'point'        
+    
+
+
+    >>> nameID = 'batlas-65-2-22-n1'
+    >>> en.invokeFactory('GeographicNameLite', id=nameID)
+    'batlas-65-2-22-n1'
+    >>> en_name = getattr(en, nameID)
+    >>> en_name.setIdentifier('batlas-65-2-22-n1')
+    >>> en_name.getIdentifier()
+    'batlas-65-2-22-n1'
+        
+    >>> en_name.setTitle('Apamea')
+    >>> en_name.Title()
+    'Apamea'
+    
+
+    >>> test_msg = 'There is an xml element in the test data that was not handled by the maketest.xsl transformation. Element name = classificationSection'
+    >>> print test_msg
+    ''
+    
+
+    >>> en.setTimePeriods(['Hellenistic (Roman Republic)', 'Roman', 'Late Antique'])
+    >>> en.getTimePeriods()
+    ('Hellenistic (Roman Republic)', 'Roman', 'Late Antique')
+        
+
+
+
+
+    >>> nameID = 'batlas-65-2-22-n2'
+    >>> en.invokeFactory('GeographicNameLite', id=nameID)
+    'batlas-65-2-22-n2'
+    >>> en_name = getattr(en, nameID)
+    >>> en_name.setIdentifier('batlas-65-2-22-n2')
+    >>> en_name.getIdentifier()
+    'batlas-65-2-22-n2'
+        
+    >>> en_name.setTitle('Kelainai')
+    >>> en_name.Title()
+    'Kelainai'
+    
+
+    >>> test_msg = 'There is an xml element in the test data that was not handled by the maketest.xsl transformation. Element name = classificationSection'
+    >>> print test_msg
+    ''
+    
+
+    >>> en.setTimePeriods(['Classical', 'Hellenistic (Roman Republic)', 'Roman', 'Late Antique'])
+    >>> en.getTimePeriods()
+    ('Classical', 'Hellenistic (Roman Republic)', 'Roman', 'Late Antique')
+        
+
+
+
+
+
+    >>> nameID = 'batlas-65-2-22-n3'
+    >>> en.invokeFactory('GeographicNameLite', id=nameID)
+    'batlas-65-2-22-n3'
+    >>> en_name = getattr(en, nameID)
+    >>> en_name.setIdentifier('batlas-65-2-22-n3')
+    >>> en_name.getIdentifier()
+    'batlas-65-2-22-n3'
+        
+    >>> en_name.setTitle('Kibotos')
+    >>> en_name.Title()
+    'Kibotos'
+    
+
+    >>> test_msg = 'There is an xml element in the test data that was not handled by the maketest.xsl transformation. Element name = classificationSection'
+    >>> print test_msg
+    ''
+    
+
+    >>> en.setTimePeriods(['Roman'])
+    >>> en.getTimePeriods()
+    ('Roman')
+        
+

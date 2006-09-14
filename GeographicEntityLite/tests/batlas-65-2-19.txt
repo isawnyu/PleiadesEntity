@@ -1,0 +1,67 @@
+
+    >>> folder = self.folder
+        
+    >>> enID = 'batlas-65-2-19'
+    >>> folder.invokeFactory('GeographicEntityLite', id=enID)
+    'batlas-65-2-19'
+    >>> en = getattr(folder, enID)
+    >>> en.setTitle(enID)
+    >>> en.Title()
+    'batlas-65-2-19'
+    >>> en.setIdentifier(enID)
+    >>> en.getIdentifier()
+    'batlas-65-2-19'
+    
+
+    >>> en.setModernLocation(u'Alia\x11Fa\xE7iftli\x11Fi')
+    >>> en.getModernLocation()
+    'Alia\x11Fa\xE7iftli\x11Fi'
+    
+
+    >>> en.setTimePeriods(['Hellenistic (Roman Republic)', 'Roman', 'Late Antique'])
+    >>> en.getTimePeriods()
+    ('Hellenistic (Roman Republic)', 'Roman', 'Late Antique')
+        
+
+
+
+    >>> en.setGeoEntityType('settlement')
+    >>> en.getGeoEntityType()
+    'settlement'
+    
+
+    >>> en.setSecondaryReferences(['BAtlas 65 A2 Antiochia ad Maeandrum', 'TIB Phrygien 185-88', 'NPauly 6'])
+    >>> en.getSecondaryReferences()
+    ('BAtlas 65 A2 Antiochia ad Maeandrum', 'TIB Phrygien 185-88', 'NPauly 6')
+        
+
+
+
+
+    >>> en.setSpatialCoordinates('37.8734199999999 28.5742499999997 0.0')
+    >>> en.getSpatialCoordinates()
+    '37.8734199999999 28.5742499999997 0.0'        
+    >>> en.setSpatialGeometryType('point')
+    >>> en.getSpatialGeometryType()
+    'point'        
+    
+
+
+    >>> nameID = 'batlas-65-2-19-n1'
+    >>> en.invokeFactory('GeographicNameLite', id=nameID)
+    'batlas-65-2-19-n1'
+    >>> en_name = getattr(en, nameID)
+    >>> en_name.setIdentifier('batlas-65-2-19-n1')
+    >>> en_name.getIdentifier()
+    'batlas-65-2-19-n1'
+        
+    >>> en_name.setTitle('Antiochia ad Maeandrum')
+    >>> en_name.Title()
+    'Antiochia ad Maeandrum'
+    
+
+    >>> test_msg = 'There is an xml element in the test data that was not handled by the maketest.xsl transformation. Element name = classificationSection'
+    >>> print test_msg
+    ''
+    
+

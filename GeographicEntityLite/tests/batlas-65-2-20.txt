@@ -1,0 +1,98 @@
+
+    >>> folder = self.folder
+        
+    >>> enID = 'batlas-65-2-20'
+    >>> folder.invokeFactory('GeographicEntityLite', id=enID)
+    'batlas-65-2-20'
+    >>> en = getattr(folder, enID)
+    >>> en.setTitle(enID)
+    >>> en.Title()
+    'batlas-65-2-20'
+    >>> en.setIdentifier(enID)
+    >>> en.getIdentifier()
+    'batlas-65-2-20'
+    
+
+    >>> en.setModernLocation(u'Ka\x15F')
+    >>> en.getModernLocation()
+    'Ka\x15F'
+    
+
+    >>> en.setTimePeriods(['Classical', 'Hellenistic (Roman Republic)', 'Roman', 'Late Antique'])
+    >>> en.getTimePeriods()
+    ('Classical', 'Hellenistic (Roman Republic)', 'Roman', 'Late Antique')
+        
+
+
+
+
+    >>> en.setGeoEntityType('settlement')
+    >>> en.getGeoEntityType()
+    'settlement'
+    
+
+    >>> en.setSecondaryReferences(['BAtlas 65 C5 Antiphellos/Habesos', 'NPauly'])
+    >>> en.getSecondaryReferences()
+    ('BAtlas 65 C5 Antiphellos/Habesos', 'NPauly')
+        
+
+
+
+    >>> en.setSpatialCoordinates('36.1931800000002 29.6370399999996 0.0')
+    >>> en.getSpatialCoordinates()
+    '36.1931800000002 29.6370399999996 0.0'        
+    >>> en.setSpatialGeometryType('point')
+    >>> en.getSpatialGeometryType()
+    'point'        
+    
+
+
+    >>> nameID = 'batlas-65-2-20-n1'
+    >>> en.invokeFactory('GeographicNameLite', id=nameID)
+    'batlas-65-2-20-n1'
+    >>> en_name = getattr(en, nameID)
+    >>> en_name.setIdentifier('batlas-65-2-20-n1')
+    >>> en_name.getIdentifier()
+    'batlas-65-2-20-n1'
+        
+    >>> en_name.setTitle('Antiphellos')
+    >>> en_name.Title()
+    'Antiphellos'
+    
+
+    >>> test_msg = 'There is an xml element in the test data that was not handled by the maketest.xsl transformation. Element name = classificationSection'
+    >>> print test_msg
+    ''
+    
+
+    >>> en.setTimePeriods(['Hellenistic (Roman Republic)', 'Roman', 'Late Antique'])
+    >>> en.getTimePeriods()
+    ('Hellenistic (Roman Republic)', 'Roman', 'Late Antique')
+        
+
+
+
+
+    >>> nameID = 'batlas-65-2-20-n2'
+    >>> en.invokeFactory('GeographicNameLite', id=nameID)
+    'batlas-65-2-20-n2'
+    >>> en_name = getattr(en, nameID)
+    >>> en_name.setIdentifier('batlas-65-2-20-n2')
+    >>> en_name.getIdentifier()
+    'batlas-65-2-20-n2'
+        
+    >>> en_name.setTitle('Habesos')
+    >>> en_name.Title()
+    'Habesos'
+    
+
+    >>> test_msg = 'There is an xml element in the test data that was not handled by the maketest.xsl transformation. Element name = classificationSection'
+    >>> print test_msg
+    ''
+    
+
+    >>> en.setTimePeriods(['Classical'])
+    >>> en.getTimePeriods()
+    ('Classical')
+        
+
