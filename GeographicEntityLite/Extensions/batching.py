@@ -34,6 +34,7 @@
 import glob
 import sys
 import re
+from os.path import basename
 
 from Products.GeographicEntityLite.Extensions.xmlutil import *
 from Products.GeographicEntityLite.cooking import *
@@ -52,8 +53,23 @@ def format_listofstrings(list):
     return out
     
 def loaden(self, sourcedir):
+    """Attempt to load all XML files in the specified source directory.
+    Files which can not be loaded are reported."""
+    failures = []
+    count = 0
     for xml in glob.glob("%s/*.xml" % sourcedir):
-        load_entity(self, xml)
+        try:
+            load_entity(self, xml)
+            count += 1
+        except:
+            failures.append(basename(xml))
+    if len(failures) == 0:
+        return "Loaded %d of %d files." % (count, count)
+    else:
+        msg = "Loaded %d of %d files. Failures:\n" % (count, count + len(failures))
+        for f in failures:
+            msg += "%s\n" % f
+        return msg
         
 def load_entity(plonefolder, source):
     """Create a new GeographicEntityLite in plonefolder and populate it with

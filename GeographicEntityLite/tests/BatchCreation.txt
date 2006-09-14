@@ -158,6 +158,7 @@ Delete the entity and check for result
 Load a whole batch of entities
     >>> from Products.GeographicEntityLite.Extensions.batching import loaden
     >>> loaden(folder, source_dir)
+    'Loaded 7 of 8 files. Failures:\nbatlas-99-9-99.xml\n'
 
 Check count of created entities
     >>> entities = folder.listFolderContents()
