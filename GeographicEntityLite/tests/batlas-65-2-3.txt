@@ -25,9 +25,9 @@
     'settlement'
     
         
-    >>> en.setSecondaryReferences(['BAtlas 65 E4 A\x11Fva', '\xD6zoral1980'])
+    >>> en.setSecondaryReferences([u'BAtlas 65 E4 A\x11Fva', u'\xD6zoral1980'])
     >>> en.getSecondaryReferences()
-    ('BAtlas 65 E4 A\x11Fva', '\xD6zoral1980')
+    (u'BAtlas 65 E4 A\x11Fva', u'\xD6zoral1980')
         
         
     

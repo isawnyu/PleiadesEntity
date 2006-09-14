@@ -66,7 +66,7 @@
     
     <xsl:template match="tei:bibl">
         <xsl:if test="count(preceding-sibling::tei:bibl) = 0">
-            <xsl:variable name="biblstring"><xsl:for-each select="../tei:bibl">'<xsl:apply-templates/>'<xsl:if test="count(following-sibling::tei:bibl) &gt; 0">, </xsl:if></xsl:for-each></xsl:variable>
+            <xsl:variable name="biblstring"><xsl:for-each select="../tei:bibl">u'<xsl:apply-templates/>'<xsl:if test="count(following-sibling::tei:bibl) &gt; 0">, </xsl:if></xsl:for-each></xsl:variable>
     &gt;&gt;&gt; en.setSecondaryReferences([<xsl:value-of select="$biblstring"/>])
     &gt;&gt;&gt; en.getSecondaryReferences()
     (<xsl:value-of select="$biblstring"/>)
