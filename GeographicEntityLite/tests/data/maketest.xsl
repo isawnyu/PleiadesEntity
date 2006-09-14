@@ -47,7 +47,7 @@
             <xsl:variable name="timestring"><xsl:for-each select="../gaz:timePeriod">'<xsl:value-of select="normalize-space(gaz:timePeriodName)"/>'<xsl:if test="count(following-sibling::gaz:timePeriod) &gt; 0">, </xsl:if></xsl:for-each></xsl:variable>
     &gt;&gt;&gt; en.setTimePeriods([<xsl:value-of select="$timestring"/>])
     &gt;&gt;&gt; en.getTimePeriods()
-    (<xsl:value-of select="$timestring"/>)
+    (<xsl:value-of select="$timestring"/><xsl:if test="count(../gaz:timePeriod) = 1">,</xsl:if>)
         </xsl:if>
     </xsl:template>
     <!-- note: handling name classification is currently disabled b/c the content type doesn't support it -->

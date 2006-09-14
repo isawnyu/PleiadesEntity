@@ -84,6 +84,6 @@
 
     >>> en.setTimePeriods(['Classical'])
     >>> en.getTimePeriods()
-    ('Classical')
+    ('Classical',)
         
 

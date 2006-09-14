@@ -110,6 +110,6 @@
 
     >>> en.setTimePeriods(['Roman'])
     >>> en.getTimePeriods()
-    ('Roman')
+    ('Roman',)
         
 
