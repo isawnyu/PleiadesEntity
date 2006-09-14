@@ -11,9 +11,9 @@
 <classificationScheme><schemeName>geoEntityType</schemeName>
 </classificationScheme>
 </classificationSection>
-<secondaryReferences><tei:bibl xmlns:tei="http://www.unc.edu/awmc/gazetteer/schemata/ns/0.3">BAtlas 65 E2 Adada</tei:bibl>
-<tei:bibl xmlns:tei="http://www.unc.edu/awmc/gazetteer/schemata/ns/0.3">von Aulock 1977, 20-22</tei:bibl>
-<tei:bibl xmlns:tei="http://www.unc.edu/awmc/gazetteer/schemata/ns/0.3">TIB Phrygien 170</tei:bibl>
+<secondaryReferences><tei:bibl xmlns:tei="http://www.tei-c.org/ns/1.0">BAtlas 65 E2 Adada</tei:bibl>
+<tei:bibl xmlns:tei="http://www.tei-c.org/ns/1.0">von Aulock 1977, 20-22</tei:bibl>
+<tei:bibl xmlns:tei="http://www.tei-c.org/ns/1.0">TIB Phrygien 170</tei:bibl>
 </secondaryReferences>
 <spatialLocation><georss:point xmlns:georss="http://www.georss.org/georss">37.5915700000005 30.9950800000006</georss:point>
 </spatialLocation>

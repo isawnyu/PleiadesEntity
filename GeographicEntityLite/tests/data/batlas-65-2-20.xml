@@ -13,8 +13,8 @@
 <classificationScheme><schemeName>geoEntityType</schemeName>
 </classificationScheme>
 </classificationSection>
-<secondaryReferences><tei:bibl xmlns:tei="http://www.unc.edu/awmc/gazetteer/schemata/ns/0.3">BAtlas 65 C5 Antiphellos/Habesos</tei:bibl>
-<tei:bibl xmlns:tei="http://www.unc.edu/awmc/gazetteer/schemata/ns/0.3">NPauly</tei:bibl>
+<secondaryReferences><tei:bibl xmlns:tei="http://www.tei-c.org/ns/1.0">BAtlas 65 C5 Antiphellos/Habesos</tei:bibl>
+<tei:bibl xmlns:tei="http://www.tei-c.org/ns/1.0">NPauly</tei:bibl>
 </secondaryReferences>
 <spatialLocation><georss:point xmlns:georss="http://www.georss.org/georss">36.1931800000002 29.6370399999996</georss:point>
 </spatialLocation>

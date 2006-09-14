@@ -1,26 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<geoEntity xmlns="http://www.unc.edu/awmc/gazetteer/schemata/ns/0.3"><ID>batlas-65-2-12</ID>
-<modernLocation>Hisartepe, near Kızılca</modernLocation>
-<timePeriod><timePeriodName>Hellenistic (Roman Republic)</timePeriodName>
-</timePeriod>
-<timePeriod><timePeriodName>Roman</timePeriodName>
-</timePeriod>
-<timePeriod><timePeriodName>Late Antique</timePeriodName>
-</timePeriod>
-<classificationSection><classificationTerm>settlement</classificationTerm>
-<classificationScheme><schemeName>geoEntityType</schemeName>
-</classificationScheme>
-</classificationSection>
-<secondaryReferences><tei:bibl xmlns:tei="http://www.unc.edu/awmc/gazetteer/schemata/ns/0.3">BAtlas 65 G2 Amblada</tei:bibl>
-<tei:bibl xmlns:tei="http://www.unc.edu/awmc/gazetteer/schemata/ns/0.3">von Aulock 1977, 22-23</tei:bibl>
-<tei:bibl xmlns:tei="http://www.unc.edu/awmc/gazetteer/schemata/ns/0.3">TIB Galatien 122</tei:bibl>
-</secondaryReferences>
-<spatialLocation><georss:point xmlns:georss="http://www.georss.org/georss">37.5254199999999 31.7393100000008</georss:point>
-</spatialLocation>
-<name><nameStringTransliterated>Amblada</nameStringTransliterated>
-<classificationSection><classificationTerm>geogname-ancient</classificationTerm>
-<classificationScheme><schemeName>geoNameType</schemeName>
-</classificationScheme>
-</classificationSection>
-</name>
+<geoEntity xmlns="http://www.unc.edu/awmc/gazetteer/schemata/ns/0.3">
+    <ID>batlas-65-2-12</ID>
+    <modernLocation>Hisartepe, near Kızılca</modernLocation>
+    <timePeriod>
+        <timePeriodName>Hellenistic (Roman Republic)</timePeriodName>
+    </timePeriod>
+    <timePeriod>
+        <timePeriodName>Roman</timePeriodName>
+    </timePeriod>
+    <timePeriod>
+        <timePeriodName>Late Antique</timePeriodName>
+    </timePeriod>
+    <classificationSection>
+        <classificationTerm>settlement</classificationTerm>
+        <classificationScheme>
+            <schemeName>geoEntityType</schemeName>
+        </classificationScheme>
+    </classificationSection>
+    <secondaryReferences>
+        <tei:bibl xmlns:tei="http://www.tei-c.org/ns/1.0">BAtlas 65 G2 Amblada</tei:bibl>
+        <tei:bibl xmlns:tei="http://www.tei-c.org/ns/1.0">von Aulock 1977, 22-23</tei:bibl>
+        <tei:bibl xmlns:tei="http://www.tei-c.org/ns/1.0">TIB Galatien 122</tei:bibl>
+    </secondaryReferences>
+    <spatialLocation>
+        <georss:point xmlns:georss="http://www.georss.org/georss">37.5254199999999
+        31.7393100000008</georss:point>
+    </spatialLocation>
+    <name>
+        <nameStringTransliterated>Amblada</nameStringTransliterated>
+        <classificationSection>
+            <classificationTerm>geogname-ancient</classificationTerm>
+            <classificationScheme>
+                <schemeName>geoNameType</schemeName>
+            </classificationScheme>
+        </classificationSection>
+    </name>
 </geoEntity>

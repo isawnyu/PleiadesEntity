@@ -11,9 +11,9 @@
 <classificationScheme><schemeName>geoEntityType</schemeName>
 </classificationScheme>
 </classificationSection>
-<secondaryReferences><tei:bibl xmlns:tei="http://www.unc.edu/awmc/gazetteer/schemata/ns/0.3">BAtlas 65 A2 Antiochia ad Maeandrum</tei:bibl>
-<tei:bibl xmlns:tei="http://www.unc.edu/awmc/gazetteer/schemata/ns/0.3">TIB Phrygien 185-88</tei:bibl>
-<tei:bibl xmlns:tei="http://www.unc.edu/awmc/gazetteer/schemata/ns/0.3">NPauly 6</tei:bibl>
+<secondaryReferences><tei:bibl xmlns:tei="http://www.tei-c.org/ns/1.0">BAtlas 65 A2 Antiochia ad Maeandrum</tei:bibl>
+<tei:bibl xmlns:tei="http://www.tei-c.org/ns/1.0">TIB Phrygien 185-88</tei:bibl>
+<tei:bibl xmlns:tei="http://www.tei-c.org/ns/1.0">NPauly 6</tei:bibl>
 </secondaryReferences>
 <spatialLocation><georss:point xmlns:georss="http://www.georss.org/georss">37.8734199999999 28.5742499999997</georss:point>
 </spatialLocation>
