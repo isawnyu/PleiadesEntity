@@ -29,7 +29,6 @@
     >>> en.setGeoEntityType('settlement')
     >>> en.getGeoEntityType()
     'settlement'
-    
 
     >>> en.setSecondaryReferences(['BAtlas 65 C5 Antiphellos/Habesos', 'NPauly'])
     >>> en.getSecondaryReferences()
@@ -60,10 +59,6 @@
     'Antiphellos'
     
 
-    >>> test_msg = 'There is an xml element in the test data that was not handled by the maketest.xsl transformation. Element name = classificationSection'
-    >>> print test_msg
-    ''
-    
 
     >>> en.setTimePeriods(['Hellenistic (Roman Republic)', 'Roman', 'Late Antique'])
     >>> en.getTimePeriods()
@@ -86,10 +81,6 @@
     'Habesos'
     
 
-    >>> test_msg = 'There is an xml element in the test data that was not handled by the maketest.xsl transformation. Element name = classificationSection'
-    >>> print test_msg
-    ''
-    
 
     >>> en.setTimePeriods(['Classical'])
     >>> en.getTimePeriods()

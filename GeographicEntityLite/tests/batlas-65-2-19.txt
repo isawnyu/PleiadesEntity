@@ -28,7 +28,6 @@
     >>> en.setGeoEntityType('settlement')
     >>> en.getGeoEntityType()
     'settlement'
-    
 
     >>> en.setSecondaryReferences(['BAtlas 65 A2 Antiochia ad Maeandrum', 'TIB Phrygien 185-88', 'NPauly 6'])
     >>> en.getSecondaryReferences()
@@ -60,8 +59,4 @@
     'Antiochia ad Maeandrum'
     
 
-    >>> test_msg = 'There is an xml element in the test data that was not handled by the maketest.xsl transformation. Element name = classificationSection'
-    >>> print test_msg
-    ''
-    
 

@@ -30,7 +30,6 @@
     >>> en.getGeoEntityType()
     'settlement'
     
-    
         
     >>> en.setSecondaryReferences(['BAtlas 65 G2 Amblada', 'von Aulock1977,22-23', 'TIB Galatien 122'])
     >>> en.getSecondaryReferences()
@@ -64,8 +63,4 @@
     'Amblada'
     
         
-    >>> test_msg = 'There is an xml element in the test data that was not handled by the maketest.xsl transformation. Element name = classificationSection'
-    >>> print test_msg
-    ''
-    
     
