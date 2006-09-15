@@ -18,7 +18,7 @@
 <spatialLocation><georss:point xmlns:georss="http://www.georss.org/georss">37.8734199999999 28.5742499999997</georss:point>
 </spatialLocation>
 <name><nameStringTransliterated>Antiochia ad Maeandrum</nameStringTransliterated>
-<classificationSection><classificationTerm>geogname-ancient</classificationTerm>
+<classificationSection><classificationTerm>geographic</classificationTerm>
 <classificationScheme><schemeName>geoNameType</schemeName>
 </classificationScheme>
 </classificationSection>

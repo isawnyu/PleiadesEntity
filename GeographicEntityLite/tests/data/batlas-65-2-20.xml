@@ -19,7 +19,7 @@
 <spatialLocation><georss:point xmlns:georss="http://www.georss.org/georss">36.1931800000002 29.6370399999996</georss:point>
 </spatialLocation>
 <name><nameStringTransliterated>Antiphellos</nameStringTransliterated>
-<classificationSection><classificationTerm>geogname-ancient</classificationTerm>
+<classificationSection><classificationTerm>geographic</classificationTerm>
 <classificationScheme><schemeName>geoNameType</schemeName>
 </classificationScheme>
 </classificationSection>
@@ -31,7 +31,7 @@
 </timePeriod>
 </name>
 <name><nameStringTransliterated>Habesos</nameStringTransliterated>
-<classificationSection><classificationTerm>geogname-ancient</classificationTerm>
+<classificationSection><classificationTerm>geographic</classificationTerm>
 <classificationScheme><schemeName>geoNameType</schemeName>
 </classificationScheme>
 </classificationSection>

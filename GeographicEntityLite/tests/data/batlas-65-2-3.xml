@@ -1,33 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<geoEntity xmlns="http://www.unc.edu/awmc/gazetteer/schemata/ns/0.3">
-    <ID>batlas-65-2-3</ID>
-    <timePeriod>
-        <timePeriodName>Classical</timePeriodName>
-    </timePeriod>
-    <timePeriod>
-        <timePeriodName>Hellenistic (Roman Republic)</timePeriodName>
-    </timePeriod>
-    <classificationSection>
-        <classificationTerm>settlement</classificationTerm>
-        <classificationScheme>
-            <schemeName>geoEntityType</schemeName>
-        </classificationScheme>
-    </classificationSection>
-    <secondaryReferences>
-        <tei:bibl xmlns:tei="http://www.tei-c.org/ns/1.0">BAtlas 65 E4 Ağva</tei:bibl>
-        <tei:bibl xmlns:tei="http://www.tei-c.org/ns/1.0">Özoral 1980</tei:bibl>
-    </secondaryReferences>
-    <spatialLocation>
-        <georss:point xmlns:georss="http://www.georss.org/georss">36.5583700000007
-        30.5590499999998</georss:point>
-    </spatialLocation>
-    <name>
-        <nameStringTransliterated>Ağva</nameStringTransliterated>
-        <classificationSection>
-            <classificationTerm>geogname-modern</classificationTerm>
-            <classificationScheme>
-                <schemeName>geoNameType</schemeName>
-            </classificationScheme>
-        </classificationSection>
-    </name>
+<geoEntity xmlns="http://www.unc.edu/awmc/gazetteer/schemata/ns/0.3"><ID>batlas-65-2-3</ID>
+<modernLocation>xml:langtkAğva</modernLocation>
+<timePeriod><timePeriodName>Classical</timePeriodName>
+</timePeriod>
+<timePeriod><timePeriodName>Hellenistic (Roman Republic)</timePeriodName>
+</timePeriod>
+<classificationSection><classificationTerm>settlement</classificationTerm>
+<classificationScheme><schemeName>geoEntityType</schemeName>
+</classificationScheme>
+</classificationSection>
+<secondaryReferences><tei:bibl xmlns:tei="http://www.tei-c.org/ns/1.0">BAtlas 65 E4 Ağva</tei:bibl>
+<tei:bibl xmlns:tei="http://www.tei-c.org/ns/1.0">Özoral 1980</tei:bibl>
+</secondaryReferences>
+<spatialLocation><georss:point xmlns:georss="http://www.georss.org/georss">36.5583700000007 30.5590499999998</georss:point>
+</spatialLocation>
 </geoEntity>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<geoEntity xmlns="http://www.unc.edu/awmc/gazetteer/schemata/ns/0.3"><ID>batlas-65-4-3</ID>
+<modernLocation>near Antiochia ad Maeandrum</modernLocation>
+<timePeriod><timePeriodName>Roman?</timePeriodName>
+</timePeriod>
+<classificationSection><classificationTerm>bridge</classificationTerm>
+<classificationScheme><schemeName>geoEntityType</schemeName>
+</classificationScheme>
+</classificationSection>
+<secondaryReferences><tei:bibl xmlns:tei="http://www.tei-c.org/ns/1.0">BAtlas 65 A2 </tei:bibl>
+<tei:bibl xmlns:tei="http://www.tei-c.org/ns/1.0">Magie 1950, 989</tei:bibl>
+</secondaryReferences>
+<spatialLocation><georss:point xmlns:georss="http://www.georss.org/georss">37.90056 28.5605599999999</georss:point>
+</spatialLocation>
+</geoEntity>

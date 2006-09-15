@@ -1,78 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<geoEntity xmlns="http://www.unc.edu/awmc/gazetteer/schemata/ns/0.3">
-    <ID>batlas-65-2-24</ID>
-    <modernLocation>Geyre</modernLocation>
-    <timePeriod>
-        <timePeriodName>Classical</timePeriodName>
-    </timePeriod>
-    <timePeriod>
-        <timePeriodName>Roman</timePeriodName>
-    </timePeriod>
-    <timePeriod>
-        <timePeriodName>Late Antique</timePeriodName>
-    </timePeriod>
-    <classificationSection>
-        <classificationTerm>settlement</classificationTerm>
-        <classificationScheme>
-            <schemeName>geoEntityType</schemeName>
-        </classificationScheme>
-    </classificationSection>
-    <secondaryReferences>
-        <tei:bibl xmlns:tei="http://www.tei-c.org/ns/1.0">BAtlas 65 A2 Aphrodisias/Ninoe</tei:bibl>
-        <tei:bibl xmlns:tei="http://www.tei-c.org/ns/1.0">RE 2</tei:bibl>
-        <tei:bibl xmlns:tei="http://www.tei-c.org/ns/1.0">NPauly 1</tei:bibl>
-        <tei:bibl xmlns:tei="http://www.tei-c.org/ns/1.0">RE</tei:bibl>
-    </secondaryReferences>
-    <spatialLocation>
-        <georss:point xmlns:georss="http://www.georss.org/georss">37.7144599999992 28.7288599999993</georss:point>
-    </spatialLocation>
-    <name>
-        <nameString xml:lang="grc">Ἀφροδισιάς</nameString>
-        <nameStringTransliterated>Aphrodisias</nameStringTransliterated>
-        <classificationSection>
-            <classificationTerm>geogname-ancient</classificationTerm>
-            <classificationScheme>
-                <schemeName>geoNameType</schemeName>
-            </classificationScheme>
-        </classificationSection>
-        <timePeriod>
-            <timePeriodName>Roman</timePeriodName>
-        </timePeriod>
-        <timePeriod>
-            <timePeriodName>Late Antique</timePeriodName>
-        </timePeriod>
-        <secondaryReferences>
-            <tei:bibl xmlns:tei="http://www.tei-c.org/ns/1.0">RE 2</tei:bibl>
-            <tei:bibl xmlns:tei="http://www.tei-c.org/ns/1.0">NPauly 1</tei:bibl>
-        </secondaryReferences>
-    </name>
-    <name>
-        <nameString xml:lang="grc">Νινόη</nameString>
-        <nameStringTransliterated>Ninoe</nameStringTransliterated>
-        <classificationSection>
-            <classificationTerm>geogname-ancient</classificationTerm>
-            <classificationScheme>
-                <schemeName>geoNameType</schemeName>
-            </classificationScheme>
-        </classificationSection>
-        <timePeriod>
-            <timePeriodName>Classical</timePeriodName>
-        </timePeriod>
-        <secondaryReferences>
-            <tei:bibl xmlns:tei="http://www.tei-c.org/ns/1.0">RE</tei:bibl>
-        </secondaryReferences>
-    </name>
-    <name>
-        <nameString xml:lang="la">Aphrodisiensis</nameString>
-        <nameStringTransliterated>Aphrodisiensis</nameStringTransliterated>
-        <classificationSection>
-            <classificationTerm>ethnicname-ancient</classificationTerm>
-            <classificationScheme>
-                <schemeName>geoNameType</schemeName>
-            </classificationScheme>
-        </classificationSection>
-        <timePeriod>
-            <timePeriodName>Classical</timePeriodName>
-        </timePeriod>
-    </name>
+<geoEntity xmlns="http://www.unc.edu/awmc/gazetteer/schemata/ns/0.3"><ID>batlas-65-2-24</ID>
+<modernLocation>Geyre</modernLocation>
+<timePeriod><timePeriodName>Classical</timePeriodName>
+</timePeriod>
+<timePeriod><timePeriodName>Roman</timePeriodName>
+</timePeriod>
+<timePeriod><timePeriodName>Late Antique</timePeriodName>
+</timePeriod>
+<classificationSection><classificationTerm>settlement</classificationTerm>
+<classificationScheme><schemeName>geoEntityType</schemeName>
+</classificationScheme>
+</classificationSection>
+<secondaryReferences><tei:bibl xmlns:tei="http://www.tei-c.org/ns/1.0">BAtlas 65 A2 Aphrodisias/Ninoe</tei:bibl>
+<tei:bibl xmlns:tei="http://www.tei-c.org/ns/1.0">RE 2</tei:bibl>
+<tei:bibl xmlns:tei="http://www.tei-c.org/ns/1.0">NPauly 1</tei:bibl>
+<tei:bibl xmlns:tei="http://www.tei-c.org/ns/1.0">RE</tei:bibl>
+</secondaryReferences>
+<spatialLocation><georss:point xmlns:georss="http://www.georss.org/georss">37.7144599999992 28.7288599999993</georss:point>
+</spatialLocation>
+<name><nameStringTransliterated>Aphrodisias</nameStringTransliterated>
+<classificationSection><classificationTerm>geographic</classificationTerm>
+<classificationScheme><schemeName>geoNameType</schemeName>
+</classificationScheme>
+</classificationSection>
+<timePeriod><timePeriodName>Roman</timePeriodName>
+</timePeriod>
+<timePeriod><timePeriodName>Late Antique</timePeriodName>
+</timePeriod>
+<secondaryReferences><tei:bibl xmlns:tei="http://www.tei-c.org/ns/1.0">RE 2</tei:bibl>
+<tei:bibl xmlns:tei="http://www.tei-c.org/ns/1.0">NPauly 1</tei:bibl>
+</secondaryReferences>
+</name>
+<name><nameStringTransliterated>Ninoe</nameStringTransliterated>
+<classificationSection><classificationTerm>geographic</classificationTerm>
+<classificationScheme><schemeName>geoNameType</schemeName>
+</classificationScheme>
+</classificationSection>
+<timePeriod><timePeriodName>Classical</timePeriodName>
+</timePeriod>
+<secondaryReferences><tei:bibl xmlns:tei="http://www.tei-c.org/ns/1.0">RE</tei:bibl>
+</secondaryReferences>
+</name>
 </geoEntity>

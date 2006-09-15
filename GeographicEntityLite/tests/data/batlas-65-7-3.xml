@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<geoEntity xmlns="http://www.unc.edu/awmc/gazetteer/schemata/ns/0.3"><ID>batlas-65-7-3</ID>
+<modernLocation>Sarayköy plain?</modernLocation>
+<timePeriod><timePeriodName>Late Antique</timePeriodName>
+</timePeriod>
+<classificationSection><classificationTerm>unlocated</classificationTerm>
+<classificationScheme><schemeName>geoEntityType</schemeName>
+</classificationScheme>
+</classificationSection>
+<secondaryReferences><tei:bibl xmlns:tei="http://www.tei-c.org/ns/1.0">BAtlas 65 unlocated Agathe Kome</tei:bibl>
+<tei:bibl xmlns:tei="http://www.tei-c.org/ns/1.0">TIB Phrygien 172</tei:bibl>
+</secondaryReferences>
+<name><nameStringTransliterated>Agathe Kome</nameStringTransliterated>
+<classificationSection><classificationTerm>geographic</classificationTerm>
+<classificationScheme><schemeName>geoNameType</schemeName>
+</classificationScheme>
+</classificationSection>
+</name>
+</geoEntity>

@@ -22,7 +22,7 @@
 <spatialLocation><georss:point xmlns:georss="http://www.georss.org/georss">38.0709999999999 30.1660499999998</georss:point>
 </spatialLocation>
 <name><nameStringTransliterated>Apamea</nameStringTransliterated>
-<classificationSection><classificationTerm>geogname-ancient</classificationTerm>
+<classificationSection><classificationTerm>geographic</classificationTerm>
 <classificationScheme><schemeName>geoNameType</schemeName>
 </classificationScheme>
 </classificationSection>
@@ -34,7 +34,7 @@
 </timePeriod>
 </name>
 <name><nameStringTransliterated>Kelainai</nameStringTransliterated>
-<classificationSection><classificationTerm>geogname-ancient</classificationTerm>
+<classificationSection><classificationTerm>geographic</classificationTerm>
 <classificationScheme><schemeName>geoNameType</schemeName>
 </classificationScheme>
 </classificationSection>
@@ -48,7 +48,7 @@
 </timePeriod>
 </name>
 <name><nameStringTransliterated>Kibotos</nameStringTransliterated>
-<classificationSection><classificationTerm>geogname-ancient</classificationTerm>
+<classificationSection><classificationTerm>geographic</classificationTerm>
 <classificationScheme><schemeName>geoNameType</schemeName>
 </classificationScheme>
 </classificationSection>
