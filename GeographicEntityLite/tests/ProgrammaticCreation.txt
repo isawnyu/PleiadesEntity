@@ -1,80 +1,134 @@
-PublishGeoEntity.txt
-====================
+===========================================================================
+Copyright (C) 2006 Ancient World Mapping Center
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
 
-Test publishing of GeographicEntityLite objects.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
-A lot of this is cribbed from optilude's tutorial on plone.org.
+You should have received a copy of the GNU General Public License along
+with this program; if not, write to the Free Software Foundation, Inc.,
+51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-Setup the test fixture
+About Pleiades
+--------------
+
+Pleiades is an international research network and associated web portal and
+content management system devoted to the study of ancient geography. 
+
+See http://icon.stoa.org/trac/pleiades/wiki.
+
+Funding for the creation of this software was provided by a grant from the 
+U.S. National Endowment for the Humanities (http://www.neh.gov).
+===========================================================================
+ProgrammaticCreation.txt
+===========================================================================
+
+Test our ability to create and retrieve GeographicEntityLite objects and their
+subordinate GeographicNameLite objects
+
+optilude's tutorial on plone.org pointed the way to the sunlight
+
+Note that this test deliberately avoids dealing with unicode characters whose 
+codepoints exceed 0xFF (255).
+
+Setup the test fixture and get a reference to a Plone folder therein
 
     >>> folder = self.folder
 
-Add one complete entity to the folder and check that it is complete
+Add one complete entity to the folder and check all its attributes
 
-    >>> enID = 'batlas-65-2-12'
+    >>> enID = 'tatlas-77pdq'
     >>> folder.invokeFactory('GeographicEntityLite', id=enID)
-    'batlas-65-2-12'
+    'tatlas-77pdq'
     
+Attempt to get a reference to the entity
     >>> en = getattr(folder, enID)
 
+Set the title to the entity (Zope) title to match the ID until we know what the entity's names are
     >>> en.setTitle(enID)
     >>> en.Title()
-    'batlas-65-2-12'
+    'tatlas-77pdq'
     
-    >>> en.setDescription(u'An ancient settlement, attested from the Hellenistic to the Late Antique periods and located at modern Hisartepe, near Kızılca. It was known in antiquity by the name \'Amblada\'.')
+Set the standard description
+    >>> en.setDescription(u'A historic settlement, attested from the early 19th century and located at modern Ryland, near Huntsville. It was known in earlier times by the name(s): \'Ryland Mill\', \'Ryland Gin\'.')
     >>> en.Description()
-    "An ancient settlement, attested from the Hellenistic to the Late Antique periods and located at modern Hisartepe, near K\xc3\x84\xc2\xb1z\xc3\x84\xc2\xb1lca. It was known in antiquity by the name 'Amblada'."
+    "A historic settlement, attested from the early 19th century and located at modern Ryland, near Huntsville. It was known in earlier times by the name(s): 'Ryland Mill', 'Ryland Gin'."
     
+Set the project identifier.
+    >>> en.setIdentifier(enID)
+    >>> en.getIdentifier()
+    'tatlas-77pdq'
+
+Set the type of geographic entity
     >>> en.setGeoEntityType('settlement')
     >>> en.getGeoEntityType()
     'settlement'
     
-    >>> en.setModernLocation(u'Hisartepe, near Kızılca')
+Set the modern location string
+    >>> en.setModernLocation(u'Ryland, near Huntsville')
     >>> en.getModernLocation()
-    'Hisartepe, near K\xc3\x84\xc2\xb1z\xc3\x84\xc2\xb1lca'
+    'Ryland, near Huntsville'
     
-    >>> en.setTimePeriods(['Hellenistic (Roman Republic)', 'Roman', 'Late Antique'])
+Historical periods for the entity
+    >>> en.setTimePeriods(['19th Century', '20th Century', '21st Century'])
     >>> en.getTimePeriods()
-    ('Hellenistic (Roman Republic)', 'Roman', 'Late Antique')
+    ('19th Century', '20th Century', '21st Century')
     
-    >>> en.setSecondaryReferences(['BAtlas 65 G2 Amblada', 'von Aulock 1977, 22-23', 'TIB Galatien 122'])
+References to secondary literature
+    >>> en.setSecondaryReferences(['TAtlas 65 Q2 Ryland', 'Elliott 2008, 22-23'])
     >>> en.getSecondaryReferences()
-    ('BAtlas 65 G2 Amblada', 'von Aulock 1977, 22-23', 'TIB Galatien 122')
+    ('TAtlas 65 Q2 Ryland', 'Elliott 2008, 22-23')
     
-    >>> en.setSpatialCoordinates('37.5254199999999 31.7393100000008 0.0')
+Set the spatial coordinates
+    >>> en.setSpatialCoordinates('34.769722222222 -86.4808333333333 0.0')
     >>> en.getSpatialCoordinates()
-    '37.5254199999999 31.7393100000008 0.0'
+    '34.769722222222 -86.4808333333333 0.0'
     
+Set the spatial coordinate type
+    >>> en.setSpatialGeometryType('point')
+    >>> en.getSpatialGeometryType()
+    'point'
+    
+Enter the historical names and their constituent attributes
+
     >>> nameID = enID + '-n1'
     >>> en.invokeFactory('GeographicNameLite', id=nameID)
-    'batlas-65-2-12-n1'
+    'tatlas-77pdq-n1'
     
     >>> en_name = getattr(en, nameID)
 
-    >>> en_name.setTitle('Amblada')
+    >>> en_name.setTitle('Ryland Mill')
     >>> en_name.Title()
-    'Amblada'
+    'Ryland Mill'
 
-    >>> en_name.setIdentifier('batlas-65-2-12-n1')
+    >>> en_name.setIdentifier(nameID)
     >>> en_name.getIdentifier()
-    'batlas-65-2-12-n1'
+    'tatlas-77pdq-n1'
     
-    >>> en_name.setDescription(u'An attested name for an ancient settlement located at modern Hisartepe, near Kızılca.')
+    >>> en_name.setGeoNameType('geographic')
+    >>> en_name.getGeoNameType()
+    'geographic'
+    
+    >>> en_name.setDescription(u'An attested name for a historical settlement located at modern Ryland, near Huntsville.')
     >>> en_name.Description()
-    'An attested name for an ancient settlement located at modern Hisartepe, near K\xc3\x84\xc2\xb1z\xc3\x84\xc2\xb1lca.'
+    'An attested name for a historical settlement located at modern Ryland, near Huntsville.'
     
-    >>> en_name.setNameAttested(u'Ἄμβλαδα')
+    >>> en_name.setNameAttested(u'Ryland Mill')
     >>> en_name.getNameAttested()
-    '\xc3\xa1\xc2\xbc\xc2\x8c\xc3\x8e\xc2\xbc\xc3\x8e\xc2\xb2\xc3\x8e\xc2\xbb\xc3\x8e\xc2\xb1\xc3\x8e\xc2\xb4\xc3\x8e\xc2\xb1'
+    'Ryland Mill'
     
-    
-    >>> en_name.setNameLanguage('Ancient Greek')
+    >>> en_name.setNameLanguage('English')
     >>> en_name.getNameLanguage()
-    'Ancient Greek'
+    'English'
 
-    >>> en_name.setTimePeriods([])
+    >>> en_name.setTimePeriods(['19th Century', '20th Century'])
     >>> en_name.getTimePeriods()
-    ()
+    ('19th Century', '20th Century')
     
     >>> en_name.setPrimaryReferences([])
     >>> en_name.getPrimaryReferences()
@@ -84,11 +138,54 @@ Add one complete entity to the folder and check that it is complete
     >>> en_name.getSecondaryReferences()
     ()
     
+    >>> nameID = enID + '-n2'
+    >>> en.invokeFactory('GeographicNameLite', id=nameID)
+    'tatlas-77pdq-n2'
+    
+    >>> en_name = getattr(en, nameID)
+
+    >>> en_name.setTitle('Ryland Gin')
+    >>> en_name.Title()
+    'Ryland Gin'
+
+    >>> en_name.setIdentifier(nameID)
+    >>> en_name.getIdentifier()
+    'tatlas-77pdq-n2'
+    
+    >>> en_name.setGeoNameType('geographic')
+    >>> en_name.getGeoNameType()
+    'geographic'
+    
+    >>> en_name.setDescription(u'An attested name for a historical settlement located at modern Ryland, near Huntsville.')
+    >>> en_name.Description()
+    'An attested name for a historical settlement located at modern Ryland, near Huntsville.'
+    
+    >>> en_name.setNameAttested(u'Ryland Gin')
+    >>> en_name.getNameAttested()
+    'Ryland Gin'
+    
+    >>> en_name.setNameLanguage('English')
+    >>> en_name.getNameLanguage()
+    'English'
+
+    >>> en_name.setTimePeriods(['19th Century', '20th Century'])
+    >>> en_name.getTimePeriods()
+    ('19th Century', '20th Century')
+    
+    >>> en_name.setPrimaryReferences([])
+    >>> en_name.getPrimaryReferences()
+    ()
+    
+    >>> en_name.setSecondaryReferences([])
+    >>> en_name.getSecondaryReferences()
+    ()
+
+Re-set the entity title on the basis of the historical names
     >>> from Products.GeographicEntityLite.cooking import setGeoTitleFromNames
     >>> setGeoTitleFromNames(en) 
-    'Amblada'
+    'Ryland Mill/Ryland Gin'
     >>> en.Title()
-    'Amblada'
+    'Ryland Mill/Ryland Gin'
     
 Initialize the test browser
 
@@ -112,60 +209,62 @@ Check the URL
 
     >>> browser.url == entity_url
     True
-    >>> browser.url.endswith('batlas-65-2-12')
+    >>> browser.url.endswith('tatlas-77pdq')
     True
     
 Check the html title
     >>> title = browser.title
-    >>> title.strip().startswith('Amblada\n')
+    >>> title.strip().startswith('Ryland Mill/Ryland Gin\n')
     True
     
 Check the html content of the view page (description will not appear here)
 This is an imperfect text. Ideally, we'd parse the html and get specific, but
 not yet.
     >>> browser.contents
-    '...batlas-65-2-12...'
+    '...tatlas-77pdq...'
     >>> browser.contents
     '...settlement...'
     >>> browser.contents
-    '...Hisartepe, near K\xc3\x84\xc2\xb1z\xc3\x84\xc2\xb1lca...'
+    '...Ryland, near Huntsville...'
     >>> browser.contents
-    '...Hellenistic (Roman Republic)...'
+    '...19th Century...'
     >>> browser.contents
-    '...Roman...'
+    '...20th Century...'
     >>> browser.contents
-    '...Late Antique...'
+    '...21st Century...'
     >>> browser.contents
-    '...BAtlas 65 G2 Amblada...'
+    '...TAtlas 65 Q2 Ryland...'
     >>> browser.contents
-    '...von Aulock 1977, 22-23...'
+    '...Elliott 2008, 22-23...'
     >>> browser.contents
-    '...TIB Galatien 122...'
-    >>> browser.contents
-    '...37.5254199999999 31.7393100000008 0.0...'
+    '...34.769722222222 -86.4808333333333 0.0...'
 
 Browse to the name
-    >>> link = browser.getLink('batlas-65-2-12-n1')
+    >>> link = browser.getLink('tatlas-77pdq-n1')
     >>> link.click()
     
 Check the url
-    >>> browser.url == entity_url + '/batlas-65-2-12-n1/'
+    >>> browser.url == entity_url + '/tatlas-77pdq-n1/'
     True
     
 Check the html title
     >>> title = browser.title
-    >>> title.strip().startswith('Amblada\n')
+    >>> title.strip().startswith('Ryland Mill\n')
     True    
     
 Check the html content of the view page (description will not appear here)
 This is an imperfect text. Ideally, we'd parse the html and get specific, but
 not yet.
     >>> browser.contents
-    '...batlas-65-2-12-n1...'
+    '...tatlas-77pdq-n1...'
     >>> browser.contents
-    '...\xc3\xa1\xc2\xbc\xc2\x8c\xc3\x8e\xc2\xbc\xc3\x8e\xc2\xb2\xc3\x8e\xc2\xbb\xc3\x8e\xc2\xb1\xc3\x8e\xc2\xb4\xc3\x8e\xc2\xb1...'
+    '...Ryland Mill...'
     >>> browser.contents
-    '...Amblada...'
+    '...geographic...'
     >>> browser.contents
-    '...Ancient Greek...'
-    
+    '...English...'
+    >>> browser.contents
+    '...19th Century...'
+    >>> browser.contents
+    '...20th Century...'
+
