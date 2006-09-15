@@ -57,6 +57,15 @@ schema = Schema((
     ),
 
     StringField(
+        name='geoNameType',
+        widget=StringWidget(
+            label="Name Type",
+            label_msgid='GeographicEntityLite_label_geoNameType',
+            i18n_domain='GeographicEntityLite',
+        )
+    ),
+
+    StringField(
         name='nameAttested',
         widget=StringWidget(
             label="Name as Attested",
