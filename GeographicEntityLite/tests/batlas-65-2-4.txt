@@ -12,31 +12,47 @@
     >>> en.getIdentifier()
     'batlas-65-2-4'
     
-
-    >>> en.setModernLocation(u'Karabaulo')
-    >>> en.getModernLocation()
-    'Karabaulo'
+    >>> sourcetext = u'Karabaulo'
+    >>> sourcetext_utf8 = sourcetext.encode('utf8')
+    >>> en.setModernLocation(sourcetext_utf8)
+    >>> resulttext_utf8 = en.getModernLocation()
+    >>> resulttext_utf8 == sourcetext_utf8
+    True
+    >>> resulttext = unicode(resulttext_utf8, 'utf8')
+    >>> resulttext == sourcetext
+    True
+    >>> resulttext == u'Karabaulo'
+    True
     
-
-    >>> en.setTimePeriods(['Hellenistic (Roman Republic)', 'Roman', 'Late Antique'])
-    >>> en.getTimePeriods()
-    ('Hellenistic (Roman Republic)', 'Roman', 'Late Antique')
-        
-
-
-
+    >>> sourcelist = ['Hellenistic (Roman Republic)', 'Roman', 'Late Antique']
+    >>> en.setTimePeriods(sourcelist)
+    >>> results = en.getTimePeriods()
+    
+    >>> results[0] == 'Hellenistic (Roman Republic)'
+    True
+    
+    >>> results[1] == 'Roman'
+    True
+    
+    >>> results[2] == 'Late Antique'
+    True
+    
     >>> en.setGeoEntityType('settlement')
     >>> en.getGeoEntityType()
     'settlement'
-
-    >>> en.setSecondaryReferences(['BAtlas 65 E2 Adada', 'von Aulock1977,20-22', 'TIB Phrygien 170'])
-    >>> en.getSecondaryReferences()
-    ('BAtlas 65 E2 Adada', 'von Aulock1977,20-22', 'TIB Phrygien 170')
-        
-
-
-
-
+    >>> sourcelist = [u'BAtlas 65 E2 Adada', u'von Aulock 1977, 20-22', u'TIB Phrygien 170']
+    >>> en.setSecondaryReferences(sourcelist)
+    >>> resultlist = en.getSecondaryReferences()
+    
+    >>> resultlist[0] == sourcelist[0].encode('utf8')
+    True
+    
+    >>> resultlist[1] == sourcelist[1].encode('utf8')
+    True
+    
+    >>> resultlist[2] == sourcelist[2].encode('utf8')
+    True
+    
     >>> en.setSpatialCoordinates('37.5915700000005 30.9950800000006 0.0')
     >>> en.getSpatialCoordinates()
     '37.5915700000005 30.9950800000006 0.0'        
@@ -44,8 +60,6 @@
     >>> en.getSpatialGeometryType()
     'point'        
     
-
-
     >>> nameID = 'batlas-65-2-4-n1'
     >>> en.invokeFactory('GeographicNameLite', id=nameID)
     'batlas-65-2-4-n1'
@@ -58,5 +72,3 @@
     >>> en_name.Title()
     'Adada'
     
-
-

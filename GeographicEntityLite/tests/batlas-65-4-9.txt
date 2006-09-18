@@ -1,18 +1,18 @@
 
     >>> folder = self.folder
         
-    >>> enID = 'batlas-65-2-3'
+    >>> enID = 'batlas-65-4-9'
     >>> folder.invokeFactory('GeographicEntityLite', id=enID)
-    'batlas-65-2-3'
+    'batlas-65-4-9'
     >>> en = getattr(folder, enID)
     >>> en.setTitle(enID)
     >>> en.Title()
-    'batlas-65-2-3'
+    'batlas-65-4-9'
     >>> en.setIdentifier(enID)
     >>> en.getIdentifier()
-    'batlas-65-2-3'
+    'batlas-65-4-9'
     
-    >>> sourcetext = u'xml:langtkA\U0000011Fva'
+    >>> sourcetext = u'at Asarba\U0000015F\U00000131, over Eurymedon fl.'
     >>> sourcetext_utf8 = sourcetext.encode('utf8')
     >>> en.setModernLocation(sourcetext_utf8)
     >>> resulttext_utf8 = en.getModernLocation()
@@ -21,23 +21,20 @@
     >>> resulttext = unicode(resulttext_utf8, 'utf8')
     >>> resulttext == sourcetext
     True
-    >>> resulttext == u'xml:langtkA\U0000011Fva'
+    >>> resulttext == u'at Asarba\U0000015F\U00000131, over Eurymedon fl.'
     True
     
-    >>> sourcelist = ['Classical', 'Hellenistic (Roman Republic)']
+    >>> sourcelist = ['Roman']
     >>> en.setTimePeriods(sourcelist)
     >>> results = en.getTimePeriods()
     
-    >>> results[0] == 'Classical'
+    >>> results[0] == 'Roman'
     True
     
-    >>> results[1] == 'Hellenistic (Roman Republic)'
-    True
-    
-    >>> en.setGeoEntityType('settlement')
+    >>> en.setGeoEntityType('bridge')
     >>> en.getGeoEntityType()
-    'settlement'
-    >>> sourcelist = [u'BAtlas 65 E4 A\U0000011Fva', u'\U000000D6zoral 1980']
+    'bridge'
+    >>> sourcelist = [u'BAtlas 65 F3', u'IK 37, 18']
     >>> en.setSecondaryReferences(sourcelist)
     >>> resultlist = en.getSecondaryReferences()
     
@@ -47,9 +44,9 @@
     >>> resultlist[1] == sourcelist[1].encode('utf8')
     True
     
-    >>> en.setSpatialCoordinates('36.5583700000007 30.5590499999998 0.0')
+    >>> en.setSpatialCoordinates('37.3724500000008 31.2163400000009 0.0')
     >>> en.getSpatialCoordinates()
-    '36.5583700000007 30.5590499999998 0.0'        
+    '37.3724500000008 31.2163400000009 0.0'        
     >>> en.setSpatialGeometryType('point')
     >>> en.getSpatialGeometryType()
     'point'        

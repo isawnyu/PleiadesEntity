@@ -1,7 +1,6 @@
 
     >>> folder = self.folder
         
-    
     >>> enID = 'batlas-65-2-24'
     >>> folder.invokeFactory('GeographicEntityLite', id=enID)
     'batlas-65-2-24'
@@ -13,42 +12,56 @@
     >>> en.getIdentifier()
     'batlas-65-2-24'
     
+    >>> sourcetext = u'Geyre'
+    >>> sourcetext_utf8 = sourcetext.encode('utf8')
+    >>> en.setModernLocation(sourcetext_utf8)
+    >>> resulttext_utf8 = en.getModernLocation()
+    >>> resulttext_utf8 == sourcetext_utf8
+    True
+    >>> resulttext = unicode(resulttext_utf8, 'utf8')
+    >>> resulttext == sourcetext
+    True
+    >>> resulttext == u'Geyre'
+    True
     
-    >>> en.setModernLocation(u'Geyre')
-    >>> en.getModernLocation()
-    'Geyre'
+    >>> sourcelist = ['Classical', 'Roman', 'Late Antique']
+    >>> en.setTimePeriods(sourcelist)
+    >>> results = en.getTimePeriods()
     
+    >>> results[0] == 'Classical'
+    True
     
-    >>> en.setTimePeriods(['Classical', 'Roman', 'Late Antique'])
-    >>> en.getTimePeriods()
-    ('Classical', 'Roman', 'Late Antique')
-        
+    >>> results[1] == 'Roman'
+    True
     
-    
+    >>> results[2] == 'Late Antique'
+    True
     
     >>> en.setGeoEntityType('settlement')
     >>> en.getGeoEntityType()
     'settlement'
+    >>> sourcelist = [u'BAtlas 65 A2 Aphrodisias/Ninoe', u'RE 2', u'NPauly 1', u'RE']
+    >>> en.setSecondaryReferences(sourcelist)
+    >>> resultlist = en.getSecondaryReferences()
     
-        
-    >>> en.setSecondaryReferences(['BAtlas 65 A2 Aphrodisias/Ninoe', 'RE 2', 'NPauly 1', 'RE'])
-    >>> en.getSecondaryReferences()
-    ('BAtlas 65 A2 Aphrodisias/Ninoe', 'RE 2', 'NPauly 1', 'RE')
-        
-        
-        
-        
+    >>> resultlist[0] == sourcelist[0].encode('utf8')
+    True
     
+    >>> resultlist[1] == sourcelist[1].encode('utf8')
+    True
     
-        
+    >>> resultlist[2] == sourcelist[2].encode('utf8')
+    True
+    
+    >>> resultlist[3] == sourcelist[3].encode('utf8')
+    True
+    
     >>> en.setSpatialCoordinates('37.7144599999992 28.7288599999993 0.0')
     >>> en.getSpatialCoordinates()
     '37.7144599999992 28.7288599999993 0.0'        
     >>> en.setSpatialGeometryType('point')
     >>> en.getSpatialGeometryType()
     'point'        
-    
-    
     
     >>> nameID = 'batlas-65-2-24-n1'
     >>> en.invokeFactory('GeographicNameLite', id=nameID)
@@ -58,35 +71,29 @@
     >>> en_name.getIdentifier()
     'batlas-65-2-24-n1'
         
-        
-    >>> en_name.setNameAttested(u'\x1F08\x3C6\x3C1\x3BF\x3B4\x3B9\x3C3\x3B9\x1F71\x3C2')
-    >>> en_name.getNameAttested()
-    u'\x1F08\x3C6\x3C1\x3BF\x3B4\x3B9\x3C3\x3B9\x1F71\x3C2'
-        
-    >>> en_name.setNameLanguage('Ancient Greek')
-    >>> en_name.getNameLanguage()
-    'Ancient Greek
-        
     >>> en_name.setTitle('Aphrodisias')
     >>> en_name.Title()
     'Aphrodisias'
     
-        
-        
-    >>> en.setTimePeriods(['Roman', 'Late Antique'])
-    >>> en.getTimePeriods()
-    ('Roman', 'Late Antique')
-        
-        
-        
-            
-    >>> en.setSecondaryReferences(['RE 2', 'NPauly 1'])
-    >>> en.getSecondaryReferences()
-    ('RE 2', 'NPauly 1')
-        
-            
-        
+    >>> sourcelist = ['Roman', 'Late Antique']
+    >>> en.setTimePeriods(sourcelist)
+    >>> results = en.getTimePeriods()
     
+    >>> results[0] == 'Roman'
+    True
+    
+    >>> results[1] == 'Late Antique'
+    True
+    
+    >>> sourcelist = [u'RE 2', u'NPauly 1']
+    >>> en.setSecondaryReferences(sourcelist)
+    >>> resultlist = en.getSecondaryReferences()
+    
+    >>> resultlist[0] == sourcelist[0].encode('utf8')
+    True
+    
+    >>> resultlist[1] == sourcelist[1].encode('utf8')
+    True
     
     >>> nameID = 'batlas-65-2-24-n2'
     >>> en.invokeFactory('GeographicNameLite', id=nameID)
@@ -96,59 +103,21 @@
     >>> en_name.getIdentifier()
     'batlas-65-2-24-n2'
         
-        
-    >>> en_name.setNameAttested(u'\x39D\x3B9\x3BD\x1F79\x3B7')
-    >>> en_name.getNameAttested()
-    u'\x39D\x3B9\x3BD\x1F79\x3B7'
-        
-    >>> en_name.setNameLanguage('Ancient Greek')
-    >>> en_name.getNameLanguage()
-    'Ancient Greek
-        
     >>> en_name.setTitle('Ninoe')
     >>> en_name.Title()
     'Ninoe'
     
-        
-        
-    >>> en.setTimePeriods(['Classical'])
-    >>> en.getTimePeriods()
-    ('Classical')
-        
-        
-            
-    >>> en.setSecondaryReferences(['RE'])
-    >>> en.getSecondaryReferences()
-    ('RE')
-        
-        
+    >>> sourcelist = ['Classical']
+    >>> en.setTimePeriods(sourcelist)
+    >>> results = en.getTimePeriods()
     
+    >>> results[0] == 'Classical'
+    True
     
-    >>> nameID = 'batlas-65-2-24-n3'
-    >>> en.invokeFactory('GeographicNameLite', id=nameID)
-    'batlas-65-2-24-n3'
-    >>> en_name = getattr(en, nameID)
-    >>> en_name.setIdentifier('batlas-65-2-24-n3')
-    >>> en_name.getIdentifier()
-    'batlas-65-2-24-n3'
-        
-        
-    >>> en_name.setNameAttested(u'Aphrodisiensis')
-    >>> en_name.getNameAttested()
-    u'Aphrodisiensis'
-        
-    >>> en_name.setNameLanguage('Latin')
-    >>> en_name.getNameLanguage()
-    'Latin
-        
-    >>> en_name.setTitle('Aphrodisiensis')
-    >>> en_name.Title()
-    'Aphrodisiensis'
+    >>> sourcelist = [u'RE']
+    >>> en.setSecondaryReferences(sourcelist)
+    >>> resultlist = en.getSecondaryReferences()
     
-        
-        
-    >>> en.setTimePeriods(['Classical'])
-    >>> en.getTimePeriods()
-    ('Classical')
-        
+    >>> resultlist[0] == sourcelist[0].encode('utf8')
+    True
     

@@ -1,7 +1,6 @@
 
     >>> folder = self.folder
         
-    
     >>> enID = 'batlas-65-2-12'
     >>> folder.invokeFactory('GeographicEntityLite', id=enID)
     'batlas-65-2-12'
@@ -13,41 +12,53 @@
     >>> en.getIdentifier()
     'batlas-65-2-12'
     
+    >>> sourcetext = u'Hisartepe, near K\U00000131z\U00000131lca'
+    >>> sourcetext_utf8 = sourcetext.encode('utf8')
+    >>> en.setModernLocation(sourcetext_utf8)
+    >>> resulttext_utf8 = en.getModernLocation()
+    >>> resulttext_utf8 == sourcetext_utf8
+    True
+    >>> resulttext = unicode(resulttext_utf8, 'utf8')
+    >>> resulttext == sourcetext
+    True
+    >>> resulttext == u'Hisartepe, near K\U00000131z\U00000131lca'
+    True
     
-    >>> en.setModernLocation(u'Hisartepe, near K\x131z\x131lca')
-    >>> en.getModernLocation()
-    'Hisartepe, near K\x131z\x131lca'
+    >>> sourcelist = ['Hellenistic (Roman Republic)', 'Roman', 'Late Antique']
+    >>> en.setTimePeriods(sourcelist)
+    >>> results = en.getTimePeriods()
     
+    >>> results[0] == 'Hellenistic (Roman Republic)'
+    True
     
-    >>> en.setTimePeriods(['Hellenistic (Roman Republic)', 'Roman', 'Late Antique'])
-    >>> en.getTimePeriods()
-    ('Hellenistic (Roman Republic)', 'Roman', 'Late Antique')
-        
+    >>> results[1] == 'Roman'
+    True
     
-    
+    >>> results[2] == 'Late Antique'
+    True
     
     >>> en.setGeoEntityType('settlement')
     >>> en.getGeoEntityType()
     'settlement'
+    >>> sourcelist = [u'BAtlas 65 G2 Amblada', u'von Aulock 1977, 22-23', u'TIB Galatien 122']
+    >>> en.setSecondaryReferences(sourcelist)
+    >>> resultlist = en.getSecondaryReferences()
     
-        
-    >>> en.setSecondaryReferences(['BAtlas 65 G2 Amblada', 'von Aulock1977,22-23', 'TIB Galatien 122'])
-    >>> en.getSecondaryReferences()
-    ('BAtlas 65 G2 Amblada', 'von Aulock1977,22-23', 'TIB Galatien 122')
-        
-        
-        
+    >>> resultlist[0] == sourcelist[0].encode('utf8')
+    True
     
+    >>> resultlist[1] == sourcelist[1].encode('utf8')
+    True
     
-        
+    >>> resultlist[2] == sourcelist[2].encode('utf8')
+    True
+    
     >>> en.setSpatialCoordinates('37.5254199999999 31.7393100000008 0.0')
     >>> en.getSpatialCoordinates()
     '37.5254199999999 31.7393100000008 0.0'        
     >>> en.setSpatialGeometryType('point')
     >>> en.getSpatialGeometryType()
     'point'        
-    
-    
     
     >>> nameID = 'batlas-65-2-12-n1'
     >>> en.invokeFactory('GeographicNameLite', id=nameID)
@@ -57,10 +68,7 @@
     >>> en_name.getIdentifier()
     'batlas-65-2-12-n1'
         
-        
     >>> en_name.setTitle('Amblada')
     >>> en_name.Title()
     'Amblada'
-    
-        
     

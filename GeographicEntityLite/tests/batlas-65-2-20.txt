@@ -12,31 +12,47 @@
     >>> en.getIdentifier()
     'batlas-65-2-20'
     
-
-    >>> en.setModernLocation(u'Ka\x15F')
-    >>> en.getModernLocation()
-    'Ka\x15F'
+    >>> sourcetext = u'Ka\U0000015F'
+    >>> sourcetext_utf8 = sourcetext.encode('utf8')
+    >>> en.setModernLocation(sourcetext_utf8)
+    >>> resulttext_utf8 = en.getModernLocation()
+    >>> resulttext_utf8 == sourcetext_utf8
+    True
+    >>> resulttext = unicode(resulttext_utf8, 'utf8')
+    >>> resulttext == sourcetext
+    True
+    >>> resulttext == u'Ka\U0000015F'
+    True
     
-
-    >>> en.setTimePeriods(['Classical', 'Hellenistic (Roman Republic)', 'Roman', 'Late Antique'])
-    >>> en.getTimePeriods()
-    ('Classical', 'Hellenistic (Roman Republic)', 'Roman', 'Late Antique')
-        
-
-
-
-
+    >>> sourcelist = ['Classical', 'Hellenistic (Roman Republic)', 'Roman', 'Late Antique']
+    >>> en.setTimePeriods(sourcelist)
+    >>> results = en.getTimePeriods()
+    
+    >>> results[0] == 'Classical'
+    True
+    
+    >>> results[1] == 'Hellenistic (Roman Republic)'
+    True
+    
+    >>> results[2] == 'Roman'
+    True
+    
+    >>> results[3] == 'Late Antique'
+    True
+    
     >>> en.setGeoEntityType('settlement')
     >>> en.getGeoEntityType()
     'settlement'
-
-    >>> en.setSecondaryReferences(['BAtlas 65 C5 Antiphellos/Habesos', 'NPauly'])
-    >>> en.getSecondaryReferences()
-    ('BAtlas 65 C5 Antiphellos/Habesos', 'NPauly')
-        
-
-
-
+    >>> sourcelist = [u'BAtlas 65 C5 Antiphellos/Habesos', u'NPauly']
+    >>> en.setSecondaryReferences(sourcelist)
+    >>> resultlist = en.getSecondaryReferences()
+    
+    >>> resultlist[0] == sourcelist[0].encode('utf8')
+    True
+    
+    >>> resultlist[1] == sourcelist[1].encode('utf8')
+    True
+    
     >>> en.setSpatialCoordinates('36.1931800000002 29.6370399999996 0.0')
     >>> en.getSpatialCoordinates()
     '36.1931800000002 29.6370399999996 0.0'        
@@ -44,8 +60,6 @@
     >>> en.getSpatialGeometryType()
     'point'        
     
-
-
     >>> nameID = 'batlas-65-2-20-n1'
     >>> en.invokeFactory('GeographicNameLite', id=nameID)
     'batlas-65-2-20-n1'
@@ -58,16 +72,19 @@
     >>> en_name.Title()
     'Antiphellos'
     
-
-
-    >>> en.setTimePeriods(['Hellenistic (Roman Republic)', 'Roman', 'Late Antique'])
-    >>> en.getTimePeriods()
-    ('Hellenistic (Roman Republic)', 'Roman', 'Late Antique')
-        
-
-
-
-
+    >>> sourcelist = ['Hellenistic (Roman Republic)', 'Roman', 'Late Antique']
+    >>> en.setTimePeriods(sourcelist)
+    >>> results = en.getTimePeriods()
+    
+    >>> results[0] == 'Hellenistic (Roman Republic)'
+    True
+    
+    >>> results[1] == 'Roman'
+    True
+    
+    >>> results[2] == 'Late Antique'
+    True
+    
     >>> nameID = 'batlas-65-2-20-n2'
     >>> en.invokeFactory('GeographicNameLite', id=nameID)
     'batlas-65-2-20-n2'
@@ -80,10 +97,10 @@
     >>> en_name.Title()
     'Habesos'
     
-
-
-    >>> en.setTimePeriods(['Classical'])
-    >>> en.getTimePeriods()
-    ('Classical',)
-        
-
+    >>> sourcelist = ['Classical']
+    >>> en.setTimePeriods(sourcelist)
+    >>> results = en.getTimePeriods()
+    
+    >>> results[0] == 'Classical'
+    True
+    

@@ -1,0 +1,228 @@
+
+    >>> folder = self.folder
+        
+    >>> enID = 'batlas-65-2-24-grc'
+    >>> folder.invokeFactory('GeographicEntityLite', id=enID)
+    'batlas-65-2-24-grc'
+    >>> en = getattr(folder, enID)
+    >>> en.setTitle(enID)
+    >>> en.Title()
+    'batlas-65-2-24-grc'
+    >>> en.setIdentifier(enID)
+    >>> en.getIdentifier()
+    'batlas-65-2-24-grc'
+    
+    >>> sourcetext = u'Geyre'
+    >>> sourcetext_utf8 = sourcetext.encode('utf8')
+    >>> en.setModernLocation(sourcetext_utf8)
+    >>> resulttext_utf8 = en.getModernLocation()
+    >>> resulttext_utf8 == sourcetext_utf8
+    True
+    >>> resulttext = unicode(resulttext_utf8, 'utf8')
+    >>> resulttext == sourcetext
+    True
+    >>> resulttext == u'Geyre'
+    True
+    
+    >>> sourcelist = ['Classical', 'Roman', 'Late Antique']
+    >>> en.setTimePeriods(sourcelist)
+    >>> results = en.getTimePeriods()
+    
+    >>> results[0] == 'Classical'
+    True
+    
+    >>> results[1] == 'Roman'
+    True
+    
+    >>> results[2] == 'Late Antique'
+    True
+    
+    >>> en.setGeoEntityType('settlement')
+    >>> en.getGeoEntityType()
+    'settlement'
+    >>> sourcelist = [u'BAtlas 65 A2 Aphrodisias/Ninoe', u'RE 2', u'NPauly 1', u'RE']
+    >>> en.setSecondaryReferences(sourcelist)
+    >>> resultlist = en.getSecondaryReferences()
+    
+    >>> resultlist[0] == sourcelist[0].encode('utf8')
+    True
+    
+    >>> resultlist[1] == sourcelist[1].encode('utf8')
+    True
+    
+    >>> resultlist[2] == sourcelist[2].encode('utf8')
+    True
+    
+    >>> resultlist[3] == sourcelist[3].encode('utf8')
+    True
+    
+    >>> en.setSpatialCoordinates('37.7144599999992 28.7288599999993 0.0')
+    >>> en.getSpatialCoordinates()
+    '37.7144599999992 28.7288599999993 0.0'        
+    >>> en.setSpatialGeometryType('point')
+    >>> en.getSpatialGeometryType()
+    'point'        
+    
+    >>> nameID = 'batlas-65-2-24-grc-n1'
+    >>> en.invokeFactory('GeographicNameLite', id=nameID)
+    'batlas-65-2-24-grc-n1'
+    >>> en_name = getattr(en, nameID)
+    >>> en_name.setIdentifier('batlas-65-2-24-grc-n1')
+    >>> en_name.getIdentifier()
+    'batlas-65-2-24-grc-n1'
+        
+    >>> sourcetext = u'\U00001F08\U000003C6\U000003C1\U000003BF\U000003B4\U000003B9\U000003C3\U000003B9\U00001F71\U000003C2'
+    >>> sourcetext_utf8 = sourcetext.encode('utf8')
+    >>> en_name.setNameAttested(sourcetext_utf8)
+    >>> resulttext_utf8 = en_name.getNameAttested()
+    >>> resulttext_utf8 == sourcetext_utf8
+    True
+    >>> resulttext = unicode(resulttext_utf8, 'utf8')
+    >>> resulttext == sourcetext
+    True
+    >>> resulttext == u'\U00001F08\U000003C6\U000003C1\U000003BF\U000003B4\U000003B9\U000003C3\U000003B9\U00001F71\U000003C2'
+    True
+        
+        
+    >>> en_name.setNameLanguage('Ancient Greek')
+    >>> en_name.getNameLanguage()
+    'Ancient Greek'
+    >>> en_name.setTitle('Aphrodisias')
+    >>> en_name.Title()
+    'Aphrodisias'
+    
+    >>> sourcelist = ['Roman', 'Late Antique']
+    >>> en.setTimePeriods(sourcelist)
+    >>> results = en.getTimePeriods()
+    
+    >>> results[0] == 'Roman'
+    True
+    
+    >>> results[1] == 'Late Antique'
+    True
+    
+    >>> sourcelist = [u'RE 2', u'NPauly 1']
+    >>> en.setSecondaryReferences(sourcelist)
+    >>> resultlist = en.getSecondaryReferences()
+    
+    >>> resultlist[0] == sourcelist[0].encode('utf8')
+    True
+    
+    >>> resultlist[1] == sourcelist[1].encode('utf8')
+    True
+    
+    >>> nameID = 'batlas-65-2-24-grc-n2'
+    >>> en.invokeFactory('GeographicNameLite', id=nameID)
+    'batlas-65-2-24-grc-n2'
+    >>> en_name = getattr(en, nameID)
+    >>> en_name.setIdentifier('batlas-65-2-24-grc-n2')
+    >>> en_name.getIdentifier()
+    'batlas-65-2-24-grc-n2'
+        
+    >>> sourcetext = u'\U0000039D\U000003B9\U000003BD\U00001F79\U000003B7'
+    >>> sourcetext_utf8 = sourcetext.encode('utf8')
+    >>> en_name.setNameAttested(sourcetext_utf8)
+    >>> resulttext_utf8 = en_name.getNameAttested()
+    >>> resulttext_utf8 == sourcetext_utf8
+    True
+    >>> resulttext = unicode(resulttext_utf8, 'utf8')
+    >>> resulttext == sourcetext
+    True
+    >>> resulttext == u'\U0000039D\U000003B9\U000003BD\U00001F79\U000003B7'
+    True
+        
+        
+    >>> en_name.setNameLanguage('Ancient Greek')
+    >>> en_name.getNameLanguage()
+    'Ancient Greek'
+    >>> en_name.setTitle('Ninoe')
+    >>> en_name.Title()
+    'Ninoe'
+    
+    >>> sourcelist = ['Classical']
+    >>> en.setTimePeriods(sourcelist)
+    >>> results = en.getTimePeriods()
+    
+    >>> results[0] == 'Classical'
+    True
+    
+    >>> sourcelist = [u'RE']
+    >>> en.setSecondaryReferences(sourcelist)
+    >>> resultlist = en.getSecondaryReferences()
+    
+    >>> resultlist[0] == sourcelist[0].encode('utf8')
+    True
+    
+    >>> nameID = 'batlas-65-2-24-grc-n3'
+    >>> en.invokeFactory('GeographicNameLite', id=nameID)
+    'batlas-65-2-24-grc-n3'
+    >>> en_name = getattr(en, nameID)
+    >>> en_name.setIdentifier('batlas-65-2-24-grc-n3')
+    >>> en_name.getIdentifier()
+    'batlas-65-2-24-grc-n3'
+        
+    >>> sourcetext = u'\U00001F08\U000003C6\U000003C1\U000003BF\U000003B4\U000003B9\U000003C3\U000003B9\U000003B5\U00001F7B\U000003C2'
+    >>> sourcetext_utf8 = sourcetext.encode('utf8')
+    >>> en_name.setNameAttested(sourcetext_utf8)
+    >>> resulttext_utf8 = en_name.getNameAttested()
+    >>> resulttext_utf8 == sourcetext_utf8
+    True
+    >>> resulttext = unicode(resulttext_utf8, 'utf8')
+    >>> resulttext == sourcetext
+    True
+    >>> resulttext == u'\U00001F08\U000003C6\U000003C1\U000003BF\U000003B4\U000003B9\U000003C3\U000003B9\U000003B5\U00001F7B\U000003C2'
+    True
+        
+        
+    >>> en_name.setNameLanguage('Ancient Greek')
+    >>> en_name.getNameLanguage()
+    'Ancient Greek'
+    >>> en_name.setTitle('Aphrodisieus')
+    >>> en_name.Title()
+    'Aphrodisieus'
+    
+    >>> sourcelist = ['Roman', 'Late Antique']
+    >>> en.setTimePeriods(sourcelist)
+    >>> results = en.getTimePeriods()
+    
+    >>> results[0] == 'Roman'
+    True
+    
+    >>> results[1] == 'Late Antique'
+    True
+    
+    >>> nameID = 'batlas-65-2-24-grc-n4'
+    >>> en.invokeFactory('GeographicNameLite', id=nameID)
+    'batlas-65-2-24-grc-n4'
+    >>> en_name = getattr(en, nameID)
+    >>> en_name.setIdentifier('batlas-65-2-24-grc-n4')
+    >>> en_name.getIdentifier()
+    'batlas-65-2-24-grc-n4'
+        
+    >>> sourcetext = u'Aphrodisiensis'
+    >>> sourcetext_utf8 = sourcetext.encode('utf8')
+    >>> en_name.setNameAttested(sourcetext_utf8)
+    >>> resulttext_utf8 = en_name.getNameAttested()
+    >>> resulttext_utf8 == sourcetext_utf8
+    True
+    >>> resulttext = unicode(resulttext_utf8, 'utf8')
+    >>> resulttext == sourcetext
+    True
+    >>> resulttext == u'Aphrodisiensis'
+    True
+        
+        
+    >>> en_name.setNameLanguage('Latin')
+    >>> en_name.getNameLanguage()
+    'Latin'
+    >>> en_name.setTitle('Aphrodisiensis')
+    >>> en_name.Title()
+    'Aphrodisiensis'
+    
+    >>> sourcelist = ['Classical']
+    >>> en.setTimePeriods(sourcelist)
+    >>> results = en.getTimePeriods()
+    
+    >>> results[0] == 'Classical'
+    True
+    

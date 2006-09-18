@@ -1,0 +1,64 @@
+
+    >>> folder = self.folder
+        
+    >>> enID = 'batlas-65-7-56'
+    >>> folder.invokeFactory('GeographicEntityLite', id=enID)
+    'batlas-65-7-56'
+    >>> en = getattr(folder, enID)
+    >>> en.setTitle(enID)
+    >>> en.Title()
+    'batlas-65-7-56'
+    >>> en.setIdentifier(enID)
+    >>> en.getIdentifier()
+    'batlas-65-7-56'
+    
+    >>> sourcelist = ['Roman', 'Late Antique']
+    >>> en.setTimePeriods(sourcelist)
+    >>> results = en.getTimePeriods()
+    
+    >>> results[0] == 'Roman'
+    True
+    
+    >>> results[1] == 'Late Antique'
+    True
+    
+    >>> en.setGeoEntityType('unlocated')
+    >>> en.getGeoEntityType()
+    'unlocated'
+    >>> sourcelist = [u'BAtlas 65 unlocated Sinethandos/Siniandos', u'RE', u'TIB Phrygien 383']
+    >>> en.setSecondaryReferences(sourcelist)
+    >>> resultlist = en.getSecondaryReferences()
+    
+    >>> resultlist[0] == sourcelist[0].encode('utf8')
+    True
+    
+    >>> resultlist[1] == sourcelist[1].encode('utf8')
+    True
+    
+    >>> resultlist[2] == sourcelist[2].encode('utf8')
+    True
+    
+    >>> nameID = 'batlas-65-7-56-n1'
+    >>> en.invokeFactory('GeographicNameLite', id=nameID)
+    'batlas-65-7-56-n1'
+    >>> en_name = getattr(en, nameID)
+    >>> en_name.setIdentifier('batlas-65-7-56-n1')
+    >>> en_name.getIdentifier()
+    'batlas-65-7-56-n1'
+        
+    >>> en_name.setTitle('Sinethandos')
+    >>> en_name.Title()
+    'Sinethandos'
+    
+    >>> nameID = 'batlas-65-7-56-n2'
+    >>> en.invokeFactory('GeographicNameLite', id=nameID)
+    'batlas-65-7-56-n2'
+    >>> en_name = getattr(en, nameID)
+    >>> en_name.setIdentifier('batlas-65-7-56-n2')
+    >>> en_name.getIdentifier()
+    'batlas-65-7-56-n2'
+        
+    >>> en_name.setTitle('Siniandos')
+    >>> en_name.Title()
+    'Siniandos'
+    

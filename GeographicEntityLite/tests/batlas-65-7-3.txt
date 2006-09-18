@@ -1,18 +1,18 @@
 
     >>> folder = self.folder
         
-    >>> enID = 'batlas-65-2-3'
+    >>> enID = 'batlas-65-7-3'
     >>> folder.invokeFactory('GeographicEntityLite', id=enID)
-    'batlas-65-2-3'
+    'batlas-65-7-3'
     >>> en = getattr(folder, enID)
     >>> en.setTitle(enID)
     >>> en.Title()
-    'batlas-65-2-3'
+    'batlas-65-7-3'
     >>> en.setIdentifier(enID)
     >>> en.getIdentifier()
-    'batlas-65-2-3'
+    'batlas-65-7-3'
     
-    >>> sourcetext = u'xml:langtkA\U0000011Fva'
+    >>> sourcetext = u'Sarayk\U000000F6y plain?'
     >>> sourcetext_utf8 = sourcetext.encode('utf8')
     >>> en.setModernLocation(sourcetext_utf8)
     >>> resulttext_utf8 = en.getModernLocation()
@@ -21,23 +21,20 @@
     >>> resulttext = unicode(resulttext_utf8, 'utf8')
     >>> resulttext == sourcetext
     True
-    >>> resulttext == u'xml:langtkA\U0000011Fva'
+    >>> resulttext == u'Sarayk\U000000F6y plain?'
     True
     
-    >>> sourcelist = ['Classical', 'Hellenistic (Roman Republic)']
+    >>> sourcelist = ['Late Antique']
     >>> en.setTimePeriods(sourcelist)
     >>> results = en.getTimePeriods()
     
-    >>> results[0] == 'Classical'
+    >>> results[0] == 'Late Antique'
     True
     
-    >>> results[1] == 'Hellenistic (Roman Republic)'
-    True
-    
-    >>> en.setGeoEntityType('settlement')
+    >>> en.setGeoEntityType('unlocated')
     >>> en.getGeoEntityType()
-    'settlement'
-    >>> sourcelist = [u'BAtlas 65 E4 A\U0000011Fva', u'\U000000D6zoral 1980']
+    'unlocated'
+    >>> sourcelist = [u'BAtlas 65 unlocated Agathe Kome', u'TIB Phrygien 172']
     >>> en.setSecondaryReferences(sourcelist)
     >>> resultlist = en.getSecondaryReferences()
     
@@ -47,10 +44,15 @@
     >>> resultlist[1] == sourcelist[1].encode('utf8')
     True
     
-    >>> en.setSpatialCoordinates('36.5583700000007 30.5590499999998 0.0')
-    >>> en.getSpatialCoordinates()
-    '36.5583700000007 30.5590499999998 0.0'        
-    >>> en.setSpatialGeometryType('point')
-    >>> en.getSpatialGeometryType()
-    'point'        
+    >>> nameID = 'batlas-65-7-3-n1'
+    >>> en.invokeFactory('GeographicNameLite', id=nameID)
+    'batlas-65-7-3-n1'
+    >>> en_name = getattr(en, nameID)
+    >>> en_name.setIdentifier('batlas-65-7-3-n1')
+    >>> en_name.getIdentifier()
+    'batlas-65-7-3-n1'
+        
+    >>> en_name.setTitle('Agathe Kome')
+    >>> en_name.Title()
+    'Agathe Kome'
     

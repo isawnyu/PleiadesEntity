@@ -12,34 +12,56 @@
     >>> en.getIdentifier()
     'batlas-65-2-22'
     
-
-    >>> en.setModernLocation(u'Dinar')
-    >>> en.getModernLocation()
-    'Dinar'
+    >>> sourcetext = u'Dinar'
+    >>> sourcetext_utf8 = sourcetext.encode('utf8')
+    >>> en.setModernLocation(sourcetext_utf8)
+    >>> resulttext_utf8 = en.getModernLocation()
+    >>> resulttext_utf8 == sourcetext_utf8
+    True
+    >>> resulttext = unicode(resulttext_utf8, 'utf8')
+    >>> resulttext == sourcetext
+    True
+    >>> resulttext == u'Dinar'
+    True
     
-
-    >>> en.setTimePeriods(['Classical', 'Hellenistic (Roman Republic)', 'Roman', 'Late Antique'])
-    >>> en.getTimePeriods()
-    ('Classical', 'Hellenistic (Roman Republic)', 'Roman', 'Late Antique')
-        
-
-
-
-
+    >>> sourcelist = ['Classical', 'Hellenistic (Roman Republic)', 'Roman', 'Late Antique']
+    >>> en.setTimePeriods(sourcelist)
+    >>> results = en.getTimePeriods()
+    
+    >>> results[0] == 'Classical'
+    True
+    
+    >>> results[1] == 'Hellenistic (Roman Republic)'
+    True
+    
+    >>> results[2] == 'Roman'
+    True
+    
+    >>> results[3] == 'Late Antique'
+    True
+    
     >>> en.setGeoEntityType('settlement')
     >>> en.getGeoEntityType()
     'settlement'
-
-    >>> en.setSecondaryReferences(['BAtlas 65 D1 Apamea/Kelainai/Kibotos', 'RE 6', 'TIB Phrygien 188-89', 'Cohen1995,281-85', 'NPauly Kelainai'])
-    >>> en.getSecondaryReferences()
-    ('BAtlas 65 D1 Apamea/Kelainai/Kibotos', 'RE 6', 'TIB Phrygien 188-89', 'Cohen1995,281-85', 'NPauly Kelainai')
-        
-
-
-
-
-
-
+    >>> sourcelist = [u'BAtlas 65 D1 Apamea/Kelainai/Kibotos', u'RE 6', u'TIB Phrygien 188-89', u'Cohen 1995, 281-85', u'NPauly Kelainai']
+    >>> en.setSecondaryReferences(sourcelist)
+    >>> resultlist = en.getSecondaryReferences()
+    
+    >>> resultlist[0] == sourcelist[0].encode('utf8')
+    True
+    
+    >>> resultlist[1] == sourcelist[1].encode('utf8')
+    True
+    
+    >>> resultlist[2] == sourcelist[2].encode('utf8')
+    True
+    
+    >>> resultlist[3] == sourcelist[3].encode('utf8')
+    True
+    
+    >>> resultlist[4] == sourcelist[4].encode('utf8')
+    True
+    
     >>> en.setSpatialCoordinates('38.0709999999999 30.1660499999998 0.0')
     >>> en.getSpatialCoordinates()
     '38.0709999999999 30.1660499999998 0.0'        
@@ -47,8 +69,6 @@
     >>> en.getSpatialGeometryType()
     'point'        
     
-
-
     >>> nameID = 'batlas-65-2-22-n1'
     >>> en.invokeFactory('GeographicNameLite', id=nameID)
     'batlas-65-2-22-n1'
@@ -61,16 +81,19 @@
     >>> en_name.Title()
     'Apamea'
     
-
-
-    >>> en.setTimePeriods(['Hellenistic (Roman Republic)', 'Roman', 'Late Antique'])
-    >>> en.getTimePeriods()
-    ('Hellenistic (Roman Republic)', 'Roman', 'Late Antique')
-        
-
-
-
-
+    >>> sourcelist = ['Hellenistic (Roman Republic)', 'Roman', 'Late Antique']
+    >>> en.setTimePeriods(sourcelist)
+    >>> results = en.getTimePeriods()
+    
+    >>> results[0] == 'Hellenistic (Roman Republic)'
+    True
+    
+    >>> results[1] == 'Roman'
+    True
+    
+    >>> results[2] == 'Late Antique'
+    True
+    
     >>> nameID = 'batlas-65-2-22-n2'
     >>> en.invokeFactory('GeographicNameLite', id=nameID)
     'batlas-65-2-22-n2'
@@ -83,17 +106,22 @@
     >>> en_name.Title()
     'Kelainai'
     
-
-
-    >>> en.setTimePeriods(['Classical', 'Hellenistic (Roman Republic)', 'Roman', 'Late Antique'])
-    >>> en.getTimePeriods()
-    ('Classical', 'Hellenistic (Roman Republic)', 'Roman', 'Late Antique')
-        
-
-
-
-
-
+    >>> sourcelist = ['Classical', 'Hellenistic (Roman Republic)', 'Roman', 'Late Antique']
+    >>> en.setTimePeriods(sourcelist)
+    >>> results = en.getTimePeriods()
+    
+    >>> results[0] == 'Classical'
+    True
+    
+    >>> results[1] == 'Hellenistic (Roman Republic)'
+    True
+    
+    >>> results[2] == 'Roman'
+    True
+    
+    >>> results[3] == 'Late Antique'
+    True
+    
     >>> nameID = 'batlas-65-2-22-n3'
     >>> en.invokeFactory('GeographicNameLite', id=nameID)
     'batlas-65-2-22-n3'
@@ -106,10 +134,10 @@
     >>> en_name.Title()
     'Kibotos'
     
-
-
-    >>> en.setTimePeriods(['Roman'])
-    >>> en.getTimePeriods()
-    ('Roman',)
-        
-
+    >>> sourcelist = ['Roman']
+    >>> en.setTimePeriods(sourcelist)
+    >>> results = en.getTimePeriods()
+    
+    >>> results[0] == 'Roman'
+    True
+    
