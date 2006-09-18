@@ -37,19 +37,32 @@
     </xsl:template>
     
     <xsl:template match="gaz:modernLocation">
-    &gt;&gt;&gt; en.setModernLocation(u'<xsl:apply-templates />')
-    >>> en.getModernLocation()
-    '<xsl:apply-templates />'
+    &gt;&gt;&gt; sourcetext = u'<xsl:apply-templates/>'
+    &gt;&gt;&gt; sourcetext_utf8 = sourcetext.encode('utf8')
+    &gt;&gt;&gt; en.setModernLocation(sourcetext_utf8)
+    &gt;&gt;&gt; resulttext_utf8 = en.getModernLocation()
+    &gt;&gt;&gt; resulttext_utf8 == sourcetext_utf8
+    True
+    &gt;&gt;&gt; resulttext = unicode(resulttext_utf8, 'utf8')
+    &gt;&gt;&gt; resulttext == sourcetext
+    True
+    &gt;&gt;&gt; resulttext == u'<xsl:apply-templates/>'
+    True
     </xsl:template>
     
     <xsl:template match="gaz:timePeriod">
         <xsl:if test="count(preceding-sibling::gaz:timePeriod) = 0">
             <xsl:variable name="timestring"><xsl:for-each select="../gaz:timePeriod">'<xsl:value-of select="normalize-space(gaz:timePeriodName)"/>'<xsl:if test="count(following-sibling::gaz:timePeriod) &gt; 0">, </xsl:if></xsl:for-each></xsl:variable>
-    &gt;&gt;&gt; en.setTimePeriods([<xsl:value-of select="$timestring"/>])
-    &gt;&gt;&gt; en.getTimePeriods()
-    (<xsl:value-of select="$timestring"/><xsl:if test="count(../gaz:timePeriod) = 1">,</xsl:if>)
-        </xsl:if>
+    &gt;&gt;&gt; sourcelist = [<xsl:value-of select="$timestring"/>]
+    &gt;&gt;&gt; en.setTimePeriods(sourcelist)
+    &gt;&gt;&gt; results = en.getTimePeriods()
+    <xsl:for-each select="../gaz:timePeriod">
+    &gt;&gt;&gt; results[<xsl:value-of select="count(preceding-sibling::gaz:timePeriod)"/>] == '<xsl:value-of select="normalize-space(gaz:timePeriodName)"/>'
+    True
+    </xsl:for-each>
+            </xsl:if>
     </xsl:template>
+    
     <!-- note: handling name classification is currently disabled b/c the content type doesn't support it -->
     <xsl:template match="gaz:classificationSection">
         <xsl:if test="local-name(..) != 'name'">
@@ -67,9 +80,13 @@
     <xsl:template match="tei:bibl">
         <xsl:if test="count(preceding-sibling::tei:bibl) = 0">
             <xsl:variable name="biblstring"><xsl:for-each select="../tei:bibl">u'<xsl:apply-templates/>'<xsl:if test="count(following-sibling::tei:bibl) &gt; 0">, </xsl:if></xsl:for-each></xsl:variable>
-    &gt;&gt;&gt; en.setSecondaryReferences([<xsl:value-of select="$biblstring"/>])
-    &gt;&gt;&gt; en.getSecondaryReferences()
-    (<xsl:value-of select="$biblstring"/>)
+    &gt;&gt;&gt; sourcelist = [<xsl:value-of select="$biblstring"/>]
+    &gt;&gt;&gt; en.setSecondaryReferences(sourcelist)
+    &gt;&gt;&gt; resultlist = en.getSecondaryReferences()
+    <xsl:for-each select="../tei:bibl">
+    &gt;&gt;&gt; resultlist[<xsl:value-of select="count(preceding-sibling::tei:bibl)"/>] == sourcelist[<xsl:value-of select="count(preceding-sibling::tei:bibl)"/>].encode('utf8')
+    True
+    </xsl:for-each>
         </xsl:if>
     </xsl:template>
     
@@ -99,15 +116,24 @@
     </xsl:template>
     
     <xsl:template match="gaz:nameString">
-    &gt;&gt;&gt; en_name.setNameAttested(u'<xsl:apply-templates />')
-    &gt;&gt;&gt; en_name.getNameAttested()
-    u'<xsl:apply-templates />'
+    &gt;&gt;&gt; sourcetext = u'<xsl:apply-templates/>'
+    &gt;&gt;&gt; sourcetext_utf8 = sourcetext.encode('utf8')
+    &gt;&gt;&gt; en_name.setNameAttested(sourcetext_utf8)
+    &gt;&gt;&gt; resulttext_utf8 = en_name.getNameAttested()
+    &gt;&gt;&gt; resulttext_utf8 == sourcetext_utf8
+    True
+    &gt;&gt;&gt; resulttext = unicode(resulttext_utf8, 'utf8')
+    &gt;&gt;&gt; resulttext == sourcetext
+    True
+    &gt;&gt;&gt; resulttext == u'<xsl:apply-templates/>'
+    True
+        
         <xsl:variable name="language"><xsl:call-template name="getlangstring"><xsl:with-param name="langcode"><xsl:value-of select="@xml:lang"/></xsl:with-param></xsl:call-template></xsl:variable>
     &gt;&gt;&gt; en_name.setNameLanguage('<xsl:value-of select="normalize-space($language)"/>')
     &gt;&gt;&gt; en_name.getNameLanguage()
     <xsl:choose>
     <xsl:when test="contains($language, 'unknown')">''</xsl:when>
-    <xsl:otherwise>'<xsl:value-of select="normalize-space($language)"/></xsl:otherwise>
+    <xsl:otherwise>'<xsl:value-of select="normalize-space($language)"/>'</xsl:otherwise>
     </xsl:choose>
     </xsl:template>
     
@@ -124,13 +150,17 @@
     </xsl:template>
     
     <xsl:template match="text()">
-        <xsl:variable name="normedtext"><xsl:value-of select="."/></xsl:variable>
+        <xsl:variable name="normedtext"><xsl:value-of select="normalize-space(.)"/></xsl:variable>
   <xsl:for-each select="string-to-codepoints($normedtext)">
-    <xsl:choose>
-        <xsl:when test=". = 160"> </xsl:when>  <!-- get rid of non-breaking spaces -->
-      <xsl:when test=". > 127">\x<xsl:call-template name="toHex"><xsl:with-param name="decimalNumber"><xsl:value-of select="."/></xsl:with-param></xsl:call-template></xsl:when>
-        <xsl:otherwise><xsl:value-of select="codepoints-to-string(.)"/></xsl:otherwise>
-    </xsl:choose>
+        <xsl:choose>
+            <xsl:when test=". &lt; 128"><xsl:value-of select="codepoints-to-string(.)"/></xsl:when>
+            <xsl:when test=". = 160"><xsl:text> </xsl:text></xsl:when>  <!-- get rid of non-breaking spaces -->
+            <xsl:otherwise>
+                <xsl:call-template name="genpythouniesc">
+                    <xsl:with-param name="codepoint-decimal"><xsl:value-of select="."/></xsl:with-param>
+                </xsl:call-template>
+            </xsl:otherwise>
+        </xsl:choose>
   </xsl:for-each>
     </xsl:template>
     
@@ -145,19 +175,29 @@
         </xsl:choose>
     </xsl:template>
     
+    <xsl:template name="genpythouniesc">
+        <xsl:param name="codepoint-decimal"/>
+        <xsl:variable name="codepoint-hex">
+            <xsl:call-template name="toHex">
+                <xsl:with-param name="decimalNumber"><xsl:value-of select="$codepoint-decimal"/></xsl:with-param>
+            </xsl:call-template>
+        </xsl:variable>
+        <xsl:variable name="hexlen"><xsl:value-of select="string-length(string($codepoint-hex))"/></xsl:variable>
+        <xsl:text>\U</xsl:text><xsl:value-of select="concat(substring('00000000', 1, 8-$hexlen), string($codepoint-hex))"/>
+    </xsl:template>
     <!-- The toHex template was written by Peter Doggett. 
           This copy was obtained from http://www.mhonarc.org/archive/html/xsl-list/2003-03/msg01227.html
-          on 14 September 2006 -->
+          on 14 September 2006  -->
     <xsl:variable name="hexDigits" select="'0123456789ABCDEF'" />
         <xsl:template name="toHex">
-        <xsl:param name="decimalNumber" />
-        <xsl:if test="$decimalNumber >= 16">
-          <xsl:call-template name="toHex">
-            <xsl:with-param name="decimalNumber" 
-        select="floor($decimalNumber div 16)" />
-          </xsl:call-template>
-        </xsl:if>
-        <xsl:value-of select="substring($hexDigits, 
-        ($decimalNumber mod 16) + 1, 1)" />
+            <xsl:param name="decimalNumber" />
+            <xsl:if test="$decimalNumber >= 16">
+              <xsl:call-template name="toHex">
+                <xsl:with-param name="decimalNumber" 
+            select="floor($decimalNumber div 16)" />
+              </xsl:call-template>
+            </xsl:if>
+            <xsl:value-of select="substring($hexDigits, 
+            ($decimalNumber mod 16) + 1, 1)" />
         </xsl:template>
 </xsl:stylesheet>
