@@ -97,13 +97,17 @@ def load_entity(plonefolder, source):
     
     en.setSecondaryReferences(ge.secondaryReferences)
     
-    en.setDescription(ge.description)
+    en.setDescription(ge.description.encode('utf8'))
     
-    coords = ge.spatialLocations[0][1].replace(',', ' ')
-    values = [v for v in coords.split()]
-    if len(values) == 2:
-        values.append('0.0')
-    en.setSpatialCoordinates(' '.join(values))
+    try:
+        coords = ge.spatialLocations[0][1].replace(',', ' ')
+    except:
+        pass
+    else:
+        values = [v for v in coords.split()]
+        if len(values) == 2:
+            values.append('0.0')
+        en.setSpatialCoordinates(' '.join(values))
     
     # add any names as children of the entity
     for i, name in enumerate(ge.names):

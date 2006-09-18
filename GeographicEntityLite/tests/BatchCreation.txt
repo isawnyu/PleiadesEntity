@@ -20,160 +20,26 @@ Utility test
     >>> format_listofstrings(['x', 'y', 'z'])
     u'x, y, and z'
     
-Load a single entity
+Test loading
+    >>> import glob
     >>> import os
     >>> source_dir = os.path.sep.join([os.environ['SOFTWARE_HOME'], 'Products', 'GeographicEntityLite', 'tests', 'data'])
     >>> from Products.GeographicEntityLite.Extensions.batching import load_entity
-    >>> source = "%s/batlas-65-2-24.xml" % (source_dir)
-    >>> load_entity(folder, source)
-
-Check count of created entities
-    >>> entities = folder.listFolderContents()
-    >>> len(entities)
-    1
-
-Get entity reference for further testing
-    >>> en = entities[0]
-    
-Verify the id is properly set
-    >>> en.getId()
-    'batlas-65-2-24'
-
-Verify the title is properly set 
-    >>> en.Title()
-    'Aphrodisias/Ninoe'
-
-Verify the description is properly set
-    >>> en.Description()
-    'An ancient settlement, attested from the Classical through the Late Antique periods (modern location: Geyre). It was known in antiquity by the name(s): Aphrodisias and Ninoe.'
-    
-Verify the identifier field is properly set
-    >>> en.getIdentifier()
-    'batlas-65-2-24'
-    
-Verify the entity type is properly set
-    >>> en.getGeoEntityType()
-    'settlement'
-
-Verify the modern location is properly set
-    >>> en.getModernLocation()
-    'Geyre'
-
-Verify the time period(s) are properly set
-    >>> en.getTimePeriods()
-    ('Classical', 'Roman', 'Late Antique')
-
-Verify the secondary reference(s) are properly set
-    >>> en.getSecondaryReferences()
-    ('BAtlas 65 A2 Aphrodisias/Ninoe', 'RE 2', 'NPauly 1', 'RE')
-
-Verify the spatial coordinates are properly set
-    >>> en.getSpatialCoordinates()
-    '37.7144599999992 28.7288599999993 0.0'
-
-Verify the spatial geometry type is properly set
-    >>> en.getSpatialGeometryType()
-    'point'
-    
-Check count of names
-    >>> names = en.listFolderContents()
-    >>> len(names)
-    2
-    
-Get reference to the first name for further testing
-    >>> nm0 = names[0]
-
-Verify the id is properly set
-    >>> nm0.getId()
-    'batlas-65-2-24-n1'
-    
-Verify the title is properly set
-    >>> nm0.Title()
-    'Aphrodisias'
-    
-Verify the description is properly set
-    >>> nm0.Description()
-    'No description'
-    
-Verify the identifier is properly set
-    >>> nm0.getIdentifier()
-    'batlas-65-2-24-n1'
-    
-Verify the attested name is properly set
-    >>> nm0.getNameAttested()
-    ''
-
-Verify the name language is properly set
-    >>> nm0.getNameLanguage()
-    ''
-
-Verify the time period(s) for this name are properly set
-    >>> nm0.getTimePeriods()
-    ('Roman', 'Late Antique')
-    
-Verify the primary references for this name are properly set
-    >>> nm0.getPrimaryReferences()
-    ()
-    
-Verify the secondary references for this name properly set
-    >>> nm0.getSecondaryReferences()
-    ('RE 2', 'NPauly 1')
-    
-Do the same things for the second name
-    >>> nm1 = names[1]
-
-    >>> nm1.getId()
-    'batlas-65-2-24-n2'
-    
-    >>> nm1.Title()
-    'Ninoe'
-    
-    >>> nm1.Description()
-    'No description'
-    
-    >>> nm1.getIdentifier()
-    'batlas-65-2-24-n2'
-    
-    >>> nm1.getNameAttested()
-    ''
-    
-    >>> nm1.getNameLanguage()
-    ''
-
-    >>> nm1.getTimePeriods()
-    ('Classical',)
-    
-    >>> nm1.getPrimaryReferences()
-    ()
-    
-    >>> nm1.getSecondaryReferences()
-    ('RE',)
-
-Delete the entity and check for result
-    >>> folder.manage_delObjects(['batlas-65-2-24'])
-    >>> entities = folder.listFolderContents()
-    >>> len(entities)
-    0
+    >>> source = "%s/batlas-65-2-24-grc.xml" % (source_dir)
 
 Load a whole batch of entities
     >>> from Products.GeographicEntityLite.Extensions.batching import loaden
     >>> loaden(folder, source_dir)
-    'Loaded 7 of 8 files. Failures:\nbatlas-99-9-99.xml\n'
+    'Loaded 14 of 15 files. Failures:\nbatlas-99-9-99.xml\n'
 
 Check count of created entities
     >>> entities = folder.listFolderContents()
     >>> len(entities)
-    7
+    14
     
 Check ids of created entities
     >>> en_ids = []
-    >>> en_ids.append(entities[0].getId())
-    >>> en_ids.append(entities[1].getId())
-    >>> en_ids.append(entities[2].getId())
-    >>> en_ids.append(entities[3].getId())
-    >>> en_ids.append(entities[4].getId())
-    >>> en_ids.append(entities[5].getId())
-    >>> en_ids.append(entities[6].getId())
+    >>> for entity in entities: en_ids.append(entity.getId())
     >>> 'batlas-65-2-3' in en_ids
     True
     >>> 'batlas-65-2-4' in en_ids
@@ -188,5 +54,20 @@ Check ids of created entities
     True
     >>> 'batlas-65-2-24' in en_ids
     True
-
+    >>> 'batlas-65-2-24-grc' in en_ids
+    True
+    >>> 'batlas-65-4-3' in en_ids
+    True
+    >>> 'batlas-65-4-9' in en_ids
+    True
+    >>> 'batlas-65-7-3' in en_ids
+    True
+    >>> 'batlas-65-7-56' in en_ids
+    True
+    >>> 'batlas-65-7-59' in en_ids
+    True
+    >>> 'batlas-65-8-3' in en_ids
+    True
+    >>> 'batlas-99-9-99' in en_ids
+    False
 
