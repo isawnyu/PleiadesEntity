@@ -181,7 +181,7 @@ Enter the historical names and their constituent attributes
     ()
 
 Re-set the entity title on the basis of the historical names
-    >>> from Products.GeographicEntityLite.cooking import setGeoTitleFromNames
+    >>> from Products.GeographicEntityLite.Extensions.cooking import setGeoTitleFromNames
     >>> setGeoTitleFromNames(en) 
     'Ryland Mill/Ryland Gin'
     >>> en.Title()

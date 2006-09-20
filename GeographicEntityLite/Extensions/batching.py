@@ -37,7 +37,7 @@ import re
 from os.path import basename
 
 from Products.GeographicEntityLite.Extensions.xmlutil import *
-from Products.GeographicEntityLite.cooking import *
+from Products.GeographicEntityLite.Extensions.cooking import *
 
 def format_listofstrings(list):
     """convert ['x', 'y', 'z'] to u'x, y, and z'"""
