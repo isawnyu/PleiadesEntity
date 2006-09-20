@@ -82,9 +82,8 @@ def initialize(context):
     ##/code-section custom-init-top
 
     # imports packages and types for registration
+    import content
 
-    import GeographicEntityLite
-    import GeographicNameLite
 
     # Initialize portal content
     content_types, constructors, ftis = process_types(

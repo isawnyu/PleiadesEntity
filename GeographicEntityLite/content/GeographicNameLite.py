@@ -41,7 +41,6 @@ from Products.Archetypes.atapi import *
 from Products.GeographicEntityLite.config import *
 
 ##code-section module-header #fill in your manual code here
-from Products.GeographicEntityLite.cooking import *
 ##/code-section module-header
 
 schema = Schema((
@@ -57,19 +56,28 @@ schema = Schema((
     ),
 
     StringField(
-        name='geoEntityType',
+        name='geoNameType',
         widget=StringWidget(
-            label="Entity Type",
-            label_msgid='GeographicEntityLite_label_geoEntityType',
+            label="Name Type",
+            label_msgid='GeographicEntityLite_label_geoNameType',
             i18n_domain='GeographicEntityLite',
         )
     ),
 
-    TextField(
-        name='modernLocation',
-        widget=TextAreaWidget(
-            label="Modern Name / Location",
-            label_msgid='GeographicEntityLite_label_modernLocation',
+    StringField(
+        name='nameAttested',
+        widget=StringWidget(
+            label="Name as Attested",
+            label_msgid='GeographicEntityLite_label_nameAttested',
+            i18n_domain='GeographicEntityLite',
+        )
+    ),
+
+    StringField(
+        name='nameLanguage',
+        widget=StringWidget(
+            label="Language and Writing System of Attested Name",
+            label_msgid='GeographicEntityLite_label_nameLanguage',
             i18n_domain='GeographicEntityLite',
         )
     ),
@@ -84,29 +92,19 @@ schema = Schema((
     ),
 
     LinesField(
+        name='primaryReferences',
+        widget=LinesWidget(
+            label="Primary References",
+            label_msgid='GeographicEntityLite_label_primaryReferences',
+            i18n_domain='GeographicEntityLite',
+        )
+    ),
+
+    LinesField(
         name='secondaryReferences',
         widget=LinesWidget(
             label="Secondary References",
             label_msgid='GeographicEntityLite_label_secondaryReferences',
-            i18n_domain='GeographicEntityLite',
-        )
-    ),
-
-    StringField(
-        name='spatialCoordinates',
-        widget=StringWidget(
-            label="Spatial Coordinates",
-            label_msgid='GeographicEntityLite_label_spatialCoordinates',
-            i18n_domain='GeographicEntityLite',
-        )
-    ),
-
-    StringField(
-        name='spatialGeometryType',
-        default="point",
-        widget=StringWidget(
-            label="Spatial Geometry Type",
-            label_msgid='GeographicEntityLite_label_spatialGeometryType',
             i18n_domain='GeographicEntityLite',
         )
     ),
@@ -117,56 +115,44 @@ schema = Schema((
 ##code-section after-local-schema #fill in your manual code here
 ##/code-section after-local-schema
 
-GeographicEntityLite_schema = BaseFolderSchema.copy() + \
+GeographicNameLite_schema = BaseSchema.copy() + \
     schema.copy()
 
 ##code-section after-schema #fill in your manual code here
 ##/code-section after-schema
 
-class GeographicEntityLite(BaseFolder):
+class GeographicNameLite(BaseContent):
     """
     """
     security = ClassSecurityInfo()
-    __implements__ = (getattr(BaseFolder,'__implements__',()),)
+    __implements__ = (getattr(BaseContent,'__implements__',()),)
 
     # This name appears in the 'add' box
-    archetype_name = 'Geographic Entity (Lite)'
+    archetype_name = 'Geographic Name (Lite)'
 
-    meta_type = 'GeographicEntityLite'
-    portal_type = 'GeographicEntityLite'
-    allowed_content_types = ['GeographicNameLite']
-    filter_content_types = 1
-    global_allow = 1
-    content_icon = 'geoelite_icon.gif'
+    meta_type = 'GeographicNameLite'
+    portal_type = 'GeographicNameLite'
+    allowed_content_types = []
+    filter_content_types = 0
+    global_allow = 0
+    content_icon = 'geonlite_icon.gif'
     immediate_view = 'base_view'
     default_view = 'base_view'
     suppl_views = ()
-    typeDescription = "A simple content type for storing information about geographic entities (features)."
-    typeDescMsgId = 'description_edit_geographicentitylite'
+    typeDescription = "A simple content type for storing information about geographic names as they apply to simple geographic entities (features)."
+    typeDescMsgId = 'description_edit_geographicnamelite'
 
     _at_rename_after_creation = False
 
-    schema = GeographicEntityLite_schema
+    schema = GeographicNameLite_schema
 
     ##code-section class-header #fill in your manual code here
     ##/code-section class-header
 
     # Methods
 
-    # Manually created methods
-
-    security.declarePrivate('at_post_edit_script')
-    def at_post_edit_script(self):
-        newID = setIDFromTitle(self)
-
-    security.declarePrivate('at_post_create_script')
-    def at_post_create_script(self):
-        self.at_post_edit_script()
-
-
-
-registerType(GeographicEntityLite, PROJECTNAME)
-# end of class GeographicEntityLite
+registerType(GeographicNameLite, PROJECTNAME)
+# end of class GeographicNameLite
 
 ##code-section module-footer #fill in your manual code here
 ##/code-section module-footer

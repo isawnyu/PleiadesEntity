@@ -10,7 +10,7 @@
     />
 
   <five:implements
-    class=".GeographicEntityLite.GeographicEntityLite"
+    class=".content.GeographicEntityLite.GeographicEntityLite"
     interface=".interfaces.IGeoEntityLite"
     />
 
