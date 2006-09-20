@@ -12,7 +12,7 @@
     >>> en.getIdentifier()
     'batlas-65-2-3'
     
-    >>> sourcetext = u'xml:langtkA\U0000011Fva'
+    >>> sourcetext = u'A\U0000011Fva'
     >>> sourcetext_utf8 = sourcetext.encode('utf8')
     >>> en.setModernLocation(sourcetext_utf8)
     >>> resulttext_utf8 = en.getModernLocation()
@@ -21,7 +21,7 @@
     >>> resulttext = unicode(resulttext_utf8, 'utf8')
     >>> resulttext == sourcetext
     True
-    >>> resulttext == u'xml:langtkA\U0000011Fva'
+    >>> resulttext == u'A\U0000011Fva'
     True
     
     >>> sourcelist = ['Classical', 'Hellenistic (Roman Republic)']

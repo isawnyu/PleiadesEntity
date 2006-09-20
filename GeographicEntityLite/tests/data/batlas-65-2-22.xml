@@ -1,4 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+     ===========================================================================
+     Copyright (C) 2006 Ancient World Mapping Center 
+            
+     This data is derived from compilations prepared for the American Philological
+     Association's Classical Atlas Project (1988-2000). 
+     
+     It is intended solely for testing purposes in the context of the Ancient World
+     Mapping Center's Pleiades Project and may not be reused or redistributed. 
+            
+     In its current state, it may contain errors and ommissions and is not appropriate
+     for citation or scholarly use. Any errors or ommissions are the result of 
+     prototype conversion software, still under development by the AWMC's Pleiades
+     Project, and do not reflect the quality and completeness of the original data
+     nor the opinions of its scholarly compilers and editors. 
+     
+     About Pleiades
+    
+     Pleiades is an international research network and associated web portal and
+     content management system devoted to the study of ancient geography. 
+    
+     See http://icon.stoa.org/trac/pleiades/wiki.
+    
+     Funding for the conversion of this data was provided by a grant from the 
+     U.S. National Endowment for the Humanities (http://www.neh.gov).
+     ===========================================================================
+        -->
 <geoEntity xmlns="http://www.unc.edu/awmc/gazetteer/schemata/ns/0.3"><ID>batlas-65-2-22</ID>
 <modernLocation>Dinar</modernLocation>
 <timePeriod><timePeriodName>Classical</timePeriodName>
