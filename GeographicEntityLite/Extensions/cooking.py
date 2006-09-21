@@ -12,7 +12,7 @@ def cookZopeID(rawID):
     cookedID = cookedID.encode('ascii', 'ignore')
     return cookedID
     
-def setIDFromTitle(obj):
+def setIdFromTitle(obj):
     
     # get the oldID, to prevent needless thrashing later
     oldID = obj.getId()

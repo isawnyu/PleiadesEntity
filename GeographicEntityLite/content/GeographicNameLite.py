@@ -40,13 +40,19 @@ from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
 from Products.GeographicEntityLite.config import *
 
-##code-section module-header #fill in your manual code here
+# additional imports from tagged value 'import'
 from Products.GeographicEntityLite.Extensions.cooking import *
+
+##code-section module-header #fill in your manual code here
 ##/code-section module-header
 
+copied_fields = {}
+copied_fields['title'] = BaseSchema['title'].copy()
+copied_fields['title'].widget.label = "Transliterated Name"
 schema = Schema((
 
-    StringField(
+    copied_fields['title'],
+        StringField(
         name='identifier',
         widget=StringWidget(
             label="Identifier",
@@ -148,18 +154,25 @@ class GeographicNameLite(BaseContent):
     schema = GeographicNameLite_schema
 
     ##code-section class-header #fill in your manual code here
-    schema['title'].widget.label = 'Transliterated Name'
     ##/code-section class-header
 
     # Methods
-    security.declarePrivate('at_post_edit_script')
-    def at_post_edit_script(self):
-        newID = setIDFromTitle(self)
-        
+
     security.declarePrivate('at_post_create_script')
     def at_post_create_script(self):
-        self.at_post_edit_script()
-        
+        """
+        """
+
+        newID=setIdFromTitle(self)
+
+    security.declarePrivate('at_post_edit_script')
+    def at_post_edit_script(self):
+        """
+        """
+
+        self.at_post_create_script()
+
+
 registerType(GeographicNameLite, PROJECTNAME)
 # end of class GeographicNameLite
 
