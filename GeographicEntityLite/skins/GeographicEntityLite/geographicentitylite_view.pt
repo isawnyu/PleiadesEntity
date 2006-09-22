@@ -33,7 +33,7 @@
                                    tal:define="fl_macro here/folder_listing/macros/listing | nothing;
                                                folderish here/isPrincipiaFolderish | nothing;">
             <tal:if_folderlisting condition="python:folderish and fl_macro">
-                <h3>Historical Names:</h3>
+                <h2>Historical Names</h2>
                 <metal:use_macro use-macro="fl_macro" />
             </tal:if_folderlisting>
         </metal:folderlisting_macro>
