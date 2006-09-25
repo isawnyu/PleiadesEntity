@@ -1,7 +1,7 @@
 # ===========================================================================
 # Copyright (c) 2006 by Ancient World Mapping Center, University of North
 # Carolina at Chapel Hill, U.S.A.
-
+#
 # Generator: ArchGenXML Version 1.5.0
 #            http://plone.org/products/archgenxml
 #
@@ -159,14 +159,14 @@ class GeographicEntityLite(BaseFolder):
     def at_post_create_script(self):
         """
         """
-        
+
         newID = setIdFromTitle(self)
 
     security.declarePrivate('at_post_edit_script')
     def at_post_edit_script(self):
         """
         """
-        
+
         self.at_post_create_script()
 
 

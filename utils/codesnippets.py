@@ -148,7 +148,7 @@ IMPORT_INTERFACE = """from Interface import Base"""
 MODULE_INFO_HEADER = '''\
 # ===========================================================================
 # %(copyright)s
-
+#
 %(date)s# Generator: ArchGenXML %(version)s
 #            http://plone.org/products/archgenxml
 #
