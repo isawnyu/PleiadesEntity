@@ -1,20 +1,28 @@
 
     >>> folder = self.folder
         
+    >>> import os
+     >>> source_dir = os.path.sep.join([os.environ['SOFTWARE_HOME'], 'Products', 'GeographicEntityLite', 'tests', 'data', 'batlas-65-2-22.xml'])
+    >>> from Products.GeographicEntityLite.Extensions.batching import load_entity        
+    >>> load_entity(folder, source_dir)
     >>> enID = 'batlas-65-2-22'
-    >>> folder.invokeFactory('GeographicEntityLite', id=enID)
-    'batlas-65-2-22'
     >>> en = getattr(folder, enID)
-    >>> en.setTitle(enID)
-    >>> en.Title()
-    'batlas-65-2-22'
-    >>> en.setIdentifier(enID)
     >>> en.getIdentifier()
     'batlas-65-2-22'
     
+    >>> finalTitle = en.Title()
+     
+    >>> soughtFinalTitle = u'Apamea/Kelainai/Kibotos'
+    >>> soughtFinalTitle_utf8 = soughtFinalTitle.encode('utf8')
+    >>> finalTitle == soughtFinalTitle_utf8
+    True
+    >>> finalTitle = en.Title()
+    >>> finalTitle == soughtFinalTitle_utf8
+    True
+
+    
     >>> sourcetext = u'Dinar'
     >>> sourcetext_utf8 = sourcetext.encode('utf8')
-    >>> en.setModernLocation(sourcetext_utf8)
     >>> resulttext_utf8 = en.getModernLocation()
     >>> resulttext_utf8 == sourcetext_utf8
     True
@@ -25,7 +33,6 @@
     True
     
     >>> sourcelist = ['Classical', 'Hellenistic (Roman Republic)', 'Roman', 'Late Antique']
-    >>> en.setTimePeriods(sourcelist)
     >>> results = en.getTimePeriods()
     
     >>> results[0] == 'Classical'
@@ -40,12 +47,10 @@
     >>> results[3] == 'Late Antique'
     True
     
-    >>> en.setGeoEntityType('settlement')
     >>> en.getGeoEntityType()
     'settlement'
     
     >>> sourcelist = [u'BAtlas 65 D1 Apamea/Kelainai/Kibotos', u'RE 6', u'TIB Phrygien 188-89', u'Cohen 1995, 281-85', u'NPauly Kelainai']
-    >>> en.setSecondaryReferences(sourcelist)
     >>> resultlist = en.getSecondaryReferences()
     
     >>> resultlist[0] == sourcelist[0].encode('utf8')
@@ -63,32 +68,24 @@
     >>> resultlist[4] == sourcelist[4].encode('utf8')
     True
     
-    >>> en.setSpatialCoordinates('38.0709999999999 30.1660499999998 0.0')
     >>> en.getSpatialCoordinates()
     '38.0709999999999 30.1660499999998 0.0'        
-    >>> en.setSpatialGeometryType('point')
     >>> en.getSpatialGeometryType()
     'point'        
     
     >>> nameID = 'batlas-65-2-22-n1'
-    >>> en.invokeFactory('GeographicNameLite', id=nameID)
-    'batlas-65-2-22-n1'
     >>> en_name = getattr(en, nameID)
-    >>> en_name.setIdentifier('batlas-65-2-22-n1')
     >>> en_name.getIdentifier()
     'batlas-65-2-22-n1'
         
-    >>> en_name.setTitle('Apamea')
     >>> en_name.Title()
     'Apamea'
     
-    >>> en_name.setGeoNameType('geographic')
     >>> en_name.getGeoNameType()
     'geographic'
     
     >>> sourcelist = ['Hellenistic (Roman Republic)', 'Roman', 'Late Antique']
-    >>> en.setTimePeriods(sourcelist)
-    >>> results = en.getTimePeriods()
+    >>> results = en_name.getTimePeriods()
     
     >>> results[0] == 'Hellenistic (Roman Republic)'
     True
@@ -100,24 +97,18 @@
     True
     
     >>> nameID = 'batlas-65-2-22-n2'
-    >>> en.invokeFactory('GeographicNameLite', id=nameID)
-    'batlas-65-2-22-n2'
     >>> en_name = getattr(en, nameID)
-    >>> en_name.setIdentifier('batlas-65-2-22-n2')
     >>> en_name.getIdentifier()
     'batlas-65-2-22-n2'
         
-    >>> en_name.setTitle('Kelainai')
     >>> en_name.Title()
     'Kelainai'
     
-    >>> en_name.setGeoNameType('geographic')
     >>> en_name.getGeoNameType()
     'geographic'
     
     >>> sourcelist = ['Classical', 'Hellenistic (Roman Republic)', 'Roman', 'Late Antique']
-    >>> en.setTimePeriods(sourcelist)
-    >>> results = en.getTimePeriods()
+    >>> results = en_name.getTimePeriods()
     
     >>> results[0] == 'Classical'
     True
@@ -132,36 +123,19 @@
     True
     
     >>> nameID = 'batlas-65-2-22-n3'
-    >>> en.invokeFactory('GeographicNameLite', id=nameID)
-    'batlas-65-2-22-n3'
     >>> en_name = getattr(en, nameID)
-    >>> en_name.setIdentifier('batlas-65-2-22-n3')
     >>> en_name.getIdentifier()
     'batlas-65-2-22-n3'
         
-    >>> en_name.setTitle('Kibotos')
     >>> en_name.Title()
     'Kibotos'
     
-    >>> en_name.setGeoNameType('geographic')
     >>> en_name.getGeoNameType()
     'geographic'
     
     >>> sourcelist = ['Roman']
-    >>> en.setTimePeriods(sourcelist)
-    >>> results = en.getTimePeriods()
+    >>> results = en_name.getTimePeriods()
     
     >>> results[0] == 'Roman'
-    True
-    
-    >>> from Products.GeographicEntityLite.Extensions.cooking import setGeoTitleFromNames
-    >>> finalTitle = setGeoTitleFromNames(en)
-     
-    >>> soughtFinalTitle = u'Apamea/Kelainai/Kibotos'
-    >>> soughtFinalTitle_utf8 = soughtFinalTitle.encode('utf8')
-    >>> finalTitle == soughtFinalTitle_utf8
-    True
-    >>> finalTitle = en.Title()
-    >>> finalTitle == soughtFinalTitle_utf8
     True
     

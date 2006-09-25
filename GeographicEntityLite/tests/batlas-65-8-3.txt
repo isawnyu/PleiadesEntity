@@ -15,6 +15,7 @@
     >>> en.setGeoEntityType('false')
     >>> en.getGeoEntityType()
     'false'
+    
     >>> sourcelist = [u'BAtlas 65 false \U00002018Itoana\U00002019', u'Robert 1954, 353-55']
     >>> en.setSecondaryReferences(sourcelist)
     >>> resultlist = en.getSecondaryReferences()
@@ -36,4 +37,19 @@
     >>> en_name.setTitle('Itoana')
     >>> en_name.Title()
     'Itoana'
+    
+    >>> en_name.setGeoNameType('false')
+    >>> en_name.getGeoNameType()
+    'false'
+    
+    >>> from Products.GeographicEntityLite.Extensions.cooking import setGeoTitleFromNames
+    >>> finalTitle = setGeoTitleFromNames(en)
+     
+    >>> soughtFinalTitle = u'Itoana'
+    >>> soughtFinalTitle_utf8 = soughtFinalTitle.encode('utf8')
+    >>> finalTitle == soughtFinalTitle_utf8
+    True
+    >>> finalTitle = en.Title()
+    >>> finalTitle == soughtFinalTitle_utf8
+    True
     

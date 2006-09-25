@@ -1,0 +1,46 @@
+
+    >>> folder = self.folder
+        
+    >>> import os
+    >>> source_dir = os.path.sep.join([os.environ['SOFTWARE_HOME'], 'Products', 'GeographicEntityLite', 'tests', 'data', 'batlas-65-8-3.xml'])
+    >>> from Products.GeographicEntityLite.Extensions.batching import load_entity        
+    >>> load_entity(folder, source_dir)
+    >>> enID = 'batlas-65-8-3'
+    >>> en = getattr(folder, enID)
+    >>> en.getIdentifier()
+    'batlas-65-8-3'
+    
+    >>> finalTitle = en.Title()
+     
+    >>> soughtFinalTitle = u'Itoana'
+    >>> soughtFinalTitle_utf8 = soughtFinalTitle.encode('utf8')
+    >>> finalTitle == soughtFinalTitle_utf8
+    True
+    >>> finalTitle = en.Title()
+    >>> finalTitle == soughtFinalTitle_utf8
+    True
+
+    
+    >>> en.getGeoEntityType()
+    'false'
+    
+    >>> sourcelist = [u'BAtlas 65 false \U00002018Itoana\U00002019', u'Robert 1954, 353-55']
+    >>> resultlist = en.getSecondaryReferences()
+    
+    >>> resultlist[0] == sourcelist[0].encode('utf8')
+    True
+    
+    >>> resultlist[1] == sourcelist[1].encode('utf8')
+    True
+    
+    >>> nameID = 'batlas-65-8-3-n1'
+    >>> en_name = getattr(en, nameID)
+    >>> en_name.getIdentifier()
+    'batlas-65-8-3-n1'
+        
+    >>> en_name.Title()
+    'Itoana'
+    
+    >>> en_name.getGeoNameType()
+    'false'
+    

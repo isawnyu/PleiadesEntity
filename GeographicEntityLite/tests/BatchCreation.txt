@@ -20,6 +20,14 @@ Utility test
     >>> format_listofstrings(['x', 'y', 'z'])
     u'x, y, and z'
     
+    >>> from Products.GeographicEntityLite.Extensions.xmlutil import purifyText
+    >>> purifyText(u'aaa') == u'aaa'
+    True
+    >>> purifyText(u'abab') == u'abab'
+    True
+    >>> purifyText(u'Magie\U000000A01950,\U000000A0989') == u'Magie 1950, 989'
+    True
+    
 Test loading
     >>> import glob
     >>> import os

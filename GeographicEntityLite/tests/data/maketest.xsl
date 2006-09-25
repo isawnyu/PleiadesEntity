@@ -14,13 +14,17 @@
     <xsl:template match="gaz:geoEntity">
     &gt;&gt;&gt; folder = self.folder
         <xsl:apply-templates/>
-<!-- checking the title may prove complicated
-    &gt;&gt;&gt; from Products.GeographicEntityLite.cooking import setGeoTitleFromNames
-    &gt;&gt;&gt; setGeoTitleFromNames(en) 
-    'Amblada'
-    &gt;&gt;&gt; en.Title()
-    'Amblada'
-    -->    
+    <xsl:variable name="calculatedtitle"><xsl:call-template name="gencombinedtitle"/></xsl:variable>
+    &gt;&gt;&gt; from Products.GeographicEntityLite.Extensions.cooking import setGeoTitleFromNames
+    &gt;&gt;&gt; finalTitle = setGeoTitleFromNames(en)
+     <xsl:variable name="finaltitle"><xsl:call-template name="escapetext"><xsl:with-param name="thetext"><xsl:value-of select="$calculatedtitle"/></xsl:with-param></xsl:call-template></xsl:variable>
+    &gt;&gt;&gt; soughtFinalTitle = u'<xsl:value-of select="$finaltitle"/>'
+    &gt;&gt;&gt; soughtFinalTitle_utf8 = soughtFinalTitle.encode('utf8')
+    &gt;&gt;&gt; finalTitle == soughtFinalTitle_utf8
+    True
+    &gt;&gt;&gt; finalTitle = en.Title()
+    &gt;&gt;&gt; finalTitle == soughtFinalTitle_utf8
+    True
     </xsl:template>
     
     <xsl:template match="gaz:ID">
@@ -65,12 +69,12 @@
     
     <!-- note: handling name classification is currently disabled b/c the content type doesn't support it -->
     <xsl:template match="gaz:classificationSection">
-        <xsl:if test="local-name(..) != 'name'">
+        <!-- <xsl:if test="local-name(..) != 'name'"> -->
         <xsl:variable name="lame"><xsl:value-of select="descendant::gaz:schemeName"/></xsl:variable>
         <xsl:variable name="camelized"><xsl:value-of select="translate(substring($lame, 1, 1), 'abcdefghijklmnopqrstuvwxyz', 'ABCDEFGHIJKLMNOPQRSTUVWXYZ')"/><xsl:value-of select="substring($lame, 2)"/></xsl:variable>
     &gt;&gt;&gt; en<xsl:if test="local-name(..) = 'name'">_name</xsl:if>.set<xsl:value-of select="$camelized"/>('<xsl:value-of select="gaz:classificationTerm"/>')
     &gt;&gt;&gt; en<xsl:if test="local-name(..) = 'name'">_name</xsl:if>.get<xsl:value-of select="$camelized"/>()
-    '<xsl:value-of select="gaz:classificationTerm"/>'</xsl:if>
+    '<xsl:value-of select="gaz:classificationTerm"/>'<!-- </xsl:if> -->
     </xsl:template>
     
     <xsl:template match="gaz:secondaryReferences">
@@ -150,7 +154,14 @@
     </xsl:template>
     
     <xsl:template match="text()">
-        <xsl:variable name="normedtext"><xsl:value-of select="normalize-space(.)"/></xsl:variable>
+        <xsl:call-template name="escapetext">
+            <xsl:with-param name="thetext"><xsl:value-of select="."/></xsl:with-param>
+        </xsl:call-template>
+    </xsl:template>
+    
+    <xsl:template name="escapetext">
+        <xsl:param name="thetext"/>
+        <xsl:variable name="normedtext"><xsl:value-of select="normalize-space($thetext)"/></xsl:variable>
   <xsl:for-each select="string-to-codepoints($normedtext)">
         <xsl:choose>
             <xsl:when test=". &lt; 128"><xsl:value-of select="codepoints-to-string(.)"/></xsl:when>
@@ -200,4 +211,18 @@
             <xsl:value-of select="substring($hexDigits, 
             ($decimalNumber mod 16) + 1, 1)" />
         </xsl:template>
+    
+    <xsl:template name="gencombinedtitle">
+        <xsl:choose>
+            <xsl:when test="count(//gaz:name) = 0">Unnamed <xsl:value-of select="//gaz:classificationSection[descendant::gaz:schemeName='geoEntityType']/gaz:classificationTerm"/><xsl:if test="//gaz:modernLocation">, modern location: <xsl:value-of select="//gaz:modernLocation"/></xsl:if></xsl:when>
+            <xsl:when test="//gaz:name[1]/gaz:classificationSection[/gaz:classificationScheme/gaz:schemeName = 'geoNameType']/gaz:classificationTerm = 'ethnic'">
+                <xsl:variable name="namecount"><xsl:value-of select="count(//gaz:name)"/></xsl:variable>
+                <xsl:for-each select="//gaz:name"><xsl:value-of select="normalize-space(gaz:nameStringTransliterated)"/><xsl:if test="count(following-sibling::gaz:name) &gt; 0">/</xsl:if></xsl:for-each>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:variable name="namecount"><xsl:value-of select="count(//gaz:name[descendant::gaz:classificationTerm != 'ethnic'])"/></xsl:variable>
+                <xsl:for-each select="//gaz:name[descendant::gaz:classificationTerm != 'ethnic']"><xsl:value-of select="normalize-space(gaz:nameStringTransliterated)"/><xsl:if test="count(following-sibling::gaz:name[descendant::gaz:classificationTerm != 'ethnic']) &gt; 0">/</xsl:if></xsl:for-each>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
 </xsl:stylesheet>

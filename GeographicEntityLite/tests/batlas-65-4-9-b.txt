@@ -1,20 +1,28 @@
 
     >>> folder = self.folder
         
+    >>> import os
+    >>> source_dir = os.path.sep.join([os.environ['SOFTWARE_HOME'], 'Products', 'GeographicEntityLite', 'tests', 'data', 'batlas-65-4-9.xml'])
+    >>> from Products.GeographicEntityLite.Extensions.batching import load_entity        
+    >>> load_entity(folder, source_dir)
     >>> enID = 'batlas-65-4-9'
-    >>> folder.invokeFactory('GeographicEntityLite', id=enID)
-    'batlas-65-4-9'
     >>> en = getattr(folder, enID)
-    >>> en.setTitle(enID)
-    >>> en.Title()
-    'batlas-65-4-9'
-    >>> en.setIdentifier(enID)
     >>> en.getIdentifier()
     'batlas-65-4-9'
     
+    >>> finalTitle = en.Title()
+     
+    >>> soughtFinalTitle = u'Unnamed bridge, modern location: at Asarba\U0000015F\U00000131, over Eurymedon fl.'
+    >>> soughtFinalTitle_utf8 = soughtFinalTitle.encode('utf8')
+    >>> finalTitle == soughtFinalTitle_utf8
+    True
+    >>> finalTitle = en.Title()
+    >>> finalTitle == soughtFinalTitle_utf8
+    True
+
+    
     >>> sourcetext = u'at Asarba\U0000015F\U00000131, over Eurymedon fl.'
     >>> sourcetext_utf8 = sourcetext.encode('utf8')
-    >>> en.setModernLocation(sourcetext_utf8)
     >>> resulttext_utf8 = en.getModernLocation()
     >>> resulttext_utf8 == sourcetext_utf8
     True
@@ -25,18 +33,15 @@
     True
     
     >>> sourcelist = ['Roman']
-    >>> en.setTimePeriods(sourcelist)
     >>> results = en.getTimePeriods()
     
     >>> results[0] == 'Roman'
     True
     
-    >>> en.setGeoEntityType('bridge')
     >>> en.getGeoEntityType()
     'bridge'
     
     >>> sourcelist = [u'BAtlas 65 F3', u'IK 37, 18']
-    >>> en.setSecondaryReferences(sourcelist)
     >>> resultlist = en.getSecondaryReferences()
     
     >>> resultlist[0] == sourcelist[0].encode('utf8')
@@ -45,21 +50,8 @@
     >>> resultlist[1] == sourcelist[1].encode('utf8')
     True
     
-    >>> en.setSpatialCoordinates('37.3724500000008 31.2163400000009 0.0')
     >>> en.getSpatialCoordinates()
     '37.3724500000008 31.2163400000009 0.0'        
-    >>> en.setSpatialGeometryType('point')
     >>> en.getSpatialGeometryType()
     'point'        
-    
-    >>> from Products.GeographicEntityLite.Extensions.cooking import setGeoTitleFromNames
-    >>> finalTitle = setGeoTitleFromNames(en)
-     
-    >>> soughtFinalTitle = u'Unnamed bridge, modern location: at Asarba\U0000015F\U00000131, over Eurymedon fl.'
-    >>> soughtFinalTitle_utf8 = soughtFinalTitle.encode('utf8')
-    >>> finalTitle == soughtFinalTitle_utf8
-    True
-    >>> finalTitle = en.Title()
-    >>> finalTitle == soughtFinalTitle_utf8
-    True
     

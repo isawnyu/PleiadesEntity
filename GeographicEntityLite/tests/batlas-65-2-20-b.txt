@@ -1,20 +1,28 @@
 
     >>> folder = self.folder
         
+    >>> import os
+     >>> source_dir = os.path.sep.join([os.environ['SOFTWARE_HOME'], 'Products', 'GeographicEntityLite', 'tests', 'data', 'batlas-65-2-20.xml'])
+    >>> from Products.GeographicEntityLite.Extensions.batching import load_entity        
+    >>> load_entity(folder, source_dir)
     >>> enID = 'batlas-65-2-20'
-    >>> folder.invokeFactory('GeographicEntityLite', id=enID)
-    'batlas-65-2-20'
     >>> en = getattr(folder, enID)
-    >>> en.setTitle(enID)
-    >>> en.Title()
-    'batlas-65-2-20'
-    >>> en.setIdentifier(enID)
     >>> en.getIdentifier()
     'batlas-65-2-20'
     
+    >>> finalTitle = en.Title()
+     
+    >>> soughtFinalTitle = u'Antiphellos/Habesos'
+    >>> soughtFinalTitle_utf8 = soughtFinalTitle.encode('utf8')
+    >>> finalTitle == soughtFinalTitle_utf8
+    True
+    >>> finalTitle = en.Title()
+    >>> finalTitle == soughtFinalTitle_utf8
+    True
+
+    
     >>> sourcetext = u'Ka\U0000015F'
     >>> sourcetext_utf8 = sourcetext.encode('utf8')
-    >>> en.setModernLocation(sourcetext_utf8)
     >>> resulttext_utf8 = en.getModernLocation()
     >>> resulttext_utf8 == sourcetext_utf8
     True
@@ -25,7 +33,6 @@
     True
     
     >>> sourcelist = ['Classical', 'Hellenistic (Roman Republic)', 'Roman', 'Late Antique']
-    >>> en.setTimePeriods(sourcelist)
     >>> results = en.getTimePeriods()
     
     >>> results[0] == 'Classical'
@@ -40,12 +47,10 @@
     >>> results[3] == 'Late Antique'
     True
     
-    >>> en.setGeoEntityType('settlement')
     >>> en.getGeoEntityType()
     'settlement'
     
     >>> sourcelist = [u'BAtlas 65 C5 Antiphellos/Habesos', u'NPauly']
-    >>> en.setSecondaryReferences(sourcelist)
     >>> resultlist = en.getSecondaryReferences()
     
     >>> resultlist[0] == sourcelist[0].encode('utf8')
@@ -54,32 +59,24 @@
     >>> resultlist[1] == sourcelist[1].encode('utf8')
     True
     
-    >>> en.setSpatialCoordinates('36.1931800000002 29.6370399999996 0.0')
     >>> en.getSpatialCoordinates()
     '36.1931800000002 29.6370399999996 0.0'        
-    >>> en.setSpatialGeometryType('point')
     >>> en.getSpatialGeometryType()
     'point'        
     
     >>> nameID = 'batlas-65-2-20-n1'
-    >>> en.invokeFactory('GeographicNameLite', id=nameID)
-    'batlas-65-2-20-n1'
     >>> en_name = getattr(en, nameID)
-    >>> en_name.setIdentifier('batlas-65-2-20-n1')
     >>> en_name.getIdentifier()
     'batlas-65-2-20-n1'
         
-    >>> en_name.setTitle('Antiphellos')
     >>> en_name.Title()
     'Antiphellos'
     
-    >>> en_name.setGeoNameType('geographic')
     >>> en_name.getGeoNameType()
     'geographic'
     
     >>> sourcelist = ['Hellenistic (Roman Republic)', 'Roman', 'Late Antique']
-    >>> en.setTimePeriods(sourcelist)
-    >>> results = en.getTimePeriods()
+    >>> results = en_name.getTimePeriods()
     
     >>> results[0] == 'Hellenistic (Roman Republic)'
     True
@@ -91,36 +88,19 @@
     True
     
     >>> nameID = 'batlas-65-2-20-n2'
-    >>> en.invokeFactory('GeographicNameLite', id=nameID)
-    'batlas-65-2-20-n2'
     >>> en_name = getattr(en, nameID)
-    >>> en_name.setIdentifier('batlas-65-2-20-n2')
     >>> en_name.getIdentifier()
     'batlas-65-2-20-n2'
         
-    >>> en_name.setTitle('Habesos')
     >>> en_name.Title()
     'Habesos'
     
-    >>> en_name.setGeoNameType('geographic')
     >>> en_name.getGeoNameType()
     'geographic'
     
     >>> sourcelist = ['Classical']
-    >>> en.setTimePeriods(sourcelist)
-    >>> results = en.getTimePeriods()
+    >>> results = en_name.getTimePeriods()
     
     >>> results[0] == 'Classical'
-    True
-    
-    >>> from Products.GeographicEntityLite.Extensions.cooking import setGeoTitleFromNames
-    >>> finalTitle = setGeoTitleFromNames(en)
-     
-    >>> soughtFinalTitle = u'Antiphellos/Habesos'
-    >>> soughtFinalTitle_utf8 = soughtFinalTitle.encode('utf8')
-    >>> finalTitle == soughtFinalTitle_utf8
-    True
-    >>> finalTitle = en.Title()
-    >>> finalTitle == soughtFinalTitle_utf8
     True
     
