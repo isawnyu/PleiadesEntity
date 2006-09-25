@@ -117,6 +117,7 @@ def load_entity(plonefolder, source):
         en_name.setTimePeriods(name.timePeriods)
         en_name.setPrimaryReferences(name.primaryReferences)
         en_name.setSecondaryReferences(name.secondaryReferences)
+        en_name.setGeoNameType(name.classifications['geoNameType'])
         # classifications!
         
     # rename the entity to reflect the names of its children
@@ -158,6 +159,12 @@ class geoName:
             
     def hdl_nameString(self, node):
         self.nameString = getXMLText([node])
+        try:
+            langcode = language_vocab[node.attributes.get('xml:lang', '').value]
+        except:
+            pass
+        else:
+            self.language = langcode
         
     def hdl_nameStringTransliterated(self, node):
         self.nameStringTransliterated = getXMLText([node])
