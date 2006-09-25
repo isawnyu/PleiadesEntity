@@ -6,38 +6,6 @@
       <head><title></title></head>
       <body>
 
-        <metal:body_macro 
-		  metal:define-macro="body"
-		  >
-          <div
-		    style="float:right;height:300px;width:225px;background-image:url(ba065b1-300.jpg);border:solid grey 1px;"
-			></div>
-       	  <div
-		    tal:define="field_macro field_macro | here/widgets/field/macros/view;"
-            tal:repeat="field python:here.Schema().filterFields(isMetadata=0)"
-		    >
-          <tal:if_visible
-		    define="mode string:view;
-            	visState python:field.widget.isVisible(here, mode);
-                visCondition python:field.widget.testCondition(here, portal, template);"
-        	condition="python:visState == 'visible' and visCondition"
-			>
-            <metal:use_field
-			  use-macro="field_macro"
-			  />
-          </tal:if_visible>
-		  </div>
-        </metal:body_macro>
-		
-        <metal:folderlisting_macro metal:define-macro="folderlisting"
-                                   tal:define="fl_macro here/folder_listing/macros/listing | nothing;
-                                               folderish here/isPrincipiaFolderish | nothing;">
-            <tal:if_folderlisting condition="python:folderish and fl_macro">
-                <h2>Historical Names</h2>
-                <metal:use_macro use-macro="fl_macro" />
-            </tal:if_folderlisting>
-        </metal:folderlisting_macro>
-        
         <metal:footer define-macro="footer">
 <div id="pleiades-datadisclaimer" style="clear:right">
     <h2>Origin and Status of this Data</h2>
