@@ -27,7 +27,10 @@
 # U.S. National Endowment for the Humanities (http://www.neh.gov).
 # ===========================================================================
 
+import re
 from xml.dom.minidom import parse
+
+language_vocab = {'grc':'Ancient Greek', 'la':'Latin', 'grc-Latn':'Ancient Greek in Latin characters', 'la-Grek':'Latin in Ancient Greek characters'}
 
 def getXMLDOM(file_path):
     """
@@ -44,13 +47,16 @@ def getXMLText(nodelist):
     Provides a concatenated string version of the content of all subordinate text nodes in the passed
     node list.
     """
+    
     alltext = ""
     for node in nodelist:
         if node.nodeType == node.TEXT_NODE:
             alltext += node.data
         else:
             alltext += getXMLText(node.childNodes)
-    return alltext
+            
+    
+    return purifyText(alltext)
     
 def getXMLValue(node):
     """
@@ -61,5 +67,10 @@ def getXMLValue(node):
         if childnode.nodeType == childnode.TEXT_NODE:
             alltext += childnode.data
     return alltext
-    
-    
+   
+def purifyText(text):
+    penances = [(u'\U000000A0', u' ', 'No-Break Space')]
+    for penance in penances:
+        p = re.compile(penance[0])
+        text = p.sub(penance[1], text)
+    return text
