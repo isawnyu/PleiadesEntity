@@ -25,7 +25,6 @@ Test loading
     >>> import os
     >>> source_dir = os.path.sep.join([os.environ['SOFTWARE_HOME'], 'Products', 'GeographicEntityLite', 'tests', 'data'])
     >>> from Products.GeographicEntityLite.Extensions.batching import load_entity
-    >>> source = "%s/batlas-65-2-24-grc.xml" % (source_dir)
 
 Load a whole batch of entities
     >>> from Products.GeographicEntityLite.Extensions.batching import loaden
@@ -70,4 +69,11 @@ Check ids of created entities
     True
     >>> 'batlas-99-9-99' in en_ids
     False
+
+Check creation of names
+
+	>>> entity = getattr(folder, 'batlas-65-2-20')
+	>>> names = entity.listFolderContents()
+    >>> len(names)
+    2
 

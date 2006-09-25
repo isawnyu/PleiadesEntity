@@ -88,15 +88,10 @@ def load_entity(plonefolder, source):
     #newEnID = setIDFromTitle(en)
     
     en.setIdentifier(ge.identifier)
-    
     en.setGeoEntityType(ge.classifications['geoEntityType'])
-    
     en.setModernLocation(ge.modernLocation)
-    
     en.setTimePeriods(ge.timePeriods)
-    
     en.setSecondaryReferences(ge.secondaryReferences)
-    
     en.setDescription(ge.description.encode('utf8'))
     
     try:
@@ -111,11 +106,12 @@ def load_entity(plonefolder, source):
     
     # add any names as children of the entity
     for i, name in enumerate(ge.names):
-        nameID = en.invokeFactory('GeographicNameLite', id=newEnID + '-n' + `i+1`)
+        nameID = en.invokeFactory('GeographicNameLite', 
+					id="%s-n%d" % (newEnID, i+1))
         en_name = getattr(en, nameID)
         en_name.setTitle(name.nameStringTransliterated)
         en_name.setIdentifier(nameID)
-        en_name.setDescription('No description')
+        en_name.setDescription('No description'.encode('utf8'))
         en_name.setNameAttested(name.nameString)
         en_name.setNameLanguage(name.language)
         en_name.setTimePeriods(name.timePeriods)
