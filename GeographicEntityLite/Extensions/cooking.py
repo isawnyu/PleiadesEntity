@@ -49,18 +49,33 @@ def setIdFromTitle(obj):
 def setGeoTitleFromNames(obj):
     # get old title
     oldTitle = obj.Title()
-    
+
+    newTitle = ''    
     names = obj.listFolderContents()
     if len(names) == 0:
-        return None
-    
-    newTitle = ''
-    for i, name in enumerate(names):
-        if i > 0:
-            newTitle += '/'
-        newTitle += name.Title()
-    
-    obj.setTitle(newTitle)
+        enType = obj.getGeoEntityType()
+        newTitle = 'Unnamed ' + enType
+        enModLoc = obj.getModernLocation()
+        if enModLoc != '':
+            newTitle += ', modern location: ' + enModLoc
+    else:
+        try: 
+            initNameType  = names[0].getGeoNameType()
+        except:
+            pass
+        else:
+            renames = []
+            for name in names:
+                if name.getGeoNameType() == initNameType:
+                    renames.append(name)
+            for i, name in enumerate(renames):
+                if i > 0:
+                    newTitle += '/'
+                newTitle += name.Title()
+                
+    if newTitle != '':
+        obj.setTitle(newTitle)
+
     return newTitle
     
 def makeIDUnique(obj, newID):
