@@ -164,4 +164,11 @@
     >>> finalTitle = en.Title()
     >>> finalTitle == soughtFinalTitle_utf8
     True
+    >>> soughtDescription = u'An ancient settlement, attested during the Classical, Hellenistic (Roman Republic), Roman and Late Antique periods (modern location: Dinar). It was known in antiquity by the names: Apamea, Kelainai and Kibotos.'
+    >>> en.setDescription(soughtDescription)
+    >>> gotDescription = en.Description()
+    >>> soughtDescription_utf8 = soughtDescription.encode('utf8')
+    >>> soughtDescription_utf8 == gotDescription
+    True
+    
     

@@ -2,7 +2,7 @@
     >>> folder = self.folder
         
     >>> import os
-    >>> source_dir = os.path.sep.join([os.environ['SOFTWARE_HOME'], 'Products', 'GeographicEntityLite', 'tests', 'data', 'batlas-65-4-9.xml'])
+     >>> source_dir = os.path.sep.join([os.environ['SOFTWARE_HOME'], 'Products', 'GeographicEntityLite', 'tests', 'data', 'batlas-65-4-9.xml'])
     >>> from Products.GeographicEntityLite.Extensions.batching import load_entity        
     >>> load_entity(folder, source_dir)
     >>> enID = 'batlas-65-4-9'
@@ -54,4 +54,10 @@
     '37.3724500000008 31.2163400000009 0.0'        
     >>> en.getSpatialGeometryType()
     'point'        
+    
+    >>> soughtDescription = u'An ancient bridge, attested during the Roman period (modern location: at Asarba\U0000015F\U00000131, over Eurymedon fl.). Its ancient name is not known.'
+    >>> gotDescription = en.Description()
+    >>> soughtDescription_utf8 = soughtDescription.encode('utf8')
+    >>> soughtDescription_utf8 == gotDescription
+    True
     

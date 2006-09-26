@@ -52,4 +52,11 @@
     >>> finalTitle = en.Title()
     >>> finalTitle == soughtFinalTitle_utf8
     True
+    >>> soughtDescription = u'Itoana is a false geographic name (false reading for Attouda).'
+    >>> en.setDescription(soughtDescription)
+    >>> gotDescription = en.Description()
+    >>> soughtDescription_utf8 = soughtDescription.encode('utf8')
+    >>> soughtDescription_utf8 == gotDescription
+    True
+    
     

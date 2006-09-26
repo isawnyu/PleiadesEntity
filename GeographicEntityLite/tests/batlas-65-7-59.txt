@@ -71,4 +71,11 @@
     >>> finalTitle = en.Title()
     >>> finalTitle == soughtFinalTitle_utf8
     True
+    >>> soughtDescription = u'An ancient geographic entity that cannot now be located with certainty, attested during the Hellenistic (Roman Republic) (approximate modern location: Pisidian city). It was known in antiquity by the name: Tarbassos.'
+    >>> en.setDescription(soughtDescription)
+    >>> gotDescription = en.Description()
+    >>> soughtDescription_utf8 = soughtDescription.encode('utf8')
+    >>> soughtDescription_utf8 == gotDescription
+    True
+    
     

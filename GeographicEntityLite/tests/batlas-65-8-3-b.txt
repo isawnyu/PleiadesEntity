@@ -2,7 +2,7 @@
     >>> folder = self.folder
         
     >>> import os
-    >>> source_dir = os.path.sep.join([os.environ['SOFTWARE_HOME'], 'Products', 'GeographicEntityLite', 'tests', 'data', 'batlas-65-8-3.xml'])
+     >>> source_dir = os.path.sep.join([os.environ['SOFTWARE_HOME'], 'Products', 'GeographicEntityLite', 'tests', 'data', 'batlas-65-8-3.xml'])
     >>> from Products.GeographicEntityLite.Extensions.batching import load_entity        
     >>> load_entity(folder, source_dir)
     >>> enID = 'batlas-65-8-3'
@@ -43,4 +43,10 @@
     
     >>> en_name.getGeoNameType()
     'false'
+    
+    >>> soughtDescription = u'Itoana is a false geographic name (false reading for Attouda).'
+    >>> gotDescription = en.Description()
+    >>> soughtDescription_utf8 = soughtDescription.encode('utf8')
+    >>> soughtDescription_utf8 == gotDescription
+    True
     

@@ -1,8 +1,8 @@
 from urllib import quote
-from Products.Archetypes.config import RENAME_AFTER_CREATION_ATTEMPTS
+import transaction
+
 from Products.Archetypes.utils import shasattr
 from Products.CMFCore.utils import getToolByName
-import transaction
 
 def cookZopeID(rawID):
     cookedID = rawID.expandtabs(1)

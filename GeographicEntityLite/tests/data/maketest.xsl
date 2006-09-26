@@ -3,9 +3,9 @@
     xmlns:gaz="http://www.unc.edu/awmc/gazetteer/schemata/ns/0.3" 
     xmlns:tei="http://www.tei-c.org/ns/1.0"
     xmlns:georss="http://www.georss.org/georss">
+    <xsl:import href="calc_Description.xsl"/>
     <xsl:output encoding="UTF-8" method="text"/>
     
-    <!-- not testing: set description -->
     
     <xsl:template match="/">
         <xsl:apply-templates/>
@@ -25,6 +25,13 @@
     &gt;&gt;&gt; finalTitle = en.Title()
     &gt;&gt;&gt; finalTitle == soughtFinalTitle_utf8
     True
+    &gt;&gt;&gt; soughtDescription = u'<xsl:call-template name="calc_Description"/>'
+    &gt;&gt;&gt; en.setDescription(soughtDescription)
+    &gt;&gt;&gt; gotDescription = en.Description()
+    &gt;&gt;&gt; soughtDescription_utf8 = soughtDescription.encode('utf8')
+    &gt;&gt;&gt; soughtDescription_utf8 == gotDescription
+    True
+    
     </xsl:template>
     
     <xsl:template match="gaz:ID">

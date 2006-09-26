@@ -87,4 +87,11 @@
     >>> finalTitle = en.Title()
     >>> finalTitle == soughtFinalTitle_utf8
     True
+    >>> soughtDescription = u'An ancient settlement, attested during the Hellenistic (Roman Republic), Roman and Late Antique periods (modern location: Alia\U0000011Fa\U000000E7iftli\U0000011Fi). It was known in antiquity by the name: Antiochia ad Maeandrum.'
+    >>> en.setDescription(soughtDescription)
+    >>> gotDescription = en.Description()
+    >>> soughtDescription_utf8 = soughtDescription.encode('utf8')
+    >>> soughtDescription_utf8 == gotDescription
+    True
+    
     

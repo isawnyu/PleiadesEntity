@@ -87,4 +87,11 @@
     >>> finalTitle = en.Title()
     >>> finalTitle == soughtFinalTitle_utf8
     True
+    >>> soughtDescription = u'An ancient settlement, attested during the Hellenistic (Roman Republic), Roman and Late Antique periods (modern location: Karabaulo). It was known in antiquity by the name: Adada.'
+    >>> en.setDescription(soughtDescription)
+    >>> gotDescription = en.Description()
+    >>> soughtDescription_utf8 = soughtDescription.encode('utf8')
+    >>> soughtDescription_utf8 == gotDescription
+    True
+    
     

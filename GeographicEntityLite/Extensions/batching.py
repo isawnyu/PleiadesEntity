@@ -41,7 +41,11 @@ from Products.GeographicEntityLite.Extensions.cooking import *
 
 def format_listofstrings(list):
     """convert ['x', 'y', 'z'] to u'x, y, and z'"""
-    length = len(list)
+    
+    try:
+        length = len(list)
+    except:
+        length = 0
     out = u''
     if length == 0:
         pass
@@ -49,7 +53,7 @@ def format_listofstrings(list):
         out = unicode(' and '.join(list))
     else:
         out = unicode(', '.join(list[:-1]))
-        out = unicode(', and '.join([out, list[-1]]))
+        out = unicode(' and '.join([out, list[-1]]))
     return out
     
 def loaden(self, sourcedir):
@@ -133,6 +137,7 @@ class geoName:
         self.primaryReferences = []
         self.secondaryReferences = []
         self.classifications = {}
+        self.notes = []
         
         self.parse_Node(sourcenode)
         
@@ -165,7 +170,7 @@ class geoName:
             pass
         else:
             self.language = langcode
-        
+            
     def hdl_nameStringTransliterated(self, node):
         self.nameStringTransliterated = getXMLText([node])
         
@@ -173,6 +178,14 @@ class geoName:
         thesaurus =  getXMLText(node.getElementsByTagName('classificationScheme')[0].getElementsByTagName('schemeName'))
         term = getXMLText(node.getElementsByTagName('classificationTerm'))
         self.classifications[thesaurus] = term
+        try:
+            for childnode in node.getElementsByTagName('note'):
+                self.parse_Node(childnode)
+        except:
+            pass
+        
+    def hdl_note(self, node):
+        self.notes.append(getXMLText([node]))
         
     def hdl_timePeriod(self, node):
         period_name = getXMLText(node.getElementsByTagName('timePeriodName'))
@@ -211,26 +224,57 @@ class geoEntity:
         source = self._load(source)
         
     def calc_Description(self):
-        identification = unicode("An ancient %s" % self.classifications['geoEntityType'])
-        if len(self.timePeriods) == 0: 
+        en_type = self.classifications['geoEntityType']
+        
+        # identification
+        if en_type == 'unlocated':
+            identification = u'An ancient geographic entity that cannot now be located with certainty'
+        elif en_type == 'false':
+            identification = unicode(self.names[0].nameStringTransliterated + u' is a false geographic name')
+            if len(self.names[0].notes) > 0:
+                identification += u' (' + format_listofstrings(self.names[0].notes) + u')'
+        else:
+            identification = unicode("An ancient %s" % self.classifications['geoEntityType'])
+            
+        # periodization
+        period_count = len(self.timePeriods)
+        if en_type == 'false':
+            periodization = u''
+        elif period_count == 0:
             periodization = u', attestation unkown'
-        elif len(self.timePeriods) == 1:
+        elif period_count == 1:
             periodization = unicode(", attested during the %s period" % self.timePeriods[0])
         else:
-            periodization = unicode(", attested from the %s through the %s periods" % (self.timePeriods[0], self.timePeriods[len(self.timePeriods)-1]))
+            periodization \
+                = unicode(", attested during the %s periods" \
+                % format_listofstrings(self.timePeriods))
         
+        #localization
         if self.modernLocation:
-            localization = unicode(" (modern location: %s)" % self.modernLocation)
+            if en_type == 'unlocated':
+                localization = unicode(" (approximate modern location: %s)" % self.modernLocation)
+            else:
+                localization = unicode(" (modern location: %s)" % self.modernLocation)
         else:
             localization = u''
-        namecount = len(self.names)
-        if namecount == 0:
-            nomination = u'Its ancient name is not known.'
+            
+        #nomination
+        if en_type == 'false':
+            nomination = u''
         else:
-            nomination \
-                = unicode("It was known in antiquity by the name(s): %s." \
-                % format_listofstrings([n.nameStringTransliterated for n in self.names]))
-
+            namecount = len(self.names)
+            if namecount == 0:
+                nomination = u'Its ancient name is not known'
+            else:
+                if namecount == 1:
+                    multinames = u''
+                else:
+                    multinames = u's'
+                nomination \
+                    = unicode("It was known in antiquity by the name%s: %s" \
+                    % (multinames, format_listofstrings([n.nameStringTransliterated for n in self.names])))
+        nomination = nomination.strip()
+        
         # TODO: improve the grammar?
         #    namelist = u''
         #    if namecount == 1:
@@ -246,7 +290,10 @@ class geoEntity:
         #                namelist += u", "
         #        
         #    nomination = u"It was known in antiquity by the name%s." % (namelist)
-        newDesc = u"%s%s%s. %s" % (identification, periodization, localization, nomination)
+
+        newDesc = u"%s%s%s." % (identification, periodization, localization)
+        if len(nomination) > 0:
+            newDesc += u' ' + nomination + u'.'
         return newDesc
           
     def parse_Node(self, node):

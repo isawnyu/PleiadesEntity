@@ -119,3 +119,9 @@
     >>> resultlist[0] == sourcelist[0].encode('utf8')
     True
     
+    >>> soughtDescription = u'An ancient settlement, attested during the Classical, Roman and Late Antique periods (modern location: Geyre). It was known in antiquity by the names: Aphrodisias and Ninoe.'
+    >>> gotDescription = en.Description()
+    >>> soughtDescription_utf8 = soughtDescription.encode('utf8')
+    >>> soughtDescription_utf8 == gotDescription
+    True
+    

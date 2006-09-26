@@ -18,7 +18,7 @@ Utility test
     >>> format_listofstrings(['x', 'y'])
     u'x and y'
     >>> format_listofstrings(['x', 'y', 'z'])
-    u'x, y, and z'
+    u'x, y and z'
     
     >>> from Products.GeographicEntityLite.Extensions.xmlutil import purifyText
     >>> purifyText(u'aaa') == u'aaa'
