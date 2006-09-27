@@ -21,19 +21,24 @@
 		  >
 
           <div id="mapzonebox"
-            tal:condition="exists:context/ba-map"
+            tal:define="query_results python:context.portal_catalog.searchResults({'path':{'query':'/'.join(context.restrictedTraverse('..').getPhysicalPath()),'depth':1}, 'portal_type':'MapContext'})"
+            tal:condition="python:len(query_results) > 0"
             >
             <div id="map" style="float:right;width:200px;height:300px;border:solid gray 1px;background-color:#cccccc;"></div>
             <script
-              tal:define="feature_json string:${context/JSON};
-                          map_json string:${context/ba-map/JSON};"
+              tal:define="mapcontext python:query_results[0].getObject();
+                          feature_json string:${context/JSON};
+                          map_json string:${mapcontext/JSON};"
               defer="defer"
               type="text/javascript"
               tal:content="python:''' 
-              var feature = eval('(%s)');
               var map = eval('(%s)');
-              mapFeature(map, feature, 1/10000000);
-              ''' % (feature_json, map_json)"
+              var feature = eval('(%s)');
+              if (feature.center != null)
+              {
+                mapFeature(map, feature, 1/250000);
+              }
+              ''' % (map_json, feature_json)"
               >
             </script>
           </div>
