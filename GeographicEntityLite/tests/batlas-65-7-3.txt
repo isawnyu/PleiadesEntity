@@ -52,6 +52,12 @@
     >>> en_name.setIdentifier('batlas-65-7-3-n1')
     >>> en_name.getIdentifier()
     'batlas-65-7-3-n1'
+    >>> soughtDescription = u'An ancient name for a geographic entity that cannot now be located with certainty, attested during the Late Antique period.'
+    >>> en_name.setDescription(soughtDescription)
+    >>> gotDescription = en_name.Description()
+    >>> soughtDescription_utf8 = soughtDescription.encode('utf8')
+    >>> soughtDescription_utf8 == gotDescription
+    True
         
     >>> en_name.setTitle('Agathe Kome')
     >>> en_name.Title()
@@ -71,7 +77,7 @@
     >>> finalTitle = en.Title()
     >>> finalTitle == soughtFinalTitle_utf8
     True
-    >>> soughtDescription = u'An ancient geographic entity that cannot now be located with certainty, attested during the Late Antique (approximate modern location: Sarayk\U000000F6y plain?). It was known in antiquity by the name: Agathe Kome.'
+    >>> soughtDescription = u'An ancient geographic entity that cannot now be located with certainty, attested during the Late Antique period (approximate modern location: Sarayk\U000000F6y plain?). It was known in antiquity by the name: Agathe Kome.'
     >>> en.setDescription(soughtDescription)
     >>> gotDescription = en.Description()
     >>> soughtDescription_utf8 = soughtDescription.encode('utf8')

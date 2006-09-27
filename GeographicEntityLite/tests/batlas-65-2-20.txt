@@ -68,6 +68,12 @@
     >>> en_name.setIdentifier('batlas-65-2-20-n1')
     >>> en_name.getIdentifier()
     'batlas-65-2-20-n1'
+    >>> soughtDescription = u'An ancient geographic name for a settlement, attested during the Hellenistic (Roman Republic), Roman and Late Antique periods.'
+    >>> en_name.setDescription(soughtDescription)
+    >>> gotDescription = en_name.Description()
+    >>> soughtDescription_utf8 = soughtDescription.encode('utf8')
+    >>> soughtDescription_utf8 == gotDescription
+    True
         
     >>> en_name.setTitle('Antiphellos')
     >>> en_name.Title()
@@ -97,6 +103,12 @@
     >>> en_name.setIdentifier('batlas-65-2-20-n2')
     >>> en_name.getIdentifier()
     'batlas-65-2-20-n2'
+    >>> soughtDescription = u'An ancient geographic name for a settlement, attested during the Classical period.'
+    >>> en_name.setDescription(soughtDescription)
+    >>> gotDescription = en_name.Description()
+    >>> soughtDescription_utf8 = soughtDescription.encode('utf8')
+    >>> soughtDescription_utf8 == gotDescription
+    True
         
     >>> en_name.setTitle('Habesos')
     >>> en_name.Title()

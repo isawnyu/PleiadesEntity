@@ -71,6 +71,12 @@
     >>> en_name.setIdentifier('batlas-65-2-24-n1')
     >>> en_name.getIdentifier()
     'batlas-65-2-24-n1'
+    >>> soughtDescription = u'An ancient geographic name for a settlement, attested during the Roman and Late Antique periods.'
+    >>> en_name.setDescription(soughtDescription)
+    >>> gotDescription = en_name.Description()
+    >>> soughtDescription_utf8 = soughtDescription.encode('utf8')
+    >>> soughtDescription_utf8 == gotDescription
+    True
         
     >>> en_name.setTitle('Aphrodisias')
     >>> en_name.Title()
@@ -107,6 +113,12 @@
     >>> en_name.setIdentifier('batlas-65-2-24-n2')
     >>> en_name.getIdentifier()
     'batlas-65-2-24-n2'
+    >>> soughtDescription = u'An ancient geographic name for a settlement, attested during the Classical period.'
+    >>> en_name.setDescription(soughtDescription)
+    >>> gotDescription = en_name.Description()
+    >>> soughtDescription_utf8 = soughtDescription.encode('utf8')
+    >>> soughtDescription_utf8 == gotDescription
+    True
         
     >>> en_name.setTitle('Ninoe')
     >>> en_name.Title()

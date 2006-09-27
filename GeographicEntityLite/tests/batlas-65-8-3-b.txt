@@ -37,6 +37,11 @@
     >>> en_name = getattr(en, nameID)
     >>> en_name.getIdentifier()
     'batlas-65-8-3-n1'
+    >>> soughtDescription = u'A false name.'
+    >>> gotDescription = en_name.Description()
+    >>> soughtDescription_utf8 = soughtDescription.encode('utf8')
+    >>> soughtDescription_utf8 == gotDescription
+    True
         
     >>> en_name.Title()
     'Itoana'

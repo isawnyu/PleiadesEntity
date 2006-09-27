@@ -77,6 +77,12 @@
     >>> en_name.setIdentifier('batlas-65-2-22-n1')
     >>> en_name.getIdentifier()
     'batlas-65-2-22-n1'
+    >>> soughtDescription = u'An ancient geographic name for a settlement, attested during the Hellenistic (Roman Republic), Roman and Late Antique periods.'
+    >>> en_name.setDescription(soughtDescription)
+    >>> gotDescription = en_name.Description()
+    >>> soughtDescription_utf8 = soughtDescription.encode('utf8')
+    >>> soughtDescription_utf8 == gotDescription
+    True
         
     >>> en_name.setTitle('Apamea')
     >>> en_name.Title()
@@ -106,6 +112,12 @@
     >>> en_name.setIdentifier('batlas-65-2-22-n2')
     >>> en_name.getIdentifier()
     'batlas-65-2-22-n2'
+    >>> soughtDescription = u'An ancient geographic name for a settlement, attested during the Classical, Hellenistic (Roman Republic), Roman and Late Antique periods.'
+    >>> en_name.setDescription(soughtDescription)
+    >>> gotDescription = en_name.Description()
+    >>> soughtDescription_utf8 = soughtDescription.encode('utf8')
+    >>> soughtDescription_utf8 == gotDescription
+    True
         
     >>> en_name.setTitle('Kelainai')
     >>> en_name.Title()
@@ -138,6 +150,12 @@
     >>> en_name.setIdentifier('batlas-65-2-22-n3')
     >>> en_name.getIdentifier()
     'batlas-65-2-22-n3'
+    >>> soughtDescription = u'An ancient geographic name for a settlement, attested during the Roman period.'
+    >>> en_name.setDescription(soughtDescription)
+    >>> gotDescription = en_name.Description()
+    >>> soughtDescription_utf8 = soughtDescription.encode('utf8')
+    >>> soughtDescription_utf8 == gotDescription
+    True
         
     >>> en_name.setTitle('Kibotos')
     >>> en_name.Title()

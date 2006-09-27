@@ -123,7 +123,14 @@
     &gt;&gt;&gt; en_name.setIdentifier('<xsl:value-of select="$nameid"/>')
     &gt;&gt;&gt; en_name.getIdentifier()
     '<xsl:value-of select="$nameid"/>'
+    &gt;&gt;&gt; soughtDescription = u'<xsl:call-template name="calc_Description"/>'
+    &gt;&gt;&gt; en_name.setDescription(soughtDescription)
+    &gt;&gt;&gt; gotDescription = en_name.Description()
+    &gt;&gt;&gt; soughtDescription_utf8 = soughtDescription.encode('utf8')
+    &gt;&gt;&gt; soughtDescription_utf8 == gotDescription
+    True
         <xsl:apply-templates/>
+     
     </xsl:template>
     
     <xsl:template match="gaz:nameString">

@@ -71,6 +71,12 @@
     >>> en_name.setIdentifier('batlas-65-2-24-grc-n1')
     >>> en_name.getIdentifier()
     'batlas-65-2-24-grc-n1'
+    >>> soughtDescription = u'(\U00001F08\U000003C6\U000003C1\U000003BF\U000003B4\U000003B9\U000003C3\U000003B9\U00001F71\U000003C2): An ancient geographic name for a settlement, attested during the Roman and Late Antique periods.'
+    >>> en_name.setDescription(soughtDescription)
+    >>> gotDescription = en_name.Description()
+    >>> soughtDescription_utf8 = soughtDescription.encode('utf8')
+    >>> soughtDescription_utf8 == gotDescription
+    True
         
     >>> sourcetext = u'\U00001F08\U000003C6\U000003C1\U000003BF\U000003B4\U000003B9\U000003C3\U000003B9\U00001F71\U000003C2'
     >>> sourcetext_utf8 = sourcetext.encode('utf8')
@@ -123,6 +129,12 @@
     >>> en_name.setIdentifier('batlas-65-2-24-grc-n2')
     >>> en_name.getIdentifier()
     'batlas-65-2-24-grc-n2'
+    >>> soughtDescription = u'(\U0000039D\U000003B9\U000003BD\U00001F79\U000003B7): An ancient geographic name for a settlement, attested during the Classical period.'
+    >>> en_name.setDescription(soughtDescription)
+    >>> gotDescription = en_name.Description()
+    >>> soughtDescription_utf8 = soughtDescription.encode('utf8')
+    >>> soughtDescription_utf8 == gotDescription
+    True
         
     >>> sourcetext = u'\U0000039D\U000003B9\U000003BD\U00001F79\U000003B7'
     >>> sourcetext_utf8 = sourcetext.encode('utf8')
@@ -169,6 +181,12 @@
     >>> en_name.setIdentifier('batlas-65-2-24-grc-n3')
     >>> en_name.getIdentifier()
     'batlas-65-2-24-grc-n3'
+    >>> soughtDescription = u'(\U00001F08\U000003C6\U000003C1\U000003BF\U000003B4\U000003B9\U000003C3\U000003B9\U000003B5\U00001F7B\U000003C2): An ancient ethnic name for a settlement, attested during the Roman and Late Antique periods.'
+    >>> en_name.setDescription(soughtDescription)
+    >>> gotDescription = en_name.Description()
+    >>> soughtDescription_utf8 = soughtDescription.encode('utf8')
+    >>> soughtDescription_utf8 == gotDescription
+    True
         
     >>> sourcetext = u'\U00001F08\U000003C6\U000003C1\U000003BF\U000003B4\U000003B9\U000003C3\U000003B9\U000003B5\U00001F7B\U000003C2'
     >>> sourcetext_utf8 = sourcetext.encode('utf8')
@@ -211,6 +229,12 @@
     >>> en_name.setIdentifier('batlas-65-2-24-grc-n4')
     >>> en_name.getIdentifier()
     'batlas-65-2-24-grc-n4'
+    >>> soughtDescription = u'(Aphrodisiensis): An ancient ethnic name for a settlement, attested during the Classical period.'
+    >>> en_name.setDescription(soughtDescription)
+    >>> gotDescription = en_name.Description()
+    >>> soughtDescription_utf8 = soughtDescription.encode('utf8')
+    >>> soughtDescription_utf8 == gotDescription
+    True
         
     >>> sourcetext = u'Aphrodisiensis'
     >>> sourcetext_utf8 = sourcetext.encode('utf8')

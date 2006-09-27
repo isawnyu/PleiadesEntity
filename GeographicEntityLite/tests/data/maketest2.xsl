@@ -108,6 +108,11 @@
     &gt;&gt;&gt; en_name = getattr(en, nameID)
     &gt;&gt;&gt; en_name.getIdentifier()
     '<xsl:value-of select="$nameid"/>'
+    &gt;&gt;&gt; soughtDescription = u'<xsl:call-template name="calc_Description"/>'
+    &gt;&gt;&gt; gotDescription = en_name.Description()
+    &gt;&gt;&gt; soughtDescription_utf8 = soughtDescription.encode('utf8')
+    &gt;&gt;&gt; soughtDescription_utf8 == gotDescription
+    True
         <xsl:apply-templates/>
     </xsl:template>
     

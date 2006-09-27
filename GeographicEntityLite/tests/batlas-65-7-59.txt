@@ -52,6 +52,12 @@
     >>> en_name.setIdentifier('batlas-65-7-59-n1')
     >>> en_name.getIdentifier()
     'batlas-65-7-59-n1'
+    >>> soughtDescription = u'An ancient name for a geographic entity that cannot now be located with certainty, attested during the Hellenistic (Roman Republic) period.'
+    >>> en_name.setDescription(soughtDescription)
+    >>> gotDescription = en_name.Description()
+    >>> soughtDescription_utf8 = soughtDescription.encode('utf8')
+    >>> soughtDescription_utf8 == gotDescription
+    True
         
     >>> en_name.setTitle('Tarbassos')
     >>> en_name.Title()
@@ -71,7 +77,7 @@
     >>> finalTitle = en.Title()
     >>> finalTitle == soughtFinalTitle_utf8
     True
-    >>> soughtDescription = u'An ancient geographic entity that cannot now be located with certainty, attested during the Hellenistic (Roman Republic) (approximate modern location: Pisidian city). It was known in antiquity by the name: Tarbassos.'
+    >>> soughtDescription = u'An ancient geographic entity that cannot now be located with certainty, attested during the Hellenistic (Roman Republic) period (approximate modern location: Pisidian city). It was known in antiquity by the name: Tarbassos.'
     >>> en.setDescription(soughtDescription)
     >>> gotDescription = en.Description()
     >>> soughtDescription_utf8 = soughtDescription.encode('utf8')

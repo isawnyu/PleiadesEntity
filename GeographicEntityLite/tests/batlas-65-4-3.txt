@@ -62,7 +62,7 @@
     >>> finalTitle = en.Title()
     >>> finalTitle == soughtFinalTitle_utf8
     True
-    >>> soughtDescription = u'An ancient bridge, attested during the Roman? (modern location: near Antiochia ad Maeandrum). Its ancient name is not known.'
+    >>> soughtDescription = u'An ancient bridge, attested during the Roman? period (modern location: near Antiochia ad Maeandrum). Its ancient name is not known.'
     >>> en.setDescription(soughtDescription)
     >>> gotDescription = en.Description()
     >>> soughtDescription_utf8 = soughtDescription.encode('utf8')

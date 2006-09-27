@@ -68,6 +68,11 @@
     >>> en_name = getattr(en, nameID)
     >>> en_name.getIdentifier()
     'batlas-65-2-12-n1'
+    >>> soughtDescription = u'An ancient geographic name for a settlement, attested during the Hellenistic (Roman Republic), Roman and Late Antique periods.'
+    >>> gotDescription = en_name.Description()
+    >>> soughtDescription_utf8 = soughtDescription.encode('utf8')
+    >>> soughtDescription_utf8 == gotDescription
+    True
         
     >>> en_name.Title()
     'Amblada'

@@ -115,7 +115,7 @@ def load_entity(plonefolder, source):
         en_name = getattr(en, nameID)
         en_name.setTitle(name.nameStringTransliterated)
         en_name.setIdentifier(nameID)
-        en_name.setDescription('No description'.encode('utf8'))
+        en_name.setDescription(name.description.encode('utf8'))
         en_name.setNameAttested(name.nameString)
         en_name.setNameLanguage(name.language)
         en_name.setTimePeriods(name.timePeriods)
@@ -129,7 +129,8 @@ def load_entity(plonefolder, source):
     
 class geoName:
     
-    def __init__(self, sourcenode):
+    def __init__(self, parent, sourcenode):
+        self.parent = parent
         self.nameString = u''
         self.nameStringTransliterated = u''
         self.language = ''
@@ -140,6 +141,44 @@ class geoName:
         self.notes = []
         
         self.parse_Node(sourcenode)
+        
+        self.description = self.calc_Description()
+        
+    def calc_Description(self):
+        entity_type = self.parent.classifications['geoEntityType']
+        name_type = self.classifications['geoNameType']
+        
+        # identification
+        identification = u''
+        if len(self.nameString) > 0:
+            identification = u'(' + self.nameString + u'): '
+        if name_type == 'false':
+            identification += u'A false name'
+        elif entity_type == 'unlocated':
+            identification += u'An ancient name for a geographic entity that cannot now be located with certainty'
+        else:
+            identification += unicode("An ancient %s name for a %s" % (name_type, self.parent.classifications['geoEntityType']))
+            
+        # periodization
+        period_count = len(self.timePeriods)
+        if period_count == 0:
+            timePeriodsToUse = self.parent.timePeriods
+            period_count = len(timePeriodsToUse)
+        else:
+            timePeriodsToUse = self.timePeriods
+        if name_type == 'false':
+            periodization = u''
+        elif period_count == 0:
+            periodization = u', attestation unkown'
+        elif period_count == 1:
+            periodization = unicode(", attested during the %s period" % timePeriodsToUse[0])
+        else:
+            periodization \
+                = unicode(", attested during the %s periods" \
+                % format_listofstrings(timePeriodsToUse))
+        
+        newDesc = u"%s%s." % (identification, periodization)
+        return newDesc
         
     def parse_Node(self, node):
         parseMethod = getattr(self, "parse_%s" % node.__class__.__name__)
@@ -275,22 +314,6 @@ class geoEntity:
                     % (multinames, format_listofstrings([n.nameStringTransliterated for n in self.names])))
         nomination = nomination.strip()
         
-        # TODO: improve the grammar?
-        #    namelist = u''
-        #    if namecount == 1:
-        #        #print self.names[0]
-        #        namelist = unicode(": %s" % self.names[0])
-        #    else:
-        #        namelist = u's: '
-        #        for i, name in enumerate(self.names):
-        #            namelist += "'" + name.nameStringTransliterated +"'"
-        #            if i == namecount -2:
-        #                namelist += u" and "
-        #            elif i != namecount -1:
-        #                namelist += u", "
-        #        
-        #    nomination = u"It was known in antiquity by the name%s." % (namelist)
-
         newDesc = u"%s%s%s." % (identification, periodization, localization)
         if len(nomination) > 0:
             newDesc += u' ' + nomination + u'.'
@@ -337,7 +360,7 @@ class geoEntity:
         self.classifications[thesaurus] = term
         
     def hdl_name(self, node):
-        self.names.append(geoName(node))
+        self.names.append(geoName(self, node))
     
     def hdl_spatialLocation(self, node):
         for childnode in node.childNodes:

@@ -54,6 +54,11 @@
     >>> en_name = getattr(en, nameID)
     >>> en_name.getIdentifier()
     'batlas-65-7-3-n1'
+    >>> soughtDescription = u'An ancient name for a geographic entity that cannot now be located with certainty, attested during the Late Antique period.'
+    >>> gotDescription = en_name.Description()
+    >>> soughtDescription_utf8 = soughtDescription.encode('utf8')
+    >>> soughtDescription_utf8 == gotDescription
+    True
         
     >>> en_name.Title()
     'Agathe Kome'
