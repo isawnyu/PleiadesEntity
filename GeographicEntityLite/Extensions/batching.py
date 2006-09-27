@@ -122,10 +122,14 @@ def load_entity(plonefolder, source):
         en_name.setPrimaryReferences(name.primaryReferences)
         en_name.setSecondaryReferences(name.secondaryReferences)
         en_name.setGeoNameType(name.classifications['geoNameType'])
+        en_name.reindexObject()
         # classifications!
         
     # rename the entity to reflect the names of its children
     setGeoTitleFromNames(en)
+    
+    # refresh appropriate entries in the portal catalog (e.g., the title)
+    en.reindexObject()
     
 class geoName:
     
