@@ -1,5 +1,5 @@
 <?xml version = '1.0' encoding = 'UTF-8' ?>
-<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Thu Sep 21 16:47:53 CDT 2006'>
+<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Wed Sep 27 11:37:07 CDT 2006'>
   <XMI.header>    <XMI.documentation>
       <XMI.exporter>ArgoUML (using Netbeans XMI Writer version 1.0)</XMI.exporter>
       <XMI.exporterVersion>0.20.x</XMI.exporterVersion>
@@ -309,6 +309,13 @@
                         <UML:TagDefinition xmi.idref = '.:0000000000000ADA'/>
                       </UML:TaggedValue.type>
                     </UML:TaggedValue>
+                    <UML:TaggedValue xmi.id = '-64--88-2--122--4fc909c4:10df01999ba:-8000:0000000000000B65'
+                      isSpecification = 'false'>
+                      <UML:TaggedValue.dataValue>FieldIndex</UML:TaggedValue.dataValue>
+                      <UML:TaggedValue.type>
+                        <UML:TagDefinition xmi.idref = '-64--88-2--122--4fc909c4:10df01999ba:-8000:0000000000000B66'/>
+                      </UML:TaggedValue.type>
+                    </UML:TaggedValue>
                   </UML:ModelElement.taggedValue>
                   <UML:StructuralFeature.type>
                     <UML:DataType xmi.idref = '.:0000000000000ABC'/>
@@ -332,6 +339,13 @@
                       <UML:TaggedValue.dataValue>Modern Name / Location</UML:TaggedValue.dataValue>
                       <UML:TaggedValue.type>
                         <UML:TagDefinition xmi.idref = '.:0000000000000ADA'/>
+                      </UML:TaggedValue.type>
+                    </UML:TaggedValue>
+                    <UML:TaggedValue xmi.id = '-64--88-2--122--4fc909c4:10df01999ba:-8000:0000000000000B69'
+                      isSpecification = 'false'>
+                      <UML:TaggedValue.dataValue>ZCTextIndex</UML:TaggedValue.dataValue>
+                      <UML:TaggedValue.type>
+                        <UML:TagDefinition xmi.idref = '-64--88-2--122--4fc909c4:10df01999ba:-8000:0000000000000B66'/>
                       </UML:TaggedValue.type>
                     </UML:TaggedValue>
                   </UML:ModelElement.taggedValue>
@@ -360,6 +374,13 @@
                         <UML:TagDefinition xmi.idref = '.:0000000000000ADA'/>
                       </UML:TaggedValue.type>
                     </UML:TaggedValue>
+                    <UML:TaggedValue xmi.id = '-64--88-2--122--4fc909c4:10df01999ba:-8000:0000000000000B6A'
+                      isSpecification = 'false'>
+                      <UML:TaggedValue.dataValue>KeywordIndex</UML:TaggedValue.dataValue>
+                      <UML:TaggedValue.type>
+                        <UML:TagDefinition xmi.idref = '-64--88-2--122--4fc909c4:10df01999ba:-8000:0000000000000B66'/>
+                      </UML:TaggedValue.type>
+                    </UML:TaggedValue>
                   </UML:ModelElement.taggedValue>
                   <UML:StructuralFeature.type>
                     <UML:Class xmi.idref = '.:0000000000000AED'/>
@@ -383,6 +404,13 @@
                       <UML:TaggedValue.dataValue>Secondary References</UML:TaggedValue.dataValue>
                       <UML:TaggedValue.type>
                         <UML:TagDefinition xmi.idref = '.:0000000000000ADA'/>
+                      </UML:TaggedValue.type>
+                    </UML:TaggedValue>
+                    <UML:TaggedValue xmi.id = '-64--88-2--122--4fc909c4:10df01999ba:-8000:0000000000000B6B'
+                      isSpecification = 'false'>
+                      <UML:TaggedValue.dataValue>ZCTextIndex</UML:TaggedValue.dataValue>
+                      <UML:TaggedValue.type>
+                        <UML:TagDefinition xmi.idref = '-64--88-2--122--4fc909c4:10df01999ba:-8000:0000000000000B66'/>
                       </UML:TaggedValue.type>
                     </UML:TaggedValue>
                   </UML:ModelElement.taggedValue>
@@ -426,6 +454,10 @@
                       </UML:Multiplicity.range>
                     </UML:Multiplicity>
                   </UML:StructuralFeature.multiplicity>
+                  <UML:Attribute.initialValue>
+                    <UML:Expression xmi.id = '-64--88-2--122--4fc909c4:10df01999ba:-8000:0000000000000B6C'
+                      language = '' body = ''/>
+                  </UML:Attribute.initialValue>
                   <UML:ModelElement.taggedValue>
                     <UML:TaggedValue xmi.id = '.:0000000000000A80' isSpecification = 'false'>
                       <UML:TaggedValue.dataValue>Spatial Geometry Type</UML:TaggedValue.dataValue>
@@ -437,6 +469,13 @@
                       <UML:TaggedValue.dataValue>point</UML:TaggedValue.dataValue>
                       <UML:TaggedValue.type>
                         <UML:TagDefinition xmi.idref = '.:0000000000000AE1'/>
+                      </UML:TaggedValue.type>
+                    </UML:TaggedValue>
+                    <UML:TaggedValue xmi.id = '-64--88-2--122--4fc909c4:10df01999ba:-8000:0000000000000B6D'
+                      isSpecification = 'false'>
+                      <UML:TaggedValue.dataValue>FieldIndex</UML:TaggedValue.dataValue>
+                      <UML:TaggedValue.type>
+                        <UML:TagDefinition xmi.idref = '-64--88-2--122--4fc909c4:10df01999ba:-8000:0000000000000B66'/>
                       </UML:TaggedValue.type>
                     </UML:TaggedValue>
                   </UML:ModelElement.taggedValue>
@@ -875,6 +914,17 @@
             <UML:Multiplicity xmi.id = '-64--88-2--124--1ef2c416:10dd2107978:-8000:0000000000000B12'>
               <UML:Multiplicity.range>
                 <UML:MultiplicityRange xmi.id = '-64--88-2--124--1ef2c416:10dd2107978:-8000:0000000000000B11'
+                  lower = '0' upper = '1'/>
+              </UML:Multiplicity.range>
+            </UML:Multiplicity>
+          </UML:TagDefinition.multiplicity>
+        </UML:TagDefinition>
+        <UML:TagDefinition xmi.id = '-64--88-2--122--4fc909c4:10df01999ba:-8000:0000000000000B66'
+          name = 'index' isSpecification = 'false' tagType = 'String'>
+          <UML:TagDefinition.multiplicity>
+            <UML:Multiplicity xmi.id = '-64--88-2--122--4fc909c4:10df01999ba:-8000:0000000000000B68'>
+              <UML:Multiplicity.range>
+                <UML:MultiplicityRange xmi.id = '-64--88-2--122--4fc909c4:10df01999ba:-8000:0000000000000B67'
                   lower = '0' upper = '1'/>
               </UML:Multiplicity.range>
             </UML:Multiplicity>

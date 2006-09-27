@@ -60,6 +60,7 @@ schema = Schema((
 
     StringField(
         name='geoEntityType',
+        index="FieldIndex",
         widget=StringWidget(
             label="Entity Type",
             label_msgid='GeographicEntityLite_label_geoEntityType',
@@ -69,6 +70,7 @@ schema = Schema((
 
     TextField(
         name='modernLocation',
+        index="ZCTextIndex",
         widget=TextAreaWidget(
             label="Modern Name / Location",
             label_msgid='GeographicEntityLite_label_modernLocation',
@@ -78,6 +80,7 @@ schema = Schema((
 
     LinesField(
         name='timePeriods',
+        index="KeywordIndex",
         widget=LinesWidget(
             label="Time Periods",
             label_msgid='GeographicEntityLite_label_timePeriods',
@@ -87,6 +90,7 @@ schema = Schema((
 
     LinesField(
         name='secondaryReferences',
+        index="ZCTextIndex",
         widget=LinesWidget(
             label="Secondary References",
             label_msgid='GeographicEntityLite_label_secondaryReferences',
@@ -106,6 +110,7 @@ schema = Schema((
     StringField(
         name='spatialGeometryType',
         default="point",
+        index="FieldIndex",
         widget=StringWidget(
             label="Spatial Geometry Type",
             label_msgid='GeographicEntityLite_label_spatialGeometryType',
