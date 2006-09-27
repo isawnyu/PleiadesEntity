@@ -3,15 +3,40 @@
           xmlns:metal="http://xml.zope.org/namespaces/metal"
           xmlns:i18n="http://xml.zope.org/namespaces/i18n"
           i18n:domain="plone">
-      <head><title></title></head>
+      <head>
+        <title></title>
+        <head>
+          <metal:block metal:define-macro="js">
+            <script type="text/javascript" src="/ol/lib/OpenLayers.js"></script>
+            <script type="text/javascript" src="/MochiKit/MochiKit.js"></script>
+            <script type="text/javascript" src="ol.js"
+              tal:attributes="src string:${context/absolute_url}/ol.js"></script>
+          </metal:block>
+        </head>
+      </head>
+      
       <body>
 
         <metal:body_macro 
 		  metal:define-macro="body"
 		  >
-          <div
-		    style="float:right;height:300px;width:225px;background-image:url(ba065b1-300.jpg);border:solid grey 1px;"
-			></div>
+
+          <div id="mapzonebox">
+            <div id="map" style="float:right;width:200px;height:300px;border:solid gray 1px;background-color:#cccccc;"></div>
+            <script
+              tal:define="feature_json string:${context/JSON};
+                          map_json string:${context/ba-map/JSON};"
+              defer="defer"
+              type="text/javascript"
+              tal:content="python:''' 
+              var feature = eval('(%s)');
+              var map = eval('(%s)');
+              mapFeature(map, feature, 1/10000000);
+              ''' % (feature_json, map_json)"
+              >
+            </script>
+          </div>
+          
        	  <div
 		    tal:define="field_macro field_macro | here/widgets/field/macros/view;"
             tal:repeat="field python:here.Schema().filterFields(isMetadata=0)"
