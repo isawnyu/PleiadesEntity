@@ -68,11 +68,11 @@ class GeoEntitySimple(object):
         for point in coords:
             if len(point) == 3:
                 value = ' '.join([value, "%f %f %f" % point])
-            if len(point) == 2:
+            elif len(point) == 2:
                 value = ' '.join([value, "%f %f 0.0" % point])
             else:
                 raise ValueError, \
-                "Insufficient number of ordinates: %s" % point
+                "Insufficient number of ordinates: %s" % str(point)
         self.context.setSpatialCoordinates(value.lstrip())
         
     def isGeoreferenced(self):
