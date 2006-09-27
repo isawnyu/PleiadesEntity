@@ -50,6 +50,7 @@ schema = Schema((
 
     StringField(
         name='identifier',
+        index="FieldIndex",
         widget=StringWidget(
             label="Identifier",
             label_msgid='GeographicEntityLite_label_identifier',
@@ -90,7 +91,7 @@ schema = Schema((
 
     LinesField(
         name='secondaryReferences',
-        index="ZCTextIndex",
+        index="KeywordIndex",
         widget=LinesWidget(
             label="Secondary References",
             label_msgid='GeographicEntityLite_label_secondaryReferences',

@@ -1,5 +1,5 @@
 <?xml version = '1.0' encoding = 'UTF-8' ?>
-<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Wed Sep 27 11:37:07 CDT 2006'>
+<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Wed Sep 27 14:13:33 CDT 2006'>
   <XMI.header>    <XMI.documentation>
       <XMI.exporter>ArgoUML (using Netbeans XMI Writer version 1.0)</XMI.exporter>
       <XMI.exporterVersion>0.20.x</XMI.exporterVersion>
@@ -272,6 +272,10 @@
                       </UML:Multiplicity.range>
                     </UML:Multiplicity>
                   </UML:StructuralFeature.multiplicity>
+                  <UML:Attribute.initialValue>
+                    <UML:Expression xmi.id = '-64--88-2--122-4226b20e:10df0ab1c08:-8000:0000000000000B6F'
+                      language = '' body = ''/>
+                  </UML:Attribute.initialValue>
                   <UML:ModelElement.taggedValue>
                     <UML:TaggedValue xmi.id = '-64--88-2--124--670ac44c:10da3bc776b:-8000:0000000000000AD8'
                       isSpecification = 'false'>
@@ -285,6 +289,13 @@
                       <UML:TaggedValue.dataValue>1</UML:TaggedValue.dataValue>
                       <UML:TaggedValue.type>
                         <UML:TagDefinition xmi.idref = '.:0000000000000AE9'/>
+                      </UML:TaggedValue.type>
+                    </UML:TaggedValue>
+                    <UML:TaggedValue xmi.id = '-64--88-2--122-4226b20e:10df0ab1c08:-8000:0000000000000B70'
+                      isSpecification = 'false'>
+                      <UML:TaggedValue.dataValue>FieldIndex</UML:TaggedValue.dataValue>
+                      <UML:TaggedValue.type>
+                        <UML:TagDefinition xmi.idref = '-64--88-2--122--4fc909c4:10df01999ba:-8000:0000000000000B66'/>
                       </UML:TaggedValue.type>
                     </UML:TaggedValue>
                   </UML:ModelElement.taggedValue>
@@ -302,6 +313,10 @@
                       </UML:Multiplicity.range>
                     </UML:Multiplicity>
                   </UML:StructuralFeature.multiplicity>
+                  <UML:Attribute.initialValue>
+                    <UML:Expression xmi.id = '-64--88-2--122-4226b20e:10df0ab1c08:-8000:0000000000000B6E'
+                      language = '' body = ''/>
+                  </UML:Attribute.initialValue>
                   <UML:ModelElement.taggedValue>
                     <UML:TaggedValue xmi.id = '.:0000000000000A68' isSpecification = 'false'>
                       <UML:TaggedValue.dataValue>Entity Type</UML:TaggedValue.dataValue>
@@ -408,7 +423,7 @@
                     </UML:TaggedValue>
                     <UML:TaggedValue xmi.id = '-64--88-2--122--4fc909c4:10df01999ba:-8000:0000000000000B6B'
                       isSpecification = 'false'>
-                      <UML:TaggedValue.dataValue>ZCTextIndex</UML:TaggedValue.dataValue>
+                      <UML:TaggedValue.dataValue>KeywordIndex</UML:TaggedValue.dataValue>
                       <UML:TaggedValue.type>
                         <UML:TagDefinition xmi.idref = '-64--88-2--122--4fc909c4:10df01999ba:-8000:0000000000000B66'/>
                       </UML:TaggedValue.type>
@@ -668,6 +683,13 @@
                         <UML:TagDefinition xmi.idref = '.:0000000000000ADA'/>
                       </UML:TaggedValue.type>
                     </UML:TaggedValue>
+                    <UML:TaggedValue xmi.id = '-64--88-2--122-4226b20e:10df0ab1c08:-8000:0000000000000B71'
+                      isSpecification = 'false'>
+                      <UML:TaggedValue.dataValue>FieldIndex</UML:TaggedValue.dataValue>
+                      <UML:TaggedValue.type>
+                        <UML:TagDefinition xmi.idref = '-64--88-2--122--4fc909c4:10df01999ba:-8000:0000000000000B66'/>
+                      </UML:TaggedValue.type>
+                    </UML:TaggedValue>
                   </UML:ModelElement.taggedValue>
                   <UML:StructuralFeature.type>
                     <UML:DataType xmi.idref = '.:0000000000000ABC'/>
@@ -690,6 +712,13 @@
                       <UML:TaggedValue.dataValue>Name Type</UML:TaggedValue.dataValue>
                       <UML:TaggedValue.type>
                         <UML:TagDefinition xmi.idref = '.:0000000000000ADA'/>
+                      </UML:TaggedValue.type>
+                    </UML:TaggedValue>
+                    <UML:TaggedValue xmi.id = '-64--88-2--122-4226b20e:10df0ab1c08:-8000:0000000000000B72'
+                      isSpecification = 'false'>
+                      <UML:TaggedValue.dataValue>FieldIndex</UML:TaggedValue.dataValue>
+                      <UML:TaggedValue.type>
+                        <UML:TagDefinition xmi.idref = '-64--88-2--122--4fc909c4:10df01999ba:-8000:0000000000000B66'/>
                       </UML:TaggedValue.type>
                     </UML:TaggedValue>
                   </UML:ModelElement.taggedValue>
@@ -716,6 +745,13 @@
                         <UML:TagDefinition xmi.idref = '.:0000000000000ADA'/>
                       </UML:TaggedValue.type>
                     </UML:TaggedValue>
+                    <UML:TaggedValue xmi.id = '-64--88-2--122-4226b20e:10df0ab1c08:-8000:0000000000000B73'
+                      isSpecification = 'false'>
+                      <UML:TaggedValue.dataValue>FieldIndex</UML:TaggedValue.dataValue>
+                      <UML:TaggedValue.type>
+                        <UML:TagDefinition xmi.idref = '-64--88-2--122--4fc909c4:10df01999ba:-8000:0000000000000B66'/>
+                      </UML:TaggedValue.type>
+                    </UML:TaggedValue>
                   </UML:ModelElement.taggedValue>
                   <UML:StructuralFeature.type>
                     <UML:DataType xmi.idref = '.:0000000000000ABC'/>
@@ -739,6 +775,13 @@
                       <UML:TaggedValue.dataValue>Language and Writing System of Attested Name</UML:TaggedValue.dataValue>
                       <UML:TaggedValue.type>
                         <UML:TagDefinition xmi.idref = '.:0000000000000ADA'/>
+                      </UML:TaggedValue.type>
+                    </UML:TaggedValue>
+                    <UML:TaggedValue xmi.id = '-64--88-2--122-4226b20e:10df0ab1c08:-8000:0000000000000B74'
+                      isSpecification = 'false'>
+                      <UML:TaggedValue.dataValue>FieldIndex</UML:TaggedValue.dataValue>
+                      <UML:TaggedValue.type>
+                        <UML:TagDefinition xmi.idref = '-64--88-2--122--4fc909c4:10df01999ba:-8000:0000000000000B66'/>
                       </UML:TaggedValue.type>
                     </UML:TaggedValue>
                   </UML:ModelElement.taggedValue>
@@ -769,6 +812,13 @@
                         <UML:TagDefinition xmi.idref = '.:0000000000000ADA'/>
                       </UML:TaggedValue.type>
                     </UML:TaggedValue>
+                    <UML:TaggedValue xmi.id = '-64--88-2--122-4226b20e:10df0ab1c08:-8000:0000000000000B75'
+                      isSpecification = 'false'>
+                      <UML:TaggedValue.dataValue>KeywordIndex</UML:TaggedValue.dataValue>
+                      <UML:TaggedValue.type>
+                        <UML:TagDefinition xmi.idref = '-64--88-2--122--4fc909c4:10df01999ba:-8000:0000000000000B66'/>
+                      </UML:TaggedValue.type>
+                    </UML:TaggedValue>
                   </UML:ModelElement.taggedValue>
                   <UML:StructuralFeature.type>
                     <UML:Class xmi.idref = '.:0000000000000AED'/>
@@ -789,6 +839,13 @@
                       <UML:TaggedValue.dataValue>Primary References</UML:TaggedValue.dataValue>
                       <UML:TaggedValue.type>
                         <UML:TagDefinition xmi.idref = '.:0000000000000ADA'/>
+                      </UML:TaggedValue.type>
+                    </UML:TaggedValue>
+                    <UML:TaggedValue xmi.id = '-64--88-2--122-4226b20e:10df0ab1c08:-8000:0000000000000B76'
+                      isSpecification = 'false'>
+                      <UML:TaggedValue.dataValue>KeywordIndex</UML:TaggedValue.dataValue>
+                      <UML:TaggedValue.type>
+                        <UML:TagDefinition xmi.idref = '-64--88-2--122--4fc909c4:10df01999ba:-8000:0000000000000B66'/>
                       </UML:TaggedValue.type>
                     </UML:TaggedValue>
                   </UML:ModelElement.taggedValue>
@@ -815,6 +872,13 @@
                       <UML:TaggedValue.dataValue>Secondary References</UML:TaggedValue.dataValue>
                       <UML:TaggedValue.type>
                         <UML:TagDefinition xmi.idref = '.:0000000000000ADA'/>
+                      </UML:TaggedValue.type>
+                    </UML:TaggedValue>
+                    <UML:TaggedValue xmi.id = '-64--88-2--122-4226b20e:10df0ab1c08:-8000:0000000000000B77'
+                      isSpecification = 'false'>
+                      <UML:TaggedValue.dataValue>KeywordIndex</UML:TaggedValue.dataValue>
+                      <UML:TaggedValue.type>
+                        <UML:TagDefinition xmi.idref = '-64--88-2--122--4fc909c4:10df01999ba:-8000:0000000000000B66'/>
                       </UML:TaggedValue.type>
                     </UML:TaggedValue>
                   </UML:ModelElement.taggedValue>

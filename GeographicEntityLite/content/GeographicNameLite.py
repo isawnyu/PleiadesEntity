@@ -54,6 +54,7 @@ schema = Schema((
     copied_fields['title'],
         StringField(
         name='identifier',
+        index="FieldIndex",
         widget=StringWidget(
             label="Identifier",
             label_msgid='GeographicEntityLite_label_identifier',
@@ -64,6 +65,7 @@ schema = Schema((
 
     StringField(
         name='geoNameType',
+        index="FieldIndex",
         widget=StringWidget(
             label="Name Type",
             label_msgid='GeographicEntityLite_label_geoNameType',
@@ -73,6 +75,7 @@ schema = Schema((
 
     StringField(
         name='nameAttested',
+        index="FieldIndex",
         widget=StringWidget(
             label="Name as Attested",
             label_msgid='GeographicEntityLite_label_nameAttested',
@@ -82,6 +85,7 @@ schema = Schema((
 
     StringField(
         name='nameLanguage',
+        index="FieldIndex",
         widget=StringWidget(
             label="Language and Writing System of Attested Name",
             label_msgid='GeographicEntityLite_label_nameLanguage',
@@ -91,6 +95,7 @@ schema = Schema((
 
     LinesField(
         name='timePeriods',
+        index="KeywordIndex",
         widget=LinesWidget(
             label="Time Periods",
             label_msgid='GeographicEntityLite_label_timePeriods',
@@ -100,6 +105,7 @@ schema = Schema((
 
     LinesField(
         name='primaryReferences',
+        index="KeywordIndex",
         widget=LinesWidget(
             label="Primary References",
             label_msgid='GeographicEntityLite_label_primaryReferences',
@@ -109,6 +115,7 @@ schema = Schema((
 
     LinesField(
         name='secondaryReferences',
+        index="KeywordIndex",
         widget=LinesWidget(
             label="Secondary References",
             label_msgid='GeographicEntityLite_label_secondaryReferences',
