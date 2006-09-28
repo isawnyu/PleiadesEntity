@@ -9,6 +9,12 @@
     factory=".adapters.GeoEntitySimple"
     />
 
+  <adapter
+    for=".interfaces.IGeoEntityLite"
+    provides="Products.PleiadesGeocoder.interfaces.IGeoCollectionSimple"
+    factory=".adapters.GeoCollectionSimple"
+    />
+
   <five:implements
     class=".content.GeographicEntityLite.GeographicEntityLite"
     interface=".interfaces.IGeoEntityLite"

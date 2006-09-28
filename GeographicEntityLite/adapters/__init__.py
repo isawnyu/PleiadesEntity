@@ -27,5 +27,5 @@
 # U.S. National Endowment for the Humanities (http://www.neh.gov).
 # ===========================================================================
 
-from simple import GeoEntitySimple
+from simple import GeoEntitySimple, GeoCollectionSimple
 

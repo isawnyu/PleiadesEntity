@@ -27,8 +27,8 @@
             <div id="map" style="float:right;width:200px;height:300px;border:solid gray 1px;background-color:#cccccc;"></div>
             <script
               tal:define="mapcontext python:query_results[0].getObject();
-                          feature_json string:${context/JSON};
-                          map_json string:${mapcontext/JSON};"
+                          feature_json string:${context/json};
+                          map_json string:${mapcontext/json};"
               defer="defer"
               type="text/javascript"
               tal:content="python:''' 

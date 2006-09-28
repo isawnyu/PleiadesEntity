@@ -29,7 +29,8 @@
 
 from zope.interface import implements
 
-from Products.PleiadesGeocoder.interfaces import IGeoItemSimple
+from Products.PleiadesGeocoder.interfaces import IGeoItemSimple \
+    , IGeoCollectionSimple
 
 class GeoEntitySimple(object):
     
@@ -100,3 +101,31 @@ class GeoEntitySimple(object):
             )
         return info
 
+
+class GeoCollectionSimple(object):
+    
+    """Adapter for Folderish collections of GeoItemSimple.
+    """
+    implements(IGeoCollectionSimple)
+    
+    def __init__(self, context):
+        """Initialize."""
+        self.context = context
+        
+    def geoItems(self):
+        try:
+            item = IGeoItemSimple(self.context)
+            assert(item.isGeoreferenced())
+            return [item]
+        except:
+            return []
+
+    def getItemsInfo(self):
+        infos = []
+        for item in self.geoItems():
+            infos.append(item.getInfo())
+        return infos
+
+    def getBoundingBox(self):
+        raise NotImplementedError
+        
