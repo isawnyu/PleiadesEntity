@@ -36,7 +36,7 @@
               var feature = eval('(%s)');
               if (feature.center != null)
               {
-                mapFeature(map, feature, 1/250000);
+                mapFeature(map, feature, 1/500000);
               }
               ''' % (map_json, feature_json)"
               >
