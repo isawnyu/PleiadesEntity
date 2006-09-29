@@ -1,0 +1,7 @@
+Changes
+=======
+
+0.6 - 1 October 2006
+--------------------------
+This is the first public release.
+

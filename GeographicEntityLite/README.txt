@@ -49,6 +49,14 @@ after-creation behaviors (some fields are automatically filled or rewritten) can
 be found in the UML model.
 
 
+Future Improvements
+----------------------------
+
+This product will be renamed and refactored to reduce its emphasis on (but not
+eliminate its suppport for) historical geographic data. If you use or subclass
+this product, keep track of your dependencies!
+
+
 Installation
 ---------------
 
