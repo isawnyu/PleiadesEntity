@@ -16,6 +16,7 @@
       
       <body>
 
+
         <metal:body_macro 
 		  metal:define-macro="body"
 		  >
@@ -24,7 +25,10 @@
             tal:define="query_results python:context.portal_catalog.searchResults({'path':{'query':'/'.join(context.restrictedTraverse('..').getPhysicalPath()),'depth':1}, 'portal_type':'MapContext'})"
             tal:condition="python:len(query_results) > 0"
             >
-            <div id="map" style="float:right;width:200px;height:300px;border:solid gray 1px;background-color:#cccccc;"></div>
+            <div id="mappish" style="float:right;width:200px;border:none;">
+                <div id="map" style="float:right;width:200px;height:300px;border:solid gray 1px;background-color:#cccccc;"></div>
+                <div id="gelink"><p style="text-align:right;"><a href="blah.html">View in Google Earth</a></p></div>
+            </div>
             <script
               tal:define="mapcontext python:query_results[0].getObject();
                           feature_json string:${context/json};
@@ -41,6 +45,7 @@
               ''' % (map_json, feature_json)"
               >
             </script>
+            
           </div>
           
        	  <div
@@ -58,6 +63,7 @@
 			  />
           </tal:if_visible>
 		  </div>
+           
         </metal:body_macro>
 		
         <metal:folderlisting_macro metal:define-macro="folderlisting"
@@ -69,6 +75,7 @@
             </tal:if_folderlisting>
         </metal:folderlisting_macro>
         
+        document_actions
         <metal:footer define-macro="footer">
 <div id="pleiades-datadisclaimer" style="clear:right">
     <h2>Origin and Status of this Data</h2>
