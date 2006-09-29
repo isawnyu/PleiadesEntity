@@ -8,7 +8,22 @@ PRODUCTPATH="$SOFTWARE_HOME/Products/GeographicEntityLite"
 export PYTHONPATH INSTANCE_HOME SOFTWARE_HOME
 
 echo "running coverage tests ..."
-$PYTHON coverage.py -e
-$PYTHON coverage.py -x runalltests.py
-$PYTHON coverage.py -rm $PRODUCTPATH/*.py $PRODUCTPATH/content/*.py $PRODUCTPATH/Extensions/*.py $PRODUCTPATH/adapters/*.py
+#$PYTHON coverage.py -e
+#$PYTHON coverage.py -x runalltests.py
+
+echo ""
+echo "main coverage:"
+$PYTHON coverage.py -rm $PRODUCTPATH/*.py
+
+echo ""
+echo "content coverage:"
+$PYTHON coverage.py -rm $PRODUCTPATH/content/*.py
+
+echo ""
+echo "extensions coverage:"
+$PYTHON coverage.py -rm $PRODUCTPATH/Extensions/*.py
+
+echo ""
+echo "adapters coverage:"
+$PYTHON coverage.py -rm $PRODUCTPATH/adapters/*.py
 
