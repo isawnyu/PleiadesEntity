@@ -27,7 +27,7 @@
             >
             <div id="mappish" style="float:right;width:200px;border:none;">
                 <div id="map" style="float:right;width:200px;height:300px;border:solid gray 1px;background-color:#cccccc;"></div>
-                <div id="gelink"><p style="text-align:right;"><a href="blah.html">View in Google Earth</a></p></div>
+                <div id="gelink" style="float:right;"><span class="link-external"><a href="nwlink">Open in Google Earth</a></span></div>
             </div>
             <script
               tal:define="mapcontext python:query_results[0].getObject();
