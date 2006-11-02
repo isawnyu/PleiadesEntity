@@ -97,6 +97,9 @@ def load_entity(plonefolder, source):
     en.setTimePeriods(ge.timePeriods)
     en.setSecondaryReferences(ge.secondaryReferences)
     en.setDescription(ge.description.encode('utf8'))
+    en.setContributors(ge.contributors)
+    en.setCreators(ge.creators)
+    en.setRights(ge.rights)
     
     try:
         coords = ge.spatialLocations[0][1].replace(',', ' ')
@@ -122,8 +125,11 @@ def load_entity(plonefolder, source):
         en_name.setPrimaryReferences(name.primaryReferences)
         en_name.setSecondaryReferences(name.secondaryReferences)
         en_name.setGeoNameType(name.classifications['geoNameType'])
+        en_name.setCreators(ge.creators)
+        en_name.setContributors(ge.contributors)
+        en_name.setRights(ge.rights)
         en_name.reindexObject()
-        # classifications!
+       
         
     # rename the entity to reflect the names of its children
     setGeoTitleFromNames(en)
@@ -195,17 +201,17 @@ class geoName:
         pass
         
     def parse_Element(self, node): 
-        handlerMethod = getattr(self, "hdl_%s" % node.tagName)
+        handlerMethod = getattr(self, "hdl_%s" % node.localName)
         handlerMethod(node)
         
     def parse_Comment(self, node):
         pass
         
-    def hdl_name(self, node):
+    def hdl_featureName(self, node):
         for childnode in node.childNodes:
             self.parse_Node(childnode)
             
-    def hdl_nameString(self, node):
+    def hdl_name(self, node):
         self.nameString = getXMLText([node])
         try:
             langcode = language_vocab[node.attributes.get('xml:lang', '').value]
@@ -214,12 +220,12 @@ class geoName:
         else:
             self.language = langcode
             
-    def hdl_nameStringTransliterated(self, node):
+    def hdl_transliteration(self, node):
         self.nameStringTransliterated = getXMLText([node])
         
     def hdl_classificationSection(self, node):
-        thesaurus =  getXMLText(node.getElementsByTagName('classificationScheme')[0].getElementsByTagName('schemeName'))
-        term = getXMLText(node.getElementsByTagName('classificationTerm'))
+        thesaurus =  getXMLText(node.getElementsByTagName('adlgaz:classificationScheme')[0].getElementsByTagName('adlgaz:schemeName'))
+        term = getXMLText(node.getElementsByTagName('adlgaz:classificationTerm'))
         self.classifications[thesaurus] = term
         try:
             for childnode in node.getElementsByTagName('note'):
@@ -231,7 +237,7 @@ class geoName:
         self.notes.append(getXMLText([node]))
         
     def hdl_timePeriod(self, node):
-        period_name = getXMLText(node.getElementsByTagName('timePeriodName'))
+        period_name = getXMLText(node.getElementsByTagName('adlgaz:timePeriodName'))
         self.timePeriods.append(period_name)
         
     def hdl_secondaryReferences(self, node):
@@ -253,6 +259,9 @@ class geoEntity:
         self.secondaryReferences = []
         self.classifications = {}
         self.names = []
+        self.contributors = []
+        self.creators = []
+        self.rights = ''
         
         self.loadSource(source)
         
@@ -334,19 +343,24 @@ class geoEntity:
         pass
         
     def parse_Element(self, node): 
-        handlerMethod = getattr(self, "hdl_%s" % node.tagName)
+        handlerMethod = getattr(self, "hdl_%s" % node.localName)
         handlerMethod(node)
         
         
     def parse_Comment(self, node):
         pass
         
+    def hdl_contributor(self, node):
+        self.contributors.append(getXMLText([node]))
+        
+    def hdl_creator(self, node):
+        self.creators.append(getXMLText([node]))
         
     def hdl_geoEntity(self, node):
         for childnode in node.childNodes:
             self.parse_Node(childnode)
         
-    def hdl_ID(self, node):
+    def hdl_featureID(self, node):
         "Handle an identifier tag"
         self.identifier = getXMLText([node])
         
@@ -354,16 +368,19 @@ class geoEntity:
         location = getXMLText(node.childNodes)
         self.modernLocation = location
         
+    def hdl_rights(self, node):
+        self.rights = getXMLText([node])
+        
     def hdl_timePeriod(self, node):
-        period_name = getXMLText(node.getElementsByTagName('timePeriodName'))
+        period_name = getXMLText(node.getElementsByTagName('adlgaz:timePeriodName'))
         self.timePeriods.append(period_name)
         
     def hdl_classificationSection(self, node):
-        thesaurus =  getXMLText(node.getElementsByTagName('classificationScheme')[0].getElementsByTagName('schemeName'))
-        term = getXMLText(node.getElementsByTagName('classificationTerm'))
+        thesaurus =  getXMLText(node.getElementsByTagName('adlgaz:classificationScheme')[0].getElementsByTagName('adlgaz:schemeName'))
+        term = getXMLText(node.getElementsByTagName('adlgaz:classificationTerm'))
         self.classifications[thesaurus] = term
         
-    def hdl_name(self, node):
+    def hdl_featureName(self, node):
         self.names.append(geoName(self, node))
     
     def hdl_spatialLocation(self, node):

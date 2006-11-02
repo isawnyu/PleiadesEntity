@@ -1,44 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-     ===========================================================================
-     Copyright (C) 2006 Ancient World Mapping Center. All rights reserved.
-
-     This data is derived from original compilations prepared for the American 
-     Philological Association's Classical Atlas Project (1988-2000). It is used
-     here with permission of the APA. 
-     
-     This data is intended solely for testing purposes in the context of the 
-     Ancient World Mapping Center's Pleiades Project and may not be reused or 
-     redistributed. 
-            
-     In its current state, this data may contain errors and omissions and is not 
-     appropriate for citation or scholarly use. Any errors or omissions are the 
-     result of prototype conversion software, still under development by the 
-     AWMC's Pleiades Project, and do not reflect the quality and completeness of 
-     the original data nor the opinions of its scholarly compilers and editors. 
-
-     About Pleiades
-    
-     Pleiades is an international research network and associated web portal and
-     content management system devoted to the study of ancient geography. 
-    
-     See http://icon.stoa.org/trac/pleiades/wiki.
-    
-     Funding for the conversion of this data was provided by a grant from the 
-     U.S. National Endowment for the Humanities (http://www.neh.gov).
-     ===========================================================================
-        -->
-<geoEntity xmlns="http://www.unc.edu/awmc/gazetteer/schemata/ns/0.3"><ID>batlas-65-4-9</ID>
+<geoEntity xmlns="http://www.unc.edu/awmc/gazetteer/schemata/ns/0.3"><adlgaz:featureID xmlns:adlgaz="http://www.alexandria.ucsb.edu/gazetteer/ContentStandard/version3.2/">batlas-65-4-9</adlgaz:featureID>
 <modernLocation>at Asarbaşı, over Eurymedon fl.</modernLocation>
-<timePeriod><timePeriodName>Roman</timePeriodName>
-</timePeriod>
-<classificationSection><classificationTerm>bridge</classificationTerm>
-<classificationScheme><schemeName>geoEntityType</schemeName>
-</classificationScheme>
-</classificationSection>
+<adlgaz:timePeriod xmlns:adlgaz="http://www.alexandria.ucsb.edu/gazetteer/ContentStandard/version3.2/"><adlgaz:timePeriodName>Roman</adlgaz:timePeriodName>
+</adlgaz:timePeriod>
+<adlgaz:classificationSection xmlns:adlgaz="http://www.alexandria.ucsb.edu/gazetteer/ContentStandard/version3.2/"><adlgaz:classificationTerm>bridge</adlgaz:classificationTerm>
+<adlgaz:classificationScheme><adlgaz:schemeName>geoEntityType</adlgaz:schemeName>
+</adlgaz:classificationScheme>
+</adlgaz:classificationSection>
 <secondaryReferences><tei:bibl xmlns:tei="http://www.tei-c.org/ns/1.0">BAtlas 65 F3 </tei:bibl>
 <tei:bibl xmlns:tei="http://www.tei-c.org/ns/1.0">IK 37, 18</tei:bibl>
 </secondaryReferences>
-<spatialLocation><georss:point xmlns:georss="http://www.georss.org/georss">37.3724500000008 31.2163400000009</georss:point>
-</spatialLocation>
-</geoEntity>
+<adlgaz:spatialLocation xmlns:adlgaz="http://www.alexandria.ucsb.edu/gazetteer/ContentStandard/version3.2/"><georss:point xmlns:georss="http://www.georss.org/georss">37.3724500000008 31.2163400000009</georss:point>
+</adlgaz:spatialLocation>
+<dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">C. Foss (compiler, west)</dc:creator>
+<dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">S. Mitchell (compiler)</dc:creator>
+<dc:contributor xmlns:dc="http://purl.org/dc/elements/1.1/">R. Talbert (editor)</dc:contributor>
+<dc:contributor xmlns:dc="http://purl.org/dc/elements/1.1/">T. Elliott (data normalization and xml encoding)</dc:contributor>
+<dc:rights xmlns:dc="http://purl.org/dc/elements/1.1/">Copyright © 2006 Ancient World Mapping Center. All rights reserved. This data is derived from original compilations prepared for the American Philological Association's Classical Atlas Project (1988-2000). It is used here with permission of the APA. This data is intended solely for testing purposes in the context of the Ancient World Mapping Center's Pleiades Project and may not be reused or redistributed. In its current state, this data may contain errors and omissions and is not appropriate for citation or scholarly use. Any errors or omissions are the result of prototype conversion software, still under development by the AWMC's Pleiades Project, and do not reflect the quality and completeness of the original data nor the opinions of its scholarly compilers and editors.</dc:rights></geoEntity>

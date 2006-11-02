@@ -1,18 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0" 
-    xmlns:gaz="http://www.unc.edu/awmc/gazetteer/schemata/ns/0.3" 
+    xmlns:awmcgaz="http://www.unc.edu/awmc/gazetteer/schemata/ns/0.3" 
+    xmlns:adlgaz="http://www.alexandria.ucsb.edu/gazetteer/ContentStandard/version3.2/"
     xmlns:tei="http://www.tei-c.org/ns/1.0"
-    xmlns:georss="http://www.georss.org/georss">
+    xmlns:georss="http://www.georss.org/georss"
+    xmlns:dc="http://purl.org/dc/elements/1.1/">
     <xsl:import href="calc_Description.xsl"/>
     <xsl:output encoding="UTF-8" method="text"/>
     
+    <!-- =========================================================================== -->
+    <!-- ROOT OF GAZETTEER FILE -->
+    <!-- =========================================================================== -->
     <xsl:template match="/">
+    # test programmatic manipulation of geoEntities and geoNames using data associated with entity ID = <xsl:value-of select="//adlgaz:featureID"/>
+    # this set of tests check the load-from-file capabilities; there are other tests for attribute-by-attribute testing
         <xsl:apply-templates/>
     </xsl:template>
     
-    <xsl:template match="gaz:geoEntity">
+    <!-- =========================================================================== -->
+    <!-- geoEntity:  -->
+    <!--    * create a Plone folder -->
+    <!--    * handle all subordinate elements -->
+    <!--    * verify entity description -->
+    <!-- =========================================================================== -->
+    <xsl:template match="awmcgaz:geoEntity">
+    # set up a test folder in which to create the entity and its children
     &gt;&gt;&gt; folder = self.folder
         <xsl:apply-templates/>
+    # verify that the programmatically created description matches our expectations
     &gt;&gt;&gt; soughtDescription = u'<xsl:call-template name="calc_Description"/>'
     &gt;&gt;&gt; gotDescription = en.Description()
     &gt;&gt;&gt; soughtDescription_utf8 = soughtDescription.encode('utf8')
@@ -20,7 +35,13 @@
     True
     </xsl:template>
     
-    <xsl:template match="gaz:ID">
+    <!-- =========================================================================== -->
+    <!-- featureID:  -->
+    <!--    * call code to create and populate the entity and its subordinate elements from file -->
+    <!--    * verify that the identifier attribute value is correct -->
+    <!--    * verify that calculated title is correct -->
+    <!-- =========================================================================== -->
+    <xsl:template match="adlgaz:featureID">
     &gt;&gt;&gt; import os
      &gt;&gt;&gt; source_dir = os.path.sep.join([os.environ['SOFTWARE_HOME'], 'Products', 'GeographicEntityLite', 'tests', 'data', '<xsl:value-of select="."/>.xml'])
     &gt;&gt;&gt; from Products.GeographicEntityLite.Extensions.batching import load_entity        
@@ -42,7 +63,11 @@
 
     </xsl:template>
     
-    <xsl:template match="gaz:modernLocation">
+    <!-- =========================================================================== -->
+    <!-- modernLocation:  -->
+    <!--    * verifythat value of the modernLocation attribute on the entity is correct -->
+    <!-- =========================================================================== -->
+    <xsl:template match="awmcgaz:modernLocation">
     &gt;&gt;&gt; sourcetext = u'<xsl:apply-templates/>'
     &gt;&gt;&gt; sourcetext_utf8 = sourcetext.encode('utf8')
     &gt;&gt;&gt; resulttext_utf8 = en.getModernLocation()
@@ -55,35 +80,134 @@
     True
     </xsl:template>
     
-    <xsl:template match="gaz:timePeriod">
-        <xsl:if test="count(preceding-sibling::gaz:timePeriod) = 0">
-            <xsl:variable name="timestring"><xsl:for-each select="../gaz:timePeriod">'<xsl:value-of select="normalize-space(gaz:timePeriodName)"/>'<xsl:if test="count(following-sibling::gaz:timePeriod) &gt; 0">, </xsl:if></xsl:for-each></xsl:variable>
+    <!-- =========================================================================== -->
+    <!-- timePeriod:  -->
+    <!-- NOTE: this template handles periods for entities *and* for names -->
+    <!--    * do nothing UNLESS this is the first sibling in a family of periods -->
+    <!--    * build a list of periods and test them against the appropriate entity/name -->
+    <!-- =========================================================================== -->
+    <xsl:template match="adlgaz:timePeriod">
+        <xsl:if test="count(preceding-sibling::adlgaz:timePeriod) = 0">
+            <xsl:variable name="timestring"><xsl:for-each select="../adlgaz:timePeriod">'<xsl:value-of select="normalize-space(adlgaz:timePeriodName)"/>'<xsl:if test="count(following-sibling::adlgaz:timePeriod) &gt; 0">, </xsl:if></xsl:for-each></xsl:variable>
     &gt;&gt;&gt; sourcelist = [<xsl:value-of select="$timestring"/>]
-    &gt;&gt;&gt; results = en<xsl:if test="local-name(..) = 'name'">_name</xsl:if>.getTimePeriods()
-    <xsl:for-each select="../gaz:timePeriod">
-    &gt;&gt;&gt; results[<xsl:value-of select="count(preceding-sibling::gaz:timePeriod)"/>] == '<xsl:value-of select="normalize-space(gaz:timePeriodName)"/>'
+    &gt;&gt;&gt; results = en<xsl:if test="local-name(..) = 'featureName'">_name</xsl:if>.getTimePeriods()
+    <xsl:for-each select="../adlgaz:timePeriod">
+    &gt;&gt;&gt; results[<xsl:value-of select="count(preceding-sibling::adlgaz:timePeriod)"/>] == '<xsl:value-of select="normalize-space(adlgaz:timePeriodName)"/>'
     True
     </xsl:for-each>
             </xsl:if>
     </xsl:template>
-    
-    <xsl:template match="gaz:classificationSection">
-        <!-- <xsl:if test="local-name(..) != 'name'"> -->
-        <xsl:variable name="lame"><xsl:value-of select="descendant::gaz:schemeName"/></xsl:variable>
-        <xsl:variable name="camelized"><xsl:value-of select="translate(substring($lame, 1, 1), 'abcdefghijklmnopqrstuvwxyz', 'ABCDEFGHIJKLMNOPQRSTUVWXYZ')"/><xsl:value-of select="substring($lame, 2)"/></xsl:variable>
-    &gt;&gt;&gt; en<xsl:if test="local-name(..) = 'name'">_name</xsl:if>.get<xsl:value-of select="$camelized"/>()
-    '<xsl:value-of select="gaz:classificationTerm"/>'<!-- </xsl:if> -->
+
+    <!-- =========================================================================== -->
+    <!-- creator:  -->
+    <!-- NOTE: this template handles creators for entities *and* for names -->
+    <!--    * do nothing UNLESS this is the first sibling in a family of creators -->
+    <!--    * build a list of creators and test them against the appropriate entity/name -->
+    <!-- =========================================================================== -->
+    <xsl:template match="dc:creator">
+        <xsl:param name="forname">no</xsl:param>
+        <xsl:if test="count(preceding-sibling::dc:creator) = 0">
+            <xsl:variable name="contributorstring">
+                <xsl:for-each select="../dc:creator">u'<xsl:apply-templates/>'<xsl:if test="count(following-sibling::dc:creator) &gt; 0">, </xsl:if></xsl:for-each>
+            </xsl:variable>
+    # verify that we can set and retrieve a list of creators
+    &gt;&gt;&gt; sourcelist = [<xsl:value-of select="$contributorstring"/>]
+            <xsl:choose>
+                <xsl:when test="$forname='yes'">
+    &gt;&gt;&gt; results = en_name.Creators()
+                </xsl:when>
+                <xsl:otherwise>
+    &gt;&gt;&gt; results = en.Creators()
+                </xsl:otherwise>
+            </xsl:choose>
+    <xsl:for-each select="../dc:creator">
+    &gt;&gt;&gt; results[<xsl:value-of select="count(preceding-sibling::dc:creator)"/>] == u'<xsl:apply-templates/>'
+    True
+    </xsl:for-each>
+        </xsl:if>
     </xsl:template>
     
-    <xsl:template match="gaz:secondaryReferences">
+
+    <!-- =========================================================================== -->
+    <!-- contributor:  -->
+    <!-- NOTE: this template handles contributors for entities *and* for names -->
+    <!--    * do nothing UNLESS this is the first sibling in a family of contributors -->
+    <!--    * build a list of contributors and test them against the appropriate entity/name -->
+    <!-- =========================================================================== -->
+    <xsl:template match="dc:contributor">
+        <xsl:param name="forname">no</xsl:param>
+        <xsl:if test="count(preceding-sibling::dc:contributor) = 0">
+            <xsl:variable name="contributorstring">
+                <xsl:for-each select="../dc:contributor">u'<xsl:apply-templates/>'<xsl:if test="count(following-sibling::dc:contributor) &gt; 0">, </xsl:if></xsl:for-each>
+            </xsl:variable>
+    # verify that we can set and retrieve a list of contributors
+    &gt;&gt;&gt; sourcelist = [<xsl:value-of select="$contributorstring"/>]
+            <xsl:choose>
+                <xsl:when test="$forname='yes'">
+    &gt;&gt;&gt; results = en_name.Contributors()
+                </xsl:when>
+                <xsl:otherwise>
+    &gt;&gt;&gt; results = en.Contributors()
+                </xsl:otherwise>
+            </xsl:choose>
+    <xsl:for-each select="../dc:contributor">
+    &gt;&gt;&gt; results[<xsl:value-of select="count(preceding-sibling::dc:contributor)"/>] == u'<xsl:apply-templates/>'
+    True
+    </xsl:for-each>
+        </xsl:if>
+    </xsl:template>
+    
+    <!-- =========================================================================== -->
+    <!-- classificationSection:  -->
+    <!-- NOTE: this template handles periods for entities *and* for names -->
+    <!--    * check the appropriate classification type(s) for the entity/name -->
+    <!-- =========================================================================== -->
+    <xsl:template match="adlgaz:classificationSection">
+        <xsl:variable name="lame"><xsl:value-of select="descendant::adlgaz:schemeName"/></xsl:variable>
+        <xsl:variable name="camelized"><xsl:value-of select="translate(substring($lame, 1, 1), 'abcdefghijklmnopqrstuvwxyz', 'ABCDEFGHIJKLMNOPQRSTUVWXYZ')"/><xsl:value-of select="substring($lame, 2)"/></xsl:variable>
+    # verify that we can retrieve the appropriate classification type(s)
+    &gt;&gt;&gt; en<xsl:if test="local-name(..) = 'featureName'">_name</xsl:if>.get<xsl:value-of select="$camelized"/>()
+    '<xsl:value-of select="adlgaz:classificationTerm"/>'
+    </xsl:template>
+    
+    <!-- =========================================================================== -->
+    <!-- secondaryReferences:  -->
+    <!-- NOTE: this template implicitly handles secondary references for entities *and* for names -->
+    <!--    * pass processing on to subordinate templates -->
+    <!-- =========================================================================== -->
+    <xsl:template match="awmcgaz:secondaryReferences">
+    # verify that we can set and retrieve a list of secondaryReferences
         <xsl:apply-templates/>
     </xsl:template>
     
+    <!-- =========================================================================== -->
+    <!-- bibl:  -->
+    <!-- NOTE: this template handles bibliographic entries for entities *and* for names -->
+    <!--    * do nothing UNLESS this is the first sibling in a family of bibls -->
+    <!--    * if this is bibl for a name: -->
+    <!--       * if primaryReferences then check primaryReferences -->
+    <!--       * otherwise, assume secondaryReferences and check there -->
+    <!--    * otherwise, assume this is for an entity and assume secondary References -->
+    <!-- =========================================================================== -->
     <xsl:template match="tei:bibl">
         <xsl:if test="count(preceding-sibling::tei:bibl) = 0">
             <xsl:variable name="biblstring"><xsl:for-each select="../tei:bibl">u'<xsl:apply-templates/>'<xsl:if test="count(following-sibling::tei:bibl) &gt; 0">, </xsl:if></xsl:for-each></xsl:variable>
     &gt;&gt;&gt; sourcelist = [<xsl:value-of select="$biblstring"/>]
-    &gt;&gt;&gt; resultlist = en<xsl:if test="local-name(../..) = 'name'">_name</xsl:if>.getSecondaryReferences()
+            <xsl:choose>
+                <xsl:when test="ancestor::adlgaz:featureName">
+                    <xsl:choose>
+                        <xsl:when test="ancestor::awmcgaz:primaryReferences">
+    &gt;&gt;&gt; resultlist = en_name.getPrimaryReferences()
+                        </xsl:when>
+                        <xsl:otherwise>
+    &gt;&gt;&gt; resultlist = en_name.getSecondaryReferences()
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </xsl:when>
+                <xsl:otherwise>
+    &gt;&gt;&gt; resultlist = en.getSecondaryReferences()
+                </xsl:otherwise>
+            </xsl:choose>
     <xsl:for-each select="../tei:bibl">
     &gt;&gt;&gt; resultlist[<xsl:value-of select="count(preceding-sibling::tei:bibl)"/>] == sourcelist[<xsl:value-of select="count(preceding-sibling::tei:bibl)"/>].encode('utf8')
     True
@@ -91,10 +215,20 @@
         </xsl:if>
     </xsl:template>
     
-    <xsl:template match="gaz:spatialLocation">
+    <!-- =========================================================================== -->
+    <!-- spatialLocation:  -->
+    <!--    * pass processing on to subordinate templates -->
+    <!-- =========================================================================== -->
+    <xsl:template match="adlgaz:spatialLocation">
+    # verify that we can set and retrieve the spatialLocation and spatialGeometryType
         <xsl:apply-templates/>
     </xsl:template>
     
+    <!-- =========================================================================== -->
+    <!-- point:  -->
+    <!--    * verify setting of spatial coordinates -->
+    <!--    * verify setting of spatial geometry type primitive -->
+    <!-- =========================================================================== -->
     <xsl:template match="georss:point">
     &gt;&gt;&gt; en.getSpatialCoordinates()
     '<xsl:value-of select="normalize-space(.)"/> 0.0'        
@@ -102,21 +236,55 @@
     'point'        
     </xsl:template>    
     
-    <xsl:template match="gaz:name">
-        <xsl:variable name="nameid"><xsl:value-of select="/gaz:geoEntity/gaz:ID"/>-n<xsl:value-of select="count(preceding-sibling::gaz:name)+1"/></xsl:variable>
+    <!-- =========================================================================== -->
+    <!-- featureName:  -->
+    <!--    * retrieve the Plone geoname that should have been automatically created as a child of the entity -->
+    <!--    * retrieve identifier -->
+    <!--    * retrieve description -->
+    <!--    * process all subordinate nodes -->
+    <!--    * verify creator data (copied from parent entity) -->
+    <!--    * verify contributor data (copied from parent entity) -->
+    <!--    * verify copyright statement (copied from parent entity) -->
+    <!-- =========================================================================== -->
+    <xsl:template match="adlgaz:featureName">
+    # verify that we can retrieve all information about the featureName
+        <xsl:variable name="nameid"><xsl:value-of select="/awmcgaz:geoEntity/adlgaz:featureID"/>-n<xsl:value-of select="count(preceding-sibling::adlgaz:featureName)+1"/></xsl:variable>
+        
+    # verify we can retrieve the name, by id, from its parent entity
     &gt;&gt;&gt; nameID = '<xsl:value-of select="$nameid"/>'
     &gt;&gt;&gt; en_name = getattr(en, nameID)
+
+    # verify we can retrieve the name's identifier value
     &gt;&gt;&gt; en_name.getIdentifier()
     '<xsl:value-of select="$nameid"/>'
+        
+    # verify we can retrieve an appropriate description
     &gt;&gt;&gt; soughtDescription = u'<xsl:call-template name="calc_Description"/>'
     &gt;&gt;&gt; gotDescription = en_name.Description()
     &gt;&gt;&gt; soughtDescription_utf8 = soughtDescription.encode('utf8')
     &gt;&gt;&gt; soughtDescription_utf8 == gotDescription
     True
         <xsl:apply-templates/>
+        <xsl:apply-templates select="//dc:creator">
+            <xsl:with-param name="forname">yes</xsl:with-param>
+        </xsl:apply-templates>
+        <xsl:apply-templates select="//dc:contributor">
+            <xsl:with-param name="forname">yes</xsl:with-param>
+        </xsl:apply-templates>
+        <xsl:apply-templates select="//dc:rights">
+            <xsl:with-param name="forname">yes</xsl:with-param>
+        </xsl:apply-templates>
     </xsl:template>
     
-    <xsl:template match="gaz:nameString">
+    <!-- =========================================================================== -->
+    <!-- name:  -->
+    <!-- This is the string that holds, if available, the attested, original-language-and-script -->
+    <!-- version of the name -->
+    <!--    * retrieve the nameAttested attribute -->
+    <!--    * retrieve the nameLanguage attribute (which is about language and script) -->
+    <!-- =========================================================================== -->
+    <xsl:template match="adlgaz:name">
+    # verify that we can set and retrieve a unicode value for the geographic name's nameAttested attribute
     &gt;&gt;&gt; sourcetext = u'<xsl:apply-templates/>'
     &gt;&gt;&gt; sourcetext_utf8 = sourcetext.encode('utf8')
     &gt;&gt;&gt; resulttext_utf8 = en_name.getNameAttested()
@@ -129,6 +297,7 @@
     True
         
         <xsl:variable name="language"><xsl:call-template name="getlangstring"><xsl:with-param name="langcode"><xsl:value-of select="@xml:lang"/></xsl:with-param></xsl:call-template></xsl:variable>
+    # verify that we can retrieve an appropriate value for the nameLanguage attribute
     &gt;&gt;&gt; en_name.getNameLanguage()
     <xsl:choose>
     <xsl:when test="contains($language, 'unknown')">''</xsl:when>
@@ -136,23 +305,88 @@
     </xsl:choose>
     </xsl:template>
     
-    <xsl:template match="gaz:nameStringTransliterated">
+    <!-- =========================================================================== -->
+    <!-- transliteration:  -->
+    <!-- This is the string that holds an ASCII-transliterated version of the attested name -->
+    <!--    * retrieve the Plone Title (we're using that field for this purpose -->
+    <!-- =========================================================================== -->
+    <xsl:template match="awmcgaz:transliteration">
+        
+    # verify that we can set and retrieve an appropriate value for the name's title attribute (which should be an ASCII transliteration of the nameAttested value)        
     &gt;&gt;&gt; en_name.Title()
     '<xsl:value-of select="."/>'
     </xsl:template>
     
+    <!-- =========================================================================== -->
+    <!-- rights:  -->
+    <!--    * retrieve the rights field (bearing in mind the need to escape characters) -->
+    <!-- =========================================================================== -->
+    <xsl:template match="dc:rights">
+        <xsl:param name="forname">no</xsl:param>
+        <xsl:variable name="cleanrights">
+            <xsl:for-each select="string-to-codepoints(.)">
+                <xsl:choose>
+                    <xsl:when test=". = 13 or . = 10 or . = 39"><xsl:call-template name="genpythouniesc">
+                            <xsl:with-param name="codepoint-decimal"><xsl:value-of select="."/></xsl:with-param>
+                        </xsl:call-template></xsl:when>
+                    <xsl:when test=". &lt; 128"><xsl:value-of select="codepoints-to-string(.)"/></xsl:when>
+                    <xsl:when test=". = 160"><xsl:text> </xsl:text></xsl:when>  <!-- get rid of non-breaking spaces -->
+                    <xsl:otherwise>
+                        <xsl:call-template name="genpythouniesc">
+                            <xsl:with-param name="codepoint-decimal"><xsl:value-of select="."/></xsl:with-param>
+                        </xsl:call-template>
+                    </xsl:otherwise>
+                </xsl:choose>
+            </xsl:for-each>
+        </xsl:variable>
+    # verify that we can retrieve an appropriate value for the rights attribute
+    &gt;&gt;&gt; sourcetext = u'<xsl:value-of select="normalize-space($cleanrights)"/>'
+    &gt;&gt;&gt; sourcetext_utf8 = sourcetext.encode('utf8')
+        <xsl:choose>
+            <xsl:when test="$forname='yes'">
+    &gt;&gt;&gt; resulttext_utf8 = en_name.Rights()
+            </xsl:when>
+            <xsl:otherwise>
+    &gt;&gt;&gt; resulttext_utf8 = en.Rights()
+            </xsl:otherwise>
+        </xsl:choose>
+    &gt;&gt;&gt; resulttext_utf8 == sourcetext_utf8
+    True
+    &gt;&gt;&gt; resulttext = unicode(resulttext_utf8, 'utf8')
+    &gt;&gt;&gt; resulttext == sourcetext
+    True
+    &gt;&gt;&gt; resulttext == u'<xsl:value-of select="normalize-space($cleanrights)"/>'
+    True
+    </xsl:template>
+    
+    <!-- =========================================================================== -->
+    <!-- *:  (all other elements) -->
+    <!--  Issue a test-breaking alert message if there is an element in the source file that is -->
+    <!-- not explicitly trapped by this stylesheet -->
+    <!-- =========================================================================== -->
     <xsl:template match="*">
-    &gt;&gt;&gt; test_msg = 'There is an xml element in the test data that was not handled by the maketest.xsl transformation. Element name = <xsl:value-of select="name(.)"/>'
+    &gt;&gt;&gt; test_msg = 'There is an xml element in the test data that was not handled by the maketest2.xsl transformation. Element name = <xsl:value-of select="name(.)"/>'
     &gt;&gt;&gt; print test_msg
     ''
     </xsl:template>
     
+    <!-- =========================================================================== -->
+    <!-- text() -->
+    <!-- Pump contents of all text nodes through a named template designed to escape -->
+    <!-- characters above Latin-1 so python doctests don't explode in flames -->
+    <!-- =========================================================================== -->
     <xsl:template match="text()">
         <xsl:call-template name="escapetext">
             <xsl:with-param name="thetext"><xsl:value-of select="."/></xsl:with-param>
         </xsl:call-template>
     </xsl:template>
     
+    <!-- =========================================================================== -->
+    <!-- NAMED TEMPLATE: escapetext -->
+    <!-- Massage contents of the "thetext" paramater in order to escape -->
+    <!-- characters above Latin-1 so python doctests don't explode in flames -->
+    <!-- Also: trap for non-breaking space in input stream and replace with regular space -->
+    <!-- =========================================================================== -->
     <xsl:template name="escapetext">
         <xsl:param name="thetext"/>
         <xsl:variable name="normedtext"><xsl:value-of select="normalize-space($thetext)"/></xsl:variable>
@@ -208,14 +442,14 @@
     
     <xsl:template name="gencombinedtitle">
         <xsl:choose>
-            <xsl:when test="count(//gaz:name) = 0">Unnamed <xsl:value-of select="//gaz:classificationSection[descendant::gaz:schemeName='geoEntityType']/gaz:classificationTerm"/><xsl:if test="//gaz:modernLocation">, modern location: <xsl:value-of select="//gaz:modernLocation"/></xsl:if></xsl:when>
-            <xsl:when test="//gaz:name[1]/gaz:classificationSection[/gaz:classificationScheme/gaz:schemeName = 'geoNameType']/gaz:classificationTerm = 'ethnic'">
-                <xsl:variable name="namecount"><xsl:value-of select="count(//gaz:name)"/></xsl:variable>
-                <xsl:for-each select="//gaz:name"><xsl:value-of select="normalize-space(gaz:nameStringTransliterated)"/><xsl:if test="count(following-sibling::gaz:name) &gt; 0">/</xsl:if></xsl:for-each>
+            <xsl:when test="count(//adlgaz:featureName) = 0">Unnamed <xsl:value-of select="//adlgaz:classificationSection[descendant::adlgaz:schemeName='geoEntityType']/adlgaz:classificationTerm"/><xsl:if test="//awmcgaz:modernLocation">, modern location: <xsl:value-of select="//awmcgaz:modernLocation"/></xsl:if></xsl:when>
+            <xsl:when test="//adlgaz:featureName[1]/adlgaz:classificationSection[/adlgaz:classificationScheme/adlgaz:schemeName = 'geoNameType']/adlgaz:classificationTerm = 'ethnic'">
+                <xsl:variable name="namecount"><xsl:value-of select="count(//adlgaz:featureName)"/></xsl:variable>
+                <xsl:for-each select="//adlgaz:featureName"><xsl:value-of select="normalize-space(awmcgaz:transliteration)"/><xsl:if test="count(following-sibling::adlgaz:featureName) &gt; 0">/</xsl:if></xsl:for-each>
             </xsl:when>
             <xsl:otherwise>
-                <xsl:variable name="namecount"><xsl:value-of select="count(//gaz:name[descendant::gaz:classificationTerm != 'ethnic'])"/></xsl:variable>
-                <xsl:for-each select="//gaz:name[descendant::gaz:classificationTerm != 'ethnic']"><xsl:value-of select="normalize-space(gaz:nameStringTransliterated)"/><xsl:if test="count(following-sibling::gaz:name[descendant::gaz:classificationTerm != 'ethnic']) &gt; 0">/</xsl:if></xsl:for-each>
+                <xsl:variable name="namecount"><xsl:value-of select="count(//adlgaz:featureName[descendant::adlgaz:classificationTerm != 'ethnic'])"/></xsl:variable>
+                <xsl:for-each select="//adlgaz:featureName[descendant::adlgaz:classificationTerm != 'ethnic']"><xsl:value-of select="normalize-space(awmcgaz:transliteration)"/><xsl:if test="count(following-sibling::adlgaz:featureName[descendant::adlgaz:classificationTerm != 'ethnic']) &gt; 0">/</xsl:if></xsl:for-each>
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
