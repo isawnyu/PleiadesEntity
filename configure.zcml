@@ -7,13 +7,13 @@
   <adapter
     for=".interfaces.IGeoEntityLite"
     provides="Products.PleiadesGeocoder.interfaces.IGeoItemSimple"
-    factory=".adapters.GeoEntitySimple"
+    factory=".geo.GeoEntitySimple"
     />
 
   <adapter
     for=".interfaces.IGeoEntityLite"
     provides="Products.PleiadesGeocoder.interfaces.IGeoCollectionSimple"
-    factory=".adapters.GeoCollectionSimple"
+    factory=".geo.GeoCollectionSimple"
     />
 
   <five:implements

@@ -23,7 +23,3 @@ echo ""
 echo "extensions coverage:"
 $PYTHON coverage.py -rm $PRODUCTPATH/Extensions/*.py
 
-echo ""
-echo "adapters coverage:"
-$PYTHON coverage.py -rm $PRODUCTPATH/adapters/*.py
-
