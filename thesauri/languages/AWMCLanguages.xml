@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vdex xmlns="http://www.imsglobal.org/xsd/imsvdex_v1p0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.imsglobal.org/xsd/imsvdex_v1p0 ../vdex/schemata/imsvdex_v1p0_thesaurus.xsd"
+    profileType="thesaurus">
+    
+    <vocabName>
+        <langstring language="en">Standard Codes for Languages and Scripts Used in AWMC
+        Publications</langstring>
+    </vocabName>
+
+    <vocabIdentifier isRegistered="false">AWMCLanguages</vocabIdentifier>
+    
+    <term>
+        <termIdentifier>en</termIdentifier>
+        <caption>
+            <langstring language="en">English</langstring>
+            <langstring language="fr">Anglais</langstring>
+            <langstring language="de">Englisch</langstring>
+            <langstring language="el">Αγγλικά</langstring>
+            <langstring language="it">Inglese</langstring>
+            <langstring language="pt">Inglês</langstring>
+            <langstring language="es">Inglés</langstring>
+            <langstring language="tr">İngilizce</langstring>
+        </caption>
+        <description>
+            <langstring language="en">The English language, rendered in its standard
+            script.</langstring>
+        </description>
+    </term>
+
+    <term>
+        <termIdentifier>fr</termIdentifier>
+        <caption>
+            <langstring language="en">French</langstring>
+            <langstring language="fr">Français</langstring>
+            <langstring language="de">Französisch</langstring>
+            <langstring language="el">Γαλλικά</langstring>
+            <langstring language="it">Francese</langstring>
+            <langstring language="pt">Francês</langstring>
+            <langstring language="es">Francés</langstring>
+            <langstring language="tr">Fransızca</langstring>
+        </caption>
+        <description>
+            <langstring language="en">The French language, rendered in its standard
+            script.</langstring>
+        </description>
+    </term>
+    
+    <term>
+        <termIdentifier>it</termIdentifier>
+        <caption>
+            <langstring language="en">Italian</langstring>
+            <langstring language="it">Italiano</langstring>
+            <langstring language="fr">Italien</langstring>
+            <langstring language="de">Italienisch</langstring>
+            <langstring language="el">Ιταλικά</langstring>
+            <langstring language="pt">Italiano</langstring>
+            <langstring language="es">Italiano</langstring>
+            <langstring language="tr">İtalyanca</langstring>
+        </caption>
+        <description>
+            <langstring language="en">The Italian language, rendered in its standard
+            script.</langstring>
+        </description>
+    </term>
+    
+    <term>
+        <termIdentifier>de</termIdentifier>
+        <caption>
+            <langstring language="en">German</langstring>
+            <langstring language="de">Deutsch</langstring>
+            <langstring language="tr">Almanca</langstring>
+            <langstring language="fr">Allemand</langstring>
+            <langstring language="el">Γερμανικά</langstring>
+            <langstring language="it">Tedesco</langstring>
+            <langstring language="pt">Alemão</langstring>
+            <langstring language="es">Alemán</langstring>
+        </caption>
+        <description>
+            <langstring language="en">The German language, rendered in its standard
+            script.</langstring>
+        </description>
+    </term>
+    
+    <term>
+        <termIdentifier>grc</termIdentifier>
+        <caption>
+            <langstring language="en">Greek (ancient)</langstring>
+        </caption>
+        <description>
+            <langstring language="en">The Ancient Greek language, rendered in standard, humanistic
+                script with polytonic accents.</langstring>
+        </description>
+    </term>
+    
+    <term>
+        <termIdentifier>grc-Latn</termIdentifier>
+        <caption>
+            <langstring language="en">Greek (ancient, in Latin characters)</langstring>
+        </caption>
+        <description>
+            <langstring language="en">The Ancient Greek language, rendered in Roman (Latin)
+            script.</langstring>
+        </description>
+    </term>
+    
+    <term>
+        <termIdentifier>la</termIdentifier>
+        <caption>
+            <langstring language="en">Latin</langstring>
+            <langstring language="tr">Latince</langstring>
+            <langstring language="de">Lateinisch</langstring>
+            <langstring language="es">Latino</langstring>
+            <langstring language="fr">Latin</langstring>
+            <langstring language="it">Latino</langstring>
+            <langstring language="pt">Latin</langstring>
+            <langstring language="el">Λατινική</langstring>
+        </caption>
+        <description>
+            <langstring language="en">The Latin language, rendered in its standard
+            script.</langstring>
+        </description>
+    </term>
+    
+    <term>
+        <termIdentifier>la-Grek</termIdentifier>
+        <caption>
+            <langstring language="en">Latin (in Greek Characters)</langstring>
+        </caption>
+        <description>
+            <langstring language="en">The Latin language, rendered in ancient Greek
+            script.</langstring>
+        </description>
+    </term>
+    
+    <term>
+        <termIdentifier>tr</termIdentifier>
+        <caption>
+            <langstring language="en">Turkish</langstring>
+            <langstring language="tr">Türkçe</langstring>
+            <langstring language="de">Türkisch</langstring>
+            <langstring language="es">Turco</langstring>
+            <langstring language="fr">Turc</langstring>
+            <langstring language="it">Turco</langstring>
+            <langstring language="pt">Turkish</langstring>
+            <langstring language="el">τουρκική</langstring>
+        </caption>
+        <description>
+            <langstring language="en">The Turkish language, rendered in its standard
+            script.</langstring>
+        </description>
+    </term>
+    
+    <term>
+        <termIdentifier>el</termIdentifier>
+        <caption>
+            <langstring language="en">Greek (modern)</langstring>
+            <langstring language="el">Ελληνικά</langstring>
+            <langstring language="tr">Yunanca</langstring>
+            <langstring language="de">Griechisch</langstring>
+            <langstring language="es">Griego</langstring>
+            <langstring language="fr">Grec</langstring>
+            <langstring language="it">Greco</langstring>
+            <langstring language="pt">Grego</langstring>
+        </caption>
+        <description>
+            <langstring language="en">The Modern Greek language, rendered in its standard
+            script.</langstring>
+        </description>
+    </term>
+    
+    <term>
+        <termIdentifier>pt</termIdentifier>
+        <caption>
+            <langstring language="pt">Português</langstring>
+            <langstring language="en">Portuguese</langstring>
+            <langstring language="tr">Portekizce</langstring>
+            <langstring language="de">Portugiesisch</langstring>
+            <langstring language="es">Portugués</langstring>
+            <langstring language="fr">Portugais</langstring>
+            <langstring language="it">Portoghese</langstring>
+            <langstring language="el">Πορτογαλική</langstring>
+        </caption>
+        <description>
+            <langstring language="en">The Portuguese language, rendered in its standard
+            script.</langstring>
+        </description>
+    </term>
+    
+    <term>
+        <termIdentifier>es</termIdentifier>
+        <caption>
+            <langstring language="en">Spanish</langstring>
+            <langstring language="es">Español</langstring>
+            <langstring language="tr">İspanyolca</langstring>
+            <langstring language="de">Spanisch</langstring>
+            <langstring language="fr">Espagnol</langstring>
+            <langstring language="it">Spagnolo</langstring>
+            <langstring language="pt">Espanhol</langstring>
+            <langstring language="el">Ισπανική</langstring>
+        </caption>
+        <description>
+            <langstring language="en">The Spanish language, rendered in its standard
+            script.</langstring>
+        </description>
+    </term>
+    
+</vdex>

@@ -1,0 +1,948 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vdex xmlns="http://www.imsglobal.org/xsd/imsvdex_v1p0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.imsglobal.org/xsd/imsvdex_v1p0 file:/C:/TomDocs/awmcwork/pleiadesact/svnbox2/system/trunk/vocabularies/vdex/schemata/imsvdex_v1p0_thesaurus.xsd"
+    profileType="thesaurus">
+    <vocabName>
+        <langstring language="en">Barrington Atlas Map Numbers</langstring>
+    </vocabName>
+    <vocabIdentifier>BAtlasMapNumbers</vocabIdentifier>
+    <term>
+        <termIdentifier>batlasmap1</termIdentifier>
+        <caption>
+            <langstring language="en">1</langstring>
+            <langstring language="la">I</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 1</langstring>
+            
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap1A</termIdentifier>
+        <caption>
+            <langstring language="en">1A</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 1A</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap2</termIdentifier>
+        <caption>
+            <langstring language="en">2</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 2</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap3</termIdentifier>
+        <caption>
+            <langstring language="en">3</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 3</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap4</termIdentifier>
+        <caption>
+            <langstring language="en">4</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 4</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap5</termIdentifier>
+        <caption>
+            <langstring language="en">5</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 5</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap6</termIdentifier>
+        <caption>
+            <langstring language="en">6</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 6</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap7</termIdentifier>
+        <caption>
+            <langstring language="en">7</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 7</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap8</termIdentifier>
+        <caption>
+            <langstring language="en">8</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 8</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap9</termIdentifier>
+        <caption>
+            <langstring language="en">9</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 9</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap10</termIdentifier>
+        <caption>
+            <langstring language="en">10</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 10</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap11</termIdentifier>
+        <caption>
+            <langstring language="en">11</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 11</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap12</termIdentifier>
+        <caption>
+            <langstring language="en">12</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 12</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap13</termIdentifier>
+        <caption>
+            <langstring language="en">13</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 13</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap14</termIdentifier>
+        <caption>
+            <langstring language="en">14</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 14</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap15</termIdentifier>
+        <caption>
+            <langstring language="en">15</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 15</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap16</termIdentifier>
+        <caption>
+            <langstring language="en">16</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 16</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap17</termIdentifier>
+        <caption>
+            <langstring language="en">17</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 17</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap18</termIdentifier>
+        <caption>
+            <langstring language="en">18</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 18</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap19</termIdentifier>
+        <caption>
+            <langstring language="en">19</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 19</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap20</termIdentifier>
+        <caption>
+            <langstring language="en">20</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 20</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap21</termIdentifier>
+        <caption>
+            <langstring language="en">21</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 21</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap22</termIdentifier>
+        <caption>
+            <langstring language="en">22</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 22</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap23</termIdentifier>
+        <caption>
+            <langstring language="en">23</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 23</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap24</termIdentifier>
+        <caption>
+            <langstring language="en">24</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 24</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap25</termIdentifier>
+        <caption>
+            <langstring language="en">25</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 25</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap26</termIdentifier>
+        <caption>
+            <langstring language="en">26</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 26</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap27</termIdentifier>
+        <caption>
+            <langstring language="en">27</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 27</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap28</termIdentifier>
+        <caption>
+            <langstring language="en">28</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 28</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap29</termIdentifier>
+        <caption>
+            <langstring language="en">29</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 29</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap30</termIdentifier>
+        <caption>
+            <langstring language="en">30</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 30</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap31</termIdentifier>
+        <caption>
+            <langstring language="en">31</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 31</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap32</termIdentifier>
+        <caption>
+            <langstring language="en">32</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 32</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap33</termIdentifier>
+        <caption>
+            <langstring language="en">33</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 33</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap34</termIdentifier>
+        <caption>
+            <langstring language="en">34</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 34</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap35</termIdentifier>
+        <caption>
+            <langstring language="en">35</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 35</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap36</termIdentifier>
+        <caption>
+            <langstring language="en">36</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 36</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap37</termIdentifier>
+        <caption>
+            <langstring language="en">37</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 37</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap38</termIdentifier>
+        <caption>
+            <langstring language="en">38</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 38</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap39</termIdentifier>
+        <caption>
+            <langstring language="en">39</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 39</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap40</termIdentifier>
+        <caption>
+            <langstring language="en">40</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 40</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap41</termIdentifier>
+        <caption>
+            <langstring language="en">41</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 41</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap42</termIdentifier>
+        <caption>
+            <langstring language="en">42</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 42</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap43</termIdentifier>
+        <caption>
+            <langstring language="en">43</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 43</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap44</termIdentifier>
+        <caption>
+            <langstring language="en">44</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 44</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap45</termIdentifier>
+        <caption>
+            <langstring language="en">45</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 45</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap46</termIdentifier>
+        <caption>
+            <langstring language="en">46</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 46</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap47</termIdentifier>
+        <caption>
+            <langstring language="en">47</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 47</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap48</termIdentifier>
+        <caption>
+            <langstring language="en">48</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 48</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap49</termIdentifier>
+        <caption>
+            <langstring language="en">49</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 49</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap50</termIdentifier>
+        <caption>
+            <langstring language="en">50</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 50</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap51</termIdentifier>
+        <caption>
+            <langstring language="en">51</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 51</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap52</termIdentifier>
+        <caption>
+            <langstring language="en">52</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 52</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap53</termIdentifier>
+        <caption>
+            <langstring language="en">53</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 53</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap54</termIdentifier>
+        <caption>
+            <langstring language="en">54</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 54</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap55</termIdentifier>
+        <caption>
+            <langstring language="en">55</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 55</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap56</termIdentifier>
+        <caption>
+            <langstring language="en">56</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 56</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap57</termIdentifier>
+        <caption>
+            <langstring language="en">57</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 57</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap58</termIdentifier>
+        <caption>
+            <langstring language="en">58</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 58</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap59</termIdentifier>
+        <caption>
+            <langstring language="en">59</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 59</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap60</termIdentifier>
+        <caption>
+            <langstring language="en">60</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 60</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap61</termIdentifier>
+        <caption>
+            <langstring language="en">61</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 61</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap62</termIdentifier>
+        <caption>
+            <langstring language="en">62</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 62</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap63</termIdentifier>
+        <caption>
+            <langstring language="en">63</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 63</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap64</termIdentifier>
+        <caption>
+            <langstring language="en">64</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 64</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap65</termIdentifier>
+        <caption>
+            <langstring language="en">65</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 65</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap66</termIdentifier>
+        <caption>
+            <langstring language="en">66</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 66</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap67</termIdentifier>
+        <caption>
+            <langstring language="en">67</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 67</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap68</termIdentifier>
+        <caption>
+            <langstring language="en">68</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 68</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap69</termIdentifier>
+        <caption>
+            <langstring language="en">69</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 69</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap70</termIdentifier>
+        <caption>
+            <langstring language="en">70</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 70</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap71</termIdentifier>
+        <caption>
+            <langstring language="en">71</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 71</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap72</termIdentifier>
+        <caption>
+            <langstring language="en">72</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 72</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap73</termIdentifier>
+        <caption>
+            <langstring language="en">73</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 73</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap74</termIdentifier>
+        <caption>
+            <langstring language="en">74</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 74</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap75</termIdentifier>
+        <caption>
+            <langstring language="en">75</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 75</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap76</termIdentifier>
+        <caption>
+            <langstring language="en">76</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 76</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap77</termIdentifier>
+        <caption>
+            <langstring language="en">77</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 77</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap78</termIdentifier>
+        <caption>
+            <langstring language="en">78</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 78</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap79</termIdentifier>
+        <caption>
+            <langstring language="en">79</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 79</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap80</termIdentifier>
+        <caption>
+            <langstring language="en">80</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 80</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap81</termIdentifier>
+        <caption>
+            <langstring language="en">81</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 81</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap82</termIdentifier>
+        <caption>
+            <langstring language="en">82</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 82</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap83</termIdentifier>
+        <caption>
+            <langstring language="en">83</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 83</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap84</termIdentifier>
+        <caption>
+            <langstring language="en">84</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 84</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap85</termIdentifier>
+        <caption>
+            <langstring language="en">85</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 85</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap86</termIdentifier>
+        <caption>
+            <langstring language="en">86</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 86</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap87</termIdentifier>
+        <caption>
+            <langstring language="en">87</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 87</langstring>
+        </description>
+    </term>
+    <term>
+           <termIdentifier>batlasmap87inset</termIdentifier>
+           <caption>
+               <langstring language="en">87inset</langstring>
+           </caption>
+            <description>
+                <langstring language="en">Barrington Atlas Map 87 Inset</langstring>
+            </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap88</termIdentifier>
+        <caption>
+            <langstring language="en">88</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 88</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap89</termIdentifier>
+        <caption>
+            <langstring language="en">89</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 89</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap90</termIdentifier>
+        <caption>
+            <langstring language="en">90</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 90</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap91</termIdentifier>
+        <caption>
+            <langstring language="en">91</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 91</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap92</termIdentifier>
+        <caption>
+            <langstring language="en">92</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 92</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap93</termIdentifier>
+        <caption>
+            <langstring language="en">93</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 93</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap94</termIdentifier>
+        <caption>
+            <langstring language="en">94</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 94</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap95</termIdentifier>
+        <caption>
+            <langstring language="en">95</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 95</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap96</termIdentifier>
+        <caption>
+            <langstring language="en">96</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 96</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap97</termIdentifier>
+        <caption>
+            <langstring language="en">97</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 97</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap98</termIdentifier>
+        <caption>
+            <langstring language="en">98</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 98</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap99</termIdentifier>
+        <caption>
+            <langstring language="en">99</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 99</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap100</termIdentifier>
+        <caption>
+            <langstring language="en">100</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 100</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap101</termIdentifier>
+        <caption>
+            <langstring language="en">101</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 101</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap102</termIdentifier>
+        <caption>
+            <langstring language="en">102</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Barrington Atlas Map 102</langstring>
+        </description>
+    </term>
+</vdex>

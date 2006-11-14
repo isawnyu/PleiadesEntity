@@ -1,0 +1,948 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vdex xmlns="http://www.imsglobal.org/xsd/imsvdex_v1p0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.imsglobal.org/xsd/imsvdex_v1p0 file:/C:/TomDocs/awmcwork/pleiadesact/svnbox2/system/trunk/vocabularies/vdex/schemata/imsvdex_v1p0_thesaurus.xsd"
+    profileType="thesaurus">
+    <vocabName>
+        <langstring language="en">Barrington Atlas Map Compilers</langstring>
+    </vocabName>
+    <vocabIdentifier>BAtlasMapCompilers</vocabIdentifier>
+    <term>
+        <termIdentifier>batlasmap1</termIdentifier>
+        <caption>
+           
+            <langstring language="en">Project Office</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compilers of Barrington Atlas Map 1</langstring>
+            
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap1A</termIdentifier>
+        <caption>
+            <langstring language="en">Project Office</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compilers of Barrington Atlas Map 1A</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap2</termIdentifier>
+        <caption>
+            <langstring language="en">A. Bursche (eastern Europe), R. Warner (Ireland)</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compilers of Barrington Atlas Map 2</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap3</termIdentifier>
+        <caption>
+            <langstring language="en">M. Roaf and the Project Office</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compilers of Barrington Atlas Map 3</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap4</termIdentifier>
+        <caption>
+            <langstring language="en">D. T. Potts</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compiler of Barrington Atlas Map 4</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap5</termIdentifier>
+        <caption>
+            <langstring language="en">M. U. Erdosy</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compiler of Barrington Atlas Map 5</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap6</termIdentifier>
+        <caption>
+            <langstring language="en">M. U. Erdosy</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compiler of Barrington Atlas Map 6</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap7</termIdentifier>
+        <caption>
+            <langstring language="en">P. Galliou</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compiler of Barrington Atlas Map 7</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap8</termIdentifier>
+        <caption>
+            <langstring language="en">A. S. Esmonde-Cleary</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compiler of Barrington Atlas Map 8</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap9</termIdentifier>
+        <caption>
+            <langstring language="en">A. S. Esmonde-Cleary</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compiler of Barrington Atlas Map 9</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap10</termIdentifier>
+        <caption>
+            <langstring language="en">J.H.F. Bloemers</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compiler of Barrington Atlas Map 10</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap11</termIdentifier>
+        <caption>
+            <langstring language="en">C. Haselgrove, J. Kunow (Rhineland)</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compilers of Barrington Atlas Map 11</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap12</termIdentifier>
+        <caption>
+            <langstring language="en">H. Bender</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compiler of Barrington Atlas Map 12</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap13</termIdentifier>
+        <caption>
+            <langstring language="en">A. Bursche (Poland), L. F. Pitts</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compilers of Barrington Atlas Map 13</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap14</termIdentifier>
+        <caption>
+            <langstring language="en">R. W. Mathisen, H. S. Sivan</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compilers of Barrington Atlas Map 14</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap15</termIdentifier>
+        <caption>
+            <langstring language="en">S. Loseby</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compiler of Barrington Atlas Map 15</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap16</termIdentifier>
+        <caption>
+            <langstring language="en">S. Loseby, R. Häussler (Italy)</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compiler of Barrington Atlas Map 16</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap17</termIdentifier>
+        <caption>
+            <langstring language="en">E. Bertrand</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compiler of Barrington Atlas Map 17</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap18</termIdentifier>
+        <caption>
+            <langstring language="en">G. D. Woolf</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compiler of Barrington Atlas Map 18</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap19</termIdentifier>
+        <caption>
+            <langstring language="en">H. Bender</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compiler of Barrington Atlas Map 19</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap20</termIdentifier>
+        <caption>
+            <langstring language="en">P. Kos, M. Šašel Kos</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compilers of Barrington Atlas Map 20</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap21</termIdentifier>
+        <caption>
+            <langstring language="en">J. J. Wilkes</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compiler of Barrington Atlas Map 21</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap22</termIdentifier>
+        <caption>
+            <langstring language="en">A. G. Poulter</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compiler of Barrington Atlas Map 22</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap23</termIdentifier>
+        <caption>
+            <langstring language="en">D. Braund</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compiler of Barrington Atlas Map 23</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap24</termIdentifier>
+        <caption>
+            <langstring language="en">E. W. Haley</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compiler of Barrington Atlas Map 24</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap25</termIdentifier>
+        <caption>
+            <langstring language="en">S. J. Keay (Spain), R. W. Mathisen, H. S. Sivan</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compilers of Barrington Atlas Map 25</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap26</termIdentifier>
+        <caption>
+            <langstring language="en">R. C. Knapp, F. H. Stanley, Jr. (Portugal)</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compilers of Barrington Atlas Map 26</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap27</termIdentifier>
+        <caption>
+            <langstring language="en">P. O. Spann</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compiler of Barrington Atlas Map 27</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap28</termIdentifier>
+        <caption>
+            <langstring language="en">M. Euzennat</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compiler of Barrington Atlas Map 28</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap29</termIdentifier>
+        <caption>
+            <langstring language="en">T. W. Potter</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compiler of Barrington Atlas Map 29</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap30</termIdentifier>
+        <caption>
+            <langstring language="en">T. W. Potter</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compiler of Barrington Atlas Map 30</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap31</termIdentifier>
+        <caption>
+            <langstring language="en">E.W.B. Fentress</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compiler of Barrington Atlas Map 31</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap32</termIdentifier>
+        <caption>
+            <langstring language="en">R. B. Hitchner</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compiler of Barrington Atlas Map 32</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap33</termIdentifier>
+        <caption>
+            <langstring language="en">R. B. Hitchner</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compiler of Barrington Atlas Map 33</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap34</termIdentifier>
+        <caption>
+            <langstring language="en">E.W.B. Fentress</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compiler of Barrington Atlas Map 34</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap35</termIdentifier>
+        <caption>
+            <langstring language="en">D. J. Mattingly</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compiler of Barrington Atlas Map 35</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap36</termIdentifier>
+        <caption>
+            <langstring language="en">D. J. Mattingly</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compiler of Barrington Atlas Map 36</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap37</termIdentifier>
+        <caption>
+            <langstring language="en">D. J. Mattingly</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compiler of Barrington Atlas Map 37</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap38</termIdentifier>
+        <caption>
+            <langstring language="en">D. J. Mattingly</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compiler of Barrington Atlas Map 38</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap39</termIdentifier>
+        <caption>
+            <langstring language="en">M. Pearce, P. Tozzi</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compilers of Barrington Atlas Map 39</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap40</termIdentifier>
+        <caption>
+            <langstring language="en">M. Pearce, R. Peretto, P. Tozzi</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compilers of Barrington Atlas Map 40</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap41</termIdentifier>
+        <caption>
+            <langstring language="en">W. V. Harris</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compiler of Barrington Atlas Map 41</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap42</termIdentifier>
+        <caption>
+            <langstring language="en">W. V. Harris</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compiler of Barrington Atlas Map 42</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap43</termIdentifier>
+        <caption>
+            <langstring language="en">L. Quilici, S. Quilici Gigli</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compilers of Barrington Atlas Map 43</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap44</termIdentifier>
+        <caption>
+            <langstring language="en">N. Purcell</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compiler of Barrington Atlas Map 44</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap45</termIdentifier>
+        <caption>
+            <langstring language="en">I.E.M. Edlund-Berry, A. M. Small</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compilers of Barrington Atlas Map 45</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap46</termIdentifier>
+        <caption>
+            <langstring language="en">I.E.M. Edlund-Berry, A. M. Small</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compilers of Barrington Atlas Map 46</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap47</termIdentifier>
+        <caption>
+            <langstring language="en">R.J.A. Wilson</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compiler of Barrington Atlas Map 47</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap48</termIdentifier>
+        <caption>
+            <langstring language="en">S. L. Dyson</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compiler of Barrington Atlas Map 48</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap49</termIdentifier>
+        <caption>
+            <langstring language="en">J. J. Wilkes</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compiler of Barrington Atlas Map 49</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap50</termIdentifier>
+        <caption>
+            <langstring language="en">E. N. Borza</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compiler of Barrington Atlas Map 50</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap51</termIdentifier>
+        <caption>
+            <langstring language="en">E. N. Borza</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compiler of Barrington Atlas Map 51</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap52</termIdentifier>
+        <caption>
+            <langstring language="en">C. Foss</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compiler of Barrington Atlas Map 52</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap53</termIdentifier>
+        <caption>
+            <langstring language="en">C. Foss</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compiler of Barrington Atlas Map 53</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap54</termIdentifier>
+        <caption>
+            <langstring language="en">W. M. Murray</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compiler of Barrington Atlas Map 54</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap55</termIdentifier>
+        <caption>
+            <langstring language="en">J. Fossey, J. Morin</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compilers of Barrington Atlas Map 55</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap56</termIdentifier>
+        <caption>
+            <langstring language="en">C. Foss, S. Mitchell (north), G. Reger (islands)</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compilers of Barrington Atlas Map 56</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap57</termIdentifier>
+        <caption>
+            <langstring language="en">G. Reger and the Project Office</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compilers of Barrington Atlas Map 57</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap58</termIdentifier>
+        <caption>
+            <langstring language="en">J. Mck. Camp II, G. Reger (islands)</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compilers of Barrington Atlas Map 58</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap59</termIdentifier>
+        <caption>
+            <langstring language="en">J. S. Traill</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compiler of Barrington Atlas Map 59</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap60</termIdentifier>
+        <caption>
+            <langstring language="en">J. Bennet, G. Reger (insets)</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compilers of Barrington Atlas Map 60</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap61</termIdentifier>
+        <caption>
+            <langstring language="en">C. Foss, G. Reger (islands)</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compilers of Barrington Atlas Map 61</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap62</termIdentifier>
+        <caption>
+            <langstring language="en">T. Drew-Bear</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compiler of Barrington Atlas Map 62</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap63</termIdentifier>
+        <caption>
+            <langstring language="en">S. Mitchell</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compiler of Barrington Atlas Map 63</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap64</termIdentifier>
+        <caption>
+            <langstring language="en">T. B. Mitford</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compiler of Barrington Atlas Map 64</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap65</termIdentifier>
+        <caption>
+            <langstring language="en">C. Foss (west), S. Mitchell</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compilers of Barrington Atlas Map 65</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap66</termIdentifier>
+        <caption>
+            <langstring language="en">S. Mitchell</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compiler of Barrington Atlas Map 66</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap67</termIdentifier>
+        <caption>
+            <langstring language="en">P.-L. Gatier (Syria), T. Sinclair</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compilers of Barrington Atlas Map 67</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap68</termIdentifier>
+        <caption>
+            <langstring language="en">J. P. Brown (south), P.-L. Gatier</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compilers of Barrington Atlas Map 68</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap69</termIdentifier>
+        <caption>
+            <langstring language="en">J. P. Brown, E. M. Meyers (Israel)</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compilers of Barrington Atlas Map 69</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap70</termIdentifier>
+        <caption>
+            <langstring language="en">B. Isaac</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compiler of Barrington Atlas Map 70</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap71</termIdentifier>
+        <caption>
+            <langstring language="en">S. T. Parker</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compiler of Barrington Atlas Map 71</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap72</termIdentifier>
+        <caption>
+            <langstring language="en">D. Rupp</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compiler of Barrington Atlas Map 72</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap73</termIdentifier>
+        <caption>
+            <langstring language="en">D. J. Mattingly</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compiler of Barrington Atlas Map 73</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap74</termIdentifier>
+        <caption>
+            <langstring language="en">A. Bernand</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compiler of Barrington Atlas Map 74</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap75</termIdentifier>
+        <caption>
+            <langstring language="en">R. Müller-Wollermann</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compiler of Barrington Atlas Map 75</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap76</termIdentifier>
+        <caption>
+            <langstring language="en">D. F. Graf</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compiler of Barrington Atlas Map 76</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap77</termIdentifier>
+        <caption>
+            <langstring language="en">M. Drew-Bear</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compiler of Barrington Atlas Map 77</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap78</termIdentifier>
+        <caption>
+            <langstring language="en">S. E. Sidebotham</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compiler of Barrington Atlas Map 78</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap79</termIdentifier>
+        <caption>
+            <langstring language="en">G. Wagner</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compiler of Barrington Atlas Map 79</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap80</termIdentifier>
+        <caption>
+            <langstring language="en">J. Keenan, S. E. Sidebotham (easterh desert), T. Wilfong</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compilers of Barrington Atlas Map 80</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap81</termIdentifier>
+        <caption>
+            <langstring language="en">S. M.  Burstein</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compiler of Barrington Atlas Map 81</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap82</termIdentifier>
+        <caption>
+            <langstring language="en">N. M. Millet</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compiler of Barrington Atlas Map 82</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap83</termIdentifier>
+        <caption>
+            <langstring language="en">D. F. Graf</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compiler of Barrington Atlas Map 83</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap84</termIdentifier>
+        <caption>
+            <langstring language="en">D. Braund</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compiler of Barrington Atlas Map 84</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap85</termIdentifier>
+        <caption>
+            <langstring language="en">D. Braund</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compiler of Barrington Atlas Map 85</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap86</termIdentifier>
+        <caption>
+            <langstring language="en">C. Foss</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compiler of Barrington Atlas Map 86</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap87</termIdentifier>
+        <caption>
+            <langstring language="en">D. Braund, T. Sinclair (Turkey)</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compilers of Barrington Atlas Map 87</langstring>
+        </description>
+    </term>
+    <term>
+              <termIdentifier>batlasmap87inset</termIdentifier>
+              <caption>
+                   <langstring language="en">D. Braund</langstring>
+              </caption>
+              <description>
+                    <langstring language="en">Compiler of Barrington Atlas Map 87 Inset</langstring>
+              </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap88</termIdentifier>
+        <caption>
+            <langstring language="en">D. Braund</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compiler of Barrington Atlas Map 88</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap89</termIdentifier>
+        <caption>
+            <langstring language="en">S. E. Kroll (Iran), M. Roaf, St J. Simpson, T. Sinclair (Turkey)</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compilers of Barrington Atlas Map 89</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap90</termIdentifier>
+        <caption>
+            <langstring language="en">S. E. Kroll</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compiler of Barrington Atlas Map 90</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap91</termIdentifier>
+        <caption>
+            <langstring language="en">M. Roaf, St J. Simpson</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compilers of Barrington Atlas Map 91</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap92</termIdentifier>
+        <caption>
+            <langstring language="en">A. Hausleiter, E. J. Keall, M. Roaf</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compilers of Barrington Atlas Map 92</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap93</termIdentifier>
+        <caption>
+            <langstring language="en">A. Hausleiter, M. Roaf, St J. Simpson, R. Wenke</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compilers of Barrington Atlas Map 93</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap94</termIdentifier>
+        <caption>
+            <langstring language="en">A. Hausleiter, M. Roaf, R. Wenke</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compilers of Barrington Atlas Map 94</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap95</termIdentifier>
+        <caption>
+            <langstring language="en">D. T. Potts</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compiler of Barrington Atlas Map 95</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap96</termIdentifier>
+        <caption>
+            <langstring language="en">E. J. Keall, M. Roaf</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compilers of Barrington Atlas Map 96</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap97</termIdentifier>
+        <caption>
+            <langstring language="en">E. J. Keall, M. Roaf</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compilers of Barrington Atlas Map 97</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap98</termIdentifier>
+        <caption>
+            <langstring language="en">F. Hiebert, P. L. Kohl, St J. Simpson (west)</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compilers of Barrington Atlas Map 98</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap99</termIdentifier>
+        <caption>
+            <langstring language="en">F. Hiebert, P. Kohl</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compilers of Barrington Atlas Map 99</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap100</termIdentifier>
+        <caption>
+            <langstring language="en">R. S. Bagnall, J. F. Drinkwater, A. S. Esmonde-Cleary, W. V. Harris, R. C. Knapp, S. Mitchell, S. T. Parker, C. M. Wells, J. J. Wilkes, and the Project Office</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compilers of Barrington Atlas Map 100</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap101</termIdentifier>
+        <caption>
+            <langstring language="en">R. S. Bagnall, J. F. Drinkwater, A. S. Esmonde-Cleary, W. V. Harris, R. C. Knapp, S. Mitchell, S. T. Parker, C. M. Wells, J. J. Wilkes, and the Project Office</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compilers of Barrington Atlas Map 101</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap102</termIdentifier>
+        <caption>
+            <langstring language="en">R. S. Bagnall, S. Mitchell, S. T. Parker, J. J. Wilkes, and the Profect Office</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Compilers of Barrington Atlas Map 102</langstring>
+        </description>
+    </term>
+</vdex>

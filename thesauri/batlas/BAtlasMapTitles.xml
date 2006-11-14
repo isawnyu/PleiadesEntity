@@ -1,0 +1,948 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vdex xmlns="http://www.imsglobal.org/xsd/imsvdex_v1p0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.imsglobal.org/xsd/imsvdex_v1p0 file:/C:/TomDocs/awmcwork/pleiadesact/svnbox2/system/trunk/vocabularies/vdex/schemata/imsvdex_v1p0_thesaurus.xsd"
+    profileType="thesaurus">
+    <vocabName>
+        <langstring language="en">Barrington Atlas Map Titles</langstring>
+    </vocabName>
+    <vocabIdentifier>BAtlasMapTitles</vocabIdentifier>
+    <term>
+        <termIdentifier>batlasmap1</termIdentifier>
+        <caption>
+           
+            <langstring language="la">Mare Internum</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 1</langstring>
+            
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap1A</termIdentifier>
+        <caption>
+            <langstring language="la">Fortunatae Insulae</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 1A</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap2</termIdentifier>
+        <caption>
+            <langstring language="la">Hibernia-Scadinavia</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 2</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap3</termIdentifier>
+        <caption>
+            <langstring language="la">Asia Occidentalis</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 3</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap4</termIdentifier>
+        <caption>
+            <langstring language="la">Arabia-Azania</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 4</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap5</termIdentifier>
+        <caption>
+            <langstring language="la">India</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 5</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap6</termIdentifier>
+        <caption>
+            <langstring language="la">Asia Orientalis</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 6</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap7</termIdentifier>
+        <caption>
+            <langstring language="la">Aremorica</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 7</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap8</termIdentifier>
+        <caption>
+            <langstring language="la">Britannia Superior</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 8</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap9</termIdentifier>
+        <caption>
+            <langstring language="la">Britannia Inferior</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 9</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap10</termIdentifier>
+        <caption>
+            <langstring language="la">Rhenus-Albis</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 10</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap11</termIdentifier>
+        <caption>
+            <langstring language="la">Sequana-Rhenus</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 11</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap12</termIdentifier>
+        <caption>
+            <langstring language="la">Mogontiacum-Reginum-Lauriacum</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 12</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap13</termIdentifier>
+        <caption>
+            <langstring language="la">Vindobona</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 13</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap14</termIdentifier>
+        <caption>
+            <langstring language="la">Caesarodunum-Burdigala</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 14</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap15</termIdentifier>
+        <caption>
+            <langstring language="la">Arelate-Massalia</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 15</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap16</termIdentifier>
+        <caption>
+            <langstring language="la">Colonia Forum Iulii-Albingaunum</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 16</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap17</termIdentifier>
+        <caption>
+            <langstring language="la">Lugdunum</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 17</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap18</termIdentifier>
+        <caption>
+            <langstring language="la">Augustonemetum-Vindonissa</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 18</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap19</termIdentifier>
+        <caption>
+            <langstring language="la">Raetia</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 19</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap20</termIdentifier>
+        <caption>
+            <langstring language="la">Pannonia-Dalmatia</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 20</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap21</termIdentifier>
+        <caption>
+            <langstring language="la">Dacia-Moesia</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 21</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap22</termIdentifier>
+        <caption>
+            <langstring language="la">Moesia Inferior</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 22</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap23</termIdentifier>
+        <caption>
+            <langstring language="la">Tomis-Olbia-Chersonesos</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 23</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap24</termIdentifier>
+        <caption>
+            <langstring language="la">Asturica-Conimbriga</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 24</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap25</termIdentifier>
+        <caption>
+            <langstring language="la">Hispania Tarraconensis</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 25</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap26</termIdentifier>
+        <caption>
+            <langstring language="la">Lusitania-Baetica</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 26</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap27</termIdentifier>
+        <caption>
+            <langstring language="la">Hispania Carthaginiensis</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 27</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap28</termIdentifier>
+        <caption>
+            <langstring language="la">Mauretania Tingitana</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 28</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap29</termIdentifier>
+        <caption>
+            <langstring language="la">Mauretania Caesariensis</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 29</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap30</termIdentifier>
+        <caption>
+            <langstring language="la">Iol Caesarea</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 30</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap31</termIdentifier>
+        <caption>
+            <langstring language="la">Cirta</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 31</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap32</termIdentifier>
+        <caption>
+            <langstring language="la">Carthago</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 32</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap33</termIdentifier>
+        <caption>
+            <langstring language="la">Theveste-Hadrumetum</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 33</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap34</termIdentifier>
+        <caption>
+            <langstring language="la">Numidia</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 34</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap35</termIdentifier>
+        <caption>
+            <langstring language="la">Tripolitana</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 35</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap36</termIdentifier>
+        <caption>
+            <langstring language="la">Garama</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 36</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap37</termIdentifier>
+        <caption>
+            <langstring language="la">Syrtica</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 37</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap38</termIdentifier>
+        <caption>
+            <langstring language="la">Cyrene</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 38</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap39</termIdentifier>
+        <caption>
+            <langstring language="la">Mediolanum</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 39</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap40</termIdentifier>
+        <caption>
+            <langstring language="la">Patavium</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 40</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap41</termIdentifier>
+        <caption>
+            <langstring language="la">Pisae</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 41</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap42</termIdentifier>
+        <caption>
+            <langstring language="la">Arretium-Asculum</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 42</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap43</termIdentifier>
+        <caption>
+            <langstring language="la">Latium Vetus</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 43</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap44</termIdentifier>
+        <caption>
+            <langstring language="la">Latium-Campania</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 44</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap45</termIdentifier>
+        <caption>
+            <langstring language="la">Tarentum</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 45</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap46</termIdentifier>
+        <caption>
+            <langstring language="la">Bruttii</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 46</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap47</termIdentifier>
+        <caption>
+            <langstring language="la">Sicilia</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 47</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap48</termIdentifier>
+        <caption>
+            <langstring language="la">Sardinia-Corsica</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 48</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap49</termIdentifier>
+        <caption>
+            <langstring language="la">Illyricum</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 49</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap50</termIdentifier>
+        <caption>
+            <langstring language="la">Macedonia</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 50</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap51</termIdentifier>
+        <caption>
+            <langstring language="la">Thracia</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 51</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap52</termIdentifier>
+        <caption>
+            <langstring language="la">Byzantium</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 52</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap53</termIdentifier>
+        <caption>
+            <langstring language="la">Bosphorus</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 53</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap54</termIdentifier>
+        <caption>
+            <langstring language="la">Epirus-Acarnania</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 54</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap55</termIdentifier>
+        <caption>
+            <langstring language="la">Thessalia-Boeotia</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 55</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap56</termIdentifier>
+        <caption>
+            <langstring language="la">Pergamum</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 56</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap57</termIdentifier>
+        <caption>
+            <langstring language="la">Aegaeum Mare</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 57</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap58</termIdentifier>
+        <caption>
+            <langstring language="la">Peloponnesus</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 58</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap59</termIdentifier>
+        <caption>
+            <langstring language="la">Attica</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 59</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap60</termIdentifier>
+        <caption>
+            <langstring language="la">Creta</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 60</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap61</termIdentifier>
+        <caption>
+            <langstring language="la">Ephesus</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 61</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap62</termIdentifier>
+        <caption>
+            <langstring language="la">Phrygia</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 62</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap63</termIdentifier>
+        <caption>
+            <langstring language="la">Ancyra</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 63</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap64</termIdentifier>
+        <caption>
+            <langstring language="la">Caesarea-Melitene</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 64</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap65</termIdentifier>
+        <caption>
+            <langstring language="la">Lycia-Pisidia</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 65</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap66</termIdentifier>
+        <caption>
+            <langstring language="la">Taurus</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 66</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap67</termIdentifier>
+        <caption>
+            <langstring language="la">Antiochia</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 67</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap68</termIdentifier>
+        <caption>
+            <langstring language="la">Syria</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 68</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap69</termIdentifier>
+        <caption>
+            <langstring language="la">Damascus-Caesarea</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 69</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap70</termIdentifier>
+        <caption>
+            <langstring language="la">Pelusium-Ierusalem</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 70</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap71</termIdentifier>
+        <caption>
+            <langstring language="la">Petra</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 71</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap72</termIdentifier>
+        <caption>
+            <langstring language="la">Cyprus</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 72</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap73</termIdentifier>
+        <caption>
+            <langstring language="la">Ammon</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 73</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap74</termIdentifier>
+        <caption>
+            <langstring language="la">Delta</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 74</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap75</termIdentifier>
+        <caption>
+            <langstring language="la">Memphis-Oxyrhynchus</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 75</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap76</termIdentifier>
+        <caption>
+            <langstring language="la">Sinai</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 76</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap77</termIdentifier>
+        <caption>
+            <langstring language="la">Hermopolis Magna</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 77</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap78</termIdentifier>
+        <caption>
+            <langstring language="la">Porphyrites et Claudianus Montes</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 78</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap79</termIdentifier>
+        <caption>
+            <langstring language="la">Oasis Magna</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 79</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap80</termIdentifier>
+        <caption>
+            <langstring language="la">Coptos-Berenice</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 80</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap81</termIdentifier>
+        <caption>
+            <langstring language="la">Triakontaschoinos</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 81</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap82</termIdentifier>
+        <caption>
+            <langstring language="la">Meroe</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 82</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap83</termIdentifier>
+        <caption>
+            <langstring language="la">Nabataea Meridionalis</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 83</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap84</termIdentifier>
+        <caption>
+            <langstring language="la">Maeotis</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 84</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap85</termIdentifier>
+        <caption>
+            <langstring language="la">Oudon-Rha</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 85</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap86</termIdentifier>
+        <caption>
+            <langstring language="la">Paphlagonia</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 86</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap87</termIdentifier>
+        <caption>
+            <langstring language="la">Pontus-Phasis</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 87</langstring>
+        </description>
+    </term>
+    <term>
+              <termIdentifier>batlasmap87inset</termIdentifier>
+              <caption>
+                   <langstring language="la">Cimmerius Bosphorus</langstring>
+              </caption>
+              <description>
+                    <langstring language="en">Title of Barrington Atlas Map 87 Inset</langstring>
+              </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap88</termIdentifier>
+        <caption>
+            <langstring language="la">Caucasia</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 88</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap89</termIdentifier>
+        <caption>
+            <langstring language="la">Armenia</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 89</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap90</termIdentifier>
+        <caption>
+            <langstring language="la">Media Atropatene</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 90</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap91</termIdentifier>
+        <caption>
+            <langstring language="la">Ctesiphon</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 91</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap92</termIdentifier>
+        <caption>
+            <langstring language="la">Ecbatana-Susa</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 92</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap93</termIdentifier>
+        <caption>
+            <langstring language="la">Mesene</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 93</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap94</termIdentifier>
+        <caption>
+            <langstring language="la">Persis</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 94</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap95</termIdentifier>
+        <caption>
+            <langstring language="la">Tylos</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 95</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap96</termIdentifier>
+        <caption>
+            <langstring language="la">Hyrcania</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 96</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap97</termIdentifier>
+        <caption>
+            <langstring language="la">Parthyene</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 97</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap98</termIdentifier>
+        <caption>
+            <langstring language="la">Merv-Bactra</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 98</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap99</termIdentifier>
+        <caption>
+            <langstring language="la">Bactria</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 99</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap100</termIdentifier>
+        <caption>
+            <langstring language="en">Provinces of the Roman Empire at the Death of Trajan (A.D. 117)</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 100</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap101</termIdentifier>
+        <caption>
+            <langstring language="en">Dioceses and Provinces of the Roman Empire according to the Verona List (c. A.D. 303-324)</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 101</langstring>
+        </description>
+    </term>
+    <term>
+        <termIdentifier>batlasmap102</termIdentifier>
+        <caption>
+            <langstring language="en">Dioceses and Provinces of the Roman Empire according to Hierocles (late 5th-early 6th centuries A.D.)</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Title of Barrington Atlas Map 102</langstring>
+        </description>
+    </term>
+</vdex>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vdex xmlns="http://www.imsglobal.org/xsd/imsvdex_v1p0"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xsi:schemaLocation="http://www.imsglobal.org/xsd/imsvdex_v1p0 file:/C:/TomDocs/awmcwork/pleiadesact/svnbox2/PleiadesThesauri/trunk/PleiadesThesauri/thesauri/vdex/schemata/imsvdex_v1p0_thesaurus.xsd" profileType="thesaurus">
+    <vocabName>
+        <langstring language="en">Types of Historical Names Distinguished in AWMC Publications</langstring>
+    </vocabName>
+    
+    <vocabIdentifier isRegistered="false">AWMCNameTypes</vocabIdentifier>
+    
+    <term>
+        <termIdentifier>geographic</termIdentifier>
+        <caption>
+            <langstring language="en">geographic name</langstring>
+        </caption>
+    </term>
+    
+    <term>
+        <termIdentifier>ethnic</termIdentifier>
+        <caption>
+            <langstring language="en">ethnic name</langstring>
+        </caption>
+    </term>
+    
+    <term>
+        <termIdentifier>personal</termIdentifier>
+        <caption>
+            <langstring language="en">personal name</langstring>
+        </caption>
+    </term>
+    
+    
+
+</vdex>
+

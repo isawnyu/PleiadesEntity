@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vdex xmlns="http://www.imsglobal.org/xsd/imsvdex_v1p0"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xsi:schemaLocation="http://www.imsglobal.org/xsd/imsvdex_v1p0 file:/C:/TomDocs/awmcwork/pleiadesact/svnbox2/PleiadesThesauri/trunk/PleiadesThesauri/thesauri/vdex/schemata/imsvdex_v1p0_thesaurus.xsd" profileType="thesaurus">
+
+    <vocabName>
+        <langstring language="en">Named Historical Periods Distinguished in AWMC
+            Publications</langstring>
+    </vocabName>
+    
+    <vocabIdentifier>AWMCTimePeriods</vocabIdentifier>
+    
+    <term>
+        <termIdentifier>batlas-period-a</termIdentifier>
+        <caption>
+            <langstring language="en">Archaic (pre-550 BC)</langstring>
+        </caption>
+    </term>
+    
+    <term>
+        <termIdentifier>batlas-period-c</termIdentifier>
+        <caption>
+            <langstring language="en">Classical (550 - 330 BC)</langstring>
+        </caption>
+    </term>
+    
+    <term>
+        <termIdentifier>batlas-period-h</termIdentifier>
+        <caption>
+            <langstring language="en">Hellenistic (Roman Republic; 330 - 30 BC)</langstring>
+        </caption>
+    </term>
+    
+    <term>
+        <termIdentifier>batlas-period-r</termIdentifier>
+        <caption>
+            <langstring language="en">Roman (Early Empire; 30 BC - AD 300)</langstring>
+        </caption>
+    </term>
+    
+    <term>
+        <termIdentifier>batlas-period-l</termIdentifier>
+        <caption>
+            <langstring language="en">Late Antique (AD 300 - 640)</langstring>
+        </caption>
+    </term>
+    
+</vdex>
+
