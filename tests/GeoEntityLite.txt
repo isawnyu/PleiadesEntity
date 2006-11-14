@@ -1,0 +1,112 @@
+PublishGeoEntity.txt
+====================
+
+Test publishing of GeographicEntityLite objects.
+
+A lot of this is cribbed from optilude's tutorial on plone.org.
+
+Setup the test fixture
+
+    >>> folder = self.folder
+
+Add one entity to the folder
+
+    >>> folder.invokeFactory('GeographicEntityLite', id='aaa')
+    'aaa'
+
+Check the id and portal type
+
+    >>> entity = folder.aaa
+    >>> entity.id
+    'aaa'
+    >>> entity.portal_type
+    'GeographicEntityLite'
+    >>> entity.invokeFactory('GeographicNameLite', id='bbb')
+    'bbb'
+    >>> namity = entity.bbb
+    >>> namity.id
+    'bbb'
+    >>> namity.portal_type
+    'GeographicNameLite'
+    
+Initialize the test browser
+
+    >>> from Products.Five.testbrowser import Browser
+    >>> browser = Browser()
+    >>> browser.handleErrors = False
+
+Let us log all exceptions, which is useful for debugging. Also, clear portlet
+slots, to make the test browser less confused by things like the recent portlet
+and the navtree.
+
+    >>> self.portal.error_log._ignored_exceptions = ()
+    >>> self.portal.left_slots = self.portal.right_slots = []
+
+Browse the entity
+
+    >>> entity_url = entity.absolute_url()
+    >>> browser.open(entity_url)
+
+Check the URL 
+
+    >>> browser.url == entity_url
+    True
+    >>> browser.url.endswith('aaa')
+    True
+    
+Check the html content of the view page (description will not appear here)
+    
+    >>> browser.contents
+    '...Identifier...'
+    
+    >>> browser.contents
+    '...Entity Type...'
+        
+    >>> browser.contents
+    '...Modern Name / Location...'
+
+
+    >>> browser.contents
+    '...Time Periods...'
+
+    >>> browser.contents
+    '...Secondary References...'
+
+    >>> browser.contents
+    '...Spatial Coordinates...'
+
+    >>> browser.contents
+    '...Spatial Geometry Type...'
+
+    >>> browser.contents
+    '...Historical Names...'
+    
+    >>> link = browser.getLink('bbb')
+    >>> link.click()
+    
+    >>> namity_url = namity.absolute_url()
+    >>> browser.url == namity_url + '/'
+    True
+    
+    >>> browser.contents
+    '...Identifier...'
+    
+    >>> browser.contents
+    '...Name Type...'
+    
+    >>> browser.contents
+    '...Name as Attested...'
+    
+    >>> browser.contents
+    '...Language and Writing System of Attested Name...'
+    
+    >>> browser.contents
+    '...Time Periods...'
+    
+    >>> browser.contents
+    '...Primary References...'
+    
+    >>> browser.contents
+    '...Secondary References...'
+    
+    

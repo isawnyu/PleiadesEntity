@@ -1,0 +1,53 @@
+ViewingEntities.txt
+===================
+
+Test logical view of a collection of entities
+
+A lot of this is cribbed from optilude's tutorial on plone.org.
+
+    >>> from Products.PleiadesGeocoder.interfaces import IGeoItemSimple
+    >>> from Products import PleiadesGeocoder
+    >>> from Products.Five import zcml
+    >>> zcml.load_config('configure.zcml', package=PleiadesGeocoder)
+    >>> from Products.PloneTestCase import PloneTestCase
+    >>> PloneTestCase.installProduct('PleiadesGeocoder')
+
+Setup the test fixture
+
+    >>> folder = self.folder
+
+Add one blank entity to the folder, and adapt
+
+    >>> folder.invokeFactory('GeographicEntityLite', id='aaa')
+    'aaa'
+    >>> entity = folder.aaa
+    >>> entity.setTitle('AAA')
+    >>> entity.setSpatialCoordinates('0.0 0.0 0.0')
+    >>> entity.setDescription('A testing entity')
+
+Initialize the test browser
+
+    >>> from Products.Five.testbrowser import Browser
+    >>> browser = Browser()
+    >>> browser.handleErrors = False
+
+Let us log all exceptions, which is useful for debugging. Also, clear portlet
+slots, to make the test browser less confused by things like the recent portlet
+and the navtree.
+
+    >>> self.portal.error_log._ignored_exceptions = ()
+    >>> self.portal.left_slots = self.portal.right_slots = []
+
+Check logical view
+
+    >>> folder_url = folder.absolute_url()
+    >>> browser.open("%s/@@geo/forRSS" % folder_url)
+    >>> browser.contents
+    "[{'srs': 'EPSG:4326', 'geometryType': 'point', 'description': 'A testing entity', 'spatialCoordinates': '0.0 0.0', 'url': 'http://nohost/plone/Members/test_user_1_/aaa', 'geom_element': '<georss:point>0.0 0.0</georss:point>', 'title': 'AAA', 'id': 'aaa'}]"
+
+    >>> folder_url = folder.absolute_url()
+    >>> browser.open("%s/@@geo/forKML" % folder_url)
+    >>> browser.contents
+    '[{\'srs\': \'EPSG:4326\', \'desc_body\': \'<![CDATA[<p>A testing entity</p><p><a href="http://nohost/plone/Members/test_user_1_/aaa">AAA</a></p>]]>\', \'geometryType\': \'point\', \'description\': \'A testing entity\', \'spatialCoordinates\': \'0.0 0.0 0.0\', \'url\': \'http://nohost/plone/Members/test_user_1_/aaa\', \'geom_element\': \'<Point><coordinates>0.000000,0.000000,0.000000</coordinates></Point>\', \'title\': \'AAA\', \'id\': \'aaa\'}]'
+
+

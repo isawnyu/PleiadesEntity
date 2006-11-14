@@ -1,0 +1,33 @@
+<configure
+  xmlns="http://namespaces.zope.org/zope"
+  xmlns:five="http://namespaces.zope.org/five"
+  xmlns:browser="http://namespaces.zope.org/browser"
+  >
+
+  <adapter
+    for=".interfaces.IGeoEntityLite"
+    provides="Products.PleiadesGeocoder.interfaces.IGeoItemSimple"
+    factory=".geo.GeoEntitySimple"
+    />
+
+  <adapter
+    for=".interfaces.IGeoEntityLite"
+    provides="Products.PleiadesGeocoder.interfaces.IGeoCollectionSimple"
+    factory=".geo.GeoCollectionSimple"
+    />
+
+  <five:implements
+    class=".content.GeographicEntityLite.GeographicEntityLite"
+    interface=".interfaces.IGeoEntityLite"
+    />
+
+  <browser:page  
+    for=".interfaces.IGeoEntityLite"
+    name="geo"
+    class="Products.PleiadesGeocoder.browser.info.GeoInfosetView"
+    permission="zope.Public"
+    allowed_interface="Products.PleiadesGeocoder.browser.info.IGeoInfosetView"
+    />
+
+</configure>
+

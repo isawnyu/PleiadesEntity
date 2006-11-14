@@ -1,0 +1,28 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+          xmlns:tal="http://xml.zope.org/namespaces/tal"
+          xmlns:metal="http://xml.zope.org/namespaces/metal"
+          xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+          i18n:domain="plone">
+      <head><title></title></head>
+      <body>
+
+        <metal:footer define-macro="footer">
+<div id="pleiades-datadisclaimer" style="clear:right">
+    <h2>Origin and Status of this Data</h2>
+                <p><em>Copyright (C) 2006 <a href="http://www.unc.edu/awmc">Ancient World Mapping Center</a>. All rights reserved.</em></p>
+                <p>This data is derived from original compilations prepared for the <a href="http://www.apaclassics.org">American 
+     Philological Association</a>'s <a href="http://www.unc.edu/depts/cl_atlas">Classical Atlas Project</a> (1988-2000). It is used
+     here with permission of the APA.</p>
+                <p>This data is intended solely for testing purposes in the context of the 
+     <a href="http://icon.stoa.org/trac/pleiades">Ancient World Mapping Center's Pleiades Project</a> and may not be reused or 
+     redistributed.</p>
+                <p>In its current state, this data may contain errors and omissions and is not 
+     appropriate for citation or scholarly use. Any errors or omissions are the 
+     result of prototype conversion software, still under development by the 
+     AWMC's Pleiades Project, and do not reflect the quality and completeness of 
+     the original data nor the opinions of its scholarly compilers and editors.</p>
+            </div>        
+        </metal:footer>
+        
+      </body>
+    </html>
