@@ -1,7 +1,7 @@
 
     # test programmatic manipulation of geoEntities and geoNames using data associated with entity ID = batlas-65-7-59
     # this set of tests procedes attribute-wise and does not test the load-from-file capabilities; there are other tests for that
-        
+       
     # set up a test folder in which to create the entity and its children
     >>> folder = self.folder
         

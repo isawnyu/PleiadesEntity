@@ -10,7 +10,6 @@ Setup the test fixture
 
 Utility test
 
-    >>> from Products.GeographicEntityLite.Extensions.batching import format_listofstrings
     >>> format_listofstrings([])
     u''
     >>> format_listofstrings(['x'])
@@ -20,7 +19,6 @@ Utility test
     >>> format_listofstrings(['x', 'y', 'z'])
     u'x, y and z'
     
-    >>> from Products.GeographicEntityLite.Extensions.xmlutil import purifyText
     >>> purifyText(u'aaa') == u'aaa'
     True
     >>> purifyText(u'abab') == u'abab'
@@ -29,22 +27,23 @@ Utility test
     True
     
 Test loading
+
     >>> import glob
     >>> import os
-    >>> source_dir = os.path.sep.join([os.environ['SOFTWARE_HOME'], 'Products', 'GeographicEntityLite', 'tests', 'data'])
-    >>> from Products.GeographicEntityLite.Extensions.batching import load_entity
 
 Load a whole batch of entities
-    >>> from Products.GeographicEntityLite.Extensions.batching import loaden
-    >>> loaden(folder, source_dir)
+
+    >>> loaden(folder, TEST_DATA)
     'Loaded 14 of 15 files. Failures:\nbatlas-99-9-99.xml\n'
 
 Check count of created entities
+
     >>> entities = folder.listFolderContents()
     >>> len(entities)
     14
     
 Check ids of created entities
+
     >>> en_ids = []
     >>> for entity in entities: en_ids.append(entity.getId())
     >>> 'batlas-65-2-3' in en_ids

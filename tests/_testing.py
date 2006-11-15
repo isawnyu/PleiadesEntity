@@ -9,6 +9,8 @@ TEST_PACKAGE = "Products.%s.tests" % PRODUCT_NAME
 TEST_HOME = os.path.sep.join([ROOT, 'Products', PRODUCT_NAME, 'tests'])
 TEST_DATA = os.path.sep.join([TEST_HOME, 'data'])
 
-from Products.PleiadesEntity.Extensions.batching import load_entity
+from Products.PleiadesEntity.Extensions.batching import load_entity, loaden
+from Products.PleiadesEntity.Extensions.batching import format_listofstrings
+from Products.PleiadesEntity.Extensions.xmlutil import purifyText
 from Products.PleiadesEntity.Extensions.cooking import setGeoTitleFromNames
 

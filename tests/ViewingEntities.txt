@@ -6,11 +6,6 @@ Test logical view of a collection of entities
 A lot of this is cribbed from optilude's tutorial on plone.org.
 
     >>> from Products.PleiadesGeocoder.interfaces import IGeoItemSimple
-    >>> from Products import PleiadesGeocoder
-    >>> from Products.Five import zcml
-    >>> zcml.load_config('configure.zcml', package=PleiadesGeocoder)
-    >>> from Products.PloneTestCase import PloneTestCase
-    >>> PloneTestCase.installProduct('PleiadesGeocoder')
 
 Setup the test fixture
 

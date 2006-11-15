@@ -10,6 +10,7 @@ from Testing.ZopeTestCase import FunctionalDocFileSuite as Suite
 import _testing
 from _testing import *
 
+PloneTestCase.installProduct('PleiadesGeocoder')
 PloneTestCase.installProduct(PRODUCT_NAME)
 PloneTestCase.setupPloneSite(products=[PRODUCT_NAME])
 
