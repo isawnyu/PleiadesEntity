@@ -43,11 +43,11 @@ from Products.Archetypes.Extensions.utils import installTypes
 from Products.Archetypes.Extensions.utils import install_subskin
 from Products.Archetypes.config import TOOL_NAME as ARCHETYPETOOLNAME
 from Products.Archetypes.atapi import listTypes
-from Products.GeographicEntityLite.config import PROJECTNAME
-from Products.GeographicEntityLite.config import product_globals as GLOBALS
+from Products.PleiadesEntity.config import PROJECTNAME
+from Products.PleiadesEntity.config import product_globals as GLOBALS
 
 def install(self):
-    """ External Method to install GeographicEntityLite """
+    """ External Method to install PleiadesEntity """
     out = StringIO()
     print >> out, "Installation log of %s:" % PROJECTNAME
 
@@ -55,7 +55,7 @@ def install(self):
     # them.  Add a list called DEPENDENCIES to your custom
     # AppConfig.py (imported by config.py) to use it.
     try:
-        from Products.GeographicEntityLite.config import DEPENDENCIES
+        from Products.PleiadesEntity.config import DEPENDENCIES
     except:
         DEPENDENCIES = []
     portal = getToolByName(self,'portal_url').getPortalObject()
@@ -97,7 +97,7 @@ def install(self):
         ] + factory_tool.getFactoryTypes().keys()
     factory_tool.manage_setPortalFactoryTypes(listOfTypeIds=factory_types)
 
-    from Products.GeographicEntityLite.config import STYLESHEETS
+    from Products.PleiadesEntity.config import STYLESHEETS
     try:
         portal_css = getToolByName(portal, 'portal_css')
         for stylesheet in STYLESHEETS:
@@ -113,7 +113,7 @@ def install(self):
     except:
         # No portal_css registry
         pass
-    from Products.GeographicEntityLite.config import JAVASCRIPTS
+    from Products.PleiadesEntity.config import JAVASCRIPTS
     try:
         portal_javascripts = getToolByName(portal, 'portal_javascripts')
         for javascript in JAVASCRIPTS:

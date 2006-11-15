@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# File: GeographicEntityLite.py
+# File: PleiadesEntity.py
 #
 # Copyright (c) 2006 by Ancient World Mapping Center, University of North
 # Carolina at Chapel Hill, U.S.A.
@@ -41,7 +41,7 @@ __docformat__ = 'plaintext'
 
 from zLOG import LOG, INFO, DEBUG
 
-LOG('GeographicEntityLite', DEBUG, 'Installing Product')
+LOG('PleiadesEntity', DEBUG, 'Installing Product')
 
 try:
     import CustomizationPolicy
@@ -59,10 +59,10 @@ from Products.Archetypes.utils import capitalize
 
 import os, os.path
 
-from Products.GeographicEntityLite.config import *
+from Products.PleiadesEntity.config import *
 
 DirectoryView.registerDirectory('skins', product_globals)
-DirectoryView.registerDirectory('skins/GeographicEntityLite',
+DirectoryView.registerDirectory('skins/PleiadesEntity',
                                     product_globals)
 
 ##code-section custom-init-head #fill in your manual code here
@@ -93,7 +93,7 @@ def initialize(context):
     # Apply customization-policy, if theres any
     if CustomizationPolicy and hasattr(CustomizationPolicy, 'register'):
         CustomizationPolicy.register(context)
-        print 'Customization policy for GeographicEntityLite installed'
+        print 'Customization policy for PleiadesEntity installed'
 
     ##code-section custom-init-bottom #fill in your manual code here
     ##/code-section custom-init-bottom

@@ -30,10 +30,10 @@ __docformat__ = 'plaintext'
 
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
-from Products.GeographicEntityLite.config import *
+from Products.PleiadesEntity.config import *
 
 # additional imports from tagged value 'import'
-from Products.GeographicEntityLite.Extensions.cooking import *
+from Products.PleiadesEntity.Extensions.cooking import *
 
 ##code-section module-header #fill in your manual code here
 ##/code-section module-header
@@ -49,8 +49,8 @@ schema = Schema((
         index="FieldIndex",
         widget=StringWidget(
             label="Identifier",
-            label_msgid='GeographicEntityLite_label_identifier',
-            i18n_domain='GeographicEntityLite',
+            label_msgid='PleiadesEntity_label_identifier',
+            i18n_domain='PleiadesEntity',
         ),
         required=1
     ),
@@ -60,8 +60,8 @@ schema = Schema((
         index="FieldIndex",
         widget=StringWidget(
             label="Name Type",
-            label_msgid='GeographicEntityLite_label_geoNameType',
-            i18n_domain='GeographicEntityLite',
+            label_msgid='PleiadesEntity_label_geoNameType',
+            i18n_domain='PleiadesEntity',
         )
     ),
 
@@ -70,8 +70,8 @@ schema = Schema((
         index="FieldIndex",
         widget=StringWidget(
             label="Name as Attested",
-            label_msgid='GeographicEntityLite_label_nameAttested',
-            i18n_domain='GeographicEntityLite',
+            label_msgid='PleiadesEntity_label_nameAttested',
+            i18n_domain='PleiadesEntity',
         )
     ),
 
@@ -80,8 +80,8 @@ schema = Schema((
         index="FieldIndex",
         widget=StringWidget(
             label="Language and Writing System of Attested Name",
-            label_msgid='GeographicEntityLite_label_nameLanguage',
-            i18n_domain='GeographicEntityLite',
+            label_msgid='PleiadesEntity_label_nameLanguage',
+            i18n_domain='PleiadesEntity',
         )
     ),
 
@@ -90,8 +90,8 @@ schema = Schema((
         index="KeywordIndex",
         widget=LinesWidget(
             label="Time Periods",
-            label_msgid='GeographicEntityLite_label_timePeriods',
-            i18n_domain='GeographicEntityLite',
+            label_msgid='PleiadesEntity_label_timePeriods',
+            i18n_domain='PleiadesEntity',
         )
     ),
 
@@ -100,8 +100,8 @@ schema = Schema((
         index="KeywordIndex",
         widget=LinesWidget(
             label="Primary References",
-            label_msgid='GeographicEntityLite_label_primaryReferences',
-            i18n_domain='GeographicEntityLite',
+            label_msgid='PleiadesEntity_label_primaryReferences',
+            i18n_domain='PleiadesEntity',
         )
     ),
 
@@ -110,8 +110,8 @@ schema = Schema((
         index="KeywordIndex",
         widget=LinesWidget(
             label="Secondary References",
-            label_msgid='GeographicEntityLite_label_secondaryReferences',
-            i18n_domain='GeographicEntityLite',
+            label_msgid='PleiadesEntity_label_secondaryReferences',
+            i18n_domain='PleiadesEntity',
         )
     ),
 

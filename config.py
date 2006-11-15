@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# File: GeographicEntityLite.py
+# File: PleiadesEntity.py
 #
 # Copyright (c) 2006 by Ancient World Mapping Center, University of North
 # Carolina at Chapel Hill, U.S.A.
@@ -43,7 +43,7 @@ from Products.CMFCore.CMFCorePermissions import setDefaultRoles
 ##/code-section config-head
 
 
-PROJECTNAME = "GeographicEntityLite"
+PROJECTNAME = "PleiadesEntity"
 
 # Check for Plone 2.1
 try:
@@ -81,6 +81,6 @@ JAVASCRIPTS = []
 
 # Load custom configuration not managed by ArchGenXML
 try:
-    from Products.GeographicEntityLite.AppConfig import *
+    from Products.PleiadesEntity.AppConfig import *
 except ImportError:
     pass

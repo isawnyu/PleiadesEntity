@@ -27,17 +27,13 @@
 # U.S. National Endowment for the Humanities (http://www.neh.gov).
 # ===========================================================================
 
-#from Products.GeographicEntityLite.config import PROJECTNAME
-#from Products.GeographicEntityLite.Extensions.xmlutil import getXMLDOM, getXMLText
-#from Products.GeographicEntityLite.Extensions.creationutil import setupContentItem
-
 import glob
 import sys
 import re
 from os.path import basename
 
-from Products.GeographicEntityLite.Extensions.xmlutil import *
-from Products.GeographicEntityLite.Extensions.cooking import *
+from Products.PleiadesEntity.Extensions.xmlutil import *
+from Products.PleiadesEntity.Extensions.cooking import *
 
 def format_listofstrings(list):
     """convert ['x', 'y', 'z'] to u'x, y, and z'"""
