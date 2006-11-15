@@ -7,17 +7,11 @@ from Globals import package_home
 from Products.PloneTestCase import PloneTestCase
 from Testing.ZopeTestCase import FunctionalDocFileSuite as Suite
 
-# Shouldn't be necessary with latest SVN PTC
-from Products.Five import zcml
-from Products import GeographicEntityLite
-zcml.load_config('configure.zcml', package=GeographicEntityLite)
-
-PRODUCT_NAME = 'GeographicEntityLite'
-TEST_PACKAGE = "Products.%s.tests" % PRODUCT_NAME
+import _testing
+from _testing import *
 
 PloneTestCase.installProduct(PRODUCT_NAME)
 PloneTestCase.setupPloneSite(products=[PRODUCT_NAME])
-
 
 REQUIRE_TESTBROWSER = ['PublishGeoEntity.txt']
 
@@ -26,10 +20,8 @@ OPTIONFLAGS = (doctest.REPORT_ONLY_FIRST_FAILURE |
                doctest.NORMALIZE_WHITESPACE)
 
 def list_doctests():
-    home = os.path.sep.join([os.environ['SOFTWARE_HOME'], 'Products',
-        PRODUCT_NAME])
     return [filename for filename in
-            glob.glob(os.path.sep.join([home, 'tests', '*.txt']))]
+            glob.glob(os.path.sep.join([TEST_HOME, '*.txt']))]
 
 def list_nontestbrowser_tests():
     return [filename for filename in list_doctests()
@@ -45,17 +37,18 @@ def test_suite():
         print >> sys.stderr, ("WARNING: testbrowser not found - you probably"
                               "need to add Five 1.4 to the Products folder. "
                               "testbrowser tests skipped")
-        from Products import Five
-        print >> sys.stderr, ("Five location: %s" % Five.__file__)
-        raise
+        from Products.Five import zcml
+        from Products import PleiadesEntity
+        zcml.load_config('configure.zcml', package=PleiadesEntity)
         filenames = list_nontestbrowser_tests()
     else:
         filenames = list_doctests()
- 
+
     return unittest.TestSuite(
         [Suite(os.path.basename(filename),
                optionflags=OPTIONFLAGS,
                package=TEST_PACKAGE,
+               globs=_testing.__dict__,
                test_class=PloneTestCase.FunctionalTestCase)
          for filename in filenames]
         )
