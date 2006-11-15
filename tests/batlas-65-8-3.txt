@@ -152,7 +152,6 @@
     
     # check to see that programmatic renaming of the entity on the basis of its subordinate names works as expected
     
-    >>> from Products.GeographicEntityLite.Extensions.cooking import setGeoTitleFromNames
     >>> finalTitle = setGeoTitleFromNames(en)
      
     >>> soughtFinalTitle = u'Itoana'
@@ -164,7 +163,7 @@
     True
 
     # check to see that we can set and retrieve a description
-    >>> soughtDescription = u'Itoana is a false geographic name.'
+    >>> soughtDescription = u'Itoana is a false geographic name (false reading for Attouda).'
     >>> en.setDescription(soughtDescription)
     >>> gotDescription = en.Description()
     >>> soughtDescription_utf8 = soughtDescription.encode('utf8')

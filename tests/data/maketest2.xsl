@@ -43,9 +43,8 @@
     <!-- =========================================================================== -->
     <xsl:template match="adlgaz:featureID">
     &gt;&gt;&gt; import os
-     &gt;&gt;&gt; source_dir = os.path.sep.join([os.environ['SOFTWARE_HOME'], 'Products', 'GeographicEntityLite', 'tests', 'data', '<xsl:value-of select="."/>.xml'])
-    &gt;&gt;&gt; from Products.GeographicEntityLite.Extensions.batching import load_entity        
-    &gt;&gt;&gt; load_entity(folder, source_dir)
+     &gt;&gt;&gt; source = os.path.sep.join([TEST_DATA, '<xsl:value-of select="."/>.xml'])
+    &gt;&gt;&gt; load_entity(folder, source)
     &gt;&gt;&gt; enID = '<xsl:value-of select="."/>'
     &gt;&gt;&gt; en = getattr(folder, enID)
     &gt;&gt;&gt; en.getIdentifier()

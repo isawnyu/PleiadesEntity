@@ -30,7 +30,6 @@
         <xsl:apply-templates/>
     # check to see that programmatic renaming of the entity on the basis of its subordinate names works as expected
     <xsl:variable name="calculatedtitle"><xsl:call-template name="gencombinedtitle"/></xsl:variable>
-    &gt;&gt;&gt; from Products.GeographicEntityLite.Extensions.cooking import setGeoTitleFromNames
     &gt;&gt;&gt; finalTitle = setGeoTitleFromNames(en)
      <xsl:variable name="finaltitle"><xsl:call-template name="escapetext"><xsl:with-param name="thetext"><xsl:value-of select="$calculatedtitle"/></xsl:with-param></xsl:call-template></xsl:variable>
     &gt;&gt;&gt; soughtFinalTitle = u'<xsl:value-of select="$finaltitle"/>'

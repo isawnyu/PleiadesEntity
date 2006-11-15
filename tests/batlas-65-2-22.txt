@@ -109,6 +109,7 @@
     >>> soughtDescription_utf8 == gotDescription
     True
         
+
     # verify that we can set and retrieve an appropriate value for the name's title attribute (which should be an ASCII transliteration of the nameAttested value)        
     >>> en_name.setTitle('Apamea')
     >>> en_name.Title()
@@ -194,6 +195,7 @@
     >>> soughtDescription_utf8 == gotDescription
     True
         
+
     # verify that we can set and retrieve an appropriate value for the name's title attribute (which should be an ASCII transliteration of the nameAttested value)        
     >>> en_name.setTitle('Kelainai')
     >>> en_name.Title()
@@ -282,6 +284,7 @@
     >>> soughtDescription_utf8 == gotDescription
     True
         
+
     # verify that we can set and retrieve an appropriate value for the name's title attribute (which should be an ASCII transliteration of the nameAttested value)        
     >>> en_name.setTitle('Kibotos')
     >>> en_name.Title()
@@ -380,7 +383,6 @@
     
     # check to see that programmatic renaming of the entity on the basis of its subordinate names works as expected
     
-    >>> from Products.GeographicEntityLite.Extensions.cooking import setGeoTitleFromNames
     >>> finalTitle = setGeoTitleFromNames(en)
      
     >>> soughtFinalTitle = u'Apamea/Kelainai/Kibotos'

@@ -6,9 +6,8 @@
     >>> folder = self.folder
         
     >>> import os
-     >>> source_dir = os.path.sep.join([os.environ['SOFTWARE_HOME'], 'Products', 'GeographicEntityLite', 'tests', 'data', 'batlas-65-2-24.xml'])
-    >>> from Products.GeographicEntityLite.Extensions.batching import load_entity        
-    >>> load_entity(folder, source_dir)
+     >>> source = os.path.sep.join([TEST_DATA, 'batlas-65-2-24.xml'])
+    >>> load_entity(folder, source)
     >>> enID = 'batlas-65-2-24'
     >>> en = getattr(folder, enID)
     >>> en.getIdentifier()
@@ -95,6 +94,7 @@
     >>> soughtDescription_utf8 == gotDescription
     True
         
+        
     # verify that we can set and retrieve an appropriate value for the name's title attribute (which should be an ASCII transliteration of the nameAttested value)        
     >>> en_name.Title()
     'Aphrodisias'
@@ -177,6 +177,7 @@
     >>> soughtDescription_utf8 = soughtDescription.encode('utf8')
     >>> soughtDescription_utf8 == gotDescription
     True
+        
         
     # verify that we can set and retrieve an appropriate value for the name's title attribute (which should be an ASCII transliteration of the nameAttested value)        
     >>> en_name.Title()

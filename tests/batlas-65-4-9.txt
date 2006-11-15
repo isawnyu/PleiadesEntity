@@ -110,7 +110,6 @@
     
     # check to see that programmatic renaming of the entity on the basis of its subordinate names works as expected
     
-    >>> from Products.GeographicEntityLite.Extensions.cooking import setGeoTitleFromNames
     >>> finalTitle = setGeoTitleFromNames(en)
      
     >>> soughtFinalTitle = u'Unnamed bridge, modern location: at Asarba\U0000015F\U00000131, over Eurymedon fl.'
