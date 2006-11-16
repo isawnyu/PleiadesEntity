@@ -2,11 +2,15 @@
 <vdex xmlns="http://www.imsglobal.org/xsd/imsvdex_v1p0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.imsglobal.org/xsd/imsvdex_v1p0 ../vdex/schemata/imsvdex_v1p0_thesaurus.xsd"
-    profileType="thesaurus">
+    profileType="thesaurus" language="en" orderSignificant="false">
     
     <vocabName>
-        <langstring language="en">Standard Codes for Languages and Scripts Used in AWMC
-        Publications</langstring>
+        <langstring language="de">Standardcodes für die Sprachen und Schreiben Systeme benutzt in den AWMC Publikationen</langstring>
+        <langstring language="en">Standard Codes for Languages and Writing Systems Used in AWMC Publications</langstring>
+        <langstring language="fr">Codes standard pour des langues et des systèmes d'écriture utilisés en publications d'AWMC</langstring>
+        <langstring language="it">Codici standard per le lingue ed i sistemi di scrittura usati in pubblicazioni di AWMC</langstring>
+        <langstring language="pt">Códigos padrão para as línguas e os sistemas da escrita usados em publicações de AWMC</langstring>
+        <langstring language="es">Códigos estándares para las idiomas y los sistemas de la escritura usados en publicaciones de AWMC</langstring>
     </vocabName>
 
     <vocabIdentifier isRegistered="false">AWMCLanguages</vocabIdentifier>
@@ -24,8 +28,8 @@
             <langstring language="tr">İngilizce</langstring>
         </caption>
         <description>
-            <langstring language="en">The English language, rendered in its standard
-            script.</langstring>
+            <langstring language="en">The English language, rendered in its standard writing system.</langstring>
+            <langstring language="fr">La langue anglais, rendu dans son système standard d'écriture.</langstring>
         </description>
     </term>
 
@@ -42,8 +46,9 @@
             <langstring language="tr">Fransızca</langstring>
         </caption>
         <description>
-            <langstring language="en">The French language, rendered in its standard
-            script.</langstring>
+            <langstring language="en">The French language, rendered in its standard writing system.</langstring>
+            <langstring language="fr">Le français, rendue dans son système standard d'écriture.</langstring>
+            
         </description>
     </term>
     
@@ -60,8 +65,8 @@
             <langstring language="tr">İtalyanca</langstring>
         </caption>
         <description>
-            <langstring language="en">The Italian language, rendered in its standard
-            script.</langstring>
+            <langstring language="en">The Italian language, rendered in its standard writing system.</langstring>
+            <langstring language="fr">L'italien, rendu dans son système standard d'écriture.</langstring>
         </description>
     </term>
     
@@ -78,8 +83,8 @@
             <langstring language="es">Alemán</langstring>
         </caption>
         <description>
-            <langstring language="en">The German language, rendered in its standard
-            script.</langstring>
+            <langstring language="en">The German language, rendered in its standard writing system.</langstring>
+            <langstring language="fr">L'allemand, rendu dans son système standard d'écriture.</langstring>
         </description>
     </term>
     
@@ -89,8 +94,8 @@
             <langstring language="en">Greek (ancient)</langstring>
         </caption>
         <description>
-            <langstring language="en">The Ancient Greek language, rendered in standard, humanistic
-                script with polytonic accents.</langstring>
+            <langstring language="en">The Ancient Greek language, rendered in standard, humanistic script with polytonic accents.</langstring>
+            <langstring language="fr">La langue de Grec antique, rendue en manuscrit standard et humaniste avec des accents polytonic.</langstring>
         </description>
     </term>
     
@@ -100,8 +105,8 @@
             <langstring language="en">Greek (ancient, in Latin characters)</langstring>
         </caption>
         <description>
-            <langstring language="en">The Ancient Greek language, rendered in Roman (Latin)
-            script.</langstring>
+            <langstring language="en">The Ancient Greek language, rendered in the Roman (Latin) alphabet.</langstring>
+            <langstring language="fr">La langue de Grec antique, rendue dans l'alphabet romain (latin).</langstring>
         </description>
     </term>
     
@@ -118,8 +123,8 @@
             <langstring language="el">Λατινική</langstring>
         </caption>
         <description>
-            <langstring language="en">The Latin language, rendered in its standard
-            script.</langstring>
+            <langstring language="en">The Latin language, rendered in its standard writing system.</langstring>
+            <langstring language="fr">Le latin, rendue dans son système standard d'écriture.</langstring>
         </description>
     </term>
     
@@ -129,8 +134,8 @@
             <langstring language="en">Latin (in Greek Characters)</langstring>
         </caption>
         <description>
-            <langstring language="en">The Latin language, rendered in ancient Greek
-            script.</langstring>
+            <langstring language="en">The Latin language, rendered in ancient Greek characters.</langstring>
+            <langstring language="fr">Le latin, rendue en caractères de Grec antique.</langstring>
         </description>
     </term>
     
@@ -147,8 +152,8 @@
             <langstring language="el">τουρκική</langstring>
         </caption>
         <description>
-            <langstring language="en">The Turkish language, rendered in its standard
-            script.</langstring>
+            <langstring language="en">The Turkish language, rendered in its standard writing system.</langstring>
+            <langstring language="fr">Le turc, rendue dans son système standard d'écriture.</langstring>
         </description>
     </term>
     
@@ -165,8 +170,8 @@
             <langstring language="pt">Grego</langstring>
         </caption>
         <description>
-            <langstring language="en">The Modern Greek language, rendered in its standard
-            script.</langstring>
+            <langstring language="en">The Modern Greek language, rendered in its standard writing system.</langstring>
+            <langstring language="fr">La langue grecque moderne, rendue dans son système standard d'écriture.</langstring>
         </description>
     </term>
     
@@ -183,8 +188,8 @@
             <langstring language="el">Πορτογαλική</langstring>
         </caption>
         <description>
-            <langstring language="en">The Portuguese language, rendered in its standard
-            script.</langstring>
+            <langstring language="en">The Portuguese language, rendered in its standard writing system.</langstring>
+            <langstring language="fr">Le portugais, rendue dans son système standard d'écriture.</langstring>
         </description>
     </term>
     
@@ -201,8 +206,8 @@
             <langstring language="el">Ισπανική</langstring>
         </caption>
         <description>
-            <langstring language="en">The Spanish language, rendered in its standard
-            script.</langstring>
+            <langstring language="en">The Spanish language, rendered in its standard writing system.</langstring>
+            <langstring language="fr">L'espagnol, rendue dans son système standard d'écriture.</langstring>
         </description>
     </term>
     
