@@ -72,14 +72,14 @@ def loaden(self, sourcedir):
         return msg
         
 def load_entity(plonefolder, source):
-    """Create a new GeographicEntityLite in plonefolder and populate it with
+    """Create a new GeographicEntity in plonefolder and populate it with
     the data found in the xml file at sourcepath."""
     
     # instantiation of geoEntity attempts to load the file via the path source
     ge = geoEntity(source)
     
     # create the corresponding entity instance in plone and set its fields
-    enID = plonefolder.invokeFactory('GeographicEntityLite', id=ge.identifier)
+    enID = plonefolder.invokeFactory('GeographicEntity', id=ge.identifier)
     
     en = getattr(plonefolder, enID)
     
@@ -109,7 +109,7 @@ def load_entity(plonefolder, source):
     
     # add any names as children of the entity
     for i, name in enumerate(ge.names):
-        nameID = en.invokeFactory('GeographicNameLite', 
+        nameID = en.invokeFactory('GeographicName', 
 					id="%s-n%d" % (newEnID, i+1))
         en_name = getattr(en, nameID)
         en_name.setTitle(name.nameStringTransliterated)

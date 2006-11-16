@@ -9,7 +9,7 @@
 # Created:     2003/16/04
 #
 # Hacked by: Tom Elliott, to produce a more appropriate header
-#                    for the Pleiades product: GeographicEntityLite
+#                    for the Pleiades product: PleiadesEntity
 # Hack date:  2006/08/30
 #
 # Copyright:   (c) 2003-2005, BlueDynamics, Austria

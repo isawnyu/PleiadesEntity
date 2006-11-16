@@ -30,7 +30,7 @@
 from zope.interface import Interface
 
 
-class IGeoEntityLite(Interface):
+class IGeoEntity(Interface):
     """Marker interface..
     """
    

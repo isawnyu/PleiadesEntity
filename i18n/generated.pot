@@ -81,3 +81,61 @@ msgstr ""
 msgid "GeographicEntityLite_label_timePeriods"
 msgstr ""
 
+#. Default: "Entity Type"
+#: content\GeographicEntity.py
+msgid "PleiadesEntity_label_geoEntityType"
+msgstr ""
+
+#. Default: "Name Type"
+#: content\GeographicName.py
+msgid "PleiadesEntity_label_geoNameType"
+msgstr ""
+
+#. Default: "Identifier"
+#: content\GeographicEntity.py
+#: content\GeographicName.py
+msgid "PleiadesEntity_label_identifier"
+msgstr ""
+
+#. Default: "Modern Name / Location"
+#: content\GeographicEntity.py
+msgid "PleiadesEntity_label_modernLocation"
+msgstr ""
+
+#. Default: "Name as Attested"
+#: content\GeographicName.py
+msgid "PleiadesEntity_label_nameAttested"
+msgstr ""
+
+#. Default: "Language and Writing System of Attested Name"
+#: content\GeographicName.py
+msgid "PleiadesEntity_label_nameLanguage"
+msgstr ""
+
+#. Default: "Primary References"
+#: content\GeographicName.py
+msgid "PleiadesEntity_label_primaryReferences"
+msgstr ""
+
+#. Default: "Secondary References"
+#: content\GeographicEntity.py
+#: content\GeographicName.py
+msgid "PleiadesEntity_label_secondaryReferences"
+msgstr ""
+
+#. Default: "Spatial Coordinates"
+#: content\GeographicEntity.py
+msgid "PleiadesEntity_label_spatialCoordinates"
+msgstr ""
+
+#. Default: "Spatial Geometry Type"
+#: content\GeographicEntity.py
+msgid "PleiadesEntity_label_spatialGeometryType"
+msgstr ""
+
+#. Default: "Time Periods"
+#: content\GeographicEntity.py
+#: content\GeographicName.py
+msgid "PleiadesEntity_label_timePeriods"
+msgstr ""
+

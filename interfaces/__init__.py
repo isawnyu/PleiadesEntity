@@ -27,5 +27,5 @@
 # U.S. National Endowment for the Humanities (http://www.neh.gov).
 # ===========================================================================
 
-from simple import IGeoEntityLite
+from simple import IGeoEntity
 
