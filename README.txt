@@ -1,20 +1,20 @@
-GeographicEntityLite
+PleiadesEntity
 ====================
 
-The Geographic Entity Lite product provides Plone content types suitable for
-constructing and managing collections of simple geographic data items, for
+The PleiadesEntity product provides Plone content types suitable for
+constructing and managing collections of geographic data items, for
 example, digital gazetteer entries. 
 
-See http://icon.stoa.org/trac/pleiades/wiki/GeographicEntityLiteProduct for more
+See http://icon.stoa.org/trac/pleiades/wiki/PleiadesEntityProduct for more
 information.
 
 Written by Tom Elliott and Sean Gillies for the Pleiades Project. 
 Contact: Pleiades administration <maia@unc.edu>
-This product was developed using ArchGenXML.
+This product was developed using ArchGenXML, i18ndude, ArgoUML and coffee
 
 The following content types are provided:
 
-    * GeographicEntityLite: built atop the Archetypes Base Folder, Geographic
+    * GeographicEntity: built atop the Archetypes Base Folder, Geographic
     entities can contain 0..n geographic names. This content type provides all
     standard fields, plus custom fields for:
     
@@ -27,7 +27,7 @@ The following content types are provided:
           specification)
           o spatial geometry type (a string) 
 
-    * GeographicNameLite: built atop the Archetypes Base content class, this
+    * GeographicName: built atop the Archetypes Base content class, this
     content type provides all standard fields, plus custom fields for:
     
           o title (this standard field is re-labled in the view template as 
@@ -52,7 +52,7 @@ be found in the UML model.
 Future Improvements
 ----------------------------
 
-This product will be renamed and refactored to reduce its emphasis on (but not
+This product will be refactored to reduce its emphasis on (but not
 eliminate its suppport for) historical geographic data. If you use or subclass
 this product, keep track of your dependencies!
 
@@ -61,7 +61,7 @@ Installation
 ---------------
 
 The product is installed using the Plone Quick Installer. Copy or link the
-GeographicEntityLite directory tree into your Products directory, restart Zope
+PleiadesEntity directory tree into your Products directory, restart Zope
 and use the Quick Installer to install the product.
 
 This product is dependent upon the PleiadesGeocoder product. See
