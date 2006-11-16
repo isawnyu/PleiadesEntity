@@ -28,8 +28,8 @@ U.S. National Endowment for the Humanities (http://www.neh.gov).
 ProgrammaticCreation.txt
 ===========================================================================
 
-Test our ability to create and retrieve GeographicEntityLite objects and their
-subordinate GeographicNameLite objects
+Test our ability to create and retrieve GeographicEntity objects and their
+subordinate  objects
 
 optilude's tutorial on plone.org pointed the way to the sunlight
 
@@ -43,7 +43,7 @@ Setup the test fixture and get a reference to a Plone folder therein
 Add one complete entity to the folder and check all its attributes
 
     >>> enID = 'tatlas-77pdq'
-    >>> folder.invokeFactory('GeographicEntityLite', id=enID)
+    >>> folder.invokeFactory('GeographicEntity', id=enID)
     'tatlas-77pdq'
     
 Attempt to get a reference to the entity
@@ -97,7 +97,7 @@ Set the spatial coordinate type
 Enter the historical names and their constituent attributes
 
     >>> nameID = enID + '-n1'
-    >>> en.invokeFactory('GeographicNameLite', id=nameID)
+    >>> en.invokeFactory('', id=nameID)
     'tatlas-77pdq-n1'
     
     >>> en_name = getattr(en, nameID)
@@ -139,7 +139,7 @@ Enter the historical names and their constituent attributes
     ()
     
     >>> nameID = enID + '-n2'
-    >>> en.invokeFactory('GeographicNameLite', id=nameID)
+    >>> en.invokeFactory('', id=nameID)
     'tatlas-77pdq-n2'
     
     >>> en_name = getattr(en, nameID)

@@ -7,7 +7,7 @@
         
     # create a geographic entity and verify that we can set and retrieve its Plone id
     >>> enID = 'batlas-65-2-22'
-    >>> folder.invokeFactory('GeographicEntityLite', id=enID)
+    >>> folder.invokeFactory('GeographicEntity', id=enID)
     'batlas-65-2-22'
         
     # get a pointer to the entity, then verify we can set and retrieve its interim title
@@ -92,7 +92,7 @@
 
     # create a geographic name and verify that we can set and retrieve its Plone id
     >>> nameID = 'batlas-65-2-22-n1'
-    >>> en.invokeFactory('GeographicNameLite', id=nameID)
+    >>> en.invokeFactory('', id=nameID)
     'batlas-65-2-22-n1'
     >>> en_name = getattr(en, nameID)
         
@@ -178,7 +178,7 @@
 
     # create a geographic name and verify that we can set and retrieve its Plone id
     >>> nameID = 'batlas-65-2-22-n2'
-    >>> en.invokeFactory('GeographicNameLite', id=nameID)
+    >>> en.invokeFactory('', id=nameID)
     'batlas-65-2-22-n2'
     >>> en_name = getattr(en, nameID)
         
@@ -267,7 +267,7 @@
 
     # create a geographic name and verify that we can set and retrieve its Plone id
     >>> nameID = 'batlas-65-2-22-n3'
-    >>> en.invokeFactory('GeographicNameLite', id=nameID)
+    >>> en.invokeFactory('', id=nameID)
     'batlas-65-2-22-n3'
     >>> en_name = getattr(en, nameID)
         

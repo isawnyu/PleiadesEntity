@@ -7,7 +7,7 @@
         
     # create a geographic entity and verify that we can set and retrieve its Plone id
     >>> enID = 'batlas-65-4-9'
-    >>> folder.invokeFactory('GeographicEntityLite', id=enID)
+    >>> folder.invokeFactory('GeographicEntity', id=enID)
     'batlas-65-4-9'
         
     # get a pointer to the entity, then verify we can set and retrieve its interim title

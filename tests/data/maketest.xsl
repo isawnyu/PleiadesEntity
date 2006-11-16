@@ -59,7 +59,7 @@
     <xsl:template match="adlgaz:featureID">
     # create a geographic entity and verify that we can set and retrieve its Plone id
     &gt;&gt;&gt; enID = '<xsl:value-of select="."/>'
-    &gt;&gt;&gt; folder.invokeFactory('GeographicEntityLite', id=enID)
+    &gt;&gt;&gt; folder.invokeFactory('GeographicEntity', id=enID)
     '<xsl:value-of select="."/>'
         
     # get a pointer to the entity, then verify we can set and retrieve its interim title
@@ -277,7 +277,7 @@
 
     # create a geographic name and verify that we can set and retrieve its Plone id
     &gt;&gt;&gt; nameID = '<xsl:value-of select="$nameid"/>'
-    &gt;&gt;&gt; en.invokeFactory('GeographicNameLite', id=nameID)
+    &gt;&gt;&gt; en.invokeFactory('GeographicName', id=nameID)
     '<xsl:value-of select="$nameid"/>'
     &gt;&gt;&gt; en_name = getattr(en, nameID)
         

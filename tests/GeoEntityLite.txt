@@ -1,7 +1,7 @@
 PublishGeoEntity.txt
 ====================
 
-Test publishing of GeographicEntityLite objects.
+Test publishing of GeographicEntity objects.
 
 A lot of this is cribbed from optilude's tutorial on plone.org.
 
@@ -11,7 +11,7 @@ Setup the test fixture
 
 Add one entity to the folder
 
-    >>> folder.invokeFactory('GeographicEntityLite', id='aaa')
+    >>> folder.invokeFactory('GeographicEntity', id='aaa')
     'aaa'
 
 Check the id and portal type
@@ -20,14 +20,14 @@ Check the id and portal type
     >>> entity.id
     'aaa'
     >>> entity.portal_type
-    'GeographicEntityLite'
-    >>> entity.invokeFactory('GeographicNameLite', id='bbb')
+    'GeographicEntity'
+    >>> entity.invokeFactory('', id='bbb')
     'bbb'
     >>> namity = entity.bbb
     >>> namity.id
     'bbb'
     >>> namity.portal_type
-    'GeographicNameLite'
+    ''
     
 Initialize the test browser
 
