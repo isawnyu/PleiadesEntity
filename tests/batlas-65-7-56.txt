@@ -58,7 +58,7 @@
 
     # create a geographic name and verify that we can set and retrieve its Plone id
     >>> nameID = 'batlas-65-7-56-n1'
-    >>> en.invokeFactory('', id=nameID)
+    >>> en.invokeFactory('GeographicName', id=nameID)
     'batlas-65-7-56-n1'
     >>> en_name = getattr(en, nameID)
         
@@ -130,7 +130,7 @@
 
     # create a geographic name and verify that we can set and retrieve its Plone id
     >>> nameID = 'batlas-65-7-56-n2'
-    >>> en.invokeFactory('', id=nameID)
+    >>> en.invokeFactory('GeographicName', id=nameID)
     'batlas-65-7-56-n2'
     >>> en_name = getattr(en, nameID)
         

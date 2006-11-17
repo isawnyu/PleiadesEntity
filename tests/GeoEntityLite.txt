@@ -21,13 +21,13 @@ Check the id and portal type
     'aaa'
     >>> entity.portal_type
     'GeographicEntity'
-    >>> entity.invokeFactory('', id='bbb')
+    >>> entity.invokeFactory('GeographicName', id='bbb')
     'bbb'
     >>> namity = entity.bbb
     >>> namity.id
     'bbb'
     >>> namity.portal_type
-    ''
+    'GeographicName'
     
 Initialize the test browser
 

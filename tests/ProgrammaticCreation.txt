@@ -97,7 +97,7 @@ Set the spatial coordinate type
 Enter the historical names and their constituent attributes
 
     >>> nameID = enID + '-n1'
-    >>> en.invokeFactory('', id=nameID)
+    >>> en.invokeFactory('GeographicName', id=nameID)
     'tatlas-77pdq-n1'
     
     >>> en_name = getattr(en, nameID)
@@ -139,7 +139,7 @@ Enter the historical names and their constituent attributes
     ()
     
     >>> nameID = enID + '-n2'
-    >>> en.invokeFactory('', id=nameID)
+    >>> en.invokeFactory('GeographicName', id=nameID)
     'tatlas-77pdq-n2'
     
     >>> en_name = getattr(en, nameID)
