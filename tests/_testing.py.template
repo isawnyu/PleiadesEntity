@@ -1,7 +1,7 @@
 import os
 
 # Adjust this for your sandbox
-ROOT = os.environ['SOFTWARE_HOME']
+ROOT = os.environ['INSTANCE_HOME']
 
 # No need to touch anything below
 PRODUCT_NAME = 'PleiadesEntity'
