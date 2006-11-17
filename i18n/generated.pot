@@ -81,6 +81,56 @@ msgstr ""
 msgid "GeographicEntityLite_label_timePeriods"
 msgstr ""
 
+#. Default: "A unique identifier for this name, assigned by the Pleiades editorial board."
+#: content\GeographicName.py
+msgid "PleiadesEntity_help_identifier"
+msgstr ""
+
+#. Default: "If checked, this field indicates that the name, as attested, is abbreviated and the full form does not appear in the historical record."
+#: content\GeographicName.py
+msgid "PleiadesEntity_help_nameAbbreviated"
+msgstr ""
+
+#. Default: "If checked, this field indicates that the name is attested only incompletely, and the missing characters cannot be supplemented with certainty."
+#: content\GeographicName.py
+msgid "PleiadesEntity_help_nameFragmentary"
+msgstr ""
+
+#. Default: "If true, this field indicates that the name is presented in its attested form, but is considered inaccurate."
+#: content\GeographicName.py
+msgid "PleiadesEntity_help_nameInaccurate"
+msgstr ""
+
+#. Default: "If checked, this field indicates that the name is not attested during any of the possible periods, but has been inferred from a verified attestation in an earlier or later period."
+#: content\GeographicName.py
+msgid "PleiadesEntity_help_nameInferred"
+msgstr ""
+
+#. Default: "If checked, this field indicates that the name is attested only incompletely, but the missing characters have been supplied on a reliable basis."
+#: content\GeographicName.py
+msgid "PleiadesEntity_help_nameReconstructed"
+msgstr ""
+
+#. Default: "If checked, this field indicates some degree of uncertainty in the assignment of this attested name to the parent geographic entity."
+#: content\GeographicName.py
+msgid "PleiadesEntity_help_nameUncertain"
+msgstr ""
+
+#. Default: "Citations for primary sources in which this name appears."
+#: content\GeographicName.py
+msgid "PleiadesEntity_help_primaryReferences"
+msgstr ""
+
+#. Default: "Citations for works of modern scholarship in which this name is discussed."
+#: content\GeographicName.py
+msgid "PleiadesEntity_help_secondaryReferences"
+msgstr ""
+
+#. Default: "Standard time periods during which this name is believed to have been in use."
+#: content\GeographicName.py
+msgid "PleiadesEntity_help_timePeriods"
+msgstr ""
+
 #. Default: "Entity Type"
 #: content\GeographicEntity.py
 msgid "PleiadesEntity_label_geoEntityType"
@@ -102,14 +152,44 @@ msgstr ""
 msgid "PleiadesEntity_label_modernLocation"
 msgstr ""
 
+#. Default: "Abbreviated"
+#: content\GeographicName.py
+msgid "PleiadesEntity_label_nameAbbreviated"
+msgstr ""
+
 #. Default: "Name as Attested"
 #: content\GeographicName.py
 msgid "PleiadesEntity_label_nameAttested"
 msgstr ""
 
+#. Default: "Fragmentary"
+#: content\GeographicName.py
+msgid "PleiadesEntity_label_nameFragmentary"
+msgstr ""
+
+#. Default: "Inaccurate"
+#: content\GeographicName.py
+msgid "PleiadesEntity_label_nameInaccurate"
+msgstr ""
+
+#. Default: "Inferred"
+#: content\GeographicName.py
+msgid "PleiadesEntity_label_nameInferred"
+msgstr ""
+
 #. Default: "Language and Writing System of Attested Name"
 #: content\GeographicName.py
 msgid "PleiadesEntity_label_nameLanguage"
+msgstr ""
+
+#. Default: "Reconstructed"
+#: content\GeographicName.py
+msgid "PleiadesEntity_label_nameReconstructed"
+msgstr ""
+
+#. Default: "Uncertain"
+#: content\GeographicName.py
+msgid "PleiadesEntity_label_nameUncertain"
 msgstr ""
 
 #. Default: "Primary References"

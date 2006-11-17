@@ -1,5 +1,5 @@
 <?xml version = '1.0' encoding = 'UTF-8' ?>
-<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Thu Nov 16 12:39:43 CST 2006'>
+<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Fri Nov 17 11:09:23 CST 2006'>
   <XMI.header>    <XMI.documentation>
       <XMI.exporter>ArgoUML (using Netbeans XMI Writer version 1.0)</XMI.exporter>
       <XMI.exporterVersion>0.20.x</XMI.exporterVersion>
@@ -652,6 +652,13 @@
                         <UML:TagDefinition xmi.idref = '.:0000000000000ADA'/>
                       </UML:TaggedValue.type>
                     </UML:TaggedValue>
+                    <UML:TaggedValue xmi.id = '-64--88-2--46-50402d89:10ef6d2b407:-8000:00000000000008C7'
+                      isSpecification = 'false'>
+                      <UML:TaggedValue.dataValue>A transliteration into the ASCII character set of the the attested name.</UML:TaggedValue.dataValue>
+                      <UML:TaggedValue.type>
+                        <UML:TagDefinition xmi.idref = '-64--88-2--46-60e083a9:10ef28beb03:-8000:00000000000008AB'/>
+                      </UML:TaggedValue.type>
+                    </UML:TaggedValue>
                   </UML:ModelElement.taggedValue>
                   <UML:StructuralFeature.type>
                     <UML:DataType xmi.idref = '-64--88-2--124--1ef2c416:10dd2107978:-8000:0000000000000AFE'/>
@@ -690,9 +697,47 @@
                         <UML:TagDefinition xmi.idref = '-64--88-2--122--4fc909c4:10df01999ba:-8000:0000000000000B66'/>
                       </UML:TaggedValue.type>
                     </UML:TaggedValue>
+                    <UML:TaggedValue xmi.id = '-64--88-2--46-50402d89:10ef6d2b407:-8000:00000000000008C8'
+                      isSpecification = 'false'>
+                      <UML:TaggedValue.dataValue>A unique identifier for this name, assigned by the Pleiades editorial board.</UML:TaggedValue.dataValue>
+                      <UML:TaggedValue.type>
+                        <UML:TagDefinition xmi.idref = '-64--88-2--46-60e083a9:10ef28beb03:-8000:00000000000008AB'/>
+                      </UML:TaggedValue.type>
+                    </UML:TaggedValue>
                   </UML:ModelElement.taggedValue>
                   <UML:StructuralFeature.type>
                     <UML:DataType xmi.idref = '.:0000000000000ABC'/>
+                  </UML:StructuralFeature.type>
+                </UML:Attribute>
+                <UML:Attribute xmi.id = '-64--88-2--46-50402d89:10ef6d2b407:-8000:00000000000008B8'
+                  name = 'nameUncertain' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
+                  changeability = 'changeable' targetScope = 'instance'>
+                  <UML:StructuralFeature.multiplicity>
+                    <UML:Multiplicity xmi.id = '-64--88-2--46-50402d89:10ef6d2b407:-8000:00000000000008B9'>
+                      <UML:Multiplicity.range>
+                        <UML:MultiplicityRange xmi.id = '-64--88-2--46-50402d89:10ef6d2b407:-8000:00000000000008BA'
+                          lower = '1' upper = '1'/>
+                      </UML:Multiplicity.range>
+                    </UML:Multiplicity>
+                  </UML:StructuralFeature.multiplicity>
+                  <UML:ModelElement.taggedValue>
+                    <UML:TaggedValue xmi.id = '-64--88-2--46-50402d89:10ef6d2b407:-8000:00000000000008BB'
+                      isSpecification = 'false'>
+                      <UML:TaggedValue.dataValue>Uncertain</UML:TaggedValue.dataValue>
+                      <UML:TaggedValue.type>
+                        <UML:TagDefinition xmi.idref = '.:0000000000000ADA'/>
+                      </UML:TaggedValue.type>
+                    </UML:TaggedValue>
+                    <UML:TaggedValue xmi.id = '-64--88-2--46-50402d89:10ef6d2b407:-8000:00000000000008BC'
+                      isSpecification = 'false'>
+                      <UML:TaggedValue.dataValue>If checked, this field indicates some degree of uncertainty in the assignment of this attested name to the parent geographic entity.</UML:TaggedValue.dataValue>
+                      <UML:TaggedValue.type>
+                        <UML:TagDefinition xmi.idref = '-64--88-2--46-60e083a9:10ef28beb03:-8000:00000000000008AB'/>
+                      </UML:TaggedValue.type>
+                    </UML:TaggedValue>
+                  </UML:ModelElement.taggedValue>
+                  <UML:StructuralFeature.type>
+                    <UML:DataType xmi.idref = '.:0000000000000AD4'/>
                   </UML:StructuralFeature.type>
                 </UML:Attribute>
                 <UML:Attribute xmi.id = '-64--88-2--117-1d833a07:10db2e5b5a0:-8000:0000000000000ADA'
@@ -724,6 +769,79 @@
                   </UML:ModelElement.taggedValue>
                   <UML:StructuralFeature.type>
                     <UML:DataType xmi.idref = '.:0000000000000ABC'/>
+                  </UML:StructuralFeature.type>
+                </UML:Attribute>
+                <UML:Attribute xmi.id = '-64--88-0-3--94f26f3:10d601dfb88:-8000:0000000000000AD1'
+                  name = 'timePeriods' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
+                  changeability = 'changeable' targetScope = 'instance'>
+                  <UML:StructuralFeature.multiplicity>
+                    <UML:Multiplicity xmi.id = '-64--88-0-3--94f26f3:10d601dfb88:-8000:0000000000000AD2'>
+                      <UML:Multiplicity.range>
+                        <UML:MultiplicityRange xmi.id = '-64--88-0-3--94f26f3:10d601dfb88:-8000:0000000000000AD3'
+                          lower = '1' upper = '1'/>
+                      </UML:Multiplicity.range>
+                    </UML:Multiplicity>
+                  </UML:StructuralFeature.multiplicity>
+                  <UML:Attribute.initialValue>
+                    <UML:Expression xmi.id = '-64--88-0-7-2e97276b:10d82a2e903:-8000:0000000000000ADA'
+                      language = '' body = ''/>
+                  </UML:Attribute.initialValue>
+                  <UML:ModelElement.taggedValue>
+                    <UML:TaggedValue xmi.id = '-64--88-0-3--94f26f3:10d601dfb88:-8000:0000000000000AD4'
+                      isSpecification = 'false'>
+                      <UML:TaggedValue.dataValue>Time Periods</UML:TaggedValue.dataValue>
+                      <UML:TaggedValue.type>
+                        <UML:TagDefinition xmi.idref = '.:0000000000000ADA'/>
+                      </UML:TaggedValue.type>
+                    </UML:TaggedValue>
+                    <UML:TaggedValue xmi.id = '-64--88-2--122-4226b20e:10df0ab1c08:-8000:0000000000000B75'
+                      isSpecification = 'false'>
+                      <UML:TaggedValue.dataValue>KeywordIndex</UML:TaggedValue.dataValue>
+                      <UML:TaggedValue.type>
+                        <UML:TagDefinition xmi.idref = '-64--88-2--122--4fc909c4:10df01999ba:-8000:0000000000000B66'/>
+                      </UML:TaggedValue.type>
+                    </UML:TaggedValue>
+                    <UML:TaggedValue xmi.id = '-64--88-2--46-50402d89:10ef6d2b407:-8000:00000000000008C9'
+                      isSpecification = 'false'>
+                      <UML:TaggedValue.dataValue>Standard time periods during which this name is believed to have been in use.</UML:TaggedValue.dataValue>
+                      <UML:TaggedValue.type>
+                        <UML:TagDefinition xmi.idref = '-64--88-2--46-60e083a9:10ef28beb03:-8000:00000000000008AB'/>
+                      </UML:TaggedValue.type>
+                    </UML:TaggedValue>
+                  </UML:ModelElement.taggedValue>
+                  <UML:StructuralFeature.type>
+                    <UML:Class xmi.idref = '.:0000000000000AED'/>
+                  </UML:StructuralFeature.type>
+                </UML:Attribute>
+                <UML:Attribute xmi.id = '-64--88-2--46-60e083a9:10ef28beb03:-8000:00000000000008AE'
+                  name = 'nameInferred' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
+                  changeability = 'changeable' targetScope = 'instance'>
+                  <UML:StructuralFeature.multiplicity>
+                    <UML:Multiplicity xmi.id = '-64--88-2--46-60e083a9:10ef28beb03:-8000:00000000000008AF'>
+                      <UML:Multiplicity.range>
+                        <UML:MultiplicityRange xmi.id = '-64--88-2--46-60e083a9:10ef28beb03:-8000:00000000000008B0'
+                          lower = '1' upper = '1'/>
+                      </UML:Multiplicity.range>
+                    </UML:Multiplicity>
+                  </UML:StructuralFeature.multiplicity>
+                  <UML:ModelElement.taggedValue>
+                    <UML:TaggedValue xmi.id = '-64--88-2--46-60e083a9:10ef28beb03:-8000:00000000000008B1'
+                      isSpecification = 'false'>
+                      <UML:TaggedValue.dataValue>Inferred</UML:TaggedValue.dataValue>
+                      <UML:TaggedValue.type>
+                        <UML:TagDefinition xmi.idref = '.:0000000000000ADA'/>
+                      </UML:TaggedValue.type>
+                    </UML:TaggedValue>
+                    <UML:TaggedValue xmi.id = '-64--88-2--46-60e083a9:10ef28beb03:-8000:00000000000008B2'
+                      isSpecification = 'false'>
+                      <UML:TaggedValue.dataValue>If checked, this field indicates that the name is not attested during any of the possible periods, but has been inferred from a verified attestation in an earlier or later period.</UML:TaggedValue.dataValue>
+                      <UML:TaggedValue.type>
+                        <UML:TagDefinition xmi.idref = '-64--88-2--46-60e083a9:10ef28beb03:-8000:00000000000008AB'/>
+                      </UML:TaggedValue.type>
+                    </UML:TaggedValue>
+                  </UML:ModelElement.taggedValue>
+                  <UML:StructuralFeature.type>
+                    <UML:DataType xmi.idref = '.:0000000000000AD4'/>
                   </UML:StructuralFeature.type>
                 </UML:Attribute>
                 <UML:Attribute xmi.id = '-64--88-0-7-2e97276b:10d82a2e903:-8000:0000000000000AC6'
@@ -789,39 +907,128 @@
                     <UML:DataType xmi.idref = '.:0000000000000ABC'/>
                   </UML:StructuralFeature.type>
                 </UML:Attribute>
-                <UML:Attribute xmi.id = '-64--88-0-3--94f26f3:10d601dfb88:-8000:0000000000000AD1'
-                  name = 'timePeriods' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
-                  changeability = 'changeable' targetScope = 'instance'>
+                <UML:Attribute xmi.id = '-64--88-2--46-60e083a9:10ef28beb03:-8000:00000000000008A6'
+                  name = 'nameInaccurate' visibility = 'public' isSpecification = 'false'
+                  ownerScope = 'instance' changeability = 'changeable' targetScope = 'instance'>
                   <UML:StructuralFeature.multiplicity>
-                    <UML:Multiplicity xmi.id = '-64--88-0-3--94f26f3:10d601dfb88:-8000:0000000000000AD2'>
+                    <UML:Multiplicity xmi.id = '-64--88-2--46-60e083a9:10ef28beb03:-8000:00000000000008A7'>
                       <UML:Multiplicity.range>
-                        <UML:MultiplicityRange xmi.id = '-64--88-0-3--94f26f3:10d601dfb88:-8000:0000000000000AD3'
+                        <UML:MultiplicityRange xmi.id = '-64--88-2--46-60e083a9:10ef28beb03:-8000:00000000000008A8'
                           lower = '1' upper = '1'/>
                       </UML:Multiplicity.range>
                     </UML:Multiplicity>
                   </UML:StructuralFeature.multiplicity>
-                  <UML:Attribute.initialValue>
-                    <UML:Expression xmi.id = '-64--88-0-7-2e97276b:10d82a2e903:-8000:0000000000000ADA'
-                      language = '' body = ''/>
-                  </UML:Attribute.initialValue>
                   <UML:ModelElement.taggedValue>
-                    <UML:TaggedValue xmi.id = '-64--88-0-3--94f26f3:10d601dfb88:-8000:0000000000000AD4'
+                    <UML:TaggedValue xmi.id = '-64--88-2--46-60e083a9:10ef28beb03:-8000:00000000000008A9'
                       isSpecification = 'false'>
-                      <UML:TaggedValue.dataValue>Time Periods</UML:TaggedValue.dataValue>
+                      <UML:TaggedValue.dataValue>Inaccurate</UML:TaggedValue.dataValue>
                       <UML:TaggedValue.type>
                         <UML:TagDefinition xmi.idref = '.:0000000000000ADA'/>
                       </UML:TaggedValue.type>
                     </UML:TaggedValue>
-                    <UML:TaggedValue xmi.id = '-64--88-2--122-4226b20e:10df0ab1c08:-8000:0000000000000B75'
+                    <UML:TaggedValue xmi.id = '-64--88-2--46-60e083a9:10ef28beb03:-8000:00000000000008AA'
                       isSpecification = 'false'>
-                      <UML:TaggedValue.dataValue>KeywordIndex</UML:TaggedValue.dataValue>
+                      <UML:TaggedValue.dataValue>If checked, this field indicates that the name is presented in its attested form, but is considered inaccurate.</UML:TaggedValue.dataValue>
                       <UML:TaggedValue.type>
-                        <UML:TagDefinition xmi.idref = '-64--88-2--122--4fc909c4:10df01999ba:-8000:0000000000000B66'/>
+                        <UML:TagDefinition xmi.idref = '-64--88-2--46-60e083a9:10ef28beb03:-8000:00000000000008AB'/>
                       </UML:TaggedValue.type>
                     </UML:TaggedValue>
                   </UML:ModelElement.taggedValue>
                   <UML:StructuralFeature.type>
-                    <UML:Class xmi.idref = '.:0000000000000AED'/>
+                    <UML:DataType xmi.idref = '.:0000000000000AD4'/>
+                  </UML:StructuralFeature.type>
+                </UML:Attribute>
+                <UML:Attribute xmi.id = '-64--88-2--46-50402d89:10ef6d2b407:-8000:00000000000008C2'
+                  name = 'nameAbbreviated' visibility = 'public' isSpecification = 'false'
+                  ownerScope = 'instance' changeability = 'changeable' targetScope = 'instance'>
+                  <UML:StructuralFeature.multiplicity>
+                    <UML:Multiplicity xmi.id = '-64--88-2--46-50402d89:10ef6d2b407:-8000:00000000000008C3'>
+                      <UML:Multiplicity.range>
+                        <UML:MultiplicityRange xmi.id = '-64--88-2--46-50402d89:10ef6d2b407:-8000:00000000000008C4'
+                          lower = '1' upper = '1'/>
+                      </UML:Multiplicity.range>
+                    </UML:Multiplicity>
+                  </UML:StructuralFeature.multiplicity>
+                  <UML:ModelElement.taggedValue>
+                    <UML:TaggedValue xmi.id = '-64--88-2--46-50402d89:10ef6d2b407:-8000:00000000000008C5'
+                      isSpecification = 'false'>
+                      <UML:TaggedValue.dataValue>Abbreviated</UML:TaggedValue.dataValue>
+                      <UML:TaggedValue.type>
+                        <UML:TagDefinition xmi.idref = '.:0000000000000ADA'/>
+                      </UML:TaggedValue.type>
+                    </UML:TaggedValue>
+                    <UML:TaggedValue xmi.id = '-64--88-2--46-50402d89:10ef6d2b407:-8000:00000000000008C6'
+                      isSpecification = 'false'>
+                      <UML:TaggedValue.dataValue>If checked, this field indicates that the name, as attested, is abbreviated and the full form does not appear in the historical record.</UML:TaggedValue.dataValue>
+                      <UML:TaggedValue.type>
+                        <UML:TagDefinition xmi.idref = '-64--88-2--46-60e083a9:10ef28beb03:-8000:00000000000008AB'/>
+                      </UML:TaggedValue.type>
+                    </UML:TaggedValue>
+                  </UML:ModelElement.taggedValue>
+                  <UML:StructuralFeature.type>
+                    <UML:DataType xmi.idref = '.:0000000000000AD4'/>
+                  </UML:StructuralFeature.type>
+                </UML:Attribute>
+                <UML:Attribute xmi.id = '-64--88-2--46-50402d89:10ef6d2b407:-8000:00000000000008BD'
+                  name = 'nameReconstructed' visibility = 'public' isSpecification = 'false'
+                  ownerScope = 'instance' changeability = 'changeable' targetScope = 'instance'>
+                  <UML:StructuralFeature.multiplicity>
+                    <UML:Multiplicity xmi.id = '-64--88-2--46-50402d89:10ef6d2b407:-8000:00000000000008BE'>
+                      <UML:Multiplicity.range>
+                        <UML:MultiplicityRange xmi.id = '-64--88-2--46-50402d89:10ef6d2b407:-8000:00000000000008BF'
+                          lower = '1' upper = '1'/>
+                      </UML:Multiplicity.range>
+                    </UML:Multiplicity>
+                  </UML:StructuralFeature.multiplicity>
+                  <UML:ModelElement.taggedValue>
+                    <UML:TaggedValue xmi.id = '-64--88-2--46-50402d89:10ef6d2b407:-8000:00000000000008C0'
+                      isSpecification = 'false'>
+                      <UML:TaggedValue.dataValue>Reconstructed</UML:TaggedValue.dataValue>
+                      <UML:TaggedValue.type>
+                        <UML:TagDefinition xmi.idref = '.:0000000000000ADA'/>
+                      </UML:TaggedValue.type>
+                    </UML:TaggedValue>
+                    <UML:TaggedValue xmi.id = '-64--88-2--46-50402d89:10ef6d2b407:-8000:00000000000008C1'
+                      isSpecification = 'false'>
+                      <UML:TaggedValue.dataValue>If checked, this field indicates that the name is attested only incompletely, but the missing characters have been supplied on a reliable basis.</UML:TaggedValue.dataValue>
+                      <UML:TaggedValue.type>
+                        <UML:TagDefinition xmi.idref = '-64--88-2--46-60e083a9:10ef28beb03:-8000:00000000000008AB'/>
+                      </UML:TaggedValue.type>
+                    </UML:TaggedValue>
+                  </UML:ModelElement.taggedValue>
+                  <UML:StructuralFeature.type>
+                    <UML:DataType xmi.idref = '.:0000000000000AD4'/>
+                  </UML:StructuralFeature.type>
+                </UML:Attribute>
+                <UML:Attribute xmi.id = '-64--88-2--46-60e083a9:10ef28beb03:-8000:00000000000008B3'
+                  name = 'nameFragmentary' visibility = 'public' isSpecification = 'false'
+                  ownerScope = 'instance' changeability = 'changeable' targetScope = 'instance'>
+                  <UML:StructuralFeature.multiplicity>
+                    <UML:Multiplicity xmi.id = '-64--88-2--46-60e083a9:10ef28beb03:-8000:00000000000008B4'>
+                      <UML:Multiplicity.range>
+                        <UML:MultiplicityRange xmi.id = '-64--88-2--46-60e083a9:10ef28beb03:-8000:00000000000008B5'
+                          lower = '1' upper = '1'/>
+                      </UML:Multiplicity.range>
+                    </UML:Multiplicity>
+                  </UML:StructuralFeature.multiplicity>
+                  <UML:ModelElement.taggedValue>
+                    <UML:TaggedValue xmi.id = '-64--88-2--46-60e083a9:10ef28beb03:-8000:00000000000008B6'
+                      isSpecification = 'false'>
+                      <UML:TaggedValue.dataValue>Fragmentary</UML:TaggedValue.dataValue>
+                      <UML:TaggedValue.type>
+                        <UML:TagDefinition xmi.idref = '.:0000000000000ADA'/>
+                      </UML:TaggedValue.type>
+                    </UML:TaggedValue>
+                    <UML:TaggedValue xmi.id = '-64--88-2--46-60e083a9:10ef28beb03:-8000:00000000000008B7'
+                      isSpecification = 'false'>
+                      <UML:TaggedValue.dataValue>If checked, this field indicates that the name is attested only incompletely, and the missing characters cannot be supplemented with certainty.</UML:TaggedValue.dataValue>
+                      <UML:TaggedValue.type>
+                        <UML:TagDefinition xmi.idref = '-64--88-2--46-60e083a9:10ef28beb03:-8000:00000000000008AB'/>
+                      </UML:TaggedValue.type>
+                    </UML:TaggedValue>
+                  </UML:ModelElement.taggedValue>
+                  <UML:StructuralFeature.type>
+                    <UML:DataType xmi.idref = '.:0000000000000AD4'/>
                   </UML:StructuralFeature.type>
                 </UML:Attribute>
                 <UML:Attribute xmi.id = '.:0000000000000AB5' name = 'primaryReferences'
@@ -846,6 +1053,13 @@
                       <UML:TaggedValue.dataValue>KeywordIndex</UML:TaggedValue.dataValue>
                       <UML:TaggedValue.type>
                         <UML:TagDefinition xmi.idref = '-64--88-2--122--4fc909c4:10df01999ba:-8000:0000000000000B66'/>
+                      </UML:TaggedValue.type>
+                    </UML:TaggedValue>
+                    <UML:TaggedValue xmi.id = '-64--88-2--46-50402d89:10ef6d2b407:-8000:00000000000008CA'
+                      isSpecification = 'false'>
+                      <UML:TaggedValue.dataValue>Citations for primary sources in which this name appears.</UML:TaggedValue.dataValue>
+                      <UML:TaggedValue.type>
+                        <UML:TagDefinition xmi.idref = '-64--88-2--46-60e083a9:10ef28beb03:-8000:00000000000008AB'/>
                       </UML:TaggedValue.type>
                     </UML:TaggedValue>
                   </UML:ModelElement.taggedValue>
@@ -879,6 +1093,13 @@
                       <UML:TaggedValue.dataValue>KeywordIndex</UML:TaggedValue.dataValue>
                       <UML:TaggedValue.type>
                         <UML:TagDefinition xmi.idref = '-64--88-2--122--4fc909c4:10df01999ba:-8000:0000000000000B66'/>
+                      </UML:TaggedValue.type>
+                    </UML:TaggedValue>
+                    <UML:TaggedValue xmi.id = '-64--88-2--46-50402d89:10ef6d2b407:-8000:00000000000008CB'
+                      isSpecification = 'false'>
+                      <UML:TaggedValue.dataValue>Citations for works of modern scholarship in which this name is discussed.</UML:TaggedValue.dataValue>
+                      <UML:TaggedValue.type>
+                        <UML:TagDefinition xmi.idref = '-64--88-2--46-60e083a9:10ef28beb03:-8000:00000000000008AB'/>
                       </UML:TaggedValue.type>
                     </UML:TaggedValue>
                   </UML:ModelElement.taggedValue>
@@ -989,6 +1210,17 @@
             <UML:Multiplicity xmi.id = '-64--88-2--122--4fc909c4:10df01999ba:-8000:0000000000000B68'>
               <UML:Multiplicity.range>
                 <UML:MultiplicityRange xmi.id = '-64--88-2--122--4fc909c4:10df01999ba:-8000:0000000000000B67'
+                  lower = '0' upper = '1'/>
+              </UML:Multiplicity.range>
+            </UML:Multiplicity>
+          </UML:TagDefinition.multiplicity>
+        </UML:TagDefinition>
+        <UML:TagDefinition xmi.id = '-64--88-2--46-60e083a9:10ef28beb03:-8000:00000000000008AB'
+          name = 'widget:description' isSpecification = 'false' tagType = 'String'>
+          <UML:TagDefinition.multiplicity>
+            <UML:Multiplicity xmi.id = '-64--88-2--46-60e083a9:10ef28beb03:-8000:00000000000008AC'>
+              <UML:Multiplicity.range>
+                <UML:MultiplicityRange xmi.id = '-64--88-2--46-60e083a9:10ef28beb03:-8000:00000000000008AD'
                   lower = '0' upper = '1'/>
               </UML:Multiplicity.range>
             </UML:Multiplicity>

@@ -49,6 +49,7 @@ from Products.PleiadesEntity.Extensions.cooking import *
 copied_fields = {}
 copied_fields['title'] = BaseSchema['title'].copy()
 copied_fields['title'].widget.label = "Transliterated Name"
+copied_fields['title'].widget.description = "A transliteration into the ASCII character set of the the attested name."
 schema = Schema((
 
     copied_fields['title'],
@@ -57,10 +58,23 @@ schema = Schema((
         index="FieldIndex",
         widget=StringWidget(
             label="Identifier",
+            description="A unique identifier for this name, assigned by the Pleiades editorial board.",
             label_msgid='PleiadesEntity_label_identifier',
+            description_msgid='PleiadesEntity_help_identifier',
             i18n_domain='PleiadesEntity',
         ),
         required=1
+    ),
+
+    BooleanField(
+        name='nameUncertain',
+        widget=BooleanWidget(
+            label="Uncertain",
+            description="If checked, this field indicates some degree of uncertainty in the assignment of this attested name to the parent geographic entity.",
+            label_msgid='PleiadesEntity_label_nameUncertain',
+            description_msgid='PleiadesEntity_help_nameUncertain',
+            i18n_domain='PleiadesEntity',
+        )
     ),
 
     StringField(
@@ -69,6 +83,29 @@ schema = Schema((
         widget=StringWidget(
             label="Name Type",
             label_msgid='PleiadesEntity_label_geoNameType',
+            i18n_domain='PleiadesEntity',
+        )
+    ),
+
+    LinesField(
+        name='timePeriods',
+        index="KeywordIndex",
+        widget=LinesWidget(
+            label="Time Periods",
+            description="Standard time periods during which this name is believed to have been in use.",
+            label_msgid='PleiadesEntity_label_timePeriods',
+            description_msgid='PleiadesEntity_help_timePeriods',
+            i18n_domain='PleiadesEntity',
+        )
+    ),
+
+    BooleanField(
+        name='nameInferred',
+        widget=BooleanWidget(
+            label="Inferred",
+            description="If checked, this field indicates that the name is not attested during any of the possible periods, but has been inferred from a verified attestation in an earlier or later period.",
+            label_msgid='PleiadesEntity_label_nameInferred',
+            description_msgid='PleiadesEntity_help_nameInferred',
             i18n_domain='PleiadesEntity',
         )
     ),
@@ -93,12 +130,46 @@ schema = Schema((
         )
     ),
 
-    LinesField(
-        name='timePeriods',
-        index="KeywordIndex",
-        widget=LinesWidget(
-            label="Time Periods",
-            label_msgid='PleiadesEntity_label_timePeriods',
+    BooleanField(
+        name='nameInaccurate',
+        widget=BooleanWidget(
+            label="Inaccurate",
+            description="If checked, this field indicates that the name is presented in its attested form, but is considered inaccurate.",
+            label_msgid='PleiadesEntity_label_nameInaccurate',
+            description_msgid='PleiadesEntity_help_nameInaccurate',
+            i18n_domain='PleiadesEntity',
+        )
+    ),
+
+    BooleanField(
+        name='nameAbbreviated',
+        widget=BooleanWidget(
+            label="Abbreviated",
+            description="If checked, this field indicates that the name, as attested, is abbreviated and the full form does not appear in the historical record.",
+            label_msgid='PleiadesEntity_label_nameAbbreviated',
+            description_msgid='PleiadesEntity_help_nameAbbreviated',
+            i18n_domain='PleiadesEntity',
+        )
+    ),
+
+    BooleanField(
+        name='nameReconstructed',
+        widget=BooleanWidget(
+            label="Reconstructed",
+            description="If checked, this field indicates that the name is attested only incompletely, but the missing characters have been supplied on a reliable basis.",
+            label_msgid='PleiadesEntity_label_nameReconstructed',
+            description_msgid='PleiadesEntity_help_nameReconstructed',
+            i18n_domain='PleiadesEntity',
+        )
+    ),
+
+    BooleanField(
+        name='nameFragmentary',
+        widget=BooleanWidget(
+            label="Fragmentary",
+            description="If checked, this field indicates that the name is attested only incompletely, and the missing characters cannot be supplemented with certainty.",
+            label_msgid='PleiadesEntity_label_nameFragmentary',
+            description_msgid='PleiadesEntity_help_nameFragmentary',
             i18n_domain='PleiadesEntity',
         )
     ),
@@ -108,7 +179,9 @@ schema = Schema((
         index="KeywordIndex",
         widget=LinesWidget(
             label="Primary References",
+            description="Citations for primary sources in which this name appears.",
             label_msgid='PleiadesEntity_label_primaryReferences',
+            description_msgid='PleiadesEntity_help_primaryReferences',
             i18n_domain='PleiadesEntity',
         )
     ),
@@ -118,7 +191,9 @@ schema = Schema((
         index="KeywordIndex",
         widget=LinesWidget(
             label="Secondary References",
+            description="Citations for works of modern scholarship in which this name is discussed.",
             label_msgid='PleiadesEntity_label_secondaryReferences',
+            description_msgid='PleiadesEntity_help_secondaryReferences',
             i18n_domain='PleiadesEntity',
         )
     ),

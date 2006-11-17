@@ -1,4 +1,4 @@
-Directory 'skins/GeographicEntityLite':
+Directory 'skins/PleiadesEntity':
 
 This skin layer has low priority, put unique templates and scripts here.
 
