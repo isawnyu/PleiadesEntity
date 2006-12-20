@@ -1,7 +1,7 @@
 PublishGeoEntity.txt
 ====================
 
-Test publishing of GeographicEntity objects.
+Test publishing of Place objects.
 
 A lot of this is cribbed from optilude's tutorial on plone.org.
 
@@ -11,7 +11,7 @@ Setup the test fixture
 
 Add one entity to the folder
 
-    >>> folder.invokeFactory('GeographicEntity', id='aaa')
+    >>> folder.invokeFactory('Place', id='aaa')
     'aaa'
 
 Check the id and portal type
@@ -20,14 +20,14 @@ Check the id and portal type
     >>> entity.id
     'aaa'
     >>> entity.portal_type
-    'GeographicEntity'
-    >>> entity.invokeFactory('GeographicName', id='bbb')
+    'Place'
+    >>> entity.invokeFactory('Name', id='bbb')
     'bbb'
     >>> namity = entity.bbb
     >>> namity.id
     'bbb'
     >>> namity.portal_type
-    'GeographicName'
+    'Name'
     
 Initialize the test browser
 
@@ -57,10 +57,7 @@ Check the URL
 Check the html content of the view page (description will not appear here)
     
     >>> browser.contents
-    '...Identifier...'
-    
-    >>> browser.contents
-    '...Entity Type...'
+    '...Place Type...'
         
     >>> browser.contents
     '...Modern Name / Location...'
@@ -79,7 +76,7 @@ Check the html content of the view page (description will not appear here)
     '...Spatial Geometry Type...'
 
     >>> browser.contents
-    '...Historical Names...'
+    '...Names...'
     
     >>> link = browser.getLink('bbb')
     >>> link.click()
@@ -87,9 +84,6 @@ Check the html content of the view page (description will not appear here)
     >>> namity_url = namity.absolute_url()
     >>> browser.url == namity_url + '/'
     True
-    
-    >>> browser.contents
-    '...Identifier...'
     
     >>> browser.contents
     '...Name Type...'

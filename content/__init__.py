@@ -45,8 +45,8 @@ __docformat__ = 'plaintext'
 # Additional
 
 # Classes
-import GeographicEntity
-import GeographicName
+import Place
+import Name
 
 ##code-section init-module-footer #fill in your manual code here
 ##/code-section init-module-footer

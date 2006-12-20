@@ -7,22 +7,9 @@
         
     >>> import os
      >>> source = os.path.sep.join([TEST_DATA, 'batlas-65-7-3.xml'])
-    >>> load_entity(folder, source)
+    >>> load_place(folder, source)
     >>> enID = 'batlas-65-7-3'
     >>> en = getattr(folder, enID)
-    >>> en.getIdentifier()
-    'batlas-65-7-3'
-    
-    >>> finalTitle = en.Title()
-     
-    >>> soughtFinalTitle = u'Agathe Kome'
-    >>> soughtFinalTitle_utf8 = soughtFinalTitle.encode('utf8')
-    >>> finalTitle == soughtFinalTitle_utf8
-    True
-    >>> finalTitle = en.Title()
-    >>> finalTitle == soughtFinalTitle_utf8
-    True
-
     
     >>> sourcetext = u'Sarayk\U000000F6y plain?'
     >>> sourcetext_utf8 = sourcetext.encode('utf8')
@@ -42,7 +29,7 @@
     True
     
     # verify that we can retrieve the appropriate classification type(s)
-    >>> en.getGeoEntityType()
+    >>> en.getPlaceType()
     'unlocated'
     
     # verify that we can set and retrieve a list of secondaryReferences
@@ -64,10 +51,6 @@
     >>> nameID = 'batlas-65-7-3-n1'
     >>> en_name = getattr(en, nameID)
 
-    # verify we can retrieve the name's identifier value
-    >>> en_name.getIdentifier()
-    'batlas-65-7-3-n1'
-        
     # verify we can retrieve an appropriate description
     >>> soughtDescription = u'An ancient name for a geographic entity that cannot now be located with certainty, attested during the Late Antique period.'
     >>> gotDescription = en_name.Description()
@@ -81,7 +64,7 @@
     'Agathe Kome'
     
     # verify that we can retrieve the appropriate classification type(s)
-    >>> en_name.getGeoNameType()
+    >>> en_name.getNameType()
     'geographic'
     
     # verify that we can set and retrieve a list of creators

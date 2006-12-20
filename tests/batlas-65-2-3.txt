@@ -7,7 +7,7 @@
         
     # create a geographic entity and verify that we can set and retrieve its Plone id
     >>> enID = 'batlas-65-2-3'
-    >>> folder.invokeFactory('GeographicEntity', id=enID)
+    >>> folder.invokeFactory('Place', id=enID)
     'batlas-65-2-3'
         
     # get a pointer to the entity, then verify we can set and retrieve its interim title
@@ -16,11 +16,6 @@
     >>> en.Title()
     'batlas-65-2-3'
         
-    # verify that we can set and retrieve the value of the identifier attribute
-    >>> en.setIdentifier(enID)
-    >>> en.getIdentifier()
-    'batlas-65-2-3'
-    
     # verify that we can set and retrieve the value of the modernLocation attribute
     >>> sourcetext = u'A\U0000011Fva'
     >>> sourcetext_utf8 = sourcetext.encode('utf8')
@@ -46,8 +41,8 @@
     True
     
     # verify that we can set and retrieve the appropriate classification type(s)
-    >>> en.setGeoEntityType('settlement')
-    >>> en.getGeoEntityType()
+    >>> en.setPlaceType('settlement')
+    >>> en.getPlaceType()
     'settlement'
     
     # verify that we can set and retrieve a list of secondaryReferences
@@ -111,18 +106,6 @@
     >>> resulttext == u'Copyright \U000000A9 2006 Ancient World Mapping Center. All rights reserved. This data is derived from original compilations prepared for the American Philological Association\U00000027s Classical Atlas Project (1988-2000). It is used here with permission of the APA. This data is intended solely for testing purposes in the context of the Ancient World Mapping Center\U00000027s Pleiades Project and may not be reused or redistributed. In its current state, this data may contain errors and omissions and is not appropriate for citation or scholarly use. Any errors or omissions are the result of prototype conversion software, still under development by the AWMC\U00000027s Pleiades Project, and do not reflect the quality and completeness of the original data nor the opinions of its scholarly compilers and editors.'
     True
     
-    # check to see that programmatic renaming of the entity on the basis of its subordinate names works as expected
-    
-    >>> finalTitle = setGeoTitleFromNames(en)
-     
-    >>> soughtFinalTitle = u'Unnamed settlement, modern location: A\U0000011Fva'
-    >>> soughtFinalTitle_utf8 = soughtFinalTitle.encode('utf8')
-    >>> finalTitle == soughtFinalTitle_utf8
-    True
-    >>> finalTitle = en.Title()
-    >>> finalTitle == soughtFinalTitle_utf8
-    True
-
     # check to see that we can set and retrieve a description
     >>> soughtDescription = u'An ancient settlement, attested during the Classical and Hellenistic (Roman Republic) periods (modern location: A\U0000011Fva). Its ancient name is not known.'
     >>> en.setDescription(soughtDescription)

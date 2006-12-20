@@ -1,5 +1,5 @@
 <?xml version = '1.0' encoding = 'UTF-8' ?>
-<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Wed Nov 29 10:11:41 CST 2006'>
+<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Tue Dec 19 13:07:17 CST 2006'>
   <XMI.header>    <XMI.documentation>
       <XMI.exporter>ArgoUML (using Netbeans XMI Writer version 1.0)</XMI.exporter>
       <XMI.exporterVersion>0.20.x</XMI.exporterVersion>
@@ -217,7 +217,7 @@
                 </UML:AssociationEnd>
               </UML:Association.connection>
             </UML:Association>
-            <UML:Class xmi.id = '.:0000000000000A85' name = 'GeographicEntity' visibility = 'public'
+            <UML:Class xmi.id = '.:0000000000000A85' name = 'Place' visibility = 'public'
               isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'
               isActive = 'false'>
               <UML:ModelElement.taggedValue>
@@ -228,26 +228,26 @@
                   </UML:TaggedValue.type>
                 </UML:TaggedValue>
                 <UML:TaggedValue xmi.id = '.:0000000000000A53' isSpecification = 'false'>
-                  <UML:TaggedValue.dataValue>Geographic Entity</UML:TaggedValue.dataValue>
+                  <UML:TaggedValue.dataValue>Place</UML:TaggedValue.dataValue>
                   <UML:TaggedValue.type>
                     <UML:TagDefinition xmi.idref = '.:0000000000000AE4'/>
                   </UML:TaggedValue.type>
                 </UML:TaggedValue>
                 <UML:TaggedValue xmi.id = '.:0000000000000A54' isSpecification = 'false'>
-                  <UML:TaggedValue.dataValue>0</UML:TaggedValue.dataValue>
+                  <UML:TaggedValue.dataValue>1</UML:TaggedValue.dataValue>
                   <UML:TaggedValue.type>
                     <UML:TagDefinition xmi.idref = '.:0000000000000AEC'/>
                   </UML:TaggedValue.type>
                 </UML:TaggedValue>
                 <UML:TaggedValue xmi.id = '.:0000000000000A55' isSpecification = 'false'>
-                  <UML:TaggedValue.dataValue>geoentity_icon.gif</UML:TaggedValue.dataValue>
+                  <UML:TaggedValue.dataValue>place_icon.gif</UML:TaggedValue.dataValue>
                   <UML:TaggedValue.type>
                     <UML:TagDefinition xmi.idref = '.:0000000000000AF3'/>
                   </UML:TaggedValue.type>
                 </UML:TaggedValue>
                 <UML:TaggedValue xmi.id = '-64--88-0-7-2e97276b:10d82a2e903:-8000:0000000000000ACF'
                   isSpecification = 'false'>
-                  <UML:TaggedValue.dataValue>A content type for storing information about geographic entities (features).</UML:TaggedValue.dataValue>
+                  <UML:TaggedValue.dataValue>A &quot;place&quot; is an association (grouping) of geographic names and geographic locations, encompassing both place points and larger regions (i.e., we call a space a place)</UML:TaggedValue.dataValue>
                   <UML:TaggedValue.type>
                     <UML:TagDefinition xmi.idref = '-64--88-0-7-2e97276b:10d82a2e903:-8000:0000000000000AD0'/>
                   </UML:TaggedValue.type>
@@ -261,56 +261,45 @@
                 </UML:TaggedValue>
               </UML:ModelElement.taggedValue>
               <UML:Classifier.feature>
-                <UML:Attribute xmi.id = '-64--88-2--124--670ac44c:10da3bc776b:-8000:0000000000000AD5'
-                  name = 'identifier' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
+                <UML:Attribute xmi.id = '-104-23--81--23-6ae87fc5:10f9c098a97:-8000:0000000000000A0F'
+                  name = 'title' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
                   changeability = 'changeable' targetScope = 'instance'>
                   <UML:StructuralFeature.multiplicity>
-                    <UML:Multiplicity xmi.id = '-64--88-2--124--670ac44c:10da3bc776b:-8000:0000000000000AD6'>
+                    <UML:Multiplicity xmi.id = '-104-23--81--23-6ae87fc5:10f9c098a97:-8000:0000000000000A10'>
                       <UML:Multiplicity.range>
-                        <UML:MultiplicityRange xmi.id = '-64--88-2--124--670ac44c:10da3bc776b:-8000:0000000000000AD7'
+                        <UML:MultiplicityRange xmi.id = '-104-23--81--23-6ae87fc5:10f9c098a97:-8000:0000000000000A11'
                           lower = '1' upper = '1'/>
                       </UML:Multiplicity.range>
                     </UML:Multiplicity>
                   </UML:StructuralFeature.multiplicity>
-                  <UML:Attribute.initialValue>
-                    <UML:Expression xmi.id = '-64--88-2--122-4226b20e:10df0ab1c08:-8000:0000000000000B6F'
-                      language = '' body = ''/>
-                  </UML:Attribute.initialValue>
                   <UML:ModelElement.taggedValue>
-                    <UML:TaggedValue xmi.id = '-64--88-2--124--670ac44c:10da3bc776b:-8000:0000000000000AD8'
+                    <UML:TaggedValue xmi.id = '-104-23--81--23-6ae87fc5:10f9c098a97:-8000:0000000000000A12'
+                      isSpecification = 'false'>
+                      <UML:TaggedValue.dataValue>BaseSchema</UML:TaggedValue.dataValue>
+                      <UML:TaggedValue.type>
+                        <UML:TagDefinition xmi.idref = '-64--88-2--124--1ef2c416:10dd2107978:-8000:0000000000000AFA'/>
+                      </UML:TaggedValue.type>
+                    </UML:TaggedValue>
+                    <UML:TaggedValue xmi.id = '-104-23--81--23-6ae87fc5:10f9c098a97:-8000:0000000000000A13'
                       isSpecification = 'false'>
                       <UML:TaggedValue.dataValue>Identifier</UML:TaggedValue.dataValue>
                       <UML:TaggedValue.type>
                         <UML:TagDefinition xmi.idref = '.:0000000000000ADA'/>
                       </UML:TaggedValue.type>
                     </UML:TaggedValue>
-                    <UML:TaggedValue xmi.id = '-64--88-2--124--670ac44c:10da3bc776b:-8000:0000000000000AD9'
+                    <UML:TaggedValue xmi.id = '-104-23--81--23-6ae87fc5:10f9c098a97:-8000:0000000000000A14'
                       isSpecification = 'false'>
-                      <UML:TaggedValue.dataValue>1</UML:TaggedValue.dataValue>
-                      <UML:TaggedValue.type>
-                        <UML:TagDefinition xmi.idref = '.:0000000000000AE9'/>
-                      </UML:TaggedValue.type>
-                    </UML:TaggedValue>
-                    <UML:TaggedValue xmi.id = '-64--88-2--122-4226b20e:10df0ab1c08:-8000:0000000000000B70'
-                      isSpecification = 'false'>
-                      <UML:TaggedValue.dataValue>FieldIndex</UML:TaggedValue.dataValue>
-                      <UML:TaggedValue.type>
-                        <UML:TagDefinition xmi.idref = '-64--88-2--122--4fc909c4:10df01999ba:-8000:0000000000000B66'/>
-                      </UML:TaggedValue.type>
-                    </UML:TaggedValue>
-                    <UML:TaggedValue xmi.id = '-104-23--81--19--29d205c:10f3473bc31:-8000:00000000000008CF'
-                      isSpecification = 'false'>
-                      <UML:TaggedValue.dataValue>A unique identifier for this entity, assigned by the Pleiades editorial board.</UML:TaggedValue.dataValue>
+                      <UML:TaggedValue.dataValue>Unique Pleiades identifier for this place.</UML:TaggedValue.dataValue>
                       <UML:TaggedValue.type>
                         <UML:TagDefinition xmi.idref = '-64--88-2--46-60e083a9:10ef28beb03:-8000:00000000000008AB'/>
                       </UML:TaggedValue.type>
                     </UML:TaggedValue>
                   </UML:ModelElement.taggedValue>
                   <UML:StructuralFeature.type>
-                    <UML:DataType xmi.idref = '.:0000000000000ABC'/>
+                    <UML:DataType xmi.idref = '-64--88-2--124--1ef2c416:10dd2107978:-8000:0000000000000AFE'/>
                   </UML:StructuralFeature.type>
                 </UML:Attribute>
-                <UML:Attribute xmi.id = '.:0000000000000A6B' name = 'geoEntityType' visibility = 'public'
+                <UML:Attribute xmi.id = '.:0000000000000A6B' name = 'placeType' visibility = 'public'
                   isSpecification = 'false' ownerScope = 'instance' changeability = 'changeable'
                   targetScope = 'instance'>
                   <UML:StructuralFeature.multiplicity>
@@ -326,7 +315,7 @@
                   </UML:Attribute.initialValue>
                   <UML:ModelElement.taggedValue>
                     <UML:TaggedValue xmi.id = '.:0000000000000A68' isSpecification = 'false'>
-                      <UML:TaggedValue.dataValue>Entity Type</UML:TaggedValue.dataValue>
+                      <UML:TaggedValue.dataValue>Place Type</UML:TaggedValue.dataValue>
                       <UML:TaggedValue.type>
                         <UML:TagDefinition xmi.idref = '.:0000000000000ADA'/>
                       </UML:TaggedValue.type>
@@ -526,77 +515,33 @@
                     <UML:DataType xmi.idref = '.:0000000000000ABC'/>
                   </UML:StructuralFeature.type>
                 </UML:Attribute>
-                <UML:Operation xmi.id = '-64--88-2--124--1ef2c416:10dd2107978:-8000:0000000000000B14'
-                  name = 'at_post_create_script' visibility = 'private' isSpecification = 'false'
-                  ownerScope = 'instance' isQuery = 'false' concurrency = 'sequential' isRoot = 'false'
-                  isLeaf = 'false' isAbstract = 'false'>
-                  <UML:ModelElement.taggedValue>
-                    <UML:TaggedValue xmi.id = '-64--88-2--124--1ef2c416:10dd2107978:-8000:0000000000000B16'
-                      isSpecification = 'false'>
-                      <UML:TaggedValue.dataValue>newID = setIdFromTitle(self)</UML:TaggedValue.dataValue>
-                      <UML:TaggedValue.type>
-                        <UML:TagDefinition xmi.idref = '-64--88-2--124--1ef2c416:10dd2107978:-8000:0000000000000B09'/>
-                      </UML:TaggedValue.type>
-                    </UML:TaggedValue>
-                  </UML:ModelElement.taggedValue>
-                  <UML:BehavioralFeature.parameter>
-                    <UML:Parameter xmi.id = '-64--88-2--124--1ef2c416:10dd2107978:-8000:0000000000000B15'
-                      name = 'return' isSpecification = 'false' kind = 'return'>
-                      <UML:Parameter.type>
-                        <UML:DataType xmi.idref = '-64--88-2--124--1ef2c416:10dd2107978:-8000:0000000000000B01'/>
-                      </UML:Parameter.type>
-                    </UML:Parameter>
-                  </UML:BehavioralFeature.parameter>
-                </UML:Operation>
-                <UML:Operation xmi.id = '-64--88-2--124--1ef2c416:10dd2107978:-8000:0000000000000B17'
-                  name = 'at_post_edit_script' visibility = 'private' isSpecification = 'false'
-                  ownerScope = 'instance' isQuery = 'false' concurrency = 'sequential' isRoot = 'false'
-                  isLeaf = 'false' isAbstract = 'false'>
-                  <UML:ModelElement.taggedValue>
-                    <UML:TaggedValue xmi.id = '-64--88-2--124--1ef2c416:10dd2107978:-8000:0000000000000B19'
-                      isSpecification = 'false'>
-                      <UML:TaggedValue.dataValue>self.at_post_create_script()</UML:TaggedValue.dataValue>
-                      <UML:TaggedValue.type>
-                        <UML:TagDefinition xmi.idref = '-64--88-2--124--1ef2c416:10dd2107978:-8000:0000000000000B09'/>
-                      </UML:TaggedValue.type>
-                    </UML:TaggedValue>
-                  </UML:ModelElement.taggedValue>
-                  <UML:BehavioralFeature.parameter>
-                    <UML:Parameter xmi.id = '-64--88-2--124--1ef2c416:10dd2107978:-8000:0000000000000B18'
-                      name = 'return' isSpecification = 'false' kind = 'return'>
-                      <UML:Parameter.type>
-                        <UML:DataType xmi.idref = '-64--88-2--124--1ef2c416:10dd2107978:-8000:0000000000000B01'/>
-                      </UML:Parameter.type>
-                    </UML:Parameter>
-                  </UML:BehavioralFeature.parameter>
-                </UML:Operation>
               </UML:Classifier.feature>
             </UML:Class>
-            <UML:Class xmi.id = '.:0000000000000ABA' name = 'GeographicName' visibility = 'public'
+            <UML:Class xmi.id = '.:0000000000000ABA' name = 'Name' visibility = 'public'
               isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'
               isActive = 'false'>
               <UML:ModelElement.taggedValue>
                 <UML:TaggedValue xmi.id = '.:0000000000000A86' isSpecification = 'false'>
-                  <UML:TaggedValue.dataValue>Geographic Name</UML:TaggedValue.dataValue>
+                  <UML:TaggedValue.dataValue>Name</UML:TaggedValue.dataValue>
                   <UML:TaggedValue.type>
                     <UML:TagDefinition xmi.idref = '.:0000000000000AE4'/>
                   </UML:TaggedValue.type>
                 </UML:TaggedValue>
                 <UML:TaggedValue xmi.id = '.:0000000000000A87' isSpecification = 'false'>
-                  <UML:TaggedValue.dataValue>0</UML:TaggedValue.dataValue>
+                  <UML:TaggedValue.dataValue>1</UML:TaggedValue.dataValue>
                   <UML:TaggedValue.type>
                     <UML:TagDefinition xmi.idref = '.:0000000000000AEC'/>
                   </UML:TaggedValue.type>
                 </UML:TaggedValue>
                 <UML:TaggedValue xmi.id = '.:0000000000000A88' isSpecification = 'false'>
-                  <UML:TaggedValue.dataValue>geoname_icon.gif</UML:TaggedValue.dataValue>
+                  <UML:TaggedValue.dataValue>name_icon.gif</UML:TaggedValue.dataValue>
                   <UML:TaggedValue.type>
                     <UML:TagDefinition xmi.idref = '.:0000000000000AF3'/>
                   </UML:TaggedValue.type>
                 </UML:TaggedValue>
                 <UML:TaggedValue xmi.id = '-64--88-0-7-2e97276b:10d82a2e903:-8000:0000000000000AD3'
                   isSpecification = 'false'>
-                  <UML:TaggedValue.dataValue>A content type for storing information about geographic names as they apply to simple geographic entities (features).</UML:TaggedValue.dataValue>
+                  <UML:TaggedValue.dataValue>Any sort of name that can be applied to a geographic place.</UML:TaggedValue.dataValue>
                   <UML:TaggedValue.type>
                     <UML:TagDefinition xmi.idref = '-64--88-0-7-2e97276b:10d82a2e903:-8000:0000000000000AD0'/>
                   </UML:TaggedValue.type>
@@ -610,50 +555,6 @@
                 </UML:TaggedValue>
               </UML:ModelElement.taggedValue>
               <UML:Classifier.feature>
-                <UML:Operation xmi.id = '-64--88-2--124--1ef2c416:10dd2107978:-8000:0000000000000B0C'
-                  name = 'at_post_create_script' visibility = 'private' isSpecification = 'false'
-                  ownerScope = 'instance' isQuery = 'false' concurrency = 'sequential' isRoot = 'false'
-                  isLeaf = 'false' isAbstract = 'false'>
-                  <UML:ModelElement.taggedValue>
-                    <UML:TaggedValue xmi.id = '-64--88-2--124--1ef2c416:10dd2107978:-8000:0000000000000B0E'
-                      isSpecification = 'false'>
-                      <UML:TaggedValue.dataValue>newID=setIdFromTitle(self)</UML:TaggedValue.dataValue>
-                      <UML:TaggedValue.type>
-                        <UML:TagDefinition xmi.idref = '-64--88-2--124--1ef2c416:10dd2107978:-8000:0000000000000B09'/>
-                      </UML:TaggedValue.type>
-                    </UML:TaggedValue>
-                  </UML:ModelElement.taggedValue>
-                  <UML:BehavioralFeature.parameter>
-                    <UML:Parameter xmi.id = '-64--88-2--124--1ef2c416:10dd2107978:-8000:0000000000000B0D'
-                      name = 'return' isSpecification = 'false' kind = 'return'>
-                      <UML:Parameter.type>
-                        <UML:DataType xmi.idref = '-64--88-2--124--1ef2c416:10dd2107978:-8000:0000000000000B01'/>
-                      </UML:Parameter.type>
-                    </UML:Parameter>
-                  </UML:BehavioralFeature.parameter>
-                </UML:Operation>
-                <UML:Operation xmi.id = '-64--88-2--124--1ef2c416:10dd2107978:-8000:0000000000000B05'
-                  name = 'at_post_edit_script' visibility = 'private' isSpecification = 'false'
-                  ownerScope = 'instance' isQuery = 'false' concurrency = 'sequential' isRoot = 'false'
-                  isLeaf = 'false' isAbstract = 'false'>
-                  <UML:ModelElement.taggedValue>
-                    <UML:TaggedValue xmi.id = '-64--88-2--124--1ef2c416:10dd2107978:-8000:0000000000000B08'
-                      isSpecification = 'false'>
-                      <UML:TaggedValue.dataValue>self.at_post_create_script()</UML:TaggedValue.dataValue>
-                      <UML:TaggedValue.type>
-                        <UML:TagDefinition xmi.idref = '-64--88-2--124--1ef2c416:10dd2107978:-8000:0000000000000B09'/>
-                      </UML:TaggedValue.type>
-                    </UML:TaggedValue>
-                  </UML:ModelElement.taggedValue>
-                  <UML:BehavioralFeature.parameter>
-                    <UML:Parameter xmi.id = '-64--88-2--124--1ef2c416:10dd2107978:-8000:0000000000000B06'
-                      name = 'return' isSpecification = 'false' kind = 'return'>
-                      <UML:Parameter.type>
-                        <UML:DataType xmi.idref = '-64--88-2--124--1ef2c416:10dd2107978:-8000:0000000000000B01'/>
-                      </UML:Parameter.type>
-                    </UML:Parameter>
-                  </UML:BehavioralFeature.parameter>
-                </UML:Operation>
                 <UML:Attribute xmi.id = '-64--88-2--124--1ef2c416:10dd2107978:-8000:0000000000000AEC'
                   name = 'title' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
                   changeability = 'changeable' targetScope = 'instance'>
@@ -692,51 +593,6 @@
                     <UML:DataType xmi.idref = '-64--88-2--124--1ef2c416:10dd2107978:-8000:0000000000000AFE'/>
                   </UML:StructuralFeature.type>
                 </UML:Attribute>
-                <UML:Attribute xmi.id = '-64--88-2--124-13f7f06a:10da3e4d70d:-8000:0000000000000ADA'
-                  name = 'identifier' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
-                  changeability = 'changeable' targetScope = 'instance'>
-                  <UML:StructuralFeature.multiplicity>
-                    <UML:Multiplicity xmi.id = '-64--88-2--124-13f7f06a:10da3e4d70d:-8000:0000000000000ADB'>
-                      <UML:Multiplicity.range>
-                        <UML:MultiplicityRange xmi.id = '-64--88-2--124-13f7f06a:10da3e4d70d:-8000:0000000000000ADC'
-                          lower = '1' upper = '1'/>
-                      </UML:Multiplicity.range>
-                    </UML:Multiplicity>
-                  </UML:StructuralFeature.multiplicity>
-                  <UML:ModelElement.taggedValue>
-                    <UML:TaggedValue xmi.id = '-64--88-2--124-13f7f06a:10da3e4d70d:-8000:0000000000000ADD'
-                      isSpecification = 'false'>
-                      <UML:TaggedValue.dataValue>1</UML:TaggedValue.dataValue>
-                      <UML:TaggedValue.type>
-                        <UML:TagDefinition xmi.idref = '.:0000000000000AE9'/>
-                      </UML:TaggedValue.type>
-                    </UML:TaggedValue>
-                    <UML:TaggedValue xmi.id = '-64--88-2--124-13f7f06a:10da3e4d70d:-8000:0000000000000ADE'
-                      isSpecification = 'false'>
-                      <UML:TaggedValue.dataValue>Identifier</UML:TaggedValue.dataValue>
-                      <UML:TaggedValue.type>
-                        <UML:TagDefinition xmi.idref = '.:0000000000000ADA'/>
-                      </UML:TaggedValue.type>
-                    </UML:TaggedValue>
-                    <UML:TaggedValue xmi.id = '-64--88-2--122-4226b20e:10df0ab1c08:-8000:0000000000000B71'
-                      isSpecification = 'false'>
-                      <UML:TaggedValue.dataValue>FieldIndex</UML:TaggedValue.dataValue>
-                      <UML:TaggedValue.type>
-                        <UML:TagDefinition xmi.idref = '-64--88-2--122--4fc909c4:10df01999ba:-8000:0000000000000B66'/>
-                      </UML:TaggedValue.type>
-                    </UML:TaggedValue>
-                    <UML:TaggedValue xmi.id = '-64--88-2--46-50402d89:10ef6d2b407:-8000:00000000000008C8'
-                      isSpecification = 'false'>
-                      <UML:TaggedValue.dataValue>A unique identifier for this name, assigned by the Pleiades editorial board.</UML:TaggedValue.dataValue>
-                      <UML:TaggedValue.type>
-                        <UML:TagDefinition xmi.idref = '-64--88-2--46-60e083a9:10ef28beb03:-8000:00000000000008AB'/>
-                      </UML:TaggedValue.type>
-                    </UML:TaggedValue>
-                  </UML:ModelElement.taggedValue>
-                  <UML:StructuralFeature.type>
-                    <UML:DataType xmi.idref = '.:0000000000000ABC'/>
-                  </UML:StructuralFeature.type>
-                </UML:Attribute>
                 <UML:Attribute xmi.id = '-64--88-2--46-50402d89:10ef6d2b407:-8000:00000000000008B8'
                   name = 'nameUncertain' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
                   changeability = 'changeable' targetScope = 'instance'>
@@ -758,7 +614,7 @@
                     </UML:TaggedValue>
                     <UML:TaggedValue xmi.id = '-64--88-2--46-50402d89:10ef6d2b407:-8000:00000000000008BC'
                       isSpecification = 'false'>
-                      <UML:TaggedValue.dataValue>If checked, this field indicates some degree of uncertainty in the assignment of this attested name to the parent geographic entity.</UML:TaggedValue.dataValue>
+                      <UML:TaggedValue.dataValue>If checked, this field indicates some degree of uncertainty in the assignment of this attested name to the parent place.</UML:TaggedValue.dataValue>
                       <UML:TaggedValue.type>
                         <UML:TagDefinition xmi.idref = '-64--88-2--46-60e083a9:10ef28beb03:-8000:00000000000008AB'/>
                       </UML:TaggedValue.type>
@@ -769,7 +625,7 @@
                   </UML:StructuralFeature.type>
                 </UML:Attribute>
                 <UML:Attribute xmi.id = '-64--88-2--117-1d833a07:10db2e5b5a0:-8000:0000000000000ADA'
-                  name = 'geoNameType' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
+                  name = 'nameType' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
                   changeability = 'changeable' targetScope = 'instance'>
                   <UML:StructuralFeature.multiplicity>
                     <UML:Multiplicity xmi.id = '-64--88-2--117-1d833a07:10db2e5b5a0:-8000:0000000000000ADB'>

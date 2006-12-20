@@ -17,7 +17,7 @@
     />
 
   <five:implements
-    class=".content.GeographicEntity.GeographicEntity"
+    class=".content.Place.Place"
     interface=".interfaces.IGeoEntity"
     />
 

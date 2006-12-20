@@ -59,7 +59,7 @@ def loaden(self, sourcedir):
     count = 0
     for xml in glob.glob("%s/*.xml" % sourcedir):
         try:
-            load_entity(self, xml)
+            load_place(self, xml)
             count += 1
         except:
             failures.append(basename(xml))
@@ -71,15 +71,15 @@ def loaden(self, sourcedir):
             msg += "%s\n" % f
         return msg
         
-def load_entity(plonefolder, source):
-    """Create a new GeographicEntity in plonefolder and populate it with
+def load_place(plonefolder, source):
+    """Create a new Place in plonefolder and populate it with
     the data found in the xml file at sourcepath."""
     
-    # instantiation of geoEntity attempts to load the file via the path source
-    ge = geoEntity(source)
+    # instantiation of Place attempts to load the file via the path source
+    ge = Place(source)
     
-    # create the corresponding entity instance in plone and set its fields
-    enID = plonefolder.invokeFactory('GeographicEntity', id=ge.identifier)
+    # create the corresponding place instance in plone and set its fields
+    enID = plonefolder.invokeFactory('Place', id=ge.identifier)
     
     en = getattr(plonefolder, enID)
     
@@ -87,8 +87,8 @@ def load_entity(plonefolder, source):
     newEnID = enID
     #newEnID = setIDFromTitle(en)
     
-    en.setIdentifier(ge.identifier)
-    en.setGeoEntityType(ge.classifications['geoEntityType'])
+    en.setTitle(ge.identifier)
+    en.setPlaceType(ge.classifications['geoEntityType'])
     en.setModernLocation(ge.modernLocation)
     en.setTimePeriods(ge.timePeriods)
     en.setSecondaryReferences(ge.secondaryReferences)
@@ -109,18 +109,18 @@ def load_entity(plonefolder, source):
     
     # add any names as children of the entity
     for i, name in enumerate(ge.names):
-        nameID = en.invokeFactory('GeographicName', 
+        nameID = en.invokeFactory('Name', 
 					id="%s-n%d" % (newEnID, i+1))
         en_name = getattr(en, nameID)
         en_name.setTitle(name.nameStringTransliterated)
-        en_name.setIdentifier(nameID)
+        #en_name.setIdentifier(nameID)
         en_name.setDescription(name.description.encode('utf8'))
         en_name.setNameAttested(name.nameString)
         en_name.setNameLanguage(name.language)
         en_name.setTimePeriods(name.timePeriods)
         en_name.setPrimaryReferences(name.primaryReferences)
         en_name.setSecondaryReferences(name.secondaryReferences)
-        en_name.setGeoNameType(name.classifications['geoNameType'])
+        en_name.setNameType(name.classifications['geoNameType'])
         en_name.setCreators(ge.creators)
         en_name.setContributors(ge.contributors)
         en_name.setRights(ge.rights)
@@ -128,12 +128,12 @@ def load_entity(plonefolder, source):
        
         
     # rename the entity to reflect the names of its children
-    setGeoTitleFromNames(en)
+    #setGeoTitleFromNames(en)
     
     # refresh appropriate entries in the portal catalog (e.g., the title)
     en.reindexObject()
     
-class geoName:
+class Name:
     
     def __init__(self, parent, sourcenode):
         self.parent = parent
@@ -244,7 +244,7 @@ class geoName:
                     self.secondaryReferences.append(reference)
             
         
-class geoEntity:
+class Place:
     
     def __init__(self, source):
         self.identifier = u''
@@ -377,7 +377,7 @@ class geoEntity:
         self.classifications[thesaurus] = term
         
     def hdl_featureName(self, node):
-        self.names.append(geoName(self, node))
+        self.names.append(Name(self, node))
     
     def hdl_spatialLocation(self, node):
         for childnode in node.childNodes:

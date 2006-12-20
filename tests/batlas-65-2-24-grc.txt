@@ -7,7 +7,7 @@
         
     # create a geographic entity and verify that we can set and retrieve its Plone id
     >>> enID = 'batlas-65-2-24-grc'
-    >>> folder.invokeFactory('GeographicEntity', id=enID)
+    >>> folder.invokeFactory('Place', id=enID)
     'batlas-65-2-24-grc'
         
     # get a pointer to the entity, then verify we can set and retrieve its interim title
@@ -16,11 +16,6 @@
     >>> en.Title()
     'batlas-65-2-24-grc'
         
-    # verify that we can set and retrieve the value of the identifier attribute
-    >>> en.setIdentifier(enID)
-    >>> en.getIdentifier()
-    'batlas-65-2-24-grc'
-    
     # verify that we can set and retrieve the value of the modernLocation attribute
     >>> sourcetext = u'Geyre'
     >>> sourcetext_utf8 = sourcetext.encode('utf8')
@@ -49,8 +44,8 @@
     True
     
     # verify that we can set and retrieve the appropriate classification type(s)
-    >>> en.setGeoEntityType('settlement')
-    >>> en.getGeoEntityType()
+    >>> en.setPlaceType('settlement')
+    >>> en.getPlaceType()
     'settlement'
     
     # verify that we can set and retrieve a list of secondaryReferences
@@ -86,14 +81,9 @@
 
     # create a geographic name and verify that we can set and retrieve its Plone id
     >>> nameID = 'batlas-65-2-24-grc-n1'
-    >>> en.invokeFactory('GeographicName', id=nameID)
+    >>> en.invokeFactory('Name', id=nameID)
     'batlas-65-2-24-grc-n1'
     >>> en_name = getattr(en, nameID)
-        
-    # verify that we can set and retrieve the name's identifier value
-    >>> en_name.setIdentifier('batlas-65-2-24-grc-n1')
-    >>> en_name.getIdentifier()
-    'batlas-65-2-24-grc-n1'
         
      # verify that we can set and retrieve an appropriate value for the description attribute
     >>> soughtDescription = u'(\U00001F08\U000003C6\U000003C1\U000003BF\U000003B4\U000003B9\U000003C3\U000003B9\U00001F71\U000003C2): An ancient geographic name for a settlement, attested during the Roman and Late Antique periods.'
@@ -128,8 +118,8 @@
     'Aphrodisias'
     
     # verify that we can set and retrieve the appropriate classification type(s)
-    >>> en_name.setGeoNameType('geographic')
-    >>> en_name.getGeoNameType()
+    >>> en_name.setNameType('geographic')
+    >>> en_name.getNameType()
     'geographic'
     
     # verify that we can set and retrieve a list of timePeriods 
@@ -200,14 +190,9 @@
 
     # create a geographic name and verify that we can set and retrieve its Plone id
     >>> nameID = 'batlas-65-2-24-grc-n2'
-    >>> en.invokeFactory('GeographicName', id=nameID)
+    >>> en.invokeFactory('Name', id=nameID)
     'batlas-65-2-24-grc-n2'
     >>> en_name = getattr(en, nameID)
-        
-    # verify that we can set and retrieve the name's identifier value
-    >>> en_name.setIdentifier('batlas-65-2-24-grc-n2')
-    >>> en_name.getIdentifier()
-    'batlas-65-2-24-grc-n2'
         
      # verify that we can set and retrieve an appropriate value for the description attribute
     >>> soughtDescription = u'(\U0000039D\U000003B9\U000003BD\U00001F79\U000003B7): An ancient geographic name for a settlement, attested during the Classical period.'
@@ -242,8 +227,8 @@
     'Ninoe'
     
     # verify that we can set and retrieve the appropriate classification type(s)
-    >>> en_name.setGeoNameType('geographic')
-    >>> en_name.getGeoNameType()
+    >>> en_name.setNameType('geographic')
+    >>> en_name.getNameType()
     'geographic'
     
     # verify that we can set and retrieve a list of timePeriods 
@@ -308,14 +293,9 @@
 
     # create a geographic name and verify that we can set and retrieve its Plone id
     >>> nameID = 'batlas-65-2-24-grc-n3'
-    >>> en.invokeFactory('GeographicName', id=nameID)
+    >>> en.invokeFactory('Name', id=nameID)
     'batlas-65-2-24-grc-n3'
     >>> en_name = getattr(en, nameID)
-        
-    # verify that we can set and retrieve the name's identifier value
-    >>> en_name.setIdentifier('batlas-65-2-24-grc-n3')
-    >>> en_name.getIdentifier()
-    'batlas-65-2-24-grc-n3'
         
      # verify that we can set and retrieve an appropriate value for the description attribute
     >>> soughtDescription = u'(\U00001F08\U000003C6\U000003C1\U000003BF\U000003B4\U000003B9\U000003C3\U000003B9\U000003B5\U00001F7B\U000003C2): An ancient ethnic name for a settlement, attested during the Classical, Roman and Late Antique periods.'
@@ -350,8 +330,8 @@
     'Aphrodisieus'
     
     # verify that we can set and retrieve the appropriate classification type(s)
-    >>> en_name.setGeoNameType('ethnic')
-    >>> en_name.getGeoNameType()
+    >>> en_name.setNameType('ethnic')
+    >>> en_name.getNameType()
     'ethnic'
     
     # verify that we can set and retrieve a list of contributors
@@ -432,17 +412,6 @@
     >>> resulttext == u'Copyright \U000000A9 2006 Ancient World Mapping Center. All rights reserved. This data is derived from original compilations prepared for the American Philological Association\U00000027s Classical Atlas Project (1988-2000). It is used here with permission of the APA. This data is intended solely for testing purposes in the context of the Ancient World Mapping Center\U00000027s Pleiades Project and may not be reused or redistributed. In its current state, this data may contain errors and omissions and is not appropriate for citation or scholarly use. Any errors or omissions are the result of prototype conversion software, still under development by the AWMC\U00000027s Pleiades Project, and do not reflect the quality and completeness of the original data nor the opinions of its scholarly compilers and editors.'
     True
     
-    # check to see that programmatic renaming of the entity on the basis of its subordinate names works as expected
-    
-    >>> finalTitle = setGeoTitleFromNames(en)
-     
-    >>> soughtFinalTitle = u'Aphrodisias/Ninoe'
-    >>> soughtFinalTitle_utf8 = soughtFinalTitle.encode('utf8')
-    >>> finalTitle == soughtFinalTitle_utf8
-    True
-    >>> finalTitle = en.Title()
-    >>> finalTitle == soughtFinalTitle_utf8
-    True
 
     # check to see that we can set and retrieve a description
     >>> soughtDescription = u'An ancient settlement, attested during the Classical, Roman and Late Antique periods (modern location: Geyre). It was known in antiquity by the names: Aphrodisias, Ninoe and Aphrodisieus.'

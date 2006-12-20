@@ -53,24 +53,11 @@ copied_fields['title'].widget.description = "A transliteration into the ASCII ch
 schema = Schema((
 
     copied_fields['title'],
-        StringField(
-        name='identifier',
-        index="FieldIndex",
-        widget=StringWidget(
-            label="Identifier",
-            description="A unique identifier for this name, assigned by the Pleiades editorial board.",
-            label_msgid='PleiadesEntity_label_identifier',
-            description_msgid='PleiadesEntity_help_identifier',
-            i18n_domain='PleiadesEntity',
-        ),
-        required=1
-    ),
-
-    BooleanField(
+        BooleanField(
         name='nameUncertain',
         widget=BooleanWidget(
             label="Uncertain",
-            description="If checked, this field indicates some degree of uncertainty in the assignment of this attested name to the parent geographic entity.",
+            description="If checked, this field indicates some degree of uncertainty in the assignment of this attested name to the parent place.",
             label_msgid='PleiadesEntity_label_nameUncertain',
             description_msgid='PleiadesEntity_help_nameUncertain',
             i18n_domain='PleiadesEntity',
@@ -78,11 +65,11 @@ schema = Schema((
     ),
 
     StringField(
-        name='geoNameType',
+        name='nameType',
         index="FieldIndex",
         widget=StringWidget(
             label="Name Type",
-            label_msgid='PleiadesEntity_label_geoNameType',
+            label_msgid='PleiadesEntity_label_nameType',
             i18n_domain='PleiadesEntity',
         )
     ),
@@ -115,7 +102,9 @@ schema = Schema((
         index="FieldIndex",
         widget=StringWidget(
             label="Name as Attested",
+            description="This field contains a transcription of the attested form of the name, in its original language and script.",
             label_msgid='PleiadesEntity_label_nameAttested',
+            description_msgid='PleiadesEntity_help_nameAttested',
             i18n_domain='PleiadesEntity',
         )
     ),
@@ -125,7 +114,9 @@ schema = Schema((
         index="FieldIndex",
         widget=StringWidget(
             label="Language and Writing System of Attested Name",
+            description="This field indicates the language and writing system (script) of the attested name.",
             label_msgid='PleiadesEntity_label_nameLanguage',
+            description_msgid='PleiadesEntity_help_nameLanguage',
             i18n_domain='PleiadesEntity',
         )
     ),
@@ -204,48 +195,43 @@ schema = Schema((
 ##code-section after-local-schema #fill in your manual code here
 ##/code-section after-local-schema
 
-GeographicName_schema = BaseSchema.copy() + \
+Name_schema = BaseSchema.copy() + \
     schema.copy()
 
 ##code-section after-schema #fill in your manual code here
 ##/code-section after-schema
 
-class GeographicName(BaseContent):
+class Name(BaseContent):
     """
     """
     security = ClassSecurityInfo()
     __implements__ = (getattr(BaseContent,'__implements__',()),)
 
     # This name appears in the 'add' box
-    archetype_name = 'Geographic Name'
+    archetype_name = 'Name'
 
-    meta_type = 'GeographicName'
-    portal_type = 'GeographicName'
+    meta_type = 'Name'
+    portal_type = 'Name'
     allowed_content_types = []
     filter_content_types = 0
     global_allow = 0
-    content_icon = 'geoname_icon.gif'
+    content_icon = 'name_icon.gif'
     immediate_view = 'base_view'
     default_view = 'base_view'
     suppl_views = ()
-    typeDescription = "A content type for storing information about geographic names as they apply to simple geographic entities (features)."
-    typeDescMsgId = 'description_edit_geographicname'
+    typeDescription = "Any sort of name that can be applied to a geographic place."
+    typeDescMsgId = 'description_edit_name'
 
-    _at_rename_after_creation = False
+    _at_rename_after_creation = True
 
-    schema = GeographicName_schema
+    schema = Name_schema
 
     ##code-section class-header #fill in your manual code here
     ##/code-section class-header
 
     # Methods
 
-    security.declarePrivate('at_post_create_script')
-    def at_post_create_script(self):
-        """
-        """
-
-        newID=setIdFromTitle(self)
+    # Manually created methods
 
     security.declarePrivate('at_post_edit_script')
     def at_post_edit_script(self):
@@ -254,9 +240,17 @@ class GeographicName(BaseContent):
 
         self.at_post_create_script()
 
+    security.declarePrivate('at_post_create_script')
+    def at_post_create_script(self):
+        """
+        """
 
-registerType(GeographicName, PROJECTNAME)
-# end of class GeographicName
+        newID=setIdFromTitle(self)
+
+
+
+registerType(Name, PROJECTNAME)
+# end of class Name
 
 ##code-section module-footer #fill in your manual code here
 ##/code-section module-footer

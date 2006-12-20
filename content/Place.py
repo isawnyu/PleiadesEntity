@@ -46,25 +46,19 @@ from Products.PleiadesEntity.Extensions.cooking import *
 ##code-section module-header #fill in your manual code here
 ##/code-section module-header
 
+copied_fields = {}
+copied_fields['title'] = BaseSchema['title'].copy()
+copied_fields['title'].widget.label = "Identifier"
+copied_fields['title'].widget.description = "Unique Pleiades identifier for this place."
 schema = Schema((
 
-    StringField(
-        name='identifier',
+    copied_fields['title'],
+        StringField(
+        name='placeType',
         index="FieldIndex",
         widget=StringWidget(
-            label="Identifier",
-            label_msgid='PleiadesEntity_label_identifier',
-            i18n_domain='PleiadesEntity',
-        ),
-        required=1
-    ),
-
-    StringField(
-        name='geoEntityType',
-        index="FieldIndex",
-        widget=StringWidget(
-            label="Entity Type",
-            label_msgid='PleiadesEntity_label_geoEntityType',
+            label="Place Type",
+            label_msgid='PleiadesEntity_label_placeType',
             i18n_domain='PleiadesEntity',
         )
     ),
@@ -74,7 +68,9 @@ schema = Schema((
         index="ZCTextIndex",
         widget=TextAreaWidget(
             label="Modern Name / Location",
+            description="A prose description, in modern terms, of this entity's location.",
             label_msgid='PleiadesEntity_label_modernLocation',
+            description_msgid='PleiadesEntity_help_modernLocation',
             i18n_domain='PleiadesEntity',
         )
     ),
@@ -84,7 +80,9 @@ schema = Schema((
         index="KeywordIndex",
         widget=LinesWidget(
             label="Time Periods",
+            description="Standard time periods during which this entity is believed to have been an active concern.",
             label_msgid='PleiadesEntity_label_timePeriods',
+            description_msgid='PleiadesEntity_help_timePeriods',
             i18n_domain='PleiadesEntity',
         )
     ),
@@ -94,7 +92,9 @@ schema = Schema((
         index="KeywordIndex",
         widget=LinesWidget(
             label="Secondary References",
+            description="Citations for works of modern scholarship that provide substantive information about this entity.",
             label_msgid='PleiadesEntity_label_secondaryReferences',
+            description_msgid='PleiadesEntity_help_secondaryReferences',
             i18n_domain='PleiadesEntity',
         )
     ),
@@ -125,48 +125,43 @@ schema = Schema((
 ##code-section after-local-schema #fill in your manual code here
 ##/code-section after-local-schema
 
-GeographicEntity_schema = BaseFolderSchema.copy() + \
+Place_schema = BaseFolderSchema.copy() + \
     schema.copy()
 
 ##code-section after-schema #fill in your manual code here
 ##/code-section after-schema
 
-class GeographicEntity(BaseFolder):
+class Place(BaseFolder):
     """
     """
     security = ClassSecurityInfo()
     __implements__ = (getattr(BaseFolder,'__implements__',()),)
 
     # This name appears in the 'add' box
-    archetype_name = 'Geographic Entity'
+    archetype_name = 'Place'
 
-    meta_type = 'GeographicEntity'
-    portal_type = 'GeographicEntity'
-    allowed_content_types = ['GeographicName']
+    meta_type = 'Place'
+    portal_type = 'Place'
+    allowed_content_types = ['Name']
     filter_content_types = 1
     global_allow = 1
-    content_icon = 'geoentity_icon.gif'
+    content_icon = 'place_icon.gif'
     immediate_view = 'base_view'
     default_view = 'base_view'
     suppl_views = ()
-    typeDescription = "A content type for storing information about geographic entities (features)."
-    typeDescMsgId = 'description_edit_geographicentity'
+    typeDescription = """A "place" is an association (grouping) of geographic names and geographic locations, encompassing both place points and larger regions (i.e., we call a space a place)"""
+    typeDescMsgId = 'description_edit_place'
 
-    _at_rename_after_creation = False
+    _at_rename_after_creation = True
 
-    schema = GeographicEntity_schema
+    schema = Place_schema
 
     ##code-section class-header #fill in your manual code here
     ##/code-section class-header
 
     # Methods
 
-    security.declarePrivate('at_post_create_script')
-    def at_post_create_script(self):
-        """
-        """
-
-        newID = setIdFromTitle(self)
+    # Manually created methods
 
     security.declarePrivate('at_post_edit_script')
     def at_post_edit_script(self):
@@ -175,9 +170,17 @@ class GeographicEntity(BaseFolder):
 
         self.at_post_create_script()
 
+    security.declarePrivate('at_post_create_script')
+    def at_post_create_script(self):
+        """
+        """
 
-registerType(GeographicEntity, PROJECTNAME)
-# end of class GeographicEntity
+        newID = setIdFromTitle(self)
+
+
+
+registerType(Place, PROJECTNAME)
+# end of class Place
 
 ##code-section module-footer #fill in your manual code here
 ##/code-section module-footer

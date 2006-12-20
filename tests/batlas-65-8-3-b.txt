@@ -7,25 +7,13 @@
         
     >>> import os
      >>> source = os.path.sep.join([TEST_DATA, 'batlas-65-8-3.xml'])
-    >>> load_entity(folder, source)
+    >>> load_place(folder, source)
     >>> enID = 'batlas-65-8-3'
     >>> en = getattr(folder, enID)
-    >>> en.getIdentifier()
-    'batlas-65-8-3'
     
-    >>> finalTitle = en.Title()
-     
-    >>> soughtFinalTitle = u'Itoana'
-    >>> soughtFinalTitle_utf8 = soughtFinalTitle.encode('utf8')
-    >>> finalTitle == soughtFinalTitle_utf8
-    True
-    >>> finalTitle = en.Title()
-    >>> finalTitle == soughtFinalTitle_utf8
-    True
-
     
     # verify that we can retrieve the appropriate classification type(s)
-    >>> en.getGeoEntityType()
+    >>> en.getPlaceType()
     'false'
     
     # verify that we can set and retrieve a list of secondaryReferences
@@ -47,10 +35,6 @@
     >>> nameID = 'batlas-65-8-3-n1'
     >>> en_name = getattr(en, nameID)
 
-    # verify we can retrieve the name's identifier value
-    >>> en_name.getIdentifier()
-    'batlas-65-8-3-n1'
-        
     # verify we can retrieve an appropriate description
     >>> soughtDescription = u'A false name.'
     >>> gotDescription = en_name.Description()
@@ -64,7 +48,7 @@
     'Itoana'
     
     # verify that we can retrieve the appropriate classification type(s)
-    >>> en_name.getGeoNameType()
+    >>> en_name.getNameType()
     'false'
     
     # verify that we can set and retrieve a list of creators

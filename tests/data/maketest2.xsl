@@ -44,7 +44,7 @@
     <xsl:template match="adlgaz:featureID">
     &gt;&gt;&gt; import os
      &gt;&gt;&gt; source = os.path.sep.join([TEST_DATA, '<xsl:value-of select="."/>.xml'])
-    &gt;&gt;&gt; load_entity(folder, source)
+    &gt;&gt;&gt; load_place(folder, source)
     &gt;&gt;&gt; enID = '<xsl:value-of select="."/>'
     &gt;&gt;&gt; en = getattr(folder, enID)
     &gt;&gt;&gt; en.getIdentifier()

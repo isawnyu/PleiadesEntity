@@ -7,21 +7,9 @@
         
     >>> import os
      >>> source = os.path.sep.join([TEST_DATA, 'batlas-65-4-9.xml'])
-    >>> load_entity(folder, source)
+    >>> load_place(folder, source)
     >>> enID = 'batlas-65-4-9'
     >>> en = getattr(folder, enID)
-    >>> en.getIdentifier()
-    'batlas-65-4-9'
-    
-    >>> finalTitle = en.Title()
-     
-    >>> soughtFinalTitle = u'Unnamed bridge, modern location: at Asarba\U0000015F\U00000131, over Eurymedon fl.'
-    >>> soughtFinalTitle_utf8 = soughtFinalTitle.encode('utf8')
-    >>> finalTitle == soughtFinalTitle_utf8
-    True
-    >>> finalTitle = en.Title()
-    >>> finalTitle == soughtFinalTitle_utf8
-    True
 
     
     >>> sourcetext = u'at Asarba\U0000015F\U00000131, over Eurymedon fl.'
@@ -42,7 +30,7 @@
     True
     
     # verify that we can retrieve the appropriate classification type(s)
-    >>> en.getGeoEntityType()
+    >>> en.getPlaceType()
     'bridge'
     
     # verify that we can set and retrieve a list of secondaryReferences

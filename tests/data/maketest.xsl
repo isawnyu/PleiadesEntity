@@ -59,7 +59,7 @@
     <xsl:template match="adlgaz:featureID">
     # create a geographic entity and verify that we can set and retrieve its Plone id
     &gt;&gt;&gt; enID = '<xsl:value-of select="."/>'
-    &gt;&gt;&gt; folder.invokeFactory('GeographicEntity', id=enID)
+    &gt;&gt;&gt; folder.invokeFactory('Place', id=enID)
     '<xsl:value-of select="."/>'
         
     # get a pointer to the entity, then verify we can set and retrieve its interim title
@@ -68,10 +68,6 @@
     &gt;&gt;&gt; en.Title()
     '<xsl:value-of select="."/>'
         
-    # verify that we can set and retrieve the value of the identifier attribute
-    &gt;&gt;&gt; en.setIdentifier(enID)
-    &gt;&gt;&gt; en.getIdentifier()
-    '<xsl:value-of select="."/>'
     </xsl:template>
     
     <!-- =========================================================================== -->
@@ -277,14 +273,9 @@
 
     # create a geographic name and verify that we can set and retrieve its Plone id
     &gt;&gt;&gt; nameID = '<xsl:value-of select="$nameid"/>'
-    &gt;&gt;&gt; en.invokeFactory('GeographicName', id=nameID)
+    &gt;&gt;&gt; en.invokeFactory('Name', id=nameID)
     '<xsl:value-of select="$nameid"/>'
     &gt;&gt;&gt; en_name = getattr(en, nameID)
-        
-    # verify that we can set and retrieve the name's identifier value
-    &gt;&gt;&gt; en_name.setIdentifier('<xsl:value-of select="$nameid"/>')
-    &gt;&gt;&gt; en_name.getIdentifier()
-    '<xsl:value-of select="$nameid"/>'
         
      # verify that we can set and retrieve an appropriate value for the description attribute
     &gt;&gt;&gt; soughtDescription = u'<xsl:call-template name="calc_Description"/>'

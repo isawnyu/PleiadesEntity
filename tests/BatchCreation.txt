@@ -1,7 +1,7 @@
 BatchCreation.txt
 =====================
 
-Test batch creation of GeographicEntity objects. The values against which verifications are performed in these tests are loaded from the xml file batlas-65-2-24.xml, located in GeographicEntity/tests/data. We begin by loading from file, and thoroughly testing, a single entity. Then, we batch load all the xml files in GeographicEntity/tests/data and perform some basic tests (counting, checking ids), but -- for now at least -- we do not test everything derived from every single file.
+Test batch creation of Place objects. The values against which verifications are performed in these tests are loaded from the xml file batlas-65-2-24.xml, located in Place/tests/data. We begin by loading from file, and thoroughly testing, a single entity. Then, we batch load all the xml files in Place/tests/data and perform some basic tests (counting, checking ids), but -- for now at least -- we do not test everything derived from every single file.
 
 A lot of this is cribbed from optilude's tutorial on plone.org.
 

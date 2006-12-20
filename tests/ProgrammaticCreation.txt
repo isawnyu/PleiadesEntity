@@ -28,7 +28,7 @@ U.S. National Endowment for the Humanities (http://www.neh.gov).
 ProgrammaticCreation.txt
 ===========================================================================
 
-Test our ability to create and retrieve GeographicEntity objects and their
+Test our ability to create and retrieve Place objects and their
 subordinate  objects
 
 optilude's tutorial on plone.org pointed the way to the sunlight
@@ -43,7 +43,7 @@ Setup the test fixture and get a reference to a Plone folder therein
 Add one complete entity to the folder and check all its attributes
 
     >>> enID = 'tatlas-77pdq'
-    >>> folder.invokeFactory('GeographicEntity', id=enID)
+    >>> folder.invokeFactory('Place', id=enID)
     'tatlas-77pdq'
     
 Attempt to get a reference to the entity
@@ -59,14 +59,9 @@ Set the standard description
     >>> en.Description()
     "A historic settlement, attested from the early 19th century and located at modern Ryland, near Huntsville. It was known in earlier times by the name(s): 'Ryland Mill', 'Ryland Gin'."
     
-Set the project identifier.
-    >>> en.setIdentifier(enID)
-    >>> en.getIdentifier()
-    'tatlas-77pdq'
-
 Set the type of geographic entity
-    >>> en.setGeoEntityType('settlement')
-    >>> en.getGeoEntityType()
+    >>> en.setPlaceType('settlement')
+    >>> en.getPlaceType()
     'settlement'
     
 Set the modern location string
@@ -97,7 +92,7 @@ Set the spatial coordinate type
 Enter the historical names and their constituent attributes
 
     >>> nameID = enID + '-n1'
-    >>> en.invokeFactory('GeographicName', id=nameID)
+    >>> en.invokeFactory('Name', id=nameID)
     'tatlas-77pdq-n1'
     
     >>> en_name = getattr(en, nameID)
@@ -106,12 +101,8 @@ Enter the historical names and their constituent attributes
     >>> en_name.Title()
     'Ryland Mill'
 
-    >>> en_name.setIdentifier(nameID)
-    >>> en_name.getIdentifier()
-    'tatlas-77pdq-n1'
-    
-    >>> en_name.setGeoNameType('geographic')
-    >>> en_name.getGeoNameType()
+    >>> en_name.setNameType('geographic')
+    >>> en_name.getNameType()
     'geographic'
     
     >>> en_name.setDescription(u'An attested name for a historical settlement located at modern Ryland, near Huntsville.')
@@ -139,7 +130,7 @@ Enter the historical names and their constituent attributes
     ()
     
     >>> nameID = enID + '-n2'
-    >>> en.invokeFactory('GeographicName', id=nameID)
+    >>> en.invokeFactory('Name', id=nameID)
     'tatlas-77pdq-n2'
     
     >>> en_name = getattr(en, nameID)
@@ -148,12 +139,8 @@ Enter the historical names and their constituent attributes
     >>> en_name.Title()
     'Ryland Gin'
 
-    >>> en_name.setIdentifier(nameID)
-    >>> en_name.getIdentifier()
-    'tatlas-77pdq-n2'
-    
-    >>> en_name.setGeoNameType('geographic')
-    >>> en_name.getGeoNameType()
+    >>> en_name.setNameType('geographic')
+    >>> en_name.getNameType()
     'geographic'
     
     >>> en_name.setDescription(u'An attested name for a historical settlement located at modern Ryland, near Huntsville.')
@@ -180,13 +167,7 @@ Enter the historical names and their constituent attributes
     >>> en_name.getSecondaryReferences()
     ()
 
-Re-set the entity title on the basis of the historical names
-    
-    >>> setGeoTitleFromNames(en) 
-    'Ryland Mill/Ryland Gin'
-    >>> en.Title()
-    'Ryland Mill/Ryland Gin'
-    
+   
 Initialize the test browser
 
     >>> from Products.Five.testbrowser import Browser
@@ -212,16 +193,9 @@ Check the URL
     >>> browser.url.endswith('tatlas-77pdq')
     True
     
-Check the html title
-    >>> title = browser.title
-    >>> title.strip().startswith('Ryland Mill/Ryland Gin\n')
-    True
-    
 Check the html content of the view page (description will not appear here)
 This is an imperfect text. Ideally, we'd parse the html and get specific, but
 not yet.
-    >>> browser.contents
-    '...tatlas-77pdq...'
     >>> browser.contents
     '...settlement...'
     >>> browser.contents
@@ -255,8 +229,6 @@ Check the html title
 Check the html content of the view page (description will not appear here)
 This is an imperfect text. Ideally, we'd parse the html and get specific, but
 not yet.
-    >>> browser.contents
-    '...tatlas-77pdq-n1...'
     >>> browser.contents
     '...Ryland Mill...'
     >>> browser.contents

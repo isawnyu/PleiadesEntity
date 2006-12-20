@@ -1,7 +1,7 @@
 AdaptingEntities.txt
 ====================
 
-Test adaptation of GeographicEntity objects to IGeoItemSimple
+Test adaptation of Place objects to IGeoItemSimple
 
 A lot of this is cribbed from optilude's tutorial on plone.org.
 
@@ -13,7 +13,7 @@ Setup the test fixture
 
 Add one blank entity to the folder, and adapt
 
-    >>> folder.invokeFactory('GeographicEntity', id='aaa')
+    >>> folder.invokeFactory('Place', id='aaa')
     'aaa'
     >>> item = IGeoItemSimple(folder.aaa)
     >>> item.isGeoreferenced()

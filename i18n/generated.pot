@@ -86,48 +86,74 @@ msgstr ""
 msgid "PleiadesEntity_help_identifier"
 msgstr ""
 
+#. Default: "A prose description, in modern terms, of this entity's location."
+#: content\Place.py
+msgid "PleiadesEntity_help_modernLocation"
+msgstr ""
+
 #. Default: "If checked, this field indicates that the name, as attested, is abbreviated and the full form does not appear in the historical record."
 #: content\GeographicName.py
+#: content\Name.py
 msgid "PleiadesEntity_help_nameAbbreviated"
+msgstr ""
+
+#. Default: "This field contains a transcription of the attested form of the name, in its original language and script."
+#: content\Name.py
+msgid "PleiadesEntity_help_nameAttested"
 msgstr ""
 
 #. Default: "If checked, this field indicates that the name is attested only incompletely, and the missing characters cannot be supplemented with certainty."
 #: content\GeographicName.py
+#: content\Name.py
 msgid "PleiadesEntity_help_nameFragmentary"
 msgstr ""
 
 #. Default: "If true, this field indicates that the name is presented in its attested form, but is considered inaccurate."
 #: content\GeographicName.py
+#: content\Name.py
 msgid "PleiadesEntity_help_nameInaccurate"
 msgstr ""
 
 #. Default: "If checked, this field indicates that the name is not attested during any of the possible periods, but has been inferred from a verified attestation in an earlier or later period."
 #: content\GeographicName.py
+#: content\Name.py
 msgid "PleiadesEntity_help_nameInferred"
+msgstr ""
+
+#. Default: "This field indicates the language and writing system (script) of the attested name."
+#: content\Name.py
+msgid "PleiadesEntity_help_nameLanguage"
 msgstr ""
 
 #. Default: "If checked, this field indicates that the name is attested only incompletely, but the missing characters have been supplied on a reliable basis."
 #: content\GeographicName.py
+#: content\Name.py
 msgid "PleiadesEntity_help_nameReconstructed"
 msgstr ""
 
 #. Default: "If checked, this field indicates some degree of uncertainty in the assignment of this attested name to the parent geographic entity."
 #: content\GeographicName.py
+#: content\Name.py
 msgid "PleiadesEntity_help_nameUncertain"
 msgstr ""
 
 #. Default: "Citations for primary sources in which this name appears."
 #: content\GeographicName.py
+#: content\Name.py
 msgid "PleiadesEntity_help_primaryReferences"
 msgstr ""
 
 #. Default: "Citations for works of modern scholarship in which this name is discussed."
 #: content\GeographicName.py
+#: content\Place.py
+#: content\Name.py
 msgid "PleiadesEntity_help_secondaryReferences"
 msgstr ""
 
 #. Default: "Standard time periods during which this name is believed to have been in use."
 #: content\GeographicName.py
+#: content\Place.py
+#: content\Name.py
 msgid "PleiadesEntity_help_timePeriods"
 msgstr ""
 
@@ -149,73 +175,97 @@ msgstr ""
 
 #. Default: "Modern Name / Location"
 #: content\GeographicEntity.py
+#: content\Place.py
 msgid "PleiadesEntity_label_modernLocation"
 msgstr ""
 
 #. Default: "Abbreviated"
 #: content\GeographicName.py
+#: content\Name.py
 msgid "PleiadesEntity_label_nameAbbreviated"
 msgstr ""
 
 #. Default: "Name as Attested"
 #: content\GeographicName.py
+#: content\Name.py
 msgid "PleiadesEntity_label_nameAttested"
 msgstr ""
 
 #. Default: "Fragmentary"
 #: content\GeographicName.py
+#: content\Name.py
 msgid "PleiadesEntity_label_nameFragmentary"
 msgstr ""
 
 #. Default: "Inaccurate"
 #: content\GeographicName.py
+#: content\Name.py
 msgid "PleiadesEntity_label_nameInaccurate"
 msgstr ""
 
 #. Default: "Inferred"
 #: content\GeographicName.py
+#: content\Name.py
 msgid "PleiadesEntity_label_nameInferred"
 msgstr ""
 
 #. Default: "Language and Writing System of Attested Name"
 #: content\GeographicName.py
+#: content\Name.py
 msgid "PleiadesEntity_label_nameLanguage"
 msgstr ""
 
 #. Default: "Reconstructed"
 #: content\GeographicName.py
+#: content\Name.py
 msgid "PleiadesEntity_label_nameReconstructed"
+msgstr ""
+
+#. Default: "Name Type"
+#: content\Name.py
+msgid "PleiadesEntity_label_nameType"
 msgstr ""
 
 #. Default: "Uncertain"
 #: content\GeographicName.py
+#: content\Name.py
 msgid "PleiadesEntity_label_nameUncertain"
+msgstr ""
+
+#. Default: "Place Type"
+#: content\Place.py
+msgid "PleiadesEntity_label_placeType"
 msgstr ""
 
 #. Default: "Primary References"
 #: content\GeographicName.py
+#: content\Name.py
 msgid "PleiadesEntity_label_primaryReferences"
 msgstr ""
 
 #. Default: "Secondary References"
 #: content\GeographicEntity.py
 #: content\GeographicName.py
+#: content\Place.py
 msgid "PleiadesEntity_label_secondaryReferences"
 msgstr ""
 
 #. Default: "Spatial Coordinates"
 #: content\GeographicEntity.py
+#: content\Place.py
 msgid "PleiadesEntity_label_spatialCoordinates"
 msgstr ""
 
 #. Default: "Spatial Geometry Type"
 #: content\GeographicEntity.py
+#: content\Place.py
 msgid "PleiadesEntity_label_spatialGeometryType"
 msgstr ""
 
 #. Default: "Time Periods"
 #: content\GeographicEntity.py
 #: content\GeographicName.py
+#: content\Place.py
 msgid "PleiadesEntity_label_timePeriods"
 msgstr ""
 

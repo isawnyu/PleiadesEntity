@@ -13,7 +13,7 @@ Setup the test fixture
 
 Add one blank entity to the folder, and adapt
 
-    >>> folder.invokeFactory('GeographicEntity', id='aaa')
+    >>> folder.invokeFactory('Place', id='aaa')
     'aaa'
     >>> entity = folder.aaa
     >>> entity.setTitle('AAA')
