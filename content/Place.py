@@ -46,14 +46,9 @@ from Products.PleiadesEntity.Extensions.cooking import *
 ##code-section module-header #fill in your manual code here
 ##/code-section module-header
 
-copied_fields = {}
-copied_fields['title'] = BaseSchema['title'].copy()
-copied_fields['title'].widget.label = "Identifier"
-copied_fields['title'].widget.description = "Unique Pleiades identifier for this place."
 schema = Schema((
 
-    copied_fields['title'],
-        StringField(
+    StringField(
         name='placeType',
         index="FieldIndex",
         widget=StringWidget(
@@ -144,7 +139,7 @@ class Place(BaseFolder):
     portal_type = 'Place'
     allowed_content_types = ['Name']
     filter_content_types = 1
-    global_allow = 1
+    global_allow = 0
     content_icon = 'place_icon.gif'
     immediate_view = 'base_view'
     default_view = 'base_view'

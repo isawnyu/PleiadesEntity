@@ -102,6 +102,7 @@ def install(self):
     factory_types=[
         "Place",
         "Name",
+        "PlaceBucket",
         ] + factory_tool.getFactoryTypes().keys()
     factory_tool.manage_setPortalFactoryTypes(listOfTypeIds=factory_types)
 
