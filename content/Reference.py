@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# File: Place.py
+# File: Reference.py
 #
 # Copyright (c) 2007 by Ancient World Mapping Center, University of North
 # Carolina at Chapel Hill, U.S.A.
@@ -32,32 +32,16 @@ from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
 from Products.PleiadesEntity.config import *
 
-# additional imports from tagged value 'import'
-from Products.PleiadesEntity.Extensions.cooking import *
-
 ##code-section module-header #fill in your manual code here
 ##/code-section module-header
 
 schema = Schema((
 
     StringField(
-        name='placeType',
-        index="FieldIndex",
+        name='reference',
         widget=StringWidget(
-            label="Place Type",
-            label_msgid='PleiadesEntity_label_placeType',
-            i18n_domain='PleiadesEntity',
-        )
-    ),
-
-    TextField(
-        name='modernLocation',
-        index="ZCTextIndex",
-        widget=TextAreaWidget(
-            label="Modern Name / Location",
-            description="A prose description, in modern terms, of this entity's location.",
-            label_msgid='PleiadesEntity_label_modernLocation',
-            description_msgid='PleiadesEntity_help_modernLocation',
+            label='Reference',
+            label_msgid='PleiadesEntity_label_reference',
             i18n_domain='PleiadesEntity',
         )
     ),
@@ -68,53 +52,45 @@ schema = Schema((
 ##code-section after-local-schema #fill in your manual code here
 ##/code-section after-local-schema
 
-Place_schema = BaseFolderSchema.copy() + \
+Reference_schema = BaseSchema.copy() + \
     schema.copy()
 
 ##code-section after-schema #fill in your manual code here
 ##/code-section after-schema
 
-class Place(BaseFolder):
+class Reference(BaseContent):
     """
     """
     security = ClassSecurityInfo()
-    __implements__ = (getattr(BaseFolder,'__implements__',()),)
+    __implements__ = (getattr(BaseContent,'__implements__',()),)
 
     # This name appears in the 'add' box
-    archetype_name = 'Place'
+    archetype_name = 'Reference'
 
-    meta_type = 'Place'
-    portal_type = 'Place'
-    allowed_content_types = ['Name', 'Location', 'TemporalAttestation', 'Reference', 'EthnicName', 'GeographicName', 'SecondaryReference', 'PrimaryReference']
-    filter_content_types = 1
+    meta_type = 'Reference'
+    portal_type = 'Reference'
+    allowed_content_types = []
+    filter_content_types = 0
     global_allow = 0
-    content_icon = 'place_icon.gif'
+    #content_icon = 'Reference.gif'
     immediate_view = 'base_view'
     default_view = 'base_view'
     suppl_views = ()
-    typeDescription = """A "place" is an association (grouping) of geographic names and geographic locations, encompassing both place points and larger regions (i.e., we call a space a place)"""
-    typeDescMsgId = 'description_edit_place'
+    typeDescription = "Reference"
+    typeDescMsgId = 'description_edit_reference'
 
     _at_rename_after_creation = True
 
-    schema = Place_schema
+    schema = Reference_schema
 
     ##code-section class-header #fill in your manual code here
     ##/code-section class-header
 
     # Methods
 
-    # Manually created methods
 
-    security.declareProtected(DEFAULT_ADD_CONTENT_PERMISSION, 'invokeFactory')
-    def invokeFactory(self):
-        """
-        """
-        pass
-
-
-registerType(Place, PROJECTNAME)
-# end of class Place
+registerType(Reference, PROJECTNAME)
+# end of class Reference
 
 ##code-section module-footer #fill in your manual code here
 ##/code-section module-footer

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# File: Place.py
+# File: TemporalAttestation.py
 #
 # Copyright (c) 2007 by Ancient World Mapping Center, University of North
 # Carolina at Chapel Hill, U.S.A.
@@ -32,32 +32,25 @@ from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
 from Products.PleiadesEntity.config import *
 
-# additional imports from tagged value 'import'
-from Products.PleiadesEntity.Extensions.cooking import *
-
 ##code-section module-header #fill in your manual code here
 ##/code-section module-header
 
 schema = Schema((
 
     StringField(
-        name='placeType',
-        index="FieldIndex",
+        name='timePeriod',
         widget=StringWidget(
-            label="Place Type",
-            label_msgid='PleiadesEntity_label_placeType',
+            label='Timeperiod',
+            label_msgid='PleiadesEntity_label_timePeriod',
             i18n_domain='PleiadesEntity',
         )
     ),
 
-    TextField(
-        name='modernLocation',
-        index="ZCTextIndex",
-        widget=TextAreaWidget(
-            label="Modern Name / Location",
-            description="A prose description, in modern terms, of this entity's location.",
-            label_msgid='PleiadesEntity_label_modernLocation',
-            description_msgid='PleiadesEntity_help_modernLocation',
+    BooleanField(
+        name='isInferred',
+        widget=BooleanWidget(
+            label='Isinferred',
+            label_msgid='PleiadesEntity_label_isInferred',
             i18n_domain='PleiadesEntity',
         )
     ),
@@ -68,53 +61,45 @@ schema = Schema((
 ##code-section after-local-schema #fill in your manual code here
 ##/code-section after-local-schema
 
-Place_schema = BaseFolderSchema.copy() + \
+TemporalAttestation_schema = BaseSchema.copy() + \
     schema.copy()
 
 ##code-section after-schema #fill in your manual code here
 ##/code-section after-schema
 
-class Place(BaseFolder):
+class TemporalAttestation(BaseContent):
     """
     """
     security = ClassSecurityInfo()
-    __implements__ = (getattr(BaseFolder,'__implements__',()),)
+    __implements__ = (getattr(BaseContent,'__implements__',()),)
 
     # This name appears in the 'add' box
-    archetype_name = 'Place'
+    archetype_name = 'TemporalAttestation'
 
-    meta_type = 'Place'
-    portal_type = 'Place'
-    allowed_content_types = ['Name', 'Location', 'TemporalAttestation', 'Reference', 'EthnicName', 'GeographicName', 'SecondaryReference', 'PrimaryReference']
-    filter_content_types = 1
+    meta_type = 'TemporalAttestation'
+    portal_type = 'TemporalAttestation'
+    allowed_content_types = []
+    filter_content_types = 0
     global_allow = 0
-    content_icon = 'place_icon.gif'
+    #content_icon = 'TemporalAttestation.gif'
     immediate_view = 'base_view'
     default_view = 'base_view'
     suppl_views = ()
-    typeDescription = """A "place" is an association (grouping) of geographic names and geographic locations, encompassing both place points and larger regions (i.e., we call a space a place)"""
-    typeDescMsgId = 'description_edit_place'
+    typeDescription = "TemporalAttestation"
+    typeDescMsgId = 'description_edit_temporalattestation'
 
     _at_rename_after_creation = True
 
-    schema = Place_schema
+    schema = TemporalAttestation_schema
 
     ##code-section class-header #fill in your manual code here
     ##/code-section class-header
 
     # Methods
 
-    # Manually created methods
 
-    security.declareProtected(DEFAULT_ADD_CONTENT_PERMISSION, 'invokeFactory')
-    def invokeFactory(self):
-        """
-        """
-        pass
-
-
-registerType(Place, PROJECTNAME)
-# end of class Place
+registerType(TemporalAttestation, PROJECTNAME)
+# end of class TemporalAttestation
 
 ##code-section module-footer #fill in your manual code here
 ##/code-section module-footer

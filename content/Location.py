@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# File: Place.py
+# File: Location.py
 #
 # Copyright (c) 2007 by Ancient World Mapping Center, University of North
 # Carolina at Chapel Hill, U.S.A.
@@ -32,32 +32,25 @@ from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
 from Products.PleiadesEntity.config import *
 
-# additional imports from tagged value 'import'
-from Products.PleiadesEntity.Extensions.cooking import *
-
 ##code-section module-header #fill in your manual code here
 ##/code-section module-header
 
 schema = Schema((
 
     StringField(
-        name='placeType',
-        index="FieldIndex",
+        name='spatialGeometryType',
         widget=StringWidget(
-            label="Place Type",
-            label_msgid='PleiadesEntity_label_placeType',
+            label='Spatialgeometrytype',
+            label_msgid='PleiadesEntity_label_spatialGeometryType',
             i18n_domain='PleiadesEntity',
         )
     ),
 
-    TextField(
-        name='modernLocation',
-        index="ZCTextIndex",
-        widget=TextAreaWidget(
-            label="Modern Name / Location",
-            description="A prose description, in modern terms, of this entity's location.",
-            label_msgid='PleiadesEntity_label_modernLocation',
-            description_msgid='PleiadesEntity_help_modernLocation',
+    StringField(
+        name='spatialCoordinates',
+        widget=StringWidget(
+            label='Spatialcoordinates',
+            label_msgid='PleiadesEntity_label_spatialCoordinates',
             i18n_domain='PleiadesEntity',
         )
     ),
@@ -68,53 +61,45 @@ schema = Schema((
 ##code-section after-local-schema #fill in your manual code here
 ##/code-section after-local-schema
 
-Place_schema = BaseFolderSchema.copy() + \
+Location_schema = BaseFolderSchema.copy() + \
     schema.copy()
 
 ##code-section after-schema #fill in your manual code here
 ##/code-section after-schema
 
-class Place(BaseFolder):
+class Location(BaseFolder):
     """
     """
     security = ClassSecurityInfo()
     __implements__ = (getattr(BaseFolder,'__implements__',()),)
 
     # This name appears in the 'add' box
-    archetype_name = 'Place'
+    archetype_name = 'Location'
 
-    meta_type = 'Place'
-    portal_type = 'Place'
-    allowed_content_types = ['Name', 'Location', 'TemporalAttestation', 'Reference', 'EthnicName', 'GeographicName', 'SecondaryReference', 'PrimaryReference']
+    meta_type = 'Location'
+    portal_type = 'Location'
+    allowed_content_types = ['Reference', 'TemporalAttestation', 'SecondaryReference', 'PrimaryReference']
     filter_content_types = 1
     global_allow = 0
-    content_icon = 'place_icon.gif'
+    #content_icon = 'Location.gif'
     immediate_view = 'base_view'
     default_view = 'base_view'
     suppl_views = ()
-    typeDescription = """A "place" is an association (grouping) of geographic names and geographic locations, encompassing both place points and larger regions (i.e., we call a space a place)"""
-    typeDescMsgId = 'description_edit_place'
+    typeDescription = "Location"
+    typeDescMsgId = 'description_edit_location'
 
     _at_rename_after_creation = True
 
-    schema = Place_schema
+    schema = Location_schema
 
     ##code-section class-header #fill in your manual code here
     ##/code-section class-header
 
     # Methods
 
-    # Manually created methods
 
-    security.declareProtected(DEFAULT_ADD_CONTENT_PERMISSION, 'invokeFactory')
-    def invokeFactory(self):
-        """
-        """
-        pass
-
-
-registerType(Place, PROJECTNAME)
-# end of class Place
+registerType(Location, PROJECTNAME)
+# end of class Location
 
 ##code-section module-footer #fill in your manual code here
 ##/code-section module-footer
