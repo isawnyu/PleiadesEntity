@@ -1,0 +1,20 @@
+
+NameFactory.txt
+===============
+
+Setup a places folder
+
+    >>> id = self.folder.invokeFactory('PlaceBucket', id='places')
+    >>> places = getattr(self.folder, id)
+
+Adding a Name to this folder results in a Place-wrapped Name.
+
+    >>> nid = 'neverpolis'
+    >>> place_id = places.invokeFactory('Name', id=nid)
+    >>> place_id == '0'
+    True
+    >>> place = getattr(places, place_id)
+    >>> getattr(place, nid)
+    <Name at /plone/Members/test_user_1_/places/0/neverpolis>
+
+
