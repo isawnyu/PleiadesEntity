@@ -116,14 +116,14 @@ class Name(BaseFolder):
     __implements__ = (getattr(BaseFolder,'__implements__',()),)
 
     # This name appears in the 'add' box
-    archetype_name = 'Name'
+    archetype_name = 'Ancient Name'
 
     meta_type = 'Name'
     portal_type = 'Name'
     allowed_content_types = ['TemporalAttestation', 'Reference', 'SecondaryReference', 'PrimaryReference']
     filter_content_types = 1
     global_allow = 0
-    content_icon = 'name_icon.gif'
+    content_icon = 'document_icon.gif'
     immediate_view = 'base_view'
     default_view = 'base_view'
     suppl_views = ()

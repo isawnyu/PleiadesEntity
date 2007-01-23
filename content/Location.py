@@ -39,17 +39,21 @@ schema = Schema((
 
     StringField(
         name='spatialGeometryType',
-        widget=StringWidget(
-            label='Spatialgeometrytype',
+        widget=SelectionWidget(
+            label="Geometry Type",
+            description="Select geometry type",
             label_msgid='PleiadesEntity_label_spatialGeometryType',
+            description_msgid='PleiadesEntity_help_spatialGeometryType',
             i18n_domain='PleiadesEntity',
-        )
+        ),
+        enforceVocabulary=1,
+        vocabulary=['point', 'line', 'polygon', 'box']
     ),
 
     StringField(
         name='spatialCoordinates',
         widget=StringWidget(
-            label='Spatialcoordinates',
+            label="Spatial Coordinates",
             label_msgid='PleiadesEntity_label_spatialCoordinates',
             i18n_domain='PleiadesEntity',
         )
@@ -68,24 +72,24 @@ Location_schema = BaseFolderSchema.copy() + \
 ##/code-section after-schema
 
 class Location(BaseFolder):
-    """
+    """An ancient location or region
     """
     security = ClassSecurityInfo()
     __implements__ = (getattr(BaseFolder,'__implements__',()),)
 
     # This name appears in the 'add' box
-    archetype_name = 'Location'
+    archetype_name = 'Ancient Location'
 
     meta_type = 'Location'
     portal_type = 'Location'
     allowed_content_types = ['Reference', 'TemporalAttestation', 'SecondaryReference', 'PrimaryReference']
     filter_content_types = 1
     global_allow = 0
-    #content_icon = 'Location.gif'
+    content_icon = 'link_icon.gif'
     immediate_view = 'base_view'
     default_view = 'base_view'
     suppl_views = ()
-    typeDescription = "Location"
+    typeDescription = "Ancient Location"
     typeDescMsgId = 'description_edit_location'
 
     _at_rename_after_creation = True

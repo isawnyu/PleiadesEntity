@@ -32,9 +32,6 @@ from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
 from Products.PleiadesEntity.config import *
 
-# additional imports from tagged value 'import'
-from Products.PleiadesEntity.Extensions.cooking import *
-
 ##code-section module-header #fill in your manual code here
 ##/code-section module-header
 
@@ -42,7 +39,6 @@ schema = Schema((
 
     StringField(
         name='placeType',
-        index="FieldIndex",
         widget=StringWidget(
             label="Place Type",
             label_msgid='PleiadesEntity_label_placeType',
@@ -50,16 +46,37 @@ schema = Schema((
         )
     ),
 
-    TextField(
+    StringField(
         name='modernLocation',
-        index="ZCTextIndex",
-        widget=TextAreaWidget(
-            label="Modern Name / Location",
-            description="A prose description, in modern terms, of this entity's location.",
+        widget=StringWidget(
+            label="Modern Location",
             label_msgid='PleiadesEntity_label_modernLocation',
-            description_msgid='PleiadesEntity_help_modernLocation',
             i18n_domain='PleiadesEntity',
         )
+    ),
+
+    ReferenceField(
+        name='locations',
+        widget=ReferenceWidget(
+            label='Locations',
+            label_msgid='PleiadesEntity_label_locations',
+            i18n_domain='PleiadesEntity',
+        ),
+        allowed_types=('Location',),
+        multiValued=1,
+        relationship='location_location'
+    ),
+
+    ReferenceField(
+        name='names',
+        widget=ReferenceWidget(
+            label='Names',
+            label_msgid='PleiadesEntity_label_names',
+            i18n_domain='PleiadesEntity',
+        ),
+        allowed_types=('Name', 'EthnicName', 'GeographicName'),
+        multiValued=1,
+        relationship='name_name'
     ),
 
 ),
@@ -68,31 +85,31 @@ schema = Schema((
 ##code-section after-local-schema #fill in your manual code here
 ##/code-section after-local-schema
 
-Place_schema = BaseFolderSchema.copy() + \
+Place_schema = BaseSchema.copy() + \
     schema.copy()
 
 ##code-section after-schema #fill in your manual code here
 ##/code-section after-schema
 
-class Place(BaseFolder):
-    """
+class Place(BaseContent):
+    """Associates Names and Locations
     """
     security = ClassSecurityInfo()
-    __implements__ = (getattr(BaseFolder,'__implements__',()),)
+    __implements__ = (getattr(BaseContent,'__implements__',()),)
 
     # This name appears in the 'add' box
-    archetype_name = 'Place'
+    archetype_name = 'Ancient Place'
 
     meta_type = 'Place'
     portal_type = 'Place'
-    allowed_content_types = ['Name', 'Location', 'TemporalAttestation', 'Reference', 'EthnicName', 'GeographicName', 'SecondaryReference', 'PrimaryReference']
-    filter_content_types = 1
+    allowed_content_types = []
+    filter_content_types = 0
     global_allow = 0
     content_icon = 'place_icon.gif'
     immediate_view = 'base_view'
     default_view = 'base_view'
     suppl_views = ()
-    typeDescription = """A "place" is an association (grouping) of geographic names and geographic locations, encompassing both place points and larger regions (i.e., we call a space a place)"""
+    typeDescription = "Ancient Place"
     typeDescMsgId = 'description_edit_place'
 
     _at_rename_after_creation = True

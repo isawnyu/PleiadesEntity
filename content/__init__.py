@@ -37,9 +37,7 @@ __docformat__ = 'plaintext'
 # Additional
 
 # Classes
-import Place
 import Name
-import PlaceBucket
 import Location
 import TemporalAttestation
 import GeographicName
@@ -47,6 +45,7 @@ import EthnicName
 import Reference
 import SecondaryReference
 import PrimaryReference
+import Place
 
 ##code-section init-module-footer #fill in your manual code here
 ##/code-section init-module-footer
