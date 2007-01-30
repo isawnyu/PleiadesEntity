@@ -37,23 +37,25 @@ from Products.PleiadesEntity.config import *
 
 schema = Schema((
 
+    #Geometry type of the object represented by the spatial
+    #coordinates string. Must be one of ['Point', 'Line', 'Polygon',
+    #'Box'].
     StringField(
-        name='spatialGeometryType',
-        widget=SelectionWidget(
-            label="Geometry Type",
-            description="Select geometry type",
-            label_msgid='PleiadesEntity_label_spatialGeometryType',
-            description_msgid='PleiadesEntity_help_spatialGeometryType',
+        name='geometryType',
+        widget=StringWidget(
+            label='Geometrytype',
+            label_msgid='PleiadesEntity_label_geometryType',
             i18n_domain='PleiadesEntity',
         ),
         enforceVocabulary=1,
-        vocabulary=['point', 'line', 'polygon', 'box']
+        vocabulary=['Point']
     ),
 
+    #Geometry coordinates using GeoRSS-Simple representation.
     StringField(
         name='spatialCoordinates',
         widget=StringWidget(
-            label="Spatial Coordinates",
+            label='Spatialcoordinates',
             label_msgid='PleiadesEntity_label_spatialCoordinates',
             i18n_domain='PleiadesEntity',
         )

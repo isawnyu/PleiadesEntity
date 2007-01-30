@@ -46,6 +46,8 @@ import Reference
 import SecondaryReference
 import PrimaryReference
 import Place
+import LocationContainer
+import PlaceContainer
 
 ##code-section init-module-footer #fill in your manual code here
 ##/code-section init-module-footer

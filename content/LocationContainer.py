@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# File: Place.py
+# File: LocationContainer.py
 #
 # Copyright (c) 2007 by Ancient World Mapping Center, University of North
 # Carolina at Chapel Hill, U.S.A.
@@ -37,108 +37,56 @@ from Products.PleiadesEntity.config import *
 
 schema = Schema((
 
-    StringField(
-        name='placeType',
-        widget=StringWidget(
-            label="Place Type",
-            label_msgid='PleiadesEntity_label_placeType',
-            i18n_domain='PleiadesEntity',
-        )
-    ),
-
-    StringField(
-        name='modernLocation',
-        widget=StringWidget(
-            label="Modern Location",
-            label_msgid='PleiadesEntity_label_modernLocation',
-            i18n_domain='PleiadesEntity',
-        )
-    ),
-
-    ReferenceField(
-        name='locations',
-        widget=ReferenceWidget(
-            label='Locations',
-            label_msgid='PleiadesEntity_label_locations',
-            i18n_domain='PleiadesEntity',
-        ),
-        allowed_types=('Location',),
-        multiValued=1,
-        relationship='location_location'
-    ),
-
-    ReferenceField(
-        name='names',
-        widget=ReferenceWidget(
-            label='Names',
-            label_msgid='PleiadesEntity_label_names',
-            i18n_domain='PleiadesEntity',
-        ),
-        allowed_types=('Name', 'EthnicName', 'GeographicName'),
-        multiValued=1,
-        relationship='name_name'
-    ),
-
 ),
 )
 
 ##code-section after-local-schema #fill in your manual code here
 ##/code-section after-local-schema
 
-Place_schema = BaseSchema.copy() + \
+LocationContainer_schema = BaseBTreeFolderSchema.copy() + \
     schema.copy()
 
 ##code-section after-schema #fill in your manual code here
 ##/code-section after-schema
 
-class Place(BaseContent):
-    """Associates Names and Locations
+class LocationContainer(BaseBTreeFolder):
+    """
     """
     security = ClassSecurityInfo()
-    __implements__ = (getattr(BaseContent,'__implements__',()),)
+    __implements__ = (getattr(BaseBTreeFolder,'__implements__',()),)
 
     # This name appears in the 'add' box
-    archetype_name = 'Ancient Place'
+    archetype_name = 'LocationContainer'
 
-    meta_type = 'Place'
-    portal_type = 'Place'
-    allowed_content_types = []
-    filter_content_types = 0
-    global_allow = 0
-    content_icon = 'place_icon.gif'
+    meta_type = 'LocationContainer'
+    portal_type = 'LocationContainer'
+    allowed_content_types = ['Location']
+    filter_content_types = 1
+    global_allow = 1
+    #content_icon = 'LocationContainer.gif'
     immediate_view = 'base_view'
     default_view = 'base_view'
     suppl_views = ()
-    typeDescription = "Ancient Place"
-    typeDescMsgId = 'description_edit_place'
+    typeDescription = "LocationContainer"
+    typeDescMsgId = 'description_edit_locationcontainer'
 
     _at_rename_after_creation = True
 
-    schema = Place_schema
+    schema = LocationContainer_schema
 
     ##code-section class-header #fill in your manual code here
     ##/code-section class-header
 
     # Methods
 
-    security.declarePublic('get_title')
-    def get_title(self):
-        """Return a title string derived from the ancient names to which
-        this place refers.
-        """
-        pass
-
-    # Manually created methods
-
-    security.declareProtected(DEFAULT_ADD_CONTENT_PERMISSION, 'invokeFactory')
+    security.declarePublic('invokeFactory')
     def invokeFactory(self):
         """
         """
         pass
 
-
-registerType(Place, PROJECTNAME)
-# end of class Place
+registerType(LocationContainer, PROJECTNAME)
+# end of class LocationContainer
 
 ##code-section module-footer #fill in your manual code here
 ##/code-section module-footer
