@@ -1,0 +1,80 @@
+
+Basic Tests of Name
+===================
+
+Home for Names
+--------------
+
+    >>> lpf = self.portal.portal_types['Large Plone Folder']
+    >>> lpf_allow = lpf.global_allow
+    >>> lpf.global_allow = True
+
+    >>> id = self.folder.invokeFactory('Large Plone Folder', id='names')
+    >>> id
+    'names'
+    >>> names = getattr(self.folder, id)
+    >>> names
+    <ATBTreeFolder at /plone/Members/test_user_1_/names>
+
+
+Adding a Name
+-------------
+
+    >>> n = self.portal.portal_types['Name']
+    >>> n_allow = n.global_allow
+    >>> n.global_allow = True
+
+    >>> nid = names.invokeFactory('Name', id='neverpolis')
+    >>> nid
+    'neverpolis'
+    >>> getattr(names, nid)
+    <Name at /plone/Members/test_user_1_/names/neverpolis>
+
+
+Check base view with test browser
+---------------------------------
+
+Initialize the test browser
+
+    >>> from Products.Five.testbrowser import Browser
+    >>> browser = Browser()
+    >>> browser.handleErrors = False
+
+Log all exceptions, which is useful for debugging. Also, clear portlet slots,
+to make the test browser less confused by things like the recent portlet and
+the navtree.
+
+    >>> self.portal.error_log._ignored_exceptions = ()
+    >>> self.portal.left_slots = self.portal.right_slots = []
+
+Browse the Name
+
+    >>> name = getattr(names, nid)
+    >>> name_url = name.absolute_url()
+    >>> browser.open(name_url)
+
+Check the URL 
+
+    >>> browser.url == name_url
+    True
+    >>> browser.url.endswith('neverpolis')
+    True
+    
+Check the html content of the view page (description will not appear here)
+    
+    >>> browser.contents
+    '...Name as Attested...'
+    
+#    >>> browser.contents
+#    '...Language and Writing System of Attested Name...'
+#    
+#    >>> browser.contents
+#    '...Time Periods...'
+#    
+#    >>> browser.contents
+#    '...Primary References...'
+#    
+#    >>> browser.contents
+#    '...Secondary References...'
+    
+    
