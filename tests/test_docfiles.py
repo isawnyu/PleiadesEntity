@@ -11,6 +11,7 @@ import _testing
 from _testing import *
 
 PloneTestCase.installProduct('PleiadesGeocoder')
+PloneTestCase.installProduct('PleiadesOpenLayers')
 PloneTestCase.installProduct(PRODUCT_NAME)
 PloneTestCase.setupPloneSite(products=[PRODUCT_NAME])
 

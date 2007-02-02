@@ -21,6 +21,11 @@
     interface=".interfaces.IGeoEntity"
     />
 
+  <five:implements
+    class=".content.PlaceContainer.PlaceContainer"
+    interface=".interfaces.IGeoEntity"
+    />
+
   <browser:page  
     for=".interfaces.IGeoEntity"
     name="geo"

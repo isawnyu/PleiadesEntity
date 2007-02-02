@@ -1,0 +1,76 @@
+
+Basic Tests of Location
+=======================
+
+Home for Locations
+------------------
+
+    >>> id = self.folder.invokeFactory('LocationContainer', id='locations')
+    >>> id
+    'locations'
+    >>> locations = getattr(self.folder, id)
+    >>> locations
+    <LocationContainer at /plone/Members/test_user_1_/locations>
+
+
+Adding a Location
+-----------------
+
+    #>>> n = self.portal.portal_types['Name']
+    #>>> n_allow = n.global_allow
+    #>>> n.global_allow = True
+
+    >>> lid = locations.invokeFactory('Location')
+    >>> lid
+    '0'
+    >>> getattr(locations, lid)
+    <Location at /plone/Members/test_user_1_/locations/0>
+
+
+Check base view with test browser
+---------------------------------
+
+Initialize the test browser
+
+    >>> from Products.Five.testbrowser import Browser
+    >>> browser = Browser()
+    >>> browser.handleErrors = False
+
+Log all exceptions, which is useful for debugging. Also, clear portlet slots,
+to make the test browser less confused by things like the recent portlet and
+the navtree.
+
+    >>> self.portal.error_log._ignored_exceptions = ()
+    >>> self.portal.left_slots = self.portal.right_slots = []
+
+Browse the Name
+
+    >>> location = getattr(locations, lid)
+    >>> url = location.absolute_url()
+    >>> browser.open(url)
+
+Check the URL 
+
+    >>> browser.url == url
+    True
+    >>> browser.url.endswith('neverpolis')
+    True
+    
+Check the html content of the view page (description will not appear here)
+    
+    >>> browser.contents
+    '...Name as Attested...'
+    
+#    >>> browser.contents
+#    '...Language and Writing System of Attested Name...'
+#    
+#    >>> browser.contents
+#    '...Time Periods...'
+#    
+#    >>> browser.contents
+#    '...Primary References...'
+#    
+#    >>> browser.contents
+#    '...Secondary References...'
+    
+    

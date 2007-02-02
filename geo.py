@@ -55,8 +55,9 @@ class GeoEntitySimple(object):
         pass
 
     def getSpatialCoordinates(self):
+        x0 = self.context.getRefs('isLocated')[0]
         values = [float(v) for v in \
-            self.context.getSpatialCoordinates().split()]
+            x0.getSpatialCoordinates().split()]
         nvalues = len(values)
         npoints = nvalues/3
         coords = []
@@ -74,7 +75,8 @@ class GeoEntitySimple(object):
             else:
                 raise ValueError, \
                 "Insufficient number of ordinates: %s" % str(point)
-        self.context.setSpatialCoordinates(value.lstrip())
+        x0 = self.context.getRefs('isLocated')[0]
+        x0.setSpatialCoordinates(value.lstrip())
         
     def isGeoreferenced(self):
         """Return True if the object is "on the map"."""
