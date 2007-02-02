@@ -1,34 +1,23 @@
 
-Basic Tests of Name
-===================
+Name Views
+==========
 
-Home for Names
---------------
+Setup
+-----
 
     >>> lpf = self.portal.portal_types['Large Plone Folder']
     >>> lpf_allow = lpf.global_allow
     >>> lpf.global_allow = True
 
-    >>> id = self.folder.invokeFactory('Large Plone Folder', id='names')
-    >>> id
-    'names'
-    >>> names = getattr(self.folder, id)
-    >>> names
-    <ATBTreeFolder at /plone/Members/test_user_1_/names>
-
-
-Adding a Name
--------------
-
     >>> n = self.portal.portal_types['Name']
     >>> n_allow = n.global_allow
     >>> n.global_allow = True
 
-    >>> nid = names.invokeFactory('Name', id='neverpolis')
-    >>> nid
-    'neverpolis'
-    >>> getattr(names, nid)
-    <Name at /plone/Members/test_user_1_/names/neverpolis>
+    >>> folder = self.folder
+
+    >>> _ = folder.invokeFactory('Large Plone Folder', id='names')
+    >>> _ = folder.names.invokeFactory('Name', id='neverpolis')
+    >>> n = getattr(folder.names, 'neverpolis')
 
 
 Check base view with test browser
@@ -49,13 +38,12 @@ the navtree.
 
 Browse the Name
 
-    >>> name = getattr(names, nid)
-    >>> name_url = name.absolute_url()
-    >>> browser.open(name_url)
+    >>> url = n.absolute_url()
+    >>> browser.open(url)
 
 Check the URL 
 
-    >>> browser.url == name_url
+    >>> browser.url == url
     True
     >>> browser.url.endswith('neverpolis')
     True
