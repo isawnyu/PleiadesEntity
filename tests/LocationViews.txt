@@ -1,0 +1,47 @@
+
+Location Views
+==============
+
+Setup
+-----
+
+    >>> _ = folder.invokeFactory('LocationContainer', id='locations')
+    >>> _ = folder.locations.invokeFactory('Location')
+    >>> x = getattr(folder.locations, '0')
+    >>> _ = x.setSpatialCoordinates('34.769722222222 -86.4808333333333 0.0')
+    >>> _ = x.setGeometryType('Point')
+
+
+Check base view with test browser
+---------------------------------
+
+Initialize the test browser
+
+    >>> from Products.Five.testbrowser import Browser
+    >>> browser = Browser()
+    >>> browser.handleErrors = False
+
+Log all exceptions, which is useful for debugging. Also, clear portlet slots,
+to make the test browser less confused by things like the recent portlet and
+the navtree.
+
+    >>> self.portal.error_log._ignored_exceptions = ()
+    >>> self.portal.left_slots = self.portal.right_slots = []
+
+Browse the Name
+
+    >>> url = x.absolute_url()
+    >>> browser.open(url)
+
+Check the URL 
+
+    >>> browser.url == url
+    True
+    >>> browser.url.endswith('0')
+    True
+    
+Check the html content of the view page (description will not appear here)
+    
+    >>> browser.contents
+    '...Spatialcoordinates...34.769722222222 -86.4808333333333 0.0...'
+
