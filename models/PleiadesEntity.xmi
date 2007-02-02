@@ -1,5 +1,5 @@
 <?xml version = '1.0' encoding = 'UTF-8' ?>
-<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Mon Jan 29 14:40:51 MST 2007'>
+<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Fri Feb 02 09:53:30 MST 2007'>
   <XMI.header>    <XMI.documentation>
       <XMI.exporter>ArgoUML (using Netbeans XMI Writer version 1.0)</XMI.exporter>
       <XMI.exporterVersion>0.20.x</XMI.exporterVersion>
@@ -362,6 +362,15 @@
             </UML:Association>
             <UML:Association xmi.id = '127-0-0-1--22259664:1104b934ad1:-8000:00000000000008F0'
               name = '' isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
+              <UML:ModelElement.taggedValue>
+                <UML:TaggedValue xmi.id = '127-0-0-1-a246917:1107f1801aa:-8000:00000000000008F0'
+                  isSpecification = 'false'>
+                  <UML:TaggedValue.dataValue>isLocated</UML:TaggedValue.dataValue>
+                  <UML:TaggedValue.type>
+                    <UML:TagDefinition xmi.idref = '127-0-0-1-a246917:1107f1801aa:-8000:00000000000008ED'/>
+                  </UML:TaggedValue.type>
+                </UML:TaggedValue>
+              </UML:ModelElement.taggedValue>
               <UML:Association.connection>
                 <UML:AssociationEnd xmi.id = '127-0-0-1--22259664:1104b934ad1:-8000:00000000000008F1'
                   name = 'location' visibility = 'public' isSpecification = 'false' isNavigable = 'true'
@@ -397,6 +406,15 @@
             </UML:Association>
             <UML:Association xmi.id = '127-0-0-1--22259664:1104b934ad1:-8000:00000000000008FB'
               name = '' isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
+              <UML:ModelElement.taggedValue>
+                <UML:TaggedValue xmi.id = '127-0-0-1-a246917:1107f1801aa:-8000:00000000000008F4'
+                  isSpecification = 'false'>
+                  <UML:TaggedValue.dataValue>isNamed</UML:TaggedValue.dataValue>
+                  <UML:TaggedValue.type>
+                    <UML:TagDefinition xmi.idref = '127-0-0-1-a246917:1107f1801aa:-8000:00000000000008ED'/>
+                  </UML:TaggedValue.type>
+                </UML:TaggedValue>
+              </UML:ModelElement.taggedValue>
               <UML:Association.connection>
                 <UML:AssociationEnd xmi.id = '127-0-0-1--22259664:1104b934ad1:-8000:00000000000008FC'
                   name = 'name' visibility = 'public' isSpecification = 'false' isNavigable = 'true'
@@ -1073,12 +1091,28 @@
                   <UML:TaggedValue.dataValue>Folder-ish container of Locations that also implements PCL
 s IFeatureStore.</UML:TaggedValue.dataValue>
                 </UML:TaggedValue>
+                <UML:TaggedValue xmi.id = '127-0-0-1-a246917:1107f1801aa:-8000:00000000000008E9'
+                  isSpecification = 'false'>
+                  <UML:TaggedValue.dataValue>from Products.CMFCore import permissions</UML:TaggedValue.dataValue>
+                  <UML:TaggedValue.type>
+                    <UML:TagDefinition xmi.idref = '-64--88-2--124--1ef2c416:10dd2107978:-8000:0000000000000B10'/>
+                  </UML:TaggedValue.type>
+                </UML:TaggedValue>
               </UML:ModelElement.taggedValue>
               <UML:Classifier.feature>
                 <UML:Operation xmi.id = '127-0-0-1--22259664:1104b934ad1:-8000:0000000000000959'
                   name = 'invokeFactory' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
                   isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
                   isAbstract = 'false'>
+                  <UML:ModelElement.taggedValue>
+                    <UML:TaggedValue xmi.id = '127-0-0-1-a246917:1107f1801aa:-8000:00000000000008EB'
+                      isSpecification = 'false'>
+                      <UML:TaggedValue.dataValue>python:permissions.AddPortalContent</UML:TaggedValue.dataValue>
+                      <UML:TaggedValue.type>
+                        <UML:TagDefinition xmi.idref = '127-0-0-1--5030963a:1102cd2c075:-8000:0000000000000D70'/>
+                      </UML:TaggedValue.type>
+                    </UML:TaggedValue>
+                  </UML:ModelElement.taggedValue>
                   <UML:BehavioralFeature.parameter>
                     <UML:Parameter xmi.id = '127-0-0-1--22259664:1104b934ad1:-8000:000000000000095A'
                       name = 'return' isSpecification = 'false' kind = 'return'>
@@ -1101,12 +1135,28 @@ s IFeatureStore.</UML:TaggedValue.dataValue>
                   isSpecification = 'false'>
                   <UML:TaggedValue.dataValue>Container for Places.</UML:TaggedValue.dataValue>
                 </UML:TaggedValue>
+                <UML:TaggedValue xmi.id = '127-0-0-1-a246917:1107f1801aa:-8000:00000000000008EA'
+                  isSpecification = 'false'>
+                  <UML:TaggedValue.dataValue>from Products.CMFCore import permissions</UML:TaggedValue.dataValue>
+                  <UML:TaggedValue.type>
+                    <UML:TagDefinition xmi.idref = '-64--88-2--124--1ef2c416:10dd2107978:-8000:0000000000000B10'/>
+                  </UML:TaggedValue.type>
+                </UML:TaggedValue>
               </UML:ModelElement.taggedValue>
               <UML:Classifier.feature>
                 <UML:Operation xmi.id = '127-0-0-1--22259664:1104b934ad1:-8000:0000000000000961'
                   name = 'invokeFactory' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
                   isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
                   isAbstract = 'false'>
+                  <UML:ModelElement.taggedValue>
+                    <UML:TaggedValue xmi.id = '127-0-0-1-a246917:1107f1801aa:-8000:00000000000008EC'
+                      isSpecification = 'false'>
+                      <UML:TaggedValue.dataValue>python:permissions.AddPortalContent</UML:TaggedValue.dataValue>
+                      <UML:TaggedValue.type>
+                        <UML:TagDefinition xmi.idref = '127-0-0-1--5030963a:1102cd2c075:-8000:0000000000000D70'/>
+                      </UML:TaggedValue.type>
+                    </UML:TaggedValue>
+                  </UML:ModelElement.taggedValue>
                   <UML:BehavioralFeature.parameter>
                     <UML:Parameter xmi.id = '127-0-0-1--22259664:1104b934ad1:-8000:0000000000000962'
                       name = 'return' isSpecification = 'false' kind = 'return'>
@@ -1262,12 +1312,23 @@ s IFeatureStore.</UML:TaggedValue.dataValue>
             </UML:Multiplicity>
           </UML:TagDefinition.multiplicity>
         </UML:TagDefinition>
-        <UML:TagDefinition xmi.id = '127-0-0-1--3d6aeb20:1106f493626:-8000:00000000000008FD'
+        <UML:TagDefinition xmi.id = '127-0-0-1-a246917:1107f1801aa:-8000:00000000000008ED'
+          name = 'relationship' isSpecification = 'false' tagType = 'String'>
+          <UML:TagDefinition.multiplicity>
+            <UML:Multiplicity xmi.id = '127-0-0-1-a246917:1107f1801aa:-8000:00000000000008EE'>
+              <UML:Multiplicity.range>
+                <UML:MultiplicityRange xmi.id = '127-0-0-1-a246917:1107f1801aa:-8000:00000000000008EF'
+                  lower = '0' upper = '1'/>
+              </UML:Multiplicity.range>
+            </UML:Multiplicity>
+          </UML:TagDefinition.multiplicity>
+        </UML:TagDefinition>
+        <UML:TagDefinition xmi.id = '127-0-0-1-a246917:1107f1801aa:-8000:00000000000008F1'
           name = '' isSpecification = 'false' tagType = 'String'>
           <UML:TagDefinition.multiplicity>
-            <UML:Multiplicity xmi.id = '127-0-0-1--3d6aeb20:1106f493626:-8000:00000000000008FE'>
+            <UML:Multiplicity xmi.id = '127-0-0-1-a246917:1107f1801aa:-8000:00000000000008F2'>
               <UML:Multiplicity.range>
-                <UML:MultiplicityRange xmi.id = '127-0-0-1--3d6aeb20:1106f493626:-8000:00000000000008FF'
+                <UML:MultiplicityRange xmi.id = '127-0-0-1-a246917:1107f1801aa:-8000:00000000000008F3'
                   lower = '0' upper = '1'/>
               </UML:Multiplicity.range>
             </UML:Multiplicity>

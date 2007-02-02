@@ -32,6 +32,9 @@ from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
 from Products.PleiadesEntity.config import *
 
+# additional imports from tagged value 'import'
+from Products.CMFCore import permissions
+
 ##code-section module-header #fill in your manual code here
 ##/code-section module-header
 
@@ -79,11 +82,21 @@ class LocationContainer(BaseBTreeFolder):
 
     # Methods
 
-    security.declarePublic('invokeFactory')
-    def invokeFactory(self):
+    security.declareProtected(permissions.AddPortalContent, 'invokeFactory')
+    def invokeFactory(self, type_name, RESPONSE=None):
         """
         """
-        pass
+        pt = getToolByName(self, 'portal_types')
+        if type_name != 'Location':
+            raise ValueError, 'Disallowed subobject type: %s' % type_name
+        id = self._v_nextid
+        args = ('Location', self, id, RESPONSE)
+        new_id = pt.constructContent(*args)
+        if new_id is None or new_id == '':
+            new_id = id
+        self._v_nextid += 1
+        return new_id
+
 
 registerType(LocationContainer, PROJECTNAME)
 # end of class LocationContainer
