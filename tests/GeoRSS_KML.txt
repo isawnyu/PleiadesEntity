@@ -1,0 +1,73 @@
+GeoRSS and KML views
+====================
+
+Test logical view of a collection of entities
+
+Setup
+-----
+
+    >>> lpf = self.portal.portal_types['Large Plone Folder']
+    >>> lpf_allow = lpf.global_allow
+    >>> lpf.global_allow = True
+
+    >>> n = self.portal.portal_types['Name']
+    >>> n_allow = n.global_allow
+    >>> n.global_allow = True
+
+    >>> folder = self.folder
+
+    Containers
+
+    >>> _ = folder.invokeFactory('Large Plone Folder', id='names')
+    >>> _ = folder.invokeFactory('LocationContainer', id='locations')
+    >>> _ = folder.invokeFactory('PlaceContainer', id='places')
+
+    Entities
+
+    >>> _ = folder.names.invokeFactory('Name', id='neverpolis')
+    >>> _ = folder.locations.invokeFactory('Location')
+    >>> _ = folder.places.invokeFactory('Place')
+
+    Add References
+
+    >>> n = folder.names.neverpolis
+    >>> x = getattr(folder.locations, '0')
+    >>> p = getattr(folder.places, '0')
+    >>> _ = p.addReference(n, "isNamed")
+    >>> _ = p.addReference(x, "isLocated")
+
+    Set location coordinates and place attributes
+
+    >>> x.setSpatialCoordinates('0.0 0.0 0.0')
+    >>> p.setTitle('AAA')
+    >>> p.setDescription('A testing entity')
+
+Test browse
+-----------
+
+    Initialize the test browser
+
+    >>> from Products.Five.testbrowser import Browser
+    >>> browser = Browser()
+    >>> browser.handleErrors = False
+
+    Let us log all exceptions, which is useful for debugging. Also, clear
+    portlet slots, to make the test browser less confused by things like the
+    recent portlet and the navtree.
+
+    >>> self.portal.error_log._ignored_exceptions = ()
+    >>> self.portal.left_slots = self.portal.right_slots = []
+
+    Check logical view
+
+    >>> url = folder.places.absolute_url()
+
+    >>> browser.open("%s/@@geo/forRSS" % url)
+    >>> browser.contents
+    "[{'srs': 'EPSG:4326', 'geometryType': 'point', 'description': 'A testing entity', 'spatialCoordinates': '0.0 0.0', 'url': 'http://nohost/plone/Members/test_user_1_/places/0', 'geom_element': '<georss:point>0.0 0.0</georss:point>', 'title': 'AAA', 'id': '0'}]"
+
+    >>> browser.open("%s/@@geo/forKML" % url)
+    >>> browser.contents
+    '[{\'srs\': \'EPSG:4326\', \'desc_body\': \'<![CDATA[<p>A testing entity</p><p><a href="http://nohost/plone/Members/test_user_1_/places/0">AAA</a></p>]]>\', \'geometryType\': \'point\', \'description\': \'A testing entity\', \'spatialCoordinates\': \'0.0 0.0 0.0\', \'url\': \'http://nohost/plone/Members/test_user_1_/places/0\', \'geom_element\': \'<Point><coordinates>0.000000,0.000000,0.000000</coordinates></Point>\', \'title\': \'AAA\', \'id\': \'0\'}]'
+
+

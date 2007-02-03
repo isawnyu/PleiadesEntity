@@ -51,8 +51,6 @@ Test the geo adapters
     {'srs': 'EPSG:4326', 'geometryType': 'point', 'description': '', 'spatialCoordinates': '34.7697222222 -86.4808333333 0.0', 'url': 'http://nohost/plone/Members/test_user_1_/places/0', 'title': '0', 'id': '0'}
 
     >>> c = IGeoCollectionSimple(folder.places)
-    >>> c.geoItems()
-    []
     >>> c.getItemsInfo()
-    []
+    [{'srs': 'EPSG:4326', 'geometryType': 'point', 'description': '', 'spatialCoordinates': '34.7697222222 -86.4808333333 0.0', 'url': 'http://nohost/plone/Members/test_user_1_/places/0', 'title': '0', 'id': '0'}]
 

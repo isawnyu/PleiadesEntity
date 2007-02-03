@@ -55,7 +55,10 @@ class GeoEntitySimple(object):
         pass
 
     def getSpatialCoordinates(self):
-        x0 = self.context.getRefs('isLocated')[0]
+        x = self.context.getRefs('isLocated')
+        if len(x) == 0:
+            return ()
+        x0 = x[0]
         values = [float(v) for v in \
             x0.getSpatialCoordinates().split()]
         nvalues = len(values)
@@ -115,12 +118,21 @@ class GeoCollectionSimple(object):
         self.context = context
         
     def geoItems(self):
-        try:
-            item = IGeoItemSimple(self.context)
-            assert(item.isGeoreferenced())
-            return [item]
-        except:
-            return []
+        if hasattr(self.context, 'listFolderContents'):
+            for ob in self.context.listFolderContents():
+                try:
+                    item = IGeoItemSimple(ob)
+                    assert(item.isGeoreferenced())
+                except:
+                    continue
+                yield item
+        else:
+            try:
+                item = IGeoItemSimple(self.context)
+                assert(item.isGeoreferenced())
+            except:
+                pass
+            yield item
 
     def getItemsInfo(self):
         infos = []
