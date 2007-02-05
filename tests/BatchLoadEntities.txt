@@ -8,7 +8,7 @@ Setup
     >>> lpf_allow = lpf.global_allow
     >>> lpf.global_allow = True
 
-    >>> n = self.portal.portal_types['Name']
+    >>> n = self.portal.portal_types['GeographicName']
     >>> n_allow = n.global_allow
     >>> n.global_allow = True
 
@@ -39,9 +39,28 @@ Utility tests
     >>> purifyText(u'Magie\U000000A01950,\U000000A0989') == u'Magie 1950, 989'
     True
    
-Load one place
---------------
+Load one entity
+---------------
 
-    >>> load_place(folder.places, "%s/batlas-65-2-12.xml" % TEST_DATA)
+    >>> r = load_place(folder, "%s/batlas-65-2-12.xml" % TEST_DATA)
+    >>> r['place_id']
     '0'
+    >>> r['name_id']
+    'amblada'
+
+    Test place
+
+    >>> p = getattr(folder.places, '0')
+    >>> p.modernLocation
+    u'Hisartepe, near K\u0131z\u0131lca'
+    >>> p.placeType
+    u'settlement'
+
+    Test name
+
+    >>> n = getattr(folder.names, r['name_id'])
+    >>> n.title
+    u'Amblada'
+    >>> n.nameAttested
+    u'Amblada'
 

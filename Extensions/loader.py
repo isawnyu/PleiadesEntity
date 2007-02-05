@@ -34,8 +34,15 @@ from os.path import basename
 
 import lxml.etree as etree
 
+from Products.CMFCore.utils import getToolByName
+
 from Products.PleiadesEntity.Extensions.xmlutil import *
 from Products.PleiadesEntity.Extensions.cooking import *
+
+
+class EntityLoadError(Exception):
+    pass
+
 
 def format_listofstrings(list):
     """convert ['x', 'y', 'z'] to u'x, y, and z'"""
@@ -72,11 +79,59 @@ def loaden(self, sourcedir):
         for f in failures:
             msg += "%s\n" % f
         return msg
-        
-def load_place(container, file):
+    
+AWMC = "http://www.unc.edu/awmc/gazetteer/schemata/ns/0.3"
+ADLGAZ = "http://www.alexandria.ucsb.edu/gazetteer/ContentStandard/version3.2/"
+
+import sys
+
+def load_place(site, file):
     """Create a new Place in plonefolder and populate it with
     the data found in the xml file at sourcepath."""
 
-    tree = etree.parse(file)
-    return '0'
+    root = etree.parse(file).getroot()
+    ptool = getToolByName(site, 'plone_utils')
+
+    places = site.places
+    names = site.names
+    locations = site.locations
+
+    # Place
+    pid = places.invokeFactory('Place')
+    p = getattr(places, pid)
+    
+    # modern location
+    e = root.findall("{%s}modernLocation" % AWMC)
+    if e:
+        p.setModernLocation(e[0].text)
+    
+    e = root.findall("{%s}classificationSection/{%s}classificationTerm" \
+                     % (ADLGAZ, ADLGAZ))
+    if e:
+        p.setPlaceType(e[0].text)
+
+    # Names
+    for e in root.findall("{%s}featureName" % ADLGAZ):
+        transliteration = e.findall("{%s}transliteration" % AWMC)[0].text
+        type = e.findall("{%s}classificationSection/{%s}classificationTerm" \
+                         % (ADLGAZ, ADLGAZ))[0].text
+        if not transliteration or not type:
+            raise EntityLoadError, "Incomplete featureName element"
+
+        id = ptool.normalizeString(transliteration)
+
+        if type == u'geographic':
+            nid = names.invokeFactory('GeographicName', id=id)
+        elif type == u'ethnic':
+            nid = names.invokeFactory('EthnicName', id=id)
+        else:
+            raise EntityLoadError, "Invalid name type"
+            
+        n = getattr(names, nid)
+        n.setTitle(transliteration)
+        n.setNameAttested(transliteration)
+
+
+    lid = None
+    return {'place_id': pid, 'location_id': lid, 'name_id': nid}
 
