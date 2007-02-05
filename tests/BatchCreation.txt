@@ -6,6 +6,7 @@ Test batch creation of Place objects. The values against which verifications are
 A lot of this is cribbed from optilude's tutorial on plone.org.
 
 Setup the test fixture
+
     >>> folder = self.folder
 
 Utility test

@@ -1,0 +1,47 @@
+Batch Loading of Entities
+=========================
+
+Setup
+-----
+
+    >>> lpf = self.portal.portal_types['Large Plone Folder']
+    >>> lpf_allow = lpf.global_allow
+    >>> lpf.global_allow = True
+
+    >>> n = self.portal.portal_types['Name']
+    >>> n_allow = n.global_allow
+    >>> n.global_allow = True
+
+    >>> folder = self.folder
+
+    Containers
+
+    >>> _ = folder.invokeFactory('Large Plone Folder', id='names')
+    >>> _ = folder.invokeFactory('LocationContainer', id='locations')
+    >>> _ = folder.invokeFactory('PlaceContainer', id='places')
+
+Utility tests
+-------------
+
+    >>> format_listofstrings([])
+    u''
+    >>> format_listofstrings(['x'])
+    u'x'
+    >>> format_listofstrings(['x', 'y'])
+    u'x and y'
+    >>> format_listofstrings(['x', 'y', 'z'])
+    u'x, y and z'
+    
+    >>> purifyText(u'aaa') == u'aaa'
+    True
+    >>> purifyText(u'abab') == u'abab'
+    True
+    >>> purifyText(u'Magie\U000000A01950,\U000000A0989') == u'Magie 1950, 989'
+    True
+   
+Load one place
+--------------
+
+    >>> load_place(folder.places, "%s/batlas-65-2-12.xml" % TEST_DATA)
+    '0'
+

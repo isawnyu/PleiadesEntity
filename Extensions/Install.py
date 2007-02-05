@@ -92,9 +92,7 @@ def install(self):
     # enable portal_factory for given types
     factory_tool = getToolByName(self,'portal_factory')
     factory_types=[
-        "Place",
         "Name",
-        "PlaceBucket",
         "Location",
         "TemporalAttestation",
         "GeographicName",
@@ -102,6 +100,9 @@ def install(self):
         "Reference",
         "SecondaryReference",
         "PrimaryReference",
+        "Place",
+        "LocationContainer",
+        "PlaceContainer",
         ] + factory_tool.getFactoryTypes().keys()
     factory_tool.manage_setPortalFactoryTypes(listOfTypeIds=factory_types)
 
