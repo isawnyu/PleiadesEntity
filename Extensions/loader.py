@@ -84,14 +84,14 @@ def loaden(self, sourcedir):
         try:
             load_place(self, xml)
             count += 1
-        except ImportError:
-            failures.append(basename(xml))
+        except Exception, e:
+            failures.append([basename(xml), str(e)])
     if len(failures) == 0:
         return "Loaded %d of %d files." % (count, count)
     else:
         msg = "Loaded %d of %d files. Failures:\n" % (count, count + len(failures))
         for f in failures:
-            msg += "%s\n" % f
+            msg += "%s\n" % str(f)
         return msg
     
 AWMC = "http://www.unc.edu/awmc/gazetteer/schemata/ns/0.3"
