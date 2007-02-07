@@ -60,7 +60,21 @@ def format_listofstrings(list):
         out = unicode(', '.join(list[:-1]))
         out = unicode(' and '.join([out, list[-1]]))
     return out
-    
+   
+def initialize(self):
+    """Setup the places, names, and locations containers."""
+    lpf = self.portal_types['Large Plone Folder']
+    lpf_allow = lpf.global_allow
+    lpf.global_allow = True
+
+    n = self.portal_types['GeographicName']
+    n_allow = n.global_allow
+    n.global_allow = True
+
+    self.invokeFactory('Large Plone Folder', id='names', title='Pleiades Names')
+    self.invokeFactory('LocationContainer', id='locations', title='Pleiades Locations')
+    self.invokeFactory('PlaceContainer', id='places', title='Pleiades Places')
+
 def loaden(self, sourcedir):
     """Attempt to load all XML files in the specified source directory.
     Files which can not be loaded are reported."""
@@ -70,7 +84,7 @@ def loaden(self, sourcedir):
         try:
             load_place(self, xml)
             count += 1
-        except:
+        except ImportError:
             failures.append(basename(xml))
     if len(failures) == 0:
         return "Loaded %d of %d files." % (count, count)
@@ -82,6 +96,7 @@ def loaden(self, sourcedir):
     
 AWMC = "http://www.unc.edu/awmc/gazetteer/schemata/ns/0.3"
 ADLGAZ = "http://www.alexandria.ucsb.edu/gazetteer/ContentStandard/version3.2/"
+GEORSS = "http://www.georss.org/georss"
 
 import sys
 
@@ -131,7 +146,20 @@ def load_place(site, file):
         n.setTitle(transliteration)
         n.setNameAttested(transliteration)
 
+        # make the reference
+        p.addReference(n, 'name_name')
 
-    lid = None
+    # Locations
+    for e in root.findall("{%s}spatialLocation" % ADLGAZ):
+        coords = e.findall("{%s}point" % GEORSS)[0].text
+
+        lid = locations.invokeFactory('Location')
+        l = getattr(locations, lid)
+        l.setGeometryType('Point')
+        l.setSpatialCoordinates(coords)
+
+        # make the reference
+        p.addReference(l, 'location_location')
+
     return {'place_id': pid, 'location_id': lid, 'name_id': nid}
 

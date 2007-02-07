@@ -64,3 +64,18 @@ Load one entity
     >>> n.nameAttested
     u'Amblada'
 
+    Test location
+
+    >>> l = getattr(folder.locations, r['location_id'])
+    >>> l.geometryType
+    u'Point'
+    >>> l.spatialCoordinates
+    u'37.5254 31.7393'
+
+    Test references
+
+    >>> p.getRefs('name_name')[0] == n
+    True
+    >>> p.getRefs('location_location')[0] == l
+    True
+

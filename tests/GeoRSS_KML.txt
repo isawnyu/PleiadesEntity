@@ -33,8 +33,8 @@ Setup
     >>> n = folder.names.neverpolis
     >>> x = getattr(folder.locations, '0')
     >>> p = getattr(folder.places, '0')
-    >>> _ = p.addReference(n, "isNamed")
-    >>> _ = p.addReference(x, "isLocated")
+    >>> _ = p.addReference(n, 'name_name')
+    >>> _ = p.addReference(x, 'location_location')
 
     Set location coordinates and place attributes
 
