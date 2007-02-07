@@ -62,10 +62,11 @@ class GeoEntitySimple(object):
         values = [float(v) for v in \
             x0.getSpatialCoordinates().split()]
         nvalues = len(values)
-        npoints = nvalues/3
+        # Our Pleiades Locations are 2D
+        npoints = nvalues/2
         coords = []
         for i in range(npoints):
-            coords.append(tuple(values[3*i:3*i+3]))
+            coords.append(tuple(values[3*i:3*i+3] + [0.0]))
         return tuple(coords)
 
     def setGeometry(self, geomtype, coords):
