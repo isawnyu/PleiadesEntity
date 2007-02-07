@@ -1,29 +1,37 @@
-# -*- coding: utf-8 -*-
-#
-# File: Name.py
-#
+# ===========================================================================
 # Copyright (c) 2007 by Ancient World Mapping Center, University of North
 # Carolina at Chapel Hill, U.S.A.
+#
 # Generator: ArchGenXML Version 1.5.0
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
 #
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version.
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
 #
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 #
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
-# 02110-1301, USA.
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #
+# About Pleiades
+# --------------
+#
+# Pleiades is an international research network and associated web portal and
+# content management system devoted to the study of ancient geography. 
+#
+# See http://icon.stoa.org/trac/pleiades/wiki.
+#
+# Funding for the creation of this software was provided by a grant from the 
+# U.S. National Endowment for the Humanities (http://www.neh.gov).
+# ===========================================================================
 
 __author__ = """Sean Gillies <unknown>, Tom Elliott <unknown>"""
 __docformat__ = 'plaintext'
@@ -56,7 +64,8 @@ schema = Schema((
         index="FieldIndex",
         widget=StringWidget(
             label="Name as Attested",
-            description="This field contains a transcription of the attested form of the name, in its original language and script.",
+            description="A transcription of the attested form of the name, in its original language and script.",
+            macro="nameattested_widget",
             label_msgid='PleiadesEntity_label_nameAttested',
             description_msgid='PleiadesEntity_help_nameAttested',
             i18n_domain='PleiadesEntity',
@@ -65,20 +74,22 @@ schema = Schema((
 
     StringField(
         name='nameLanguage',
-        index="FieldIndex",
-        widget=StringWidget(
-            label="Language and Writing System of Attested Name",
-            description="This field indicates the language and writing system (script) of the attested name.",
+        widget=SelectionWidget(
+            label="Language and Writing System",
+            description="The language and writing system (script) of the attested name.",
             label_msgid='PleiadesEntity_label_nameLanguage',
             description_msgid='PleiadesEntity_help_nameLanguage',
             i18n_domain='PleiadesEntity',
-        )
+        ),
+        enforceVocabulary=1,
+        vocabulary=['grc', 'grc-Latn', 'la', 'la-Grek']
     ),
 
     StringField(
         name='accuracy',
+        default="accurate",
         widget=SelectionWidget(
-            label='Accuracy',
+            label="Accuracy of Attestation",
             label_msgid='PleiadesEntity_label_accuracy',
             i18n_domain='PleiadesEntity',
         ),
@@ -88,8 +99,9 @@ schema = Schema((
 
     StringField(
         name='completeness',
+        default="complete",
         widget=SelectionWidget(
-            label='Completeness',
+            label="Completeness of Attestation",
             label_msgid='PleiadesEntity_label_completeness',
             i18n_domain='PleiadesEntity',
         ),
@@ -120,9 +132,9 @@ class Name(BaseFolder):
 
     meta_type = 'Name'
     portal_type = 'Name'
-    allowed_content_types = ['TemporalAttestation', 'Reference', 'SecondaryReference', 'PrimaryReference']
+    allowed_content_types = ['TemporalAttestation', 'SecondaryReference', 'PrimaryReference']
     filter_content_types = 1
-    global_allow = 0
+    global_allow = 1
     content_icon = 'document_icon.gif'
     immediate_view = 'base_view'
     default_view = 'base_view'

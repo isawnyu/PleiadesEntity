@@ -1,29 +1,37 @@
-# -*- coding: utf-8 -*-
-#
-# File: TemporalAttestation.py
-#
+# ===========================================================================
 # Copyright (c) 2007 by Ancient World Mapping Center, University of North
 # Carolina at Chapel Hill, U.S.A.
+#
 # Generator: ArchGenXML Version 1.5.0
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
 #
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version.
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
 #
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 #
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
-# 02110-1301, USA.
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #
+# About Pleiades
+# --------------
+#
+# Pleiades is an international research network and associated web portal and
+# content management system devoted to the study of ancient geography. 
+#
+# See http://icon.stoa.org/trac/pleiades/wiki.
+#
+# Funding for the creation of this software was provided by a grant from the 
+# U.S. National Endowment for the Humanities (http://www.neh.gov).
+# ===========================================================================
 
 __author__ = """Sean Gillies <unknown>, Tom Elliott <unknown>"""
 __docformat__ = 'plaintext'
@@ -39,20 +47,25 @@ schema = Schema((
 
     StringField(
         name='timePeriod',
-        widget=StringWidget(
-            label='Timeperiod',
+        widget=SelectionWidget(
+            label="Time Period",
             label_msgid='PleiadesEntity_label_timePeriod',
             i18n_domain='PleiadesEntity',
-        )
+        ),
+        enforceVocabulary=1,
+        vocabulary=['Archaic (pre-550 BC)', 'Classical (550 - 330 BC)', 'Hellenistic/Republican (330 - 30 BC)', 'Roman (30 BC - AD 300)', 'Late Antique (AD 300 - 625)']
     ),
 
-    BooleanField(
-        name='isInferred',
-        widget=BooleanWidget(
-            label='Isinferred',
-            label_msgid='PleiadesEntity_label_isInferred',
+    StringField(
+        name='certainty',
+        default="certain",
+        widget=SelectionWidget(
+            label='Certainty',
+            label_msgid='PleiadesEntity_label_certainty',
             i18n_domain='PleiadesEntity',
-        )
+        ),
+        enforceVocabulary=1,
+        vocabulary=['certain', 'certain, but there is no contemporary evidence', 'less certain', 'less certain and there is no contemporary evidence']
     ),
 
 ),
@@ -74,7 +87,7 @@ class TemporalAttestation(BaseContent):
     __implements__ = (getattr(BaseContent,'__implements__',()),)
 
     # This name appears in the 'add' box
-    archetype_name = 'TemporalAttestation'
+    archetype_name = 'Temporal Attestation'
 
     meta_type = 'TemporalAttestation'
     portal_type = 'TemporalAttestation'
@@ -85,7 +98,7 @@ class TemporalAttestation(BaseContent):
     immediate_view = 'base_view'
     default_view = 'base_view'
     suppl_views = ()
-    typeDescription = "TemporalAttestation"
+    typeDescription = "Temporal Attestation"
     typeDescMsgId = 'description_edit_temporalattestation'
 
     _at_rename_after_creation = True
