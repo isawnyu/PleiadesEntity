@@ -43,5 +43,5 @@ Check the URL
 Check the html content of the view page (description will not appear here)
     
     >>> browser.contents
-    '...Spatialcoordinates...34.769722222222 -86.4808333333333 0.0...'
+    '...Spatial Coordinates...34.769722222222 -86.4808333333333 0.0...'
 
