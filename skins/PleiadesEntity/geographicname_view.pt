@@ -1,0 +1,50 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+          xmlns:tal="http://xml.zope.org/namespaces/tal"
+          xmlns:metal="http://xml.zope.org/namespaces/metal"
+          xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+          i18n:domain="plone">
+      <head><title></title></head>
+      <body>
+
+
+
+          <metal:folderlisting_macro define-macro="folderlisting">
+           
+            <div id="pleiades-namecontents">
+                <!-- <div id="mackerel">
+                    <p><strong>Mackerel:</strong></p> 
+                  <tal:chunk  tal:define="mcontentFilter python:{'meta_type':['${metatype}']};
+                        mcontentsMethod python:here.getFolderContents;
+                        mfolderContents python:mcontentsMethod();"> 
+                      <ul tal:condition="mfolderContents">
+                        <li tal:repeat="item mfolderContents"
+                            ><tal:definition tal:define="item_title_or_id item/pretty_title_or_id;"
+                                ><span tal:content="item_title_or_id">stuff</span></tal:definition></li>
+                      </ul>
+                      <p tal:condition="not:mfolderContents">None.</p>
+                  </tal:chunk>
+                </div> -->
+                
+                <div id="pleiades-temporalattestations"
+                    tal:define="global metatype string:TemporalAttestation"> 
+                    <label><span>Temporal attestations</span>:</label>
+                    <p metal:use-macro="here/name_contentlisting/macros/contentlisting">name content</p> 
+                </div>
+                
+                <div id="pleiades-primaryreferences"
+                    tal:define="global metatype string:PrimaryReference">
+                    <label><span>Primary References</span>:</label>
+                    <p metal:use-macro="here/name_contentlisting/macros/contentlisting">name content</p> 
+                </div>
+                
+                <div id="pleiades-secondaryreferences"
+                    tal:define="global metatype string:SecondaryReference">
+                    <label><span>Secondary references</span>:</label>
+                    <p metal:use-macro="here/name_contentlisting/macros/contentlisting">name content</p> 
+                </div>
+                
+            </div>
+        </metal:folderlisting_macro>        
+          
+      </body>
+    </html>
