@@ -1,0 +1,29 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:tal="http://xml.zope.org/namespaces/tal"
+    xmlns:metal="http://xml.zope.org/namespaces/metal" xmlns:i18n="http://xml.zope.org/namespaces/i18n" i18n:domain="plone">
+    <head>
+        <title />
+    </head>
+    <body>
+        <metal:namecontents_macro metal:define-macro="namecontents">
+            <div id="pleiades-namecontents">
+                <div id="pleiades-temporalattestations" 
+                    tal:define="global metatype string:TemporalAttestation">
+                    <label><span>Temporal attestations</span>:</label>
+                    <p metal:use-macro="here/name_contentlisting/macros/contentlisting">name content</p>
+                </div>
+
+                <div id="pleiades-primaryreferences" 
+                    tal:define="global metatype string:PrimaryReference">
+                    <label><span>Primary References</span>:</label>
+                    <p metal:use-macro="here/name_contentlisting/macros/contentlisting">name content</p>
+                </div>
+
+                <div id="pleiades-secondaryreferences" 
+                    tal:define="global metatype string:SecondaryReference">
+                    <label><span>Secondary references</span>:</label>
+                    <p metal:use-macro="here/name_contentlisting/macros/contentlisting">name content</p>
+                </div>
+            </div>
+        </metal:namecontents_macro>
+    </body>
+</html>

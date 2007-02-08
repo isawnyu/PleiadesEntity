@@ -10,15 +10,13 @@
                   <tal:chunk  tal:define="contentFilter python:{'meta_type':[metatype]};
                         contentsMethod python:here.getFolderContents;
                         folderContents python:contentsMethod(contentFilter);">
-                      <!-- <p>metatype is: <span tal:replace="string:${metatype}">blech</span></p>
-                      <p>contentFilter is: <span tal:replace="string:${contentFilter}">blech</span></p> -->
                       <ul tal:condition="folderContents">
                         <li tal:repeat="item folderContents"
                             ><tal:definition tal:define="item_title_or_id item/pretty_title_or_id;
                                 item_url item/getURL|item/absolute_url;"
                                 ><a href="" tal:attributes="href item_url" tal:content="item_title_or_id">stuff</a></tal:definition></li>
                       </ul>
-                      <p tal:condition="not:folderContents">None.</p>
+                      <p tal:condition="not:folderContents">none</p>
                   </tal:chunk>
               
           </metal:namecontentlisting_macro>
