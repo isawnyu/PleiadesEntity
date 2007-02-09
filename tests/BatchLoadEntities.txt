@@ -12,6 +12,10 @@ Setup
     >>> n_allow = n.global_allow
     >>> n.global_allow = True
 
+    >>> n = self.portal.portal_types['EthnicName']
+    >>> n_allow = n.global_allow
+    >>> n.global_allow = True
+
     >>> folder = self.folder
 
     Containers
@@ -42,39 +46,62 @@ Utility tests
 Load one entity
 ---------------
 
-    >>> r = load_place(folder, "%s/batlas-65-2-12.xml" % TEST_DATA)
+    >>> r = load_place(folder, "%s/batlas-65-2-24-grc.xml" % TEST_DATA)
     >>> r['place_id']
     '0'
-    >>> r['name_id']
-    'amblada'
+    >>> r['name_ids']
+    ['aphrodisias', 'ninoe', 'aphrodisieus']
+    >>> r['location_ids']
+    ['0']
 
     Test place
 
     >>> p = getattr(folder.places, '0')
+    >>> p.title_or_id()
+    u'Aphrodisias/Ninoe/Aphrodisieus'
     >>> p.modernLocation
-    u'Hisartepe, near K\u0131z\u0131lca'
+    u'Geyre'
     >>> p.placeType
     u'settlement'
 
-    Test name
+    Test names
 
-    >>> n = getattr(folder.names, r['name_id'])
-    >>> n.title
-    u'Amblada'
-    >>> n.nameAttested
-    u'Amblada'
+    >>> n0 = getattr(folder.names, 'aphrodisias')
+    >>> n0.title
+    u'Aphrodisias'
+    >>> n0.nameAttested
+    u'\u1f08\u03c6\u03c1\u03bf\u03b4\u03b9\u03c3\u03b9\u1f71\u03c2'
 
-    Test location
+    >>> n1 = getattr(folder.names, 'ninoe')
+    >>> n1.title
+    u'Ninoe'
+    >>> n1.nameAttested
+    u'\u039d\u03b9\u03bd\u1f79\u03b7'
 
-    >>> l = getattr(folder.locations, r['location_id'])
+    >>> n2 = getattr(folder.names, 'aphrodisieus')
+    >>> n2.title
+    u'Aphrodisieus'
+    >>> n2.nameAttested
+    u'\u1f08\u03c6\u03c1\u03bf\u03b4\u03b9\u03c3\u03b9\u03b5\u1f7b\u03c2'
+
+
+    Test locations
+
+    >>> l = getattr(folder.locations, '0')
     >>> l.geometryType
     u'Point'
     >>> l.spatialCoordinates
-    u'37.5254 31.7393'
+    u'37.7144599999992 28.7288599999993'
+    >>> l.title_or_id()
+    u'Point 0'
 
     Test references
 
-    >>> p.getRefs('name_name')[0] == n
+    >>> p.getRefs('name_name')[0] == n0
+    True
+    >>> p.getRefs('name_name')[1] == n1
+    True
+    >>> p.getRefs('name_name')[2] == n2
     True
     >>> p.getRefs('location_location')[0] == l
     True

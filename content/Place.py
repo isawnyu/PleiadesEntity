@@ -139,7 +139,16 @@ class Place(BaseFolder):
         """Return a title string derived from the ancient names to which
         this place refers.
         """
-        pass
+        names = self.getRefs('name_name')
+        if names:
+            return unicode('/'.join([n.title for n in names]))
+        else:
+            return unicode("Unnamed %s" % self.placeType.capitalize() )
+
+    security.declarePublic('title_or_id')
+    def title_or_id(self):
+        """Override method in the base class."""
+        return self.get_title()
 
     # Manually created methods
 
