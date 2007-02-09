@@ -71,6 +71,10 @@ def initialize(self):
     n_allow = n.global_allow
     n.global_allow = True
 
+    n = self.portal_types['EthnicName']
+    n_allow = n.global_allow
+    n.global_allow = True
+
     self.invokeFactory('Large Plone Folder', id='names', title='Pleiades Names')
     self.invokeFactory('LocationContainer', id='locations', title='Pleiades Locations')
     self.invokeFactory('PlaceContainer', id='places', title='Pleiades Places')
