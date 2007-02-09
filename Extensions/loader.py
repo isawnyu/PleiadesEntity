@@ -102,6 +102,7 @@ AWMC = "http://www.unc.edu/awmc/gazetteer/schemata/ns/0.3"
 ADLGAZ = "http://www.alexandria.ucsb.edu/gazetteer/ContentStandard/version3.2/"
 GEORSS = "http://www.georss.org/georss"
 DC = "http://purl.org/dc/elements/1.1/"
+XML = "http://www.w3.org/XML/1998/namespace"
 
 import sys
 
@@ -155,8 +156,15 @@ def load_place(site, file):
         na = e.findall("{%s}name" % ADLGAZ)
         if na:
             nameAttested = na[0].text
+            nalang = na[0].get("{%s}lang" % XML)
+            if nalang:
+                nameLanguage = nalang
+            else:
+                nameLanguage = ''
         else:
             nameAttested = ''
+            nameLanguage = ''
+            
         type = e.findall("{%s}classificationSection/{%s}classificationTerm" \
                          % (ADLGAZ, ADLGAZ))[0].text
         if not transliteration or not type:
@@ -174,6 +182,7 @@ def load_place(site, file):
         n = getattr(names, nid)
         n.setTitle(transliteration)
         n.setNameAttested(nameAttested)
+        n.setNameLanguage(nameLanguage)
         n.setCreators(creators)
         n.setContributors(contributors)
         n.setRights(rights)
