@@ -152,7 +152,11 @@ def load_place(site, file):
     # Names
     for e in root.findall("{%s}featureName" % ADLGAZ):
         transliteration = e.findall("{%s}transliteration" % AWMC)[0].text
-        nameAttested = e.findall("{%s}name" % ADLGAZ)[0].text
+        na = e.findall("{%s}name" % ADLGAZ)
+        if na:
+            nameAttested = na[0].text
+        else:
+            nameAttested = ''
         type = e.findall("{%s}classificationSection/{%s}classificationTerm" \
                          % (ADLGAZ, ADLGAZ))[0].text
         if not transliteration or not type:
