@@ -1,0 +1,27 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+          xmlns:tal="http://xml.zope.org/namespaces/tal"
+          xmlns:metal="http://xml.zope.org/namespaces/metal"
+          xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+          i18n:domain="plone">
+      <head><title></title></head>
+      <body>
+          <metal:pleiadeshelpedlabel_macro define-macro="helpedlabel">
+<label><span i18n:translate="" 
+                tal:content="python:widget.Label(here)">Field</span>:</label>
+            <span tal:condition="field/workflowable | nothing" 
+                tal:omit-tag=""> 
+                ( <a href="#"
+                    tal:define="wf_tool here/portal_workflow;                        
+                        obj python:accessor();
+                        review_state python:wf_tool.getInfoFor(obj, 'review_state', '')"
+                    tal:attributes="href string:${obj/absolute_url}/content_status_history; 
+                        class python:test(review_state, review_state, 'private')"
+                    tal:content="review_state"> review_state </a> ) </span>
+              <tal:helpcontext tal:define="global helpcontext field/getName">
+                  <p metal:use-macro="here/pleiades_helplink/macros/helplink">helpful link</p>
+              </tal:helpcontext>
+            <br />      
+              </metal:pleiadeshelpedlabel_macro>
+      </body>
+</html>
+

@@ -1,0 +1,23 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+          xmlns:tal="http://xml.zope.org/namespaces/tal"
+          xmlns:metal="http://xml.zope.org/namespaces/metal"
+          xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+          i18n:domain="plone">
+      <head><title></title></head>
+      <body>
+            <metal:pleiadeshelplink_macro define-macro="helplink">
+            <tal:gethelp
+                tal:define="helpfilename python:helpcontext.lower().replace(' ', '');                     
+                    helpfilepath string:help/${portal_type}/${helpfilename};                     
+                    helpfileurl string:${context/portal_url}/${helpfilepath};                     
+                    helpfileloc string:/Plone/${helpfilepath};                     
+                    helpfiles python: here.portal_catalog.searchResults(path=helpfileloc, review_state='published');">
+                <span tal:condition="helpfiles" class="pleiades-help-link">
+                    <a href="" title=""
+                        tal:attributes="href helpfileurl;
+                            title python:helpfiles[0]['Description']"
+                        >What's this?</a></span></tal:gethelp>
+            </metal:pleiadeshelplink_macro>
+      </body>
+</html>
+

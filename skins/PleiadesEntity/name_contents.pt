@@ -9,18 +9,27 @@
                 <div id="pleiades-temporalattestations" 
                     tal:define="global metatype string:TemporalAttestation">
                     <label><span>Temporal attestations</span>:</label>
+                    <tal:helpcontext tal:define="global helpcontext metatype">
+                        <p metal:use-macro="here/pleiades_helplink/macros/helplink">helpful link</p>
+                    </tal:helpcontext> 
                     <p metal:use-macro="here/name_contentlisting/macros/contentlisting">name content</p>
                 </div>
 
                 <div id="pleiades-primaryreferences" 
                     tal:define="global metatype string:PrimaryReference">
                     <label><span>Primary References</span>:</label>
+                    <tal:helpcontext tal:define="global helpcontext metatype">
+                        <p metal:use-macro="here/pleiades_helplink/macros/helplink">helpful link</p>
+                    </tal:helpcontext> 
                     <p metal:use-macro="here/name_contentlisting/macros/contentlisting">name content</p>
                 </div>
 
                 <div id="pleiades-secondaryreferences" 
                     tal:define="global metatype string:SecondaryReference">
                     <label><span>Secondary references</span>:</label>
+                    <tal:helpcontext tal:define="global helpcontext metatype">
+                        <p metal:use-macro="here/pleiades_helplink/macros/helplink">helpful link</p>
+                    </tal:helpcontext> 
                     <p metal:use-macro="here/name_contentlisting/macros/contentlisting">name content</p>
                 </div>
             </div>
