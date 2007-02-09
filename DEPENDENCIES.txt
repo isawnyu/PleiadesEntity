@@ -1,0 +1,9 @@
+Dependencies
+============
+
+- PleiadesGeocoder:
+http://icon.stoa.org/trac/pleiades/wiki/PleiadesGeocoder
+
+- lxml:
+http://codespeak.net/lxml/index.html
+
