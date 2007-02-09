@@ -12,7 +12,7 @@
                     <tal:helpcontext tal:define="global helpcontext metatype">
                         <p metal:use-macro="here/pleiades_helplink/macros/helplink">helpful link</p>
                     </tal:helpcontext> 
-                    <p metal:use-macro="here/name_contentlisting/macros/contentlisting">name content</p>
+                    <p metal:use-macro="here/pleiades_contentlisting/macros/contentlisting">name content</p>
                 </div>
 
                 <div id="pleiades-primaryreferences" 
@@ -21,7 +21,7 @@
                     <tal:helpcontext tal:define="global helpcontext metatype">
                         <p metal:use-macro="here/pleiades_helplink/macros/helplink">helpful link</p>
                     </tal:helpcontext> 
-                    <p metal:use-macro="here/name_contentlisting/macros/contentlisting">name content</p>
+                    <p metal:use-macro="here/pleiades_contentlisting/macros/contentlisting">name content</p>
                 </div>
 
                 <div id="pleiades-secondaryreferences" 
@@ -30,7 +30,7 @@
                     <tal:helpcontext tal:define="global helpcontext metatype">
                         <p metal:use-macro="here/pleiades_helplink/macros/helplink">helpful link</p>
                     </tal:helpcontext> 
-                    <p metal:use-macro="here/name_contentlisting/macros/contentlisting">name content</p>
+                    <p metal:use-macro="here/pleiades_contentlisting/macros/contentlisting">name content</p>
                 </div>
             </div>
         </metal:namecontents_macro>
