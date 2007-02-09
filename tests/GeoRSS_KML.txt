@@ -10,7 +10,7 @@ Setup
     >>> lpf_allow = lpf.global_allow
     >>> lpf.global_allow = True
 
-    >>> n = self.portal.portal_types['Name']
+    >>> n = self.portal.portal_types['GeographicName']
     >>> n_allow = n.global_allow
     >>> n.global_allow = True
 
@@ -24,7 +24,7 @@ Setup
 
     Entities
 
-    >>> _ = folder.names.invokeFactory('Name', id='neverpolis')
+    >>> _ = folder.names.invokeFactory('GeographicName', id='neverpolis', title=u'Neverpolis')
     >>> _ = folder.locations.invokeFactory('Location')
     >>> _ = folder.places.invokeFactory('Place')
 
@@ -39,7 +39,6 @@ Setup
     Set location coordinates and place attributes
 
     >>> x.setSpatialCoordinates('0.0 0.0 0.0')
-    >>> p.setTitle('AAA')
     >>> p.setDescription('A testing entity')
 
 Test browse
@@ -64,10 +63,10 @@ Test browse
 
     >>> browser.open("%s/@@geo/forRSS" % url)
     >>> browser.contents
-    "[{'srs': 'EPSG:4326', 'geometryType': 'point', 'description': 'A testing entity', 'spatialCoordinates': '0.0 0.0', 'url': 'http://nohost/plone/Members/test_user_1_/places/0', 'geom_element': '<georss:point>0.0 0.0</georss:point>', 'title': 'AAA', 'id': '0'}]"
+    "[{'srs': 'EPSG:4326', 'geometryType': 'point', 'description': 'A testing entity', 'spatialCoordinates': '0.0 0.0', 'url': 'http://nohost/plone/Members/test_user_1_/places/0', 'geom_element': '<georss:point>0.0 0.0</georss:point>', 'title': u'Neverpolis', 'id': '0'}]"
 
     >>> browser.open("%s/@@geo/forKML" % url)
     >>> browser.contents
-    '[{\'srs\': \'EPSG:4326\', \'desc_body\': \'<![CDATA[<p>A testing entity</p><p><a href="http://nohost/plone/Members/test_user_1_/places/0">AAA</a></p>]]>\', \'geometryType\': \'point\', \'description\': \'A testing entity\', \'spatialCoordinates\': \'0.0 0.0 0.0\', \'url\': \'http://nohost/plone/Members/test_user_1_/places/0\', \'geom_element\': \'<Point><coordinates>0.000000,0.000000,0.000000</coordinates></Point>\', \'title\': \'AAA\', \'id\': \'0\'}]'
+    '[{\'srs\': \'EPSG:4326\', \'desc_body\': u\'<![CDATA[<p>A testing entity</p><p><a href="http://nohost/plone/Members/test_user_1_/places/0">Neverpolis</a></p>]]>\', \'geometryType\': \'point\', \'description\': \'A testing entity\', \'spatialCoordinates\': \'0.0 0.0 0.0\', \'url\': \'http://nohost/plone/Members/test_user_1_/places/0\', \'geom_element\': \'<Point><coordinates>0.000000,0.000000,0.000000</coordinates></Point>\', \'title\':  u\'Neverpolis\', \'id\': \'0\'}]'
 
 

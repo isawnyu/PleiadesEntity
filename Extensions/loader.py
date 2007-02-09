@@ -125,9 +125,14 @@ def load_place(site, file):
     if e:
         p.setPlaceType(e[0].text)
 
+    # lists of location and name ids
+    lids = []
+    nids = []
+
     # Names
     for e in root.findall("{%s}featureName" % ADLGAZ):
         transliteration = e.findall("{%s}transliteration" % AWMC)[0].text
+        nameAttested = e.findall("{%s}name" % ADLGAZ)[0].text
         type = e.findall("{%s}classificationSection/{%s}classificationTerm" \
                          % (ADLGAZ, ADLGAZ))[0].text
         if not transliteration or not type:
@@ -144,10 +149,12 @@ def load_place(site, file):
             
         n = getattr(names, nid)
         n.setTitle(transliteration)
-        n.setNameAttested(transliteration)
+        n.setNameAttested(nameAttested)
 
         # make the reference
         p.addReference(n, 'name_name')
+        
+        nids.append(nid)
 
     # Locations
     for e in root.findall("{%s}spatialLocation" % ADLGAZ):
@@ -161,5 +168,7 @@ def load_place(site, file):
         # make the reference
         p.addReference(l, 'location_location')
 
-    return {'place_id': pid, 'location_id': lid, 'name_id': nid}
+        lids.append(lid)
+
+    return {'place_id': pid, 'location_ids': lids, 'name_ids': nids}
 
