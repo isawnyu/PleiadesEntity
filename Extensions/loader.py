@@ -101,6 +101,7 @@ def loaden(self, sourcedir):
 AWMC = "http://www.unc.edu/awmc/gazetteer/schemata/ns/0.3"
 ADLGAZ = "http://www.alexandria.ucsb.edu/gazetteer/ContentStandard/version3.2/"
 GEORSS = "http://www.georss.org/georss"
+DC = "http://purl.org/dc/elements/1.1/"
 
 import sys
 
@@ -129,6 +130,21 @@ def load_place(site, file):
     if e:
         p.setPlaceType(e[0].text)
 
+    # Authorship
+    creators = [e.text for e in root.findall("{%s}creator" % DC)]
+    contributors = [e.text for e in root.findall("{%s}contributor" % DC)]
+    
+    # Rights
+    e = root.findall("{%s}rights" % DC)
+    if e:
+        rights = e[0].text
+    else:
+        rights = None
+
+    p.setCreators(creators)
+    p.setContributors(contributors)
+    p.setRights(rights)
+    
     # lists of location and name ids
     lids = []
     nids = []
@@ -154,6 +170,9 @@ def load_place(site, file):
         n = getattr(names, nid)
         n.setTitle(transliteration)
         n.setNameAttested(nameAttested)
+        n.setCreators(creators)
+        n.setContributors(contributors)
+        n.setRights(rights)
 
         # make the reference
         p.addReference(n, 'name_name')
@@ -168,6 +187,9 @@ def load_place(site, file):
         l = getattr(locations, lid)
         l.setGeometryType('Point')
         l.setSpatialCoordinates(coords)
+        l.setCreators(creators)
+        l.setContributors(contributors)
+        l.setRights(rights)
 
         # make the reference
         p.addReference(l, 'location_location')
