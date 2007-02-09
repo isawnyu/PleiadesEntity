@@ -46,20 +46,14 @@ from Products.PleiadesEntity.Extensions.cooking import *
 ##code-section module-header #fill in your manual code here
 ##/code-section module-header
 
+copied_fields = {}
+copied_fields['title'] = BaseSchema['title'].copy()
+copied_fields['title'].widget.label = "Transliterated Name"
+copied_fields['title'].widget.description = "A transliteration into the ASCII character set of the the attested name."
 schema = Schema((
 
-    StringField(
-        name='title',
-        widget=StringWidget(
-            label="Transliterated Name",
-            description="A transliteration into the ASCII character set of the the attested name.",
-            label_msgid='PleiadesEntity_label_title',
-            description_msgid='PleiadesEntity_help_title',
-            i18n_domain='PleiadesEntity',
-        )
-    ),
-
-    StringField(
+    copied_fields['title'],
+        StringField(
         name='nameAttested',
         index="FieldIndex",
         widget=StringWidget(

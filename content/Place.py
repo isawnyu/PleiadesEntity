@@ -145,12 +145,12 @@ class Place(BaseFolder):
         else:
             return unicode("Unnamed %s" % self.placeType.capitalize() )
 
+    # Manually created methods
+
     security.declarePublic('title_or_id')
     def title_or_id(self):
         """Override method in the base class."""
         return self.get_title()
-
-    # Manually created methods
 
     security.declareProtected(DEFAULT_ADD_CONTENT_PERMISSION, 'invokeFactory')
     def invokeFactory(self):

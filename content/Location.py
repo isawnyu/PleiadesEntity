@@ -114,15 +114,18 @@ class Location(BaseFolder):
 
     # Methods
 
-    security.declarePublic('get_title')
-    def get_title(self):
-        """Return a title string derived from the geometry type."""
-        return unicode("%s %s" % (self.geometryType, self.getId()))
-        
+    # Manually created methods
+
     security.declarePublic('title_or_id')
     def title_or_id(self):
         """Override method in the base class."""
         return self.get_title()
+
+    security.declarePublic('get_title')
+    def get_title(self):
+        """Return a title string derived from the geometry type."""
+        return unicode("%s %s" % (self.geometryType, self.getId()))
+
 
 
 registerType(Location, PROJECTNAME)

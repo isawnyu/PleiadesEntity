@@ -43,20 +43,16 @@ from Products.PleiadesEntity.config import *
 ##code-section module-header #fill in your manual code here
 ##/code-section module-header
 
+copied_fields = {}
+copied_fields['title'] = BaseSchema['title'].copy()
+copied_fields['title'].enforceVocabulary = 1
+copied_fields['title'].vocabulary = ['Archaic (pre-550 BC)', 'Classical (550 - 330 BC)', 'Hellenistic/Republican (330 - 30 BC)', 'Roman (30 BC - AD 300)', 'Late Antique (AD 300 - 625)']
+copied_fields['title'].widget.label = "Time Period"
+copied_fields['title'].widget.type = "SelectionWidget"
 schema = Schema((
 
-    StringField(
-        name='timePeriod',
-        widget=SelectionWidget(
-            label="Time Period",
-            label_msgid='PleiadesEntity_label_timePeriod',
-            i18n_domain='PleiadesEntity',
-        ),
-        enforceVocabulary=1,
-        vocabulary=['Archaic (pre-550 BC)', 'Classical (550 - 330 BC)', 'Hellenistic/Republican (330 - 30 BC)', 'Roman (30 BC - AD 300)', 'Late Antique (AD 300 - 625)']
-    ),
-
-    StringField(
+    copied_fields['title'],
+        StringField(
         name='certainty',
         default="certain",
         widget=SelectionWidget(
