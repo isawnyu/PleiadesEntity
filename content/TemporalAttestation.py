@@ -55,6 +55,7 @@ schema = Schema((
         StringField(
         name='certainty',
         default="certain",
+        index="FieldIndex:brains",
         widget=SelectionWidget(
             label='Certainty',
             label_msgid='PleiadesEntity_label_certainty',
