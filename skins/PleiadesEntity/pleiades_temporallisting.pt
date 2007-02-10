@@ -1,0 +1,32 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+          xmlns:tal="http://xml.zope.org/namespaces/tal"
+          xmlns:metal="http://xml.zope.org/namespaces/metal"
+          xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+          i18n:domain="plone">
+      <head><title></title></head>
+      <body>
+
+          <metal:temporallisting_macro define-macro="temporallisting">
+                  <tal:chunk  tal:define="contentFilter python:{'meta_type':[metatype]};
+                        contentsMethod python:here.getFolderContents;
+                        folderContents python:contentsMethod(contentFilter);">
+                      <ul tal:condition="folderContents">
+                        <li tal:repeat="item folderContents"
+                            ><tal:definition tal:define="item_title_or_id item/pretty_title_or_id;
+                                item_url item/getURL|item/absolute_url;
+                                item_cert item/getCertainty;"
+                                ><span tal:condition="python:item_cert == 'certain, but there is no contemporary evidence' or item_cert == 'less certain and there is no contemporary evidence'">[</span>
+                                <a href="" title=""
+                                    tal:attributes="href item_url;
+                                    title python:item_title_or_id + ': ' + item_cert"><span tal:replace="item_title_or_id">item name</span></a>
+                                <span tal:condition="python:item_cert == 'certain, but there is no contemporary evidence' or item_cert == 'less certain and there is no contemporary evidence'">]</span>
+                                <span tal:condition="python:item_cert == 'less certain' or item_cert == 'less certain and there is no contemporary evidence'">?</span>
+                            </tal:definition></li>
+                      </ul>
+                      <p tal:condition="not:folderContents">none</p>
+                  </tal:chunk>
+              
+          </metal:temporallisting_macro>
+          </body>
+</html>
+

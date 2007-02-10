@@ -4,24 +4,15 @@
         <title />
     </head>
     <body>
-        <metal:namecontents_macro metal:define-macro="namecontents">
-            <div id="pleiades-namecontents">
+        <metal:locationcontents_macro metal:define-macro="locationcontents">
+            <div id="pleiades-locationcontents">
                 <div id="pleiades-temporalattestations" 
                     tal:define="global metatype string:TemporalAttestation">
                     <label><span>Temporal attestations</span>:</label>
                     <tal:helpcontext tal:define="global helpcontext metatype">
                         <p metal:use-macro="here/pleiades_helplink/macros/helplink">helpful link</p>
                     </tal:helpcontext> 
-                    <p metal:use-macro="here/pleiades_temporallisting/macros/temporallisting">name content</p>
-                </div>
-
-                <div id="pleiades-primaryreferences" 
-                    tal:define="global metatype string:PrimaryReference">
-                    <label><span>Primary References</span>:</label>
-                    <tal:helpcontext tal:define="global helpcontext metatype">
-                        <p metal:use-macro="here/pleiades_helplink/macros/helplink">helpful link</p>
-                    </tal:helpcontext> 
-                    <p metal:use-macro="here/pleiades_contentlisting/macros/contentlisting">name content</p>
+                    <p metal:use-macro="here/pleiades_temporallisting/macros/temporallisting">location content</p>
                 </div>
 
                 <div id="pleiades-secondaryreferences" 
@@ -33,6 +24,6 @@
                     <p metal:use-macro="here/pleiades_contentlisting/macros/contentlisting">name content</p>
                 </div>
             </div>
-        </metal:namecontents_macro>
+        </metal:locationcontents_macro>
     </body>
 </html>
