@@ -75,9 +75,18 @@ def initialize(self):
     n_allow = n.global_allow
     n.global_allow = True
 
-    self.invokeFactory('Large Plone Folder', id='names', title='Pleiades Names')
-    self.invokeFactory('LocationContainer', id='locations', title='Pleiades Locations')
-    self.invokeFactory('PlaceContainer', id='places', title='Pleiades Places')
+    try:
+        self.invokeFactory('Large Plone Folder', id='names', title='Pleiades Names')
+    except:
+        pass
+    try:
+        self.invokeFactory('LocationContainer', id='locations', title='Pleiades Locations')
+    except:
+        pass
+    try:
+        self.invokeFactory('PlaceContainer', id='places', title='Pleiades Places')
+    except:
+        pass
 
 def loaden(self, sourcedir):
     """Attempt to load all XML files in the specified source directory.
