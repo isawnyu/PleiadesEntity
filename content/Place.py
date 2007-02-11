@@ -94,7 +94,9 @@ Place_schema = BaseFolderSchema.copy() + \
     schema.copy()
 
 ##code-section after-schema #fill in your manual code here
-Place_schema = BaseFolderSchema.copy() + schema.copy() \
+Place_schema = BaseFolderSchema.copy() + schema.copy()
+del Place_schema['title']
+Place_schema = Place_schema \
     + Schema((ComputedField(
                 'title',
                 searchable=1,
