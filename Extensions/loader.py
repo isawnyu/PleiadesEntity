@@ -133,7 +133,7 @@ def load_place(site, file):
     # modern location
     e = root.findall("{%s}modernLocation" % AWMC)
     if e:
-        p.setModernLocation(e[0].text)
+        p.setModernLocation(e[0].text.encode('utf8'))
     
     e = root.findall("{%s}classificationSection/{%s}classificationTerm" \
                      % (ADLGAZ, ADLGAZ))
