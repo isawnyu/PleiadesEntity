@@ -76,15 +76,16 @@ def initialize(self):
     n.global_allow = True
 
     try:
-        self.invokeFactory('Large Plone Folder', id='names', title='Pleiades Names')
+        self.invokeFactory('Large Plone Folder', id='names', title='Ancient Names')
+        self.names.invokeFactory('Large Plone Folder', id='duplicates', title='Duplicate Names')
     except:
         pass
     try:
-        self.invokeFactory('LocationContainer', id='locations', title='Pleiades Locations')
+        self.invokeFactory('LocationContainer', id='locations', title='Ancient Locations')
     except:
         pass
     try:
-        self.invokeFactory('PlaceContainer', id='places', title='Pleiades Places')
+        self.invokeFactory('PlaceContainer', id='places', title='Ancient Places')
     except:
         pass
 
@@ -126,20 +127,6 @@ def load_place(site, file):
     names = site.names
     locations = site.locations
 
-    # Place
-    pid = places.invokeFactory('Place')
-    p = getattr(places, pid)
-    
-    # modern location
-    e = root.findall("{%s}modernLocation" % AWMC)
-    if e:
-        p.setModernLocation(e[0].text.encode('utf8'))
-    
-    e = root.findall("{%s}classificationSection/{%s}classificationTerm" \
-                     % (ADLGAZ, ADLGAZ))
-    if e:
-        p.setPlaceType(e[0].text)
-
     # Authorship
     creators = [e.text for e in root.findall("{%s}creator" % DC)]
     contributors = [e.text for e in root.findall("{%s}contributor" % DC)]
@@ -151,10 +138,6 @@ def load_place(site, file):
     else:
         rights = None
 
-    p.setCreators(creators)
-    p.setContributors(contributors)
-    p.setRights(rights)
-    
     # lists of location and name ids
     lids = []
     nids = []
@@ -182,9 +165,19 @@ def load_place(site, file):
         id = ptool.normalizeString(transliteration)
 
         if type == u'geographic':
-            nid = names.invokeFactory('GeographicName', id=id)
+            try:
+                nid = names.invokeFactory('GeographicName', id=id)
+                n = getattr(names, nid)
+            except:
+                nid = names.duplicates.invokeFactory('GeographicName', id=id)
+                n = getattr(names.duplicates, nid)
         elif type == u'ethnic':
-            nid = names.invokeFactory('EthnicName', id=id)
+            try:
+                nid = names.invokeFactory('EthnicName', id=id)
+                n = getattr(names, nid)
+            except:
+                nid = names.duplicates.invokeFactory('EthnicName', id=id)
+                n = getattr(names.duplicates, nid)
         else:
             raise EntityLoadError, "Invalid name type"
             
@@ -196,9 +189,6 @@ def load_place(site, file):
         n.setContributors(contributors)
         n.setRights(rights)
 
-        # make the reference
-        p.addReference(n, 'name_name')
-        
         nids.append(nid)
 
     # Locations
@@ -213,10 +203,30 @@ def load_place(site, file):
         l.setContributors(contributors)
         l.setRights(rights)
 
-        # make the reference
-        p.addReference(l, 'location_location')
-
         lids.append(lid)
+
+    # Place
+    pid = places.invokeFactory('Place')
+    p = getattr(places, pid)
+    
+    # modern location
+    e = root.findall("{%s}modernLocation" % AWMC)
+    if e:
+        p.setModernLocation(e[0].text.encode('utf8'))
+    
+    e = root.findall("{%s}classificationSection/{%s}classificationTerm" \
+                     % (ADLGAZ, ADLGAZ))
+    if e:
+        p.setPlaceType(e[0].text)
+
+    p.setCreators(creators)
+    p.setContributors(contributors)
+    p.setRights(rights)
+   
+    for lid in lids:
+        p.addReference(getattr(locations, lid), 'location_location')
+    for nid in nids:
+        p.addReference(getattr(names, nid), 'name_name')
 
     return {'place_id': pid, 'location_ids': lids, 'name_ids': nids}
 

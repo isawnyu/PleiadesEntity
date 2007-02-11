@@ -99,6 +99,7 @@ del Place_schema['title']
 Place_schema = Place_schema \
     + Schema((ComputedField(
                 'title',
+                index="FieldIndex",
                 searchable=1,
                 expression='context.get_title()',
                 accessor='Title',

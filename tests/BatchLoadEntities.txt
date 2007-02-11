@@ -31,6 +31,7 @@ Setup
     Containers
 
     >>> _ = folder.invokeFactory('Large Plone Folder', id='names')
+    >>> _ = folder.names.invokeFactory('Large Plone Folder', id='duplicates')
     >>> _ = folder.invokeFactory('LocationContainer', id='locations')
     >>> _ = folder.invokeFactory('PlaceContainer', id='places')
 
