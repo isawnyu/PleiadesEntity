@@ -1,8 +1,16 @@
 Batch Loading of Entities
 =========================
 
+Check catalogs
+--------------
+
+    >>> uc = self.portal.uid_catalog
+    >>> rc = self.portal.reference_catalog
+
 Setup
 -----
+
+    Enable types
 
     >>> lpf = self.portal.portal_types['Large Plone Folder']
     >>> lpf_allow = lpf.global_allow
@@ -15,6 +23,8 @@ Setup
     >>> n = self.portal.portal_types['EthnicName']
     >>> n_allow = n.global_allow
     >>> n.global_allow = True
+
+    Alias the test folder
 
     >>> folder = self.folder
 
@@ -58,6 +68,8 @@ Load one entity
 
     >>> p = getattr(folder.places, '0')
     >>> p.title_or_id()
+    u'Aphrodisias/Ninoe/Aphrodisieus'
+    >>> p.Title()
     u'Aphrodisias/Ninoe/Aphrodisieus'
     >>> p.modernLocation
     u'Geyre'
@@ -105,6 +117,8 @@ Load one entity
     >>> l.spatialCoordinates
     u'37.7144599999992 28.7288599999993'
     >>> l.title_or_id()
+    u'Point 0'
+    >>> l.Title()
     u'Point 0'
     >>> l.Creators()
     ('C. Foss (compiler, west)', 'S. Mitchell (compiler)')

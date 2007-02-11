@@ -5,6 +5,13 @@ Tests of relationships among Name, Location, and Place
 Setup
 -----
 
+    Check catalogs
+
+    >>> uc = self.portal.uid_catalog
+    >>> rc = self.portal.reference_catalog
+
+    Enable types
+
     >>> lpf = self.portal.portal_types['Large Plone Folder']
     >>> lpf_allow = lpf.global_allow
     >>> lpf.global_allow = True
@@ -12,6 +19,8 @@ Setup
     >>> n = self.portal.portal_types['GeographicName']
     >>> n_allow = n.global_allow
     >>> n.global_allow = True
+
+    Alias the test folder
 
     >>> folder = self.folder
 
