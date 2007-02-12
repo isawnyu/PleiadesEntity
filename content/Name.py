@@ -38,14 +38,9 @@ from Products.PleiadesEntity.Extensions.cooking import *
 ##code-section module-header #fill in your manual code here
 ##/code-section module-header
 
-copied_fields = {}
-copied_fields['title'] = BaseSchema['title'].copy()
-copied_fields['title'].widget.label = "Transliterated Name"
-copied_fields['title'].widget.description = "A transliteration into the ASCII character set of the the attested name."
 schema = Schema((
 
-    copied_fields['title'],
-        StringField(
+    StringField(
         name='nameAttested',
         index="FieldIndex",
         widget=StringWidget(
