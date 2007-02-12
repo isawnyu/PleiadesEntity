@@ -150,9 +150,9 @@ class Place(BaseFolder):
         try:
             names = self.getRefs('name_name')
             if names:
-                return unicode('/'.join([n.title for n in names]))
+                return '/'.join([n.title for n in names])
             else:
-                return unicode("Unnamed %s" % self.placeType.capitalize() )
+                return "Unnamed %s" % self.placeType.capitalize()
         except AttributeError:
             return ''
 

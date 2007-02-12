@@ -122,7 +122,7 @@ class Location(BaseFolder):
     def get_title(self):
         """Return a title string derived from the geometry type."""
         try:
-            return unicode("%s %s" % (self.geometryType, self.getId()))
+            return "%s %s" % (self.geometryType, self.getId())
         except AttributeError:
             return ''
 
