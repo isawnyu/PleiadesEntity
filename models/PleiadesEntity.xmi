@@ -1,5 +1,5 @@
 <?xml version = '1.0' encoding = 'UTF-8' ?>
-<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Mon Feb 12 11:13:20 MST 2007'>
+<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Mon Feb 12 13:34:08 MST 2007'>
   <XMI.header>    <XMI.documentation>
       <XMI.exporter>ArgoUML (using Netbeans XMI Writer version 1.0)</XMI.exporter>
       <XMI.exporterVersion>0.20.x</XMI.exporterVersion>
@@ -1363,6 +1363,10 @@
                   <UML:TaggedValue.type>
                     <UML:TagDefinition xmi.idref = '.:0000000000000AF3'/>
                   </UML:TaggedValue.type>
+                </UML:TaggedValue>
+                <UML:TaggedValue xmi.id = '127-0-0-1-69f6abe4:110b6599e2b:-8000:0000000000000AF2'
+                  isSpecification = 'false'>
+                  <UML:TaggedValue.dataValue>An Ancient Place.</UML:TaggedValue.dataValue>
                 </UML:TaggedValue>
               </UML:ModelElement.taggedValue>
               <UML:Classifier.feature>
