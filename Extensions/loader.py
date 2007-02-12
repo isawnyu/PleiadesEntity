@@ -182,9 +182,9 @@ def load_place(site, file):
             raise EntityLoadError, "Invalid name type"
             
         n = getattr(names, nid)
-        n.setTitle(transliteration)
-        n.setNameAttested(nameAttested)
-        n.setNameLanguage(nameLanguage)
+        n.setTitle(transliteration.encode('utf-8'))
+        n.setNameAttested(nameAttested.encode('utf-8'))
+        n.setNameLanguage(nameLanguage.encode('utf-8'))
         n.setCreators(creators)
         n.setContributors(contributors)
         n.setRights(rights)
@@ -212,12 +212,12 @@ def load_place(site, file):
     # modern location
     e = root.findall("{%s}modernLocation" % AWMC)
     if e:
-        p.setModernLocation(e[0].text.encode('utf8'))
+        p.setModernLocation(e[0].text.encode('utf-8'))
     
     e = root.findall("{%s}classificationSection/{%s}classificationTerm" \
                      % (ADLGAZ, ADLGAZ))
     if e:
-        p.setPlaceType(e[0].text)
+        p.setPlaceType(e[0].text.encode('utf-8'))
 
     p.setCreators(creators)
     p.setContributors(contributors)
