@@ -24,7 +24,7 @@ Setup
 
     Entities
 
-    >>> _ = folder.names.invokeFactory('GeographicName', id='neverpolis', title=u'Neverpolis')
+    >>> _ = folder.names.invokeFactory('GeographicName', id='neverpolis', title='Neverpolis')
     >>> _ = folder.locations.invokeFactory('Location')
     >>> _ = folder.places.invokeFactory('Place')
 
@@ -63,10 +63,10 @@ Test browse
 
     >>> browser.open("%s/@@geo/forRSS" % url)
     >>> browser.contents
-    "[{'srs': 'EPSG:4326', 'geometryType': 'point', 'description': 'A testing entity', 'spatialCoordinates': '0.0 0.0', 'url': 'http://nohost/plone/Members/test_user_1_/places/0', 'geom_element': '<georss:point>0.0 0.0</georss:point>', 'title': u'Neverpolis', 'id': '0'}]"
+    "[{'srs': 'EPSG:4326', 'geometryType': 'point', 'description': 'A testing entity', 'spatialCoordinates': '0.0 0.0', 'url': 'http://nohost/plone/Members/test_user_1_/places/0', 'geom_element': '<georss:point>0.0 0.0</georss:point>', 'title': 'Neverpolis', 'id': '0'}]"
 
     >>> browser.open("%s/@@geo/forKML" % url)
     >>> browser.contents
-    '[{\'srs\': \'EPSG:4326\', \'desc_body\': u\'<![CDATA[<p>A testing entity</p><p><a href="http://nohost/plone/Members/test_user_1_/places/0">Neverpolis</a></p>]]>\', \'geometryType\': \'point\', \'description\': \'A testing entity\', \'spatialCoordinates\': \'0.0 0.0 0.0\', \'url\': \'http://nohost/plone/Members/test_user_1_/places/0\', \'geom_element\': \'<Point><coordinates>0.000000,0.000000,0.000000</coordinates></Point>\', \'title\':  u\'Neverpolis\', \'id\': \'0\'}]'
+    '[{\'srs\': \'EPSG:4326\', \'desc_body\': \'<![CDATA[<p>A testing entity</p><p><a href="http://nohost/plone/Members/test_user_1_/places/0">Neverpolis</a></p>]]>\', \'geometryType\': \'point\', \'description\': \'A testing entity\', \'spatialCoordinates\': \'0.0 0.0 0.0\', \'url\': \'http://nohost/plone/Members/test_user_1_/places/0\', \'geom_element\': \'<Point><coordinates>0.000000,0.000000,0.000000</coordinates></Point>\', \'title\':  \'Neverpolis\', \'id\': \'0\'}]'
 
 

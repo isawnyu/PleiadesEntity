@@ -32,7 +32,7 @@ Setup
 
     Entities
 
-    >>> _ = folder.names.invokeFactory('GeographicName', id='neverpolis', title=u'Neverpolis')
+    >>> _ = folder.names.invokeFactory('GeographicName', id='neverpolis', title='Neverpolis')
     >>> _ = folder.locations.invokeFactory('Location')
     >>> _ = folder.places.invokeFactory('Place')
 
@@ -57,9 +57,9 @@ Test the geo adapters
     >>> g.isGeoreferenced()
     True
     >>> g.getInfo()
-    {'srs': 'EPSG:4326', 'geometryType': 'point', 'description': '', 'spatialCoordinates': '34.7697222222 -86.4808333333 0.0', 'url': 'http://nohost/plone/Members/test_user_1_/places/0', 'title': u'Neverpolis', 'id': '0'}
+    {'srs': 'EPSG:4326', 'geometryType': 'point', 'description': '', 'spatialCoordinates': '34.7697222222 -86.4808333333 0.0', 'url': 'http://nohost/plone/Members/test_user_1_/places/0', 'title': 'Neverpolis', 'id': '0'}
 
     >>> c = IGeoCollectionSimple(folder.places)
     >>> c.getItemsInfo()
-    [{'srs': 'EPSG:4326', 'geometryType': 'point', 'description': '', 'spatialCoordinates': '34.7697222222 -86.4808333333 0.0', 'url': 'http://nohost/plone/Members/test_user_1_/places/0', 'title': u'Neverpolis', 'id': '0'}]
+    [{'srs': 'EPSG:4326', 'geometryType': 'point', 'description': '', 'spatialCoordinates': '34.7697222222 -86.4808333333 0.0', 'url': 'http://nohost/plone/Members/test_user_1_/places/0', 'title': 'Neverpolis', 'id': '0'}]
 

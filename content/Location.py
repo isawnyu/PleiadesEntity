@@ -77,7 +77,6 @@ Location_schema = BaseFolderSchema.copy() + \
 Location_schema = BaseFolderSchema.copy() + schema.copy() \
     + Schema((ComputedField(
                 'title',
-                searchable=1,
                 expression='context.get_title()',
                 accessor='Title',
                 widget=ComputedWidget(label_msgid="label_title",
@@ -122,14 +121,9 @@ class Location(BaseFolder):
     def get_title(self):
         """Return a title string derived from the geometry type."""
         try:
-            return "%s %s" % (self.geometryType, self.getId())
+            return "%s %s" % (self.getGeometryType(), self.getId())
         except AttributeError:
-            return ''
-
-    security.declarePublic('title_or_id')
-    def title_or_id(self):
-        """Override method in the base class."""
-        return self.get_title()
+            return 'Unidentified Location'
 
 
 registerType(Location, PROJECTNAME)

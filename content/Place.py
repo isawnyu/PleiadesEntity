@@ -150,16 +150,11 @@ class Place(BaseFolder):
         try:
             names = self.getRefs('name_name')
             if names:
-                return '/'.join([n.title for n in names])
+                return '/'.join([n.Title() for n in names])
             else:
-                return "Unnamed %s" % self.placeType.capitalize()
+                return "Unnamed %s" % self.getPlaceType().capitalize()
         except AttributeError:
-            return ''
-
-    security.declarePublic('title_or_id')
-    def title_or_id(self):
-        """Override method in the base class."""
-        return self.get_title()
+            return 'Unnamed Place'
 
 
 registerType(Place, PROJECTNAME)

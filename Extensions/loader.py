@@ -159,35 +159,35 @@ def load_place(site, file):
             
         type = e.findall("{%s}classificationSection/{%s}classificationTerm" \
                          % (ADLGAZ, ADLGAZ))[0].text
+        type = str(type)
         if not transliteration or not type:
             raise EntityLoadError, "Incomplete featureName element"
 
         id = ptool.normalizeString(transliteration)
 
-        if type == u'geographic':
-            try:
-                nid = names.invokeFactory('GeographicName', id=id)
-                n = getattr(names, nid)
-            except:
-                nid = names.duplicates.invokeFactory('GeographicName', id=id)
-                n = getattr(names.duplicates, nid)
-        elif type == u'ethnic':
-            try:
-                nid = names.invokeFactory('EthnicName', id=id)
-                n = getattr(names, nid)
-            except:
-                nid = names.duplicates.invokeFactory('EthnicName', id=id)
-                n = getattr(names.duplicates, nid)
-        else:
+        if type not in ['geographic', 'ethnic']:
             raise EntityLoadError, "Invalid name type"
             
-        n = getattr(names, nid)
-        n.setTitle(transliteration.encode('utf-8'))
-        n.setNameAttested(nameAttested.encode('utf-8'))
-        n.setNameLanguage(nameLanguage.encode('utf-8'))
-        n.setCreators(creators)
-        n.setContributors(contributors)
-        n.setRights(rights)
+        try:
+            nid = names.invokeFactory('GeographicName',
+                    id=id,
+                    title=transliteration.encode('utf-8'),
+                    nameAttested=nameAttested.encode('utf-8'),
+                    nameLanguage=nameLanguage.encode('utf-8'),
+                    creators=creators,
+                    contributors=contributors,
+                    rights=rights
+                    )
+        except:
+            nid = names.duplicates.invokeFactory('GeographicName',
+                    id=id,
+                    title=transliteration.encode('utf-8'),
+                    nameAttested=nameAttested.encode('utf-8'),
+                    nameLanguage=nameLanguage.encode('utf-8'),
+                    creators=creators,
+                    contributors=contributors,
+                    rights=rights
+                    )
 
         nids.append(nid)
 
@@ -195,33 +195,38 @@ def load_place(site, file):
     for e in root.findall("{%s}spatialLocation" % ADLGAZ):
         coords = e.findall("{%s}point" % GEORSS)[0].text
 
-        lid = locations.invokeFactory('Location')
-        l = getattr(locations, lid)
-        l.setGeometryType('Point')
-        l.setSpatialCoordinates(coords)
-        l.setCreators(creators)
-        l.setContributors(contributors)
-        l.setRights(rights)
-
+        lid = locations.invokeFactory('Location',
+                    geometryType='Point',
+                    spatialCoordinates=str(coords),
+                    creators=creators,
+                    contributors=contributors,
+                    rights=rights
+                    )
+        
         lids.append(lid)
 
     # Place
-    pid = places.invokeFactory('Place')
-    p = getattr(places, pid)
-    
-    # modern location
     e = root.findall("{%s}modernLocation" % AWMC)
     if e:
-        p.setModernLocation(e[0].text.encode('utf-8'))
-    
+        modernLocation = str(e[0].text.encode('utf-8'))
+    else:
+        modernLocation = 'None'
+
     e = root.findall("{%s}classificationSection/{%s}classificationTerm" \
                      % (ADLGAZ, ADLGAZ))
     if e:
-        p.setPlaceType(e[0].text.encode('utf-8'))
+        placeType = str(e[0].text)
+    else:
+        placeType = 'Unknown'
 
-    p.setCreators(creators)
-    p.setContributors(contributors)
-    p.setRights(rights)
+    pid = places.invokeFactory('Place',
+                    modernLocation=modernLocation,
+                    placeType=placeType,
+                    creators=creators,
+                    contributors=contributors,
+                    rights=rights
+                    )
+    p = getattr(places, pid)
    
     for lid in lids:
         p.addReference(getattr(locations, lid), 'location_location')

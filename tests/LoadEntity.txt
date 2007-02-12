@@ -68,9 +68,9 @@ Load one entity
 
     >>> p = getattr(folder.places, '0')
     >>> p.title_or_id()
-    u'Aphrodisias/Ninoe/Aphrodisieus'
+    'Aphrodisias/Ninoe/Aphrodisieus'
     >>> p.Title()
-    u'Aphrodisias/Ninoe/Aphrodisieus'
+    'Aphrodisias/Ninoe/Aphrodisieus'
     >>> p.modernLocation
     u'Geyre'
     >>> p.placeType
@@ -87,6 +87,8 @@ Load one entity
     >>> n0 = getattr(folder.names, 'aphrodisias')
     >>> n0.title
     u'Aphrodisias'
+    >>> n0.Title()
+    'Aphrodisias'
     >>> n0.nameAttested
     u'\u1f08\u03c6\u03c1\u03bf\u03b4\u03b9\u03c3\u03b9\u1f71\u03c2'
     >>> n0.Creators()
@@ -99,12 +101,16 @@ Load one entity
     >>> n1 = getattr(folder.names, 'ninoe')
     >>> n1.title
     u'Ninoe'
+    >>> n1.Title()
+    'Ninoe'
     >>> n1.nameAttested
     u'\u039d\u03b9\u03bd\u1f79\u03b7'
 
     >>> n2 = getattr(folder.names, 'aphrodisieus')
     >>> n2.title
     u'Aphrodisieus'
+    >>> n2.Title()
+    'Aphrodisieus'
     >>> n2.nameAttested
     u'\u1f08\u03c6\u03c1\u03bf\u03b4\u03b9\u03c3\u03b9\u03b5\u1f7b\u03c2'
 
@@ -114,12 +120,16 @@ Load one entity
     >>> l = getattr(folder.locations, '0')
     >>> l.geometryType
     u'Point'
+    >>> l.getGeometryType()
+    'Point'
     >>> l.spatialCoordinates
     u'37.7144599999992 28.7288599999993'
+    >>> l.getSpatialCoordinates()
+    '37.7144599999992 28.7288599999993'
     >>> l.title_or_id()
-    u'Point 0'
+    'Point 0'
     >>> l.Title()
-    u'Point 0'
+    'Point 0'
     >>> l.Creators()
     ('C. Foss (compiler, west)', 'S. Mitchell (compiler)')
     >>> l.Contributors()
@@ -137,4 +147,19 @@ Load one entity
     True
     >>> p.getRefs('location_location')[0] == l
     True
+
+Test the geo adapters
+---------------------
+
+    >>> from Products.PleiadesGeocoder.interfaces import IGeoItemSimple, IGeoCollectionSimple
+
+    >>> g = IGeoItemSimple(p)
+    >>> g.isGeoreferenced()
+    True
+    >>> g.getInfo()
+    {'srs': 'EPSG:4326', 'geometryType': 'point', 'description': '', 'spatialCoordinates': '37.71446 28.72886 0.0', 'url': 'http://nohost/plone/Members/test_user_1_/places/0', 'title': 'Aphrodisias/Ninoe/Aphrodisieus', 'id': '0'}
+
+    >>> c = IGeoCollectionSimple(folder.places)
+    >>> c.getItemsInfo()
+    [{'srs': 'EPSG:4326', 'geometryType': 'point', 'description': '', 'spatialCoordinates': '37.71446 28.72886 0.0', 'url': 'http://nohost/plone/Members/test_user_1_/places/0', 'title': 'Aphrodisias/Ninoe/Aphrodisieus', 'id': '0'}]
 
