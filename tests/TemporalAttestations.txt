@@ -1,0 +1,142 @@
+Boundary conditions for TemporalAttestations
+=========================
+
+Check catalogs
+--------------
+
+    >>> uc = self.portal.uid_catalog
+    >>> rc = self.portal.reference_catalog
+
+Setup
+-----
+
+    Enable types
+
+    >>> lpf = self.portal.portal_types['Large Plone Folder']
+    >>> lpf_allow = lpf.global_allow
+    >>> lpf.global_allow = True
+
+    >>> n = self.portal.portal_types['GeographicName']
+    >>> n_allow = n.global_allow
+    >>> n.global_allow = True
+
+    >>> n = self.portal.portal_types['EthnicName']
+    >>> n_allow = n.global_allow
+    >>> n.global_allow = True
+
+    Alias the test folder
+
+    >>> folder = self.folder
+
+    Containers
+
+    >>> _ = folder.invokeFactory('Large Plone Folder', id='names')
+    >>> _ = folder.invokeFactory('LocationContainer', id='locations')
+    >>> _ = folder.invokeFactory('PlaceContainer', id='places')
+
+Utility tests
+-------------
+
+    >>> format_listofstrings([])
+    u''
+    >>> format_listofstrings(['x'])
+    u'x'
+    >>> format_listofstrings(['x', 'y'])
+    u'x and y'
+    >>> format_listofstrings(['x', 'y', 'z'])
+    u'x, y and z'
+    
+    >>> purifyText(u'aaa') == u'aaa'
+    True
+    >>> purifyText(u'abab') == u'abab'
+    True
+    >>> purifyText(u'Magie\U000000A01950,\U000000A0989') == u'Magie 1950, 989'
+    True
+   
+Load one entity
+---------------
+
+    >>> r = load_place(folder, "%s/timetwister.xml" % TEST_DATA)
+    >>> r['place_id']
+    '0'
+    >>> r['name_ids']
+    ['time-twister', 'tome-twirling']
+    >>> r['location_ids']
+    ['0']
+
+    Test names
+
+    >>> n0 = getattr(folder.names, 'time-twister')
+    >>> tps = n0.getFolderContents({'meta_type':['TemporalAttestation']})
+    >>> len(tps)
+    2
+    >>> tps[0].Title
+    'Classical (550 - 330 BC)'
+    >>> tps[0].getId
+    'classical'
+    >>> tps[0].getCertainty
+    'certain'
+    >>> tps[1].Title
+    'Hellenistic/Republican (330 - 30 BC)'
+    >>> tps[1].getId
+    'hellenistic-republican'
+    >>> tps[1].getCertainty
+    'less certain'
+    
+    >>> n1 = getattr(folder.names, 'tome-twirling')
+    >>> tps = n1.getFolderContents({'meta_type':['TemporalAttestation']})
+    >>> len(tps)
+    2
+    >>> tps[0].Title
+    'Roman (30 BC - AD 300)'
+    >>> tps[0].getId
+    'roman'
+    >>> tps[0].getCertainty
+    'certain, but there is no contemporary evidence'
+    >>> tps[1].Title
+    'Late Antique (AD 300 - 625)'
+    >>> tps[1].getId
+    'late-antique'
+    >>> tps[1].getCertainty
+    'less certain and there is no contemporary evidence'
+    
+    
+
+
+    Test locations
+
+    >>> l = getattr(folder.locations, '0')
+    >>> tps = l.getFolderContents({'meta_type':['TemporalAttestation']})
+    >>> len(tps)
+    5
+    >>> tps[0].Title
+    'Archaic (pre-550 BC)'
+    >>> tps[0].getId
+    'archaic'
+    >>> tps[0].getCertainty
+    'certain'
+    >>> tps[1].Title
+    'Classical (550 - 330 BC)'
+    >>> tps[1].getId
+    'classical'
+    >>> tps[1].getCertainty
+    'certain'
+    >>> tps[2].Title
+    'Hellenistic/Republican (330 - 30 BC)'
+    >>> tps[2].getId
+    'hellenistic-republican'
+    >>> tps[2].getCertainty
+    'less certain'
+    >>> tps[3].Title
+    'Roman (30 BC - AD 300)'
+    >>> tps[3].getId
+    'roman'
+    >>> tps[3].getCertainty
+    'certain'
+    >>> tps[4].Title
+    'Late Antique (AD 300 - 625)'
+    >>> tps[4].getId
+    'late-antique'
+    >>> tps[4].getCertainty
+    'less certain'
+    

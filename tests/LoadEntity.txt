@@ -97,6 +97,21 @@ Load one entity
     ('R. Talbert (editor)', 'T. Elliott (data normalization and xml encoding)')
     >>> n0.Rights()
     "Copyright \xc2\xa9 2006 Ancient World Mapping Center. All rights reserved. This data is derived from original compilations prepared for the American Philological Association's Classical Atlas Project (1988-2000). It is used here with permission of the APA. This data is intended solely for testing purposes in the context of the Ancient World Mapping Center's Pleiades Project and may not be reused or redistributed. In its current state, this data may contain errors and omissions and is not appropriate for citation or scholarly use. Any errors or omissions are the result of prototype conversion software, still under development by the AWMC's Pleiades Project, and do not reflect the quality and completeness of the original data nor the opinions of its scholarly compilers and editors."
+    >>> tps = n0.getFolderContents({'meta_type':['TemporalAttestation']})
+    >>> len(tps)
+    2
+    >>> tps[0].Title
+    'Roman (30 BC - AD 300)'
+    >>> tps[0].getId
+    'roman'
+    >>> tps[0].getCertainty
+    'certain'
+    >>> tps[1].Title
+    'Late Antique (AD 300 - 625)'
+    >>> tps[1].getId
+    'late-antique'
+    >>> tps[1].getCertainty
+    'certain'
 
     >>> n1 = getattr(folder.names, 'ninoe')
     >>> n1.title
@@ -105,6 +120,15 @@ Load one entity
     'Ninoe'
     >>> n1.nameAttested
     u'\u039d\u03b9\u03bd\u1f79\u03b7'
+    >>> tps = n1.getFolderContents({'meta_type':['TemporalAttestation']})
+    >>> len(tps)
+    1
+    >>> tps[0].Title
+    'Classical (550 - 330 BC)'
+    >>> tps[0].getId
+    'classical'
+    >>> tps[0].getCertainty
+    'certain'
 
     >>> n2 = getattr(folder.names, 'aphrodisieus')
     >>> n2.title
@@ -113,7 +137,9 @@ Load one entity
     'Aphrodisieus'
     >>> n2.nameAttested
     u'\u1f08\u03c6\u03c1\u03bf\u03b4\u03b9\u03c3\u03b9\u03b5\u1f7b\u03c2'
-
+    >>> tps = n2.getFolderContents({'meta_type':['TemporalAttestation']})
+    >>> len(tps)
+    0
 
     Test locations
 
@@ -137,6 +163,29 @@ Load one entity
     >>> l.Rights()
     "Copyright \xc2\xa9 2006 Ancient World Mapping Center. All rights reserved. This data is derived from original compilations prepared for the American Philological Association's Classical Atlas Project (1988-2000). It is used here with permission of the APA. This data is intended solely for testing purposes in the context of the Ancient World Mapping Center's Pleiades Project and may not be reused or redistributed. In its current state, this data may contain errors and omissions and is not appropriate for citation or scholarly use. Any errors or omissions are the result of prototype conversion software, still under development by the AWMC's Pleiades Project, and do not reflect the quality and completeness of the original data nor the opinions of its scholarly compilers and editors."
 
+    Test time periods for locations
+    >>> tps = l.getFolderContents({'meta_type':['TemporalAttestation']})
+    >>> len(tps)
+    3
+    >>> tps[0].Title
+    'Classical (550 - 330 BC)'
+    >>> tps[0].getId
+    'classical'
+    >>> tps[0].getCertainty
+    'certain'
+    >>> tps[1].Title
+    'Roman (30 BC - AD 300)'
+    >>> tps[1].getId
+    'roman'
+    >>> tps[1].getCertainty
+    'certain'
+    >>> tps[2].Title
+    'Late Antique (AD 300 - 625)'
+    >>> tps[2].getId
+    'late-antique'
+    >>> tps[2].getCertainty
+    'certain'
+    
     Test references
 
     >>> p.getRefs('name_name')[0] == n0

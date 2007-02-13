@@ -118,6 +118,54 @@ GEORSS = "http://www.georss.org/georss"
 DC = "http://purl.org/dc/elements/1.1/"
 XML = "http://www.w3.org/XML/1998/namespace"
 
+periods = {"Archaic":"Archaic (pre-550 BC)", 
+    "Classical":"Classical (550 - 330 BC)",
+    "Hellenistic (Roman Republic)":"Hellenistic/Republican (330 - 30 BC)",
+    "Roman":"Roman (30 BC - AD 300)",
+    "Late Antique":"Late Antique (AD 300 - 625)"}
+period_ids = {"Archaic":"archaic", 
+    "Classical":"classical",
+    "Hellenistic (Roman Republic)":"hellenistic-republican",
+    "Roman":"roman",
+    "Late Antique":"late-antique"}
+
+def parse_periods(xmlcontext, portalcontext):
+    """Find timePeriod children of the node at xmlcontext and create
+    appropriate temporalAttestation children of the object at 
+    portalcontext."""
+    
+    for tp in  xmlcontext.findall("{%s}timePeriod" % ADLGAZ):
+        tpn = tp.xpath("*[local-name()='timePeriodName']")
+        if not tpn:
+            raise EntityLoadError, "Incomplete timePeriod element for timePeriod node %s" % xmlcontext.findall("{%s}timePeriod" % ADLGAZ).index(tp)
+        cert = 'certain'
+        tpnstr = tpn[0].text
+        if tpnstr.endswith('?'):
+            cert = 'less certain'
+            tpnstr = tpnstr.replace('?', '')
+        if tp.xpath("ancestor::*[local-name()='featureName']"):
+            # this is a period for a name
+            inferred = tp.xpath("../descendant::*[@ref='na-inferred']")
+        else:
+            # location date inference was not noted in BAtlas
+            inferred = tp.xpath("bogus")
+        if inferred and cert=='less certain':
+            certainty = cert + ' and there is no contemporary evidence'
+        elif inferred and cert=='certain':
+            certainty = cert + ', but there is no contemporary evidence'
+        else:
+            certainty = cert
+        period=periods[tpnstr]
+        id=period_ids[tpnstr]
+        try:
+            portalcontext.invokeFactory('TemporalAttestation',
+                title=period,
+                id=id,
+                certainty=certainty
+                )
+        except:
+            raise EntityLoadError, "There is already a TemporalAttestation with id=%s in portal context" % id
+
 import sys
 
 def load_place(site, file):
@@ -141,7 +189,7 @@ def load_place(site, file):
         rights = e[0].text
     else:
         rights = None
-
+        
     # lists of location and name ids
     lids = []
     nids = []
@@ -182,6 +230,7 @@ def load_place(site, file):
                     contributors=contributors,
                     rights=rights
                     )
+            name = getattr(names, nid)
         except:
             nid = names.duplicates.invokeFactory('GeographicName',
                     id=id,
@@ -192,9 +241,13 @@ def load_place(site, file):
                     contributors=contributors,
                     rights=rights
                     )
+            name = getattr(names.duplicates, nid)
 
         nids.append(nid)
-
+        
+        # Time Periods associated with the name
+        parse_periods(e, name)
+        
     # Locations
     for e in root.findall("{%s}spatialLocation" % ADLGAZ):
         coords = e.findall("{%s}point" % GEORSS)[0].text
@@ -208,6 +261,10 @@ def load_place(site, file):
                     )
         
         lids.append(lid)
+        
+        # Time Periods associated with the location
+        parse_periods(root, getattr(locations, lid))
+
 
     # Place
     e = root.findall("{%s}modernLocation" % AWMC)
