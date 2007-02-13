@@ -76,16 +76,20 @@ def initialize(self):
     n.global_allow = True
 
     try:
-        self.invokeFactory('Large Plone Folder', id='names', title='Ancient Names')
-        self.names.invokeFactory('Large Plone Folder', id='duplicates', title='Duplicate Names')
+        self.invokeFactory('Large Plone Folder',
+            id='names', title='Ancient Names')
+        self.names.invokeFactory('Large Plone Folder',
+            id='duplicates', title='Duplicate Names')
     except:
         pass
     try:
-        self.invokeFactory('LocationContainer', id='locations', title='Ancient Locations')
+        self.invokeFactory('LocationContainer',
+            id='locations', title='Ancient Locations')
     except:
         pass
     try:
-        self.invokeFactory('PlaceContainer', id='places', title='Ancient Places')
+        self.invokeFactory('PlaceContainer',
+            id='places', title='Ancient Places')
     except:
         pass
 
@@ -219,7 +223,10 @@ def load_place(site, file):
     else:
         placeType = 'Unknown'
 
+    placeNames = [getattr(names, nid) for nid in nids]
+    computedTitle = '/'.join([n.Title() for n in placeNames])
     pid = places.invokeFactory('Place',
+                    title=computedTitle,
                     modernLocation=modernLocation,
                     placeType=placeType,
                     creators=creators,

@@ -1,5 +1,5 @@
 <?xml version = '1.0' encoding = 'UTF-8' ?>
-<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Mon Feb 12 17:03:14 CST 2007'>
+<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Mon Feb 12 21:33:11 MST 2007'>
   <XMI.header>    <XMI.documentation>
       <XMI.exporter>ArgoUML (using Netbeans XMI Writer version 1.0)</XMI.exporter>
       <XMI.exporterVersion>0.20.x</XMI.exporterVersion>
@@ -976,6 +976,13 @@
                     <UML:TagDefinition xmi.idref = '.:0000000000000AF3'/>
                   </UML:TaggedValue.type>
                 </UML:TaggedValue>
+                <UML:TaggedValue xmi.id = '127-0-0-1-69f6abe4:110b6599e2b:-8000:0000000000000CA4'
+                  isSpecification = 'false'>
+                  <UML:TaggedValue.dataValue>False</UML:TaggedValue.dataValue>
+                  <UML:TaggedValue.type>
+                    <UML:TagDefinition xmi.idref = '.:0000000000000AEC'/>
+                  </UML:TaggedValue.type>
+                </UML:TaggedValue>
               </UML:ModelElement.taggedValue>
               <UML:Classifier.feature>
                 <UML:Attribute xmi.id = '127-0-0-1--22259664:1104b934ad1:-8000:000000000000094B'
@@ -1084,8 +1091,30 @@
                   name = 'get_title' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
                   isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
                   isAbstract = 'false'>
+                  <UML:ModelElement.taggedValue>
+                    <UML:TaggedValue xmi.id = '127-0-0-1-69f6abe4:110b6599e2b:-8000:0000000000000CA7'
+                      isSpecification = 'false'>
+                      <UML:TaggedValue.dataValue></UML:TaggedValue.dataValue>
+                      <UML:TaggedValue.type>
+                        <UML:TagDefinition xmi.idref = '-104-23--81--22-2381d3db:11084109fe3:-8000:0000000000000BCD'/>
+                      </UML:TaggedValue.type>
+                    </UML:TaggedValue>
+                  </UML:ModelElement.taggedValue>
                   <UML:BehavioralFeature.parameter>
                     <UML:Parameter xmi.id = '127-0-0-1--5c16ae4b:110adb8a014:-8000:0000000000000CA0'
+                      name = 'return' isSpecification = 'false' kind = 'return'>
+                      <UML:Parameter.type>
+                        <UML:DataType xmi.idref = '.:0000000000000ABC'/>
+                      </UML:Parameter.type>
+                    </UML:Parameter>
+                  </UML:BehavioralFeature.parameter>
+                </UML:Operation>
+                <UML:Operation xmi.id = '127-0-0-1-69f6abe4:110b6599e2b:-8000:0000000000000CAA'
+                  name = 'Title' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
+                  isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
+                  isAbstract = 'false'>
+                  <UML:BehavioralFeature.parameter>
+                    <UML:Parameter xmi.id = '127-0-0-1-69f6abe4:110b6599e2b:-8000:0000000000000CAB'
                       name = 'return' isSpecification = 'false' kind = 'return'>
                       <UML:Parameter.type>
                         <UML:DataType xmi.idref = '.:0000000000000ABC'/>
@@ -1299,9 +1328,19 @@
                     <UML:TagDefinition xmi.idref = '.:0000000000000AF3'/>
                   </UML:TaggedValue.type>
                 </UML:TaggedValue>
-                <UML:TaggedValue xmi.id = '127-0-0-1-69f6abe4:110b6599e2b:-8000:0000000000000AF2'
+                <UML:TaggedValue xmi.id = '127-0-0-1-69f6abe4:110b6599e2b:-8000:0000000000000CA5'
                   isSpecification = 'false'>
-                  <UML:TaggedValue.dataValue>An Ancient Place.</UML:TaggedValue.dataValue>
+                  <UML:TaggedValue.dataValue>False</UML:TaggedValue.dataValue>
+                  <UML:TaggedValue.type>
+                    <UML:TagDefinition xmi.idref = '.:0000000000000AEC'/>
+                  </UML:TaggedValue.type>
+                </UML:TaggedValue>
+                <UML:TaggedValue xmi.id = '127-0-0-1-69f6abe4:110b6599e2b:-8000:0000000000000CA6'
+                  isSpecification = 'false'>
+                  <UML:TaggedValue.dataValue></UML:TaggedValue.dataValue>
+                  <UML:TaggedValue.type>
+                    <UML:TagDefinition xmi.idref = '-104-23--81--22-2381d3db:11084109fe3:-8000:0000000000000BCD'/>
+                  </UML:TaggedValue.type>
                 </UML:TaggedValue>
               </UML:ModelElement.taggedValue>
               <UML:Classifier.feature>
@@ -1404,9 +1443,29 @@
                         <UML:TagDefinition xmi.idref = '127-0-0-1--22259664:1104b934ad1:-8000:000000000000091F'/>
                       </UML:TaggedValue.type>
                     </UML:TaggedValue>
+                    <UML:TaggedValue xmi.id = '127-0-0-1-69f6abe4:110b6599e2b:-8000:0000000000000CA3'
+                      isSpecification = 'false'>
+                      <UML:TaggedValue.dataValue>False</UML:TaggedValue.dataValue>
+                      <UML:TaggedValue.type>
+                        <UML:TagDefinition xmi.idref = '.:0000000000000AEC'/>
+                      </UML:TaggedValue.type>
+                    </UML:TaggedValue>
                   </UML:ModelElement.taggedValue>
                   <UML:BehavioralFeature.parameter>
                     <UML:Parameter xmi.id = '127-0-0-1--22259664:1104b934ad1:-8000:000000000000093C'
+                      name = 'return' isSpecification = 'false' kind = 'return'>
+                      <UML:Parameter.type>
+                        <UML:DataType xmi.idref = '.:0000000000000ABC'/>
+                      </UML:Parameter.type>
+                    </UML:Parameter>
+                  </UML:BehavioralFeature.parameter>
+                </UML:Operation>
+                <UML:Operation xmi.id = '127-0-0-1-69f6abe4:110b6599e2b:-8000:0000000000000CA8'
+                  name = 'Title' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
+                  isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
+                  isAbstract = 'false'>
+                  <UML:BehavioralFeature.parameter>
+                    <UML:Parameter xmi.id = '127-0-0-1-69f6abe4:110b6599e2b:-8000:0000000000000CA9'
                       name = 'return' isSpecification = 'false' kind = 'return'>
                       <UML:Parameter.type>
                         <UML:DataType xmi.idref = '.:0000000000000ABC'/>

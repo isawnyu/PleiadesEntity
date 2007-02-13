@@ -1,37 +1,29 @@
-# ===========================================================================
+# -*- coding: utf-8 -*-
+#
+# File: Place.py
+#
 # Copyright (c) 2007 by Ancient World Mapping Center, University of North
 # Carolina at Chapel Hill, U.S.A.
-#
 # Generator: ArchGenXML Version 1.5.0
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
 #
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2 of the License, or
-# (at your option) any later version.
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
 #
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 # GNU General Public License for more details.
 #
-# You should have received a copy of the GNU General Public License along
-# with this program; if not, write to the Free Software Foundation, Inc.,
-# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
+# 02110-1301, USA.
 #
-# About Pleiades
-# --------------
-#
-# Pleiades is an international research network and associated web portal and
-# content management system devoted to the study of ancient geography. 
-#
-# See http://icon.stoa.org/trac/pleiades/wiki.
-#
-# Funding for the creation of this software was provided by a grant from the 
-# U.S. National Endowment for the Humanities (http://www.neh.gov).
-# ===========================================================================
 
 __author__ = """Sean Gillies <unknown>, Tom Elliott <unknown>"""
 __docformat__ = 'plaintext'
@@ -102,21 +94,7 @@ Place_schema = BaseFolderSchema.copy() + \
     schema.copy()
 
 ##code-section after-schema #fill in your manual code here
-Place_schema = BaseFolderSchema.copy() + schema.copy()
 del Place_schema['title']
-Place_schema = Place_schema \
-    + Schema((ComputedField(
-                'title',
-                index="FieldIndex",
-                searchable=1,
-                expression='context.get_title()',
-                accessor='Title',
-                widget=ComputedWidget(label_msgid="label_title",
-                            i18n_domain="plone"),
-                visible={'edit': 'invisible',
-                         'view': 'invisible'}
-                )
-            ))
 ##/code-section after-schema
 
 class Place(BaseFolder):
@@ -140,7 +118,7 @@ class Place(BaseFolder):
     typeDescription = "Associates Names and Locations"
     typeDescMsgId = 'description_edit_place'
 
-    _at_rename_after_creation = True
+    _at_rename_after_creation = False
 
     schema = Place_schema
 
@@ -164,6 +142,11 @@ class Place(BaseFolder):
         except AttributeError:
             return 'Unnamed Place'
 
+    security.declarePublic('Title')
+    def Title(self):
+        """
+        """
+        return self.get_title()
 
 registerType(Place, PROJECTNAME)
 # end of class Place
