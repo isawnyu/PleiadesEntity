@@ -70,6 +70,12 @@
                    
         </metal:body_macro>
 
+        <metal:label_macro define-macro="label">
+            <p metal:use-macro="here/pleiades_helpedlabel/macros/helpedlabel">helpful label</p>
+        </metal:label_macro>
+        <metal:folderlisting_macro define-macro="folderlisting">
+            <p metal:use-macro="here/place_contents/macros/placecontents">place contents</p>
+        </metal:folderlisting_macro>        
 
 
       </body>

@@ -117,6 +117,7 @@ ADLGAZ = "http://www.alexandria.ucsb.edu/gazetteer/ContentStandard/version3.2/"
 GEORSS = "http://www.georss.org/georss"
 DC = "http://purl.org/dc/elements/1.1/"
 XML = "http://www.w3.org/XML/1998/namespace"
+TEI = "http://www.tei-c.org/ns/1.0"
 
 periods = {"Archaic":"Archaic (pre-550 BC)", 
     "Classical":"Classical (550 - 330 BC)",
@@ -166,6 +167,24 @@ def parse_periods(xmlcontext, portalcontext):
         except:
             raise EntityLoadError, "There is already a TemporalAttestation with id=%s in portal context" % id
 
+def parse_secondary_references(xmlcontext, portalcontext, ptool):
+    srs =  xmlcontext.find("{%s}secondaryReferences" % AWMC)
+    if srs:
+        bibls = srs.findall("{%s}bibl" % TEI)
+        if not bibls:
+            raise EntityLoadError, "Encountered an empty secondaryReferences" 
+        else:
+            for bibl in bibls:
+                biblstr = bibl.text
+                id = ptool.normalizeString(biblstr)
+                try:
+                    portalcontext.invokeFactory('SecondaryReference',
+                        title=biblstr,
+                        id=id
+                    )
+                except:
+                    raise EntityLoadError, "There is already a SecondaryReference with id=%s in portal context" % id
+            
 import sys
 
 def load_place(site, file):
@@ -248,6 +267,9 @@ def load_place(site, file):
         # Time Periods associated with the name
         parse_periods(e, name)
         
+        # SecondaryReferences associated with the name
+        parse_secondary_references(e, name, ptool)
+        
     # Locations
     for e in root.findall("{%s}spatialLocation" % ADLGAZ):
         coords = e.findall("{%s}point" % GEORSS)[0].text
@@ -296,6 +318,9 @@ def load_place(site, file):
         p.addReference(getattr(locations, lid), 'location_location')
     for nid in nids:
         p.addReference(getattr(names, nid), 'name_name')
+        
+    # Secondary references for the place
+    parse_secondary_references(root, p, ptool)
 
     return {'place_id': pid, 'location_ids': lids, 'name_ids': nids}
 
