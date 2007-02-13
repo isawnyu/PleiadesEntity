@@ -97,6 +97,7 @@ class PlaceContainer(BaseBTreeFolder):
         self._v_nextid += 1
         return new_id
 
+
 registerType(PlaceContainer, PROJECTNAME)
 # end of class PlaceContainer
 

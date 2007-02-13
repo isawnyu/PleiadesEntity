@@ -81,6 +81,7 @@ class SecondaryReference(Reference, BaseContent):
 
     # Methods
 
+
 registerType(SecondaryReference, PROJECTNAME)
 # end of class SecondaryReference
 

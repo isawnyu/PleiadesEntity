@@ -35,18 +35,13 @@ from Products.PleiadesEntity.config import *
 ##code-section module-header #fill in your manual code here
 ##/code-section module-header
 
+copied_fields = {}
+copied_fields['title'] = BaseSchema['title'].copy()
+copied_fields['title'].widget.label = "Citation"
 schema = Schema((
 
-    StringField(
-        name='reference',
-        widget=StringWidget(
-            label='Reference',
-            label_msgid='PleiadesEntity_label_reference',
-            i18n_domain='PleiadesEntity',
-        )
+    copied_fields['title'],
     ),
-
-),
 )
 
 ##code-section after-local-schema #fill in your manual code here
@@ -87,6 +82,7 @@ class Reference(BaseContent):
     ##/code-section class-header
 
     # Methods
+
 
 registerType(Reference, PROJECTNAME)
 # end of class Reference

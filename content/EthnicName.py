@@ -81,6 +81,7 @@ class EthnicName(Name, BaseFolder):
 
     # Methods
 
+
 registerType(EthnicName, PROJECTNAME)
 # end of class EthnicName
 

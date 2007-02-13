@@ -81,6 +81,7 @@ class GeographicName(Name, BaseFolder):
 
     # Methods
 
+
 registerType(GeographicName, PROJECTNAME)
 # end of class GeographicName
 

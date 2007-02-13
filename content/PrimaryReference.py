@@ -81,6 +81,7 @@ class PrimaryReference(Reference, BaseContent):
 
     # Methods
 
+
 registerType(PrimaryReference, PROJECTNAME)
 # end of class PrimaryReference
 

@@ -137,6 +137,7 @@ class Name(BaseFolder):
 
     # Methods
 
+
 registerType(Name, PROJECTNAME)
 # end of class Name
 

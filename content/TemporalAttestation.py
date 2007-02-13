@@ -92,6 +92,7 @@ class TemporalAttestation(BaseContent):
 
     # Methods
 
+
 registerType(TemporalAttestation, PROJECTNAME)
 # end of class TemporalAttestation
 

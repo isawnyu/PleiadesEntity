@@ -148,6 +148,7 @@ class Place(BaseFolder):
         """
         return self.get_title()
 
+
 registerType(Place, PROJECTNAME)
 # end of class Place
 

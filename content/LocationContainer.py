@@ -98,6 +98,7 @@ class LocationContainer(BaseBTreeFolder):
         self._v_nextid += 1
         return new_id
 
+
 registerType(LocationContainer, PROJECTNAME)
 # end of class LocationContainer
 
