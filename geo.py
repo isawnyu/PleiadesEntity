@@ -32,6 +32,9 @@ from zope.interface import implements
 from Products.PleiadesGeocoder.interfaces import IGeoItemSimple \
     , IGeoCollectionSimple
 
+from Products.PleiadesEntity.interfaces import IPlaceContainer
+
+
 class GeoEntitySimple(object):
     
     """Python expression of a GeoRSS simple item.
@@ -119,7 +122,8 @@ class GeoCollectionSimple(object):
         self.context = context
         
     def geoItems(self):
-        if hasattr(self.context, 'listFolderContents'):
+        if IPlaceContainer.providedBy(self.context):
+        #hasattr(self.context, 'listFolderContents'):
             for ob in self.context.listFolderContents():
                 try:
                     item = IGeoItemSimple(ob)
