@@ -326,12 +326,16 @@ def load_place(site, file):
 
     # Get the legacy BA identifier
     e = root.findall("{%s}featureID" % ADLGAZ)
-    baid = str(e[0].text)
-    
+    fid = str(e[0].text)
+    if fid.startswith('batlas'):
+        id = baident(fid)
+    else:
+        id = None
+
     placeNames = [getattr(names, nid) for nid in nids]
     computedTitle = '/'.join([n.Title() for n in placeNames])
     pid = places.invokeFactory('Place',
-                    id=baident(baid),
+                    id=id,
                     title=computedTitle,
                     modernLocation=modernLocation,
                     placeType=placeType,

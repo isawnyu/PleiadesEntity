@@ -33,6 +33,7 @@ Setup
     >>> _ = folder.invokeFactory('Large Plone Folder', id='names')
     >>> _ = folder.invokeFactory('LocationContainer', id='locations')
     >>> _ = folder.invokeFactory('PlaceContainer', id='places')
+    >>> folder.places._v_nextid = BA_ID_MAX
 
 Utility tests
 -------------
@@ -57,8 +58,9 @@ Load one entity
 ---------------
 
     >>> r = load_place(folder, "%s/batlas-65-2-24-grc.xml" % TEST_DATA)
-    >>> r['place_id']
-    '0'
+    >>> pid = r['place_id']
+    >>> pid
+    '638753'
     >>> r['name_ids']
     ['aphrodisias', 'ninoe', 'aphrodisieus']
     >>> r['location_ids']
@@ -66,7 +68,7 @@ Load one entity
 
     Test place
 
-    >>> p = getattr(folder.places, '0')
+    >>> p = getattr(folder.places, pid)
     >>> p.title_or_id()
     'Aphrodisias/Ninoe/Aphrodisieus'
     >>> p.Title()
@@ -81,6 +83,11 @@ Load one entity
     ('R. Talbert (editor)', 'T. Elliott (data normalization and xml encoding)')
     >>> p.Rights()
     "Copyright \xc2\xa9 2006 Ancient World Mapping Center. All rights reserved. This data is derived from original compilations prepared for the American Philological Association's Classical Atlas Project (1988-2000). It is used here with permission of the APA. This data is intended solely for testing purposes in the context of the Ancient World Mapping Center's Pleiades Project and may not be reused or redistributed. In its current state, this data may contain errors and omissions and is not appropriate for citation or scholarly use. Any errors or omissions are the result of prototype conversion software, still under development by the AWMC's Pleiades Project, and do not reflect the quality and completeness of the original data nor the opinions of its scholarly compilers and editors."
+    >>> p.Description()
+    'foo'
+
+    Test bibliographic references
+
     >>> srefs = p.getFolderContents({'meta_type':['SecondaryReference']})
     >>> len(srefs)
     4
@@ -244,9 +251,9 @@ Test the geo adapters
     >>> g.isGeoreferenced()
     True
     >>> g.getInfo()
-    {'srs': 'EPSG:4326', 'geometryType': 'point', 'description': '', 'spatialCoordinates': '37.71446 28.72886 0.0', 'url': 'http://nohost/plone/Members/test_user_1_/places/0', 'title': 'Aphrodisias/Ninoe/Aphrodisieus', 'id': '0'}
+    {'srs': 'EPSG:4326', 'geometryType': 'point', 'description': 'foo', 'spatialCoordinates': '37.71446 28.72886 0.0', 'url': 'http://nohost/plone/Members/test_user_1_/places/638753', 'title': 'Aphrodisias/Ninoe/Aphrodisieus', 'id': '638753'}
 
     >>> c = IGeoCollectionSimple(folder.places)
     >>> c.getItemsInfo()
-    [{'srs': 'EPSG:4326', 'geometryType': 'point', 'description': '', 'spatialCoordinates': '37.71446 28.72886 0.0', 'url': 'http://nohost/plone/Members/test_user_1_/places/0', 'title': 'Aphrodisias/Ninoe/Aphrodisieus', 'id': '0'}]
+    [{'srs': 'EPSG:4326', 'geometryType': 'point', 'description': 'foo', 'spatialCoordinates': '37.71446 28.72886 0.0', 'url': 'http://nohost/plone/Members/test_user_1_/places/638753', 'title': 'Aphrodisias/Ninoe/Aphrodisieus', 'id': '638753'}]
 

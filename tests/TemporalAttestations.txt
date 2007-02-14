@@ -33,6 +33,8 @@ Setup
     >>> _ = folder.invokeFactory('Large Plone Folder', id='names')
     >>> _ = folder.invokeFactory('LocationContainer', id='locations')
     >>> _ = folder.invokeFactory('PlaceContainer', id='places')
+    >>> folder.places._v_nextid = BA_ID_MAX
+
 
 Utility tests
 -------------
@@ -58,7 +60,7 @@ Load one entity
 
     >>> r = load_place(folder, "%s/timetwister.xml" % TEST_DATA)
     >>> r['place_id']
-    '0'
+    '1010945'
     >>> r['name_ids']
     ['time-twister', 'tome-twirling']
     >>> r['location_ids']
