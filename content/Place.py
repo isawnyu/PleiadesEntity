@@ -152,8 +152,18 @@ class Place(BaseFolder):
     def getTimePeriods(self):
         """
         """
-        pass
-
+        names = self.getRefs('name_name')
+        locations = self.getRefs('location_location')
+        periods = []
+        for name in names:
+            periods.extend(name.getTimePeriods())
+        for location in locations:
+            periods.extend(location.getTimePeriods())
+        result = []
+        for p in periods:
+            if p not in result:
+                result.append(p)
+        return result
 
 registerType(Place, PROJECTNAME)
 # end of class Place

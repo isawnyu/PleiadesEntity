@@ -130,6 +130,8 @@ Load one entity
     'RE 2'
     >>> srs[1].Title
     'NPauly 1'
+    >>> n0.getTimePeriods()
+    ['Roman', 'Late Antique']
     
     
 
@@ -213,7 +215,15 @@ Load one entity
     'late-antique'
     >>> tps[2].getCertainty
     'certain'
-    
+    >>> l.getTimePeriods()
+    ['Classical', 'Roman', 'Late Antique']
+
+    Check Place time periods
+
+    >>> p.getTimePeriods()
+    ['Roman', 'Late Antique', 'Classical']
+
+
     Test references
 
     >>> p.getRefs('name_name')[0] == n0
