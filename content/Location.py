@@ -121,6 +121,12 @@ class Location(BaseFolder):
         """
         return self.get_title()
 
+    security.declarePublic('getTimePeriods')
+    def getTimePeriods(self):
+        """
+        """
+        pass
+
 
 registerType(Location, PROJECTNAME)
 # end of class Location

@@ -137,6 +137,12 @@ class Name(BaseFolder):
 
     # Methods
 
+    security.declarePublic('getTimePeriods')
+    def getTimePeriods(self):
+        """
+        """
+        pass
+
 
 registerType(Name, PROJECTNAME)
 # end of class Name
