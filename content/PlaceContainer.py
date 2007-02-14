@@ -83,13 +83,14 @@ class PlaceContainer(BaseBTreeFolder):
     # Methods
 
     security.declareProtected(permissions.AddPortalContent, 'invokeFactory')
-    def invokeFactory(self, type_name, RESPONSE=None, **kw):
+    def invokeFactory(self, type_name, id=None, RESPONSE=None, **kw):
         """
         """
         pt = getToolByName(self, 'portal_types')
         if type_name != 'Place':
             raise ValueError, 'Disallowed subobject type: %s' % type_name
-        id = self._v_nextid
+        if not id:
+            id = self._v_nextid
         args = ('Place', self, id, RESPONSE)
         new_id = pt.constructContent(*args, **kw)
         if new_id is None or new_id == '':

@@ -39,7 +39,22 @@ from Products.CMFCore.utils import getToolByName
 from Products.PleiadesEntity.Extensions.xmlutil import *
 from Products.PleiadesEntity.Extensions.cooking import *
 
+BA_MAP_IDS = ['1', '1a'] + [str(n) for n in range(2, 103)]
+BA_TABLE_COUNT = 13
+BA_ROW_COUNT = 755
+BA_ID_MAX = len(BA_MAP_IDS) * BA_TABLE_COUNT * BA_ROW_COUNT
 
+batlas_pattern = re.compile(r'batlas-(\w+)-(\w+)-(\w+)')
+
+def baident(identifier):
+    """Map old identifiers of the form batlas-MM-TT-RR to unique integers."""
+    m = batlas_pattern.search(identifier)
+    g = m.groups()
+    mm = BA_MAP_IDS.index(g[0])
+    tt = int(g[1]) - 1
+    rr = int(g[2]) - 1
+    return (BA_ROW_COUNT * BA_TABLE_COUNT) * mm + BA_ROW_COUNT * tt + rr
+    
 class EntityLoadError(Exception):
     pass
 
@@ -90,6 +105,7 @@ def initialize(self):
     try:
         self.invokeFactory('PlaceContainer',
             id='places', title='Ancient Places')
+        getattr(self, 'places')._v_nextid = BA_ID_MAX
     except:
         pass
 
@@ -302,15 +318,27 @@ def load_place(site, file):
     else:
         placeType = 'Unknown'
 
+    e = root.findall("{%s}description" % DC)
+    if e:
+        description = e[0].text.encode('utf-8')
+    else:
+        description = 'foo'
+
+    # Get the legacy BA identifier
+    e = root.findall("{%s}featureID" % ADLGAZ)
+    baid = str(e[0].text)
+    
     placeNames = [getattr(names, nid) for nid in nids]
     computedTitle = '/'.join([n.Title() for n in placeNames])
     pid = places.invokeFactory('Place',
+                    id=baident(baid),
                     title=computedTitle,
                     modernLocation=modernLocation,
                     placeType=placeType,
                     creators=creators,
                     contributors=contributors,
-                    rights=rights
+                    rights=rights,
+                    description=description
                     )
     p = getattr(places, pid)
    
