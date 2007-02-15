@@ -84,7 +84,7 @@ Load one entity
     >>> p.Rights()
     "Copyright \xc2\xa9 2006 Ancient World Mapping Center. All rights reserved. This data is derived from original compilations prepared for the American Philological Association's Classical Atlas Project (1988-2000). It is used here with permission of the APA. This data is intended solely for testing purposes in the context of the Ancient World Mapping Center's Pleiades Project and may not be reused or redistributed. In its current state, this data may contain errors and omissions and is not appropriate for citation or scholarly use. Any errors or omissions are the result of prototype conversion software, still under development by the AWMC's Pleiades Project, and do not reflect the quality and completeness of the original data nor the opinions of its scholarly compilers and editors."
     >>> p.Description()
-    'foo'
+    'An ancient settlement, attested during the Classical, Roman and Late Antique periods (modern location: Geyre). It was known in antiquity by the names: Aphrodisias and Ninoe.'
 
     Test bibliographic references
 
@@ -251,9 +251,9 @@ Test the geo adapters
     >>> g.isGeoreferenced()
     True
     >>> g.getInfo()
-    {'srs': 'EPSG:4326', 'geometryType': 'point', 'description': 'foo', 'spatialCoordinates': '37.71446 28.72886 0.0', 'url': 'http://nohost/plone/Members/test_user_1_/places/638753', 'title': 'Aphrodisias/Ninoe/Aphrodisieus', 'id': '638753'}
+    {'srs': 'EPSG:4326', 'geometryType': 'point', 'description': 'An ancient settlement, attested during the Classical, Roman and Late Antique periods (modern location: Geyre). It was known in antiquity by the names: Aphrodisias and Ninoe.', 'spatialCoordinates': '37.71446 28.72886 0.0', 'url': 'http://nohost/plone/Members/test_user_1_/places/638753', 'title': 'Aphrodisias/Ninoe/Aphrodisieus', 'id': '638753'}
 
     >>> c = IGeoCollectionSimple(folder.places)
     >>> c.getItemsInfo()
-    [{'srs': 'EPSG:4326', 'geometryType': 'point', 'description': 'foo', 'spatialCoordinates': '37.71446 28.72886 0.0', 'url': 'http://nohost/plone/Members/test_user_1_/places/638753', 'title': 'Aphrodisias/Ninoe/Aphrodisieus', 'id': '638753'}]
+    [{'srs': 'EPSG:4326', 'geometryType': 'point', 'description': 'An ancient settlement, attested during the Classical, Roman and Late Antique periods (modern location: Geyre). It was known in antiquity by the names: Aphrodisias and Ninoe.', 'spatialCoordinates': '37.71446 28.72886 0.0', 'url': 'http://nohost/plone/Members/test_user_1_/places/638753', 'title': 'Aphrodisias/Ninoe/Aphrodisieus', 'id': '638753'}]
 
