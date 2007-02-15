@@ -246,10 +246,10 @@ def load_place(site, file):
             nameLanguage = ''
         
         d = e.findall("{%s}description" % DC)
-            if d:
-                description = d[0].text.encode('utf-8')
-            else:
-                description = ''
+        if d:
+            description = d[0].text.encode('utf-8')
+        else:
+            description = ''
 
         type = e.findall("{%s}classificationSection/{%s}classificationTerm" \
                          % (ADLGAZ, ADLGAZ))[0].text
