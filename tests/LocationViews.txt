@@ -6,8 +6,8 @@ Setup
 -----
 
     >>> _ = folder.invokeFactory('LocationContainer', id='locations')
-    >>> _ = folder.locations.invokeFactory('Location')
-    >>> x = getattr(folder.locations, '0')
+    >>> lid = folder.locations.invokeFactory('Location')
+    >>> x = getattr(folder.locations, lid)
     >>> _ = x.setSpatialCoordinates('34.769722222222 -86.4808333333333 0.0')
     >>> _ = x.setGeometryType('Point')
 
@@ -37,7 +37,7 @@ Check the URL
 
     >>> browser.url == url
     True
-    >>> browser.url.endswith('0')
+    >>> browser.url.endswith(lid)
     True
     
 Check the html content of the view page (description will not appear here)

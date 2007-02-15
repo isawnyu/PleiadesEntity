@@ -90,12 +90,11 @@ class LocationContainer(BaseBTreeFolder):
         pt = getToolByName(self, 'portal_types')
         if type_name != 'Location':
             raise ValueError, 'Disallowed subobject type: %s' % type_name
-        id = self._v_nextid
+        id = self.generateId(prefix='')
         args = ('Location', self, id, RESPONSE)
         new_id = pt.constructContent(*args, **kw)
         if new_id is None or new_id == '':
             new_id = id
-        self._v_nextid += 1
         return new_id
 
 

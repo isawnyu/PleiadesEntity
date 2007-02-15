@@ -59,12 +59,10 @@ Load one entity
 
     >>> r = load_place(folder, "%s/batlas-65-2-24-grc.xml" % TEST_DATA)
     >>> pid = r['place_id']
-    >>> pid
-    '638753'
+    >>> pid > folder.places._v_nextid
+    True
     >>> r['name_ids']
     ['aphrodisias', 'ninoe', 'aphrodisieus']
-    >>> r['location_ids']
-    ['0']
 
     Test place
 
@@ -180,7 +178,8 @@ Load one entity
 
     Test locations
 
-    >>> l = getattr(folder.locations, '0')
+    >>> lid = r['location_ids'][0]
+    >>> l = getattr(folder.locations, lid)
     >>> l.geometryType
     u'Point'
     >>> l.getGeometryType()
@@ -189,10 +188,10 @@ Load one entity
     u'37.7144599999992 28.7288599999993'
     >>> l.getSpatialCoordinates()
     '37.7144599999992 28.7288599999993'
-    >>> l.title_or_id()
-    'Point 0'
-    >>> l.Title()
-    'Point 0'
+    >>> l.title_or_id() == "Point %s" % lid
+    True
+    >>> l.Title() == "Point %s" % lid
+    True
     >>> l.Creators()
     ('C. Foss (compiler, west)', 'S. Mitchell (compiler)')
     >>> l.Contributors()

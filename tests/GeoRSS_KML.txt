@@ -25,14 +25,14 @@ Setup
     Entities
 
     >>> _ = folder.names.invokeFactory('GeographicName', id='neverpolis', title='Neverpolis')
-    >>> _ = folder.locations.invokeFactory('Location')
-    >>> _ = folder.places.invokeFactory('Place')
+    >>> lid = folder.locations.invokeFactory('Location')
+    >>> pid = folder.places.invokeFactory('Place')
 
     Add References
 
     >>> n = folder.names.neverpolis
-    >>> x = getattr(folder.locations, '0')
-    >>> p = getattr(folder.places, '0')
+    >>> x = getattr(folder.locations, lid)
+    >>> p = getattr(folder.places, pid)
     >>> _ = p.addReference(n, 'name_name')
     >>> _ = p.addReference(x, 'location_location')
 
@@ -62,22 +62,23 @@ Test browse
     >>> url = folder.places.absolute_url()
 
     >>> browser.open("%s/@@geo/forRSS" % url)
-    >>> browser.contents
-    "[{'srs': 'EPSG:4326', 'geometryType': 'point', 'description': 'A testing entity', 'spatialCoordinates': '0.0 0.0', 'url': 'http://nohost/plone/Members/test_user_1_/places/0', 'geom_element': '<georss:point>0.0 0.0</georss:point>', 'title': 'Neverpolis', 'id': '0'}]"
+    >>> browser.contents == """[{'srs': 'EPSG:4326', 'geometryType': 'point', 'description': 'A testing entity', 'spatialCoordinates': '0.0 0.0', 'url': 'http://nohost/plone/Members/test_user_1_/places/%(pid)s', 'geom_element': '<georss:point>0.0 0.0</georss:point>', 'title': 'Neverpolis', 'id': '%(pid)s'}]""" % {'pid': pid}
+    True
 
     >>> browser.open("%s/@@geo/forKML" % url)
-    >>> browser.contents
-    '[{\'srs\': \'EPSG:4326\', \'desc_body\': \'<![CDATA[<p>A testing entity</p><p><a href="http://nohost/plone/Members/test_user_1_/places/0">Neverpolis</a></p>]]>\', \'geometryType\': \'point\', \'description\': \'A testing entity\', \'spatialCoordinates\': \'0.0 0.0 0.0\', \'url\': \'http://nohost/plone/Members/test_user_1_/places/0\', \'geom_element\': \'<Point><coordinates>0.000000,0.000000,0.000000</coordinates></Point>\', \'title\':  \'Neverpolis\', \'id\': \'0\'}]'
+    >>> expected =  '[{\'srs\': \'EPSG:4326\', \'desc_body\': \'<![CDATA[<p>A testing entity</p><p><a href="http://nohost/plone/Members/test_user_1_/places/%(pid)s">Neverpolis</a></p>]]>\', \'geometryType\': \'point\', \'description\': \'A testing entity\', \'spatialCoordinates\': \'0.0 0.0 0.0\', \'url\': \'http://nohost/plone/Members/test_user_1_/places/%(pid)s\', \'geom_element\': \'<Point><coordinates>0.000000,0.000000,0.000000</coordinates></Point>\', \'title\': \'Neverpolis\', \'id\': \'%(pid)s\'}]' % {'pid': pid}
+    >>> browser.contents == expected
+    True
 
     Check views of single place
 
     >>> url = p.absolute_url()
     >>> browser.open("%s/@@geo/forRSS" % url)
-    >>> browser.contents
-    "[{'srs': 'EPSG:4326', 'geometryType': 'point', 'description': 'A testing entity', 'spatialCoordinates': '0.0 0.0', 'url': 'http://nohost/plone/Members/test_user_1_/places/0', 'geom_element': '<georss:point>0.0 0.0</georss:point>', 'title': 'Neverpolis', 'id': '0'}]"
+    >>> browser.contents == "[{'srs': 'EPSG:4326', 'geometryType': 'point', 'description': 'A testing entity', 'spatialCoordinates': '0.0 0.0', 'url': 'http://nohost/plone/Members/test_user_1_/places/%(pid)s', 'geom_element': '<georss:point>0.0 0.0</georss:point>', 'title': 'Neverpolis', 'id': '%(pid)s'}]" % {'pid': pid}
+    True
 
     >>> browser.open("%s/@@geo/forKML" % url)
-    >>> browser.contents
-    '[{\'srs\': \'EPSG:4326\', \'desc_body\': \'<![CDATA[<p>A testing entity</p><p><a href="http://nohost/plone/Members/test_user_1_/places/0">Neverpolis</a></p>]]>\', \'geometryType\': \'point\', \'description\': \'A testing entity\', \'spatialCoordinates\': \'0.0 0.0 0.0\', \'url\': \'http://nohost/plone/Members/test_user_1_/places/0\', \'geom_element\': \'<Point><coordinates>0.000000,0.000000,0.000000</coordinates></Point>\', \'title\':  \'Neverpolis\', \'id\': \'0\'}]'
-
+    >>> expected =  '[{\'srs\': \'EPSG:4326\', \'desc_body\': \'<![CDATA[<p>A testing entity</p><p><a href="http://nohost/plone/Members/test_user_1_/places/%(pid)s">Neverpolis</a></p>]]>\', \'geometryType\': \'point\', \'description\': \'A testing entity\', \'spatialCoordinates\': \'0.0 0.0 0.0\', \'url\': \'http://nohost/plone/Members/test_user_1_/places/%(pid)s\', \'geom_element\': \'<Point><coordinates>0.000000,0.000000,0.000000</coordinates></Point>\', \'title\': \'Neverpolis\', \'id\': \'%(pid)s\'}]' % {'pid': pid}
+    >>> browser.contents == expected
+    True
 

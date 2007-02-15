@@ -89,13 +89,14 @@ class PlaceContainer(BaseBTreeFolder):
         pt = getToolByName(self, 'portal_types')
         if type_name != 'Place':
             raise ValueError, 'Disallowed subobject type: %s' % type_name
-        if not id:
-            id = self._v_nextid
-        args = ('Place', self, id, RESPONSE)
+        if id:
+            obid = str(id)
+        else:
+            obid = self.generateId(prefix='')
+        args = ('Place', self, obid, RESPONSE)
         new_id = pt.constructContent(*args, **kw)
         if new_id is None or new_id == '':
-            new_id = id
-        self._v_nextid += 1
+            new_id = obid
         return new_id
 
 

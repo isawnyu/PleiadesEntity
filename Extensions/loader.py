@@ -119,7 +119,10 @@ def loaden(self, sourcedir):
             load_place(self, xml)
             count += 1
         except Exception, e:
-            failures.append([basename(xml), str(e)])
+            if str(e).find('Invalid name type') >= 0:
+                failures.append([basename(xml), str(e)])
+            else:
+                raise
     if len(failures) == 0:
         return "Loaded %d of %d files." % (count, count)
     else:
@@ -287,6 +290,8 @@ def load_place(site, file):
         
         # SecondaryReferences associated with the name
         parse_secondary_references(e, name, ptool)
+
+        name.reindexObject()
         
     # Locations
     for e in root.findall("{%s}spatialLocation" % ADLGAZ):
@@ -304,7 +309,8 @@ def load_place(site, file):
         
         # Time Periods associated with the location
         parse_periods(root, getattr(locations, lid))
-
+        
+        getattr(locations, lid).reindexObject()
 
     # Place
     e = root.findall("{%s}modernLocation" % AWMC)
@@ -355,6 +361,8 @@ def load_place(site, file):
         
     # Secondary references for the place
     parse_secondary_references(root, p, ptool)
+
+    p.reindexObject()
 
     return {'place_id': pid, 'location_ids': lids, 'name_ids': nids}
 

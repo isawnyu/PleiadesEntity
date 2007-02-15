@@ -59,12 +59,10 @@ Load one entity
 ---------------
 
     >>> r = load_place(folder, "%s/timetwister.xml" % TEST_DATA)
-    >>> r['place_id']
-    '1010945'
+    >>> int(r['place_id']) >= BA_ID_MAX
+    True
     >>> r['name_ids']
     ['time-twister', 'tome-twirling']
-    >>> r['location_ids']
-    ['0']
 
     Test names
 
@@ -101,13 +99,11 @@ Load one entity
     'late-antique'
     >>> tps[1].getCertainty
     'less certain and there is no contemporary evidence'
-    
-    
-
 
     Test locations
 
-    >>> l = getattr(folder.locations, '0')
+    >>> lid = r['location_ids'][0]
+    >>> l = getattr(folder.locations, lid)
     >>> tps = l.getFolderContents({'meta_type':['TemporalAttestation']})
     >>> len(tps)
     5
