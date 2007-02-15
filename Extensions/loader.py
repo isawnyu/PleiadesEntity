@@ -254,9 +254,11 @@ def load_place(site, file):
 
         if type not in ['geographic', 'ethnic']:
             raise EntityLoadError, "Invalid name type"
-            
+           
+        typename = "%sName" % type.capitalize()
+
         try:
-            nid = names.invokeFactory('GeographicName',
+            nid = names.invokeFactory(typename,
                     id=id,
                     title=transliteration.encode('utf-8'),
                     nameAttested=nameAttested.encode('utf-8'),
@@ -267,7 +269,7 @@ def load_place(site, file):
                     )
             name = getattr(names, nid)
         except:
-            nid = names.duplicates.invokeFactory('GeographicName',
+            nid = names.duplicates.invokeFactory(typename,
                     id=id,
                     title=transliteration.encode('utf-8'),
                     nameAttested=nameAttested.encode('utf-8'),
