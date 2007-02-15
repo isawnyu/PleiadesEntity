@@ -34,6 +34,7 @@ Setup
     >>> _ = folder.names.invokeFactory('Large Plone Folder', id='duplicates')
     >>> _ = folder.invokeFactory('LocationContainer', id='locations')
     >>> _ = folder.invokeFactory('PlaceContainer', id='places')
+    >>> folder.places._v_nextid = BA_ID_MAX
 
 Utility tests
 -------------
@@ -57,5 +58,5 @@ Utility tests
 Load entities
 -------------
 
-    >>> loaden(folder, "/home/sean/Desktop/ba065.zip_FILES/")
+    >>> loaden(folder, "/tmp/ba/ba065.zip_FILES/")
     ''
