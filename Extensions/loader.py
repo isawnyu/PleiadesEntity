@@ -119,10 +119,8 @@ def loaden(self, sourcedir):
             load_place(self, xml)
             count += 1
         except Exception, e:
-            if str(e).find('Invalid name type') >= 0:
-                failures.append([basename(xml), str(e)])
-            else:
-                raise
+            failures.append([basename(xml), str(e)])
+    
     if len(failures) == 0:
         return "Loaded %d of %d files." % (count, count)
     else:
@@ -246,7 +244,13 @@ def load_place(site, file):
         else:
             nameAttested = ''
             nameLanguage = ''
-            
+        
+        d = e.findall("{%s}description" % DC)
+            if d:
+                description = d[0].text.encode('utf-8')
+            else:
+                description = ''
+
         type = e.findall("{%s}classificationSection/{%s}classificationTerm" \
                          % (ADLGAZ, ADLGAZ))[0].text
         type = str(type)
@@ -268,7 +272,8 @@ def load_place(site, file):
                     nameLanguage=nameLanguage.encode('utf-8'),
                     creators=creators,
                     contributors=contributors,
-                    rights=rights
+                    rights=rights,
+                    description=description
                     )
             name = getattr(names, nid)
         except:
@@ -279,7 +284,8 @@ def load_place(site, file):
                     nameLanguage=nameLanguage.encode('utf-8'),
                     creators=creators,
                     contributors=contributors,
-                    rights=rights
+                    rights=rights,
+                    description=description
                     )
             name = getattr(names.duplicates, nid)
 
@@ -330,7 +336,7 @@ def load_place(site, file):
     if e:
         description = e[0].text.encode('utf-8')
     else:
-        description = 'foo'
+        description = ''
 
     # Get the legacy BA identifier
     e = root.findall("{%s}featureID" % ADLGAZ)
