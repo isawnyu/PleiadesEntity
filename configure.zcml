@@ -22,6 +22,11 @@
     />
 
   <five:implements
+    class=".content.Place.Place"
+    interface="Products.PleiadesOpenLayers.interfaces.feature.IMapFeature"
+    />
+
+  <five:implements
     class=".content.PlaceContainer.PlaceContainer"
     interface=".interfaces.IGeoEntity"
     />
