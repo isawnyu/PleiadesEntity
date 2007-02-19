@@ -87,8 +87,18 @@ class PlaceContainer(BaseBTreeFolder):
         """
         """
         pt = getToolByName(self, 'portal_types')
+        myType = pt.getTypeInfo(self)
+        if myType is not None:
+            if not myType.allowType(type_name):
+                raise ValueError, 'Disallowed subobject type: %s' % type_name
+        
+        # types other than Place
         if type_name != 'Place':
-            raise ValueError, 'Disallowed subobject type: %s' % type_name
+            return BasePloneFolder.invokeFactory(
+                self, type_name, id, RESPONSE, **kw
+                )
+
+        # Places are handled differently
         if id:
             obid = str(id)
         else:
