@@ -93,10 +93,12 @@ class PlaceContainer(BaseBTreeFolder):
                 raise ValueError, 'Disallowed subobject type: %s' % type_name
         
         # types other than Place
-        if type_name != 'Place':
-            return BasePloneFolder.invokeFactory(
-                self, type_name, id, RESPONSE, **kw
-                )
+        if type_name != 'Place' and id is not None:
+            args = (type_name, self, id, RESPONSE)
+            new_id = pt.constructContent(*args, **kw)
+            if new_id is None or new_id == '':
+                new_id = id
+            return new_id
 
         # Places are handled differently
         if id:
