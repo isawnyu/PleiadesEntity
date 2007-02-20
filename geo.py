@@ -87,7 +87,7 @@ class GeoEntitySimple(object):
         
     def isGeoreferenced(self):
         """Return True if the object is "on the map"."""
-        return bool(self.getSpatialCoordinates())
+        return bool(len(self.context.getRefs('location_location')))
         
     def getInfo(self, dims=3):
         """Return an informative dict."""
