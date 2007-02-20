@@ -40,6 +40,7 @@ schema = Schema((
     StringField(
         name='placeType',
         default="unknown",
+        index="KeywordIndex",
         widget=SelectionWidget(
             label="Place Type",
             label_msgid='PleiadesEntity_label_placeType',
@@ -51,6 +52,7 @@ schema = Schema((
 
     StringField(
         name='modernLocation',
+        index="ZCTextIndex",
         widget=StringWidget(
             label="Modern Location",
             description="An indication in prose of the modern location and vicinity of the ancient place.",
@@ -164,6 +166,7 @@ class Place(BaseFolder):
             if p not in result:
                 result.append(p)
         return result
+
 
 registerType(Place, PROJECTNAME)
 # end of class Place

@@ -47,7 +47,7 @@ schema = Schema((
     copied_fields['title'],
         StringField(
         name='nameAttested',
-        index="FieldIndex",
+        index="ZCTextIndex",
         widget=StringWidget(
             label="Name as Attested",
             description="A transcription of the attested form of the name, in its original language and script.",
@@ -60,6 +60,7 @@ schema = Schema((
 
     StringField(
         name='nameLanguage',
+        index="FieldIndex",
         widget=SelectionWidget(
             label="Language and Writing System",
             description="The language and writing system (script) of the attested name.",
@@ -74,6 +75,7 @@ schema = Schema((
     StringField(
         name='accuracy',
         default="accurate",
+        index="FieldIndex",
         widget=SelectionWidget(
             label="Accuracy of Attestation",
             label_msgid='PleiadesEntity_label_accuracy',
@@ -86,6 +88,7 @@ schema = Schema((
     StringField(
         name='completeness',
         default="complete",
+        index="FieldIndex",
         widget=SelectionWidget(
             label="Completeness of Attestation",
             label_msgid='PleiadesEntity_label_completeness',

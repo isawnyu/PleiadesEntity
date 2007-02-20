@@ -43,6 +43,7 @@ schema = Schema((
     StringField(
         name='geometryType',
         default="Point",
+        index="FieldIndex",
         widget=SelectionWidget(
             label="Geometry Type",
             label_msgid='PleiadesEntity_label_geometryType',

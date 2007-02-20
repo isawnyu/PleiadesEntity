@@ -91,7 +91,7 @@ class PlaceContainer(BaseBTreeFolder):
         if myType is not None:
             if not myType.allowType(type_name):
                 raise ValueError, 'Disallowed subobject type: %s' % type_name
-        
+
         # types other than Place
         if type_name != 'Place' and id is not None:
             args = (type_name, self, id, RESPONSE)
