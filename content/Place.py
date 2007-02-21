@@ -47,7 +47,7 @@ schema = Schema((
             i18n_domain='PleiadesEntity',
         ),
         enforceVocabulary=1,
-        vocabulary=[ 'bath, spa', 'bridge', 'catacomb, cemetery', 'cave', 'church, monastery', 'dam',  'estate, villa', 'findspot', 'fort, tower', 'lighthouse', 'mine, quarry',  'mountain pass, gates', 'port', 'production center (manufacturing, fishing)', 'reservoir, hafir', 'settlement', 'settlement, oasis/desert', 'spring', 'station, route/coastal)',  'temple, sanctuary, shrine, monument, tomb', 'tumulus', 'unknown', 'water wheel', 'well', 'whirlpool']
+        vocabulary=['aqueduct', 'bath', 'bay', 'bridge', 'canal', 'cape', 'cave', 'cemetery', 'centuriation', 'church', 'coast', 'dam', 'estate', 'estuary', 'findspot', 'forest', 'fort', 'hill', 'island', 'lighthouse', 'mine', 'mountain', 'oasis', 'pass', 'people', 'plain', 'port', 'production', 'region', 'reservoir', 'ridge', 'river', 'road', 'salt-marsh', 'settlement', 'settlement-modern', 'spring', 'station', 'temple', 'tumulus', 'unknown', 'unlocated', 'valley', 'wall', 'water-inland', 'water-open', 'well', 'wheel', 'whirlpool']
     ),
 
     StringField(

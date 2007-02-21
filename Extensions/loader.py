@@ -327,8 +327,13 @@ def load_place(site, file):
     if e:
         placeType = str(e[0].text)
     else:
-        placeType = 'Unknown'
-
+        placeType = 'unknown'
+    legaltypes = ['aqueduct', 'bath', 'bay', 'bridge', 'canal', 'cape', 'cave', 'cemetery', 'centuriation', 'church', 'coast', 'dam', 'estate', 'estuary', 'findspot', 'forest', 'fort', 'hill', 'island', 'lighthouse', 'mine', 'mountain', 'oasis', 'pass', 'people', 'plain', 'port', 'production', 'region', 'reservoir', 'ridge', 'river', 'road', 'salt-marsh', 'settlement', 'settlement-modern', 'spring', 'station', 'temple', 'tumulus', 'unknown', 'unlocated', 'valley', 'wall', 'water-inland', 'water-open', 'well', 'wheel', 'whirlpool']
+    try:
+        ptidx = legaltypes.index(placeType)
+    except:
+        raise EntityLoadError, "Invalid placeType  = %s" % placeType
+            
     e = root.findall("{%s}description" % DC)
     if e:
         description = e[0].text.encode('utf-8')
