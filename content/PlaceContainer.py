@@ -104,7 +104,10 @@ class PlaceContainer(BaseBTreeFolder):
         if id:
             obid = str(id)
         else:
-            obid = self.generateId(prefix='')
+            # prevent ids in the reserved range
+            obid = -1
+            while int(obid) <= BA_ID_MAX:
+                obid = self.generateId(prefix='')
         args = ('Place', self, obid, RESPONSE)
         new_id = pt.constructContent(*args, **kw)
         if new_id is None or new_id == '':
