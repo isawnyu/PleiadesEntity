@@ -62,6 +62,18 @@ schema = Schema((
         )
     ),
 
+    StringField(
+        name='certainty',
+        widget=SelectionWidget(
+            label="Certainty of association",
+            description="Certainty of association between locations and names",
+            label_msgid='PleiadesEntity_label_certainty',
+            description_msgid='PleiadesEntity_help_certainty',
+            i18n_domain='PleiadesEntity',
+        ),
+        vocabulary=["certain", "less certain", "uncertain"]
+    ),
+
     ReferenceField(
         name='locations',
         widget=ReferenceWidget(
