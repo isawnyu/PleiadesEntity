@@ -29,20 +29,25 @@ Setup
     >>> _ = folder.invokeFactory('Large Plone Folder', id='names')
     >>> _ = folder.invokeFactory('LocationContainer', id='locations')
     >>> _ = folder.invokeFactory('PlaceContainer', id='places')
+    >>> names = folder.names
+    >>> locations = folder.locations
+    >>> places = folder.places
 
     Entities
 
-    >>> _ = folder.names.invokeFactory('GeographicName', id='neverpolis', title='Neverpolis')
-    >>> lid = folder.locations.invokeFactory('Location')
-    >>> pid = folder.places.invokeFactory('Place')
+    >>> _ = names.invokeFactory('GeographicName', id='neverpolis', title='Neverpolis')
+    >>> lid = locations.invokeFactory('Location')
+    >>> pid = places.invokeFactory('Place')
+    >>> p = getattr(folder.places, pid)
+    >>> aid = p.invokeFactory('PlacefulAssociation', id="neverpolis-%s" % lid)
 
     Add References
 
-    >>> n = folder.names.neverpolis
-    >>> x = getattr(folder.locations, lid)
-    >>> p = getattr(folder.places, pid)
-    >>> _ = p.addReference(n, 'name_name')
-    >>> _ = p.addReference(x, 'location_location')
+    >>> n = getattr(names, 'neverpolis')
+    >>> x = getattr(locations, lid)
+    >>> a = getattr(p, aid)
+    >>> _ = a.addReference(n, 'hasName')
+    >>> _ = a.addReference(x, 'hasLocation')
 
     Set location coordinates
 
@@ -53,12 +58,25 @@ Test the geo adapters
 
     >>> from Products.PleiadesGeocoder.interfaces import IGeoItemSimple, IGeoCollectionSimple
 
+    Place Association
+
+    >>> g = IGeoItemSimple(a)
+    >>> g.isGeoreferenced()
+    True
+    >>> info = {'srs': 'EPSG:4326', 'geometryType': 'point', 'description': '', 'spatialCoordinates': '34.7697222222 -86.4808333333 0.0', 'url': 'http://nohost/plone/Members/test_user_1_/places/%s/%s' % (pid, aid), 'title': 'Neverpolis', 'id': aid}
+    >>> g.getInfo() == info
+    True
+
+    Place
+
     >>> g = IGeoItemSimple(p)
     >>> g.isGeoreferenced()
     True
-    >>> g.getInfo() == {'srs': 'EPSG:4326', 'geometryType': 'point', 'description': '', 'spatialCoordinates': '34.7697222222 -86.4808333333 0.0', 'url': 'http://nohost/plone/Members/test_user_1_/places/%s' % pid, 'title': 'Neverpolis', 'id': pid}
+    >>> info = {'srs': 'EPSG:4326', 'geometryType': 'point', 'description': '', 'spatialCoordinates': '34.7697222222 -86.4808333333 0.0', 'url': 'http://nohost/plone/Members/test_user_1_/places/%s' % pid, 'title': 'Neverpolis', 'id': pid}
+    >>> g.getInfo() == info
     True
 
-    >>> c = IGeoCollectionSimple(folder.places)
+    >>> c = IGeoCollectionSimple(places)
     >>> c.getItemsInfo() == [{'srs': 'EPSG:4326', 'geometryType': 'point', 'description': '', 'spatialCoordinates': '34.7697222222 -86.4808333333 0.0', 'url': 'http://nohost/plone/Members/test_user_1_/places/%s' % pid, 'title': 'Neverpolis', 'id': pid}]
     True
+
