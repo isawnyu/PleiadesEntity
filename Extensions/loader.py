@@ -253,6 +253,25 @@ def load_place(site, file):
         type = str(type)
         if not transliteration or not type:
             raise EntityLoadError, "Incomplete featureName element"
+            
+        # accuracy = ('accurate' | 'inaccurate' | 'false')
+        accuracy = 'accurate'
+        if type == 'false':
+            accuracy = 'false'
+        else:
+            a = e.xpath("descendant::*[@ref='na-inaccurate']")
+            if a:
+                accuracy = 'inaccurate'
+        
+        # completeness = ('complete' | 'reconstructable' | 'non-reconstructable')
+        completeness = 'complete'
+        a = e.xpath("descendant::*[@ref='na-reconstructed']")
+        if a:
+            completeness = 'reconstructable'
+        else:
+            a = e.xpath("descendant::*[@ref='na-fragmentary']")
+            if a:
+                completeness = 'non-reconstructable'
 
         id = ptool.normalizeString(transliteration)
 
@@ -267,6 +286,8 @@ def load_place(site, file):
                     title=transliteration.encode('utf-8'),
                     nameAttested=nameAttested.encode('utf-8'),
                     nameLanguage=nameLanguage.encode('utf-8'),
+                    accuracy=accuracy,
+                    completeness=completeness,
                     creators=creators,
                     contributors=contributors,
                     rights=rights,
@@ -279,6 +300,8 @@ def load_place(site, file):
                     title=transliteration.encode('utf-8'),
                     nameAttested=nameAttested.encode('utf-8'),
                     nameLanguage=nameLanguage.encode('utf-8'),
+                    accuracy=accuracy,
+                    completeness=completeness,
                     creators=creators,
                     contributors=contributors,
                     rights=rights,
