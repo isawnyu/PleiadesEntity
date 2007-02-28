@@ -325,7 +325,6 @@ def load_place(site, file):
         
         # SecondaryReferences associated with the name
         parse_secondary_references(e, name, ptool)
-
         name.reindexObject()
         
     # Locations
@@ -392,6 +391,7 @@ def load_place(site, file):
                     description=description
                     )
     p = getattr(places, pid)
+    p.reindexObject()
    
     for lid in lids:
         for i, nid in enumerate(nids):
@@ -409,8 +409,7 @@ def load_place(site, file):
         
             # Secondary references for the place
             parse_secondary_references(root, a, ptool)
-
-    p.reindexObject()
+            a.reindexObject()
 
     return {'place_id': pid, 'location_ids': lids, 'name_ids': nids}
 
