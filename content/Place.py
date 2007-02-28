@@ -112,6 +112,16 @@ class Place(BaseFolder):
                     result.append(p)
         return result
 
+    security.declarePublic('getPlaceType')
+    def getPlaceType(self):
+        """
+        """
+        result = []
+        for a in self.listFolderContents():
+            if a.getPlaceType() not in result:
+                result.append(a.getPlaceType())
+        return result
+
 
 registerType(Place, PROJECTNAME)
 # end of class Place
