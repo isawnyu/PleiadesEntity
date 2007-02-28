@@ -226,6 +226,7 @@ def load_place(site, file):
     # lists of location and name ids
     lids = []
     nids = []
+    association_certainties = []
 
     # Names
     for e in root.findall("{%s}featureName" % ADLGAZ):
@@ -275,10 +276,17 @@ def load_place(site, file):
 
         id = ptool.normalizeString(transliteration)
 
-        if type not in ['geographic', 'ethnic']:
+        if type not in ['geographic', 'ethnic', 'false']:
             raise EntityLoadError, "Invalid name type"
-           
+        # false -> geographic
+        if type == 'false': type = 'geographic'
         typename = "%sName" % type.capitalize()
+
+        certainty = 'certain'
+        try:
+            certainty = e.findall("{%s}classificationSection/{%s}nameAssociation" % (ADLGAZ, AWMC))[0].get('ref', 'certain')
+        except:
+            pass
 
         try:
             nid = names.invokeFactory(typename,
@@ -310,7 +318,8 @@ def load_place(site, file):
             name = getattr(names.duplicates, nid)
 
         nids.append(nid)
-        
+        association_certainties.append(certainty)
+
         # Time Periods associated with the name
         parse_periods(e, name)
         
@@ -351,7 +360,7 @@ def load_place(site, file):
         placeType = str(e[0].text)
     else:
         placeType = 'unknown'
-    legaltypes = ['aqueduct', 'bath', 'bay', 'bridge', 'canal', 'cape', 'cave', 'cemetery', 'centuriation', 'church', 'coast', 'dam', 'estate', 'estuary', 'findspot', 'forest', 'fort', 'hill', 'island', 'lighthouse', 'mine', 'mountain', 'oasis', 'pass', 'people', 'plain', 'port', 'production', 'region', 'reservoir', 'ridge', 'river', 'road', 'salt-marsh', 'settlement', 'settlement-modern', 'spring', 'station', 'temple', 'tumulus', 'unknown', 'unlocated', 'valley', 'wall', 'water-inland', 'water-open', 'well', 'wheel', 'whirlpool']
+    legaltypes = ['aqueduct', 'bath', 'bay', 'bridge', 'canal', 'cape', 'cave', 'cemetery', 'centuriation', 'church', 'coast', 'dam', 'estate', 'estuary', 'false', 'findspot', 'forest', 'fort', 'hill', 'island', 'lighthouse', 'mine', 'mountain', 'oasis', 'pass', 'people', 'plain', 'port', 'production', 'region', 'reservoir', 'ridge', 'river', 'road', 'salt-marsh', 'settlement', 'settlement-modern', 'spring', 'station', 'temple', 'tumulus', 'undefined', 'unknown', 'unlocated', 'valley', 'wall', 'water-inland', 'water-open', 'well', 'wheel', 'whirlpool']
     try:
         ptidx = legaltypes.index(placeType)
     except:
@@ -377,7 +386,6 @@ def load_place(site, file):
                     id=id,
                     title=computedTitle,
                     modernLocation=modernLocation,
-                    placeType=placeType,
                     creators=creators,
                     contributors=contributors,
                     rights=rights,
@@ -386,12 +394,21 @@ def load_place(site, file):
     p = getattr(places, pid)
    
     for lid in lids:
-        p.addReference(getattr(locations, lid), 'location_location')
-    for nid in nids:
-        p.addReference(getattr(names, nid), 'name_name')
+        for i, nid in enumerate(nids):
+            # Get association certainty from XML
+            certainty = association_certainties[i]
+            
+            aid = p.invokeFactory('PlacefulAssociation',
+                id="%s-%s" % (nid,lid),
+                placeType=placeType,
+                certainty=certainty,
+                )
+            a = getattr(p, aid)
+            a.addReference(getattr(locations, lid), 'hasLocation')
+            a.addReference(getattr(names, nid), 'hasName')
         
-    # Secondary references for the place
-    parse_secondary_references(root, p, ptool)
+            # Secondary references for the place
+            parse_secondary_references(root, a, ptool)
 
     p.reindexObject()
 

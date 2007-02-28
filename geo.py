@@ -31,11 +31,11 @@ from zope.interface import implements
 
 from Products.PleiadesGeocoder.interfaces import IGeoItemSimple \
     , IGeoCollectionSimple
+from Products.PleiadesEntity.interfaces import IPlaceContainer \
+    , IPlacefulContainer
 
-from Products.PleiadesEntity.interfaces import IPlaceContainer
 
-
-class GeoEntitySimple(object):
+class PlacefulAssociationGeoItem(object):
     
     """Python expression of a GeoRSS simple item.
     """
@@ -58,7 +58,7 @@ class GeoEntitySimple(object):
         pass
 
     def getSpatialCoordinates(self):
-        x = self.context.getRefs('location_location')
+        x = self.context.getRefs('hasLocation')
         if len(x) == 0:
             return ()
         x0 = x[0]
@@ -82,12 +82,12 @@ class GeoEntitySimple(object):
             else:
                 raise ValueError, \
                 "Insufficient number of ordinates: %s" % str(point)
-        x0 = self.context.getRefs('location_location')[0]
+        x0 = self.context.getRefs('hasLocation')[0]
         x0.setSpatialCoordinates(value.lstrip())
         
     def isGeoreferenced(self):
         """Return True if the object is "on the map"."""
-        return bool(len(self.context.getRefs('location_location')))
+        return bool(len(self.context.getRefs('hasLocation')))
         
     def getInfo(self, dims=3):
         """Return an informative dict."""
@@ -109,6 +109,65 @@ class GeoEntitySimple(object):
                 'url':          context.absolute_url(),}
             )
         return info
+
+class PlaceGeoItem(object):
+    
+    """Python expression of a GeoRSS simple item.
+    """
+    implements(IGeoItemSimple)
+   
+    def __init__(self, context):
+        """Initialize adapter."""
+        self.context = context
+        self._primary_association = None
+        for ob in context.listFolderContents():
+            try:
+                self._primary_association = IGeoItemSimple(ob)
+            except:
+                continue
+            break
+
+    def getSRS(self):
+        return 'EPSG:4326'
+
+    def setSRS(self, srs):
+        pass
+        
+    def getGeometryType(self):
+        return 'point'
+
+    def setGeometryType(self, geomtype):
+        pass
+
+    def getSpatialCoordinates(self):
+        return self._primary_association.getSpatialCoordinates()
+
+    def setGeometry(self, geomtype, coords):
+        raise NotImplementedError
+        
+    def isGeoreferenced(self):
+        """Return True if the object is "on the map"."""
+        return self._primary_association.isGeoreferenced()
+        
+    def getInfo(self, dims=3):
+        """Return an informative dict."""
+        context = self.context
+        info = self._primary_association.getInfo()
+        info.update(
+               {'id':           context.getId(),
+                'title':        context.title_or_id(),
+                'description':  context.Description(),
+                'url':          context.absolute_url(),}
+            )
+        return info
+
+
+def createGeoItem(context):
+    """Factory for adapters."""
+    if IPlacefulContainer.providedBy(context):
+        return PlaceGeoItem(context)
+    else:
+        return PlacefulAssociationGeoItem(context)
 
 
 class GeoCollectionSimple(object):

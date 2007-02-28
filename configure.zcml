@@ -7,7 +7,7 @@
   <adapter
     for=".interfaces.IGeoEntity"
     provides="Products.PleiadesGeocoder.interfaces.IGeoItemSimple"
-    factory=".geo.GeoEntitySimple"
+    factory=".geo.createGeoItem"
     />
 
   <adapter
@@ -17,8 +17,18 @@
     />
 
   <five:implements
+    class=".content.PlacefulAssociation.PlacefulAssociation"
+    interface=".interfaces.IGeoEntity"
+    />
+
+  <five:implements
     class=".content.Place.Place"
     interface=".interfaces.IGeoEntity"
+    />
+
+  <five:implements
+    class=".content.Place.Place"
+    interface=".interfaces.IPlacefulContainer"
     />
 
   <five:implements

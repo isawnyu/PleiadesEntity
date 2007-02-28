@@ -100,9 +100,10 @@ def install(self):
         "Reference",
         "SecondaryReference",
         "PrimaryReference",
-        "Place",
+        "PlacefulAssociation",
         "LocationContainer",
         "PlaceContainer",
+        "Place",
         ] + factory_tool.getFactoryTypes().keys()
     factory_tool.manage_setPortalFactoryTypes(listOfTypeIds=factory_types)
 

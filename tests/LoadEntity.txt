@@ -33,7 +33,6 @@ Setup
     >>> _ = folder.invokeFactory('Large Plone Folder', id='names')
     >>> _ = folder.invokeFactory('LocationContainer', id='locations')
     >>> _ = folder.invokeFactory('PlaceContainer', id='places')
-    >>> folder.places._v_nextid = BA_ID_MAX
 
 Utility tests
 -------------
@@ -73,8 +72,6 @@ Load one entity
     'Aphrodisias/Ninoe/Aphrodisieus'
     >>> p.modernLocation
     u'Geyre'
-    >>> p.placeType
-    u'settlement'
     >>> p.Creators()
     ('C. Foss (compiler, west)', 'S. Mitchell (compiler)')
     >>> p.Contributors()
@@ -84,20 +81,6 @@ Load one entity
     >>> p.Description()
     'An ancient settlement, attested during the Classical, Roman and Late Antique periods (modern location: Geyre). It was known in antiquity by the names: Aphrodisias and Ninoe.'
 
-    Test bibliographic references
-
-    >>> srefs = p.getFolderContents({'meta_type':['SecondaryReference']})
-    >>> len(srefs)
-    4
-    >>> srefs[0].Title
-    'BAtlas 65 A2 Aphrodisias/Ninoe'
-    >>> srefs[1].Title
-    'RE 2'
-    >>> srefs[2].Title
-    'NPauly 1'
-    >>> srefs[3].Title
-    'RE'
-    
     Test names
 
     >>> n0 = getattr(folder.names, 'aphrodisias')
@@ -230,17 +213,39 @@ Load one entity
     ['Roman', 'Late Antique', 'Classical']
 
 
-    Test references
+    Test associations
 
-    >>> p.getRefs('name_name')[0] == n0
-    True
-    >>> p.getRefs('name_name')[1] == n1
-    True
-    >>> p.getRefs('name_name')[2] == n2
-    True
-    >>> p.getRefs('location_location')[0] == l
-    True
+    >>> contents = p.listFolderContents()
+    >>> len(contents)
+    3
+    
+    >>> contents[0].getRefs('hasName')[0] = n0
+    >>> contents[1].getRefs('hasName')[0] = n1
+    >>> contents[2].getRefs('hasName')[0] = n2
+    >>> contents[0].getRefs('hasLocation')[0] = l
+    >>> contents[1].getRefs('hasLocation')[0] = l
+    >>> contents[2].getRefs('hasLocation')[0] = l
 
+    >>> a = contents[0]
+    >>> a.getPlaceType()
+    'settlement'
+    >>> a.getCertainty()
+    'certain'
+
+    Test bibliographic references
+
+    >>> srefs = a.getFolderContents({'meta_type':['SecondaryReference']})
+    >>> len(srefs)
+    4
+    >>> srefs[0].Title
+    'BAtlas 65 A2 Aphrodisias/Ninoe'
+    >>> srefs[1].Title
+    'RE 2'
+    >>> srefs[2].Title
+    'NPauly 1'
+    >>> srefs[3].Title
+    'RE'
+    
 Test the geo adapters
 ---------------------
 
@@ -250,9 +255,9 @@ Test the geo adapters
     >>> g.isGeoreferenced()
     True
     >>> g.getInfo()
-    {'srs': 'EPSG:4326', 'geometryType': 'point', 'description': 'An ancient settlement, attested during the Classical, Roman and Late Antique periods (modern location: Geyre). It was known in antiquity by the names: Aphrodisias and Ninoe.', 'spatialCoordinates': '37.71446 28.72886 0.0', 'url': 'http://nohost/plone/Members/test_user_1_/places/638753', 'title': 'Aphrodisias/Ninoe/Aphrodisieus', 'id': '638753'}
+    {'description': 'An ancient settlement, attested during the Classical, Roman and Late Antique periods (modern location: Geyre). It was known in antiquity by the names: Aphrodisias and Ninoe.', 'spatialCoordinates': '37.71446 28.72886 0.0', 'url': 'http://nohost/plone/Members/test_user_1_/places/638753', 'title': 'Aphrodisias/Ninoe/Aphrodisieus', 'srs': 'EPSG:4326', 'geometryType': 'point', 'id': '638753'}
 
     >>> c = IGeoCollectionSimple(folder.places)
     >>> c.getItemsInfo()
-    [{'srs': 'EPSG:4326', 'geometryType': 'point', 'description': 'An ancient settlement, attested during the Classical, Roman and Late Antique periods (modern location: Geyre). It was known in antiquity by the names: Aphrodisias and Ninoe.', 'spatialCoordinates': '37.71446 28.72886 0.0', 'url': 'http://nohost/plone/Members/test_user_1_/places/638753', 'title': 'Aphrodisias/Ninoe/Aphrodisieus', 'id': '638753'}]
+    [{'description': 'An ancient settlement, attested during the Classical, Roman and Late Antique periods (modern location: Geyre). It was known in antiquity by the names: Aphrodisias and Ninoe.', 'spatialCoordinates': '37.71446 28.72886 0.0', 'url': 'http://nohost/plone/Members/test_user_1_/places/638753', 'title': 'Aphrodisias/Ninoe/Aphrodisieus', 'srs': 'EPSG:4326', 'geometryType': 'point', 'id': '638753'}]
 

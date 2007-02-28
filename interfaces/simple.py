@@ -37,3 +37,8 @@ class IGeoEntity(Interface):
 class IPlaceContainer(Interface):
     """Marker interface.
     """
+
+class IPlacefulContainer(Interface):
+    """Marker interface.
+    """
+

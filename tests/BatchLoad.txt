@@ -34,29 +34,10 @@ Setup
     >>> _ = folder.names.invokeFactory('Large Plone Folder', id='duplicates')
     >>> _ = folder.invokeFactory('LocationContainer', id='locations')
     >>> _ = folder.invokeFactory('PlaceContainer', id='places')
-    >>> folder.places._v_nextid = BA_ID_MAX
 
-Utility tests
--------------
-
-    >>> format_listofstrings([])
-    u''
-    >>> format_listofstrings(['x'])
-    u'x'
-    >>> format_listofstrings(['x', 'y'])
-    u'x and y'
-    >>> format_listofstrings(['x', 'y', 'z'])
-    u'x, y and z'
-    
-    >>> purifyText(u'aaa') == u'aaa'
-    True
-    >>> purifyText(u'abab') == u'abab'
-    True
-    >>> purifyText(u'Magie\U000000A01950,\U000000A0989') == u'Magie 1950, 989'
-    True
-   
 Load entities
 -------------
 
-    >>> loaden(folder, "/tmp/ba/ba065.zip_FILES/")
-    ''
+    >>> loaden(folder, "/tmp/ba/")
+    'Loaded 315 of 315 files.'
+

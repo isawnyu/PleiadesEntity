@@ -95,7 +95,7 @@ schema = Schema((
             i18n_domain='PleiadesEntity',
         ),
         enforceVocabulary=1,
-        vocabulary= ['complete', 'fragmentary, but reconstructable', 'fragmentary and not reconstructable']
+        vocabulary= ['complete', 'reconstructable', 'non-reconstructable']
     ),
 
 ),

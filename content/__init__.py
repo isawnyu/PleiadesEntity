@@ -45,9 +45,10 @@ import EthnicName
 import Reference
 import SecondaryReference
 import PrimaryReference
-import Place
+import PlacefulAssociation
 import LocationContainer
 import PlaceContainer
+import Place
 
 ##code-section init-module-footer #fill in your manual code here
 ##/code-section init-module-footer
