@@ -22,7 +22,7 @@ for v in v_times:
 for t in v_types:
     id = context.invokeFactory('Topic', id=utils.normalizeString(t), title=t)
     topic = getattr(context, id)
-    c = subtopic.addCriterion('placeType', 'ATSelectionCriterion')
+    c = topic.addCriterion('placeType', 'ATSelectionCriterion')
     c.setValue([t])
     c = topic.addCriterion('Type', 'ATPortalTypeCriterion')
     c.setValue('Ancient Place')
@@ -31,6 +31,6 @@ for t in v_types:
         sid = topic.invokeFactory('Topic', id=utils.normalizeString(v), title=v)
         subtopic = getattr(topic, sid)
         subtopic.setAcquireCriteria(True)
-        c = topic.addCriterion('getTimePeriods', 'ATSelectionCriterion')
+        c = subtopic.addCriterion('getTimePeriods', 'ATSelectionCriterion')
         c.setValue([v])
 
