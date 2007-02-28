@@ -72,6 +72,8 @@ Load one entity
     'Aphrodisias/Ninoe/Aphrodisieus'
     >>> p.modernLocation
     u'Geyre'
+    >>> p.getPlaceType()
+    ['settlement']
     >>> p.Creators()
     ('C. Foss (compiler, west)', 'S. Mitchell (compiler)')
     >>> p.Contributors()
