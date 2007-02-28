@@ -126,6 +126,8 @@ class PlaceGeoItem(object):
             except:
                 continue
             break
+        if not self._primary_association:
+            raise Exception, "Could not adapt %s" % str(context)
 
     def getSRS(self):
         return 'EPSG:4326'
