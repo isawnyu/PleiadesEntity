@@ -1,4 +1,4 @@
-v_types = container.portal_catalog.uniqueValuesFor('placeType')
+v_types = container.portal_catalog.uniqueValuesFor('getPlaceType')
 v_times = container.portal_catalog.uniqueValuesFor('getTimePeriods')
 utils = container.plone_utils
 
@@ -15,14 +15,14 @@ for v in v_times:
         sid = topic.invokeFactory('Topic', id=utils.normalizeString(t), title=t)
         subtopic = getattr(topic, sid)
         subtopic.setAcquireCriteria(True)
-        c = subtopic.addCriterion('placeType', 'ATSelectionCriterion')
+        c = subtopic.addCriterion('getPlaceType', 'ATSelectionCriterion')
         c.setValue([t])
 
 # [type]/[time]
 for t in v_types:
     id = context.invokeFactory('Topic', id=utils.normalizeString(t), title=t)
     topic = getattr(context, id)
-    c = topic.addCriterion('placeType', 'ATSelectionCriterion')
+    c = topic.addCriterion('getPlaceType', 'ATSelectionCriterion')
     c.setValue([t])
     c = topic.addCriterion('Type', 'ATPortalTypeCriterion')
     c.setValue('Ancient Place')
