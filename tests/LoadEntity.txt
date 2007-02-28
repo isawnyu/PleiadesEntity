@@ -34,31 +34,12 @@ Setup
     >>> _ = folder.invokeFactory('LocationContainer', id='locations')
     >>> _ = folder.invokeFactory('PlaceContainer', id='places')
 
-Utility tests
--------------
-
-    >>> format_listofstrings([])
-    u''
-    >>> format_listofstrings(['x'])
-    u'x'
-    >>> format_listofstrings(['x', 'y'])
-    u'x and y'
-    >>> format_listofstrings(['x', 'y', 'z'])
-    u'x, y and z'
-    
-    >>> purifyText(u'aaa') == u'aaa'
-    True
-    >>> purifyText(u'abab') == u'abab'
-    True
-    >>> purifyText(u'Magie\U000000A01950,\U000000A0989') == u'Magie 1950, 989'
-    True
-   
 Load one entity
 ---------------
 
     >>> r = load_place(folder, "%s/batlas-65-2-24-grc.xml" % TEST_DATA)
     >>> pid = r['place_id']
-    >>> pid > folder.places._v_nextid
+    >>> int(pid) <= BA_ID_MAX
     True
     >>> r['name_ids']
     ['aphrodisias', 'ninoe', 'aphrodisieus']
@@ -262,4 +243,35 @@ Test the geo adapters
     >>> c = IGeoCollectionSimple(folder.places)
     >>> c.getItemsInfo()
     [{'description': 'An ancient settlement, attested during the Classical, Roman and Late Antique periods (modern location: Geyre). It was known in antiquity by the names: Aphrodisias and Ninoe.', 'spatialCoordinates': '37.71446 28.72886 0.0', 'url': 'http://nohost/plone/Members/test_user_1_/places/638753', 'title': 'Aphrodisias/Ninoe/Aphrodisieus', 'srs': 'EPSG:4326', 'geometryType': 'point', 'id': '638753'}]
+
+Load one nameless entity
+------------------------
+
+    >>> r = load_place(folder, "%s/batlas-65-2-101.xml" % TEST_DATA)
+    >>> pid = r['place_id']
+    >>> int(pid) <= BA_ID_MAX
+    True
+    >>> r['name_ids']
+    []
+
+    Test associations
+
+    >>> p = getattr(folder.places, pid)
+    >>> contents = p.listFolderContents()
+    >>> len(contents)
+    1
+    
+    >>> a = contents[0]
+    >>> a.getRefs('hasName')
+    []
+    >>> a.getPlaceType()
+    'fort'
+    >>> a.getCertainty()
+    'certain'
+
+    >>> g = IGeoItemSimple(p)
+    >>> g.isGeoreferenced()
+    True
+    >>> g.getInfo()
+    {'description': 'An ancient fort, attested during the Roman period (modern location: Emeriye). Its ancient name is not known.', 'spatialCoordinates': '37.1751 31.7324 0.0', 'url': 'http://nohost/plone/Members/test_user_1_/places/638830', 'title': '638830', 'srs': 'EPSG:4326', 'geometryType': 'point', 'id': '638830'}
 

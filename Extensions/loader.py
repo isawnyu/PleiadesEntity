@@ -394,22 +394,37 @@ def load_place(site, file):
     p.reindexObject()
    
     for lid in lids:
-        for i, nid in enumerate(nids):
-            # Get association certainty from XML
-            certainty = association_certainties[i]
-            
+        # Handle the unnamed case
+        if len(nids) == 0:
             aid = p.invokeFactory('PlacefulAssociation',
-                id="%s-%s" % (nid,lid),
+                id="unnamed-%s" % lid,
                 placeType=placeType,
-                certainty=certainty,
+                certainty='certain',
                 )
             a = getattr(p, aid)
             a.addReference(getattr(locations, lid), 'hasLocation')
-            a.addReference(getattr(names, nid), 'hasName')
         
             # Secondary references for the place
             parse_secondary_references(root, a, ptool)
             a.reindexObject()
+        
+        else:
+            for i, nid in enumerate(nids):
+                # Get association certainty from XML
+                certainty = association_certainties[i]
+            
+                aid = p.invokeFactory('PlacefulAssociation',
+                    id="%s-%s" % (nid,lid),
+                    placeType=placeType,
+                    certainty=certainty,
+                    )
+                a = getattr(p, aid)
+                a.addReference(getattr(locations, lid), 'hasLocation')
+                a.addReference(getattr(names, nid), 'hasName')
+        
+                # Secondary references for the place
+                parse_secondary_references(root, a, ptool)
+                a.reindexObject()
 
     return {'place_id': pid, 'location_ids': lids, 'name_ids': nids}
 
