@@ -275,3 +275,32 @@ Load one nameless entity
     >>> g.getInfo()
     {'description': 'An ancient fort, attested during the Roman period (modern location: Emeriye). Its ancient name is not known.', 'spatialCoordinates': '37.1751 31.7324 0.0', 'url': 'http://nohost/plone/Members/test_user_1_/places/638830', 'title': '638830', 'srs': 'EPSG:4326', 'geometryType': 'point', 'id': '638830'}
 
+Load one unlocated entity
+-------------------------
+
+    >>> r = load_place(folder, "%s/batlas-65-7-21.xml" % TEST_DATA)
+    >>> pid = r['place_id']
+    >>> int(pid) <= BA_ID_MAX
+    True
+    >>> r['name_ids']
+    ['gordiouteichos']
+
+    Test associations
+
+    >>> p = getattr(folder.places, pid)
+    >>> contents = p.listFolderContents()
+    >>> len(contents)
+    1
+    
+    >>> a = contents[0]
+    >>> a.getRefs('hasLocation')
+    []
+    >>> a.getPlaceType()
+    'undefined'
+    >>> a.getCertainty()
+    'certain'
+
+    >>> g = IGeoItemSimple(p)
+    >>> g.isGeoreferenced()
+    False
+

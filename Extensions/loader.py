@@ -392,7 +392,8 @@ def load_place(site, file):
                     )
     p = getattr(places, pid)
     p.reindexObject()
-   
+
+    # Iterate over locations
     for lid in lids:
         # Handle the unnamed case
         if len(nids) == 0:
@@ -425,6 +426,20 @@ def load_place(site, file):
                 # Secondary references for the place
                 parse_secondary_references(root, a, ptool)
                 a.reindexObject()
+
+    # If there are no locations, iterate over the names
+    if len(lids) == 0:
+        for nid in nids:
+            aid = p.invokeFactory('PlacefulAssociation',
+                    id="%s-unlocated" % nid,
+                    placeType=placeType,
+                    certainty='certain',
+                    )
+            a = getattr(p, aid)
+            a.addReference(getattr(names, nid), 'hasName')
+            # Secondary references for the place
+            parse_secondary_references(root, a, ptool)
+            a.reindexObject()
 
     return {'place_id': pid, 'location_ids': lids, 'name_ids': nids}
 

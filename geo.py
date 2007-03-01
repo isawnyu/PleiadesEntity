@@ -196,9 +196,9 @@ class GeoCollectionSimple(object):
             try:
                 item = IGeoItemSimple(self.context)
                 assert(item.isGeoreferenced())
+                yield item
             except:
                 pass
-            yield item
 
     def getItemsInfo(self):
         infos = []
