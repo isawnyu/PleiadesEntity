@@ -154,7 +154,7 @@ class PlaceGeoItem(object):
     def getInfo(self, dims=3):
         """Return an informative dict."""
         context = self.context
-        info = self._primary_association.getInfo()
+        info = self._primary_association.getInfo(dims)
         info.update(
                {'id':           context.getId(),
                 'title':        context.title_or_id(),
