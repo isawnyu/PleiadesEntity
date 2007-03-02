@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vdex xmlns="http://www.imsglobal.org/xsd/imsvdex_v1p0"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xsi:schemaLocation="http://www.imsglobal.org/xsd/imsvdex_v1p0 file:/C:/TomDocs/awmcwork/pleiadesact/svnbox/PleiadesEntity/thesauri/vdex/schemata/imsvdex_v1p0_thesaurus.xsd"
+    profileType="thesaurus" language="en" orderSignificant="false">
+    
+    <vocabName>
+        <langstring language="en">Levels of Attestation Accuracy for Historical Names Distinguished in AWMC Publications</langstring>
+    </vocabName>
+    
+    <vocabIdentifier isRegistered="false">AWMCNameAccuracy</vocabIdentifier>
+    
+    <term>
+        <termIdentifier>accurate</termIdentifier>
+        <caption>
+            <langstring language="en">accurate</langstring>
+        </caption>
+        <description>
+            <langstring language="en">a string of characters in an ancient (primary) source is thought to be correct</langstring>
+        </description>
+        
+    </term>
+    
+    <term>
+        <termIdentifier>inaccurate</termIdentifier>
+        <caption>
+            <langstring language="en">inaccurate</langstring>
+        </caption>
+        <description>
+            <langstring language="en">a string of characters in an ancient source is thought to represent an ancient name, but the transcription or transmission of those characters from antiquity is thought to be incorrect</langstring>
+        </description>
+        
+    </term>
+    
+    <term>
+        <termIdentifier>false</termIdentifier>
+        <caption>
+            <langstring language="en">false</langstring>
+        </caption>
+        <description>
+            <langstring language="en">an ancient source or prior modern interpreter is thought to have thoroughly confused, or even made up, a name</langstring>
+        </description>
+        
+    </term>
+
+</vdex>
+
