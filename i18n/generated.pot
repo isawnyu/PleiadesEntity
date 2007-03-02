@@ -81,6 +81,11 @@ msgstr ""
 msgid "GeographicEntityLite_label_timePeriods"
 msgstr ""
 
+#. Default: "Certainty of association between locations and names"
+#: content\PlacefulAssociation.py
+msgid "PleiadesEntity_help_certainty"
+msgstr ""
+
 #. Default: "A unique identifier for this name, assigned by the Pleiades editorial board."
 #: content\GeographicName.py
 msgid "PleiadesEntity_help_identifier"
@@ -174,6 +179,7 @@ msgstr ""
 
 #. Default: "Certainty"
 #: content\TemporalAttestation.py
+#: content\PlacefulAssociation.py
 msgid "PleiadesEntity_label_certainty"
 msgstr ""
 
@@ -205,6 +211,7 @@ msgstr ""
 
 #. Default: "Locations"
 #: content\Place.py
+#: content\PlacefulAssociation.py
 msgid "PleiadesEntity_label_locations"
 msgstr ""
 
@@ -269,11 +276,13 @@ msgstr ""
 
 #. Default: "Names"
 #: content\Place.py
+#: content\PlacefulAssociation.py
 msgid "PleiadesEntity_label_names"
 msgstr ""
 
 #. Default: "Place Type"
 #: content\Place.py
+#: content\PlacefulAssociation.py
 msgid "PleiadesEntity_label_placeType"
 msgstr ""
 

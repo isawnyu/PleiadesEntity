@@ -30,6 +30,7 @@ __docformat__ = 'plaintext'
 
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
+from Products.ATVocabularyManager.namedvocabulary import NamedVocabulary
 from Products.PleiadesEntity.config import *
 
 ##code-section module-header #fill in your manual code here
@@ -39,15 +40,15 @@ schema = Schema((
 
     StringField(
         name='placeType',
-        default="unknown",
         index="KeywordIndex",
         widget=SelectionWidget(
             label="Place Type",
             label_msgid='PleiadesEntity_label_placeType',
             i18n_domain='PleiadesEntity',
         ),
-        enforceVocabulary=1,
-        vocabulary=['aqueduct', 'bath', 'bay', 'bridge', 'canal', 'cape', 'cave', 'cemetery', 'centuriation', 'church', 'coast', 'dam', 'estate', 'estuary', 'findspot', 'forest', 'fort', 'hill', 'island', 'lighthouse', 'mine', 'mountain', 'oasis', 'pass', 'people', 'plain', 'port', 'production', 'region', 'reservoir', 'ridge', 'river', 'road', 'salt-marsh', 'settlement', 'settlement-modern', 'spring', 'station', 'temple', 'tumulus', 'undefined', 'unknown', 'unlocated', 'valley', 'wall', 'water-inland', 'water-open', 'well', 'wheel', 'whirlpool']
+        vocabulary=NamedVocabulary("""AWMCPlaceTypes.xml"""),
+        default="unknown",
+        enforceVocabulary=1
     ),
 
     StringField(

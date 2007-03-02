@@ -7,3 +7,7 @@ http://icon.stoa.org/trac/pleiades/wiki/PleiadesGeocoder
 - lxml:
 http://codespeak.net/lxml/index.html
 
+- AT Vocabulary Manager:
+http://plone.org/products/atvocabularymanager
+tested with ATVM svn trunk r7582
+
