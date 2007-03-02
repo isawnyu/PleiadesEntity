@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <vdex xmlns="http://www.imsglobal.org/xsd/imsvdex_v1p0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.imsglobal.org/xsd/imsvdex_v1p0 file:/C:/TomDocs/awmcwork/pleiadesact/svnbox/PleiadesEntity/thesauri/vdex/schemata/imsvdex_v1p0_thesaurus.xsd"
-    profileType="thesaurus">
+   profileType="thesaurus" language="en" orderSignificant="false">
     <vocabName>
-        <langstring language="en">Types of Geographic Entities (Features) Distinguished in AWMC Publications</langstring>
+        <langstring language="en">Types of Places Distinguished in AWMC Publications</langstring>
     </vocabName>
-    <vocabIdentifier isRegistered="false">AWMCEntityTypes</vocabIdentifier>
+    <vocabIdentifier isRegistered="false">AWMCPlaceTypes</vocabIdentifier>
     <term>
         <termIdentifier>aqueduct</termIdentifier>
         <caption>
