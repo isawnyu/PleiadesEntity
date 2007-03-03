@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vdex xmlns="http://www.imsglobal.org/xsd/imsvdex_v1p0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.imsglobal.org/xsd/imsvdex_v1p0 file:/C:/TomDocs/awmcwork/pleiadesact/svnbox/PleiadesEntity/thesauri/vdex/schemata/imsvdex_v1p0_thesaurus.xsd"
+    profileType="thesaurus" language="en" orderSignificant="false">
+
+    <vocabName>
+        <langstring language="en">Levels of Confidence in Assignment of Time Periods to Ancient Names and Locations in AWMC
+            Publications</langstring>
+    </vocabName>
+
+    <vocabIdentifier isRegistered="false">AWMCTemporalAttestationConfidence</vocabIdentifier>
+
+    <term>
+        <termIdentifier>confident</termIdentifier>
+        <caption>
+            <langstring language="en">confident</langstring>
+        </caption>
+        <description>
+            <langstring language="en">All commentators are confident in associating this name or location with this time
+                period on the basis of textual and/or archaeological evidence that has been securely dated to the period in
+                question</langstring>
+        </description>
+    </term>
+
+    <term>
+        <termIdentifier>confident-inferred</termIdentifier>
+        <caption>
+            <langstring language="en">confident, but inferred (i.e., no contemporary evidence)</langstring>
+        </caption>
+        <description>
+            <langstring language="en">All commentators are confident in associating this name or location with this time
+                period; however this assessment is based on inference from textual and/or archaeological evidence that dates
+                to other periods (i.e., there is no contemporary evidence)</langstring>
+        </description>
+    </term>
+
+    <term>
+        <termIdentifier>less-confident</termIdentifier>
+        <caption>
+            <langstring language="en">less confident</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Most commentators are confident, or relatively confident, that the name or location in
+                question can be associated with this time period on the basis of textual and/or archaeological evidence;
+                however, some substantive hesitancy or disagreement in interpretation of evidence exists on the part of one
+                or more commentators, or there is some insecurity with respect to the dates of the relevant
+            evidence</langstring>
+        </description>
+    </term>
+
+    <term>
+        <termIdentifier>less-confident-inferred</termIdentifier>
+        <caption>
+            <langstring language="en">less confident and inferred (i.e., no contemporary evidence)</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Most commentators are confident, or relatively confident, that the name or location in
+                question can be associated with this time period; moreover, this assessment is based on inference from
+                textual and/or archaeological evidence that dates to other periods (i.e., there is no contemporary
+            evidence)</langstring>
+        </description>
+    </term>
+
+</vdex>
