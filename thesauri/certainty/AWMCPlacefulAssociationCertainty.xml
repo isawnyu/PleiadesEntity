@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vdex xmlns="http://www.imsglobal.org/xsd/imsvdex_v1p0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.imsglobal.org/xsd/imsvdex_v1p0 file:/C:/TomDocs/awmcwork/pleiadesact/svnbox/PleiadesEntity/thesauri/vdex/schemata/imsvdex_v1p0_thesaurus.xsd"
+    profileType="thesaurus" language="en" orderSignificant="false">
+
+    <vocabName>
+        <langstring language="en">Levels of Certainty Assigned to Placeful Associations in AWMC Publications</langstring>
+    </vocabName>
+
+    <vocabIdentifier isRegistered="false">AWMCPlacefulAssociationCertainty</vocabIdentifier>
+
+    <term>
+        <termIdentifier>certain</termIdentifier>
+        <caption>
+            <langstring language="en">certain</langstring>
+        </caption>
+        <description>
+            <langstring language="en">All commentators are agreed that, in antiquity, the name(s) in question were used to
+                identify the location(s) indicated</langstring>
+        </description>
+    </term>
+
+    <term>
+        <termIdentifier>less-certain</termIdentifier>
+        <caption>
+            <langstring language="en">less certain</langstring>
+        </caption>
+        <description>
+            <langstring language="en">Most commentators are certain, or relatively certain, that, in antiquity, the name(s)
+                in question were used to identify the location(s) indicated; however, some substantive hesitancy or
+                disagreement in interpretation of evidence exists on the part of one or more commentators</langstring>
+        </description>
+    </term>
+
+    <term>
+        <termIdentifier>uncertain</termIdentifier>
+        <caption>
+            <langstring language="en">uncertain</langstring>
+        </caption>
+        <description>
+            <langstring language="en">There is insufficient evidence, or substantial disagreement regarding its
+                interpretation, to associate attested name(s) with any single location. Multiple candidate locations may be
+                identified; however, additional research or new evidence will be required in order to establish which (if
+                any) of these candidates is to be preferred.</langstring>
+        </description>
+    </term>
+
+</vdex>
