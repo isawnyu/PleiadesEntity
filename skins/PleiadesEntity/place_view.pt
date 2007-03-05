@@ -31,6 +31,7 @@
                 <div id="gelink" style="float:right;"><span class="link-external"><a href="nwlink">Open in Google Earth</a></span></div>
             </div>
             <script
+              tal:on-error="string:// error: context could not be adapted"
               tal:define="mapcontext python:query_results[0].getObject();
                           feature_json string:${context/json};
                           map_json string:${mapcontext/json};"
@@ -66,9 +67,19 @@
           </tal:if_visible>
         	  </div>
               <p metal:use-macro="here/place_contents/macros/placecontents">place contents</p>
+
+        <div>
+          <label><span>Alternate representations</span></label>:
+          <ul>
+          <li class="repr-georss"><a rel="alternate" href="georss">GeoRSS</a></li>
+          <li class="repr-kml"><a rel="alternate" href="kml">KML</a></li>
+          </ul>
+        </div>        
+   
         <hr style="display: block; clear: right; visibility: hidden;"/>
+
         </div>
-                   
+                
         </metal:body_macro>
 
         <metal:label_macro define-macro="label">
