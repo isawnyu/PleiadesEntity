@@ -12,8 +12,9 @@ from _testing import *
 
 PloneTestCase.installProduct('PleiadesGeocoder')
 PloneTestCase.installProduct('PleiadesOpenLayers')
+PloneTestCase.installProduct('ATVocabularyManager')
 PloneTestCase.installProduct(PRODUCT_NAME)
-PloneTestCase.setupPloneSite(products=[PRODUCT_NAME])
+PloneTestCase.setupPloneSite(products=['ATVocabularyManager', PRODUCT_NAME])
 
 REQUIRE_TESTBROWSER = ['PublishGeoEntity.txt']
 
