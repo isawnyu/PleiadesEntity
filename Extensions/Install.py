@@ -75,7 +75,8 @@ def install(self):
     # Create vocabularies in vocabulary lib
     from Products.ATVocabularyManager.config import TOOL_NAME as ATVOCABULARYTOOL
     atvm = getToolByName(self, ATVOCABULARYTOOL)
-    vocabmap = {'AWMCPlaceTypes.xml': ('SimpleVocabulary', 'SimpleVocabularyTerm'),
+    vocabmap = {'AWMCAncientNameLanguages': ('VdexVocabulary', 'VdexTerm'),
+         'AWMCPlaceTypes': ('VdexVocabulary', 'VdexTerm'),
         }
     for vocabname in vocabmap.keys():
         if not vocabname in atvm.contentIds():

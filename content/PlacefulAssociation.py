@@ -41,14 +41,14 @@ schema = Schema((
     StringField(
         name='placeType',
         index="KeywordIndex",
+        vocabulary=NamedVocabulary("""AWMCPlaceTypes"""),
+        default="unknown",
+        enforceVocabulary=1,
         widget=SelectionWidget(
             label="Place Type",
             label_msgid='PleiadesEntity_label_placeType',
             i18n_domain='PleiadesEntity',
-        ),
-        vocabulary=NamedVocabulary("""AWMCPlaceTypes.xml"""),
-        default="unknown",
-        enforceVocabulary=1
+        )
     ),
 
     StringField(

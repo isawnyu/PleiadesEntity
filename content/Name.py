@@ -30,6 +30,7 @@ __docformat__ = 'plaintext'
 
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
+from Products.ATVocabularyManager.namedvocabulary import NamedVocabulary
 from Products.PleiadesEntity.config import *
 
 # additional imports from tagged value 'import'
@@ -68,8 +69,8 @@ schema = Schema((
             description_msgid='PleiadesEntity_help_nameLanguage',
             i18n_domain='PleiadesEntity',
         ),
-        enforceVocabulary=1,
-        vocabulary=['grc', 'grc-Latn', 'la', 'la-Grek']
+        vocabulary=NamedVocabulary("""AWMCAncientNameLanguages"""),
+        enforceVocabulary=1
     ),
 
     StringField(

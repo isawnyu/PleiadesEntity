@@ -1,0 +1,26 @@
+Availability of Expected Vocabularies
+=====================================
+
+Get portal vocabulary tool
+--------------------------
+
+    >>> vt = self.portal.portal_vocabularies
+    
+Test place types vocabulary
+---------------------------
+
+    >>> v = vt.getVocabularyByName('AWMCPlaceTypes')
+    >>> v.Title()
+    'Types of Places Distinguished in AWMC Publications'
+    >>> len([obj for obj in v.contentValues() if obj.meta_type == "VdexTerm"])
+    51
+
+Test ancient name languages vocabulary
+---------------------------
+
+    >>> v = vt.getVocabularyByName('AWMCAncientNameLanguages')
+    >>> v.Title()
+    'Standard Codes for Languages and Writing Systems of Ancient Names'
+    >>> len([obj for obj in v.contentValues() if obj.meta_type == "VdexTerm"])
+    4
+
