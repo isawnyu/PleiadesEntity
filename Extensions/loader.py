@@ -153,10 +153,10 @@ def parse_periods(xmlcontext, portalcontext):
         tpn = tp.xpath("*[local-name()='timePeriodName']")
         if not tpn:
             raise EntityLoadError, "Incomplete timePeriod element for timePeriod node %s" % xmlcontext.findall("{%s}timePeriod" % ADLGAZ).index(tp)
-        cert = 'certain'
+        conf = 'confident'
         tpnstr = tpn[0].text
         if tpnstr.endswith('?'):
-            cert = 'less certain'
+            conf = 'less-confident'
             tpnstr = tpnstr.replace('?', '')
         if tp.xpath("ancestor::*[local-name()='featureName']"):
             # this is a period for a name
@@ -164,19 +164,17 @@ def parse_periods(xmlcontext, portalcontext):
         else:
             # location date inference was not noted in BAtlas
             inferred = tp.xpath("bogus")
-        if inferred and cert=='less certain':
-            certainty = cert + ' and there is no contemporary evidence'
-        elif inferred and cert=='certain':
-            certainty = cert + ', but there is no contemporary evidence'
+        if inferred:
+            confidence = conf + '-inferred'
         else:
-            certainty = cert
+            confidence = conf
         period=periods[tpnstr]
         id=period_ids[tpnstr]
         try:
             portalcontext.invokeFactory('TemporalAttestation',
                 title=period,
                 id=id,
-                certainty=certainty
+                attestationConfidence=confidence
                 )
         except:
             raise EntityLoadError, "There is already a TemporalAttestation with id=%s in portal context" % id

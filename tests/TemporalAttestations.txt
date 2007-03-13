@@ -74,14 +74,14 @@ Load one entity
     'Classical (550 - 330 BC)'
     >>> tps[0].getId
     'classical'
-    >>> tps[0].getCertainty
-    'certain'
+    >>> tps[0].getAttestationConfidence
+    'confident'
     >>> tps[1].Title
     'Hellenistic/Republican (330 - 30 BC)'
     >>> tps[1].getId
     'hellenistic-republican'
-    >>> tps[1].getCertainty
-    'less certain'
+    >>> tps[1].getAttestationConfidence
+    'less-confident'
     
     >>> n1 = getattr(folder.names, 'tome-twirling')
     >>> tps = n1.getFolderContents({'meta_type':['TemporalAttestation']})
@@ -91,14 +91,14 @@ Load one entity
     'Roman (30 BC - AD 300)'
     >>> tps[0].getId
     'roman'
-    >>> tps[0].getCertainty
-    'certain, but there is no contemporary evidence'
+    >>> tps[0].getAttestationConfidence
+    'confident-inferred'
     >>> tps[1].Title
     'Late Antique (AD 300 - 625)'
     >>> tps[1].getId
     'late-antique'
-    >>> tps[1].getCertainty
-    'less certain and there is no contemporary evidence'
+    >>> tps[1].getAttestationConfidence
+    'less-confident-inferred'
 
     Test locations
 
@@ -111,30 +111,30 @@ Load one entity
     'Archaic (pre-550 BC)'
     >>> tps[0].getId
     'archaic'
-    >>> tps[0].getCertainty
-    'certain'
+    >>> tps[0].getAttestationConfidence
+    'confident'
     >>> tps[1].Title
     'Classical (550 - 330 BC)'
     >>> tps[1].getId
     'classical'
-    >>> tps[1].getCertainty
-    'certain'
+    >>> tps[1].getAttestationConfidence
+    'confident'
     >>> tps[2].Title
     'Hellenistic/Republican (330 - 30 BC)'
     >>> tps[2].getId
     'hellenistic-republican'
-    >>> tps[2].getCertainty
-    'less certain'
+    >>> tps[2].getAttestationConfidence
+    'less-confident'
     >>> tps[3].Title
     'Roman (30 BC - AD 300)'
     >>> tps[3].getId
     'roman'
-    >>> tps[3].getCertainty
-    'certain'
+    >>> tps[3].getAttestationConfidence
+    'confident'
     >>> tps[4].Title
     'Late Antique (AD 300 - 625)'
     >>> tps[4].getId
     'late-antique'
-    >>> tps[4].getCertainty
-    'less certain'
+    >>> tps[4].getAttestationConfidence
+    'less-confident'
     

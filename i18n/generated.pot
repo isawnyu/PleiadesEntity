@@ -177,6 +177,11 @@ msgstr ""
 msgid "PleiadesEntity_label_accuracy"
 msgstr ""
 
+#. Default: "Attestationconfidence"
+#: content\TemporalAttestation.py
+msgid "PleiadesEntity_label_attestationConfidence"
+msgstr ""
+
 #. Default: "Certainty"
 #: content\TemporalAttestation.py
 #: content\PlacefulAssociation.py

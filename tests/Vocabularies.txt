@@ -41,3 +41,12 @@ Test ancient name accuracy vocabulary
     'Levels of Attestation Accuracy for Historical Names Distinguished in AWMC Publications'
     >>> len([obj for obj in v.contentValues() if obj.meta_type == "VdexTerm"])
     3
+
+Test temporal attestation confidence vocabulary
+-----------------------------------------------
+
+    >>> v = vt.getVocabularyByName('AWMCTemporalAttestationConfidence')
+    >>> v.Title()
+    'Levels of Confidence in Assignment of Time Periods to Ancient Names and Locations in AWMC Publications'
+    >>> len([obj for obj in v.contentValues() if obj.meta_type == "VdexTerm"])
+    4

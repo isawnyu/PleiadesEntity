@@ -76,9 +76,10 @@ def install(self):
     from Products.ATVocabularyManager.config import TOOL_NAME as ATVOCABULARYTOOL
     atvm = getToolByName(self, ATVOCABULARYTOOL)
     vocabmap = {'AWMCAncientNameLanguages': ('VdexVocabulary', 'VdexTerm'),
+         'AWMCPlaceTypes': ('VdexVocabulary', 'VdexTerm'),
          'AWMCNameCompleteness': ('VdexVocabulary', 'VdexTerm'),
          'AWMCNameAccuracy': ('VdexVocabulary', 'VdexTerm'),
-         'AWMCPlaceTypes': ('VdexVocabulary', 'VdexTerm'),
+         'AWMCTemporalAttestationConfidence': ('VdexVocabulary', 'VdexTerm'),
         }
     for vocabname in vocabmap.keys():
         if not vocabname in atvm.contentIds():

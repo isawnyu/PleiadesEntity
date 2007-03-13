@@ -86,14 +86,14 @@ Load one entity
     'Roman (30 BC - AD 300)'
     >>> tps[0].getId
     'roman'
-    >>> tps[0].getCertainty
-    'certain'
+    >>> tps[0].getAttestationConfidence
+    'confident'
     >>> tps[1].Title
     'Late Antique (AD 300 - 625)'
     >>> tps[1].getId
     'late-antique'
-    >>> tps[1].getCertainty
-    'certain'
+    >>> tps[1].getAttestationConfidence
+    'confident'
     >>> srs = n0.getFolderContents({'meta_type':['SecondaryReference']})
     >>> len(srs)
     2
@@ -120,8 +120,8 @@ Load one entity
     'Classical (550 - 330 BC)'
     >>> tps[0].getId
     'classical'
-    >>> tps[0].getCertainty
-    'certain'
+    >>> tps[0].getAttestationConfidence
+    'confident'
     >>> srs = n1.getFolderContents({'meta_type':['SecondaryReference']})
     >>> len(srs)
     1
@@ -173,20 +173,20 @@ Load one entity
     'Classical (550 - 330 BC)'
     >>> tps[0].getId
     'classical'
-    >>> tps[0].getCertainty
-    'certain'
+    >>> tps[0].getAttestationConfidence
+    'confident'
     >>> tps[1].Title
     'Roman (30 BC - AD 300)'
     >>> tps[1].getId
     'roman'
-    >>> tps[1].getCertainty
-    'certain'
+    >>> tps[1].getAttestationConfidence
+    'confident'
     >>> tps[2].Title
     'Late Antique (AD 300 - 625)'
     >>> tps[2].getId
     'late-antique'
-    >>> tps[2].getCertainty
-    'certain'
+    >>> tps[2].getAttestationConfidence
+    'confident'
     >>> l.getTimePeriods()
     ['Classical', 'Roman', 'Late Antique']
 
