@@ -83,6 +83,11 @@ msgstr ""
 
 #. Default: "Certainty of association between locations and names"
 #: content\PlacefulAssociation.py
+msgid "PleiadesEntity_help_associationCertainty"
+msgstr ""
+
+#. Default: "Certainty of association between locations and names"
+#: content\PlacefulAssociation.py
 msgid "PleiadesEntity_help_certainty"
 msgstr ""
 
@@ -175,6 +180,11 @@ msgstr ""
 #. Default: "Accuracy of Attestation"
 #: content\Name.py
 msgid "PleiadesEntity_label_accuracy"
+msgstr ""
+
+#. Default: "Certainty of association"
+#: content\PlacefulAssociation.py
+msgid "PleiadesEntity_label_associationCertainty"
 msgstr ""
 
 #. Default: "Attestationconfidence"

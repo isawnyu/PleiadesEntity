@@ -212,7 +212,7 @@ Load one entity
     >>> a = contents[0]
     >>> a.getPlaceType()
     'settlement'
-    >>> a.getCertainty()
+    >>> a.getAssociationCertainty()
     'certain'
 
     Test bibliographic references
@@ -266,7 +266,7 @@ Load one nameless entity
     []
     >>> a.getPlaceType()
     'fort'
-    >>> a.getCertainty()
+    >>> a.getAssociationCertainty()
     'certain'
 
     >>> g = IGeoItemSimple(p)
@@ -297,7 +297,7 @@ Load one unlocated entity
     []
     >>> a.getPlaceType()
     'undefined'
-    >>> a.getCertainty()
+    >>> a.getAssociationCertainty()
     'certain'
 
     >>> g = IGeoItemSimple(p)

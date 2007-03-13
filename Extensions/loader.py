@@ -398,7 +398,7 @@ def load_place(site, file):
             aid = p.invokeFactory('PlacefulAssociation',
                 id="unnamed-%s" % lid,
                 placeType=placeType,
-                certainty='certain',
+                associationCertainty='certain',
                 )
             a = getattr(p, aid)
             a.addReference(getattr(locations, lid), 'hasLocation')
@@ -415,7 +415,7 @@ def load_place(site, file):
                 aid = p.invokeFactory('PlacefulAssociation',
                     id="%s-%s" % (nid,lid),
                     placeType=placeType,
-                    certainty=certainty,
+                    associationCertainty=certainty,
                     )
                 a = getattr(p, aid)
                 a.addReference(getattr(locations, lid), 'hasLocation')
@@ -431,7 +431,7 @@ def load_place(site, file):
             aid = p.invokeFactory('PlacefulAssociation',
                     id="%s-unlocated" % nid,
                     placeType=placeType,
-                    certainty='certain',
+                    associationCertainty='certain',
                     )
             a = getattr(p, aid)
             a.addReference(getattr(names, nid), 'hasName')

@@ -50,3 +50,12 @@ Test temporal attestation confidence vocabulary
     'Levels of Confidence in Assignment of Time Periods to Ancient Names and Locations in AWMC Publications'
     >>> len([obj for obj in v.contentValues() if obj.meta_type == "VdexTerm"])
     4
+
+Test placeful association certainty vocabulary
+----------------------------------------------
+
+    >>> v = vt.getVocabularyByName('AWMCPlacefulAssociationCertainty')
+    >>> v.Title()
+    'Levels of Certainty Assigned to Placeful Associations in AWMC Publications'
+    >>> len([obj for obj in v.contentValues() if obj.meta_type == "VdexTerm"])
+    3

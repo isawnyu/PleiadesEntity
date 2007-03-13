@@ -52,16 +52,16 @@ schema = Schema((
     ),
 
     StringField(
-        name='certainty',
+        name='associationCertainty',
         widget=SelectionWidget(
             label="Certainty of association",
             description="Certainty of association between locations and names",
-            label_msgid='PleiadesEntity_label_certainty',
-            description_msgid='PleiadesEntity_help_certainty',
+            label_msgid='PleiadesEntity_label_associationCertainty',
+            description_msgid='PleiadesEntity_help_associationCertainty',
             i18n_domain='PleiadesEntity',
         ),
-        enforceVocabulary=1,
-        vocabulary=["certain", "less-certain", "uncertain"]
+        vocabulary=NamedVocabulary("""AWMCPlacefulAssociationCertainty"""),
+        enforceVocabulary=1
     ),
 
     ReferenceField(
