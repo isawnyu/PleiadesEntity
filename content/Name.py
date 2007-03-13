@@ -88,15 +88,15 @@ schema = Schema((
 
     StringField(
         name='completeness',
-        default="complete",
         index="FieldIndex",
+        vocabulary=NamedVocabulary("""AWMCNameCompleteness"""),
+        default="complete",
+        enforceVocabulary=1,
         widget=SelectionWidget(
             label="Completeness of Attestation",
             label_msgid='PleiadesEntity_label_completeness',
             i18n_domain='PleiadesEntity',
-        ),
-        enforceVocabulary=1,
-        vocabulary= ['complete', 'reconstructable', 'non-reconstructable']
+        )
     ),
 
 ),

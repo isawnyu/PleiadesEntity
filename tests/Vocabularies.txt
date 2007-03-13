@@ -16,7 +16,7 @@ Test place types vocabulary
     51
 
 Test ancient name languages vocabulary
----------------------------
+--------------------------------------
 
     >>> v = vt.getVocabularyByName('AWMCAncientNameLanguages')
     >>> v.Title()
@@ -24,3 +24,11 @@ Test ancient name languages vocabulary
     >>> len([obj for obj in v.contentValues() if obj.meta_type == "VdexTerm"])
     4
 
+Test ancient name completeness vocabulary
+-----------------------------------------
+
+    >>> v = vt.getVocabularyByName('AWMCNameCompleteness')
+    >>> v.Title()
+    'Levels of Attestation Completeness for Historical Names Distinguished in AWMC Publications'
+    >>> len([obj for obj in v.contentValues() if obj.meta_type == "VdexTerm"])
+    3
