@@ -32,3 +32,12 @@ Test ancient name completeness vocabulary
     'Levels of Attestation Completeness for Historical Names Distinguished in AWMC Publications'
     >>> len([obj for obj in v.contentValues() if obj.meta_type == "VdexTerm"])
     3
+
+Test ancient name accuracy vocabulary
+-------------------------------------
+
+    >>> v = vt.getVocabularyByName('AWMCNameAccuracy')
+    >>> v.Title()
+    'Levels of Attestation Accuracy for Historical Names Distinguished in AWMC Publications'
+    >>> len([obj for obj in v.contentValues() if obj.meta_type == "VdexTerm"])
+    3

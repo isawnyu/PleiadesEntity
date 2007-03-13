@@ -75,15 +75,15 @@ schema = Schema((
 
     StringField(
         name='accuracy',
-        default="accurate",
         index="FieldIndex",
+        vocabulary=NamedVocabulary("""AWMCNameAccuracy"""),
+        default="accurate",
+        enforceVocabulary=1,
         widget=SelectionWidget(
             label="Accuracy of Attestation",
             label_msgid='PleiadesEntity_label_accuracy',
             i18n_domain='PleiadesEntity',
-        ),
-        enforceVocabulary=1,
-        vocabulary= ['accurate', 'inaccurate', 'false']
+        )
     ),
 
     StringField(
