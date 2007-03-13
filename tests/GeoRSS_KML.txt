@@ -29,7 +29,7 @@ Setup
 
     >>> _ = names.invokeFactory('GeographicName', id='neverpolis', title='Neverpolis')
     >>> lid = locations.invokeFactory('Location')
-    >>> pid = places.invokeFactory('Place')
+    >>> pid = places.invokeFactory('Place', id='54321')
     >>> p = getattr(folder.places, pid)
     >>> aid = p.invokeFactory('PlacefulAssociation', id="neverpolis-%s" % lid)
 
@@ -62,28 +62,141 @@ Test browse
     >>> self.portal.error_log._ignored_exceptions = ()
     >>> self.portal.left_slots = self.portal.right_slots = []
 
-    Check views of folder
+    >>> url = places.absolute_url()
 
-    >>> url = folder.places.absolute_url()
+    GeoRSS
 
-    >>> browser.open("%s/@@geo/forRSS" % url)
-    >>> browser.contents == "[{'description': 'A testing entity', 'spatialCoordinates': '0.0 0.0 0.0', 'url': 'http://nohost/plone/Members/test_user_1_/places/%(pid)s', 'title': 'Neverpolis', 'srs': 'EPSG:4326', 'geometryType': 'point', 'geom_element': '<georss:point>0.0 0.0 0.0</georss:point>', 'id': '%(pid)s'}]" % {'pid': pid}
+    >>> browser.open("%s/georss" % url)
+    >>> browser.headers['content-type']
+    'application/atom+xml; charset=utf-8'
+    >>> print browser.contents
+    <?xml version="1.0" encoding="utf-8"?>
+    <feed xmlns="http://www.w3.org/2005/Atom"
+          xmlns:georss="http://www.georss.org/georss">
+    <BLANKLINE>
+    <BLANKLINE>
+      <title>places</title>
+      <link rel="self"
+            href="http://nohost/plone/Members/test_user_1_/places"/>
+      <updated/>
+      <author/>
+      <id>http://nohost/plone/Members/test_user_1_/places</id>
+    <BLANKLINE>
+      <entry>
+        <title>Neverpolis</title>
+        <link rel="alternate"
+              href="http://nohost/plone/Members/test_user_1_/places/54321">http://nohost/plone/Members/test_user_1_/places/54321</link>
+        <id>http://nohost/plone/Members/test_user_1_/places/54321</id>
+        <updated/>
+        <summary>A testing entity</summary>
+        <georss:point>0.0 0.0</georss:point>
+      </entry>
+    <BLANKLINE>
+    </feed>
+    <BLANKLINE>
+    <BLANKLINE>
+
+
+    >>> browser.open("%s/kml" % url)
+    >>> 'application/vnd.google-earth.kml+xml; charset=utf-8' in browser.headers['content-type']
     True
-
-    >>> browser.open("%s/@@geo/forKML" % url)
-    >>> expected =  '[{\'description\': \'A testing entity\', \'spatialCoordinates\': \'0.0 0.0 0.0\', \'url\': \'http://nohost/plone/Members/test_user_1_/places/%(pid)s\', \'title\': \'Neverpolis\', \'srs\': \'EPSG:4326\', \'desc_body\': \'<![CDATA[<p>A testing entity</p><p><a href="http://nohost/plone/Members/test_user_1_/places/%(pid)s">Neverpolis</a></p>]]>\', \'geometryType\': \'point\', \'geom_element\': \'<Point><coordinates>0.000000,0.000000,0.000000</coordinates></Point>\', \'id\': \'%(pid)s\'}]' % {'pid': pid}
-    >>> browser.contents == expected
-    True
+    >>> print browser.contents
+    <?xml version="1.0" encoding="utf-8"?>
+    <kml xmlns="http://earth.google.com/kml/2.1">
+    <BLANKLINE>
+    <BLANKLINE>
+      <Folder>
+        <name></name>
+        <visibility>0</visibility>
+        <open>0</open>
+        <Placemark>
+          <name>Neverpolis</name>
+    <BLANKLINE>
+          <description>
+            <![CDATA[
+              <div>
+                <p>A testing entity</p>
+                <p>URL: 
+                  <a href="http://nohost/plone/Members/test_user_1_/places/54321">http://nohost/plone/Members/test_user_1_/places/54321</a>
+                </p>
+              </div>
+            ]]>
+          </description>
+    <BLANKLINE>
+    <BLANKLINE>
+          <Point>
+            <coordinates>0.0,0.0,0.0</coordinates>
+          </Point>
+    <BLANKLINE>
+        </Placemark>
+      </Folder>
+    </kml>
+    <BLANKLINE>
+    <BLANKLINE>
 
     Check views of single place
 
     >>> url = p.absolute_url()
-    >>> browser.open("%s/@@geo/forRSS" % url)
-    >>> browser.contents == "[{'description': 'A testing entity', 'spatialCoordinates': '0.0 0.0 0.0', 'url': 'http://nohost/plone/Members/test_user_1_/places/%(pid)s', 'title': 'Neverpolis', 'srs': 'EPSG:4326', 'geometryType': 'point', 'geom_element': '<georss:point>0.0 0.0 0.0</georss:point>', 'id': '%(pid)s'}]" % {'pid': pid}
-    True
+    >>> browser.open("%s/georss" % url)
+    >>> print browser.contents
+    <?xml version="1.0" encoding="utf-8"?>
+    <feed xmlns="http://www.w3.org/2005/Atom"
+          xmlns:georss="http://www.georss.org/georss">
+    <BLANKLINE>
+    <BLANKLINE>
+      <title>Neverpolis</title>
+      <link rel="self"
+            href="http://nohost/plone/Members/test_user_1_/places/54321"/>
+      <updated/>
+      <author/>
+      <id>http://nohost/plone/Members/test_user_1_/places/54321</id>
+    <BLANKLINE>
+      <entry>
+        <title>Neverpolis</title>
+        <link rel="alternate"
+              href="http://nohost/plone/Members/test_user_1_/places/54321">http://nohost/plone/Members/test_user_1_/places/54321</link>
+        <id>http://nohost/plone/Members/test_user_1_/places/54321</id>
+        <updated/>
+        <summary>A testing entity</summary>
+        <georss:point>0.0 0.0</georss:point>
+      </entry>
+    <BLANKLINE>
+    </feed>
+    <BLANKLINE>
+    <BLANKLINE>
 
-    >>> browser.open("%s/@@geo/forKML" % url)
-    >>> expected = '[{\'description\': \'A testing entity\', \'spatialCoordinates\': \'0.0 0.0 0.0\', \'url\': \'http://nohost/plone/Members/test_user_1_/places/%(pid)s\', \'title\': \'Neverpolis\', \'srs\': \'EPSG:4326\', \'desc_body\': \'<![CDATA[<p>A testing entity</p><p><a href="http://nohost/plone/Members/test_user_1_/places/%(pid)s">Neverpolis</a></p>]]>\', \'geometryType\': \'point\', \'geom_element\': \'<Point><coordinates>0.000000,0.000000,0.000000</coordinates></Point>\', \'id\': \'%(pid)s\'}]' % {'pid': pid}
-    >>> browser.contents == expected
-    True
+    >>> browser.open("%s/kml" % url)
+    >>> print browser.contents
+    <?xml version="1.0" encoding="utf-8"?>
+    <kml xmlns="http://earth.google.com/kml/2.1">
+    <BLANKLINE>
+    <BLANKLINE>
+      <Folder>
+        <name>Neverpolis</name>
+        <visibility>0</visibility>
+        <open>0</open>
+        <Placemark>
+          <name>Neverpolis</name>
+    <BLANKLINE>
+          <description>
+            <![CDATA[
+              <div>
+                <p>A testing entity</p>
+                <p>URL: 
+                  <a href="http://nohost/plone/Members/test_user_1_/places/54321">http://nohost/plone/Members/test_user_1_/places/54321</a>
+                </p>
+              </div>
+            ]]>
+          </description>
+    <BLANKLINE>
+    <BLANKLINE>
+          <Point>
+            <coordinates>0.0,0.0,0.0</coordinates>
+          </Point>
+    <BLANKLINE>
+        </Placemark>
+      </Folder>
+    </kml>
+    <BLANKLINE>
+    <BLANKLINE>
 
