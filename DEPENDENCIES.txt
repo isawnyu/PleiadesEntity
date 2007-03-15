@@ -9,5 +9,5 @@ http://codespeak.net/lxml/index.html
 
 - AT Vocabulary Manager:
 http://plone.org/products/atvocabularymanager
-tested with ATVM svn trunk r7582
+tested with ATVM svn trunk r7620
 
