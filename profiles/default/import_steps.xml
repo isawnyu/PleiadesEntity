@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<import-steps>
+ <import-step id="content" version="20070515-01"
+   handler="Products.CMFCore.exportimport.content.importSiteStructure"
+   title="Content"
+   >
+   <dependency step="toolset"/>
+   <dependency step="catalog"/>
+   <dependency step="typeinfo"/>
+   <dependency step="workflow"/>
+   <dependency step="rolemap"/>
+   Import the site's structure and content.
+  </import-step>
+</import-steps>
+

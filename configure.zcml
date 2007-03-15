@@ -46,6 +46,16 @@
     interface=".interfaces.IPlaceContainer"
     />
 
+  <five:implements
+    class=".content.PlaceContainer.PlaceContainer"
+    interface="Products.CMFCore.interfaces.IFolderish"
+    />
+
+  <five:implements
+    class=".content.LocationContainer.LocationContainer"
+    interface="Products.CMFCore.interfaces.IFolderish"
+    />
+
   <browser:page  
     for=".interfaces.IGeoEntity"
     name="geo"
