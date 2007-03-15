@@ -16,11 +16,7 @@ Setup
     >>> lpf_allow = lpf.global_allow
     >>> lpf.global_allow = True
 
-    >>> n = self.portal.portal_types['GeographicName']
-    >>> n_allow = n.global_allow
-    >>> n.global_allow = True
-
-    >>> n = self.portal.portal_types['EthnicName']
+    >>> n = self.portal.portal_types['Name']
     >>> n_allow = n.global_allow
     >>> n.global_allow = True
 

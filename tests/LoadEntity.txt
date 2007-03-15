@@ -16,11 +16,7 @@ Setup
     >>> lpf_allow = lpf.global_allow
     >>> lpf.global_allow = True
 
-    >>> n = self.portal.portal_types['GeographicName']
-    >>> n_allow = n.global_allow
-    >>> n.global_allow = True
-
-    >>> n = self.portal.portal_types['EthnicName']
+    >>> n = self.portal.portal_types['Name']
     >>> n_allow = n.global_allow
     >>> n.global_allow = True
 
@@ -73,6 +69,14 @@ Load one entity
     'Aphrodisias'
     >>> n0.nameAttested
     u'\u1f08\u03c6\u03c1\u03bf\u03b4\u03b9\u03c3\u03b9\u1f71\u03c2'
+    >>> n0.getNameLanguage()
+    'grc'
+    >>> n0.getNameType()
+    'geographic'
+    >>> n0.getAccuracy()
+    'accurate'
+    >>> n0.getCompleteness()
+    'complete'
     >>> n0.Creators()
     ('C. Foss (compiler, west)', 'S. Mitchell (compiler)')
     >>> n0.Contributors()
@@ -135,6 +139,10 @@ Load one entity
     'Aphrodisieus'
     >>> n2.nameAttested
     u'\u1f08\u03c6\u03c1\u03bf\u03b4\u03b9\u03c3\u03b9\u03b5\u1f7b\u03c2'
+    >>> n2.getNameLanguage()
+    'grc'
+    >>> n2.getNameType()
+    'ethnic'
     >>> tps = n2.getFolderContents({'meta_type':['TemporalAttestation']})
     >>> len(tps)
     0

@@ -83,7 +83,7 @@ schema = Schema((
             label_msgid='PleiadesEntity_label_names',
             i18n_domain='PleiadesEntity',
         ),
-        allowed_types=('Name', 'EthnicName', 'GeographicName'),
+        allowed_types=('Name',),
         multiValued=1,
         relationship='hasName'
     ),

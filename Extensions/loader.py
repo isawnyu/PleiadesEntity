@@ -78,14 +78,11 @@ def initialize(self):
     lpf = self.portal_types['Large Plone Folder']
     lpf_allow = lpf.global_allow
     lpf.global_allow = True
-
-    n = self.portal_types['GeographicName']
+    
+    n = self.portal_types['Name']
     n_allow = n.global_allow
     n.global_allow = True
 
-    n = self.portal_types['EthnicName']
-    n_allow = n.global_allow
-    n.global_allow = True
 
     try:
         self.invokeFactory('Large Plone Folder',
@@ -278,8 +275,7 @@ def load_place(site, file):
             raise EntityLoadError, "Invalid name type"
         # false -> geographic
         if type == 'false': type = 'geographic'
-        typename = "%sName" % type.capitalize()
-
+        
         certainty = 'certain'
         try:
             certainty = e.findall("{%s}classificationSection/{%s}nameAssociation" % (ADLGAZ, AWMC))[0].get('ref', 'certain')
@@ -287,11 +283,12 @@ def load_place(site, file):
             pass
 
         try:
-            nid = names.invokeFactory(typename,
+            nid = names.invokeFactory("Name",
                     id=id,
                     title=transliteration.encode('utf-8'),
                     nameAttested=nameAttested.encode('utf-8'),
                     nameLanguage=nameLanguage.encode('utf-8'),
+                    nameType=type,
                     accuracy=accuracy,
                     completeness=completeness,
                     creators=creators,
@@ -301,11 +298,12 @@ def load_place(site, file):
                     )
             name = getattr(names, nid)
         except:
-            nid = names.duplicates.invokeFactory(typename,
+            nid = names.duplicates.invokeFactory("Name",
                     id=id,
                     title=transliteration.encode('utf-8'),
                     nameAttested=nameAttested.encode('utf-8'),
                     nameLanguage=nameLanguage.encode('utf-8'),
+                    nameType=type,
                     accuracy=accuracy,
                     completeness=completeness,
                     creators=creators,

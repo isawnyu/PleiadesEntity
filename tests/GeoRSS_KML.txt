@@ -10,7 +10,7 @@ Setup
     >>> lpf_allow = lpf.global_allow
     >>> lpf.global_allow = True
 
-    >>> n = self.portal.portal_types['GeographicName']
+    >>> n = self.portal.portal_types['Name']
     >>> n_allow = n.global_allow
     >>> n.global_allow = True
 
@@ -27,7 +27,7 @@ Setup
 
     Entities
 
-    >>> _ = names.invokeFactory('GeographicName', id='neverpolis', title='Neverpolis')
+    >>> _ = names.invokeFactory('Name', id='neverpolis', title='Neverpolis', nameType='geographic')
     >>> lid = locations.invokeFactory('Location')
     >>> pid = places.invokeFactory('Place', id='54321')
     >>> p = getattr(folder.places, pid)

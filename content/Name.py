@@ -74,6 +74,17 @@ schema = Schema((
     ),
 
     StringField(
+        name='nameType',
+        widget=SelectionWidget(
+            label="Name type",
+            label_msgid='PleiadesEntity_label_nameType',
+            i18n_domain='PleiadesEntity',
+        ),
+        vocabulary=NamedVocabulary("""AWMCNameTypes"""),
+        enforceVocabulary=1
+    ),
+
+    StringField(
         name='accuracy',
         index="FieldIndex",
         vocabulary=NamedVocabulary("""AWMCNameAccuracy"""),
@@ -124,7 +135,7 @@ class Name(BaseFolder):
     portal_type = 'Name'
     allowed_content_types = ['TemporalAttestation', 'SecondaryReference', 'PrimaryReference']
     filter_content_types = 1
-    global_allow = 1
+    global_allow = 0
     content_icon = 'document_icon.gif'
     immediate_view = 'base_view'
     default_view = 'base_view'

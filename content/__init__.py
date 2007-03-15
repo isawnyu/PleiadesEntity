@@ -40,8 +40,6 @@ __docformat__ = 'plaintext'
 import Name
 import Location
 import TemporalAttestation
-import GeographicName
-import EthnicName
 import Reference
 import SecondaryReference
 import PrimaryReference
