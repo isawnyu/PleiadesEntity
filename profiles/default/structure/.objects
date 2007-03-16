@@ -7,8 +7,6 @@ front-page,Document
 news,Topic
 events,Topic
 community,Folder
-default-map,MapContext
-portal_vocabularies,VocabularyLibrary
 places,PlaceContainer
 locations,LocationContainer
 names,Large Plone Folder
