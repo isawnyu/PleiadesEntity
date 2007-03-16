@@ -1,0 +1,42 @@
+id: front-page
+title: Welcome to Pleiades
+excludeFromNav: False
+subject: 
+description: 
+contributors: 
+creators: pleiades-staging-admin
+effectiveDate: 2006/07/27 13:55:00.676 GMT-4
+expirationDate: None
+language: 
+rights: 
+creation_date: 2005/11/01 14:28:30 US/Central
+modification_date: 2007/03/08 11:24:54.348 US/Eastern
+relatedItems: 
+allowDiscussion: None
+Content-Type: text/html
+
+<h3>Pleiades is ...</h3>
+<p class="callout"><i>... an international research community, devoted to the study of ancient geography</i></p>
+<strong></strong>
+<ul>
+            <li><strong>Organized:</strong> by the <a href="http://www.unc.edu/awmc">Ancient World Mapping
+                    Center</a> at the <a href="http://www.unc.edu/">University of North Carolina at
+                    Chapel Hill</a>, U.S.A.</li>
+            <li><strong>Open:</strong> bringing together <a title="About the Pleiades Community" href="community/" target="_self">a global community of scholars, students and
+                enthusiasts</a></li>
+            <li><strong>Productive:</strong> expanding, enhancing and publishing information about ancient
+                places, spaces, and peoples</li></ul>
+<h3><br /></h3>
+<h3>You can use the following links to:</h3>
+<ul>
+<li><a title="About Pleiades" href="about-pleiades" target="_self">Learn more about the Pleiades Project</a></li>
+<li><a title="About the Pleiades Community" href="community/" target="_self">Participate in the Community</a></li>
+<li><a href="places">Explore Pleiades Place Data</a></li>
+<li><a href="news">Latest News</a></li>
+</ul>
+<p class="discreet"><i><br /></i></p>
+<p class="discreet"><i>Note: This is the "staging server" for the Pleiades community. Content committed here is for test purposes only,
+            and may be lost or corrupted!</i></p>
+<p><i><br /></i></p>
+<p><i>Pleiades is supported by the U.S. <a class="ext-link" href="http://www.neh.gov/">National Endowment for the Humanities</a>
+        and hosted by the <a class="ext-link" href="http://www.stoa.org/">Stoa Consortium</a>.</i> <br /></p>

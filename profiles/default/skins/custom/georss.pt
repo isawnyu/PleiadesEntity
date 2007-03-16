@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed
+  xmlns="http://www.w3.org/2005/Atom"
+  xmlns:georss="http://www.georss.org/georss"
+  xmlns:tal="http://xml.zope.org/namespaces/tal"
+  tal:define="infos context/@@geo/forRSS;
+              furl context/absolute_url;
+              maxitems request/maxitems | python:len(infos);
+              dummy python:here.REQUEST.RESPONSE.setHeader('Content-type', 'application/atom+xml;; charset=utf-8');"
+  >
+
+  <title tal:content="context/title_or_id">TITLE</title>
+  <link rel="self" tal:attributes="href furl"/>
+  <updated/>
+  <author/>
+  <id tal:content="furl">ID</id>
+    
+  <entry
+    tal:repeat="info python:infos[:int(maxitems)]"
+    >
+    <title tal:content="info/title">TITLE</title>
+    <link rel="alternate" tal:attributes="href info/url" tal:content="info/url">URL</link>
+    <id tal:content="info/url">ID</id>
+    <updated/>
+    <summary
+      tal:content="python:info['description'] or 'No description.'"
+      >ABOUT</summary>
+    <span tal:replace="structure info/geom_element"/>
+  </entry>
+  
+</feed>
+

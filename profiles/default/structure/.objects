@@ -1,3 +1,14 @@
+robots.txt,File
+sitemap.xml,File
+googleb195682086318ec9.html,File
+about-pleiades,Document
+disclaimer,Document
+front-page,Document
+news,Topic
+events,Topic
+community,Folder
+default-map,MapContext
+portal_vocabularies,VocabularyLibrary
 places,PlaceContainer
 locations,LocationContainer
 names,Large Plone Folder

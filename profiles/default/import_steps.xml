@@ -1,15 +1,25 @@
 <?xml version="1.0"?>
 <import-steps>
- <import-step id="content" version="20070515-01"
-   handler="Products.CMFCore.exportimport.content.importSiteStructure"
-   title="Content"
-   >
-   <dependency step="toolset"/>
-   <dependency step="catalog"/>
-   <dependency step="typeinfo"/>
-   <dependency step="workflow"/>
-   <dependency step="rolemap"/>
-   Import the site's structure and content.
+
+  <import-step id="content" version="20070515-01"
+    handler="Products.CMFCore.exportimport.content.importSiteStructure"
+    title="Content"
+    >
+    <dependency step="toolset"/>
+    <dependency step="catalog"/>
+    <dependency step="typeinfo"/>
+    <dependency step="workflow"/>
+    <dependency step="rolemap"/>
+    Import the site's structure and content.
   </import-step>
+
+  <import-step
+    id="skins" version="20040630-01"
+    handler="Products.CMFCore.exportimport.skins.importSkinsTool"
+    title="Skins">
+    <dependency step="toolset"/>
+    Import skins tool's filesystem directory views and skin path definitions.
+  </import-step>
+
 </import-steps>
 

@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<object name="base_properties" meta_type="Folder">
+ <property name="DEPRECATED"
+    type="string">This approach is deprecated and will be phased out in Plone 3.0 or 3.5</property>
+ <property
+    name="title">Plone's color, font, logo and border defaults</property>
+ <property name="plone_skin" type="string">Plone Default</property>
+ <property name="logoName" type="string">logo.jpg</property>
+ <property name="fontFamily"
+    type="string">"Lucida Grande", Verdana, Lucida, Helvetica, Arial, sans-serif</property>
+ <property name="fontBaseSize" type="string">69%</property>
+ <property name="fontColor" type="string">Black</property>
+ <property name="fontSmallSize" type="string">85%</property>
+ <property name="backgroundColor" type="string">White</property>
+ <property name="linkColor" type="string">#436976</property>
+ <property name="linkActiveColor" type="string">Red</property>
+ <property name="linkVisitedColor" type="string">Purple</property>
+ <property name="borderWidth" type="string">1px</property>
+ <property name="borderStyle" type="string">solid</property>
+ <property name="borderStyleAnnotations" type="string">solid</property>
+ <property name="globalBorderColor" type="string">#8cacbb</property>
+ <property name="globalBackgroundColor" type="string">#dee7ec</property>
+ <property name="globalFontColor" type="string">#436976</property>
+ <property name="headingFontFamily"
+    type="string">"Lucida Grande", Verdana, Lucida, Helvetica, Arial, sans-serif</property>
+ <property name="contentViewBorderColor" type="string">#74ae0b</property>
+ <property name="contentViewBackgroundColor" type="string">#cde2a7</property>
+ <property name="contentViewFontColor" type="string">#578308</property>
+ <property name="inputFontColor" type="string">Black</property>
+ <property name="textTransform" type="string">lowercase</property>
+ <property name="evenRowBackgroundColor" type="string">#eef3f5</property>
+ <property name="oddRowBackgroundColor" type="string">transparent</property>
+ <property name="notifyBorderColor" type="string">#ffa500</property>
+ <property name="notifyBackgroundColor" type="string">#ffce7b</property>
+ <property name="discreetColor" type="string">#76797c</property>
+ <property name="helpBackgroundColor" type="string">#ffffe1</property>
+ <property name="portalMinWidth" type="string">70em</property>
+ <property name="columnOneWidth" type="string">16em</property>
+ <property name="columnTwoWidth" type="string">16em</property>
+</object>

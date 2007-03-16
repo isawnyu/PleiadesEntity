@@ -1,0 +1,56 @@
+id: about-pleiades
+title: About Pleiades
+excludeFromNav: False
+subject: 
+description: 
+contributors: 
+creators: thomase
+effectiveDate: 2006/08/16 10:46:43.904 GMT-4
+expirationDate: None
+language: 
+rights: 
+creation_date: 2006/08/01 12:34:58.857 GMT-4
+modification_date: 2007/03/08 16:55:04.443 US/Eastern
+relatedItems: 
+allowDiscussion: None
+Content-Type: text/html
+
+<p class="callout">
+Pleiades is an international research network and associated web portal
+and content management system (CMS) devoted to the study of ancient
+geography.
+</p>
+<h3>Governance and Participation</h3><p>
+Organized by the 
+    <a href="http://www.unc.edu/awmc">Ancient World Mapping Center</a> at the 
+    <a href="http://www.unc.edu/">University of North Carolina at Chapel Hill</a>,
+    U.S.A., <b>Pleiades</b> brings together a global community of scholars,
+    students and enthusiasts to expand and enhance continually the
+    information originally brought together by the <a href="http://www.unc.edu/depts/cl_atlas">Classical Atlas Project</a>
+    (1988-2000) to support the publication of the 
+    <i><a href="http://www.unc.edu/awmc/batlas.html">Barrington Atlas of the Greek and Roman World</a></i> 
+    (R.J.A. Talbert, ed., Princeton, 2000).</p>
+    <p>Our name, "Pleiades" (the daughters of Atlas in Greek Mythology) reflects both this heritage and the forward-looking
+        goal of collaborative diversification.</p>
+        
+<h3>How Does That Work?</h3>
+<p>Combining community approaches (like those used by 
+    <a href="http://en.wikipedia.org/wiki/Main_Page">Wikipedia</a>) with academic-style 
+    editorial review, Pleiades enables anyone — from university professors to casual students of antiquity — 
+    to suggest updates to geographic names, descriptive essays, bibliographic references and geographic coordinates.
+    Once vetted for accuracy and pertinence, these suggestions become a permanent, author-attributed part of future
+    publications and data services.</p><h3>Status</h3><p>The Pleiades web portal and content management system are currently under development. Please visit <a href="development/" target="_self">our Development Section</a> for more information.<br /></p>
+
+<h3>Support and Software</h3>
+<p>Initial startup funding for Pleiades is generously provided by the U.S. 
+    <a href="http://www.neh.gov/">National Endowment for the Humanities</a>
+    with a two-year grant (2006-2008) through its <i>Preservation and Access
+    Research and Development</i> program.</p>
+    <p>Hosting for Pleiades during this period is provided by the <a href="http://www.stoa.org/">Stoa Consortium</a> and the <a href="http://www.rch.uky.edu/">Collaboratory for Research in Computing for Humanities</a> at the University of Kentucky.</p>
+    <p>The Pleiades web portal is being built atop the open-source 
+        <a href="http://plone.org/">Plone Content Management System</a>, with the addition of a number of 
+        plugin components (Plone "Products").
+        All modifications and special-purpose plugins developed by the Pleiades 
+        Community will be released to the public for free re-use under
+        compatible, open-source licensing.
+</p>
