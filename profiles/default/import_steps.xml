@@ -16,9 +16,20 @@
   <import-step
     id="skins" version="20040630-01"
     handler="Products.CMFCore.exportimport.skins.importSkinsTool"
-    title="Skins">
+    title="Skins"
+    >
     <dependency step="toolset"/>
     Import skins tool's filesystem directory views and skin path definitions.
+  </import-step>
+
+  <import-step
+    id="typeinfo"
+    version="20070319-01"
+    handler="Products.CMFCore.exportimport.typeinfo.importTypesTool"
+    title="Types Tool"
+    >
+    <dependency step="toolset"/>
+    Import types tool's type information objects.
   </import-step>
 
 </import-steps>
