@@ -1,6 +1,9 @@
 from Products.CMFCore.utils import getToolByName
 
-indexes = [('getTimePeriods', 'KeywordIndex')]
+indexes = [
+    ('getTimePeriods', 'KeywordIndex'),
+    ('getPlaceType', 'KeywordIndex')
+    ]
 
 def install(self):
      """
