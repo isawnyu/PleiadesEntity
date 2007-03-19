@@ -169,12 +169,12 @@ def parse_periods(xmlcontext, portalcontext):
         id=period_ids[tpnstr]
         try:
             portalcontext.invokeFactory('TemporalAttestation',
-                title=period,
                 id=id,
+                timePeriod=period,
                 attestationConfidence=confidence
                 )
         except:
-            raise EntityLoadError, "There is already a TemporalAttestation with id=%s in portal context" % id
+            raise EntityLoadError, "There is already a TemporalAttestation with id=%s in portal context = %s" % (id, portalcontext.Title())
 
 def parse_secondary_references(xmlcontext, portalcontext, ptool):
     srs =  xmlcontext.find("{%s}secondaryReferences" % AWMC)

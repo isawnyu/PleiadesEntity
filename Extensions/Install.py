@@ -81,6 +81,7 @@ def install(self):
          'AWMCNameTypes': ('VdexVocabulary', 'VdexTerm'),
          'AWMCNameAccuracy': ('VdexVocabulary', 'VdexTerm'),
          'AWMCPlacefulAssociationCertainty': ('VdexVocabulary', 'VdexTerm'),
+         'AWMCTimePeriods': ('VdexVocabulary', 'VdexTerm'),
          'AWMCNameCompleteness': ('VdexVocabulary', 'VdexTerm'),
         }
     for vocabname in vocabmap.keys():

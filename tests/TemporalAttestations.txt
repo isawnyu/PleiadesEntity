@@ -67,13 +67,14 @@ Load one entity
     >>> len(tps)
     2
     >>> tps[0].Title
-    'Classical (550 - 330 BC)'
+    'Attested: Classical (550 - 330 BC)'
     >>> tps[0].getId
     'classical'
     >>> tps[0].getAttestationConfidence
     'confident'
+    
     >>> tps[1].Title
-    'Hellenistic/Republican (330 - 30 BC)'
+    'Attested: Hellenistic/Republican (330 - 30 BC)?'
     >>> tps[1].getId
     'hellenistic-republican'
     >>> tps[1].getAttestationConfidence
@@ -84,13 +85,14 @@ Load one entity
     >>> len(tps)
     2
     >>> tps[0].Title
-    'Roman (30 BC - AD 300)'
+    'Attested: Roman (30 BC - AD 300) - inferred'
     >>> tps[0].getId
     'roman'
     >>> tps[0].getAttestationConfidence
     'confident-inferred'
+    
     >>> tps[1].Title
-    'Late Antique (AD 300 - 625)'
+    'Attested: Late Antique (AD 300 - 625)? - inferred'
     >>> tps[1].getId
     'late-antique'
     >>> tps[1].getAttestationConfidence
@@ -104,31 +106,35 @@ Load one entity
     >>> len(tps)
     5
     >>> tps[0].Title
-    'Archaic (pre-550 BC)'
+    'Attested: Archaic (pre-550 BC)'
     >>> tps[0].getId
     'archaic'
     >>> tps[0].getAttestationConfidence
     'confident'
+    
     >>> tps[1].Title
-    'Classical (550 - 330 BC)'
+    'Attested: Classical (550 - 330 BC)'
     >>> tps[1].getId
     'classical'
     >>> tps[1].getAttestationConfidence
     'confident'
+    
     >>> tps[2].Title
-    'Hellenistic/Republican (330 - 30 BC)'
+    'Attested: Hellenistic/Republican (330 - 30 BC)?'
     >>> tps[2].getId
     'hellenistic-republican'
     >>> tps[2].getAttestationConfidence
     'less-confident'
+    
     >>> tps[3].Title
-    'Roman (30 BC - AD 300)'
+    'Attested: Roman (30 BC - AD 300)'
     >>> tps[3].getId
     'roman'
     >>> tps[3].getAttestationConfidence
     'confident'
+    
     >>> tps[4].Title
-    'Late Antique (AD 300 - 625)'
+    'Attested: Late Antique (AD 300 - 625)?'
     >>> tps[4].getId
     'late-antique'
     >>> tps[4].getAttestationConfidence
