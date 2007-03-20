@@ -7,6 +7,22 @@
 ##parameters=
 ##title=
 ##
+
+smart_folder_tool = container.portal_atct
+        
+try:
+    smart_folder_tool.removeIndex("getPlaceType")
+except:
+    pass
+        
+try:
+    smart_folder_tool.removeIndex("getTimePeriods")
+except:
+    pass
+        
+smart_folder_tool.addIndex('getPlaceType', 'Place Type', 'Type of ancient place', enabled=True)
+smart_folder_tool.addIndex('getTimePeriods', 'Time Periods', 'Attested time periods', enabled=True)
+
 v_types = container.portal_catalog.uniqueValuesFor('getPlaceType')
 v_times = container.portal_catalog.uniqueValuesFor('getTimePeriods')
 utils = container.plone_utils

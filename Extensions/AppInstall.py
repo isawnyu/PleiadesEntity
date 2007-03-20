@@ -5,20 +5,31 @@ indexes = [
     ('getPlaceType', 'KeywordIndex')
     ]
 
+columns = ['getTermKey', 'getTermValue']
+
+
 def install(self):
-     """
-       custom installation steps
-     """
-     
-     out = []
-     
-     portal = self.portal_url.getPortalObject()
-     
-     for iname, itype in indexes:
-         addIndex(portal, out, iname, itype) 
-         
-     return out
-     
+    """
+    custom installation steps
+    """
+    out = []
+    portal = self.portal_url.getPortalObject()
+    for iname, itype in indexes:
+        addIndex(portal, out, iname, itype) 
+        
+    # Vocab catalog metadata
+    catalog_tool = getToolByName(portal, 'portal_catalog', None)
+    for name in columns:
+        addColumn(catalog_tool, name)
+
+    return out
+    
+def addColumn(tool, name):
+    try:
+        tool.manage_addColumn(name)
+    except:
+        pass
+
 def addIndex(portal, out, name, type):
     catalog = getToolByName(portal, 'portal_catalog', None)
     if catalog is not None:
