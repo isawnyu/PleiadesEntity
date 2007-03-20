@@ -13,7 +13,7 @@
         <langstring language="pt">Códigos padrão para línguas e sistemas da escrita de nomes antigos</langstring>
     </vocabName>
 
-    <vocabIdentifier isRegistered="false">AWMCAncientNameLanguages</vocabIdentifier>
+    <vocabIdentifier isRegistered="false">ancient-name-languages</vocabIdentifier>
     
     <term>
         <termIdentifier>grc</termIdentifier>

@@ -7,7 +7,7 @@
         <langstring language="en">Named Historical Periods Distinguished in AWMC Publications</langstring>
     </vocabName>
     
-    <vocabIdentifier>AWMCTimePeriods</vocabIdentifier>
+    <vocabIdentifier>time-periods</vocabIdentifier>
     
     <term>
         <termIdentifier>archaic</termIdentifier>

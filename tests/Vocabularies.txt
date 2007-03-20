@@ -9,7 +9,7 @@ Get portal vocabulary tool
 Test place types vocabulary
 ---------------------------
 
-    >>> v = vt.getVocabularyByName('AWMCPlaceTypes')
+    >>> v = vt.getVocabularyByName('place-types')
     >>> v.Title()
     'Types of Places Distinguished in AWMC Publications'
     >>> len([obj for obj in v.contentValues() if obj.meta_type == "VdexTerm"])
@@ -18,7 +18,7 @@ Test place types vocabulary
 Test ancient name types vocabulary
 ----------------------------------
 
-    >>> v = vt.getVocabularyByName('AWMCNameTypes')
+    >>> v = vt.getVocabularyByName('name-types')
     >>> v.Title()
     'Types of Historical Names Distinguished in AWMC Publications'
     >>> len([obj for obj in v.contentValues() if obj.meta_type == "VdexTerm"])
@@ -27,7 +27,7 @@ Test ancient name types vocabulary
 Test ancient name languages vocabulary
 --------------------------------------
 
-    >>> v = vt.getVocabularyByName('AWMCAncientNameLanguages')
+    >>> v = vt.getVocabularyByName('ancient-name-languages')
     >>> v.Title()
     'Standard Codes for Languages and Writing Systems of Ancient Names'
     >>> len([obj for obj in v.contentValues() if obj.meta_type == "VdexTerm"])
@@ -36,7 +36,7 @@ Test ancient name languages vocabulary
 Test ancient name completeness vocabulary
 -----------------------------------------
 
-    >>> v = vt.getVocabularyByName('AWMCNameCompleteness')
+    >>> v = vt.getVocabularyByName('name-completeness')
     >>> v.Title()
     'Levels of Attestation Completeness for Historical Names Distinguished in AWMC Publications'
     >>> len([obj for obj in v.contentValues() if obj.meta_type == "VdexTerm"])
@@ -45,7 +45,7 @@ Test ancient name completeness vocabulary
 Test ancient name accuracy vocabulary
 -------------------------------------
 
-    >>> v = vt.getVocabularyByName('AWMCNameAccuracy')
+    >>> v = vt.getVocabularyByName('name-accuracy')
     >>> v.Title()
     'Levels of Attestation Accuracy for Historical Names Distinguished in AWMC Publications'
     >>> len([obj for obj in v.contentValues() if obj.meta_type == "VdexTerm"])
@@ -54,7 +54,7 @@ Test ancient name accuracy vocabulary
 Test temporal attestation confidence vocabulary
 -----------------------------------------------
 
-    >>> v = vt.getVocabularyByName('AWMCTemporalAttestationConfidence')
+    >>> v = vt.getVocabularyByName('attestation-confidence')
     >>> v.Title()
     'Levels of Confidence in Assignment of Time Periods to Ancient Names and Locations in AWMC Publications'
     >>> len([obj for obj in v.contentValues() if obj.meta_type == "VdexTerm"])
@@ -63,8 +63,9 @@ Test temporal attestation confidence vocabulary
 Test placeful association certainty vocabulary
 ----------------------------------------------
 
-    >>> v = vt.getVocabularyByName('AWMCPlacefulAssociationCertainty')
+    >>> v = vt.getVocabularyByName('association-certainty')
     >>> v.Title()
     'Levels of Certainty Assigned to Placeful Associations in AWMC Publications'
     >>> len([obj for obj in v.contentValues() if obj.meta_type == "VdexTerm"])
     3
+

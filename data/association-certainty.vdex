@@ -7,7 +7,7 @@
         <langstring language="en">Levels of Certainty Assigned to Placeful Associations in AWMC Publications</langstring>
     </vocabName>
 
-    <vocabIdentifier isRegistered="false">AWMCPlacefulAssociationCertainty</vocabIdentifier>
+    <vocabIdentifier isRegistered="false">association-certainty</vocabIdentifier>
 
     <term>
         <termIdentifier>certain</termIdentifier>

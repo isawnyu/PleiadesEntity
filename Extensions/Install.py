@@ -75,14 +75,14 @@ def install(self):
     # Create vocabularies in vocabulary lib
     from Products.ATVocabularyManager.config import TOOL_NAME as ATVOCABULARYTOOL
     atvm = getToolByName(self, ATVOCABULARYTOOL)
-    vocabmap = {'AWMCTemporalAttestationConfidence': ('VdexVocabulary', 'VdexTerm'),
-         'AWMCPlaceTypes': ('VdexVocabulary', 'VdexTerm'),
-         'AWMCAncientNameLanguages': ('VdexVocabulary', 'VdexTerm'),
-         'AWMCNameTypes': ('VdexVocabulary', 'VdexTerm'),
-         'AWMCNameAccuracy': ('VdexVocabulary', 'VdexTerm'),
-         'AWMCPlacefulAssociationCertainty': ('VdexVocabulary', 'VdexTerm'),
-         'AWMCTimePeriods': ('VdexVocabulary', 'VdexTerm'),
-         'AWMCNameCompleteness': ('VdexVocabulary', 'VdexTerm'),
+    vocabmap = {'name-accuracy': ('VdexVocabulary', 'VdexTerm'),
+         'association-certainty': ('VdexVocabulary', 'VdexTerm'),
+         'place-types': ('VdexVocabulary', 'VdexTerm'),
+         'attestation-confidence': ('VdexVocabulary', 'VdexTerm'),
+         'time-periods': ('VdexVocabulary', 'VdexTerm'),
+         'name-completeness': ('VdexVocabulary', 'VdexTerm'),
+         'ancient-name-languages': ('VdexVocabulary', 'VdexTerm'),
+         'name-types': ('VdexVocabulary', 'VdexTerm'),
         }
     for vocabname in vocabmap.keys():
         if not vocabname in atvm.contentIds():

@@ -8,7 +8,7 @@
         <langstring language="en">Types of Historical Names Distinguished in AWMC Publications</langstring>
     </vocabName>
     
-    <vocabIdentifier isRegistered="false">AWMCNameTypes</vocabIdentifier>
+    <vocabIdentifier isRegistered="false">name-types</vocabIdentifier>
     
     <term>
         <termIdentifier>geographic</termIdentifier>

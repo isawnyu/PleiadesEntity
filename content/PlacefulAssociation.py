@@ -41,7 +41,7 @@ schema = Schema((
     StringField(
         name='placeType',
         index="KeywordIndex",
-        vocabulary=NamedVocabulary("""AWMCPlaceTypes"""),
+        vocabulary=NamedVocabulary("""place-types"""),
         default="unknown",
         enforceVocabulary=1,
         widget=SelectionWidget(
@@ -60,7 +60,7 @@ schema = Schema((
             description_msgid='PleiadesEntity_help_associationCertainty',
             i18n_domain='PleiadesEntity',
         ),
-        vocabulary=NamedVocabulary("""AWMCPlacefulAssociationCertainty"""),
+        vocabulary=NamedVocabulary("""association-certainty"""),
         enforceVocabulary=1
     ),
 

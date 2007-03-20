@@ -7,7 +7,7 @@
         <langstring language="en">Levels of Confidence in Assignment of Time Periods to Ancient Names and Locations in AWMC Publications</langstring>
     </vocabName>
 
-    <vocabIdentifier isRegistered="false">AWMCTemporalAttestationConfidence</vocabIdentifier>
+    <vocabIdentifier isRegistered="false">attestation-confidence</vocabIdentifier>
 
     <term>
         <termIdentifier>confident</termIdentifier>

@@ -8,7 +8,7 @@
         <langstring language="en">Levels of Attestation Accuracy for Historical Names Distinguished in AWMC Publications</langstring>
     </vocabName>
     
-    <vocabIdentifier isRegistered="false">AWMCNameAccuracy</vocabIdentifier>
+    <vocabIdentifier isRegistered="false">name-accuracy</vocabIdentifier>
     
     <term>
         <termIdentifier>accurate</termIdentifier>

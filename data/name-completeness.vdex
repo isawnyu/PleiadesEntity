@@ -5,7 +5,7 @@
     <vocabName>
         <langstring language="en">Levels of Attestation Completeness for Historical Names Distinguished in AWMC Publications</langstring>
     </vocabName>
-    <vocabIdentifier isRegistered="false">AWMCNameCompleteness</vocabIdentifier>
+    <vocabIdentifier isRegistered="false">name-completeness</vocabIdentifier>
     <term>
         <termIdentifier>complete</termIdentifier>
         <caption>

@@ -5,7 +5,7 @@
     <vocabName>
         <langstring language="en">Types of Places Distinguished in AWMC Publications</langstring>
     </vocabName>
-    <vocabIdentifier isRegistered="false">AWMCPlaceTypes</vocabIdentifier>
+    <vocabIdentifier isRegistered="false">place-types</vocabIdentifier>
     <term>
         <termIdentifier>aqueduct</termIdentifier>
         <caption>

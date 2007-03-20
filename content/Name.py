@@ -30,6 +30,7 @@ __docformat__ = 'plaintext'
 
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
+from Products.ATVocabularyManager.namedvocabulary import NamedVocabulary
 from Products.PleiadesEntity.config import *
 
 # additional imports from tagged value 'import'
@@ -68,34 +69,45 @@ schema = Schema((
             description_msgid='PleiadesEntity_help_nameLanguage',
             i18n_domain='PleiadesEntity',
         ),
-        enforceVocabulary=1,
-        vocabulary=['grc', 'grc-Latn', 'la', 'la-Grek']
+        vocabulary=NamedVocabulary("""ancient-name-languages"""),
+        enforceVocabulary=1
+    ),
+
+    StringField(
+        name='nameType',
+        widget=SelectionWidget(
+            label="Name type",
+            label_msgid='PleiadesEntity_label_nameType',
+            i18n_domain='PleiadesEntity',
+        ),
+        vocabulary=NamedVocabulary("""name-types"""),
+        enforceVocabulary=1
     ),
 
     StringField(
         name='accuracy',
-        default="accurate",
         index="FieldIndex",
+        vocabulary=NamedVocabulary("""name-accuracy"""),
+        default="accurate",
+        enforceVocabulary=1,
         widget=SelectionWidget(
             label="Accuracy of Attestation",
             label_msgid='PleiadesEntity_label_accuracy',
             i18n_domain='PleiadesEntity',
-        ),
-        enforceVocabulary=1,
-        vocabulary= ['accurate', 'inaccurate', 'false']
+        )
     ),
 
     StringField(
         name='completeness',
-        default="complete",
         index="FieldIndex",
+        vocabulary=NamedVocabulary("""name-completeness"""),
+        default="complete",
+        enforceVocabulary=1,
         widget=SelectionWidget(
             label="Completeness of Attestation",
             label_msgid='PleiadesEntity_label_completeness',
             i18n_domain='PleiadesEntity',
-        ),
-        enforceVocabulary=1,
-        vocabulary= ['complete', 'reconstructable', 'non-reconstructable']
+        )
     ),
 
 ),
@@ -123,7 +135,7 @@ class Name(BaseFolder):
     portal_type = 'Name'
     allowed_content_types = ['TemporalAttestation', 'SecondaryReference', 'PrimaryReference']
     filter_content_types = 1
-    global_allow = 1
+    global_allow = 0
     content_icon = 'document_icon.gif'
     immediate_view = 'base_view'
     default_view = 'base_view'
