@@ -1,0 +1,36 @@
+<html
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:tal="http://xml.zope.org/namespaces/tal"
+  xmlns:metal="http://xml.zope.org/namespaces/metal"
+  xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+  i18n:domain="plone"
+  >
+  <head><title></title></head>
+  <body>
+
+    <metal:termlisting_macro
+      define-macro="termlisting"
+      >
+      <tal:chunk
+        tal:define="contentFilter python:{'meta_type':['VdexTerm']};
+                    contentsMethod python:here.getFolderContents;
+                    folderContents python:contentsMethod(contentFilter);"
+        >
+        <dl tal:condition="folderContents">
+          <span tal:repeat="brain folderContents">
+            <dt tal:define="key brain/getTermKey">
+              <a
+                tal:content="string:$key: ${brain/getTermValue}"
+                tal:attributes="name key"
+                >
+                TERM
+              </a>
+            </dt>
+            <dd tal:content="brain/Description">DEFINITION</dd>
+          </span>
+        </dl>
+      </tal:chunk>
+    </metal:termlisting_macro>
+  </body>
+</html>
+
