@@ -84,25 +84,6 @@ def initialize(self):
     n.global_allow = True
 
 
-    try:
-        self.invokeFactory('Large Plone Folder',
-            id='names', title='Ancient Names')
-        self.names.invokeFactory('Large Plone Folder',
-            id='duplicates', title='Duplicate Names')
-    except:
-        pass
-    try:
-        self.invokeFactory('LocationContainer',
-            id='locations', title='Ancient Locations')
-    except:
-        pass
-    try:
-        self.invokeFactory('PlaceContainer',
-            id='places', title='Ancient Places')
-        getattr(self, 'places')._v_nextid = BA_ID_MAX
-    except:
-        pass
-
 def loaden(self, sourcedir):
     """Attempt to load all XML files in the specified source directory.
     Files which can not be loaded are reported."""
