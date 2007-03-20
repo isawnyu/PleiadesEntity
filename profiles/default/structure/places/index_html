@@ -10,64 +10,74 @@ expirationDate: None
 language: 
 rights: 
 creation_date: 2007/02/28 14:24:29.078 US/Eastern
-modification_date: 2007/02/28 16:12:57.510 US/Eastern
+modification_date: 2007/03/20 16:03:00.000 US/Eastern
 relatedItems: 
 allowDiscussion: None
 Content-Type: text/html
 
-<p>There are, at present, three ways to access records for the various <a href="/help/places">places</a> documented in
-    the Pleiades dataset:</p>
-<ol>
-    <li><strong>Search:</strong> type an <a href="/help/names">ancient or modern name</a> into the search box located in
-        the upper right-hand corner of most pages in the site. Or go directly to the <a href="/search_form">advanced
-            search form</a></li>
-    <li><strong>Map:</strong> use our <a href="/places/map">dynamic map</a> (or link through it to Google Earth)</li>
-    <li><strong>Browse thematically</strong>, via the categories listed below <ul>
-            <li>
-                <strong>Time periods</strong>
-                <ul>
-                    <li>
-                        <a href="archaic">Archaic (Pre-550 BC)</a>
-                    </li>
-                    <li>
-                        <a href="classical">Classical (550-330 BC)</a>
-                    </li>
-                    <li>
-                        <a href="hellenistic-republican">Hellenistic / Middle-to-Late Republican at Rome (330-30 BC)</a>
-                    </li>
-                    <li>
-                        <a href="roman">Roman (30 BC - AD 300)</a>
-                    </li>
-                    <li>
-                        <a href="late-antique">Late Antique (AD 300-640)</a>
-                    </li>
-                </ul>
-            </li>
-            <li><strong>Place types</strong> (note all types other than "settlement" are extra-urban) <ul>
-                    <li>
-                        <a href="bridge">Bridge</a>
-                    </li>
-                    <li>
-                        <a href="church">Church or monastery (extra-urban)</a>
-                    </li>
-                    <li>
-                        <a href="fort">Fort or tower (extra-urban)</a>
-                    </li>
-                    <li>
-                        <a href="pass">Mountain pass, "gates"</a>
-                    </li>
-                    <li>
-                        <a href="station">Route or coastal station</a>
-                    </li>
-                    <li>
-                        <a href="settlement">Settlement</a>
-                    </li>
-                    <li>
-                        <a href="spring">Spring</a>
-                    </li>
-                    <li>
-                        <a href="temple">Temple, sanctuary, shrine, monument or tomb (extra-urban)</a>
-                    </li>
-                </ul></li>
-        </ul></li>
-</ol>
+    <p>There are, at present, three ways to access records for the various <a href="/help/places">places</a> documented in
+        the Pleiades dataset:</p>
+    <ol>
+        <li><strong>Search:</strong> type an <a href="/help/names">ancient or modern name</a> into the search box located in
+            the upper right-hand corner of most pages in the site. Or go directly to the <a href="/search_form">advanced
+                search form</a></li>
+        <li><strong>Map:</strong> use our <a href="/places/map">dynamic map</a> (or link through it to Google Earth)</li>
+        <li><strong>Browse thematically</strong>, via the categories listed below. <ul>
+                <li>
+                    <strong>Time periods</strong>
+                    <ul>
+                        <li>
+                            <a href="archaic">Archaic (Pre-550 BC)</a>
+                        </li>
+                        <li>
+                            <a href="classical">Classical (550-330 BC)</a>
+                        </li>
+                        <li>
+                            <a href="hellenistic-republican">Hellenistic / Middle-to-Late Republican at Rome (330-30 BC)</a>
+                        </li>
+                        <li>
+                            <a href="roman">Roman (30 BC - AD 300)</a>
+                        </li>
+                        <li>
+                            <a href="late-antique">Late Antique (AD 300-640)</a>
+                        </li>
+                    </ul>
+                </li>
+                <li><strong>Place types</strong> (note all types other than "settlement" are extra-urban) <ul>
+                        <li>
+                            <a href="bridge">Bridge</a>
+                        </li>
+                        <li>
+                            <a href="church">Church or monastery (extra-urban)</a>
+                        </li>
+                        <li>
+                            <a href="false">False place</a>
+                        </li>
+                        <li>
+                            <a href="fort">Fort or tower (extra-urban)</a>
+                        </li>
+                        <li>
+                            <a href="pass">Mountain pass, "gates"</a>
+                        </li>
+                        <li>
+                            <a href="station">Route or coastal station</a>
+                        </li>
+                        <li>
+                            <a href="settlement">Settlement</a>
+                        </li>
+                        <li>
+                            <a href="spring">Spring</a>
+                        </li>
+                        <li>
+                            <a href="temple">Temple, sanctuary, shrine, monument or tomb (extra-urban)</a>
+                        </li>
+                        <li>
+                            <a href="tumulus">Tumulus</a>
+                        </li>
+                        <li>
+                            <a href="undefined">Undefined: i.e., a place whose type is not precisely defined, often an
+                                unlocated toponym</a>
+                        </li>
+                    </ul></li>
+            </ul></li>
+    </ol>
