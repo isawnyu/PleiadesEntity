@@ -30,7 +30,6 @@ __docformat__ = 'plaintext'
 
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
-from Products.ATVocabularyManager.namedvocabulary import NamedVocabulary
 from Products.PleiadesEntity.config import *
 
 ##code-section module-header #fill in your manual code here
@@ -39,30 +38,16 @@ from Products.PleiadesEntity.config import *
 schema = Schema((
 
     StringField(
-        name='timePeriod',
-        widget=SelectionWidget
-        (
-            label="Time Period",
-            label_msgid='PleiadesEntity_label_timePeriod',
-            i18n_domain='PleiadesEntity',
-        ),
-        vocabulary=NamedVocabulary("""AWMCTimePeriods"""),
-        enforceVocabulary=1,
-        required=1
-    ),
-
-    StringField(
-        name='attestationConfidence',
+        name='certainty',
+        default="certain",
         index="FieldIndex:brains",
         widget=SelectionWidget(
-            label="Confidence in temporal attestation",
-            label_msgid='PleiadesEntity_label_attestationConfidence',
+            label='Certainty',
+            label_msgid='PleiadesEntity_label_certainty',
             i18n_domain='PleiadesEntity',
         ),
-        vocabulary=NamedVocabulary("""AWMCTemporalAttestationConfidence"""),
-        default="certain",
         enforceVocabulary=1,
-        required=1
+        vocabulary=['certain', 'certain, but there is no contemporary evidence', 'less certain', 'less certain and there is no contemporary evidence']
     ),
 
 ),
@@ -98,7 +83,7 @@ class TemporalAttestation(BaseContent):
     typeDescription = "Temporal Attestation"
     typeDescMsgId = 'description_edit_temporalattestation'
 
-    _at_rename_after_creation = False
+    _at_rename_after_creation = True
 
     schema = TemporalAttestation_schema
 
@@ -108,6 +93,8 @@ class TemporalAttestation(BaseContent):
     ##/code-section class-header
 
     # Methods
+
+    # Manually created methods
 
     security.declarePublic('get_title')
     def get_title(self):
@@ -125,6 +112,7 @@ class TemporalAttestation(BaseContent):
         """
         """
         return self.get_title()
+
 
 
 registerType(TemporalAttestation, PROJECTNAME)
