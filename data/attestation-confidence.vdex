@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <vdex xmlns="http://www.imsglobal.org/xsd/imsvdex_v1p0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.imsglobal.org/xsd/imsvdex_v1p0 file:/C:/TomDocs/awmcwork/pleiadesact/svnbox/PleiadesEntity/thesauri/vdex/schemata/imsvdex_v1p0_thesaurus.xsd"
+    xsi:schemaLocation="http://www.imsglobal.org/xsd/imsvdex_v1p0 imsvdex_v1p0_thesaurus.xsd"
     profileType="thesaurus" language="en" orderSignificant="false">
 
     <vocabName>

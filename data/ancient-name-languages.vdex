@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <vdex xmlns="http://www.imsglobal.org/xsd/imsvdex_v1p0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.imsglobal.org/xsd/imsvdex_v1p0 ../vdex/schemata/imsvdex_v1p0_thesaurus.xsd"
+    xsi:schemaLocation="http://www.imsglobal.org/xsd/imsvdex_v1p0 imsvdex_v1p0_thesaurus.xsd"
     profileType="thesaurus" language="en" orderSignificant="false">
     
     <vocabName>
@@ -25,6 +25,10 @@
             <langstring language="it">Greca antica</langstring>
             <langstring language="pt">Grega antiga</langstring>
         </caption>
+        <description>
+            <langstring language="en">The ancient Greek language, rendered in its standard writing system.</langstring>
+            <langstring language="fr">La langue Grecque antique, rendu dans son système standard d'écriture.</langstring>
+        </description>
     </term>
 
     <term>
