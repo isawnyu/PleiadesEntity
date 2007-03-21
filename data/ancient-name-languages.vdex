@@ -41,6 +41,9 @@
             <langstring language="it">Greca antica nei caratteri latini</langstring>
             <langstring language="pt">Grega antiga nos caráteres Latin</langstring>
         </caption>
+        <description>
+            <langstring language="en">The ancient Greek language, rendered in the Roman writing system (i.e., Latin characters).</langstring>
+        </description>
     </term>
 
     <term>
@@ -56,6 +59,10 @@
             <langstring language="pt">Latin</langstring>
             <langstring language="tr">Latince</langstring>
         </caption>
+        <description>
+            <langstring language="en">The Latin language, rendered in its standard writing system.</langstring>
+            <langstring language="fr">La langue Latin, rendu dans son système standard d'écriture.</langstring>
+        </description>
     </term>
 
     <term>
@@ -68,6 +75,9 @@
             <langstring language="it">Latino nei caratteri greci</langstring>
             <langstring language="pt">Latin nos caráteres gregos</langstring>
         </caption>
+        <description>
+            <langstring language="en">The Latin language, rendered in the Greek writing system.</langstring>
+        </description>
     </term>
 
 </vdex>

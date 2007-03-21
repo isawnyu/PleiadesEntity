@@ -21,8 +21,6 @@
             <langstring language="pt"></langstring>
             <langstring language="es"></langstring>
             <langstring language="tr"></langstring>
-
-            
         </caption>
         <description>
             <langstring language="en">a string of characters in an ancient (primary) source is thought to be correct</langstring>
