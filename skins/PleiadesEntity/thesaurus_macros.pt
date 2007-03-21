@@ -13,7 +13,7 @@
       >
       <tal:chunk
         tal:define="contentFilter python:{'meta_type':['VdexTerm']};
-                    contentsMethod python:here.getFolderContents;
+                    contentsMethod python:vocab.getFolderContents;
                     folderContents python:contentsMethod(contentFilter);"
         >
         <dl tal:condition="folderContents">
