@@ -13,14 +13,7 @@
     <term>
         <termIdentifier>accurate</termIdentifier>
         <caption>
-            <langstring language="de"></langstring>
-            <langstring language="el"></langstring>
             <langstring language="en">accurate</langstring>
-            <langstring language="fr"></langstring>
-            <langstring language="it"></langstring>
-            <langstring language="pt"></langstring>
-            <langstring language="es"></langstring>
-            <langstring language="tr"></langstring>
         </caption>
         <description>
             <langstring language="en">a string of characters in an ancient (primary) source is thought to be correct</langstring>
