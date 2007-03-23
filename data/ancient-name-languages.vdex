@@ -11,8 +11,6 @@
         <langstring language="fr">Codes standard pour des langues et des systèmes d'écriture des noms antiques </langstring>
         <langstring language="it">Codici standard per le lingue ed i sistemi di scrittura dei nomi antichi</langstring>
         <langstring language="pt">Códigos padrão para línguas e sistemas da escrita de nomes antigos</langstring>
-            <langstring language="el"></langstring>
-            <langstring language="tr"></langstring>
     </vocabName>
 
     <vocabIdentifier isRegistered="false">ancient-name-languages</vocabIdentifier>
