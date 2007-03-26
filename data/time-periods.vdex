@@ -15,6 +15,10 @@
         <caption>
             <langstring language="en">Archaic (pre-550 BC)</langstring>
         </caption>
+        <description>
+            <langstring language="en">The Archaic Period in Greek and Roman history. For the purposes of Pleiades, this period is seen to end in the year 550 before the birth of Christ (pre 550 BCE).</langstring>
+        </description>
+        
     </term>
     
     <term>
@@ -22,6 +26,9 @@
         <caption>
             <langstring language="en">Classical (550 - 330 BC)</langstring>
         </caption>
+        <description>
+            <langstring language="en">The Classical Period in Greek and Roman history. For the purposes of Pleiades, this period is said to begin in the year 550 and end in the year 330 before the birth of Christ (550-330 BCE).</langstring>
+        </description>
     </term>
     
     <term>
@@ -29,6 +36,9 @@
         <caption>
             <langstring language="en">Hellenistic (Roman Republic; 330 - 30 BC)</langstring>
         </caption>
+        <description>
+            <langstring language="en">The Hellenistic Period in Greek history and the Middle-to-Late Republican Period in Roman history. For the purposes of Pleiades, this period is said to begin in the year 330 and end in the year 30 before the birth of Christ (330-30 BCE).</langstring>
+        </description>
     </term>
     
     <term>
@@ -36,6 +46,9 @@
         <caption>
             <langstring language="en">Roman (Early Empire; 30 BC - AD 300)</langstring>
         </caption>
+        <description>
+            <langstring language="en">The Roman Period (i.e., the Early Roman Empire) in Greek and Roman history. For the purposes of Pleiades, this period is said to begin in the year 30 before the birth of Christ and to end in the year 300 after the birth of Christ (30 BCE - 300 CE).</langstring>
+        </description>
     </term>
     
     <term>
@@ -43,6 +56,9 @@
         <caption>
             <langstring language="en">Late Antique (AD 300 - 640)</langstring>
         </caption>
+        <description>
+            <langstring language="en">The Late Antique Period in Greek and Roman history. For the purposes of Pleiades, this period is said to begin in the year 300 and to end in the year 640 after the birth of Christ (300 - 640 CE).</langstring>
+        </description>
     </term>
     
 </vdex>
