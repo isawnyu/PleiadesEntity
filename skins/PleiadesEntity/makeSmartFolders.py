@@ -33,7 +33,7 @@ vocab_type = container.portal_vocabularies.getVocabularyByName('place-types')
 # [time]/[type]
 for v in v_times:
     id = context.invokeFactory('Topic', id=utils.normalizeString(v),
-        title=vocab_time.getTermByKey(key=v).getTermValue())
+        title=vocab_time.getTermByKey(key=v).getTermValue().capitalize())
     topic = getattr(context, id)
     c = topic.addCriterion('getTimePeriods', 'ATSelectionCriterion')
     c.setValue([v])
@@ -43,7 +43,7 @@ for v in v_times:
 
     for t in v_types:
         sid = topic.invokeFactory('Topic', id=utils.normalizeString(t),
-                title=vocab_type.getTermByKey(key=t).getTermValue())
+               title=vocab_type.getTermByKey(key=t).getTermValue().capitalize())
         subtopic = getattr(topic, sid)
         subtopic.setAcquireCriteria(True)
         c = subtopic.addCriterion('getPlaceType', 'ATSelectionCriterion')
@@ -53,7 +53,7 @@ for v in v_times:
 # [type]/[time]
 for t in v_types:
     id = context.invokeFactory('Topic', id=utils.normalizeString(t),
-        title=vocab_type.getTermByKey(key=t).getTermValue())
+        title=vocab_type.getTermByKey(key=t).getTermValue().capitalize())
     topic = getattr(context, id)
     c = topic.addCriterion('getPlaceType', 'ATSelectionCriterion')
     c.setValue([t])
@@ -63,7 +63,7 @@ for t in v_types:
 
     for v in v_times:
         sid = topic.invokeFactory('Topic', id=utils.normalizeString(v),
-                title=vocab_time.getTermByKey(key=v).getTermValue())
+               title=vocab_time.getTermByKey(key=v).getTermValue().capitalize())
         subtopic = getattr(topic, sid)
         subtopic.setAcquireCriteria(True)
         c = subtopic.addCriterion('getTimePeriods', 'ATSelectionCriterion')
