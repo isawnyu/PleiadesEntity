@@ -35,6 +35,7 @@ for v in v_times:
     c.setValue([v])
     c = topic.addCriterion('Type', 'ATPortalTypeCriterion')
     c.setValue('Ancient Place')
+    topic.setSortCriterion('sortable_title', reversed=False)
 
     for t in v_types:
         sid = topic.invokeFactory('Topic', id=utils.normalizeString(t), title=t)
@@ -42,6 +43,7 @@ for v in v_times:
         subtopic.setAcquireCriteria(True)
         c = subtopic.addCriterion('getPlaceType', 'ATSelectionCriterion')
         c.setValue([t])
+        subtopic.setSortCriterion('sortable_title', reversed=False)
 
 # [type]/[time]
 for t in v_types:
@@ -51,6 +53,7 @@ for t in v_types:
     c.setValue([t])
     c = topic.addCriterion('Type', 'ATPortalTypeCriterion')
     c.setValue('Ancient Place')
+    topic.setSortCriterion('sortable_title', reversed=False)
 
     for v in v_times:
         sid = topic.invokeFactory('Topic', id=utils.normalizeString(v), title=v)
@@ -58,3 +61,5 @@ for t in v_types:
         subtopic.setAcquireCriteria(True)
         c = subtopic.addCriterion('getTimePeriods', 'ATSelectionCriterion')
         c.setValue([v])
+        topic.setSortCriterion('sortable_title', reversed=False)
+
