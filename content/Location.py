@@ -128,9 +128,7 @@ class Location(BaseFolder):
         """
         periods = []
         for ta in self.getFolderContents({'meta_type':['TemporalAttestation']}):
-            periods.append(
-                ' '.join([p.capitalize() for p in ta.getId.split('-')])
-                )
+            periods.append(ta.getId)
         return periods
 
 

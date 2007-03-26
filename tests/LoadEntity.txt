@@ -106,7 +106,7 @@ Load one entity
     >>> srs[1].Title
     'NPauly 1'
     >>> n0.getTimePeriods()
-    ['Roman', 'Late Antique']
+    ['roman', 'late-antique']
     
     
 
@@ -196,12 +196,12 @@ Load one entity
     >>> tps[2].getAttestationConfidence
     'confident'
     >>> l.getTimePeriods()
-    ['Classical', 'Roman', 'Late Antique']
+    ['classical', 'roman', 'late-antique']
 
     Check Place time periods
 
     >>> p.getTimePeriods()
-    ['Roman', 'Late Antique', 'Classical']
+    ['roman', 'late-antique', 'classical']
 
 
     Test associations

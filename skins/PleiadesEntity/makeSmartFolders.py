@@ -27,9 +27,13 @@ v_types = container.portal_catalog.uniqueValuesFor('getPlaceType')
 v_times = container.portal_catalog.uniqueValuesFor('getTimePeriods')
 utils = container.plone_utils
 
+vocab_time = container.portal_vocabularies.getVocabularyByName('time-periods')
+vocab_type = container.portal_vocabularies.getVocabularyByName('place-types')
+
 # [time]/[type]
 for v in v_times:
-    id = context.invokeFactory('Topic', id=utils.normalizeString(v), title=v)
+    id = context.invokeFactory('Topic', id=utils.normalizeString(v),
+        title=vocab_time.getTermByKey(key=v).getTermValue())
     topic = getattr(context, id)
     c = topic.addCriterion('getTimePeriods', 'ATSelectionCriterion')
     c.setValue([v])
@@ -38,7 +42,8 @@ for v in v_times:
     topic.setSortCriterion('sortable_title', reversed=False)
 
     for t in v_types:
-        sid = topic.invokeFactory('Topic', id=utils.normalizeString(t), title=t)
+        sid = topic.invokeFactory('Topic', id=utils.normalizeString(t),
+                title=vocab_type.getTermByKey(key=t).getTermValue())
         subtopic = getattr(topic, sid)
         subtopic.setAcquireCriteria(True)
         c = subtopic.addCriterion('getPlaceType', 'ATSelectionCriterion')
@@ -47,7 +52,8 @@ for v in v_times:
 
 # [type]/[time]
 for t in v_types:
-    id = context.invokeFactory('Topic', id=utils.normalizeString(t), title=t)
+    id = context.invokeFactory('Topic', id=utils.normalizeString(t),
+        title=vocab_type.getTermByKey(key=t).getTermValue())
     topic = getattr(context, id)
     c = topic.addCriterion('getPlaceType', 'ATSelectionCriterion')
     c.setValue([t])
@@ -56,7 +62,8 @@ for t in v_types:
     topic.setSortCriterion('sortable_title', reversed=False)
 
     for v in v_times:
-        sid = topic.invokeFactory('Topic', id=utils.normalizeString(v), title=v)
+        sid = topic.invokeFactory('Topic', id=utils.normalizeString(v),
+                title=vocab_time.getTermByKey(key=v).getTermValue())
         subtopic = getattr(topic, sid)
         subtopic.setAcquireCriteria(True)
         c = subtopic.addCriterion('getTimePeriods', 'ATSelectionCriterion')
