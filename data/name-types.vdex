@@ -15,6 +15,10 @@
         <caption>
             <langstring language="en">geographic name</langstring>
         </caption>
+        <description>
+            <langstring language="en">The proper name of a geographic feature.</langstring>
+        </description>
+        
     </term>
     
     <term>
@@ -22,6 +26,10 @@
         <caption>
             <langstring language="en">ethnic name</langstring>
         </caption>
+        <description>
+            <langstring language="en">The noun or adjective applied to an individual, people or tribe associated with a geographic feature.</langstring>
+        </description>
+        
     </term>
     
     <term>
@@ -29,6 +37,10 @@
         <caption>
             <langstring language="en">name of unknown type</langstring>
         </caption>
+        <description>
+            <langstring language="en">A name is classified as "unknown" only when the type of name cannot be determined, usually because a primary source is fragmentary or provides insufficient context.</langstring>
+        </description>
+        
     </term>
 
 </vdex>
