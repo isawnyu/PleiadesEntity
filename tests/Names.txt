@@ -1,0 +1,33 @@
+Boundary conditions for Names
+=============================
+
+Setup
+-----
+
+    Enable types
+
+    >>> lpf = self.portal.portal_types['Large Plone Folder']
+    >>> lpf_allow = lpf.global_allow
+    >>> lpf.global_allow = True
+
+    >>> n = self.portal.portal_types['Name']
+    >>> n_allow = n.global_allow
+    >>> n.global_allow = True
+
+    Alias the test folder
+
+    >>> folder = self.folder
+
+    Containers
+
+    >>> _ = folder.invokeFactory('Large Plone Folder', id='names')
+    >>> _ = folder.invokeFactory('LocationContainer', id='locations')
+    >>> _ = folder.invokeFactory('PlaceContainer', id='places')
+   
+Load one fiendish entity
+------------------------
+
+    >>> r = load_place(folder, "%s/nametwister.xml" % TEST_DATA)
+    Traceback (most recent call last):
+      ...
+    EntityLoadError: 1 invalid character(s) in name \u1f08\u03c6r\u03bf\u03b4\u03b9\u03c3\u03b9\u1f71\u03c2: (position 3 = codepoint 72)

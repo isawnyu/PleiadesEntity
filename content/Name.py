@@ -33,10 +33,9 @@ from Products.Archetypes.atapi import *
 from Products.ATVocabularyManager.namedvocabulary import NamedVocabulary
 from Products.PleiadesEntity.config import *
 
-# additional imports from tagged value 'import'
-from Products.PleiadesEntity.Extensions.cooking import *
-
 ##code-section module-header #fill in your manual code here
+from Products.CMFCore.permissions import View
+from Products.PleiadesEntity.Extensions.ws_validation import validate_name
 ##/code-section module-header
 
 copied_fields = {}
@@ -160,6 +159,14 @@ class Name(BaseFolder):
         for ta in self.getFolderContents({'meta_type':['TemporalAttestation']}):
             periods.append(ta.getId)
         return periods
+
+    security.declareProtected(View, 'post_validate')
+    def post_validate(self, REQUEST=None, errors=None):
+        vNameLanguage = REQUEST.get('nameLanguage', None)
+        vNameAttested = REQUEST.get('nameAttested', None)
+        invalid = validate_name(vNameLanguage, vNameAttested)
+        if len(invalid) > 0:
+            errors['nameAttested'] = invalid
 
 
 registerType(Name, PROJECTNAME)

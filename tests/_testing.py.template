@@ -13,5 +13,4 @@ from Products.PleiadesEntity.Extensions.loader import load_place, loaden
 from Products.PleiadesEntity.Extensions.loader import format_listofstrings
 from Products.PleiadesEntity.Extensions.loader import BA_ID_MAX
 from Products.PleiadesEntity.Extensions.xmlutil import purifyText
-from Products.PleiadesEntity.Extensions.cooking import setGeoTitleFromNames
 

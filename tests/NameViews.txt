@@ -53,16 +53,55 @@ Check the html content of the view page (description will not appear here)
     >>> browser.contents
     '...Name as Attested...'
     
-#    >>> browser.contents
-#    '...Language and Writing System of Attested Name...'
-#    
-#    >>> browser.contents
-#    '...Time Periods...'
-#    
-#    >>> browser.contents
-#    '...Primary References...'
-#    
-#    >>> browser.contents
-#    '...Secondary References...'
+    >>> browser.contents
+    '...Language and Writing System...'
     
+    >>> browser.contents
+    '...Name type...'
     
+    >>> browser.contents
+    '...Accuracy of Attestation...'
+    
+    >>> browser.contents
+    '...Completeness of Attestation...'
+    
+    >>> browser.contents
+    '...Temporal attestations...'
+    
+    >>> browser.contents
+    '...Primary References...'
+    
+    >>> browser.contents
+    '...Secondary references...'
+    
+Edit the name, modify the attestation using legal characters and language to verify validation
+
+    >>> browser.getLink('Log in').click()
+    >>> browser.getControl('Login Name').value = 'test_user_1_'
+    >>> browser.getControl('Password').value = 'secret'
+    >>> browser.getControl('Log in').click()
+    >>> url = url + '/base_edit'
+    >>> browser.open(url)
+    >>> control = browser.getControl(name='nameAttested')
+    >>> control.value = 'Innoxium Municipium'
+    >>> control = browser.getControl(name='nameLanguage')
+    >>> control.value = ['la']
+    >>> control = browser.getControl(name='title')
+    >>> control.value = 'Innoxium Municipium'
+    >>> browser.getControl(name='form_submit').click()
+    >>> browser.contents
+    '...Changes saved...'
+
+Edit the name again, modify the attestation using illegal characters and language to verify validation
+
+    >>> url = url + '/base_edit'
+    >>> browser.open(url)
+    >>> control = browser.getControl(name='nameAttested')
+    >>> control.value = 'Municipium Noxium Maximum'
+    >>> control = browser.getControl(name='nameLanguage')
+    >>> control.value = ['grc']
+    >>> control = browser.getControl(name='title')
+    >>> control.value = 'Municipium Noxium Maximum'
+    >>> browser.getControl(name='form_submit').click()
+    >>> browser.contents
+    '...23 invalid character(s) in name Municipium Noxium Maximum...'

@@ -310,9 +310,9 @@ def validate(value, allow):
                     except:
                         pass
             if not(b):
-                invalids.append((i, c, cval, 'illegal character in appropriate Unicode range'))
+                invalids.append({'position':i, 'character':c, 'reason':'illegal character in appropriate Unicode range'})
         else:
-            invalids.append((i, c, cval, 'illegal character from outside appropriate Unicode range'))
+            invalids.append({'position':i, 'character':c, 'reason':'illegal character from outside appropriate Unicode range'})
     return invalids
 
 

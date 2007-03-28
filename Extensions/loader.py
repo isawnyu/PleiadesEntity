@@ -37,7 +37,7 @@ import lxml.etree as etree
 from Products.CMFCore.utils import getToolByName
 
 from Products.PleiadesEntity.Extensions.xmlutil import *
-from Products.PleiadesEntity.Extensions.cooking import *
+from Products.PleiadesEntity.Extensions.ws_validation import validate_name
 
 from Products.PleiadesEntity.config import *
 
@@ -218,6 +218,11 @@ def load_place(site, file):
         else:
             nameAttested = ''
             nameLanguage = ''
+            
+        if nameAttested and nameLanguage:
+            invalid = validate_name(nameLanguage, nameAttested.encode('utf-8'))
+            if invalid:
+                raise EntityLoadError, invalid.decode('utf-8').encode('ascii', 'backslashreplace')
         
         d = e.findall("{%s}description" % DC)
         if d:

@@ -1,0 +1,56 @@
+
+Writing System Validation Tests
+===============================
+
+Setup
+-----
+
+    >>> from Products.PleiadesEntity.Extensions.ws_validation import *
+    
+Test valid name/script combinations, one for each expected script
+-----------------------------------------------------------------
+
+    Roma in Latin 
+    
+    >>> validate_name('la', 'Roma')
+    ''
+    
+    Choma in Greek with Latin transliteration (pretend it's ancient!)
+    
+    >>> validate_name('grc-Latn', 'Choma')
+    ''
+    
+    Aphrodisias in Greek
+    
+    >>> name = u'\u1f08\u03c6\u03c1\u03bf\u03b4\u03b9\u03c3\u03b9\u1f71\u03c2'
+    >>> validate_name('grc', name.encode('utf-8'))
+    ''
+
+    Aphrodisiensis in Greek characters (no accents)
+    
+    >>> name = u'\u1f08\u03c6\u03c1\u03bf\u03b4\u03b9\u03c3\u03b9\u03b5\u03bd\u03c3\u03b9\u03c2'
+    >>> validate_name('la-Grek', '')
+    ''
+
+Invalid script
+--------------
+
+    >>> validate_name('en', 'Ryland')
+    'Unsupported writing system (en) in PleiadesEntity/Extensions/ws_validation.py'
+
+Editorial characters that should be permitted
+---------------------------------------------
+
+    >>> validate_name('la', '(...)sinsensium')
+    ''
+
+BAtlas-style editorial characters that should not be permitted
+--------------------------------------------------------------
+
+    >>> validate_name('la', '[Iutae]')
+    '2 invalid character(s) in name [Iutae]: (position 1 = codepoint 5B) (position 7 = codepoint 5D) '
+    >>> validate_name('la', 'Epimaranitae?')
+    '1 invalid character(s) in name Epimaranitae?: (position 13 = codepoint 3F) '
+    >>> validate_name('la', '*Pityndra')
+    '1 invalid character(s) in name *Pityndra: (position 1 = codepoint 2A) '
+    
