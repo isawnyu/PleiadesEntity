@@ -271,7 +271,8 @@ def load_place(site, file):
         try:
             nid = names.invokeFactory("Name",
                     id=id,
-                    title=transliteration.encode('utf-8'),
+                    title = transliteration.encode('utf-8'),
+                    nameTransliterated=transliteration.encode('utf-8'),
                     nameAttested=nameAttested.encode('utf-8'),
                     nameLanguage=nameLanguage.encode('utf-8'),
                     nameType=type,
@@ -286,7 +287,8 @@ def load_place(site, file):
         except:
             nid = names.duplicates.invokeFactory("Name",
                     id=id,
-                    title=transliteration.encode('utf-8'),
+                    title = transliteration.encode('utf-8'),
+                    nameTransliterated=transliteration.encode('utf-8'),
                     nameAttested=nameAttested.encode('utf-8'),
                     nameLanguage=nameLanguage.encode('utf-8'),
                     nameType=type,

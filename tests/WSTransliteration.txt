@@ -1,0 +1,55 @@
+
+Writing System Transliteration Tests
+====================================
+
+Setup
+-----
+
+    >>> from Products.PleiadesEntity.Extensions.ws_transliteration import *
+    
+Test valid name/script combinations, one for each expected script
+-----------------------------------------------------------------
+
+    Roma in Latin 
+    
+    >>> transliterate_name('la', 'Roma')
+    'Roma'
+    
+    Choma in Greek with Latin transliteration (pretend it's ancient!)
+    
+    >>> transliterate_name('grc-Latn', 'Choma')
+    'Choma'
+    
+    Aphrodisias in Greek
+    
+    >>> name = u'\u1f08\u03c6\u03c1\u03bf\u03b4\u03b9\u03c3\u03b9\u1f71\u03c2'
+    >>> transliterate_name('grc', name.encode('utf-8'))
+    'Aphrodisias'
+
+    Aphrodisiensis in Greek characters (no accents)
+    
+    >>> name = u'\u1f08\u03c6\u03c1\u03bf\u03b4\u03b9\u03c3\u03b9\u03b5\u03bd\u03c3\u03b9\u03c2'
+    >>> transliterate_name('la-Grek', name.encode('utf-8'))
+    'Aphrodisiensis'
+
+Invalid script
+--------------
+
+    >>> transliterate_name('en', 'Ryland')
+    'Unsupported writing system (en) in PleiadesEntity/Extensions/ws_transliteration.py'
+
+Editorial characters that should be permitted
+---------------------------------------------
+
+    >>> transliterate_name('la', '(...)sinsensium')
+    '(...)sinsensium'
+
+Out-of-range characters that shouldn't be there if the validator was used first
+-------------------------------------------------------------------------------
+
+    Aphrodisias in Greek but mis-languaged as latin
+    
+    >>> name = u'\u1f08\u03c6\u03c1\u03bf\u03b4\u03b9\u03c3\u03b9\u1f71\u03c2'
+    >>> transliterate_name('la', name.encode('utf-8'))
+    '??????????'
+

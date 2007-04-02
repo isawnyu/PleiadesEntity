@@ -269,6 +269,13 @@ grek_accented_ancient_small = {
     u"\u1FC7" : "e"  # Greek small letter eta with perispomeni and ypogegrammeni
 }
 
+legal_punctuation = {
+    u"(" : "(",
+    u")" : ")",
+    u"." : "."
+}
+
+
 def validate(value, allow):
     invalids = []
     for i, c in enumerate(value):
@@ -339,7 +346,10 @@ def transliterate(value):
                             try:
                                 b = grek_accented_modern_capital[c]
                             except:
-                                pass
+                                try:
+                                    b = legal_punctuation[c]
+                                except:
+                                    pass
         transliteration += b
     return transliteration
     

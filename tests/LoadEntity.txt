@@ -63,10 +63,12 @@ Load one entity
     Test names
 
     >>> n0 = getattr(folder.names, 'aphrodisias')
-    >>> n0.title
+    >>> n0.nameTransliterated
     u'Aphrodisias'
     >>> n0.Title()
     'Aphrodisias'
+    >>> n0.title
+    u'Aphrodisias'
     >>> n0.nameAttested
     u'\u1f08\u03c6\u03c1\u03bf\u03b4\u03b9\u03c3\u03b9\u1f71\u03c2'
     >>> n0.getNameLanguage()

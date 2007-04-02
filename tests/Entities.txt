@@ -35,15 +35,15 @@ Setup
 
     Entities
 
-    >>> _ = names.invokeFactory('Name', id='neverpolis', title='Neverpolis', nameType='geographic')
+    >>> _ = names.invokeFactory('Name', id='civitasnon', title='Civitas Non', nameTransliterated='Civitas Non', nameAttested='Civitas Non', nameLanguage='la', nameType='geographic')
     >>> lid = locations.invokeFactory('Location')
     >>> pid = places.invokeFactory('Place')
     >>> p = getattr(folder.places, pid)
-    >>> aid = p.invokeFactory('PlacefulAssociation', id="neverpolis-%s" % lid)
+    >>> aid = p.invokeFactory('PlacefulAssociation', id="civitasnon-%s" % lid)
 
     Add References
 
-    >>> n = getattr(names, 'neverpolis')
+    >>> n = getattr(names, 'civitasnon')
     >>> x = getattr(locations, lid)
     >>> a = getattr(p, aid)
     >>> _ = a.addReference(n, 'hasName')
@@ -63,7 +63,7 @@ Test the geo adapters
     >>> g = IGeoItemSimple(a)
     >>> g.isGeoreferenced()
     True
-    >>> info = {'srs': 'EPSG:4326', 'geometryType': 'point', 'description': '', 'spatialCoordinates': '34.7697222222 -86.4808333333 0.0', 'url': 'http://nohost/plone/Members/test_user_1_/places/%s/%s' % (pid, aid), 'title': 'Neverpolis', 'id': aid}
+    >>> info = {'srs': 'EPSG:4326', 'geometryType': 'point', 'description': '', 'spatialCoordinates': '34.7697222222 -86.4808333333 0.0', 'url': 'http://nohost/plone/Members/test_user_1_/places/%s/%s' % (pid, aid), 'title': 'Civitas Non', 'id': aid}
     >>> g.getInfo() == info
     True
 
@@ -72,11 +72,11 @@ Test the geo adapters
     >>> g = IGeoItemSimple(p)
     >>> g.isGeoreferenced()
     True
-    >>> info = {'srs': 'EPSG:4326', 'geometryType': 'point', 'description': '', 'spatialCoordinates': '34.7697222222 -86.4808333333 0.0', 'url': 'http://nohost/plone/Members/test_user_1_/places/%s' % pid, 'title': 'Neverpolis', 'id': pid}
+    >>> info = {'srs': 'EPSG:4326', 'geometryType': 'point', 'description': '', 'spatialCoordinates': '34.7697222222 -86.4808333333 0.0', 'url': 'http://nohost/plone/Members/test_user_1_/places/%s' % pid, 'title': 'Civitas Non', 'id': pid}
     >>> g.getInfo() == info
     True
 
     >>> c = IGeoCollectionSimple(places)
-    >>> c.getItemsInfo() == [{'srs': 'EPSG:4326', 'geometryType': 'point', 'description': '', 'spatialCoordinates': '34.7697222222 -86.4808333333 0.0', 'url': 'http://nohost/plone/Members/test_user_1_/places/%s' % pid, 'title': 'Neverpolis', 'id': pid}]
+    >>> c.getItemsInfo() == [{'srs': 'EPSG:4326', 'geometryType': 'point', 'description': '', 'spatialCoordinates': '34.7697222222 -86.4808333333 0.0', 'url': 'http://nohost/plone/Members/test_user_1_/places/%s' % pid, 'title': 'Civitas Non', 'id': pid}]
     True
 

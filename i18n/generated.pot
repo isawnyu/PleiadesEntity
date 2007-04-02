@@ -278,6 +278,11 @@ msgstr ""
 msgid "PleiadesEntity_label_nameReconstructed"
 msgstr ""
 
+#. Default: "Transliterated name"
+#: content\Name.py
+msgid "PleiadesEntity_label_nameTransliterated"
+msgstr ""
+
 #. Default: "Name Type"
 #: content\Name.py
 msgid "PleiadesEntity_label_nameType"

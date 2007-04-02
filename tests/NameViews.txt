@@ -54,6 +54,9 @@ Check the html content of the view page (description will not appear here)
     '...Name as Attested...'
     
     >>> browser.contents
+    '...Transliterated name...'
+    
+    >>> browser.contents
     '...Language and Writing System...'
     
     >>> browser.contents
@@ -86,8 +89,6 @@ Edit the name, modify the attestation using legal characters and language to ver
     >>> control.value = 'Innoxium Municipium'
     >>> control = browser.getControl(name='nameLanguage')
     >>> control.value = ['la']
-    >>> control = browser.getControl(name='title')
-    >>> control.value = 'Innoxium Municipium'
     >>> browser.getControl(name='form_submit').click()
     >>> browser.contents
     '...Changes saved...'
@@ -100,8 +101,6 @@ Edit the name again, modify the attestation using illegal characters and languag
     >>> control.value = 'Municipium Noxium Maximum'
     >>> control = browser.getControl(name='nameLanguage')
     >>> control.value = ['grc']
-    >>> control = browser.getControl(name='title')
-    >>> control.value = 'Municipium Noxium Maximum'
     >>> browser.getControl(name='form_submit').click()
     >>> browser.contents
     '...23 invalid character(s) in name Municipium Noxium Maximum...'

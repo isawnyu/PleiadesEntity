@@ -36,16 +36,12 @@ from Products.PleiadesEntity.config import *
 ##code-section module-header #fill in your manual code here
 from Products.CMFCore.permissions import View
 from Products.PleiadesEntity.Extensions.ws_validation import validate_name
+from Products.PleiadesEntity.Extensions.ws_transliteration import transliterate_name
 ##/code-section module-header
 
-copied_fields = {}
-copied_fields['title'] = BaseSchema['title'].copy()
-copied_fields['title'].widget.label = "Transliterated Name"
-copied_fields['title'].widget.description = "A transliteration into the ASCII character set of the the attested name."
 schema = Schema((
 
-    copied_fields['title'],
-        StringField(
+    StringField(
         name='nameAttested',
         index="ZCTextIndex",
         widget=StringWidget(
@@ -70,6 +66,15 @@ schema = Schema((
         ),
         vocabulary=NamedVocabulary("""ancient-name-languages"""),
         enforceVocabulary=1
+    ),
+
+    StringField(
+        name='nameTransliterated',
+        widget=StringWidget(
+            label="Transliterated name",
+            label_msgid='PleiadesEntity_label_nameTransliterated',
+            i18n_domain='PleiadesEntity',
+        )
     ),
 
     StringField(
@@ -147,6 +152,9 @@ class Name(BaseFolder):
     schema = Name_schema
 
     ##code-section class-header #fill in your manual code here
+    schema["title"].required = 0
+    schema["title"].widget.visible = {"edit": "invisible", "view": "invisible"}
+    schema["nameTransliterated"].widget.visible = {"edit": "invisible", "view": "visible"}
     ##/code-section class-header
 
     # Methods
@@ -160,6 +168,32 @@ class Name(BaseFolder):
             periods.append(ta.getId)
         return periods
 
+    security.declarePublic('setNameTransliterated')
+    def setNameTransliterated(self,value):
+        """
+        """
+        if len(value) == 0:
+            REQUEST = self.REQUEST
+            tNameLanguage = REQUEST.get('nameLanguage', None)
+            tNameAttested = REQUEST.get('nameAttested', None)
+            if tNameLanguage and tNameAttested:
+                t = transliterate_name(tNameLanguage, tNameAttested)
+            else:
+                t = ''
+        else:
+            t = value
+        self.getField('nameTransliterated').set(self, t)
+        self.getField('title').set(self, t)
+
+    security.declarePublic('setNameAttested')
+    def setNameAttested(self,value):
+        """
+        """
+        self.getField('nameAttested').set(self, value)
+        self.setNameTransliterated('')
+
+    # Manually created methods
+
     security.declareProtected(View, 'post_validate')
     def post_validate(self, REQUEST=None, errors=None):
         vNameLanguage = REQUEST.get('nameLanguage', None)
@@ -167,6 +201,7 @@ class Name(BaseFolder):
         invalid = validate_name(vNameLanguage, vNameAttested)
         if len(invalid) > 0:
             errors['nameAttested'] = invalid
+
 
 
 registerType(Name, PROJECTNAME)

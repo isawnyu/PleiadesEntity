@@ -51,6 +51,12 @@ latn_small = {
     u"z" : "z"     # Latin capital letter z
 }
 
+legal_punctuation = {
+    u"(" : "(",
+    u")" : ")",
+    u"." : "."
+}
+
 
 def validate(value, allow):
     invalids = []
@@ -88,7 +94,10 @@ def transliterate(value):
             try:
                 b = latn_capital[c]
             except:
-                pass
+                try:
+                    b = legal_punctuation[c]
+                except:
+                    pass
         transliteration += b
     return transliteration
     
