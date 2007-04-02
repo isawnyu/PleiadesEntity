@@ -15,8 +15,13 @@ relatedItems:
 allowDiscussion: None
 Content-Type: text/html
 
-    <p>There are, at present, three ways to access records for the various <a href="/help/places">places</a> documented in
-        the Pleiades dataset:</p>
+<div>
+ <p>An ancient <strong>place</strong> is comprised of associations between
+ ancient <strong>names</strong> and ancient <strong>locations</strong>.</p>
+
+ <p>There are, at present, three ways to access records for the various 
+ <a href="/help/places">places</a> documented in the Pleiades dataset:
+ </p>
     <ol>
         <li><strong>Search:</strong> type an <a href="/help/names">ancient or modern name</a> into the search box located in
             the upper right-hand corner of most pages in the site. Or go directly to the <a href="/search_form">advanced
@@ -81,3 +86,4 @@ Content-Type: text/html
                     </ul></li>
             </ul></li>
     </ol>
+</div>
