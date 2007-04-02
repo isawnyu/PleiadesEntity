@@ -97,7 +97,19 @@ class Place(BaseFolder):
         """
         try:
             associations = self.listFolderContents()
-            return '/'.join([a.Title() for a in associations if not a.Title().startswith('Unnamed')])
+            nametitles = []
+            nametypes = []
+            for a in associations:
+                try:
+                    name = a.getRefs('hasName')[0]              # there can only be one name per association
+                    nametitles.append(name.Title())
+                    nametypes.append(name.getNameType())
+                except:
+                    pass
+            title = '/'.join([title for i, title in enumerate(nametitles) if nametypes[i] == 'geographic' and not title.startswith('Unnamed')])
+            if title == '':
+                '/'.join([title for title in nametitles if not title.startswith('Unnamed')])
+            return title
         except AttributeError:
             return 'Unnamed Place'
 

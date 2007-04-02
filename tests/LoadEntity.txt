@@ -44,9 +44,9 @@ Load one entity
 
     >>> p = getattr(folder.places, pid)
     >>> p.title_or_id()
-    'Aphrodisias/Ninoe/Aphrodisieus'
+    'Aphrodisias/Ninoe'
     >>> p.Title()
-    'Aphrodisias/Ninoe/Aphrodisieus'
+    'Aphrodisias/Ninoe'
     >>> p.modernLocation
     u'Geyre'
     >>> p.getPlaceType()
@@ -248,11 +248,11 @@ Test the geo adapters
     >>> g.isGeoreferenced()
     True
     >>> g.getInfo()
-    {'description': 'An ancient settlement, attested during the Classical, Roman and Late Antique periods (modern location: Geyre). It was known in antiquity by the names: Aphrodisias and Ninoe.', 'spatialCoordinates': '37.71446 28.72886 0.0', 'url': 'http://nohost/plone/Members/test_user_1_/places/638753', 'title': 'Aphrodisias/Ninoe/Aphrodisieus', 'srs': 'EPSG:4326', 'geometryType': 'point', 'id': '638753'}
+    {'description': 'An ancient settlement, attested during the Classical, Roman and Late Antique periods (modern location: Geyre). It was known in antiquity by the names: Aphrodisias and Ninoe.', 'spatialCoordinates': '37.71446 28.72886 0.0', 'url': 'http://nohost/plone/Members/test_user_1_/places/638753', 'title': 'Aphrodisias/Ninoe', 'srs': 'EPSG:4326', 'geometryType': 'point', 'id': '638753'}
 
     >>> c = IGeoCollectionSimple(folder.places)
     >>> c.getItemsInfo()
-    [{'description': 'An ancient settlement, attested during the Classical, Roman and Late Antique periods (modern location: Geyre). It was known in antiquity by the names: Aphrodisias and Ninoe.', 'spatialCoordinates': '37.71446 28.72886 0.0', 'url': 'http://nohost/plone/Members/test_user_1_/places/638753', 'title': 'Aphrodisias/Ninoe/Aphrodisieus', 'srs': 'EPSG:4326', 'geometryType': 'point', 'id': '638753'}]
+    [{'description': 'An ancient settlement, attested during the Classical, Roman and Late Antique periods (modern location: Geyre). It was known in antiquity by the names: Aphrodisias and Ninoe.', 'spatialCoordinates': '37.71446 28.72886 0.0', 'url': 'http://nohost/plone/Members/test_user_1_/places/638753', 'title': 'Aphrodisias/Ninoe', 'srs': 'EPSG:4326', 'geometryType': 'point', 'id': '638753'}]
 
 Load one nameless entity
 ------------------------
