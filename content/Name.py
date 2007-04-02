@@ -85,6 +85,7 @@ schema = Schema((
             i18n_domain='PleiadesEntity',
         ),
         vocabulary=NamedVocabulary("""name-types"""),
+        default="geographic",
         enforceVocabulary=1
     ),
 
