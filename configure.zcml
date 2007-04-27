@@ -56,6 +56,38 @@
     interface="Products.CMFCore.interfaces.IFolderish"
     />
 
+  <five:deprecatedManageAddDelete
+    class=".content.Name.Name"
+    />
+
+  <five:deprecatedManageAddDelete
+    class=".content.Location.Location"
+    />
+
+  <five:deprecatedManageAddDelete
+    class=".content.Place.Place"
+    />
+
+  <five:deprecatedManageAddDelete
+    class=".content.PlacefulAssociation.PlacefulAssociation"
+    />
+
+  <five:deprecatedManageAddDelete
+    class=".content.LocationContainer.LocationContainer"
+    />
+
+  <five:deprecatedManageAddDelete
+    class=".content.PlaceContainer.PlaceContainer"
+    />
+
+  <five:deprecatedManageAddDelete
+    class=".content.TemporalAttestation.TemporalAttestation"
+    />
+
+  <five:deprecatedManageAddDelete
+    class=".content.SecondaryReference.SecondaryReference"
+    />
+
   <browser:page  
     for=".interfaces.IGeoEntity"
     name="geo"

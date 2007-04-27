@@ -14,7 +14,7 @@ PloneTestCase.installProduct('PleiadesGeocoder')
 PloneTestCase.installProduct('PleiadesOpenLayers')
 PloneTestCase.installProduct('ATVocabularyManager')
 PloneTestCase.installProduct(PRODUCT_NAME)
-PloneTestCase.setupPloneSite(products=['ATVocabularyManager', 'PleiadesGeocoder', PRODUCT_NAME])
+PloneTestCase.setupPloneSite(products=['Archetypes', 'ATVocabularyManager', 'PleiadesGeocoder', PRODUCT_NAME])
 
 REQUIRE_TESTBROWSER = ['PublishGeoEntity.txt']
 
