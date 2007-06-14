@@ -33,6 +33,16 @@
     </term>
     
     <term>
+        <termIdentifier>undefined</termIdentifier>
+        <caption>
+            <langstring language="en">undefined</langstring>
+        </caption>
+        <description>
+            <langstring language="en">A name is classified as "undefined" when no determination as to its type has yet been made.</langstring>
+        </description>
+        
+    </term>
+    <term>
         <termIdentifier>unknown</termIdentifier>
         <caption>
             <langstring language="en">name of unknown type</langstring>
