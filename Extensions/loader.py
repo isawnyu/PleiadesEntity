@@ -257,8 +257,8 @@ def load_place(site, file):
 
         id = ptool.normalizeString(transliteration)
 
-        if type not in ['geographic', 'ethnic', 'false']:
-            raise EntityLoadError, "Invalid name type"
+        if type not in ['geographic', 'ethnic', 'false', 'undefined']:
+            raise EntityLoadError, "Invalid name type = %s" % type
         # false -> geographic
         if type == 'false': type = 'geographic'
         
