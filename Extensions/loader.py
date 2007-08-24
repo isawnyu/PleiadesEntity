@@ -111,6 +111,15 @@ DC = "http://purl.org/dc/elements/1.1/"
 XML = "http://www.w3.org/XML/1998/namespace"
 TEI = "http://www.tei-c.org/ns/1.0"
 
+NAMESPACES = {
+    'awmc': AWMC,
+    'adlgaz': ADLGAZ,
+    'georss': GEORSS,
+    'dc': DC,
+    'xml': XML,
+    'tei': TEI
+    }
+
 periods = {"Archaic":"Archaic (pre-550 BC)", 
     "Classical":"Classical (550 - 330 BC)",
     "Hellenistic (Roman Republic)":"Hellenistic/Republican (330 - 30 BC)",
@@ -160,20 +169,36 @@ def parse_periods(xmlcontext, portalcontext):
 def parse_secondary_references(xmlcontext, portalcontext, ptool):
     srs =  xmlcontext.find("{%s}secondaryReferences" % AWMC)
     if srs:
-        bibls = srs.findall("{%s}bibl" % TEI)
+        bibls = srs.xpath('tei:bibl', {'tei': TEI})
         if not bibls:
             raise EntityLoadError, "Encountered an empty secondaryReferences" 
         else:
             for bibl in bibls:
-                biblstr = bibl.text
-                id = ptool.normalizeString(biblstr)
+                title_elem = bibl.xpath('tei:title', {'tei': TEI})
+                if not title_elem:
+                    continue
+                title = title_elem[0].text
+                url = title_elem[0].attrib.get('{http://www.w3.org/1999/xlink}href')
+                
+                scope_elem = bibl.xpath('tei:biblScope', {'tei': TEI})
+                if not scope_elem:
+                    continue
+                scope = scope_elem[0].text
+
+                id = ptool.normalizeString(scope)
+                
+                bibstr = "%s %s" % (title, scope)
+
                 try:
                     portalcontext.invokeFactory('SecondaryReference',
-                        title=biblstr,
-                        id=id
+                        title=bibstr,
+                        id=id,
+                        item=url,
+                        range=scope
                     )
                 except:
-                    raise EntityLoadError, "There is already a SecondaryReference with id=%s in portal context" % id
+                    raise
+                    #raise EntityLoadError, "There is already a SecondaryReference with id=%s in portal context" % id
             
 import sys
 

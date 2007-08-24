@@ -18,8 +18,7 @@ PloneTestCase.setupPloneSite(products=['Archetypes', 'ATVocabularyManager', 'Ple
 
 REQUIRE_TESTBROWSER = ['PublishGeoEntity.txt']
 
-OPTIONFLAGS = (doctest.REPORT_ONLY_FIRST_FAILURE |
-               doctest.ELLIPSIS |
+OPTIONFLAGS = (doctest.ELLIPSIS |
                doctest.NORMALIZE_WHITESPACE)
 
 def list_doctests():

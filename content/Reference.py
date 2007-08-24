@@ -41,7 +41,25 @@ copied_fields['title'].widget.label = "Citation"
 schema = Schema((
 
     copied_fields['title'],
+        StringField(
+        name='item',
+        widget=StringWidget(
+            label='Item',
+            label_msgid='PleiadesEntity_label_item',
+            i18n_domain='PleiadesEntity',
+        )
     ),
+
+    StringField(
+        name='range',
+        widget=StringWidget(
+            label="Citation range",
+            label_msgid='PleiadesEntity_label_range',
+            i18n_domain='PleiadesEntity',
+        )
+    ),
+
+),
 )
 
 ##code-section after-local-schema #fill in your manual code here

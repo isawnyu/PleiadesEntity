@@ -33,12 +33,12 @@ Setup
 Load one entity
 ---------------
 
-    >>> r = load_place(folder, "%s/batlas-65-2-24-grc.xml" % TEST_DATA)
+    >>> r = load_place(folder, "%s/batlas-65-2-24-frank.xml" % TEST_DATA)
     >>> pid = r['place_id']
     >>> int(pid) <= BA_ID_MAX
     True
     >>> r['name_ids']
-    ['aphrodisias', 'ninoe', 'aphrodisieus']
+    ['aphrodisias', 'ninoe']
 
     Test place
 
@@ -52,13 +52,29 @@ Load one entity
     >>> p.getPlaceType()
     ['settlement']
     >>> p.Creators()
-    ('C. Foss (compiler, west)', 'S. Mitchell (compiler)')
+    ('C. Foss', 'S. Mitchell')
     >>> p.Contributors()
-    ('R. Talbert (editor)', 'T. Elliott (data normalization and xml encoding)')
+    ('R. Talbert', 'T. Elliott', 'S. Gillies')
     >>> p.Rights()
-    "Copyright \xc2\xa9 2006 Ancient World Mapping Center. All rights reserved. This data is derived from original compilations prepared for the American Philological Association's Classical Atlas Project (1988-2000). It is used here with permission of the APA. This data is intended solely for testing purposes in the context of the Ancient World Mapping Center's Pleiades Project and may not be reused or redistributed. In its current state, this data may contain errors and omissions and is not appropriate for citation or scholarly use. Any errors or omissions are the result of prototype conversion software, still under development by the AWMC's Pleiades Project, and do not reflect the quality and completeness of the original data nor the opinions of its scholarly compilers and editors."
+    'Copyright \xc2\xa9 2007 Ancient World Mapping Center. All rights reserved.'
+
     >>> p.Description()
     'An ancient settlement, attested during the Classical, Roman and Late Antique periods (modern location: Geyre). It was known in antiquity by the names: Aphrodisias and Ninoe.'
+
+    Test Placeful Associations
+
+    >>> assocs = p.getFolderContents({'meta_type':['PlacefulAssociation']})
+    >>> aids = [a.id for a in assocs]
+    >>> assoc = p[aids[0]]
+    >>> srs = assoc.getFolderContents({'meta_type':['SecondaryReference']})
+    >>> len(srs)
+    4
+    >>> [s.id for s in srs]
+    ['65-a2-aphrodisias-ninoe', 'aphrodisias-2', 'aphrodisias-1', 'ninoe']
+    >>> [s.Title for s in srs]
+    ['BAtlas 65 A2 Aphrodisias/Ninoe', 'RE Aphrodisias 2', 'NPauly Aphrodisias 1', 'RE Ninoe']
+    >>> [(assoc[s.id].getItem(), assoc[s.id].getRange()) for s in srs]
+    [('http://www.unc.edu/awmc/pleiades/bibliography/batlas.html', '65 A2 Aphrodisias/Ninoe'), ('http://www.unc.edu/awmc/pleiades/bibliography/re.html', 'Aphrodisias 2'), ('http://www.unc.edu/awmc/pleiades/bibliography/npauly.html', 'Aphrodisias 1'), ('http://www.unc.edu/awmc/pleiades/bibliography/re.html', 'Ninoe')]
 
     Test names
 
@@ -70,9 +86,9 @@ Load one entity
     >>> n0.title
     u'Aphrodisias'
     >>> n0.nameAttested
-    u'\u1f08\u03c6\u03c1\u03bf\u03b4\u03b9\u03c3\u03b9\u1f71\u03c2'
+    u''
     >>> n0.getNameLanguage()
-    'grc'
+    ''
     >>> n0.getNameType()
     'geographic'
     >>> n0.getAccuracy()
@@ -80,11 +96,12 @@ Load one entity
     >>> n0.getCompleteness()
     'complete'
     >>> n0.Creators()
-    ('C. Foss (compiler, west)', 'S. Mitchell (compiler)')
+    ('C. Foss', 'S. Mitchell')
     >>> n0.Contributors()
-    ('R. Talbert (editor)', 'T. Elliott (data normalization and xml encoding)')
+    ('R. Talbert', 'T. Elliott', 'S. Gillies')
     >>> n0.Rights()
-    "Copyright \xc2\xa9 2006 Ancient World Mapping Center. All rights reserved. This data is derived from original compilations prepared for the American Philological Association's Classical Atlas Project (1988-2000). It is used here with permission of the APA. This data is intended solely for testing purposes in the context of the Ancient World Mapping Center's Pleiades Project and may not be reused or redistributed. In its current state, this data may contain errors and omissions and is not appropriate for citation or scholarly use. Any errors or omissions are the result of prototype conversion software, still under development by the AWMC's Pleiades Project, and do not reflect the quality and completeness of the original data nor the opinions of its scholarly compilers and editors."
+    'Copyright \xc2\xa9 2007 Ancient World Mapping Center. All rights reserved.'
+
     >>> tps = n0.getFolderContents({'meta_type':['TemporalAttestation']})
     >>> len(tps)
     2
@@ -100,13 +117,18 @@ Load one entity
     'late-antique'
     >>> tps[1].getAttestationConfidence
     'confident'
+    
     >>> srs = n0.getFolderContents({'meta_type':['SecondaryReference']})
     >>> len(srs)
     2
-    >>> srs[0].Title
-    'RE 2'
-    >>> srs[1].Title
-    'NPauly 1'
+    >>> [s.id for s in srs]
+    ['aphrodisias-2', 'aphrodisias-1']
+    >>> [s.Title for s in srs]
+    ['RE Aphrodisias 2', 'NPauly Aphrodisias 1']
+    >>> [(n0[s.id].getItem(), n0[s.id].getRange()) for s in srs]
+    [('http://www.unc.edu/awmc/pleiades/bibliography/re.html', 'Aphrodisias 2'), ('http://www.unc.edu/awmc/pleiades/bibliography/npauly.html', 'Aphrodisias 1')]
+
+
     >>> n0.getTimePeriods()
     ['roman', 'late-antique']
     
@@ -118,7 +140,8 @@ Load one entity
     >>> n1.Title()
     'Ninoe'
     >>> n1.nameAttested
-    u'\u039d\u03b9\u03bd\u1f79\u03b7'
+    u''
+    
     >>> tps = n1.getFolderContents({'meta_type':['TemporalAttestation']})
     >>> len(tps)
     1
@@ -132,25 +155,7 @@ Load one entity
     >>> len(srs)
     1
     >>> srs[0].Title
-    'RE'
-
-    >>> n2 = getattr(folder.names, 'aphrodisieus')
-    >>> n2.title
-    u'Aphrodisieus'
-    >>> n2.Title()
-    'Aphrodisieus'
-    >>> n2.nameAttested
-    u'\u1f08\u03c6\u03c1\u03bf\u03b4\u03b9\u03c3\u03b9\u03b5\u1f7b\u03c2'
-    >>> n2.getNameLanguage()
-    'grc'
-    >>> n2.getNameType()
-    'ethnic'
-    >>> tps = n2.getFolderContents({'meta_type':['TemporalAttestation']})
-    >>> len(tps)
-    0
-    >>> srs = n2.getFolderContents({'meta_type':['SecondaryReference']})
-    >>> len(srs)
-    0
+    'RE Ninoe'
 
     Test locations
 
@@ -161,19 +166,20 @@ Load one entity
     >>> l.getGeometryType()
     'Point'
     >>> l.spatialCoordinates
-    u'37.7144599999992 28.7288599999993'
+    u'37.7145 28.7289'
     >>> l.getSpatialCoordinates()
-    '37.7144599999992 28.7288599999993'
+    '37.7145 28.7289'
     >>> l.title_or_id() == "Point %s" % lid
     True
     >>> l.Title() == "Point %s" % lid
     True
     >>> l.Creators()
-    ('C. Foss (compiler, west)', 'S. Mitchell (compiler)')
+    ('C. Foss', 'S. Mitchell')
     >>> l.Contributors()
-    ('R. Talbert (editor)', 'T. Elliott (data normalization and xml encoding)')
+    ('R. Talbert', 'T. Elliott', 'S. Gillies')
     >>> l.Rights()
-    "Copyright \xc2\xa9 2006 Ancient World Mapping Center. All rights reserved. This data is derived from original compilations prepared for the American Philological Association's Classical Atlas Project (1988-2000). It is used here with permission of the APA. This data is intended solely for testing purposes in the context of the Ancient World Mapping Center's Pleiades Project and may not be reused or redistributed. In its current state, this data may contain errors and omissions and is not appropriate for citation or scholarly use. Any errors or omissions are the result of prototype conversion software, still under development by the AWMC's Pleiades Project, and do not reflect the quality and completeness of the original data nor the opinions of its scholarly compilers and editors."
+    'Copyright \xc2\xa9 2007 Ancient World Mapping Center. All rights reserved.'
+
 
     Test time periods for locations
     >>> tps = l.getFolderContents({'meta_type':['TemporalAttestation']})
@@ -210,14 +216,12 @@ Load one entity
 
     >>> contents = p.listFolderContents()
     >>> len(contents)
-    3
+    2
     
     >>> contents[0].getRefs('hasName')[0] = n0
     >>> contents[1].getRefs('hasName')[0] = n1
-    >>> contents[2].getRefs('hasName')[0] = n2
     >>> contents[0].getRefs('hasLocation')[0] = l
     >>> contents[1].getRefs('hasLocation')[0] = l
-    >>> contents[2].getRefs('hasLocation')[0] = l
 
     >>> a = contents[0]
     >>> a.getPlaceType()
@@ -230,14 +234,15 @@ Load one entity
     >>> srefs = a.getFolderContents({'meta_type':['SecondaryReference']})
     >>> len(srefs)
     4
+    
     >>> srefs[0].Title
     'BAtlas 65 A2 Aphrodisias/Ninoe'
     >>> srefs[1].Title
-    'RE 2'
+    'RE Aphrodisias 2'
     >>> srefs[2].Title
-    'NPauly 1'
+    'NPauly Aphrodisias 1'
     >>> srefs[3].Title
-    'RE'
+    'RE Ninoe'
     
 Test the geo adapters
 ---------------------
@@ -248,11 +253,11 @@ Test the geo adapters
     >>> g.isGeoreferenced()
     True
     >>> g.getInfo()
-    {'description': 'An ancient settlement, attested during the Classical, Roman and Late Antique periods (modern location: Geyre). It was known in antiquity by the names: Aphrodisias and Ninoe.', 'spatialCoordinates': '37.71446 28.72886 0.0', 'url': 'http://nohost/plone/Members/test_user_1_/places/638753', 'title': 'Aphrodisias/Ninoe', 'srs': 'EPSG:4326', 'geometryType': 'point', 'id': '638753'}
+    {'description': 'An ancient settlement, attested during the Classical, Roman and Late Antique periods (modern location: Geyre). It was known in antiquity by the names: Aphrodisias and Ninoe.', 'spatialCoordinates': '37.7145 28.7289 0.0', 'url': 'http://nohost/plone/Members/test_user_1_/places/638753', 'title': 'Aphrodisias/Ninoe', 'srs': 'EPSG:4326', 'geometryType': 'point', 'id': '638753'}
 
     >>> c = IGeoCollectionSimple(folder.places)
     >>> c.getItemsInfo()
-    [{'description': 'An ancient settlement, attested during the Classical, Roman and Late Antique periods (modern location: Geyre). It was known in antiquity by the names: Aphrodisias and Ninoe.', 'spatialCoordinates': '37.71446 28.72886 0.0', 'url': 'http://nohost/plone/Members/test_user_1_/places/638753', 'title': 'Aphrodisias/Ninoe', 'srs': 'EPSG:4326', 'geometryType': 'point', 'id': '638753'}]
+    [{'description': 'An ancient settlement, attested during the Classical, Roman and Late Antique periods (modern location: Geyre). It was known in antiquity by the names: Aphrodisias and Ninoe.', 'spatialCoordinates': '37.7145 28.7289 0.0', 'url': 'http://nohost/plone/Members/test_user_1_/places/638753', 'title': 'Aphrodisias/Ninoe', 'srs': 'EPSG:4326', 'geometryType': 'point', 'id': '638753'}]
 
 Load one nameless entity
 ------------------------
