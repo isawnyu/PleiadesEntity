@@ -1,0 +1,28 @@
+<html
+  xmlns="http://www.w3.org/1999/xhtml" 
+  xmlns:tal="http://xml.zope.org/namespaces/tal"
+  xmlns:metal="http://xml.zope.org/namespaces/metal"
+  xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+  i18n:domain="plone"
+  >
+
+  <head>
+    <title></title>
+  </head>
+
+  <body>
+    <div class="field" metal:define-macro="view">
+      <a href="#" tal:attributes="href accessor" tal:content="accessor">Item</a>
+    </div>
+
+    <metal:define define-macro="edit">
+      <div metal:use-macro="here/widgets/string/macros/edit" />
+    </metal:define>
+
+    <div metal:define-macro="search">
+      <div metal:use-macro="here/widgets/string/macros/edit" />
+    </div>
+
+  </body>
+
+</html>
