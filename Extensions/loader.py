@@ -185,9 +185,8 @@ def parse_secondary_references(xmlcontext, portalcontext, ptool):
                     continue
                 scope = scope_elem[0].text
 
-                id = ptool.normalizeString(scope)
-                
                 bibstr = "%s %s" % (title, scope)
+                id = ptool.normalizeString(bibstr)
 
                 try:
                     portalcontext.invokeFactory('SecondaryReference',
