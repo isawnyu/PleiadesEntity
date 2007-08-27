@@ -33,6 +33,20 @@ from Products.Archetypes.atapi import *
 from Products.PleiadesEntity.config import *
 
 ##code-section module-header #fill in your manual code here
+
+from Products.Archetypes.Registry import registerWidget
+
+class CitationItemWidget(StringWidget):
+    _properties = StringWidget._properties.copy()
+    _properties.update({'macro': 'referenceitem_widget'})
+
+registerWidget(
+    CitationItemWidget,
+    title='String',
+    description='Renders a citation item, with link',
+    used_for=('Products.Archetypes.Field.StringField',)
+    )
+
 ##/code-section module-header
 
 copied_fields = {}
@@ -43,8 +57,8 @@ schema = Schema((
     copied_fields['title'],
         StringField(
         name='item',
-        widget=StringWidget(
-            label='Item',
+        widget=CitationItemWidget(
+            label='Citation item',
             label_msgid='PleiadesEntity_label_item',
             i18n_domain='PleiadesEntity',
         )
