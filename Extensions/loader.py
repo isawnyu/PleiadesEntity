@@ -367,7 +367,7 @@ def load_place(site, file):
         placeType = str(e[0].text)
     else:
         placeType = 'unknown'
-    legaltypes = ['aqueduct', 'bath', 'bay', 'bridge', 'canal', 'cape', 'cave', 'cemetery', 'centuriation', 'church', 'coast', 'dam', 'estate', 'estuary', 'false', 'findspot', 'forest', 'fort', 'hill', 'island', 'lighthouse', 'mine', 'mountain', 'oasis', 'pass', 'people', 'plain', 'port', 'production', 'region', 'reservoir', 'ridge', 'river', 'road', 'salt-marsh', 'settlement', 'settlement-modern', 'spring', 'station', 'temple', 'tumulus', 'undefined', 'unknown', 'unlocated', 'valley', 'wall', 'water-inland', 'water-open', 'well', 'wheel', 'whirlpool']
+    legaltypes = ['aqueduct', 'bath', 'bay', 'bridge', 'canal', 'cape', 'cave', 'cemetery', 'centuriation', 'church', 'coast', 'dam', 'estate', 'estuary', 'false', 'findspot', 'forest', 'fort', 'hill', 'island', 'lighthouse', 'mine', 'mountain', 'oasis', 'pass', 'people', 'plain', 'port', 'production', 'region', 'reservoir', 'ridge', 'river', 'road', 'salt-marsh', 'settlement', 'settlement-modern', 'spring', 'station', 'temple', 'tumulus', 'undefined', 'unknown', 'unlocated', 'valley', 'villa', 'wall', 'water-inland', 'water-open', 'well', 'wheel', 'whirlpool']
     try:
         ptidx = legaltypes.index(placeType)
     except:
@@ -389,7 +389,11 @@ def load_place(site, file):
 
     placeNames = [getattr(names, nid) for nid in nids]
     computedTitle = '/'.join([n.Title() for n in placeNames])
-    pid = places.invokeFactory('Place',
+    
+    # Catch attribute errors from the case of pre-existing content and
+    # move on. This lets us run loads again over previously loaded data.
+    try:
+        pid = places.invokeFactory('Place',
                     id=id,
                     title=computedTitle,
                     modernLocation=modernLocation,
@@ -398,8 +402,10 @@ def load_place(site, file):
                     rights=rights,
                     description=description
                     )
-    p = getattr(places, pid)
-    p.reindexObject()
+        p = getattr(places, pid)
+        p.reindexObject()
+    except AttributeError:
+        return {'place_id': None, 'location_ids': None, 'name_ids': None}
 
     # Iterate over locations
     for lid in lids:
