@@ -278,6 +278,12 @@
         </caption>
     </term>
     <term>
+        <termIdentifier>villa</termIdentifier>
+        <caption>
+            <langstring language="en">villa</langstring>
+        </caption>
+    </term>
+    <term>
         <termIdentifier>wall</termIdentifier>
         <caption>
             <langstring language="en">wall, earthwork</langstring>
