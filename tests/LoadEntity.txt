@@ -10,6 +10,9 @@ Check catalogs
 Setup
 -----
 
+    >>> import transaction
+    >>> self.setRoles(('Manager',))
+
     Enable types
 
     >>> lpf = self.portal.portal_types['Large Plone Folder']
@@ -27,8 +30,11 @@ Setup
     Containers
 
     >>> _ = folder.invokeFactory('Large Plone Folder', id='names')
+    >>> _ = folder.names.invokeFactory('Large Plone Folder', id='duplicates')
     >>> _ = folder.invokeFactory('LocationContainer', id='locations')
     >>> _ = folder.invokeFactory('PlaceContainer', id='places')
+
+    >>> transaction.commit()
 
 Load one entity
 ---------------
@@ -70,7 +76,7 @@ Load one entity
     >>> len(srs)
     4
     >>> [s.id for s in srs]
-    ['65-a2-aphrodisias-ninoe', 'aphrodisias-2', 'aphrodisias-1', 'ninoe']
+    ['batlas-65-a2-aphrodisias-ninoe', 're-aphrodisias-2', 'npauly-aphrodisias-1', 're-ninoe']
     >>> [s.Title for s in srs]
     ['BAtlas 65 A2 Aphrodisias/Ninoe', 'RE Aphrodisias 2', 'NPauly Aphrodisias 1', 'RE Ninoe']
     >>> [(assoc[s.id].getItem(), assoc[s.id].getRange()) for s in srs]
@@ -122,7 +128,7 @@ Load one entity
     >>> len(srs)
     2
     >>> [s.id for s in srs]
-    ['aphrodisias-2', 'aphrodisias-1']
+    ['re-aphrodisias-2', 'npauly-aphrodisias-1']
     >>> [s.Title for s in srs]
     ['RE Aphrodisias 2', 'NPauly Aphrodisias 1']
     >>> [(n0[s.id].getItem(), n0[s.id].getRange()) for s in srs]
@@ -289,6 +295,18 @@ Load one nameless entity
     True
     >>> g.getInfo()
     {'description': 'An ancient fort, attested during the Roman period (modern location: Emeriye). Its ancient name is not known.', 'spatialCoordinates': '37.1751 31.7324 0.0', 'url': 'http://nohost/plone/Members/test_user_1_/places/638830', 'title': '638830', 'srs': 'EPSG:4326', 'geometryType': 'point', 'id': '638830'}
+
+
+Reload that entity
+------------------
+
+Reloading that entity should result in an error
+
+    >>> load_place(folder, "%s/batlas-65-2-24-frank.xml" % TEST_DATA)
+    Traceback (most recent call last):
+    ...
+    BadRequest: The id ... is invalid - it is already in use.
+
 
 Load one unlocated entity
 -------------------------

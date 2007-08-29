@@ -34,6 +34,8 @@ from os.path import basename
 
 import lxml.etree as etree
 
+import transaction
+
 from Products.CMFCore.utils import getToolByName
 
 from Products.PleiadesEntity.Extensions.xmlutil import *
@@ -42,6 +44,7 @@ from Products.PleiadesEntity.Extensions.ws_validation import validate_name
 from Products.PleiadesEntity.config import *
 
 batlas_pattern = re.compile(r'batlas-(\w+)-(\w+)-(\w+)')
+
 
 def baident(identifier):
     """Map old identifiers of the form batlas-MM-TT-RR to unique integers."""
@@ -135,7 +138,9 @@ def parse_periods(xmlcontext, portalcontext):
     """Find timePeriod children of the node at xmlcontext and create
     appropriate temporalAttestation children of the object at 
     portalcontext."""
-    
+   
+    wftool = getToolByName(portalcontext, 'portal_workflow')
+
     for tp in  xmlcontext.findall("{%s}timePeriod" % ADLGAZ):
         tpn = tp.xpath("*[local-name()='timePeriodName']")
         if not tpn:
@@ -157,6 +162,7 @@ def parse_periods(xmlcontext, portalcontext):
             confidence = conf
         period=periods[tpnstr]
         id=period_ids[tpnstr]
+        
         try:
             portalcontext.invokeFactory('TemporalAttestation',
                 id=id,
@@ -166,7 +172,10 @@ def parse_periods(xmlcontext, portalcontext):
         except:
             raise EntityLoadError, "There is already a TemporalAttestation with id=%s in portal context = %s" % (id, portalcontext.Title())
 
-def parse_secondary_references(xmlcontext, portalcontext, ptool):
+        wftool.doActionFor(getattr(portalcontext, id), "publish")
+
+
+def parse_secondary_references(xmlcontext, portalcontext, ptool, wftool):
     srs =  xmlcontext.find("{%s}secondaryReferences" % AWMC)
     if srs:
         bibls = srs.xpath('tei:bibl', {'tei': TEI})
@@ -198,37 +207,30 @@ def parse_secondary_references(xmlcontext, portalcontext, ptool):
                 except:
                     raise
                     #raise EntityLoadError, "There is already a SecondaryReference with id=%s in portal context" % id
-            
+                
+                wftool.doActionFor(getattr(portalcontext, id), "publish")
+
 import sys
 
-def load_place(site, file):
-    """Create a new Place in plonefolder and populate it with
-    the data found in the xml file at sourcepath."""
-
-    root = etree.parse(file).getroot()
-    ptool = getToolByName(site, 'plone_utils')
-
-    places = site.places
-    names = site.names
-    locations = site.locations
-
-    # Authorship
+def parse_attrib_rights(xmlcontext):
+    root = xmlcontext
     creators = [e.text for e in root.findall("{%s}creator" % DC)]
     contributors = [e.text for e in root.findall("{%s}contributor" % DC)]
-    
-    # Rights
     e = root.findall("{%s}rights" % DC)
     if e:
         rights = e[0].text
     else:
         rights = None
-        
-    # lists of location and name ids
-    lids = []
+    return (creators, contributors, rights)
+
+def parse_names(xmlcontext, portalcontext, ptool, wftool):
+    root = xmlcontext
+    names = portalcontext
     nids = []
     association_certainties = []
 
-    # Names
+    creators, contributors, rights = parse_attrib_rights(root)
+
     for e in root.findall("{%s}featureName" % ADLGAZ):
         transliteration = e.findall("{%s}transliteration" % AWMC)[0].text
         na = e.findall("{%s}name" % ADLGAZ)
@@ -325,6 +327,8 @@ def load_place(site, file):
                     )
             name = getattr(names.duplicates, nid)
 
+        wftool.doActionFor(name, "publish")
+         
         nids.append(nid)
         association_certainties.append(certainty)
 
@@ -332,14 +336,22 @@ def load_place(site, file):
         parse_periods(e, name)
         
         # SecondaryReferences associated with the name
-        parse_secondary_references(e, name, ptool)
-        name.reindexObject()
+        parse_secondary_references(e, name, ptool, wftool)
+        #name.reindexObject()
         
-    # Locations
+    return (nids, association_certainties)
+
+def parse_locations(xmlcontext, portalcontext, ptool, wftool):
+    root = xmlcontext
+    lids = []
+
+    # Attribution and rights
+    creators, contributors, rights = parse_attrib_rights(root)
+
     for e in root.findall("{%s}spatialLocation" % ADLGAZ):
         coords = e.findall("{%s}point" % GEORSS)[0].text
 
-        lid = locations.invokeFactory('Location',
+        lid = portalcontext.invokeFactory('Location',
                     geometryType='Point',
                     spatialCoordinates=str(coords),
                     creators=creators,
@@ -347,52 +359,76 @@ def load_place(site, file):
                     rights=rights
                     )
         
+        wftool.doActionFor(getattr(portalcontext, lid), "publish")
         lids.append(lid)
         
         # Time Periods associated with the location
-        parse_periods(root, getattr(locations, lid))
+        parse_periods(root, getattr(portalcontext, lid))
         
-        getattr(locations, lid).reindexObject()
+        #getattr(locations, lid).reindexObject()
 
-    # Place
-    e = root.findall("{%s}modernLocation" % AWMC)
-    if e:
-        modernLocation = str(e[0].text.encode('utf-8'))
-    else:
-        modernLocation = 'None'
+    return lids
 
-    e = root.findall("{%s}classificationSection/{%s}classificationTerm" \
-                     % (ADLGAZ, ADLGAZ))
-    if e:
-        placeType = str(e[0].text)
-    else:
-        placeType = 'unknown'
-    legaltypes = ['aqueduct', 'bath', 'bay', 'bridge', 'canal', 'cape', 'cave', 'cemetery', 'centuriation', 'church', 'coast', 'dam', 'estate', 'estuary', 'false', 'findspot', 'forest', 'fort', 'hill', 'island', 'lighthouse', 'mine', 'mountain', 'oasis', 'pass', 'people', 'plain', 'port', 'production', 'region', 'reservoir', 'ridge', 'river', 'road', 'salt-marsh', 'settlement', 'settlement-modern', 'spring', 'station', 'temple', 'tumulus', 'undefined', 'unknown', 'unlocated', 'valley', 'villa', 'wall', 'water-inland', 'water-open', 'well', 'wheel', 'whirlpool']
-    try:
-        ptidx = legaltypes.index(placeType)
-    except:
-        raise EntityLoadError, "Invalid placeType  = %s" % placeType
-            
-    e = root.findall("{%s}description" % DC)
-    if e:
-        description = e[0].text.encode('utf-8')
-    else:
-        description = ''
+def load_place(site, file):
+    """Create a new Place in plonefolder and populate it with
+    the data found in the xml file at sourcepath."""
 
-    # Get the legacy BA identifier
-    e = root.findall("{%s}featureID" % ADLGAZ)
-    fid = str(e[0].text)
-    if fid.startswith('batlas'):
-        id = baident(fid)
-    else:
-        id = None
+    ptool = getToolByName(site, 'plone_utils')
+    wftool = getToolByName(site, 'portal_workflow')
 
-    placeNames = [getattr(names, nid) for nid in nids]
-    computedTitle = '/'.join([n.Title() for n in placeNames])
+    places = site.places
+    names = site.names
+    locations = site.locations
+
+    savepoint = transaction.savepoint()
     
-    # Catch attribute errors from the case of pre-existing content and
-    # move on. This lets us run loads again over previously loaded data.
     try:
+        root = etree.parse(file).getroot()
+       
+        creators, contributors, rights = parse_attrib_rights(root)
+            
+        # Names
+        nids, association_certainties = parse_names(root, names, ptool, wftool)
+
+        # Locations
+        lids = parse_locations(root, locations, ptool, wftool)
+    
+        # Place
+        e = root.findall("{%s}modernLocation" % AWMC)
+        if e:
+            modernLocation = str(e[0].text.encode('utf-8'))
+        else:
+            modernLocation = 'None'
+    
+        e = root.findall("{%s}classificationSection/{%s}classificationTerm" \
+                         % (ADLGAZ, ADLGAZ))
+        if e:
+            placeType = str(e[0].text)
+        else:
+            placeType = 'unknown'
+        legaltypes = ['aqueduct', 'bath', 'bay', 'bridge', 'canal', 'cape', 'cave', 'cemetery', 'centuriation', 'church', 'coast', 'dam', 'estate', 'estuary', 'false', 'findspot', 'forest', 'fort', 'hill', 'island', 'lighthouse', 'mine', 'mountain', 'oasis', 'pass', 'people', 'plain', 'port', 'production', 'region', 'reservoir', 'ridge', 'river', 'road', 'salt-marsh', 'settlement', 'settlement-modern', 'spring', 'station', 'temple', 'tumulus', 'undefined', 'unknown', 'unlocated', 'valley', 'villa', 'wall', 'water-inland', 'water-open', 'well', 'wheel', 'whirlpool']
+        try:
+            ptidx = legaltypes.index(placeType)
+        except:
+            raise EntityLoadError, "Invalid placeType  = %s" % placeType
+                
+        e = root.findall("{%s}description" % DC)
+        if e:
+            description = e[0].text.encode('utf-8')
+        else:
+            description = ''
+    
+        # Get the legacy BA identifier
+        e = root.findall("{%s}featureID" % ADLGAZ)
+        fid = str(e[0].text)
+        if fid.startswith('batlas'):
+            id = baident(fid)
+        else:
+            id = None
+    
+        placeNames = [getattr(names, nid) for nid in nids]
+        computedTitle = '/'.join([n.Title() for n in placeNames])
+        
         pid = places.invokeFactory('Place',
                     id=id,
                     title=computedTitle,
@@ -403,57 +439,64 @@ def load_place(site, file):
                     description=description
                     )
         p = getattr(places, pid)
-        p.reindexObject()
-    except AttributeError:
-        return {'place_id': None, 'location_ids': None, 'name_ids': None}
-
-    # Iterate over locations
-    for lid in lids:
-        # Handle the unnamed case
-        if len(nids) == 0:
-            aid = p.invokeFactory('PlacefulAssociation',
-                id="unnamed-%s" % lid,
-                placeType=placeType,
-                associationCertainty='certain',
-                )
-            a = getattr(p, aid)
-            a.addReference(getattr(locations, lid), 'hasLocation')
-        
-            # Secondary references for the place
-            parse_secondary_references(root, a, ptool)
-            a.reindexObject()
-        
-        else:
-            for i, nid in enumerate(nids):
-                # Get association certainty from XML
-                certainty = association_certainties[i]
-            
+        wftool.doActionFor(p, "publish")
+        #p.reindexObject()
+    
+        # Iterate over locations
+        for lid in lids:
+            # Handle the unnamed case
+            if len(nids) == 0:
                 aid = p.invokeFactory('PlacefulAssociation',
-                    id="%s-%s" % (nid,lid),
-                    placeType=placeType,
-                    associationCertainty=certainty,
-                    )
-                a = getattr(p, aid)
-                a.addReference(getattr(locations, lid), 'hasLocation')
-                a.addReference(getattr(names, nid), 'hasName')
-        
-                # Secondary references for the place
-                parse_secondary_references(root, a, ptool)
-                a.reindexObject()
-
-    # If there are no locations, iterate over the names
-    if len(lids) == 0:
-        for nid in nids:
-            aid = p.invokeFactory('PlacefulAssociation',
-                    id="%s-unlocated" % nid,
+                    id="unnamed-%s" % lid,
                     placeType=placeType,
                     associationCertainty='certain',
                     )
-            a = getattr(p, aid)
-            a.addReference(getattr(names, nid), 'hasName')
-            # Secondary references for the place
-            parse_secondary_references(root, a, ptool)
-            a.reindexObject()
+                a = getattr(p, aid)
+                a.addReference(getattr(locations, lid), 'hasLocation')
+                wftool.doActionFor(a, "publish")
+            
+                # Secondary references for the place
+                parse_secondary_references(root, a, ptool, wftool)
+                #a.reindexObject()
+            
+            else:
+                for i, nid in enumerate(nids):
+                    # Get association certainty from XML
+                    certainty = association_certainties[i]
+                
+                    aid = p.invokeFactory('PlacefulAssociation',
+                        id="%s-%s" % (nid,lid),
+                        placeType=placeType,
+                        associationCertainty=certainty,
+                        )
+                    a = getattr(p, aid)
+                    a.addReference(getattr(locations, lid), 'hasLocation')
+                    a.addReference(getattr(names, nid), 'hasName')
+                    wftool.doActionFor(a, "publish")
+            
+                    # Secondary references for the place
+                    parse_secondary_references(root, a, ptool, wftool)
+                    #a.reindexObject()
+    
+        # If there are no locations, iterate over the names
+        if len(lids) == 0:
+            for nid in nids:
+                aid = p.invokeFactory('PlacefulAssociation',
+                        id="%s-unlocated" % nid,
+                        placeType=placeType,
+                        associationCertainty='certain',
+                        )
+                a = getattr(p, aid)
+                a.addReference(getattr(names, nid), 'hasName')
+                wftool.doActionFor(a, "publish")
+                # Secondary references for the place
+                parse_secondary_references(root, a, ptool, wftool)
+                #a.reindexObject()
 
+    except:
+        savepoint.rollback()
+        raise
+
+    transaction.commit()
     return {'place_id': pid, 'location_ids': lids, 'name_ids': nids}
 
