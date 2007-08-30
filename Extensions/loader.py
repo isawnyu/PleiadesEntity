@@ -44,6 +44,7 @@ from Products.PleiadesEntity.Extensions.ws_validation import validate_name
 from Products.PleiadesEntity.config import *
 
 batlas_pattern = re.compile(r'batlas-(\w+)-(\w+)-(\w+)')
+batlas_anon_pattern = re.compile(r'batlas-(\w+)-anon-(\w+)')
 
 
 def baident(identifier):
@@ -54,7 +55,23 @@ def baident(identifier):
     tt = int(g[1]) - 1
     rr = int(g[2]) - 1
     return (BA_ROW_COUNT * BA_TABLE_COUNT) * mm + BA_ROW_COUNT * tt + rr
-    
+
+def baident_anon(xmlcontext):
+    """Map old identifiers of the form batlas-MM-TT-RR to unique integers."""
+    e = xmlcontext.findall("{%s}featureID" % ADLGAZ)
+    identifier = str(e[0].text)
+    m = batlas_anon_pattern.search(identifier)
+    g = m.groups()
+    m = g[0]
+
+    coords = xmlcontext.xpath(
+        "adlgaz:spatialLocation/georss:point",
+        {'adlgaz': ADLGAZ, 'georss': GEORSS}
+        )[0].text.split()
+
+    p = "%.4f%.4f" % (float(coords[0]) + 180.0, float(coords[1]) + 90.0)
+    return "%s%s" % (m, p.replace('.', '')) 
+
 class EntityLoadError(Exception):
     pass
 
@@ -223,6 +240,17 @@ def parse_attrib_rights(xmlcontext):
         rights = None
     return (creators, contributors, rights)
 
+def find_next_valid_name_id(context, initial):
+    if not hasattr(context, initial):
+        return initial
+    else:
+        for i in range(1, 43):
+            candidate = "%s-%d" % (initial, i)
+            if not hasattr(context, candidate):
+                return candidate
+        # Shouldn't get here
+        raise Exception, "Number of allowable name duplicates exceeded"
+
 def parse_names(xmlcontext, portalcontext, ptool, wftool):
     root = xmlcontext
     names = portalcontext
@@ -295,8 +323,9 @@ def parse_names(xmlcontext, portalcontext, ptool, wftool):
             pass
 
         try:
+            vid = find_next_valid_name_id(names, id)
             nid = names.invokeFactory("Name",
-                    id=id,
+                    id=vid,
                     title = transliteration.encode('utf-8'),
                     nameTransliterated=transliteration.encode('utf-8'),
                     nameAttested=nameAttested.encode('utf-8'),
@@ -422,7 +451,10 @@ def load_place(site, file):
         e = root.findall("{%s}featureID" % ADLGAZ)
         fid = str(e[0].text)
         if fid.startswith('batlas'):
-            id = baident(fid)
+            if fid.find('anon') >= 0:
+                id = baident_anon(root)
+            else:
+                id = baident(fid)
         else:
             id = None
     

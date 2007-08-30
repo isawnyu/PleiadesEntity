@@ -4,36 +4,41 @@ Batch Loading of Entities
 Check catalogs
 --------------
 
-    >>> uc = self.portal.uid_catalog
-    >>> rc = self.portal.reference_catalog
+  >>> uc = self.portal.uid_catalog
+  >>> rc = self.portal.reference_catalog
 
 Setup
 -----
 
-    Enable types
+  >>> self.setRoles(('Manager',))
 
-    >>> lpf = self.portal.portal_types['Large Plone Folder']
-    >>> lpf_allow = lpf.global_allow
-    >>> lpf.global_allow = True
+  Enable types
 
-    >>> n = self.portal.portal_types['Name']
-    >>> n_allow = n.global_allow
-    >>> n.global_allow = True
+  >>> lpf = self.portal.portal_types['Large Plone Folder']
+  >>> lpf_allow = lpf.global_allow
+  >>> lpf.global_allow = True
 
-    Alias the test folder
+  >>> n = self.portal.portal_types['Name']
+  >>> n_allow = n.global_allow
+  >>> n.global_allow = True
 
-    >>> folder = self.folder
+  Alias the test folder
 
-    Containers
+  >>> folder = self.folder
 
-    >>> _ = folder.invokeFactory('Large Plone Folder', id='names')
-    >>> _ = folder.names.invokeFactory('Large Plone Folder', id='duplicates')
-    >>> _ = folder.invokeFactory('LocationContainer', id='locations')
-    >>> _ = folder.invokeFactory('PlaceContainer', id='places')
+  Containers
+
+  >>> _ = folder.invokeFactory('Large Plone Folder', id='names')
+  >>> _ = folder.names.invokeFactory('Large Plone Folder', id='duplicates')
+  >>> _ = folder.invokeFactory('LocationContainer', id='locations')
+  >>> _ = folder.invokeFactory('PlaceContainer', id='places')
 
 Load entities
 -------------
 
-    >>> loaden(folder, "/tmp/ba/")
-    'Loaded 315 of 315 files.'
+  >>> loaden(folder, "/tmp/ba038/")
+  'Loaded 258 of 258 files.'
+
+  >>> loaden(folder, "/tmp/ba065/")
+  'Loaded 317 of 317 files.'
 
