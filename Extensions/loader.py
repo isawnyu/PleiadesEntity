@@ -210,14 +210,8 @@ def parse_secondary_references(xmlcontext, portalcontext, ptool, wftool):
                 title_elem = bibl.xpath('tei:title', {'tei': TEI})
                 if not title_elem:
                     continue
-                title = title_elem[0].text
-                url = title_elem[0].attrib.get('{http://www.w3.org/1999/xlink}href')
-                scope_text = getalltext(bibl)
-                if not scope_text:
-                    bibstr = title
-                else:
-                    bibstr = "%s %s" % (title, scope_text)
-                
+                url = title_elem[0].attrib.get('{http://www.w3.org/1999/xlink}href', '')
+                bibstr = getalltext(bibl)
                 id = ptool.normalizeString(bibstr)
                 try:
                     portalcontext.invokeFactory('SecondaryReference',
