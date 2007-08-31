@@ -224,7 +224,7 @@ def parse_secondary_references(xmlcontext, portalcontext, ptool, wftool):
                         title=bibstr,
                         id=id,
                         item=url,
-                        range=scope
+                        range=scope_text
                     )
                 except:
                     raise
