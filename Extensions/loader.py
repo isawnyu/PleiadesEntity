@@ -191,6 +191,13 @@ def parse_periods(xmlcontext, portalcontext):
 
         wftool.doActionFor(getattr(portalcontext, id), "publish")
 
+def getalltext(elem):
+    text = elem.text or ""
+    for e in elem:
+        text = text + " " + getalltext(e)
+        if e.tail:
+            text = text + " " + e.tail
+    return text.strip()
 
 def parse_secondary_references(xmlcontext, portalcontext, ptool, wftool):
     srs =  xmlcontext.find("{%s}secondaryReferences" % AWMC)
@@ -205,15 +212,13 @@ def parse_secondary_references(xmlcontext, portalcontext, ptool, wftool):
                     continue
                 title = title_elem[0].text
                 url = title_elem[0].attrib.get('{http://www.w3.org/1999/xlink}href')
+                scope_text = getalltext(bibl)
+                if not scope_text:
+                    bibstr = title
+                else:
+                    bibstr = "%s %s" % (title, scope_text)
                 
-                scope_elem = bibl.xpath('tei:biblScope', {'tei': TEI})
-                if not scope_elem:
-                    continue
-                scope = scope_elem[0].text
-
-                bibstr = "%s %s" % (title, scope)
                 id = ptool.normalizeString(bibstr)
-
                 try:
                     portalcontext.invokeFactory('SecondaryReference',
                         title=bibstr,
