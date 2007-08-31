@@ -195,8 +195,6 @@ def getalltext(elem):
     text = elem.text or ""
     for e in elem:
         text = text + " " + getalltext(e)
-        if e.tail:
-            text = text + " " + e.tail
     return text.strip()
 
 def parse_secondary_references(xmlcontext, portalcontext, ptool, wftool):
@@ -218,7 +216,7 @@ def parse_secondary_references(xmlcontext, portalcontext, ptool, wftool):
                         title=bibstr,
                         id=id,
                         item=url,
-                        range=scope_text
+                        range=bibstr
                     )
                 except:
                     raise
