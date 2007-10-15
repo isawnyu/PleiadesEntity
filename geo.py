@@ -54,6 +54,10 @@ class PlacefulAssociationGeoItem(object):
     def getGeometryType(self):
         return 'point'
 
+    @property
+    def geom_type(self):
+        return 'Point'
+
     def setGeometryType(self, geomtype):
         pass
 
@@ -72,6 +76,31 @@ class PlacefulAssociationGeoItem(object):
             coords.append(tuple(values[3*i:3*i+3] + [0.0]))
         return tuple(coords)
 
+    @property
+    def spatialCoordinates(self):
+        """GeoRSS Simple coordinate string."""
+        x = self.context.getRefs('hasLocation')
+        if len(x) == 0:
+            return ()
+        return x[0].getSpatialCoordinates()
+        
+    @property
+    def coords(self):
+        x = self.context.getRefs('hasLocation')
+        if len(x) == 0:
+            return ()
+        x0 = x[0]
+        values = [float(v) for v in \
+            x0.getSpatialCoordinates().split()]
+        nvalues = len(values)
+        # Our Pleiades Locations are 2D
+        npoints = nvalues/2
+        coords = []
+        for i in range(npoints):
+            #coords.append(tuple(values[3*i:3*i+3] + [0.0]))
+            coords.append((values[3*i+1], values[3*i], 0.0))
+        return coords[0]
+
     def setGeometry(self, geomtype, coords):
         value = ''
         for point in coords:
@@ -88,7 +117,16 @@ class PlacefulAssociationGeoItem(object):
     def isGeoreferenced(self):
         """Return True if the object is "on the map"."""
         return bool(len(self.context.getRefs('hasLocation')))
+
+    def hasPoint(self):
+        return 1
         
+    def hasLineString(self):
+        return 0
+
+    def hasPolygon(self):
+        return 0
+
     def getInfo(self, dims=3):
         """Return an informative dict."""
         context = self.context
@@ -109,6 +147,20 @@ class PlacefulAssociationGeoItem(object):
                 'url':          context.absolute_url(),}
             )
         return info
+
+    @property
+    def __geo_interface__(self):
+        context = self.context
+        return {
+            'id': context.getId(),
+            'properties': {
+                'title': context.title_or_id(),
+                'description': context.Description(),
+                'link': context.absolute_url(),
+                },
+            'geometry': {'type': self.geom_type, 'coordinates': self.coords}
+            }
+
 
 class PlaceGeoItem(object):
     
@@ -144,12 +196,25 @@ class PlaceGeoItem(object):
     def getSpatialCoordinates(self):
         return self._primary_association.getSpatialCoordinates()
 
+    @property
+    def spatialCoordinates(self):
+        return self._primary_association.spatialCoordinates
+
     def setGeometry(self, geomtype, coords):
         raise NotImplementedError
         
     def isGeoreferenced(self):
         """Return True if the object is "on the map"."""
         return self._primary_association.isGeoreferenced()
+
+    def hasPoint(self):
+        return self._primary_association.hasPoint()
+        
+    def hasLineString(self):
+        return self._primary_association.hasLineString()
+
+    def hasPolygon(self):
+        return self._primary_association.hasPolygon()
         
     def getInfo(self, dims=3):
         """Return an informative dict."""
@@ -162,6 +227,22 @@ class PlaceGeoItem(object):
                 'url':          context.absolute_url(),}
             )
         return info
+
+    @property
+    def __geo_interface__(self):
+        context = self.context
+        return {
+            'id': context.getId(),
+            'properties': {
+                'title': context.title_or_id(),
+                'description': context.Description(),
+                'link': context.absolute_url(),
+                },
+            'geometry': {
+                'type': self._primary_association.geom_type, 
+                'coordinates': self._primary_association.coords
+                }
+            }
 
 
 def createGeoItem(context):

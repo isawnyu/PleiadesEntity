@@ -10,14 +10,16 @@
         <span tal:replace="structure string:&lt;![CDATA[" />
           <div>
             <p>
-              <span tal:content="info/description">ITEM DESCRIPTION</span>
+              <span tal:content="item/properties/description">
+                ITEM DESCRIPTION
+              </span>
               <img align="right" valign="top" hspace="4" width="149" src="http://pleiades.stoa.org/images/awmcrose.png"/>
             </p>
             <br clear="right"/>
             <p>URL: 
               <a 
-                tal:attributes="href info/url" 
-                tal:content="info/url"
+                tal:attributes="href item/properties/link" 
+                tal:content="item/properties/link"
                 >ITEM URL
               </a>
             </p>
@@ -32,13 +34,25 @@
       </description>
     </metal:description_macro>
     <metal:geometry_macro metal:define-macro="geometry">
-      <Point>
-        <coordinates
-          tal:content="python:','.join(info['spatialCoordinates'].split())"
-          >COORDINATE LIST
+      <Point tal:condition="item/hasPoint">
+        <coordinates tal:content="item/coords_kml">
+          COORDINATE LIST
         </coordinates>
       </Point>
+      <LineString tal:condition="item/hasLineString">
+        <coordinates tal:content="item/coords_kml">
+          COORDINATE LIST
+        </coordinates>
+      </LineString>
+      <Polygon tal:condition="item/hasPolygon">
+        <outerBoundaryIs>
+          <LinearRing>
+            <coordinates tal:content="item/coords_kml">
+              COORDINATE LIST
+            </coordinates>
+          </LinearRing>
+        </outerBoundaryIs>
+      </Polygon>
     </metal:geometry_macro>
   </Feature>
 </kml>
-
