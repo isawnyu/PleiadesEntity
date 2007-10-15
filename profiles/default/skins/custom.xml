@@ -2,8 +2,6 @@
 <object name="custom" meta_type="Folder">
  <property name="title"></property>
  <object name="base_properties" meta_type="Folder"/>
- <object name="georss" meta_type="Page Template"/>
- <object name="kml" meta_type="Page Template"/>
  <object name="kml_macros" meta_type="Page Template"/>
  <object name="nwlink" meta_type="Page Template"/>
  <object name="ol_templates" meta_type="Page Template"/>
