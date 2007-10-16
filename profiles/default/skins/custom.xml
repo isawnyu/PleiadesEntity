@@ -6,5 +6,4 @@
  <object name="nwlink" meta_type="Page Template"/>
  <object name="ol_templates" meta_type="Page Template"/>
  <object name="place_view" meta_type="Page Template"/>
- <object name="showEditableBorder" meta_type="Script (Python)"/>
 </object>
