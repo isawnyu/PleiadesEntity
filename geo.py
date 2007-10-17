@@ -78,10 +78,10 @@ class PlacefulAssociationGeoItem(object):
 
     @property
     def spatialCoordinates(self):
-        """GeoRSS Simple coordinate string."""
+        """GeoRSS Simple coordinate string (2D)."""
         x = self.context.getRefs('hasLocation')
         if len(x) == 0:
-            return ()
+            return ''
         return x[0].getSpatialCoordinates()
         
     @property
