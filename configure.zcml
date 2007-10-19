@@ -17,6 +17,11 @@
     />
 
   <five:implements
+    class=".content.PlaceContainer.PlaceContainer"
+    interface="zope.app.annotation.interfaces.IAttributeAnnotatable"
+    />
+
+  <five:implements
     class=".content.PlacefulAssociation.PlacefulAssociation"
     interface=".interfaces.IGeoEntity"
     />
