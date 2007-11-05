@@ -45,21 +45,9 @@ class PlacefulAssociationGeoItem(object):
         """Initialize adapter."""
         self.context = context
 
-    def getSRS(self):
-        return 'EPSG:4326'
-
-    def setSRS(self, srs):
-        pass
-        
-    def getGeometryType(self):
-        return 'point'
-
     @property
     def geom_type(self):
         return 'Point'
-
-    def setGeometryType(self, geomtype):
-        pass
 
     def getSpatialCoordinates(self):
         x = self.context.getRefs('hasLocation')
@@ -101,57 +89,15 @@ class PlacefulAssociationGeoItem(object):
             coords.append((values[3*i+1], values[3*i], 0.0))
         return coords[0]
 
-    def setGeometry(self, geomtype, coords):
-        value = ''
-        for point in coords:
-            if len(point) == 3:
-                value = ' '.join([value, "%f %f %f" % point])
-            elif len(point) == 2:
-                value = ' '.join([value, "%f %f 0.0" % point])
-            else:
-                raise ValueError, \
-                "Insufficient number of ordinates: %s" % str(point)
-        x0 = self.context.getRefs('hasLocation')[0]
-        x0.setSpatialCoordinates(value.lstrip())
-        
     def isGeoreferenced(self):
         """Return True if the object is "on the map"."""
         return bool(len(self.context.getRefs('hasLocation')))
-
-    def hasPoint(self):
-        return 1
-        
-    def hasLineString(self):
-        return 0
-
-    def hasPolygon(self):
-        return 0
-
-    def getInfo(self, dims=3):
-        """Return an informative dict."""
-        context = self.context
-        info = {'srs':                  self.getSRS(),
-                'geometryType':         self.getGeometryType(),
-               }
-        points = self.getSpatialCoordinates()
-        coords = []
-        for i in range(len(points)):
-            coords.extend([str(v) for v in points[i][0:dims]])
-        info['spatialCoordinates'] = ' '.join(coords)
-
-        # Content objects
-        info.update(
-               {'id':           context.getId(),
-                'title':        context.title_or_id(),
-                'description':  context.Description(),
-                'url':          context.absolute_url(),}
-            )
-        return info
 
     @property
     def __geo_interface__(self):
         context = self.context
         return {
+            'type': 'Feature',
             'id': context.getId(),
             'properties': {
                 'title': context.title_or_id(),
@@ -181,57 +127,23 @@ class PlaceGeoItem(object):
         if not self._primary_association:
             raise Exception, "Could not adapt %s" % str(context)
 
-    def getSRS(self):
-        return 'EPSG:4326'
-
-    def setSRS(self, srs):
-        pass
-        
-    def getGeometryType(self):
-        return 'point'
-
-    def setGeometryType(self, geomtype):
-        pass
-
-    def getSpatialCoordinates(self):
-        return self._primary_association.getSpatialCoordinates()
-
-    @property
-    def spatialCoordinates(self):
-        return self._primary_association.spatialCoordinates
-
-    def setGeometry(self, geomtype, coords):
-        raise NotImplementedError
-        
     def isGeoreferenced(self):
         """Return True if the object is "on the map"."""
         return self._primary_association.isGeoreferenced()
 
-    def hasPoint(self):
-        return self._primary_association.hasPoint()
-        
-    def hasLineString(self):
-        return self._primary_association.hasLineString()
+    @property
+    def geom_type(self):
+        return self._primary_association.geom_type
 
-    def hasPolygon(self):
-        return self._primary_association.hasPolygon()
-        
-    def getInfo(self, dims=3):
-        """Return an informative dict."""
-        context = self.context
-        info = self._primary_association.getInfo(dims)
-        info.update(
-               {'id':           context.getId(),
-                'title':        context.title_or_id(),
-                'description':  context.Description(),
-                'url':          context.absolute_url(),}
-            )
-        return info
+    @property
+    def coords(self):
+        return self._primary_association.coords
 
     @property
     def __geo_interface__(self):
         context = self.context
         return {
+            'type': 'Feature',
             'id': context.getId(),
             'properties': {
                 'title': context.title_or_id(),
@@ -281,12 +193,3 @@ class GeoCollectionSimple(object):
             except:
                 pass
 
-    def getItemsInfo(self):
-        infos = []
-        for item in self.geoItems():
-            infos.append(item.getInfo())
-        return infos
-
-    def getBoundingBox(self):
-        raise NotImplementedError
-        

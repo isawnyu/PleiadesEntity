@@ -63,20 +63,31 @@ Test the geo adapters
     >>> g = IGeoItemSimple(a)
     >>> g.isGeoreferenced()
     True
-    >>> info = {'srs': 'EPSG:4326', 'geometryType': 'point', 'description': '', 'spatialCoordinates': '34.7697222222 -86.4808333333 0.0', 'url': 'http://nohost/plone/Members/test_user_1_/places/%s/%s' % (pid, aid), 'title': 'Civitas Non', 'id': aid}
-    >>> g.getInfo() == info
-    True
+    >>> gi = g.__geo_interface__
+    >>> gi['type']
+    'Feature'
+    >>> gi['geometry']['type']
+    'Point'
+    >>> gi['geometry']['coordinates']
+    (-86.480833333333294, 34.769722222222001, 0.0)
 
     Place
 
     >>> g = IGeoItemSimple(p)
     >>> g.isGeoreferenced()
     True
-    >>> info = {'srs': 'EPSG:4326', 'geometryType': 'point', 'description': '', 'spatialCoordinates': '34.7697222222 -86.4808333333 0.0', 'url': 'http://nohost/plone/Members/test_user_1_/places/%s' % pid, 'title': 'Civitas Non', 'id': pid}
-    >>> g.getInfo() == info
-    True
+    >>> gi = g.__geo_interface__
+    >>> gi['type']
+    'Feature'
+    >>> gi['geometry']['type']
+    'Point'
+    >>> gi['geometry']['coordinates']
+    (-86.480833333333294, 34.769722222222001, 0.0)
+    >>> gi['properties']['title']
+    'Civitas Non'
 
     >>> c = IGeoCollectionSimple(places)
-    >>> c.getItemsInfo() == [{'srs': 'EPSG:4326', 'geometryType': 'point', 'description': '', 'spatialCoordinates': '34.7697222222 -86.4808333333 0.0', 'url': 'http://nohost/plone/Members/test_user_1_/places/%s' % pid, 'title': 'Civitas Non', 'id': pid}]
-    True
+    >>> x = list(c.geoItems())
+    >>> len(x)
+    1
 

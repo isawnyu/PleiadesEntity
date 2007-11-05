@@ -72,7 +72,8 @@ Test browse
     >>> print browser.contents
     <?xml version="1.0" encoding="utf-8"?>
     <feed xmlns="http://www.w3.org/2005/Atom"
-          xmlns:georss="http://www.georss.org/georss">
+          xmlns:georss="http://www.georss.org/georss"
+          xmlns:gml="http://www.opengis.net/gml">
     <BLANKLINE>
     <BLANKLINE>
       <title>places</title>
@@ -89,13 +90,20 @@ Test browse
         <id>http://nohost/plone/Members/test_user_1_/places/54321</id>
         <updated/>
         <summary>A testing entity</summary>
-        <georss:point>0.0 0.0</georss:point>
-      </entry>
     <BLANKLINE>
+    <BLANKLINE>
+        <georss:where>
+          <gml:Point>
+            <gml:pos>0.000000 0.000000</gml:pos>
+          </gml:Point>
+        </georss:where>
+    <BLANKLINE>
+    <BLANKLINE>
+    <BLANKLINE>
+      </entry>
     </feed>
     <BLANKLINE>
     <BLANKLINE>
-
 
     >>> browser.open("%s/kml" % url)
     >>> 'application/vnd.google-earth.kml+xml; charset=utf-8' in browser.headers['content-type']
@@ -105,7 +113,16 @@ Test browse
     <kml xmlns="http://earth.google.com/kml/2.1">
     <BLANKLINE>
     <BLANKLINE>
-      <Folder>
+      <Document>
+        <Style id="defaultStyle">
+          <LineStyle>
+            <color>ffff0000</color>
+            <width>2</width>
+          </LineStyle>
+          <PolyStyle>
+            <color>33ff0000</color>
+          </PolyStyle>
+        </Style>
         <name></name>
         <visibility>0</visibility>
         <open>0</open>
@@ -123,13 +140,16 @@ Test browse
             ]]>
           </description>
     <BLANKLINE>
+          <styleUrl>#defaultStyle</styleUrl>
     <BLANKLINE>
           <Point>
-            <coordinates>0.0,0.0,0.0</coordinates>
+            <coordinates>0.000000,0.000000,0.000000</coordinates>
           </Point>
     <BLANKLINE>
+    <BLANKLINE>
+    <BLANKLINE>
         </Placemark>
-      </Folder>
+      </Document>
     </kml>
     <BLANKLINE>
     <BLANKLINE>
@@ -141,7 +161,8 @@ Test browse
     >>> print browser.contents
     <?xml version="1.0" encoding="utf-8"?>
     <feed xmlns="http://www.w3.org/2005/Atom"
-          xmlns:georss="http://www.georss.org/georss">
+          xmlns:georss="http://www.georss.org/georss"
+          xmlns:gml="http://www.opengis.net/gml">
     <BLANKLINE>
     <BLANKLINE>
       <title>Neverpolis</title>
@@ -158,9 +179,17 @@ Test browse
         <id>http://nohost/plone/Members/test_user_1_/places/54321</id>
         <updated/>
         <summary>A testing entity</summary>
-        <georss:point>0.0 0.0</georss:point>
-      </entry>
     <BLANKLINE>
+    <BLANKLINE>
+        <georss:where>
+          <gml:Point>
+            <gml:pos>0.000000 0.000000</gml:pos>
+          </gml:Point>
+        </georss:where>
+    <BLANKLINE>
+    <BLANKLINE>
+    <BLANKLINE>
+      </entry>
     </feed>
     <BLANKLINE>
     <BLANKLINE>
@@ -171,7 +200,16 @@ Test browse
     <kml xmlns="http://earth.google.com/kml/2.1">
     <BLANKLINE>
     <BLANKLINE>
-      <Folder>
+      <Document>
+        <Style id="defaultStyle">
+          <LineStyle>
+            <color>ffff0000</color>
+            <width>2</width>
+          </LineStyle>
+          <PolyStyle>
+            <color>33ff0000</color>
+          </PolyStyle>
+        </Style>
         <name>Neverpolis</name>
         <visibility>0</visibility>
         <open>0</open>
@@ -189,13 +227,16 @@ Test browse
             ]]>
           </description>
     <BLANKLINE>
+          <styleUrl>#defaultStyle</styleUrl>
     <BLANKLINE>
           <Point>
-            <coordinates>0.0,0.0,0.0</coordinates>
+            <coordinates>0.000000,0.000000,0.000000</coordinates>
           </Point>
     <BLANKLINE>
+    <BLANKLINE>
+    <BLANKLINE>
         </Placemark>
-      </Folder>
+      </Document>
     </kml>
     <BLANKLINE>
     <BLANKLINE>
