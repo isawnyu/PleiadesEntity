@@ -1,36 +1,36 @@
 <?xml version="1.0"?>
 <import-steps>
 
-  <import-step id="content" version="20070515-01"
-    handler="Products.CMFCore.exportimport.content.importSiteStructure"
-    title="Content"
-    >
-    <dependency step="toolset"/>
-    <dependency step="catalog"/>
-    <dependency step="typeinfo"/>
-    <dependency step="workflow"/>
-    <dependency step="rolemap"/>
-    Import the site's structure and content.
-  </import-step>
+ 
+ <import-step 
+    id="PleiadesEntity-Install-Vocabularies" 
+    handler="Products.PleiadesEntity.setuphandlers.installVocabularies"
+    title="Install Vocabularies for PleiadesEntity"
+    version="2008-03-26T14:25:35.985572">
+   <dependency step="PleiadesEntity-QI-dependencies"/>
+   Installs the vocabulary files into vocabulary library for PleiadesEntity
+ </import-step>
 
-  <import-step
-    id="skins" version="20040630-01"
-    handler="Products.CMFCore.exportimport.skins.importSkinsTool"
-    title="Skins"
-    >
-    <dependency step="toolset"/>
-    Import skins tool's filesystem directory views and skin path definitions.
-  </import-step>
+ <import-step 
+    id="PleiadesEntity-Update-RoleMappings" 
+    handler="Products.PleiadesEntity.setuphandlers.updateRoleMappings"
+    title="Update Workflow role mappings for PleiadesEntity"
+    version="2008-03-26T14:25:35.985572">
+   <dependency step="PleiadesEntity-QI-dependencies"/>
+   updates the workflow role mappings for PleiadesEntity
+ </import-step>
 
-  <import-step
-    id="typeinfo"
-    version="20070319-01"
-    handler="Products.CMFCore.exportimport.typeinfo.importTypesTool"
-    title="Types Tool"
-    >
-    <dependency step="toolset"/>
-    Import types tool's type information objects.
-  </import-step>
+ <import-step 
+    id="PleiadesEntity-postInstall" 
+    handler="Products.PleiadesEntity.setuphandlers.postInstall"
+    title="manual coded post-install for PleiadesEntity"
+    version="2008-03-26T14:25:35.985572">
+   <dependency step="PleiadesEntity-QI-dependencies"/>
+   manual coded post-install for PleiadesEntity
+ </import-step>
+
+<!-- ##code-section ADDITIONALSTEPS -->
+<!-- ##/code-section ADDITIONALSTEPS --> 
 
 </import-steps>
-
+ 

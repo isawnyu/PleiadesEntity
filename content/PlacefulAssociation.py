@@ -2,27 +2,12 @@
 #
 # File: PlacefulAssociation.py
 #
-# Copyright (c) 2007 by Ancient World Mapping Center, University of North
+# Copyright (c) 2008 by Ancient World Mapping Center, University of North
 # Carolina at Chapel Hill, U.S.A.
-# Generator: ArchGenXML Version 1.5.0
+# Generator: ArchGenXML Version 2.0
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
-#
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
-# 02110-1301, USA.
 #
 
 __author__ = """Sean Gillies <unknown>, Tom Elliott <unknown>"""
@@ -30,6 +15,13 @@ __docformat__ = 'plaintext'
 
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
+from zope.interface import implements
+import interfaces
+
+from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
+
+from Products.ATReferenceBrowserWidget.ATReferenceBrowserWidget import \
+    ReferenceBrowserWidget
 from Products.ATVocabularyManager.namedvocabulary import NamedVocabulary
 from Products.PleiadesEntity.config import *
 
@@ -40,17 +32,15 @@ schema = Schema((
 
     StringField(
         name='placeType',
-        index="KeywordIndex",
-        vocabulary=NamedVocabulary("""place-types"""),
-        default="unknown",
-        enforceVocabulary=1,
         widget=SelectionWidget(
             label="Place Type",
             label_msgid='PleiadesEntity_label_placeType',
             i18n_domain='PleiadesEntity',
-        )
+        ),
+        vocabulary=NamedVocabulary("""place-types"""),
+        default="unknown",
+        enforceVocabulary=1,
     ),
-
     StringField(
         name='associationCertainty',
         widget=SelectionWidget(
@@ -61,33 +51,30 @@ schema = Schema((
             i18n_domain='PleiadesEntity',
         ),
         vocabulary=NamedVocabulary("""association-certainty"""),
-        enforceVocabulary=1
+        enforceVocabulary=1,
     ),
-
     ReferenceField(
         name='locations',
-        widget=ReferenceWidget(
+        widget=ReferenceBrowserWidget(
             label='Locations',
             label_msgid='PleiadesEntity_label_locations',
             i18n_domain='PleiadesEntity',
         ),
         allowed_types=('Location',),
         multiValued=1,
-        relationship='hasLocation'
+        relationship='hasLocation',
     ),
-
     ReferenceField(
         name='names',
-        widget=ReferenceWidget(
+        widget=ReferenceBrowserWidget(
             label='Names',
             label_msgid='PleiadesEntity_label_names',
             i18n_domain='PleiadesEntity',
         ),
         allowed_types=('Name',),
         multiValued=1,
-        relationship='hasName'
+        relationship='hasName',
     ),
-
 ),
 )
 
@@ -100,27 +87,13 @@ PlacefulAssociation_schema = BaseFolderSchema.copy() + \
 ##code-section after-schema #fill in your manual code here
 ##/code-section after-schema
 
-class PlacefulAssociation(BaseFolder):
+class PlacefulAssociation(BaseFolder, BrowserDefaultMixin):
     """Associates Names and Locations
     """
     security = ClassSecurityInfo()
-    __implements__ = (getattr(BaseFolder,'__implements__',()),)
-
-    # This name appears in the 'add' box
-    archetype_name = 'PlacefulAssociation'
+    implements(interfaces.IPlacefulAssociation)
 
     meta_type = 'PlacefulAssociation'
-    portal_type = 'PlacefulAssociation'
-    allowed_content_types = ['SecondaryReference']
-    filter_content_types = 1
-    global_allow = 0
-    content_icon = 'place_icon.gif'
-    immediate_view = 'base_view'
-    default_view = 'base_view'
-    suppl_views = ()
-    typeDescription = "PlacefulAssociation"
-    typeDescMsgId = 'description_edit_placefulassociation'
-
     _at_rename_after_creation = False
 
     schema = PlacefulAssociation_schema

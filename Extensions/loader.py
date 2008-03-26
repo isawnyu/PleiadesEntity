@@ -40,7 +40,7 @@ from Products.CMFCore.utils import getToolByName
 
 from Products.PleiadesEntity.Extensions.xmlutil import *
 from Products.PleiadesEntity.Extensions.ws_validation import validate_name
-
+from Products.PleiadesEntity.AppConfig import *
 from Products.PleiadesEntity.config import *
 
 batlas_pattern = re.compile(r'batlas-(\w+)-(\w+)-(\w+)')

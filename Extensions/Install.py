@@ -140,8 +140,8 @@ def install(self):
         ] + factory_tool.getFactoryTypes().keys()
     factory_tool.manage_setPortalFactoryTypes(listOfTypeIds=factory_types)
 
-    from Products.PleiadesEntity.config import STYLESHEETS
     try:
+        from Products.PleiadesEntity.config import STYLESHEETS
         portal_css = getToolByName(portal, 'portal_css')
         for stylesheet in STYLESHEETS:
             try:
@@ -156,8 +156,9 @@ def install(self):
     except:
         # No portal_css registry
         pass
-    from Products.PleiadesEntity.config import JAVASCRIPTS
+    
     try:
+        from Products.PleiadesEntity.config import JAVASCRIPTS
         portal_javascripts = getToolByName(portal, 'portal_javascripts')
         for javascript in JAVASCRIPTS:
             try:

@@ -2,9 +2,9 @@
 #
 # File: content.py
 #
-# Copyright (c) 2007 by Ancient World Mapping Center, University of North
+# Copyright (c) 2008 by Ancient World Mapping Center, University of North
 # Carolina at Chapel Hill, U.S.A.
-# Generator: ArchGenXML Version 1.5.0
+# Generator: ArchGenXML Version 2.0
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)

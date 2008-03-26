@@ -2,9 +2,9 @@
 #
 # File: PleiadesEntity.py
 #
-# Copyright (c) 2007 by Ancient World Mapping Center, University of North
+# Copyright (c) 2008 by Ancient World Mapping Center, University of North
 # Carolina at Chapel Hill, U.S.A.
-# Generator: ArchGenXML Version 1.5.0
+# Generator: ArchGenXML Version 2.0
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
@@ -36,40 +36,33 @@ __docformat__ = 'plaintext'
 #       each generated class and in this file.
 #   - To perform custom initialisation after types have been registered,
 #       use the protected code section at the bottom of initialize().
-#   - To register a customisation policy, create a file CustomizationPolicy.py
-#       with a method register(context) to register the policy.
 
-from zLOG import LOG, INFO, DEBUG
+import logging
+logger = logging.getLogger('PleiadesEntity')
+logger.debug('Installing Product')
 
-LOG('PleiadesEntity', DEBUG, 'Installing Product')
-
-try:
-    import CustomizationPolicy
-except ImportError:
-    CustomizationPolicy = None
-
+import os
+import os.path
 from Globals import package_home
-from Products.CMFCore import utils as cmfutils
-from Products.CMFCore import CMFCorePermissions
-from Products.CMFCore import DirectoryView
-from Products.CMFPlone.utils import ToolInit
-from Products.Archetypes.atapi import *
+import Products.CMFPlone.interfaces
 from Products.Archetypes import listTypes
+from Products.Archetypes.atapi import *
 from Products.Archetypes.utils import capitalize
-
-import os, os.path
-
-from Products.PleiadesEntity.config import *
+from Products.CMFCore import DirectoryView
+from Products.CMFCore import permissions as cmfpermissions
+from Products.CMFCore import utils as cmfutils
+from Products.CMFPlone.utils import ToolInit
+from config import *
 
 DirectoryView.registerDirectory('skins', product_globals)
-DirectoryView.registerDirectory('skins/PleiadesEntity',
-                                    product_globals)
+
 
 ##code-section custom-init-head #fill in your manual code here
 ##/code-section custom-init-head
 
 
 def initialize(context):
+    """initialize product (called by zope)"""
     ##code-section custom-init-top #fill in your manual code here
     ##/code-section custom-init-top
 
@@ -89,11 +82,6 @@ def initialize(context):
         extra_constructors = constructors,
         fti                = ftis,
         ).initialize(context)
-
-    # Apply customization-policy, if theres any
-    if CustomizationPolicy and hasattr(CustomizationPolicy, 'register'):
-        CustomizationPolicy.register(context)
-        print 'Customization policy for PleiadesEntity installed'
 
     ##code-section custom-init-bottom #fill in your manual code here
     profile_registry.registerProfile('default',
