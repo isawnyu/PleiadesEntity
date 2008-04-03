@@ -5,6 +5,17 @@
   <include file="profiles.zcml" />
 
   <!-- ##code-section configure.zcml -->
+  <adapter
+    for="Products.PleiadesEntity.content.PlacefulAssociation.PlacefulAssociation"
+    provides="zgeo.geographer.interfaces.IGeoreferenced"
+    factory=".geo.PlacefulAssociationGeoItem"
+    />
+  
+  <adapter
+    for="Products.PleiadesEntity.content.Place.Place"
+    provides="zgeo.geographer.interfaces.IGeoreferenced"
+    factory=".geo.PlaceGeoItem"
+    />
   <!-- ##/code-section configure.zcml -->
 
 </configure>

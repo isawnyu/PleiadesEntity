@@ -56,38 +56,27 @@ Setup
 Test the geo adapters
 ---------------------
 
-    >>> from Products.PleiadesGeocoder.interfaces import IGeoItemSimple, IGeoCollectionSimple
+    >>> from zgeo.geographer.interfaces import IGeoreferenced
 
     Place Association
 
-    >>> g = IGeoItemSimple(a)
-    >>> g.isGeoreferenced()
-    True
+    >>> g = IGeoreferenced(a)
     >>> gi = g.__geo_interface__
     >>> gi['type']
     'Feature'
-    >>> gi['geometry']['type']
+    >>> g.type
     'Point'
-    >>> gi['geometry']['coordinates']
+    >>> g.coordinates
     (-86.480833333333294, 34.769722222222001, 0.0)
 
     Place
 
-    >>> g = IGeoItemSimple(p)
-    >>> g.isGeoreferenced()
-    True
+    >>> g = IGeoreferenced(p)
     >>> gi = g.__geo_interface__
     >>> gi['type']
     'Feature'
-    >>> gi['geometry']['type']
+    >>> g.type
     'Point'
-    >>> gi['geometry']['coordinates']
+    >>> g.coordinates
     (-86.480833333333294, 34.769722222222001, 0.0)
-    >>> gi['properties']['title']
-    'Civitas Non'
-
-    >>> c = IGeoCollectionSimple(places)
-    >>> x = list(c.geoItems())
-    >>> len(x)
-    1
 

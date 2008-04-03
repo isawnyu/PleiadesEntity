@@ -28,52 +28,24 @@
 # ===========================================================================
 
 from zope.interface import implements
+from zgeo.geographer.interfaces import IGeoreferenced
 
-from Products.PleiadesGeocoder.interfaces import IGeoItemSimple \
-    , IGeoCollectionSimple
-from Products.PleiadesEntity.interfaces import IPlaceContainer \
-    , IPlacefulContainer
-
+import logging
+log = logging.getLogger('PleiadesEntity.geo')
 
 class PlacefulAssociationGeoItem(object):
-    
-    """Python expression of a GeoRSS simple item.
-    """
-    implements(IGeoItemSimple)
+    implements(IGeoreferenced)
    
     def __init__(self, context):
         """Initialize adapter."""
         self.context = context
 
     @property
-    def geom_type(self):
+    def type(self):
         return 'Point'
 
-    def getSpatialCoordinates(self):
-        x = self.context.getRefs('hasLocation')
-        if len(x) == 0:
-            return ()
-        x0 = x[0]
-        values = [float(v) for v in \
-            x0.getSpatialCoordinates().split()]
-        nvalues = len(values)
-        # Our Pleiades Locations are 2D
-        npoints = nvalues/2
-        coords = []
-        for i in range(npoints):
-            coords.append(tuple(values[3*i:3*i+3] + [0.0]))
-        return tuple(coords)
-
     @property
-    def spatialCoordinates(self):
-        """GeoRSS Simple coordinate string (2D)."""
-        x = self.context.getRefs('hasLocation')
-        if len(x) == 0:
-            return ''
-        return x[0].getSpatialCoordinates()
-        
-    @property
-    def coords(self):
+    def coordinates(self):
         x = self.context.getRefs('hasLocation')
         if len(x) == 0:
             return ()
@@ -89,9 +61,9 @@ class PlacefulAssociationGeoItem(object):
             coords.append((values[3*i+1], values[3*i], 0.0))
         return coords[0]
 
-    def isGeoreferenced(self):
-        """Return True if the object is "on the map"."""
-        return bool(len(self.context.getRefs('hasLocation')))
+    @property
+    def crs(self):
+        return None
 
     @property
     def __geo_interface__(self):
@@ -99,12 +71,7 @@ class PlacefulAssociationGeoItem(object):
         return {
             'type': 'Feature',
             'id': context.getId(),
-            'properties': {
-                'title': context.title_or_id(),
-                'description': context.Description(),
-                'link': context.absolute_url(),
-                },
-            'geometry': {'type': self.geom_type, 'coordinates': self.coords}
+            'geometry': {'type': self.type, 'coordinates': self.coordinates}
             }
 
 
@@ -112,50 +79,36 @@ class PlaceGeoItem(object):
     
     """Python expression of a GeoRSS simple item.
     """
-    implements(IGeoItemSimple)
+    implements(IGeoreferenced)
    
     def __init__(self, context):
         """Initialize adapter."""
         self.context = context
         self._primary_association = None
-        for ob in context.listFolderContents():
+        for ob in self.context.values():
             try:
-                self._primary_association = IGeoItemSimple(ob)
+                self._primary_association = IGeoreferenced(ob)
             except:
                 continue
             break
         if not self._primary_association:
             raise Exception, "Could not adapt %s" % str(context)
 
-    def isGeoreferenced(self):
-        """Return True if the object is "on the map"."""
-        return self._primary_association.isGeoreferenced()
+    @property
+    def type(self):
+        return IGeoreferenced(self._primary_association).type
 
     @property
-    def geom_type(self):
-        return self._primary_association.geom_type
+    def coordinates(self):
+        return IGeoreferenced(self._primary_association).coordinates
 
     @property
-    def coords(self):
-        return self._primary_association.coords
+    def crs(self):
+        return None
 
     @property
     def __geo_interface__(self):
-        context = self.context
-        return {
-            'type': 'Feature',
-            'id': context.getId(),
-            'properties': {
-                'title': context.title_or_id(),
-                'description': context.Description(),
-                'link': context.absolute_url(),
-                },
-            'geometry': {
-                'type': self._primary_association.geom_type, 
-                'coordinates': self._primary_association.coords
-                }
-            }
-
+        return IGeoreferenced(self._primary_association).__geo_interface__
 
 def createGeoItem(context):
     """Factory for adapters."""
@@ -165,31 +118,4 @@ def createGeoItem(context):
         return PlacefulAssociationGeoItem(context)
 
 
-class GeoCollectionSimple(object):
-    
-    """Adapter for Folderish collections of GeoItemSimple.
-    """
-    implements(IGeoCollectionSimple)
-    
-    def __init__(self, context):
-        """Initialize."""
-        self.context = context
-        
-    def geoItems(self):
-        if IPlaceContainer.providedBy(self.context):
-        #hasattr(self.context, 'listFolderContents'):
-            for ob in self.context.listFolderContents():
-                try:
-                    item = IGeoItemSimple(ob)
-                    assert(item.isGeoreferenced())
-                except:
-                    continue
-                yield item
-        else:
-            try:
-                item = IGeoItemSimple(self.context)
-                assert(item.isGeoreferenced())
-                yield item
-            except:
-                pass
 
