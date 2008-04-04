@@ -2,34 +2,37 @@ import os, sys
 
 import glob
 import unittest
-from zope.testing import doctest
-from zope.component import testing
-from Testing import ZopeTestCase as ztc
+import doctest
 from Testing import ZopeTestCase as ztc
 from Products.PloneTestCase import PloneTestCase as ptc
 from Products.PloneTestCase.layer import onsetup, PloneSite
-
 import _testing
-from _testing import *
 
-ptc.setupPloneSite(products=['Archetypes', 'ATVocabularyManager', 'Geographer', 'PleiadesEntity'])
 ptc.installProduct('Geographer')
 ptc.installProduct('ATVocabularyManager')
 ptc.installProduct('PleiadesEntity')
-#ptc.setupPloneSite(products=['Archetypes', 'ATVocabularyManager', 'Geographer', 'PleiadesEntity'])
+ptc.setupPloneSite(products=['Archetypes', 'ATVocabularyManager', 'Geographer', 'PleiadesEntity'])
 
 #REQUIRE_TESTBROWSER = ['PublishGeoEntity.txt']
 
-optionflags = doctest.ELLIPSIS | doctest.NORMALIZE_WHITESPACE
+optionflags = doctest.ELLIPSIS | doctest.NORMALIZE_WHITESPACE | doctest.REPORT_ONLY_FIRST_FAILURE
 
 class PleiadesEntityTestCase(ptc.PloneTestCase):
-    pass
-    
+
+    def afterSetUp(self):
+        self.test_params = _testing
+
 
 def test_suite():
     return unittest.TestSuite([
         ztc.ZopeDocFileSuite(
             'Entities.txt',
+            package='Products.PleiadesEntity.tests',
+            test_class=PleiadesEntityTestCase,
+            optionflags=optionflags,
+            ),
+        ztc.ZopeDocFileSuite(
+            'LoadEntity.txt',
             package='Products.PleiadesEntity.tests',
             test_class=PleiadesEntityTestCase,
             optionflags=optionflags,

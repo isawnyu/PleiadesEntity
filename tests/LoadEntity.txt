@@ -39,6 +39,9 @@ Setup
 Load one entity
 ---------------
 
+    >>> TEST_DATA = self.test_params.TEST_DATA
+    >>> BA_ID_MAX = self.test_params.BA_ID_MAX
+    >>> from Products.PleiadesEntity.Extensions.loader import load_place
     >>> r = load_place(folder, "%s/batlas-65-2-24-frank.xml" % TEST_DATA)
     >>> pid = r['place_id']
     >>> int(pid) <= BA_ID_MAX
@@ -111,17 +114,19 @@ Load one entity
     >>> tps = n0.getFolderContents({'meta_type':['TemporalAttestation']})
     >>> len(tps)
     2
-    >>> tps[0].Title
+    >>> tps0 = tps[0].getObject()
+    >>> tps0.Title()
     'Attested: Roman (30 BC - AD 300)'
-    >>> tps[0].getId
+    >>> tps0.getId()
     'roman'
-    >>> tps[0].getAttestationConfidence
+    >>> tps0.getAttestationConfidence()
     'confident'
-    >>> tps[1].Title
+    >>> tps1 = tps[1].getObject()
+    >>> tps1.Title()
     'Attested: Late Antique (AD 300 - 625)'
-    >>> tps[1].getId
+    >>> tps1.getId()
     'late-antique'
-    >>> tps[1].getAttestationConfidence
+    >>> tps1.getAttestationConfidence()
     'confident'
     
     >>> srs = n0.getFolderContents({'meta_type':['SecondaryReference']})
@@ -151,11 +156,12 @@ Load one entity
     >>> tps = n1.getFolderContents({'meta_type':['TemporalAttestation']})
     >>> len(tps)
     1
-    >>> tps[0].Title
+    >>> tps0 = tps[0].getObject()
+    >>> tps0.Title()
     'Attested: Classical (550 - 330 BC)'
-    >>> tps[0].getId
+    >>> tps0.getId()
     'classical'
-    >>> tps[0].getAttestationConfidence
+    >>> tps0.getAttestationConfidence()
     'confident'
     >>> srs = n1.getFolderContents({'meta_type':['SecondaryReference']})
     >>> len(srs)
@@ -191,23 +197,26 @@ Load one entity
     >>> tps = l.getFolderContents({'meta_type':['TemporalAttestation']})
     >>> len(tps)
     3
-    >>> tps[0].Title
+    >>> tps0 = tps[0].getObject()
+    >>> tps0.Title()
     'Attested: Classical (550 - 330 BC)'
-    >>> tps[0].getId
+    >>> tps0.getId()
     'classical'
-    >>> tps[0].getAttestationConfidence
+    >>> tps0.getAttestationConfidence()
     'confident'
-    >>> tps[1].Title
+    >>> tps1 = tps[1].getObject()
+    >>> tps1.Title()
     'Attested: Roman (30 BC - AD 300)'
-    >>> tps[1].getId
+    >>> tps1.getId()
     'roman'
-    >>> tps[1].getAttestationConfidence
+    >>> tps1.getAttestationConfidence()
     'confident'
-    >>> tps[2].Title
+    >>> tps2 = tps[2].getObject()
+    >>> tps2.Title()
     'Attested: Late Antique (AD 300 - 625)'
-    >>> tps[2].getId
+    >>> tps2.getId()
     'late-antique'
-    >>> tps[2].getAttestationConfidence
+    >>> tps2.getAttestationConfidence()
     'confident'
     >>> l.getTimePeriods()
     ['classical', 'roman', 'late-antique']
@@ -250,30 +259,6 @@ Load one entity
     >>> srefs[3].Title
     'RE Ninoe'
     
-Test the geo adapters
----------------------
-
-    >>> from Products.PleiadesGeocoder.interfaces import IGeoItemSimple, IGeoCollectionSimple
-
-    >>> g = IGeoItemSimple(p)
-    >>> g.isGeoreferenced()
-    True
-    >>> g.geom_type
-    'Point'
-    >>> g.coords
-    (28.728899999999999, 37.714500000000001, 0.0)
-    >>> gi = g.__geo_interface__
-    >>> gi['type']
-    'Feature'
-    >>> gi['properties']['title']
-    'Aphrodisias/Ninoe'
-    >>> gi['properties']['description']
-    'An ancient settlement, attested during the Classical, Roman and Late Antique periods (modern location: Geyre). It was known in antiquity by the names: Aphrodisias and Ninoe.'
-
-    >>> c = IGeoCollectionSimple(folder.places)
-    >>> len(list(c.geoItems()))
-    1
-
 Load one nameless entity
 ------------------------
 
@@ -299,9 +284,6 @@ Load one nameless entity
     >>> a.getAssociationCertainty()
     'certain'
 
-    >>> g = IGeoItemSimple(p)
-    >>> g.isGeoreferenced()
-    True
 
 Reload that entity
 ------------------
@@ -338,8 +320,4 @@ Load one unlocated entity
     'undefined'
     >>> a.getAssociationCertainty()
     'certain'
-
-    >>> g = IGeoItemSimple(p)
-    >>> g.isGeoreferenced()
-    False
 
