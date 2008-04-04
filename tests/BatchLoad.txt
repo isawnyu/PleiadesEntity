@@ -36,9 +36,7 @@ Setup
 Load entities
 -------------
 
-  >>> loaden(folder, "/tmp/ba038/")
-  'Loaded 258 of 258 files.'
-
+  >>> from Products.PleiadesEntity.Extensions.loader import loaden
   >>> loaden(folder, "/tmp/ba065/")
   'Loaded 317 of 317 files.'
 

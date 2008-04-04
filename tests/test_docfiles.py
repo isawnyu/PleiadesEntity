@@ -37,6 +37,12 @@ def test_suite():
             test_class=PleiadesEntityTestCase,
             optionflags=optionflags,
             ),
+        ztc.ZopeDocFileSuite(
+            'BatchLoad.txt',
+            package='Products.PleiadesEntity.tests',
+            test_class=PleiadesEntityTestCase,
+            optionflags=optionflags,
+            ),
         #ztc.FunctionalDocFileSuite(
         #    'browser.txt',
         #    package='Products.Geographer.tests',
