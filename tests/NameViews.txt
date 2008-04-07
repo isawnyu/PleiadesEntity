@@ -33,8 +33,40 @@ Log all exceptions, which is useful for debugging. Also, clear portlet slots,
 to make the test browser less confused by things like the recent portlet and
 the navtree.
 
+Test login
+
+    >>> portal_url = self.portal.absolute_url()
+
+The following is useful when writing and debugging testbrowser tests. It lets
+us see all error messages in the error_log.
+
     >>> self.portal.error_log._ignored_exceptions = ()
     >>> self.portal.left_slots = self.portal.right_slots = []
+
+With that in place, we can go to the portal front page and log in. We will
+do this using the default user from PloneTestCase:
+
+    >>> from Products.PloneTestCase.setup import portal_owner, default_password
+    >>> browser.open(portal_url)
+
+We have the login portlet, so let's use that.
+
+    >>> browser.getControl(name='__ac_name').value = portal_owner
+    >>> browser.getControl(name='__ac_password').value = default_password
+    >>> browser.getControl(name='submit').click()
+
+Here, we set the value of the fields on the login form and then simulate a
+submit click.
+
+We then test that we are still on the portal front page:
+
+    >>> browser.url == portal_url
+    True
+    
+And we ensure that we get the friendly logged-in message:
+
+    >>> "You are now logged in" in browser.contents
+    True
 
 Browse the Name
 
@@ -79,10 +111,6 @@ Check the html content of the view page (description will not appear here)
     
 Edit the name, modify the attestation using legal characters and language to verify validation
 
-    >>> browser.getLink('Log in').click()
-    >>> browser.getControl('Login Name').value = 'test_user_1_'
-    >>> browser.getControl('Password').value = 'secret'
-    >>> browser.getControl('Log in').click()
     >>> url = url + '/base_edit'
     >>> browser.open(url)
     >>> control = browser.getControl(name='nameAttested')
@@ -104,3 +132,4 @@ Edit the name again, modify the attestation using illegal characters and languag
     >>> browser.getControl(name='form_submit').click()
     >>> browser.contents
     '...23 invalid character(s) in name Municipium Noxium Maximum...'
+
