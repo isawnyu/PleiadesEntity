@@ -1,40 +1,16 @@
 Boundary conditions for TemporalAttestations
 =========================
 
-Check catalogs
---------------
-
-    >>> uc = self.portal.uid_catalog
-    >>> rc = self.portal.reference_catalog
-
 Setup
 -----
 
-    Enable types
-
-    >>> lpf = self.portal.portal_types['Large Plone Folder']
-    >>> lpf_allow = lpf.global_allow
-    >>> lpf.global_allow = True
-
-    >>> n = self.portal.portal_types['Name']
-    >>> n_allow = n.global_allow
-    >>> n.global_allow = True
-
-    Alias the test folder
-
     >>> folder = self.folder
-
-    Containers
-
-    >>> _ = folder.invokeFactory('Large Plone Folder', id='names')
-    >>> _ = folder.invokeFactory('LocationContainer', id='locations')
-    >>> _ = folder.invokeFactory('PlaceContainer', id='places')
-    >>> folder.places._v_nextid = BA_ID_MAX
 
 
 Utility tests
 -------------
 
+    >>> from Products.PleiadesEntity.Extensions.loader import format_listofstrings
     >>> format_listofstrings([])
     u''
     >>> format_listofstrings(['x'])
@@ -44,6 +20,7 @@ Utility tests
     >>> format_listofstrings(['x', 'y', 'z'])
     u'x, y and z'
     
+    >>> from Products.PleiadesEntity.Extensions.xmlutil import purifyText
     >>> purifyText(u'aaa') == u'aaa'
     True
     >>> purifyText(u'abab') == u'abab'
@@ -54,9 +31,9 @@ Utility tests
 Load one entity
 ---------------
 
+    >>> TEST_DATA = self.test_params.TEST_DATA
+    >>> from Products.PleiadesEntity.Extensions.loader import load_place
     >>> r = load_place(folder, "%s/timetwister.xml" % TEST_DATA)
-    >>> int(r['place_id']) >= BA_ID_MAX
-    True
     >>> r['name_ids']
     ['time-twister', 'tome-twirling']
 
@@ -66,36 +43,40 @@ Load one entity
     >>> tps = n0.getFolderContents({'meta_type':['TemporalAttestation']})
     >>> len(tps)
     2
-    >>> tps[0].Title
+    >>> tps0 = tps[0].getObject()
+    >>> tps0.Title()
     'Attested: Classical (550 - 330 BC)'
-    >>> tps[0].getId
+    >>> tps0.getId()
     'classical'
-    >>> tps[0].getAttestationConfidence
+    >>> tps0.getAttestationConfidence()
     'confident'
     
-    >>> tps[1].Title
+    >>> tps1 = tps[1].getObject()
+    >>> tps1.Title()
     'Attested: Hellenistic/Republican (330 - 30 BC)?'
-    >>> tps[1].getId
+    >>> tps1.getId()
     'hellenistic-republican'
-    >>> tps[1].getAttestationConfidence
+    >>> tps1.getAttestationConfidence()
     'less-confident'
     
     >>> n1 = getattr(folder.names, 'tome-twirling')
     >>> tps = n1.getFolderContents({'meta_type':['TemporalAttestation']})
     >>> len(tps)
     2
-    >>> tps[0].Title
+    >>> tps0 = tps[0].getObject()
+    >>> tps0.Title()
     'Attested: Roman (30 BC - AD 300) - inferred'
-    >>> tps[0].getId
+    >>> tps0.getId()
     'roman'
-    >>> tps[0].getAttestationConfidence
+    >>> tps0.getAttestationConfidence()
     'confident-inferred'
-    
-    >>> tps[1].Title
+   
+    >>> tps1 = tps[1].getObject()
+    >>> tps1.Title()
     'Attested: Late Antique (AD 300 - 625)? - inferred'
-    >>> tps[1].getId
+    >>> tps1.getId()
     'late-antique'
-    >>> tps[1].getAttestationConfidence
+    >>> tps1.getAttestationConfidence()
     'less-confident-inferred'
 
     Test locations
@@ -105,38 +86,43 @@ Load one entity
     >>> tps = l.getFolderContents({'meta_type':['TemporalAttestation']})
     >>> len(tps)
     5
-    >>> tps[0].Title
+    >>> tps0 = tps[0].getObject()
+    >>> tps0.Title()
     'Attested: Archaic (pre-550 BC)'
-    >>> tps[0].getId
+    >>> tps0.getId()
     'archaic'
-    >>> tps[0].getAttestationConfidence
+    >>> tps0.getAttestationConfidence()
     'confident'
-    
-    >>> tps[1].Title
+   
+    >>> tps1 = tps[1].getObject()
+    >>> tps1.Title()
     'Attested: Classical (550 - 330 BC)'
-    >>> tps[1].getId
+    >>> tps1.getId()
     'classical'
-    >>> tps[1].getAttestationConfidence
+    >>> tps1.getAttestationConfidence()
     'confident'
-    
-    >>> tps[2].Title
+   
+    >>> tps2 = tps[2].getObject()
+    >>> tps2.Title()
     'Attested: Hellenistic/Republican (330 - 30 BC)?'
-    >>> tps[2].getId
+    >>> tps2.getId()
     'hellenistic-republican'
-    >>> tps[2].getAttestationConfidence
+    >>> tps2.getAttestationConfidence()
     'less-confident'
-    
-    >>> tps[3].Title
+   
+    >>> tps3 = tps[3].getObject()
+    >>> tps3.Title()
     'Attested: Roman (30 BC - AD 300)'
-    >>> tps[3].getId
+    >>> tps3.getId()
     'roman'
-    >>> tps[3].getAttestationConfidence
+    >>> tps3.getAttestationConfidence()
     'confident'
-    
-    >>> tps[4].Title
+   
+    >>> tps4 = tps[4].getObject()
+    >>> tps4.Title()
     'Attested: Late Antique (AD 300 - 625)?'
-    >>> tps[4].getId
+    >>> tps4.getId()
     'late-antique'
-    >>> tps[4].getAttestationConfidence
+    >>> tps4.getAttestationConfidence()
     'less-confident'
     

@@ -13,7 +13,7 @@ Test place types vocabulary
     >>> v.Title()
     'Types of Places Distinguished in AWMC Publications'
     >>> len([obj for obj in v.contentValues() if obj.meta_type == "VdexTerm"])
-    51
+    52
 
 Test ancient name types vocabulary
 ----------------------------------
@@ -22,7 +22,7 @@ Test ancient name types vocabulary
     >>> v.Title()
     'Types of Historical Names Distinguished in AWMC Publications'
     >>> len([obj for obj in v.contentValues() if obj.meta_type == "VdexTerm"])
-    3
+    4
 
 Test ancient name languages vocabulary
 --------------------------------------

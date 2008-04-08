@@ -5,30 +5,9 @@ Tests of relationships among Name, Location, and Place
 Setup
 -----
 
-    Check catalogs
-
-    >>> uc = self.portal.uid_catalog
-    >>> rc = self.portal.reference_catalog
-
-    Enable types
-
-    >>> lpf = self.portal.portal_types['Large Plone Folder']
-    >>> lpf_allow = lpf.global_allow
-    >>> lpf.global_allow = True
-
-    >>> n = self.portal.portal_types['Name']
-    >>> n_allow = n.global_allow
-    >>> n.global_allow = True
-
     Alias the test folder
 
     >>> folder = self.folder
-
-    Containers
-
-    >>> _ = folder.invokeFactory('Large Plone Folder', id='names')
-    >>> _ = folder.invokeFactory('LocationContainer', id='locations')
-    >>> _ = folder.invokeFactory('PlaceContainer', id='places')
     >>> names = folder.names
     >>> locations = folder.locations
     >>> places = folder.places

@@ -156,7 +156,7 @@ def parse_periods(xmlcontext, portalcontext):
     appropriate temporalAttestation children of the object at 
     portalcontext."""
    
-    wftool = getToolByName(portalcontext, 'portal_workflow')
+    #wftool = getToolByName(portalcontext, 'portal_workflow')
 
     for tp in  xmlcontext.findall("{%s}timePeriod" % ADLGAZ):
         tpn = tp.xpath("*[local-name()='timePeriodName']")
@@ -189,7 +189,7 @@ def parse_periods(xmlcontext, portalcontext):
         except:
             raise EntityLoadError, "There is already a TemporalAttestation with id=%s in portal context = %s" % (id, portalcontext.Title())
 
-        wftool.doActionFor(getattr(portalcontext, id), "publish")
+        #wftool.doActionFor(getattr(portalcontext, id), "publish")
 
 def getalltext(elem):
     text = elem.text or ""
@@ -197,7 +197,7 @@ def getalltext(elem):
         text = text + " " + getalltext(e)
     return text.strip()
 
-def parse_secondary_references(xmlcontext, portalcontext, ptool, wftool):
+def parse_secondary_references(xmlcontext, portalcontext, ptool, wftool=None):
     srs =  xmlcontext.find("{%s}secondaryReferences" % AWMC)
     if srs:
         bibls = srs.xpath('tei:bibl', {'tei': TEI})
@@ -222,7 +222,7 @@ def parse_secondary_references(xmlcontext, portalcontext, ptool, wftool):
                     raise
                     #raise EntityLoadError, "There is already a SecondaryReference with id=%s in portal context" % id
                 
-                wftool.doActionFor(getattr(portalcontext, id), "publish")
+                #wftool.doActionFor(getattr(portalcontext, id), "publish")
 
 import sys
 
@@ -248,7 +248,7 @@ def find_next_valid_name_id(context, initial):
         # Shouldn't get here
         raise Exception, "Number of allowable name duplicates exceeded"
 
-def parse_names(xmlcontext, portalcontext, ptool, wftool):
+def parse_names(xmlcontext, portalcontext, ptool, wftool=None):
     root = xmlcontext
     names = portalcontext
     nids = []
@@ -353,7 +353,7 @@ def parse_names(xmlcontext, portalcontext, ptool, wftool):
                     )
             name = getattr(names.duplicates, nid)
 
-        wftool.doActionFor(name, "publish")
+        #wftool.doActionFor(name, "publish")
          
         nids.append(nid)
         association_certainties.append(certainty)
@@ -362,12 +362,12 @@ def parse_names(xmlcontext, portalcontext, ptool, wftool):
         parse_periods(e, name)
         
         # SecondaryReferences associated with the name
-        parse_secondary_references(e, name, ptool, wftool)
+        parse_secondary_references(e, name, ptool) #, wftool)
         #name.reindexObject()
         
     return (nids, association_certainties)
 
-def parse_locations(xmlcontext, portalcontext, ptool, wftool):
+def parse_locations(xmlcontext, portalcontext, ptool, wftool=None):
     root = xmlcontext
     lids = []
 
@@ -385,7 +385,7 @@ def parse_locations(xmlcontext, portalcontext, ptool, wftool):
                     rights=rights
                     )
         
-        wftool.doActionFor(getattr(portalcontext, lid), "publish")
+        #wftool.doActionFor(getattr(portalcontext, lid), "publish")
         lids.append(lid)
         
         # Time Periods associated with the location
@@ -400,7 +400,7 @@ def load_place(site, file):
     the data found in the xml file at sourcepath."""
 
     ptool = getToolByName(site, 'plone_utils')
-    wftool = getToolByName(site, 'portal_workflow')
+    #wftool = getToolByName(site, 'portal_workflow')
 
     places = site.places
     names = site.names
@@ -414,10 +414,10 @@ def load_place(site, file):
         creators, contributors, rights = parse_attrib_rights(root)
             
         # Names
-        nids, association_certainties = parse_names(root, names, ptool, wftool)
+        nids, association_certainties = parse_names(root, names, ptool) #, wftool)
 
         # Locations
-        lids = parse_locations(root, locations, ptool, wftool)
+        lids = parse_locations(root, locations, ptool) #, wftool)
     
         # Place
         e = root.findall("{%s}modernLocation" % AWMC)
@@ -468,7 +468,7 @@ def load_place(site, file):
                     description=description
                     )
         p = getattr(places, pid)
-        wftool.doActionFor(p, "publish")
+        #wftool.doActionFor(p, "publish")
         #p.reindexObject()
     
         # Iterate over locations
@@ -482,10 +482,10 @@ def load_place(site, file):
                     )
                 a = getattr(p, aid)
                 a.addReference(getattr(locations, lid), 'hasLocation')
-                wftool.doActionFor(a, "publish")
+                #wftool.doActionFor(a, "publish")
             
                 # Secondary references for the place
-                parse_secondary_references(root, a, ptool, wftool)
+                parse_secondary_references(root, a, ptool) #, wftool)
                 #a.reindexObject()
             
             else:
@@ -501,10 +501,10 @@ def load_place(site, file):
                     a = getattr(p, aid)
                     a.addReference(getattr(locations, lid), 'hasLocation')
                     a.addReference(getattr(names, nid), 'hasName')
-                    wftool.doActionFor(a, "publish")
+                    #wftool.doActionFor(a, "publish")
             
                     # Secondary references for the place
-                    parse_secondary_references(root, a, ptool, wftool)
+                    parse_secondary_references(root, a, ptool) #, wftool)
                     #a.reindexObject()
     
         # If there are no locations, iterate over the names
@@ -517,9 +517,9 @@ def load_place(site, file):
                         )
                 a = getattr(p, aid)
                 a.addReference(getattr(names, nid), 'hasName')
-                wftool.doActionFor(a, "publish")
+                #wftool.doActionFor(a, "publish")
                 # Secondary references for the place
-                parse_secondary_references(root, a, ptool, wftool)
+                parse_secondary_references(root, a, ptool) #, wftool)
                 #a.reindexObject()
 
     except:

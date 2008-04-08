@@ -5,19 +5,9 @@ Name Views
 Setup
 -----
 
-    >>> lpf = self.portal.portal_types['Large Plone Folder']
-    >>> lpf_allow = lpf.global_allow
-    >>> lpf.global_allow = True
-
-    >>> n = self.portal.portal_types['Name']
-    >>> n_allow = n.global_allow
-    >>> n.global_allow = True
-
     >>> folder = self.folder
-
-    >>> _ = folder.invokeFactory('Large Plone Folder', id='names')
-    >>> _ = folder.names.invokeFactory('Name', id='neverpolis')
-    >>> n = getattr(folder.names, 'neverpolis')
+    >>> name = folder.names.invokeFactory('Name', id='neverpolis')
+    >>> n = getattr(folder.names, name)
 
 
 Check base view with test browser
