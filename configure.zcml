@@ -16,6 +16,22 @@
     provides="zgeo.geographer.interfaces.IGeoreferenced"
     factory=".geo.PlaceGeoItem"
     />
+
+  <five:implements
+    class="Products.PleiadesEntity.content.PlaceContainer.PlaceContainer"
+    interface="zope.dublincore.interfaces.ICMFDublinCore"
+    />
+
+  <five:implements
+    class="Products.PleiadesEntity.content.LocationContainer.LocationContainer"
+    interface="zope.dublincore.interfaces.ICMFDublinCore"
+    />
+
+  <five:implements
+    class="Products.PleiadesEntity.content.Place.Place"
+    interface="zope.dublincore.interfaces.ICMFDublinCore"
+    />
+
   <!-- ##/code-section configure.zcml -->
 
 </configure>
