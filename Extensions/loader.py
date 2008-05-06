@@ -66,7 +66,7 @@ def baident_anon(xmlcontext):
 
     coords = xmlcontext.xpath(
         "adlgaz:spatialLocation/georss:point",
-        {'adlgaz': ADLGAZ, 'georss': GEORSS}
+        namespaces={'adlgaz': ADLGAZ, 'georss': GEORSS}
         )[0].text.split()
 
     p = "%.4f%.4f" % (float(coords[0]) + 180.0, float(coords[1]) + 90.0)
@@ -200,12 +200,12 @@ def getalltext(elem):
 def parse_secondary_references(xmlcontext, portalcontext, ptool, wftool=None):
     srs =  xmlcontext.find("{%s}secondaryReferences" % AWMC)
     if srs:
-        bibls = srs.xpath('tei:bibl', {'tei': TEI})
+        bibls = srs.xpath('tei:bibl', namespaces={'tei': TEI})
         if not bibls:
             raise EntityLoadError, "Encountered an empty secondaryReferences" 
         else:
             for bibl in bibls:
-                title_elem = bibl.xpath('tei:title', {'tei': TEI})
+                title_elem = bibl.xpath('tei:title', namespaces={'tei': TEI})
                 if not title_elem:
                     continue
                 url = title_elem[0].attrib.get('{http://www.w3.org/1999/xlink}href', '')
@@ -375,11 +375,10 @@ def parse_locations(xmlcontext, portalcontext, ptool, wftool=None):
     creators, contributors, rights = parse_attrib_rights(root)
 
     for e in root.findall("{%s}spatialLocation" % ADLGAZ):
-        coords = e.findall("{%s}point" % GEORSS)[0].text
+        coords = e.findall("{%s}point" % GEORSS)[0].text.split()
 
         lid = portalcontext.invokeFactory('Location',
-                    geometryType='Point',
-                    spatialCoordinates=str(coords),
+                    geometry='Point:[%s,%s]' % (coords[1], coords[0]),
                     creators=creators,
                     contributors=contributors,
                     rights=rights

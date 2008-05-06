@@ -105,7 +105,7 @@ def load_place(plonefolder, source):
         values = [v for v in coords.split()]
         if len(values) == 2:
             values.append('0.0')
-        en.setSpatialCoordinates(' '.join(values))
+        en.setGeometry('Point:[%s,%s]' % (values[1], values[0]) #SpatialCoordinates(' '.join(values))
     
     # add any names as children of the entity
     for i, name in enumerate(ge.names):

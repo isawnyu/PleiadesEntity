@@ -145,14 +145,8 @@ Load one entity
 
     >>> lid = r['location_ids'][0]
     >>> l = getattr(folder.locations, lid)
-    >>> l.geometryType
-    u'Point'
-    >>> l.getGeometryType()
-    'Point'
-    >>> l.spatialCoordinates
-    u'37.7145 28.7289'
-    >>> l.getSpatialCoordinates()
-    '37.7145 28.7289'
+    >>> l.getGeometry()
+    'Point:[28.7289,37.7145]'
     >>> l.title_or_id() == "Point %s" % lid
     True
     >>> l.Title() == "Point %s" % lid

@@ -28,10 +28,40 @@
 # ===========================================================================
 
 from zope.interface import implements
-from zgeo.geographer.interfaces import IGeoreferenced
+from zgeo.geographer.interfaces import IGeoreferenced, IWriteGeoreferenced
+import simplejson
 
 import logging
 log = logging.getLogger('PleiadesEntity.geo')
+
+
+class LocationGeoItem(object):
+    implements(IGeoreferenced)
+
+    def __init__(self, context):
+        self.context = context
+
+    @property
+    def __geo_interface__(self):
+        """Expect getGeometry() returns a string like
+        'Point:[-105.0, 40.0]'
+        """
+        d = self.context.getGeometry().split(':')
+        x = simplejson.loads('{"type": "%s", "coordinates": %s}' % (d[0], d[1]))
+        return dict(type=str(x['type']), coordinates=x['coordinates'])
+
+    @property
+    def type(self):
+        return self.__geo_interface__['type']
+
+    @property
+    def coordinates(self):
+        return self.__geo_interface__['coordinates']
+
+    @property
+    def crs(self):
+        return None
+
 
 class PlacefulAssociationGeoItem(object):
     implements(IGeoreferenced)
@@ -41,25 +71,35 @@ class PlacefulAssociationGeoItem(object):
         self.context = context
 
     @property
+    def primary_location(self):
+        x = self.context.getRefs('hasLocation')
+        if len(x) == 0:
+            return None
+        else:
+            return IGeoreferenced(x[0])
+
+    @property
     def type(self):
-        return 'Point'
+        return self.primary_location.type
 
     @property
     def coordinates(self):
-        x = self.context.getRefs('hasLocation')
-        if len(x) == 0:
-            return ()
-        x0 = x[0]
-        values = [float(v) for v in \
-            x0.getSpatialCoordinates().split()]
-        nvalues = len(values)
+        return self.primary_location.coordinates
+        #
+        #x = self.context.getRefs('hasLocation')
+        #if len(x) == 0:
+        #    return ()
+        #x0 = x[0]
+        #values = [float(v) for v in \
+        #    x0.getSpatialCoordinates().split()]
+        #nvalues = len(values)
         # Our Pleiades Locations are 2D
-        npoints = nvalues/2
-        coords = []
-        for i in range(npoints):
-            #coords.append(tuple(values[3*i:3*i+3] + [0.0]))
-            coords.append((values[3*i+1], values[3*i], 0.0))
-        return coords[0]
+        #npoints = nvalues/2
+        #coords = []
+        #for i in range(npoints):
+        #    #coords.append(tuple(values[3*i:3*i+3] + [0.0]))
+        #    coords.append((values[3*i+1], values[3*i], 0.0))
+        #return coords[0]
 
     @property
     def crs(self):
@@ -68,11 +108,11 @@ class PlacefulAssociationGeoItem(object):
     @property
     def __geo_interface__(self):
         context = self.context
-        return {
-            'type': 'Feature',
-            'id': context.getId(),
-            'geometry': {'type': self.type, 'coordinates': self.coordinates}
-            }
+        return dict(
+            type='Feature',
+            id=context.getId(),
+            geometry=self.primary_location.__geo_interface__
+            )
 
 
 class PlaceGeoItem(object):

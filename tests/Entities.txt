@@ -30,7 +30,7 @@ Setup
 
     Set location coordinates
 
-    >>> _ = x.setSpatialCoordinates('34.769722222222 -86.4808333333333 0.0')
+    >>> _ = x.setGeometry('Point:[-86.4808333333333, 34.769722222222]')
 
 Test the geo adapters
 ---------------------
@@ -46,7 +46,7 @@ Test the geo adapters
     >>> g.type
     'Point'
     >>> g.coordinates
-    (-86.480833333333294, 34.769722222222001, 0.0)
+    [-86.480833333333294, 34.769722222222001]
 
     Place
 
@@ -57,5 +57,4 @@ Test the geo adapters
     >>> g.type
     'Point'
     >>> g.coordinates
-    (-86.480833333333294, 34.769722222222001, 0.0)
-
+    [-86.480833333333294, 34.769722222222001]

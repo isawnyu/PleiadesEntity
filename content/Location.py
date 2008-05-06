@@ -28,23 +28,12 @@ from Products.PleiadesEntity.config import *
 schema = Schema((
 
     StringField(
-        name='geometryType',
-        default="Point",
-        widget=SelectionWidget(
-            label="Geometry Type",
-            label_msgid='PleiadesEntity_label_geometryType',
-            i18n_domain='PleiadesEntity',
-        ),
-        enforceVocabulary=1,
-        vocabulary=['Point'],
-    ),
-    StringField(
-        name='spatialCoordinates',
+        name='geometry',
         widget=StringField._properties['widget'](
-            label="Spatial Coordinates",
-            description="Use GeoRSS-Simple representation.",
-            label_msgid='PleiadesEntity_label_spatialCoordinates',
-            description_msgid='PleiadesEntity_help_spatialCoordinates',
+            label="Geometry",
+            description="""Geometry using GeoJSON shorthand representation such as "Point: (-105.0, 40.0)" for a point""",
+            label_msgid='PleiadesEntity_label_geometry',
+            description_msgid='PleiadesEntity_help_geometry',
             i18n_domain='PleiadesEntity',
         ),
     ),
@@ -81,7 +70,7 @@ class Location(BaseFolder, BrowserDefaultMixin):
     def get_title(self):
         """Return a title string derived from the geometry type."""
         try:
-            return "%s %s" % (self.getGeometryType(), self.getId())
+            return "%s %s" % (self.getGeometry().split(':')[0], self.getId())
         except AttributeError:
             return 'Unidentified Location'
 

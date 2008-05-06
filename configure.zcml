@@ -6,6 +6,12 @@
 
   <!-- ##code-section configure.zcml -->
   <adapter
+    for="Products.PleiadesEntity.content.Location.Location"
+    provides="zgeo.geographer.interfaces.IGeoreferenced"
+    factory=".geo.LocationGeoItem"
+    />
+
+  <adapter
     for="Products.PleiadesEntity.content.PlacefulAssociation.PlacefulAssociation"
     provides="zgeo.geographer.interfaces.IGeoreferenced"
     factory=".geo.PlacefulAssociationGeoItem"

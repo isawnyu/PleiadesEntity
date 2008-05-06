@@ -7,8 +7,7 @@ Setup
 
     >>> lid = folder.locations.invokeFactory('Location')
     >>> x = getattr(folder.locations, lid)
-    >>> _ = x.setSpatialCoordinates('34.769722222222 -86.4808333333333 0.0')
-    >>> _ = x.setGeometryType('Point')
+    >>> _ = x.setGeometry('Point:[-86.4808333333333,34.769722222222]')
 
 
 Check base view with test browser
@@ -74,5 +73,5 @@ Check the URL
 Check the html content of the view page (description will not appear here)
     
     >>> browser.contents
-    '...Spatial Coordinates...34.769722222222 -86.4808333333333 0.0...'
+    '...Geometry...Point:[-86.4808...'
 
