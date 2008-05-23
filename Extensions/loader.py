@@ -401,9 +401,9 @@ def load_place(site, file):
     ptool = getToolByName(site, 'plone_utils')
     #wftool = getToolByName(site, 'portal_workflow')
 
-    places = site.places
-    names = site.names
-    locations = site.locations
+    places = site['places']
+    names = site['names']
+    locations = site['locations']
 
     savepoint = transaction.savepoint()
     
