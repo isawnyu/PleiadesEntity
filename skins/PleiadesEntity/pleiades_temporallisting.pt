@@ -14,7 +14,7 @@
                         <li tal:repeat="item folderContents"
                             ><tal:definition tal:define="item_title_or_id item/pretty_title_or_id;
                                 item_url item/getURL|item/absolute_url;
-                                item_cert item/getCertainty;"
+                                item_cert item/getAttestationConfidence;"
                                 ><span tal:condition="python:item_cert == 'certain, but there is no contemporary evidence' or item_cert == 'less certain and there is no contemporary evidence'">[</span>
                                 <a href="" title=""
                                     tal:attributes="href item_url;

@@ -5,7 +5,7 @@ indexes = [
     ('getPlaceType', 'KeywordIndex')
     ]
 
-columns = ['getTermKey', 'getTermValue']
+columns = ['getTermKey', 'getTermValue', 'getAttestationConfidence']
 
 
 def install(self):
