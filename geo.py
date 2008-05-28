@@ -69,37 +69,20 @@ class PlacefulAssociationGeoItem(object):
     def __init__(self, context):
         """Initialize adapter."""
         self.context = context
-
-    @property
-    def primary_location(self):
+        self._adapter = None
         x = self.context.getRefs('hasLocation')
         if len(x) == 0:
-            return None
+            raise Exception, "Unlocated: could not adapt %s" % str(context)
         else:
-            return IGeoreferenced(x[0])
+            self._adapter = IGeoreferenced(x[0])
 
     @property
     def type(self):
-        return self.primary_location.type
+        return self._adapter.type
 
     @property
     def coordinates(self):
-        return self.primary_location.coordinates
-        #
-        #x = self.context.getRefs('hasLocation')
-        #if len(x) == 0:
-        #    return ()
-        #x0 = x[0]
-        #values = [float(v) for v in \
-        #    x0.getSpatialCoordinates().split()]
-        #nvalues = len(values)
-        # Our Pleiades Locations are 2D
-        #npoints = nvalues/2
-        #coords = []
-        #for i in range(npoints):
-        #    #coords.append(tuple(values[3*i:3*i+3] + [0.0]))
-        #    coords.append((values[3*i+1], values[3*i], 0.0))
-        #return coords[0]
+        return self._adapter.coordinates
 
     @property
     def crs(self):
@@ -111,7 +94,7 @@ class PlacefulAssociationGeoItem(object):
         return dict(
             type='Feature',
             id=context.getId(),
-            geometry=self.primary_location.__geo_interface__
+            geometry=self._adapter.__geo_interface__
             )
 
 
@@ -124,23 +107,23 @@ class PlaceGeoItem(object):
     def __init__(self, context):
         """Initialize adapter."""
         self.context = context
-        self._primary_association = None
+        self._adapter = None
         for ob in self.context.values():
             try:
-                self._primary_association = IGeoreferenced(ob)
+                self._adapter = IGeoreferenced(ob)
             except:
                 continue
             break
-        if not self._primary_association:
+        if not self._adapter:
             raise Exception, "Could not adapt %s" % str(context)
 
     @property
     def type(self):
-        return IGeoreferenced(self._primary_association).type
+        return IGeoreferenced(self._adapter).type
 
     @property
     def coordinates(self):
-        return IGeoreferenced(self._primary_association).coordinates
+        return IGeoreferenced(self._adapter).coordinates
 
     @property
     def crs(self):
@@ -148,7 +131,8 @@ class PlaceGeoItem(object):
 
     @property
     def __geo_interface__(self):
-        return IGeoreferenced(self._primary_association).__geo_interface__
+        return IGeoreferenced(self._adapter).__geo_interface__
+
 
 def createGeoItem(context):
     """Factory for adapters."""
@@ -156,6 +140,3 @@ def createGeoItem(context):
         return PlaceGeoItem(context)
     else:
         return PlacefulAssociationGeoItem(context)
-
-
-
