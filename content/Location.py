@@ -37,6 +37,26 @@ schema = Schema((
             i18n_domain='PleiadesEntity',
         ),
     ),
+    FloatField(
+        name='accuracy',
+        widget=FloatField._properties['widget'](
+            label="Accuracy value",
+            description="Accuracy (horizontal) of geometry coordinates in meters",
+            label_msgid='PleiadesEntity_label_accuracy',
+            description_msgid='PleiadesEntity_help_accuracy',
+            i18n_domain='PleiadesEntity',
+        ),
+    ),
+    StringField(
+        name='explanation',
+        widget=StringField._properties['widget'](
+            label="Accuracy explanation",
+            description="An explanation of the accuracy of the horizontal coordinate measurements and a description of the tests used.",
+            label_msgid='PleiadesEntity_label_explanation',
+            description_msgid='PleiadesEntity_help_explanation',
+            i18n_domain='PleiadesEntity',
+        ),
+    ),
 ),
 )
 
