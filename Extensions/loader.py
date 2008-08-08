@@ -104,14 +104,14 @@ def initialize(self):
     n.global_allow = True
 
 
-def loaden(self, sourcedir):
+def loaden(site, sourcedir):
     """Attempt to load all XML files in the specified source directory.
     Files which can not be loaded are reported."""
     failures = []
     count = 0
     for xml in glob.glob("%s/*.xml" % sourcedir):
         try:
-            load_place(self, xml)
+            load_place(site, xml)
             count += 1
         except Exception, e:
             failures.append([basename(xml), str(e)])
@@ -155,8 +155,6 @@ def parse_periods(xmlcontext, portalcontext):
     """Find timePeriod children of the node at xmlcontext and create
     appropriate temporalAttestation children of the object at 
     portalcontext."""
-   
-    #wftool = getToolByName(portalcontext, 'portal_workflow')
 
     for tp in  xmlcontext.findall("{%s}timePeriod" % ADLGAZ):
         tpn = tp.xpath("*[local-name()='timePeriodName']")
@@ -189,8 +187,6 @@ def parse_periods(xmlcontext, portalcontext):
         except:
             raise EntityLoadError, "There is already a TemporalAttestation with id=%s in portal context = %s" % (id, portalcontext.Title())
 
-        #wftool.doActionFor(getattr(portalcontext, id), "publish")
-
 def getalltext(elem):
     text = elem.text or ""
     for e in elem:
@@ -199,7 +195,7 @@ def getalltext(elem):
 
 def parse_secondary_references(xmlcontext, portalcontext, ptool, wftool=None):
     srs =  xmlcontext.find("{%s}secondaryReferences" % AWMC)
-    if srs:
+    if srs is not None:
         bibls = srs.xpath('tei:bibl', namespaces={'tei': TEI})
         if not bibls:
             raise EntityLoadError, "Encountered an empty secondaryReferences" 
@@ -220,11 +216,6 @@ def parse_secondary_references(xmlcontext, portalcontext, ptool, wftool=None):
                     )
                 except:
                     raise
-                    #raise EntityLoadError, "There is already a SecondaryReference with id=%s in portal context" % id
-                
-                #wftool.doActionFor(getattr(portalcontext, id), "publish")
-
-import sys
 
 def parse_attrib_rights(xmlcontext):
     root = xmlcontext
@@ -335,7 +326,7 @@ def parse_names(xmlcontext, portalcontext, ptool, wftool=None):
                     rights=rights,
                     description=description
                     )
-            name = getattr(names, nid)
+            name = names[nid]
         except:
             nid = names.duplicates.invokeFactory("Name",
                     id=id,
@@ -351,19 +342,15 @@ def parse_names(xmlcontext, portalcontext, ptool, wftool=None):
                     rights=rights,
                     description=description
                     )
-            name = getattr(names.duplicates, nid)
+            name = names.duplicates[nid]
 
-        #wftool.doActionFor(name, "publish")
-         
         nids.append(nid)
         association_certainties.append(certainty)
 
         # Time Periods associated with the name
         parse_periods(e, name)
-        
         # SecondaryReferences associated with the name
         parse_secondary_references(e, name, ptool) #, wftool)
-        #name.reindexObject()
         
     return (nids, association_certainties)
 
@@ -376,21 +363,15 @@ def parse_locations(xmlcontext, portalcontext, ptool, wftool=None):
 
     for e in root.findall("{%s}spatialLocation" % ADLGAZ):
         coords = e.findall("{%s}point" % GEORSS)[0].text.split()
-
         lid = portalcontext.invokeFactory('Location',
                     geometry='Point:[%s,%s]' % (coords[1], coords[0]),
                     creators=creators,
                     contributors=contributors,
                     rights=rights
                     )
-        
-        #wftool.doActionFor(getattr(portalcontext, lid), "publish")
         lids.append(lid)
-        
         # Time Periods associated with the location
-        parse_periods(root, getattr(portalcontext, lid))
-        
-        #getattr(locations, lid).reindexObject()
+        parse_periods(root, portalcontext[lid])
 
     return lids
 
@@ -399,7 +380,6 @@ def load_place(site, file):
     the data found in the xml file at sourcepath."""
 
     ptool = getToolByName(site, 'plone_utils')
-    #wftool = getToolByName(site, 'portal_workflow')
 
     places = site['places']
     names = site['names']
@@ -409,15 +389,11 @@ def load_place(site, file):
     
     try:
         root = etree.parse(file).getroot()
-       
         creators, contributors, rights = parse_attrib_rights(root)
-            
         # Names
-        nids, association_certainties = parse_names(root, names, ptool) #, wftool)
-
+        nids, association_certainties = parse_names(root, names, ptool)
         # Locations
-        lids = parse_locations(root, locations, ptool) #, wftool)
-    
+        lids = parse_locations(root, locations, ptool)
         # Place
         e = root.findall("{%s}modernLocation" % AWMC)
         if e:
@@ -454,7 +430,7 @@ def load_place(site, file):
         else:
             id = None
     
-        placeNames = [getattr(names, nid) for nid in nids]
+        placeNames = [names[nid] for nid in nids]
         computedTitle = '/'.join([n.Title() for n in placeNames])
         
         pid = places.invokeFactory('Place',
@@ -466,10 +442,8 @@ def load_place(site, file):
                     rights=rights,
                     description=description
                     )
-        p = getattr(places, pid)
-        #wftool.doActionFor(p, "publish")
-        #p.reindexObject()
-    
+        p = places[pid]
+
         # Iterate over locations
         for lid in lids:
             # Handle the unnamed case
@@ -479,14 +453,11 @@ def load_place(site, file):
                     placeType=placeType,
                     associationCertainty='certain',
                     )
-                a = getattr(p, aid)
-                a.addReference(getattr(locations, lid), 'hasLocation')
-                #wftool.doActionFor(a, "publish")
-            
+                a = p[aid]
+                a.addReference(locations[lid], 'hasLocation')
                 # Secondary references for the place
                 parse_secondary_references(root, a, ptool) #, wftool)
-                #a.reindexObject()
-            
+
             else:
                 for i, nid in enumerate(nids):
                     # Get association certainty from XML
@@ -497,14 +468,11 @@ def load_place(site, file):
                         placeType=placeType,
                         associationCertainty=certainty,
                         )
-                    a = getattr(p, aid)
-                    a.addReference(getattr(locations, lid), 'hasLocation')
-                    a.addReference(getattr(names, nid), 'hasName')
-                    #wftool.doActionFor(a, "publish")
-            
+                    a = p[aid]
+                    a.addReference(locations[lid], 'hasLocation')
+                    a.addReference(names[nid], 'hasName')
                     # Secondary references for the place
                     parse_secondary_references(root, a, ptool) #, wftool)
-                    #a.reindexObject()
     
         # If there are no locations, iterate over the names
         if len(lids) == 0:
@@ -514,12 +482,10 @@ def load_place(site, file):
                         placeType=placeType,
                         associationCertainty='certain',
                         )
-                a = getattr(p, aid)
-                a.addReference(getattr(names, nid), 'hasName')
-                #wftool.doActionFor(a, "publish")
+                a = p[aid]
+                a.addReference(names[nid], 'hasName')
                 # Secondary references for the place
                 parse_secondary_references(root, a, ptool) #, wftool)
-                #a.reindexObject()
 
     except:
         savepoint.rollback()
