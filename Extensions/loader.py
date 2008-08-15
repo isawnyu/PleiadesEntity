@@ -429,6 +429,7 @@ def load_place(site, file):
                     )
         p = places[pid]
 
+        fids = []
         # Iterate over locations
         for lid in lids:
             # Handle the unnamed case
@@ -443,6 +444,7 @@ def load_place(site, file):
                 # Secondary references for the place
                 parse_secondary_references(root, f, ptool) #, wftool)
                 p.addReference(f, 'hasFeature')
+                fids.append(fid)
             else:
                 for i, nid in enumerate(nids):
                     # Get association certainty from XML
@@ -458,7 +460,7 @@ def load_place(site, file):
                     # Secondary references for the place
                     parse_secondary_references(root, f, ptool) #, wftool)
                     p.addReference(f, 'hasFeature')
-                
+                    fids.append(fid)
         # If there are no locations, iterate over the names
         if len(lids) == 0:
             for nid in nids:
@@ -472,11 +474,10 @@ def load_place(site, file):
                 # Secondary references for the place
                 parse_secondary_references(root, f, ptool) #, wftool)
                 p.addReference(f, 'hasFeature')
-
+                fids.append(fid)
     except:
         savepoint.rollback()
         raise
 
     transaction.commit()
-    return {'place_id': pid, 'location_ids': lids, 'name_ids': nids}
-
+    return dict(place_id=pid, feature_ids=fids, location_ids=lids, name_ids=nids)
