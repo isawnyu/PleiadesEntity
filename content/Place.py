@@ -4,7 +4,7 @@
 #
 # Copyright (c) 2008 by Ancient World Mapping Center, University of North
 # Carolina at Chapel Hill, U.S.A.
-# Generator: ArchGenXML Version 2.0
+# Generator: ArchGenXML Version 2.1
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
@@ -20,9 +20,12 @@ import interfaces
 
 from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
 
+from Products.ATReferenceBrowserWidget.ATReferenceBrowserWidget import \
+    ReferenceBrowserWidget
 from Products.PleiadesEntity.config import *
 
 ##code-section module-header #fill in your manual code here
+from Products.CMFCore import permissions
 ##/code-section module-header
 
 schema = Schema((
@@ -37,22 +40,45 @@ schema = Schema((
             i18n_domain='PleiadesEntity',
         ),
     ),
+    TextField(
+        name='content',
+        widget=RichWidget(
+            label="Content",
+            description="About the place",
+            label_msgid='PleiadesEntity_label_content',
+            description_msgid='PleiadesEntity_help_content',
+            i18n_domain='PleiadesEntity',
+        ),
+    ),
+    ReferenceField(
+        name='features',
+        widget=ReferenceBrowserWidget(
+            label='Features',
+            label_msgid='PleiadesEntity_label_features',
+            i18n_domain='PleiadesEntity',
+        ),
+        allowed_types=('Feature',),
+        multiValued=1,
+        relationship='hasFeature',
+    ),
+
 ),
 )
 
 ##code-section after-local-schema #fill in your manual code here
 ##/code-section after-local-schema
 
-Place_schema = BaseFolderSchema.copy() + \
+Place_schema = BaseSchema.copy() + \
     schema.copy()
 
 ##code-section after-schema #fill in your manual code here
 ##/code-section after-schema
 
-class Place(BaseFolder, BrowserDefaultMixin):
+class Place(BaseContent, BrowserDefaultMixin):
     """
     """
     security = ClassSecurityInfo()
+
     implements(interfaces.IPlace)
 
     meta_type = 'Place'
@@ -69,33 +95,29 @@ class Place(BaseFolder, BrowserDefaultMixin):
     def Title(self):
         """
         """
-        try:
-            associations = self.listFolderContents()
-            nametitles = []
-            nametypes = []
-            for a in associations:
-                try:
-                    name = a.getRefs('hasName')[0]              # there can only be one name per association
-                    nametitles.append(name.Title())
-                    nametypes.append(name.getNameType())
-                except:
-                    pass
-            title = '/'.join([title for i, title in enumerate(nametitles) if nametypes[i] == 'geographic' and not title.startswith('Unnamed')])
-            if title == '':
-                '/'.join([title for title in nametitles if not title.startswith('Unnamed')])
-            return title
-        except AttributeError:
+        titles = []
+        types = []
+        for o in self.getFeatures():
+            try:
+                name = o.getRefs('hasName')[0]
+                titles.append(name.Title())
+                types.append(name.getNameType())
+            except:
+                pass
+        if len(titles) == 0:
             return 'Unnamed Place'
+        else:
+            return '/'.join(titles)
 
     security.declarePublic('getTimePeriods')
     def getTimePeriods(self):
         """
         """
         result = []
-        for a in self.listFolderContents():
-            for p in a.getTimePeriods():
-                if p not in result:
-                    result.append(p)
+        for o in self.getFeatures():
+            for t in o.getTimePeriods():
+                if t not in result:
+                    result.append(t)
         return result
 
     security.declarePublic('getPlaceType')
@@ -103,10 +125,20 @@ class Place(BaseFolder, BrowserDefaultMixin):
         """
         """
         result = []
-        for a in self.listFolderContents():
-            if a.getPlaceType() not in result:
-                result.append(a.getPlaceType())
+        for o in self.getFeatures():
+            t = o.getFeatureType()
+            if t not in result:
+                result.append(t)
         return result
+
+    # Manually created methods
+
+    security.declareProtected(permissions.View, 'getFeatures')
+    def getFeatures(self):
+         for o in self.getRefs('hasFeature'):
+            if interfaces.IFeature.providedBy(o):
+                yield o
+
 
 
 registerType(Place, PROJECTNAME)

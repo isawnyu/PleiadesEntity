@@ -30,7 +30,7 @@
 from zope.interface import implements
 from zgeo.geographer.interfaces import IGeoreferenced, IWriteGeoreferenced
 import simplejson
-
+from Products.PleiadesEntity.content.interfaces import IPlace
 import logging
 log = logging.getLogger('PleiadesEntity.geo')
 
@@ -63,7 +63,7 @@ class LocationGeoItem(object):
         return None
 
 
-class PlacefulAssociationGeoItem(object):
+class FeatureGeoItem(object):
     implements(IGeoreferenced)
    
     def __init__(self, context):
@@ -108,7 +108,7 @@ class PlaceGeoItem(object):
         """Initialize adapter."""
         self.context = context
         self._adapter = None
-        for ob in self.context.values():
+        for ob in self.context.getFeatures():
             try:
                 self._adapter = IGeoreferenced(ob)
             except:
@@ -136,7 +136,7 @@ class PlaceGeoItem(object):
 
 def createGeoItem(context):
     """Factory for adapters."""
-    if IPlacefulContainer.providedBy(context):
+    if IPlace.providedBy(context):
         return PlaceGeoItem(context)
     else:
-        return PlacefulAssociationGeoItem(context)
+        return FeatureGeoItem(context)

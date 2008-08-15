@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<object name="portal_catalog" meta_type="Plone Catalog Tool">
+  <index name="getNameAttested" 
+         meta_type="ZCTextIndex">
+    <indexed_attr value="getNameAttested"/>
+  </index>
+  <index name="getNameLanguage" 
+         meta_type="FieldIndex">
+    <indexed_attr value="getNameLanguage"/>
+  </index>
+  <index name="getAccuracy" 
+         meta_type="FieldIndex">
+    <indexed_attr value="getAccuracy"/>
+  </index>
+  <index name="getCompleteness" 
+         meta_type="FieldIndex">
+    <indexed_attr value="getCompleteness"/>
+  </index>
+  <index name="getAttestationConfidence" 
+         meta_type="FieldIndex">
+    <indexed_attr value="getAttestationConfidence"/>
+    <indexed_attr value="getAttestationConfidence"/>
+  </index>
+  <index name="getFeatureType" 
+         meta_type="KeywordIndex">
+    <indexed_attr value="getFeatureType"/>
+  </index>
+  <index name="getAssociationCertainty" 
+         meta_type="FieldIndex">
+    <indexed_attr value="getAssociationCertainty"/>
+  </index>
+  <index name="getModernLocation" 
+         meta_type="ZCTextIndex">
+    <indexed_attr value="getModernLocation"/>
+  </index>
+  <column value="getNameAttested"/>
+  <column value="getNameLanguage"/>
+  <column value="getAccuracy"/>
+  <column value="getCompleteness"/>
+  <column value="getAttestationConfidence"/>
+  <column value="getFeatureType"/>
+  <column value="getAssociationCertainty"/>
+  <column value="getModernLocation"/>
+<!-- ##code-section FOOT -->
+<!-- ##/code-section FOOT -->
+</object>

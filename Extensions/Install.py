@@ -133,7 +133,7 @@ def install(self):
         "Reference",
         "SecondaryReference",
         "PrimaryReference",
-        "PlacefulAssociation",
+        "Feature",
         "LocationContainer",
         "PlaceContainer",
         "Place",

@@ -197,9 +197,10 @@ def parse_secondary_references(xmlcontext, portalcontext, ptool, wftool=None):
     srs =  xmlcontext.find("{%s}secondaryReferences" % AWMC)
     if srs is not None:
         bibls = srs.xpath('tei:bibl', namespaces={'tei': TEI})
-        if not bibls:
-            raise EntityLoadError, "Encountered an empty secondaryReferences" 
-        else:
+        #if not bibls:
+        #    return
+        #    #raise EntityLoadError, "Encountered an empty secondaryReferences"
+        if bibls is not None:
             for bibl in bibls:
                 title_elem = bibl.xpath('tei:title', namespaces={'tei': TEI})
                 if not title_elem:
@@ -310,39 +311,22 @@ def parse_names(xmlcontext, portalcontext, ptool, wftool=None):
         except:
             pass
 
-        try:
-            vid = find_next_valid_name_id(names, id)
-            nid = names.invokeFactory("Name",
-                    id=vid,
-                    title = transliteration.encode('utf-8'),
-                    nameTransliterated=transliteration.encode('utf-8'),
-                    nameAttested=nameAttested.encode('utf-8'),
-                    nameLanguage=nameLanguage.encode('utf-8'),
-                    nameType=type,
-                    accuracy=accuracy,
-                    completeness=completeness,
-                    creators=creators,
-                    contributors=contributors,
-                    rights=rights,
-                    description=description
-                    )
-            name = names[nid]
-        except:
-            nid = names.duplicates.invokeFactory("Name",
-                    id=id,
-                    title = transliteration.encode('utf-8'),
-                    nameTransliterated=transliteration.encode('utf-8'),
-                    nameAttested=nameAttested.encode('utf-8'),
-                    nameLanguage=nameLanguage.encode('utf-8'),
-                    nameType=type,
-                    accuracy=accuracy,
-                    completeness=completeness,
-                    creators=creators,
-                    contributors=contributors,
-                    rights=rights,
-                    description=description
-                    )
-            name = names.duplicates[nid]
+        #vid = find_next_valid_name_id(names, id)
+        nid = names.invokeFactory("Name",
+                #id=vid,
+                title = transliteration.encode('utf-8'),
+                nameTransliterated=transliteration.encode('utf-8'),
+                nameAttested=nameAttested.encode('utf-8'),
+                nameLanguage=nameLanguage.encode('utf-8'),
+                nameType=type,
+                accuracy=accuracy,
+                completeness=completeness,
+                creators=creators,
+                contributors=contributors,
+                rights=rights,
+                description=description
+                )
+        name = names[nid]
 
         nids.append(nid)
         association_certainties.append(certainty)
@@ -382,6 +366,7 @@ def load_place(site, file):
     ptool = getToolByName(site, 'plone_utils')
 
     places = site['places']
+    features = site['features']
     names = site['names']
     locations = site['locations']
 
@@ -434,7 +419,7 @@ def load_place(site, file):
         computedTitle = '/'.join([n.Title() for n in placeNames])
         
         pid = places.invokeFactory('Place',
-                    id=id,
+                    #id=id,
                     title=computedTitle,
                     modernLocation=modernLocation,
                     creators=creators,
@@ -448,44 +433,45 @@ def load_place(site, file):
         for lid in lids:
             # Handle the unnamed case
             if len(nids) == 0:
-                aid = p.invokeFactory('PlacefulAssociation',
-                    id="unnamed-%s" % lid,
-                    placeType=placeType,
+                fid = features.invokeFactory('Feature',
+                    #id="unnamed,%s" % lid,
+                    featureType=placeType,
                     associationCertainty='certain',
                     )
-                a = p[aid]
-                a.addReference(locations[lid], 'hasLocation')
+                f = features[fid]
+                f.addReference(locations[lid], 'hasLocation')
                 # Secondary references for the place
-                parse_secondary_references(root, a, ptool) #, wftool)
-
+                parse_secondary_references(root, f, ptool) #, wftool)
+                p.addReference(f, 'hasFeature')
             else:
                 for i, nid in enumerate(nids):
                     # Get association certainty from XML
                     certainty = association_certainties[i]
-                
-                    aid = p.invokeFactory('PlacefulAssociation',
-                        id="%s-%s" % (nid,lid),
-                        placeType=placeType,
+                    fid = features.invokeFactory('Feature',
+                        #id="%s,%s" % (nid,lid),
+                        featureType=placeType,
                         associationCertainty=certainty,
                         )
-                    a = p[aid]
-                    a.addReference(locations[lid], 'hasLocation')
-                    a.addReference(names[nid], 'hasName')
+                    f = features[fid]
+                    f.addReference(locations[lid], 'hasLocation')
+                    f.addReference(names[nid], 'hasName')
                     # Secondary references for the place
-                    parse_secondary_references(root, a, ptool) #, wftool)
-    
+                    parse_secondary_references(root, f, ptool) #, wftool)
+                    p.addReference(f, 'hasFeature')
+                
         # If there are no locations, iterate over the names
         if len(lids) == 0:
             for nid in nids:
-                aid = p.invokeFactory('PlacefulAssociation',
-                        id="%s-unlocated" % nid,
-                        placeType=placeType,
+                fid = features.invokeFactory('Feature',
+                        #id="%s,unlocated" % nid,
+                        featureType=placeType,
                         associationCertainty='certain',
                         )
-                a = p[aid]
-                a.addReference(names[nid], 'hasName')
+                f = features[fid]
+                f.addReference(names[nid], 'hasName')
                 # Secondary references for the place
-                parse_secondary_references(root, a, ptool) #, wftool)
+                parse_secondary_references(root, f, ptool) #, wftool)
+                p.addReference(f, 'hasFeature')
 
     except:
         savepoint.rollback()

@@ -4,7 +4,7 @@
 #
 # Copyright (c) 2008 by Ancient World Mapping Center, University of North
 # Carolina at Chapel Hill, U.S.A.
-# Generator: ArchGenXML Version 2.0
+# Generator: ArchGenXML Version 2.1
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
@@ -31,10 +31,10 @@ from Products.PleiadesEntity.config import *
 schema = Schema((
 
     StringField(
-        name='placeType',
+        name='featureType',
         widget=SelectionWidget(
-            label="Place Type",
-            label_msgid='PleiadesEntity_label_placeType',
+            label="Feature type",
+            label_msgid='PleiadesEntity_label_featureType',
             i18n_domain='PleiadesEntity',
         ),
         vocabulary=NamedVocabulary("""place-types"""),
@@ -75,6 +75,7 @@ schema = Schema((
         multiValued=1,
         relationship='hasName',
     ),
+
 ),
 )
 
@@ -88,9 +89,10 @@ Feature_schema = BaseFolderSchema.copy() + \
 ##/code-section after-schema
 
 class Feature(BaseFolder, BrowserDefaultMixin):
-    """Associates Names and Locations
+    """
     """
     security = ClassSecurityInfo()
+
     implements(interfaces.IFeature)
 
     meta_type = 'Feature'
@@ -114,7 +116,7 @@ class Feature(BaseFolder, BrowserDefaultMixin):
             if names:
                 return '/'.join([n.Title() for n in names])
             else:
-                return "Unnamed %s" % self.getPlaceType().capitalize()
+                return "Unnamed %s" % self.getFeatureType().capitalize()
         except AttributeError:
             return 'Unnamed Place'
 

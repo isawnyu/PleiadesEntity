@@ -4,7 +4,7 @@
 #
 # Copyright (c) 2008 by Ancient World Mapping Center, University of North
 # Carolina at Chapel Hill, U.S.A.
-# Generator: ArchGenXML Version 2.0
+# Generator: ArchGenXML Version 2.1
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
@@ -71,17 +71,27 @@ def initialize(context):
 
 
     # Initialize portal content
-    content_types, constructors, ftis = process_types(
+    all_content_types, all_constructors, all_ftis = process_types(
         listTypes(PROJECTNAME),
         PROJECTNAME)
 
     cmfutils.ContentInit(
         PROJECTNAME + ' Content',
-        content_types      = content_types,
+        content_types      = all_content_types,
         permission         = DEFAULT_ADD_CONTENT_PERMISSION,
-        extra_constructors = constructors,
-        fti                = ftis,
+        extra_constructors = all_constructors,
+        fti                = all_ftis,
         ).initialize(context)
+
+    # Give it some extra permissions to control them on a per class limit
+    for i in range(0,len(all_content_types)):
+        klassname=all_content_types[i].__name__
+        if not klassname in ADD_CONTENT_PERMISSIONS:
+            continue
+
+        context.registerClass(meta_type   = all_ftis[i]['meta_type'],
+                              constructors= (all_constructors[i],),
+                              permission  = ADD_CONTENT_PERMISSIONS[klassname])
 
     ##code-section custom-init-bottom #fill in your manual code here
     profile_registry.registerProfile('default',

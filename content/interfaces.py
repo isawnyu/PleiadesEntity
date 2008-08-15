@@ -29,8 +29,12 @@ class IPrimaryReference(Interface):
     """Marker interface for .PrimaryReference.PrimaryReference
     """
 
-class IPlacefulAssociation(Interface):
-    """Marker interface for .PlacefulAssociation.PlacefulAssociation
+class IFeature(Interface):
+    """Marker interface for .Feature.Feature
+    """
+
+class INameContainer(Interface):
+    """Marker interface for .NameContainer.NameContainer
     """
 
 class ILocationContainer(Interface):
@@ -43,6 +47,10 @@ class IPlaceContainer(Interface):
 
 class IPlace(Interface):
     """Marker interface for .Place.Place
+    """
+
+class IFeatureContainer(Interface):
+    """Marker interface for .FeatureContainer.FeatureContainer
     """
 
 ##code-section FOOT

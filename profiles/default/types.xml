@@ -20,7 +20,10 @@
  <object name="PrimaryReference"
          meta_type="Factory-based Type Information with dynamic views"/>
 
- <object name="PlacefulAssociation"
+ <object name="Feature"
+         meta_type="Factory-based Type Information with dynamic views"/>
+
+ <object name="NameContainer"
          meta_type="Factory-based Type Information with dynamic views"/>
 
  <object name="LocationContainer"
@@ -30,6 +33,9 @@
          meta_type="Factory-based Type Information with dynamic views"/>
 
  <object name="Place"
+         meta_type="Factory-based Type Information with dynamic views"/>
+
+ <object name="FeatureContainer"
          meta_type="Factory-based Type Information with dynamic views"/>
 
 </object>

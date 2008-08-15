@@ -4,7 +4,7 @@
 #
 # Copyright (c) 2008 by Ancient World Mapping Center, University of North
 # Carolina at Chapel Hill, U.S.A.
-# Generator: ArchGenXML Version 2.0
+# Generator: ArchGenXML Version 2.1
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
@@ -95,6 +95,7 @@ schema = Schema((
         default="complete",
         enforceVocabulary=1,
     ),
+
 ),
 )
 
@@ -111,6 +112,7 @@ class Name(BaseFolder, BrowserDefaultMixin):
     """
     """
     security = ClassSecurityInfo()
+
     implements(interfaces.IName)
 
     meta_type = 'Name'

@@ -13,7 +13,11 @@ ptc.installProduct('ATVocabularyManager')
 ptc.installProduct('PleiadesEntity')
 ptc.setupPloneSite(products=['Archetypes', 'ATVocabularyManager', 'Geographer', 'PleiadesEntity'])
 
-optionflags = doctest.ELLIPSIS | doctest.NORMALIZE_WHITESPACE # | doctest.REPORT_ONLY_FIRST_FAILURE
+optionflags = (
+    doctest.ELLIPSIS
+    | doctest.NORMALIZE_WHITESPACE 
+    | doctest.REPORT_ONLY_FIRST_FAILURE
+    )
 
 class PleiadesEntityTestCase(ptc.PloneTestCase):
 
@@ -21,20 +25,14 @@ class PleiadesEntityTestCase(ptc.PloneTestCase):
 
     def afterSetUp(self):
         self.test_params = _testing
-        
-        lpf = self.portal.portal_types['Large Plone Folder']
-        lpf_allow = lpf.global_allow
-        lpf.global_allow = True
-
-        n = self.portal.portal_types['Name']
-        n_allow = n.global_allow
-        n.global_allow = True
-
+        self.test_params.TEST_DATA = os.path.join(
+            os.path.dirname(__file__), 'data'
+            )
         # Currently this stuff isn't being torn down between doctests. Why not?
         try:
-            self.folder.invokeFactory('Large Plone Folder', id='names')
-            self.folder['names'].invokeFactory('Large Plone Folder',id='duplicates')
+            self.folder.invokeFactory('NameContainer', id='names')
             self.folder.invokeFactory('LocationContainer', id='locations')
+            self.folder.invokeFactory('FeatureContainer', id='features')
             self.folder.invokeFactory('PlaceContainer', id='places')
         except:
             pass

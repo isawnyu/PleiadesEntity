@@ -4,7 +4,7 @@
 #
 # Copyright (c) 2008 by Ancient World Mapping Center, University of North
 # Carolina at Chapel Hill, U.S.A.
-# Generator: ArchGenXML Version 2.0
+# Generator: ArchGenXML Version 2.1
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
@@ -43,10 +43,12 @@ import TemporalAttestation
 import Reference
 import SecondaryReference
 import PrimaryReference
-import PlacefulAssociation
+import Feature
+import NameContainer
 import LocationContainer
 import PlaceContainer
 import Place
+import FeatureContainer
 
 ##code-section init-module-footer #fill in your manual code here
 ##/code-section init-module-footer

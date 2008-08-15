@@ -1,8 +1,10 @@
-<configure xmlns="http://namespaces.zope.org/zope"
-           xmlns:browser="http://namespaces.zope.org/browser"
-           xmlns:five="http://namespaces.zope.org/five">
+<configure xmlns="http://namespaces.zope.org/zope" 
+           xmlns:browser="http://namespaces.zope.org/browser" 
+           xmlns:five="http://namespaces.zope.org/five"> 
   
   <include file="profiles.zcml" />
+
+
 
   <!-- ##code-section configure.zcml -->
   <adapter
@@ -12,9 +14,9 @@
     />
 
   <adapter
-    for="Products.PleiadesEntity.content.PlacefulAssociation.PlacefulAssociation"
+    for="Products.PleiadesEntity.content.Feature.Feature"
     provides="zgeo.geographer.interfaces.IGeoreferenced"
-    factory=".geo.PlacefulAssociationGeoItem"
+    factory=".geo.FeatureGeoItem"
     />
   
   <adapter

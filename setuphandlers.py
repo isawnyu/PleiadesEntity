@@ -4,7 +4,7 @@
 #
 # Copyright (c) 2008 by Ancient World Mapping Center, University of North
 # Carolina at Chapel Hill, U.S.A.
-# Generator: ArchGenXML Version 2.0
+# Generator: ArchGenXML Version 2.1
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
@@ -33,9 +33,6 @@ def isNotPleiadesEntityProfile(context):
 def installVocabularies(context):
     """creates/imports the atvm vocabs."""
     if isNotPleiadesEntityProfile(context): return 
-    shortContext = context._profile_path.split(os.path.sep)[-3]
-    if shortContext != 'PleiadesEntity': # avoid infinite recursions
-        return
     site = context.getSite()
     # Create vocabularies in vocabulary lib
     atvm = getToolByName(site, ATVOCABULARYTOOL)
@@ -79,9 +76,6 @@ def updateRoleMappings(context):
     """after workflow changed update the roles mapping. this is like pressing
     the button 'Update Security Setting' and portal_workflow"""
     if isNotPleiadesEntityProfile(context): return 
-    shortContext = context._profile_path.split(os.path.sep)[-3]
-    if shortContext != 'PleiadesEntity': # avoid infinite recursions
-        return
     wft = getToolByName(context.getSite(), 'portal_workflow')
     wft.updateRoleMappings()
 

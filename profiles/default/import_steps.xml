@@ -6,7 +6,7 @@
     id="PleiadesEntity-Install-Vocabularies" 
     handler="Products.PleiadesEntity.setuphandlers.installVocabularies"
     title="Install Vocabularies for PleiadesEntity"
-    version="2008-07-23T17:28:26.213237">
+    version="2008-08-15T00:34:11.814112">
    <dependency step="PleiadesEntity-QI-dependencies"/>
    Installs the vocabulary files into vocabulary library for PleiadesEntity
  </import-step>
@@ -15,7 +15,7 @@
     id="PleiadesEntity-Update-RoleMappings" 
     handler="Products.PleiadesEntity.setuphandlers.updateRoleMappings"
     title="Update Workflow role mappings for PleiadesEntity"
-    version="2008-07-23T17:28:26.213237">
+    version="2008-08-15T00:34:11.814112">
    <dependency step="PleiadesEntity-QI-dependencies"/>
    updates the workflow role mappings for PleiadesEntity
  </import-step>
@@ -24,7 +24,7 @@
     id="PleiadesEntity-postInstall" 
     handler="Products.PleiadesEntity.setuphandlers.postInstall"
     title="manual coded post-install for PleiadesEntity"
-    version="2008-07-23T17:28:26.213237">
+    version="2008-08-15T00:34:11.814112">
    <dependency step="PleiadesEntity-QI-dependencies"/>
    manual coded post-install for PleiadesEntity
  </import-step>

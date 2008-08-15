@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# File: LocationContainer.py
+# File: FeatureContainer.py
 #
 # Copyright (c) 2008 by Ancient World Mapping Center, University of North
 # Carolina at Chapel Hill, U.S.A.
@@ -37,47 +37,47 @@ schema = Schema((
 ##code-section after-local-schema #fill in your manual code here
 ##/code-section after-local-schema
 
-LocationContainer_schema = BaseBTreeFolderSchema.copy() + \
+FeatureContainer_schema = BaseBTreeFolderSchema.copy() + \
     schema.copy()
 
 ##code-section after-schema #fill in your manual code here
 ##/code-section after-schema
 
-class LocationContainer(BaseBTreeFolder, BrowserDefaultMixin):
-    """Folder-ish container of Locations that also implements PCL
-    s IFeatureStore.
+class FeatureContainer(BaseBTreeFolder, BrowserDefaultMixin):
+    """
     """
     security = ClassSecurityInfo()
 
-    implements(interfaces.ILocationContainer)
+    implements(interfaces.IFeatureContainer)
 
-    meta_type = 'LocationContainer'
+    meta_type = 'FeatureContainer'
     _at_rename_after_creation = True
 
-    schema = LocationContainer_schema
+    schema = FeatureContainer_schema
 
     ##code-section class-header #fill in your manual code here
     ##/code-section class-header
 
     # Methods
 
-    security.declareProtected(permissions.AddPortalContent, 'invokeFactory')
-    def invokeFactory(self, type_name, RESPONSE=None, **kw):
+    security.declarePublic('invokeFactory')
+    def invokeFactory(self, type_name, id=None, RESPONSE=None, **kw):
         """
         """
         pt = getToolByName(self, 'portal_types')
-        if type_name != 'Location':
-            raise ValueError, 'Disallowed subobject type: %s' % type_name
-        id = self.generateId(prefix='')
-        args = ('Location', self, id, RESPONSE)
+        if type_name == 'Feature' or id is None:
+            oid = self.generateId(prefix='')
+        else:
+            oid = id
+        args = (type_name, self, oid, RESPONSE)
         new_id = pt.constructContent(*args, **kw)
         if new_id is None or new_id == '':
-            new_id = id
+            new_id = oid
         return new_id
 
 
-registerType(LocationContainer, PROJECTNAME)
-# end of class LocationContainer
+registerType(FeatureContainer, PROJECTNAME)
+# end of class FeatureContainer
 
 ##code-section module-footer #fill in your manual code here
 ##/code-section module-footer

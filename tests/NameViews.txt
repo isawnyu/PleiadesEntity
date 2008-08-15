@@ -6,9 +6,9 @@ Setup
 -----
 
     >>> folder = self.folder
-    >>> name = folder.names.invokeFactory('Name', id='neverpolis')
-    >>> n = getattr(folder.names, name)
-
+    >>> names = folder['names']
+    >>> nid = names.invokeFactory('Name', title=u'Neverpolis')
+    >>> n = names[nid]
 
 Check base view with test browser
 ---------------------------------
@@ -67,8 +67,6 @@ Check the URL
 
     >>> browser.url == url
     True
-    >>> browser.url.endswith('neverpolis')
-    True
     
 Check the html content of the view page (description will not appear here)
     
@@ -122,4 +120,3 @@ Edit the name again, modify the attestation using illegal characters and languag
     >>> browser.getControl(name='form_submit').click()
     >>> browser.contents
     '...23 invalid character(s) in name Municipium Noxium Maximum...'
-

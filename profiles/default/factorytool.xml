@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<object name="portal_factory" meta_type="Plone Factory Tool">
+ <factorytypes>
+  <type portal_type="Name"/>
+  <type portal_type="Location"/>
+  <type portal_type="TemporalAttestation"/>
+  <type portal_type="Reference"/>
+  <type portal_type="SecondaryReference"/>
+  <type portal_type="PrimaryReference"/>
+  <type portal_type="Feature"/>
+  <type portal_type="NameContainer"/>
+  <type portal_type="LocationContainer"/>
+  <type portal_type="PlaceContainer"/>
+  <type portal_type="Place"/>
+  <type portal_type="FeatureContainer"/>
+ </factorytypes>
+</object>

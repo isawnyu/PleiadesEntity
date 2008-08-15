@@ -4,7 +4,7 @@
 #
 # Copyright (c) 2008 by Ancient World Mapping Center, University of North
 # Carolina at Chapel Hill, U.S.A.
-# Generator: ArchGenXML Version 2.0
+# Generator: ArchGenXML Version 2.1
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
@@ -30,6 +30,7 @@ from Products.CMFCore import permissions
 
 schema = Schema((
 
+
 ),
 )
 
@@ -46,6 +47,7 @@ class PlaceContainer(BaseBTreeFolder, BrowserDefaultMixin):
     """
     """
     security = ClassSecurityInfo()
+
     implements(interfaces.IPlaceContainer)
 
     meta_type = 'PlaceContainer'
@@ -77,13 +79,10 @@ class PlaceContainer(BaseBTreeFolder, BrowserDefaultMixin):
             return new_id
 
         # Places are handled differently
-        if id:
+        if id is not None:
             obid = str(id)
         else:
-            # prevent ids in the reserved range
-            obid = -1
-            while int(obid) <= BA_ID_MAX:
-                obid = self.generateId(prefix='')
+            obid = self.generateId(prefix='')
         args = ('Place', self, obid, RESPONSE)
         new_id = pt.constructContent(*args, **kw)
         if new_id is None or new_id == '':

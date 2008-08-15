@@ -4,7 +4,7 @@
 #
 # Copyright (c) 2008 by Ancient World Mapping Center, University of North
 # Carolina at Chapel Hill, U.S.A.
-# Generator: ArchGenXML Version 2.0
+# Generator: ArchGenXML Version 2.1
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
@@ -27,6 +27,7 @@ from Products.PleiadesEntity.config import *
 
 schema = Schema((
 
+
 ),
 )
 
@@ -44,6 +45,7 @@ class SecondaryReference(BaseContent, Reference, BrowserDefaultMixin):
     """
     """
     security = ClassSecurityInfo()
+
     implements(interfaces.ISecondaryReference)
 
     meta_type = 'SecondaryReference'

@@ -34,12 +34,14 @@ Load one entity
     >>> TEST_DATA = self.test_params.TEST_DATA
     >>> from Products.PleiadesEntity.Extensions.loader import load_place
     >>> r = load_place(folder, "%s/timetwister.xml" % TEST_DATA)
-    >>> r['name_ids']
-    ['time-twister', 'tome-twirling']
+    >>> nids = r['name_ids']
+    >>> len(nids)
+    2
 
     Test names
-
-    >>> n0 = getattr(folder.names, 'time-twister')
+    
+    >>> names = folder['names']
+    >>> n0 = names[nids[0]]
     >>> tps = n0.getFolderContents({'meta_type':['TemporalAttestation']})
     >>> len(tps)
     2
@@ -59,7 +61,7 @@ Load one entity
     >>> tps1.getAttestationConfidence()
     'less-confident'
     
-    >>> n1 = getattr(folder.names, 'tome-twirling')
+    >>> n1 = names[nids[1]]
     >>> tps = n1.getFolderContents({'meta_type':['TemporalAttestation']})
     >>> len(tps)
     2
@@ -81,9 +83,9 @@ Load one entity
 
     Test locations
 
-    >>> lid = r['location_ids'][0]
-    >>> l = getattr(folder.locations, lid)
-    >>> tps = l.getFolderContents({'meta_type':['TemporalAttestation']})
+    >>> lids = r['location_ids']
+    >>> l0 = folder['locations'][lids[0]]
+    >>> tps = l0.getFolderContents({'meta_type':['TemporalAttestation']})
     >>> len(tps)
     5
     >>> tps0 = tps[0].getObject()

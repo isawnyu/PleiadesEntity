@@ -13,12 +13,12 @@
         <metal:placecontents_macro metal:define-macro="placecontents">
             <div id="pleiades-placecontents">
                 <div id="pleiades-secondaryreferences" 
-                    tal:define="global metatype string:PlacefulAssociation">
-                    <label><span>Name-Location Associations</span>:</label>
+                    tal:define="global metatype string:Feature">
+                    <label><span>Features</span>:</label>
                     <tal:helpcontext tal:define="global helpcontext metatype">
                         <p metal:use-macro="here/pleiades_helplink/macros/helplink">helpful link</p>
                     </tal:helpcontext> 
-                    <p metal:use-macro="here/pleiades_contentlisting/macros/contentlisting">name content</p>
+                    <p metal:use-macro="here/pleiades_featurelisting/macros/contentlisting">name content</p>
                 </div>
             </div>
         </metal:placecontents_macro>

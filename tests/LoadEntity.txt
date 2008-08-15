@@ -12,18 +12,16 @@ Load one entity
 ---------------
 
     >>> TEST_DATA = self.test_params.TEST_DATA
-    >>> BA_ID_MAX = self.test_params.BA_ID_MAX
     >>> from Products.PleiadesEntity.Extensions.loader import load_place
     >>> r = load_place(folder, "%s/batlas-65-2-24-frank.xml" % TEST_DATA)
     >>> pid = r['place_id']
-    >>> int(pid) <= BA_ID_MAX
-    True
-    >>> r['name_ids']
-    ['aphrodisias', 'ninoe']
+    >>> nids = r['name_ids']
+    >>> len(nids)
+    2
 
     Test place
 
-    >>> p = getattr(folder.places, pid)
+    >>> p = folder['places'][pid]
     >>> p.title_or_id()
     'Aphrodisias/Ninoe'
     >>> p.Title()
@@ -44,22 +42,22 @@ Load one entity
 
     Test Placeful Associations
 
-    >>> assocs = p.getFolderContents({'meta_type':['PlacefulAssociation']})
-    >>> aids = [a.id for a in assocs]
-    >>> assoc = p[aids[0]]
-    >>> srs = assoc.getFolderContents({'meta_type':['SecondaryReference']})
+    >>> features = list(p.getFeatures())
+    >>> fids = [f.id for f in features]
+    >>> f = folder['features'][fids[0]]
+    >>> srs = f.getFolderContents({'meta_type':['SecondaryReference']})
     >>> len(srs)
     4
     >>> [s.id for s in srs]
     ['batlas-65-a2-aphrodisias-ninoe', 're-aphrodisias-2', 'npauly-aphrodisias-1', 're-ninoe']
     >>> [s.Title for s in srs]
     ['BAtlas 65 A2 Aphrodisias/Ninoe', 'RE Aphrodisias 2', 'NPauly Aphrodisias 1', 'RE Ninoe']
-    >>> [(assoc[s.id].getItem(), assoc[s.id].getRange()) for s in srs]
+    >>> [(f[s.id].getItem(), f[s.id].getRange()) for s in srs]
     [('http://www.unc.edu/awmc/pleiades/bibliography/batlas.html', 'BAtlas 65 A2 Aphrodisias/Ninoe'), ('http://www.unc.edu/awmc/pleiades/bibliography/re.html', 'RE Aphrodisias 2'), ('http://www.unc.edu/awmc/pleiades/bibliography/npauly.html', 'NPauly Aphrodisias 1'), ('http://www.unc.edu/awmc/pleiades/bibliography/re.html', 'RE Ninoe')]
 
     Test names
 
-    >>> n0 = getattr(folder.names, 'aphrodisias')
+    >>> n0 = folder['names'][nids[0]]
     >>> n0.nameTransliterated
     u'Aphrodisias'
     >>> n0.Title()
@@ -111,13 +109,10 @@ Load one entity
     >>> [(n0[s.id].getItem(), n0[s.id].getRange()) for s in srs]
     [('http://www.unc.edu/awmc/pleiades/bibliography/re.html', 'RE Aphrodisias 2'), ('http://www.unc.edu/awmc/pleiades/bibliography/npauly.html', 'NPauly Aphrodisias 1')]
 
-
     >>> n0.getTimePeriods()
     ['roman', 'late-antique']
-    
-    
 
-    >>> n1 = getattr(folder.names, 'ninoe')
+    >>> n1 = folder['names'][nids[1]]
     >>> n1.title
     u'Ninoe'
     >>> n1.Title()
@@ -144,7 +139,7 @@ Load one entity
     Test locations
 
     >>> lid = r['location_ids'][0]
-    >>> l = getattr(folder.locations, lid)
+    >>> l = folder['locations'][lid]
     >>> l.getGeometry()
     'Point:[28.7289,37.7145]'
     >>> l.title_or_id() == "Point %s" % lid
@@ -158,8 +153,8 @@ Load one entity
     >>> l.Rights()
     'Copyright \xc2\xa9 2007 Ancient World Mapping Center. All rights reserved.'
 
-
     Test time periods for locations
+
     >>> tps = l.getFolderContents({'meta_type':['TemporalAttestation']})
     >>> len(tps)
     3
@@ -192,10 +187,9 @@ Load one entity
     >>> p.getTimePeriods()
     ['roman', 'late-antique', 'classical']
 
-
     Test associations
 
-    >>> contents = p.listFolderContents()
+    >>> contents = list(p.getFeatures())
     >>> len(contents)
     2
     
@@ -205,7 +199,7 @@ Load one entity
     >>> contents[1].getRefs('hasLocation')[0] = l
 
     >>> a = contents[0]
-    >>> a.getPlaceType()
+    >>> a.getFeatureType()
     'settlement'
     >>> a.getAssociationCertainty()
     'certain'
@@ -230,60 +224,43 @@ Load one nameless entity
 
     >>> r = load_place(folder, "%s/batlas-65-2-101.xml" % TEST_DATA)
     >>> pid = r['place_id']
-    >>> int(pid) <= BA_ID_MAX
-    True
     >>> r['name_ids']
     []
 
     Test associations
 
-    >>> p = getattr(folder.places, pid)
-    >>> contents = p.listFolderContents()
+    >>> p = folder['places'][pid]
+    >>> contents = list(p.getFeatures())
     >>> len(contents)
     1
     
     >>> a = contents[0]
     >>> a.getRefs('hasName')
     []
-    >>> a.getPlaceType()
+    >>> a.getFeatureType()
     'fort'
     >>> a.getAssociationCertainty()
     'certain'
-
-
-Reload that entity
-------------------
-
-Reloading that entity should result in an error
-
-    >>> load_place(folder, "%s/batlas-65-2-24-frank.xml" % TEST_DATA)
-    Traceback (most recent call last):
-    ...
-    BadRequest: The id ... is invalid - it is already in use.
-
 
 Load one unlocated entity
 -------------------------
 
     >>> r = load_place(folder, "%s/batlas-65-7-21.xml" % TEST_DATA)
     >>> pid = r['place_id']
-    >>> int(pid) <= BA_ID_MAX
-    True
-    >>> r['name_ids']
-    ['gordiouteichos']
+    >>> len(r['name_ids'])
+    1
 
     Test associations
 
-    >>> p = getattr(folder.places, pid)
-    >>> contents = p.listFolderContents()
+    >>> p = folder['places'][pid]
+    >>> contents = list(p.getFeatures())
     >>> len(contents)
     1
     
     >>> a = contents[0]
     >>> a.getRefs('hasLocation')
     []
-    >>> a.getPlaceType()
+    >>> a.getFeatureType()
     'undefined'
     >>> a.getAssociationCertainty()
     'certain'
-

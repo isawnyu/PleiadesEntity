@@ -2,44 +2,44 @@
 Tests of relationships among Name, Location, and Place
 ======================================================
 
-Setup
------
-
-    Alias the test folder
-
     >>> folder = self.folder
-    >>> names = folder.names
-    >>> locations = folder.locations
-    >>> places = folder.places
+    >>> names = folder['names']
+    >>> locations = folder['locations']
+    >>> features = folder['features']
+    >>> places = folder['places']
 
-    Entities
+Add entities
 
-    >>> _ = names.invokeFactory('Name', id='civitasnon', title='Civitas Non', nameTransliterated='Civitas Non', nameAttested='Civitas Non', nameLanguage='la', nameType='geographic')
+    >>> nid = names.invokeFactory('Name', title=u'Civitas Non', nameTransliterated=u'Civitas Non', nameAttested=u'Civitas Non', nameLanguage='la', nameType='geographic')
     >>> lid = locations.invokeFactory('Location')
     >>> pid = places.invokeFactory('Place')
-    >>> p = getattr(folder.places, pid)
-    >>> aid = p.invokeFactory('PlacefulAssociation', id="civitasnon-%s" % lid)
+    >>> fid = features.invokeFactory('Feature')
 
-    Add References
+And references
 
-    >>> n = getattr(names, 'civitasnon')
-    >>> x = getattr(locations, lid)
-    >>> a = getattr(p, aid)
-    >>> _ = a.addReference(n, 'hasName')
-    >>> _ = a.addReference(x, 'hasLocation')
+    >>> n = names[nid]
+    >>> x = locations[lid]
+    >>> f = features[fid]
+    >>> p = places[pid]
+    >>> _ = f.addReference(n, 'hasName')
+    >>> _ = f.addReference(x, 'hasLocation')
+    >>> _ = p.addReference(f, 'hasFeature')
 
-    Set location coordinates
+Set location coordinates
 
     >>> _ = x.setGeometry('Point:[-86.4808333333333, 34.769722222222]')
+
+Test titling
+
+    >>> p.Title()
+    'Civitas Non'
 
 Test the geo adapters
 ---------------------
 
     >>> from zgeo.geographer.interfaces import IGeoreferenced
 
-    Place Association
-
-    >>> g = IGeoreferenced(a)
+    >>> g = IGeoreferenced(f)
     >>> gi = g.__geo_interface__
     >>> gi['type']
     'Feature'
@@ -47,8 +47,6 @@ Test the geo adapters
     'Point'
     >>> g.coordinates
     [-86.480833333333294, 34.769722222222001]
-
-    Place
 
     >>> g = IGeoreferenced(p)
     >>> gi = g.__geo_interface__

@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+<atcttool>
+ <topic_indexes>
+  <!-- ##code-section indexes -->
+  <!-- ##/code-section indexes -->
+
+  <index name="getNameLanguage"
+     description="The language and writing system (script) of the attested name."
+     enabled="True" 
+     friendlyName="Language and Writing System">
+
+   <criteria>ATSelectionCriterion</criteria>
+
+  </index>
+
+  <index name="getAccuracy"
+     description=""
+     enabled="True" 
+     friendlyName="Accuracy of Attestation">
+
+   <criteria>ATSelectionCriteria</criteria>
+
+  </index>
+
+  <index name="getCompleteness"
+     description=""
+     enabled="True" 
+     friendlyName="Completeness of Attestation">
+
+   <criteria>ATSelectionCriterion</criteria>
+
+  </index>
+
+  <index name="getFeatureType"
+     description=""
+     enabled="True" 
+     friendlyName="Feature type">
+
+   <criteria>ATSelectionCriterion</criteria>
+
+  </index>
+
+  <index name="getAssociationCertainty"
+     description="Certainty of association between locations and names"
+     enabled="True" 
+     friendlyName="Certainty of association">
+
+   <criteria>ATSelectionCriterion</criteria>
+
+  </index>
+
+ </topic_indexes>
+ <topic_metadata>
+  <!-- ##code-section metadata -->
+  <!-- ##/code-section metadata -->
+
+  <metadata name="getNameLanguage" 
+     description="The language and writing system (script) of the attested name."
+     enabled="True" 
+     friendlyName="Language and Writing System"/>
+
+  <metadata name="getAccuracy" 
+     description=""
+     enabled="True" 
+     friendlyName="Accuracy of Attestation"/>
+
+  <metadata name="getCompleteness" 
+     description=""
+     enabled="True" 
+     friendlyName="Completeness of Attestation"/>
+
+  <metadata name="getFeatureType" 
+     description=""
+     enabled="True" 
+     friendlyName="Feature type"/>
+
+  <metadata name="getAssociationCertainty" 
+     description="Certainty of association between locations and names"
+     enabled="True" 
+     friendlyName="Certainty of association"/>
+
+ </topic_metadata>
+</atcttool>
