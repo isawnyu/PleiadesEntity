@@ -5,8 +5,8 @@
     profileType="thesaurus" language="en" orderSignificant="false">
     
     <vocabName>
-        <langstring language="de">Standardcodes für die Sprachen und Schreiben Systeme der alten Namen</langstring>
         <langstring language="en">Standard Codes for Languages and Writing Systems of Ancient Names</langstring>
+        <langstring language="de">Standardcodes für die Sprachen und Schreiben Systeme der alten Namen</langstring>
         <langstring language="es">Códigos estándares para las idiomas y los sistemas de la escritura de nombres antiguos</langstring>
         <langstring language="fr">Codes standard pour des langues et des systèmes d'écriture des noms antiques </langstring>
         <langstring language="it">Codici standard per le lingue ed i sistemi di scrittura dei nomi antichi</langstring>
@@ -18,8 +18,8 @@
     <term>
         <termIdentifier>grc</termIdentifier>
         <caption>
-            <langstring language="de">Griechische Sprache (alte)</langstring>
             <langstring language="en">Greek (ancient)</langstring>
+            <langstring language="de">Griechische Sprache (alte)</langstring>
             <langstring language="es">Griega antigua</langstring>
             <langstring language="fr">Grecque antique</langstring>
             <langstring language="it">Greca antica</langstring>
@@ -34,8 +34,8 @@
     <term>
         <termIdentifier>grc-Latn</termIdentifier>
         <caption>
-            <langstring language="de">Griechische Sprache (alte, in den lateinischen Buchstaben)</langstring>
             <langstring language="en">Greek (ancient, in Latin characters)</langstring>
+            <langstring language="de">Griechische Sprache (alte, in den lateinischen Buchstaben)</langstring>
             <langstring language="es">Griega antigua en los caracteres latinos</langstring>
             <langstring language="fr">Grecque antique en caractères latins</langstring>
             <langstring language="it">Greca antica nei caratteri latini</langstring>
@@ -49,9 +49,9 @@
     <term>
         <termIdentifier>la</termIdentifier>
         <caption>
+            <langstring language="en">Latin</langstring>
             <langstring language="de">Lateinisch</langstring>
             <langstring language="el">Λατινική</langstring>
-            <langstring language="en">Latin</langstring>
             <langstring language="es">Latino</langstring>
             <langstring language="fr">Latin</langstring>
             <langstring language="it">Latino</langstring>
@@ -67,8 +67,8 @@
     <term>
         <termIdentifier>la-Grek</termIdentifier>
         <caption>
-            <langstring language="de">Lateinisch in den griechischen Buchstaben</langstring>
             <langstring language="en">Latin in Greek Characters</langstring>
+            <langstring language="de">Lateinisch in den griechischen Buchstaben</langstring>
             <langstring language="es">Latino en los caracteres griegos</langstring>
             <langstring language="fr">Latin en caractères grecs</langstring>
             <langstring language="it">Latino nei caratteri greci</langstring>

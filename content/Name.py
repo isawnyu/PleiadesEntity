@@ -132,10 +132,7 @@ class Name(BaseFolder, BrowserDefaultMixin):
     def getTimePeriods(self):
         """
         """
-        periods = []
-        for ta in self.getFolderContents({'meta_type':['TemporalAttestation']}):
-            periods.append(ta.getId)
-        return periods
+        return [t.getId() for t in self.getTemporalAttestations()]
 
     security.declarePublic('setNameTransliterated')
     def setNameTransliterated(self,value):
@@ -160,6 +157,12 @@ class Name(BaseFolder, BrowserDefaultMixin):
         """
         self.getField('nameAttested').set(self, value)
         self.setNameTransliterated('')
+
+    security.declareProtected(View, 'getTemporalAttestations')
+    def getTemporalAttestations(self):
+         for o in self.values():
+            if interfaces.ITemporalAttestation.providedBy(o):
+                yield o
 
     # Manually created methods
 

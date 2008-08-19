@@ -8,8 +8,7 @@
 
           <metal:namecontentlisting_macro define-macro="contentlisting">
                   <tal:chunk
-                    contentsMethod python:here.getFeatures;
-                    folderContents python:contentsMethod();"
+                    tal:define="folderContents python:context.getFeatures();"
                     >
                       <ul tal:condition="folderContents">
                         <li tal:repeat="item folderContents">

@@ -369,9 +369,9 @@ def load_place(site, file):
     features = site['features']
     names = site['names']
     locations = site['locations']
+    fids = []
 
     savepoint = transaction.savepoint()
-    
     try:
         root = etree.parse(file).getroot()
         creators, contributors, rights = parse_attrib_rights(root)
@@ -429,7 +429,6 @@ def load_place(site, file):
                     )
         p = places[pid]
 
-        fids = []
         # Iterate over locations
         for lid in lids:
             # Handle the unnamed case

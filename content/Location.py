@@ -23,6 +23,7 @@ from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
 from Products.PleiadesEntity.config import *
 
 ##code-section module-header #fill in your manual code here
+from Products.CMFCore import permissions
 ##/code-section module-header
 
 schema = Schema((
@@ -106,10 +107,13 @@ class Location(BaseFolder, BrowserDefaultMixin):
     def getTimePeriods(self):
         """
         """
-        periods = []
-        for ta in self.getFolderContents({'meta_type':['TemporalAttestation']}):
-            periods.append(ta.getId)
-        return periods
+        return [t.getId() for t in self.getTemporalAttestations()]
+
+    security.declareProtected(permissions.View, 'getTemporalAttestations')
+    def getTemporalAttestations(self):
+         for o in self.values():
+            if interfaces.ITemporalAttestation.providedBy(o):
+                yield o
 
 
 registerType(Location, PROJECTNAME)

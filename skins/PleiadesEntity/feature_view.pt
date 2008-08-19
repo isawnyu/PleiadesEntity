@@ -65,7 +65,7 @@
 			  />
           </tal:if_visible>
         	  </div>
-              <p metal:use-macro="here/placefulassociation_contents/macros/placecontents">place contents</p>
+              <p metal:use-macro="here/feature_contents/macros/placecontents">place contents</p>
         <hr style="display: block; clear: right; visibility: hidden;"/>
         </div>
                    

@@ -72,7 +72,7 @@ class FeatureGeoItem(object):
         self._adapter = None
         x = self.context.getRefs('hasLocation')
         if len(x) == 0:
-            raise Exception, "Unlocated: could not adapt %s" % str(context)
+            raise ValueError, "Unlocated: could not adapt %s" % str(context)
         else:
             self._adapter = IGeoreferenced(x[0])
 
@@ -115,7 +115,7 @@ class PlaceGeoItem(object):
                 continue
             break
         if not self._adapter:
-            raise Exception, "Could not adapt %s" % str(context)
+            raise ValueError, "Could not adapt %s" % str(context)
 
     @property
     def type(self):
