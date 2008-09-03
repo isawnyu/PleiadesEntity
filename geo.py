@@ -29,7 +29,7 @@
 
 from zope.interface import implements
 from zgeo.geographer.interfaces import IGeoreferenced, IWriteGeoreferenced
-import simplejson
+import geojson
 from Products.PleiadesEntity.content.interfaces import IPlace
 import logging
 log = logging.getLogger('PleiadesEntity.geo')
@@ -47,8 +47,9 @@ class LocationGeoItem(object):
         'Point:[-105.0, 40.0]'
         """
         d = self.context.getGeometry().split(':')
-        x = simplejson.loads('{"type": "%s", "coordinates": %s}' % (d[0], d[1]))
-        return dict(type=str(x['type']), coordinates=x['coordinates'])
+        data = '{"type": "%s", "coordinates": %s}' % tuple(d)
+        x = geojson.loads(data, object_hook=geojson.GeoJSON.to_instance)
+        return x.__geo_interface__
 
     @property
     def type(self):
