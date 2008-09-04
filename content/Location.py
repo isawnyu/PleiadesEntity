@@ -69,7 +69,7 @@ Location_schema = BaseFolderSchema.copy() + \
     schema.copy()
 
 ##code-section after-schema #fill in your manual code here
-del Location_schema['title']
+#del Location_schema['title']
 ##/code-section after-schema
 
 class Location(BaseFolder, BrowserDefaultMixin):
@@ -97,6 +97,9 @@ class Location(BaseFolder, BrowserDefaultMixin):
         except AttributeError:
             return 'Unidentified Location'
 
+    security.declarePublic('getTitle')
+    getTitle = get_title
+
     security.declarePublic('Title')
     def Title(self):
         """
@@ -107,7 +110,7 @@ class Location(BaseFolder, BrowserDefaultMixin):
     def getTimePeriods(self):
         """
         """
-        return [t.getId() for t in self.getTemporalAttestations()]
+        return [t.getTimePeriod() for t in self.getTemporalAttestations()]
 
     security.declareProtected(permissions.View, 'getTemporalAttestations')
     def getTemporalAttestations(self):

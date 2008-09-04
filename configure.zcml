@@ -7,6 +7,9 @@
 
 
   <!-- ##code-section configure.zcml -->
+
+  <five:registerPackage package="." initialize=".initialize" />
+
   <adapter
     for="Products.PleiadesEntity.content.Location.Location"
     provides="zgeo.geographer.interfaces.IGeoreferenced"
@@ -39,6 +42,11 @@
     class="Products.PleiadesEntity.content.Place.Place"
     interface="zope.dublincore.interfaces.ICMFDublinCore"
     />
+
+  <subscriber handler=".event.timePeriodChangeSubscriber"/>
+  <subscriber handler=".event.nameChangeSubscriber"/>
+  <subscriber handler=".event.locationChangeSubscriber"/>
+  <subscriber handler=".event.featureChangeSubscriber"/>
 
   <!-- ##/code-section configure.zcml -->
 

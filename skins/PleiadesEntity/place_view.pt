@@ -66,13 +66,14 @@
 			  />
           </tal:if_visible>
         	  </div>
-              <p metal:use-macro="here/place_contents/macros/placecontents">place contents</p>
 
         <div>
           <label><span>Alternate representations</span></label>:
           <ul>
-          <li class="repr-georss"><a rel="alternate" href="georss">GeoRSS</a></li>
-          <li class="repr-kml"><a rel="alternate" href="kml">KML</a></li>
+          <!--li class="repr-georss"><a rel="alternate" href="georss">GeoRSS</a></li-->
+          <li class="repr-kml">
+            <a tal:attributes="href string:${context/absolute_url}/kml">KML</a>
+          </li>
           </ul>
         </div>        
    
