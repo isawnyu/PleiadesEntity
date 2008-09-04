@@ -3,7 +3,7 @@
         meta_type="Factory-based Type Information with dynamic views"
         xmlns:i18n="http://xml.zope.org/namespaces/i18n">
    
- <property name="title">Ancient Name</property>
+ <property name="title">Name</property>
  <property name="description"></property>
  <property name="content_icon">document_icon.gif</property>
  <property name="content_meta_type">Name</property>

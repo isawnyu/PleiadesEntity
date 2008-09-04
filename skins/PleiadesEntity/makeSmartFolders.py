@@ -47,7 +47,7 @@ for v in v_times:
     c = topic.addCriterion('getTimePeriods', 'ATSimpleStringCriterion')
     c.setValue(v)
     c = topic.addCriterion('Type', 'ATPortalTypeCriterion')
-    c.setValue('Ancient Place')
+    c.setValue('Place')
     topic.setSortCriterion('sortable_title', reversed=False)
 
     for t in v_types:
@@ -67,7 +67,7 @@ for t in v_types:
     c = topic.addCriterion('getPlaceType', 'ATSimpleStringCriterion')
     c.setValue(t)
     c = topic.addCriterion('Type', 'ATPortalTypeCriterion')
-    c.setValue('Ancient Place')
+    c.setValue('Place')
     topic.setSortCriterion('sortable_title', reversed=False)
 
     for v in v_times:

@@ -3,7 +3,7 @@
         meta_type="Factory-based Type Information with dynamic views"
         xmlns:i18n="http://xml.zope.org/namespaces/i18n">
    
- <property name="title">Ancient Location</property>
+ <property name="title">Location</property>
  <property name="description"></property>
  <property name="content_icon">link_icon.gif</property>
  <property name="content_meta_type">Location</property>
