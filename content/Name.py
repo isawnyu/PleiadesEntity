@@ -148,8 +148,9 @@ class Name(BaseFolder, BrowserDefaultMixin):
                 t = ''
         else:
             t = value
-        self.getField('nameTransliterated').set(self, t)
-        self.getField('title').set(self, t)
+        if t:
+            self.getField('nameTransliterated').set(self, t)
+            self.getField('title').set(self, t)
 
     security.declarePublic('setNameAttested')
     def setNameAttested(self,value):
