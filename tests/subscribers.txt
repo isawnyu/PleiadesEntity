@@ -1,0 +1,48 @@
+
+Tests of subscribers that keep catalog metadata in synch
+========================================================
+
+    >>> folder = self.folder
+    >>> names = folder['names']
+    >>> locations = folder['locations']
+    >>> features = folder['features']
+    >>> places = folder['places']
+
+Add entities
+
+    >>> nid = names.invokeFactory('Name', nameAttested=u'\u039e\u03ac\u03bd\u03b8\u03bf\u03c2', nameLanguage='grc', nameType='geographic')
+    >>> lid = locations.invokeFactory('Location')
+    >>> pid = places.invokeFactory('Place')
+    >>> fid = features.invokeFactory('Feature')
+
+And references
+
+    >>> n = names[nid]
+    >>> x = locations[lid]
+    >>> f = features[fid]
+    >>> p = places[pid]
+    >>> _ = f.addReference(n, 'hasName')
+    >>> _ = f.addReference(x, 'hasLocation')
+    >>> _ = p.addReference(f, 'hasFeature')
+
+Set location coordinates
+
+    >>> _ = x.setGeometry('Point:[-86.4808333333333, 34.769722222222]')
+
+Check metadata
+
+    >>> from zope.event import notify
+    >>> from Products.Archetypes.event import ObjectEditedEvent
+    >>> notify(ObjectEditedEvent(n))
+    >>> from Products.CMFCore.utils import getToolByName
+    >>> catalog = getToolByName(self.portal, 'portal_catalog')
+    >>> brain = catalog(UID=p.UID())[0]
+    >>> brain.Title
+    'KSanthos'
+
+    >>> n.nameAttested = u'\u1f08\u03c6\u03c1\u03bf\u03b4\u03b9\u03c3\u03b9\u1f71\u03c2'
+    >>> notify(ObjectEditedEvent(n))
+    >>> brain = catalog(UID=p.UID())[0]
+    >>> brain.Title
+    'Aphrodisias'
+
