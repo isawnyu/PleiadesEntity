@@ -116,7 +116,7 @@ class Name(BaseFolder, BrowserDefaultMixin):
     implements(interfaces.IName)
 
     meta_type = 'Name'
-    _at_rename_after_creation = True
+    #_at_rename_after_creation = True
 
     schema = Name_schema
 
@@ -133,31 +133,6 @@ class Name(BaseFolder, BrowserDefaultMixin):
         """
         """
         return [t.getId() for t in self.getTemporalAttestations()]
-
-    security.declarePublic('setNameTransliterated')
-    def setNameTransliterated(self,value):
-        """
-        """
-        if len(value) == 0:
-            REQUEST = self.REQUEST
-            tNameLanguage = REQUEST.get('nameLanguage', None)
-            tNameAttested = REQUEST.get('nameAttested', None)
-            if tNameLanguage and tNameAttested:
-                t = transliterate_name(tNameLanguage, tNameAttested)
-            else:
-                t = ''
-        else:
-            t = value
-        if t:
-            self.getField('nameTransliterated').set(self, t)
-            self.getField('title').set(self, t)
-
-    security.declarePublic('setNameAttested')
-    def setNameAttested(self,value):
-        """
-        """
-        self.getField('nameAttested').set(self, value)
-        self.setNameTransliterated('')
 
     security.declareProtected(View, 'getTemporalAttestations')
     def getTemporalAttestations(self):

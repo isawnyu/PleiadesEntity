@@ -44,6 +44,7 @@ integration_tests = [
     'Vocabularies.txt',
     'WSTransliteration.txt',
     'WSValidation.txt',
+    'subscribers.txt',
     'LoadEntity.txt',
     'BatchLoad.txt'
     ]
