@@ -31,6 +31,7 @@ import glob
 import sys
 import re
 from os.path import basename
+import logging
 
 import lxml.etree as etree
 
@@ -109,12 +110,13 @@ def loaden(site, sourcedir):
     Files which can not be loaded are reported."""
     failures = []
     count = 0
+    log = logging.getLogger("pleiades.entity")
     for xml in glob.glob("%s/*.xml" % sourcedir):
         try:
             load_place(site, xml)
             count += 1
         except Exception, e:
-            failures.append([basename(xml), str(e)])
+            log.error("Failed to load %s", xml, exc_info=1)
     
     if len(failures) == 0:
         return "Loaded %d of %d files." % (count, count)
@@ -468,6 +470,10 @@ def load_place(site, file):
                         #id="%s,unlocated" % nid,
                         featureType=placeType,
                         associationCertainty='certain',
+                        creators=creators,
+                        contributors=contributors,
+                        rights=rights,
+                        description=description,
                         )
                 f = features[fid]
                 f.addReference(names[nid], 'hasName')
