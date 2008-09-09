@@ -24,6 +24,7 @@ from Products.PleiadesEntity.config import *
 
 ##code-section module-header #fill in your manual code here
 from Products.CMFCore import permissions
+from Products.PleiadesEntity.time import TimePeriodCmp
 ##/code-section module-header
 
 schema = Schema((
@@ -89,28 +90,34 @@ class Location(BaseFolder, BrowserDefaultMixin):
 
     # Methods
 
-    security.declarePublic('get_title')
+    security.declareProtected(permissions.View, 'get_title')
     def get_title(self):
         """Return a title string derived from the geometry type."""
         try:
-            return "%s %s" % (self.getGeometry().split(':')[0], self.getId())
+            return "%s %s" % (
+                self.getGeometry().split(':')[0].strip(),
+                self.getId()
+                )
         except AttributeError:
             return 'Unidentified Location'
 
-    security.declarePublic('getTitle')
+    security.declareProtected(permissions.View, 'getTitle')
     getTitle = get_title
 
-    security.declarePublic('Title')
+    security.declareProtected(permissions.View, 'Title')
     def Title(self):
         """
         """
         return self.get_title()
 
-    security.declarePublic('getTimePeriods')
+    security.declareProtected(permissions.View, 'getTimePeriods')
     def getTimePeriods(self):
         """
         """
-        return [t.getTimePeriod() for t in self.getTemporalAttestations()]
+        return sorted(
+            [t.getTimePeriod() for t in self.getTemporalAttestations()],
+            cmp=TimePeriodCmp(self)
+            )
 
     security.declareProtected(permissions.View, 'getTemporalAttestations')
     def getTemporalAttestations(self):

@@ -24,6 +24,7 @@ from Products.ATVocabularyManager.namedvocabulary import NamedVocabulary
 from Products.PleiadesEntity.config import *
 
 ##code-section module-header #fill in your manual code here
+from Products.CMFCore import permissions
 ##/code-section module-header
 
 schema = Schema((
@@ -83,7 +84,7 @@ class TemporalAttestation(BaseContent, BrowserDefaultMixin):
 
     # Methods
 
-    security.declarePublic('get_title')
+    security.declareProtected(permissions.View, 'get_title')
     def get_title(self):
         """Return a title string derived from the associated time period and attestation certainty """
         title = "Attested: %s" % self.getTimePeriod()
@@ -94,7 +95,7 @@ class TemporalAttestation(BaseContent, BrowserDefaultMixin):
             title += ' - inferred'
         return title
 
-    security.declarePublic('Title')
+    security.declareProtected(permissions.View, 'Title')
     def Title(self):
         """
         """

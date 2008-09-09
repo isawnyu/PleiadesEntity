@@ -110,7 +110,7 @@ Load one entity
     [('http://www.unc.edu/awmc/pleiades/bibliography/re.html', 'RE Aphrodisias 2'), ('http://www.unc.edu/awmc/pleiades/bibliography/npauly.html', 'NPauly Aphrodisias 1')]
 
     >>> n0.getTimePeriods()
-    ['roman', 'late-antique']
+    ['Roman (30 BC - AD 300)', 'Late Antique (AD 300 - 625)']
 
     >>> n1 = folder['names'][nids[1]]
     >>> n1.title
@@ -180,12 +180,12 @@ Load one entity
     >>> tps2.getAttestationConfidence()
     'confident'
     >>> l.getTimePeriods()
-    ['classical', 'roman', 'late-antique']
+    ['Classical (550 - 330 BC)', 'Roman (30 BC - AD 300)', 'Late Antique (AD 300 - 625)']
 
     Check Place time periods
 
     >>> p.getTimePeriods()
-    ['roman', 'late-antique', 'classical']
+    ['Classical (550 - 330 BC)', 'Roman (30 BC - AD 300)', 'Late Antique (AD 300 - 625)']
 
     Test associations
 

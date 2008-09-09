@@ -26,6 +26,8 @@ from Products.ATVocabularyManager.namedvocabulary import NamedVocabulary
 from Products.PleiadesEntity.config import *
 
 ##code-section module-header #fill in your manual code here
+from Products.CMFCore import permissions
+from Products.PleiadesEntity.time import TimePeriodCmp
 ##/code-section module-header
 
 schema = Schema((
@@ -105,7 +107,7 @@ class Feature(BaseFolder, BrowserDefaultMixin):
 
     # Methods
 
-    security.declarePublic('get_title')
+    security.declareProtected(permissions.View, 'get_title')
     def get_title(self):
         """Return a title string derived from the ancient names to which
         this place refers.
@@ -114,19 +116,19 @@ class Feature(BaseFolder, BrowserDefaultMixin):
         try:
             names = self.getRefs('hasName')
             if names:
-                return '/'.join([n.Title() for n in names])
+                return '/'.join([n.Title() for n in names if n.Title()])
             else:
                 return "Unnamed %s" % self.getFeatureType().capitalize()
         except AttributeError:
             return 'Unnamed Place'
 
-    security.declarePublic('Title')
+    security.declareProtected(permissions.View, 'Title')
     def Title(self):
         """
         """
         return self.get_title()
 
-    security.declarePublic('getTimePeriods')
+    security.declareProtected(permissions.View, 'getTimePeriods')
     def getTimePeriods(self):
         """
         """
@@ -141,7 +143,7 @@ class Feature(BaseFolder, BrowserDefaultMixin):
         for p in periods:
             if p not in result:
                 result.append(p)
-        return result
+        return sorted(result, cmp=TimePeriodCmp(self))
 
 
 registerType(Feature, PROJECTNAME)

@@ -26,6 +26,7 @@ from Products.PleiadesEntity.config import *
 
 ##code-section module-header #fill in your manual code here
 from Products.CMFCore import permissions
+from Products.PleiadesEntity.time import TimePeriodCmp
 ##/code-section module-header
 
 schema = Schema((
@@ -91,7 +92,7 @@ class Place(BaseContent, BrowserDefaultMixin):
 
     # Methods
 
-    security.declarePublic('Title')
+    security.declareProtected(permissions.View, 'Title')
     def Title(self):
         """
         """
@@ -107,9 +108,9 @@ class Place(BaseContent, BrowserDefaultMixin):
         if len(titles) == 0:
             return 'Unnamed Place'
         else:
-            return '/'.join(titles)
+            return '/'.join([t for t in titles if t])
 
-    security.declarePublic('getTimePeriods')
+    security.declareProtected(permissions.View, 'getTimePeriods')
     def getTimePeriods(self):
         """
         """
@@ -118,9 +119,9 @@ class Place(BaseContent, BrowserDefaultMixin):
             for t in o.getTimePeriods():
                 if t not in result:
                     result.append(t)
-        return result
+        return sorted(result, cmp=TimePeriodCmp(self))
 
-    security.declarePublic('getPlaceType')
+    security.declareProtected(permissions.View, 'getPlaceType')
     def getPlaceType(self):
         """
         """

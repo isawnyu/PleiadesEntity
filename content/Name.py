@@ -27,6 +27,7 @@ from Products.PleiadesEntity.config import *
 from Products.CMFCore.permissions import View
 from Products.PleiadesEntity.Extensions.ws_validation import validate_name
 from Products.PleiadesEntity.Extensions.ws_transliteration import transliterate_name
+from Products.PleiadesEntity.time import TimePeriodCmp
 ##/code-section module-header
 
 schema = Schema((
@@ -116,7 +117,7 @@ class Name(BaseFolder, BrowserDefaultMixin):
     implements(interfaces.IName)
 
     meta_type = 'Name'
-    #_at_rename_after_creation = True
+    _at_rename_after_creation = False
 
     schema = Name_schema
 
@@ -128,11 +129,14 @@ class Name(BaseFolder, BrowserDefaultMixin):
 
     # Methods
 
-    security.declarePublic('getTimePeriods')
+    security.declareProtected(View, 'getTimePeriods')
     def getTimePeriods(self):
         """
         """
-        return [t.getId() for t in self.getTemporalAttestations()]
+        return sorted(
+            [t.getTimePeriod() for t in self.getTemporalAttestations()],
+            cmp=TimePeriodCmp(self)
+            )
 
     security.declareProtected(View, 'getTemporalAttestations')
     def getTemporalAttestations(self):

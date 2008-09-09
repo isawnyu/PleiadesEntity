@@ -185,7 +185,8 @@ def parse_periods(xmlcontext, portalcontext):
                 attestationConfidence=confidence
                 )
         except:
-            raise EntityLoadError, "There is already a TemporalAttestation with id=%s in portal context = %s" % (id, portalcontext.Title())
+            raise
+            #raise EntityLoadError, "There is already a TemporalAttestation with id=%s in portal context = %s" % (id, portalcontext.Title())
 
 def getalltext(elem):
     text = elem.text or ""
