@@ -337,7 +337,7 @@ def parse_names(xmlcontext, portalcontext, ptool, wftool=None):
         # Time Periods associated with the name
         parse_periods(e, name)
         # SecondaryReferences associated with the name
-        parse_secondary_references(e, name, ptool) #, wftool)
+        parse_secondary_references(root, name, ptool) #, wftool)
         
     return (nids, association_certainties)
 
@@ -359,6 +359,8 @@ def parse_locations(xmlcontext, portalcontext, ptool, wftool=None):
         lids.append(lid)
         # Time Periods associated with the location
         parse_periods(root, portalcontext[lid])
+        # SecondaryReferences associated with the name
+        parse_secondary_references(root, name, ptool) #, wftool)
 
     return lids
 
