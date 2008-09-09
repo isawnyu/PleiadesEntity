@@ -360,7 +360,7 @@ def parse_locations(xmlcontext, portalcontext, ptool, wftool=None):
         # Time Periods associated with the location
         parse_periods(root, portalcontext[lid])
         # SecondaryReferences associated with the name
-        parse_secondary_references(root, name, ptool) #, wftool)
+        parse_secondary_references(root, portalcontext[lid], ptool) #, wftool)
 
     return lids
 
