@@ -110,7 +110,7 @@ def loaden(site, sourcedir):
     Files which can not be loaded are reported."""
     failures = []
     count = 0
-    log = logging.getLogger("pleiades.entity")
+    log = site.getLogger("pleiades.entity")
     for xml in glob.glob("%s/*.xml" % sourcedir):
         try:
             load_place(site, xml)
@@ -440,6 +440,10 @@ def load_place(site, file):
                     #id="unnamed,%s" % lid,
                     featureType=placeType,
                     associationCertainty='certain',
+                    creators=creators,
+                    contributors=contributors,
+                    rights=rights,
+                    description=description,
                     )
                 f = features[fid]
                 f.addReference(locations[lid], 'hasLocation')
@@ -455,6 +459,10 @@ def load_place(site, file):
                         #id="%s,%s" % (nid,lid),
                         featureType=placeType,
                         associationCertainty=certainty,
+                        creators=creators,
+                        contributors=contributors,
+                        rights=rights,
+                        description=description,
                         )
                     f = features[fid]
                     f.addReference(locations[lid], 'hasLocation')
