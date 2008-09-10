@@ -1,4 +1,20 @@
 
+# the assumption is that this transliterator should work according to the rules of the 
+# Barrington Atlas. In the introduction to the Map-by-Map Directory (p. vii) its
+# Greek transliteration rules are described as follows:
+
+# Ancient Greek names are transcribed literally, though without marking accents or 
+# long vowels.  Th is used for theta, k for kappa, x for xi, ch for chi, ps for psi.  
+# Combinations with gamma such as gg or gk become ng and nk, etc.  Upsilon with 
+# another vowel remains u (thus au for alpha + upsilon); otherwise it normally becomes 
+# y.  Rho’s rough breathing is optional for initial rho (which can thus appear as either Rh 
+# or R), but elsewhere in the word it is omitted in the case of names attested only in Greek.  
+# Subscripts are ignored.
+
+# the current code does some of this, but doesn't live up to all aspects, especially dealing
+# with two-letter combinations; needs a major rework including some enforced 
+# assumptions about unicode normalization form, capitalization and so forth
+
 grek_unaccented_capital = {
     u"\u0391" : "A",    # Greek capital letter alpha
     u"\u0392" : "B",    # Greek capital letter beta
@@ -13,7 +29,7 @@ grek_unaccented_capital = {
     u"\u039B" : "L",    # Greek capital letter lamda
     u"\u039C" : "M",    # Greek capital letter mu 
     u"\u039D" : "N",    # Greek capital letter nu
-    u"\u039E" : "KS",   # Greek capital letter xi
+    u"\u039E" : "X",   # Greek capital letter xi
     u"\u039F" : "O",    # Greek capital letter omicron
     u"\u03A0" : "P",    # Greek capital letter pi 
     u"\u03A1" : "R",    # Greek capital letter rho
@@ -41,7 +57,7 @@ grek_unaccented_small = {
     u"\u03BB" : "l",    # Greek small letter lamda
     u"\u03BC" : "m",    # Greek small letter mu 
     u"\u03BD" : "n",    # Greek small letter nu
-    u"\u03BE" : "ks",   # Greek small letter xi
+    u"\u03BE" : "x",   # Greek small letter xi
     u"\u03BF" : "o",    # Greek small letter omicron
     u"\u03C0" : "p",    # Greek small letter pi 
     u"\u03C1" : "r",    # Greek small letter rho
