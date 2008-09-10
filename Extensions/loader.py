@@ -153,7 +153,7 @@ period_ids = {"Archaic":"archaic",
     "Roman":"roman",
     "Late Antique":"late-antique"}
 
-def parse_periods(xmlcontext, portalcontext):
+def parse_periods(xmlcontext, portalcontext, **kw):
     """Find timePeriod children of the node at xmlcontext and create
     appropriate temporalAttestation children of the object at 
     portalcontext."""
@@ -184,7 +184,8 @@ def parse_periods(xmlcontext, portalcontext):
             portalcontext.invokeFactory('TemporalAttestation',
                 id=id,
                 timePeriod=period,
-                attestationConfidence=confidence
+                attestationConfidence=confidence,
+                **kw
                 )
         except:
             raise
@@ -196,7 +197,7 @@ def getalltext(elem):
         text = text + " " + getalltext(e)
     return text.strip()
 
-def parse_secondary_references(xmlcontext, portalcontext, ptool, wftool=None):
+def parse_secondary_references(xmlcontext, portalcontext, ptool, **kw):
     srs =  xmlcontext.find("{%s}secondaryReferences" % AWMC)
     if srs is not None:
         bibls = srs.xpath('tei:bibl', namespaces={'tei': TEI})
@@ -216,7 +217,8 @@ def parse_secondary_references(xmlcontext, portalcontext, ptool, wftool=None):
                         title=bibstr,
                         id=id,
                         item=url,
-                        range=bibstr
+                        range=bibstr,
+                        **kw
                     )
                 except:
                     raise
@@ -243,14 +245,11 @@ def find_next_valid_name_id(context, initial):
         # Shouldn't get here
         raise Exception, "Number of allowable name duplicates exceeded"
 
-def parse_names(xmlcontext, portalcontext, ptool, wftool=None):
+def parse_names(xmlcontext, portalcontext, ptool, **kw):
     root = xmlcontext
     names = portalcontext
     nids = []
     association_certainties = []
-
-    creators, contributors, rights = parse_attrib_rights(root)
-
     for e in root.findall("{%s}featureName" % ADLGAZ):
         transliteration = e.findall("{%s}transliteration" % AWMC)[0].text
         na = e.findall("{%s}name" % ADLGAZ)
@@ -324,10 +323,8 @@ def parse_names(xmlcontext, portalcontext, ptool, wftool=None):
                 nameType=type,
                 accuracy=accuracy,
                 completeness=completeness,
-                creators=creators,
-                contributors=contributors,
-                rights=rights,
-                description=description
+                description=description,
+                **kw
                 )
         name = names[nid]
 
@@ -335,32 +332,26 @@ def parse_names(xmlcontext, portalcontext, ptool, wftool=None):
         association_certainties.append(certainty)
 
         # Time Periods associated with the name
-        parse_periods(e, name)
+        parse_periods(e, name, **kw)
         # SecondaryReferences associated with the name
-        parse_secondary_references(e, name, ptool) #, wftool)
+        parse_secondary_references(e, name, ptool, **kw)
         
     return (nids, association_certainties)
 
-def parse_locations(xmlcontext, portalcontext, ptool, wftool=None):
+def parse_locations(xmlcontext, portalcontext, ptool, **kw):
     root = xmlcontext
     lids = []
-
-    # Attribution and rights
-    creators, contributors, rights = parse_attrib_rights(root)
-
     for e in root.findall("{%s}spatialLocation" % ADLGAZ):
         coords = e.findall("{%s}point" % GEORSS)[0].text.split()
         lid = portalcontext.invokeFactory('Location',
                     geometry='Point:[%s,%s]' % (coords[1], coords[0]),
-                    creators=creators,
-                    contributors=contributors,
-                    rights=rights
+                    **kw
                     )
         lids.append(lid)
         # Time Periods associated with the location
-        parse_periods(root, portalcontext[lid])
+        parse_periods(root, portalcontext[lid], **kw)
         # SecondaryReferences associated with the name
-        parse_secondary_references(e, portalcontext[lid], ptool) #, wftool)
+        parse_secondary_references(e, portalcontext[lid], ptool, **kw)
 
     return lids
 
@@ -381,9 +372,9 @@ def load_place(site, file):
         root = etree.parse(file).getroot()
         creators, contributors, rights = parse_attrib_rights(root)
         # Names
-        nids, association_certainties = parse_names(root, names, ptool)
+        nids, association_certainties = parse_names(root, names, ptool, creators=creators, contributors=contributors, rights=rights)
         # Locations
-        lids = parse_locations(root, locations, ptool)
+        lids = parse_locations(root, locations, ptool, creators=creators, contributors=contributors, rights=rights)
         # Place
         e = root.findall("{%s}modernLocation" % AWMC)
         if e:
@@ -427,10 +418,10 @@ def load_place(site, file):
                     id=id,
                     title=computedTitle,
                     modernLocation=modernLocation,
+                    description=description,
                     creators=creators,
                     contributors=contributors,
                     rights=rights,
-                    description=description
                     )
         p = places[pid]
 
@@ -439,18 +430,21 @@ def load_place(site, file):
             # Handle the unnamed case
             if len(nids) == 0:
                 fid = features.invokeFactory('Feature',
-                    #id="unnamed,%s" % lid,
                     featureType=placeType,
                     associationCertainty='certain',
+                    description=description,
                     creators=creators,
                     contributors=contributors,
                     rights=rights,
-                    description=description,
                     )
                 f = features[fid]
                 f.addReference(locations[lid], 'hasLocation')
                 # Secondary references for the place
-                parse_secondary_references(root, f, ptool) #, wftool)
+                parse_secondary_references(root, f, ptool,
+                    creators=creators,
+                    contributors=contributors,
+                    rights=rights
+                    )
                 p.addReference(f, 'hasFeature')
                 fids.append(fid)
             else:
@@ -458,37 +452,43 @@ def load_place(site, file):
                     # Get association certainty from XML
                     certainty = association_certainties[i]
                     fid = features.invokeFactory('Feature',
-                        #id="%s,%s" % (nid,lid),
                         featureType=placeType,
                         associationCertainty=certainty,
+                        description=description,
                         creators=creators,
                         contributors=contributors,
                         rights=rights,
-                        description=description,
                         )
                     f = features[fid]
                     f.addReference(locations[lid], 'hasLocation')
                     f.addReference(names[nid], 'hasName')
                     # Secondary references for the place
-                    parse_secondary_references(root, f, ptool) #, wftool)
+                    parse_secondary_references(root, f, ptool,
+                        creators=creators,
+                        contributors=contributors,
+                        rights=rights
+                        )
                     p.addReference(f, 'hasFeature')
                     fids.append(fid)
         # If there are no locations, iterate over the names
         if len(lids) == 0:
             for nid in nids:
                 fid = features.invokeFactory('Feature',
-                        #id="%s,unlocated" % nid,
                         featureType=placeType,
                         associationCertainty='certain',
+                        description=description,
                         creators=creators,
                         contributors=contributors,
                         rights=rights,
-                        description=description,
                         )
                 f = features[fid]
                 f.addReference(names[nid], 'hasName')
                 # Secondary references for the place
-                parse_secondary_references(root, f, ptool) #, wftool)
+                parse_secondary_references(root, f, ptool,
+                    creators=creators,
+                    contributors=contributors,
+                    rights=rights
+                    )
                 p.addReference(f, 'hasFeature')
                 fids.append(fid)
     except:
