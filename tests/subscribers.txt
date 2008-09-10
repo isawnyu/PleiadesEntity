@@ -38,7 +38,7 @@ Check metadata
     >>> catalog = getToolByName(self.portal, 'portal_catalog')
     >>> brain = catalog(UID=p.UID())[0]
     >>> brain.Title
-    'KSanthos'
+    'Xanthos'
 
     >>> n.nameAttested = u'\u1f08\u03c6\u03c1\u03bf\u03b4\u03b9\u03c3\u03b9\u1f71\u03c2'
     >>> notify(ObjectEditedEvent(n))

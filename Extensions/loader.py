@@ -110,7 +110,7 @@ def loaden(site, sourcedir):
     Files which can not be loaded are reported."""
     failures = []
     count = 0
-    log = site.getLogger("pleiades.entity")
+    log = logging.getLogger("pleiades.entity")
     for xml in glob.glob("%s/*.xml" % sourcedir):
         try:
             load_place(site, xml)
@@ -337,7 +337,7 @@ def parse_names(xmlcontext, portalcontext, ptool, wftool=None):
         # Time Periods associated with the name
         parse_periods(e, name)
         # SecondaryReferences associated with the name
-        parse_secondary_references(root, name, ptool) #, wftool)
+        parse_secondary_references(e, name, ptool) #, wftool)
         
     return (nids, association_certainties)
 
@@ -360,7 +360,7 @@ def parse_locations(xmlcontext, portalcontext, ptool, wftool=None):
         # Time Periods associated with the location
         parse_periods(root, portalcontext[lid])
         # SecondaryReferences associated with the name
-        parse_secondary_references(root, portalcontext[lid], ptool) #, wftool)
+        parse_secondary_references(e, portalcontext[lid], ptool) #, wftool)
 
     return lids
 
