@@ -424,7 +424,7 @@ def load_place(site, file):
         computedTitle = '/'.join([n.Title() for n in placeNames])
         
         pid = places.invokeFactory('Place',
-                    #id=id,
+                    id=id,
                     title=computedTitle,
                     modernLocation=modernLocation,
                     creators=creators,
