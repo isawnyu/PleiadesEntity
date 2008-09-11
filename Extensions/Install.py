@@ -32,6 +32,7 @@ __docformat__ = 'plaintext'
 import os.path
 import sys
 from StringIO import StringIO
+import transaction
 from sets import Set
 from App.Common import package_home
 from Products.CMFCore.utils import getToolByName
@@ -63,7 +64,7 @@ def install(self):
     for dependency in DEPENDENCIES:
         print >> out, "Installing dependency %s:" % dependency
         quickinstaller.installProduct(dependency)
-        get_transaction().commit(1)
+        transaction.commit()
 
     classes = listTypes(PROJECTNAME)
     installTypes(self, out,

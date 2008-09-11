@@ -65,7 +65,7 @@ product_globals = globals()
 
 # Dependencies of Products to be installed by quick-installer
 # override in custom configuration
-DEPENDENCIES = []
+DEPENDENCIES = ['ATVocabularyManager']
 
 # Dependend products - not quick-installed - used in testcase
 # override in custom configuration
