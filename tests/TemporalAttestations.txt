@@ -55,7 +55,7 @@ Load one entity
     
     >>> tps1 = tps[1].getObject()
     >>> tps1.Title()
-    'Attested: Hellenistic/Republican (330 - 30 BC)?'
+    'Attested: Hellenistic (Roman Republic; 330 - 30 BC)?'
     >>> tps1.getId()
     'hellenistic-republican'
     >>> tps1.getAttestationConfidence()
@@ -67,7 +67,7 @@ Load one entity
     2
     >>> tps0 = tps[0].getObject()
     >>> tps0.Title()
-    'Attested: Roman (30 BC - AD 300) - inferred'
+    'Attested: Roman (Early Empire; 30 BC - AD 300) - inferred'
     >>> tps0.getId()
     'roman'
     >>> tps0.getAttestationConfidence()
@@ -75,7 +75,7 @@ Load one entity
    
     >>> tps1 = tps[1].getObject()
     >>> tps1.Title()
-    'Attested: Late Antique (AD 300 - 625)? - inferred'
+    'Attested: Late Antique (AD 300 - 640)? - inferred'
     >>> tps1.getId()
     'late-antique'
     >>> tps1.getAttestationConfidence()
@@ -106,7 +106,7 @@ Load one entity
    
     >>> tps2 = tps[2].getObject()
     >>> tps2.Title()
-    'Attested: Hellenistic/Republican (330 - 30 BC)?'
+    'Attested: Hellenistic (Roman Republic; 330 - 30 BC)?'
     >>> tps2.getId()
     'hellenistic-republican'
     >>> tps2.getAttestationConfidence()
@@ -114,7 +114,7 @@ Load one entity
    
     >>> tps3 = tps[3].getObject()
     >>> tps3.Title()
-    'Attested: Roman (30 BC - AD 300)'
+    'Attested: Roman (Early Empire; 30 BC - AD 300)'
     >>> tps3.getId()
     'roman'
     >>> tps3.getAttestationConfidence()
@@ -122,7 +122,7 @@ Load one entity
    
     >>> tps4 = tps[4].getObject()
     >>> tps4.Title()
-    'Attested: Late Antique (AD 300 - 625)?'
+    'Attested: Late Antique (AD 300 - 640)?'
     >>> tps4.getId()
     'late-antique'
     >>> tps4.getAttestationConfidence()

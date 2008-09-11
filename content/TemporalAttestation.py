@@ -86,8 +86,12 @@ class TemporalAttestation(BaseContent, BrowserDefaultMixin):
 
     security.declareProtected(permissions.View, 'get_title')
     def get_title(self):
-        """Return a title string derived from the associated time period and attestation certainty """
-        title = "Attested: %s" % self.getTimePeriod()
+        """Return a title string derived from the associated time period and
+        attestation certainty """
+        vocab = self.getField('timePeriod').vocabulary
+        vd = dict(vocab.getDisplayList(self).items())
+        tv = vd.get(self.getTimePeriod(), None)
+        title = "Attested: %s" % tv
         confidence = self.getAttestationConfidence()
         if confidence.startswith('less-'):
             title += '?'

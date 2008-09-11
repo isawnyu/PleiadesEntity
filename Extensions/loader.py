@@ -142,16 +142,20 @@ NAMESPACES = {
     'tei': TEI
     }
 
-periods = {"Archaic":"Archaic (pre-550 BC)", 
-    "Classical":"Classical (550 - 330 BC)",
-    "Hellenistic (Roman Republic)":"Hellenistic/Republican (330 - 30 BC)",
-    "Roman":"Roman (30 BC - AD 300)",
-    "Late Antique":"Late Antique (AD 300 - 625)"}
-period_ids = {"Archaic":"archaic", 
-    "Classical":"classical",
-    "Hellenistic (Roman Republic)":"hellenistic-republican",
-    "Roman":"roman",
-    "Late Antique":"late-antique"}
+periods = {
+    "Archaic": "Archaic (pre-550 BC)", 
+    "Classical": "Classical (550 - 330 BC)",
+    "Hellenistic (Roman Republic)": "Hellenistic (Roman Republic; 330 - 30 BC)",
+    "Roman": "Roman (Early Empire; 30 BC - AD 300)",
+    "Late Antique": "Late Antique (AD 300 - 640)"
+    }
+period_ids = {
+    "Archaic": "archaic", 
+    "Classical": "classical",
+    "Hellenistic (Roman Republic)": "hellenistic-republican",
+    "Roman": "roman",
+    "Late Antique": "late-antique"
+    }
 
 def parse_periods(xmlcontext, portalcontext, **kw):
     """Find timePeriod children of the node at xmlcontext and create
@@ -183,7 +187,7 @@ def parse_periods(xmlcontext, portalcontext, **kw):
         try:
             portalcontext.invokeFactory('TemporalAttestation',
                 id=id,
-                timePeriod=period,
+                timePeriod=id,
                 attestationConfidence=confidence,
                 **kw
                 )

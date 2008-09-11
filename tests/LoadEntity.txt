@@ -86,14 +86,14 @@ Load one entity
     2
     >>> tps0 = tps[0].getObject()
     >>> tps0.Title()
-    'Attested: Roman (30 BC - AD 300)'
+    'Attested: Roman (Early Empire; 30 BC - AD 300)'
     >>> tps0.getId()
     'roman'
     >>> tps0.getAttestationConfidence()
     'confident'
     >>> tps1 = tps[1].getObject()
     >>> tps1.Title()
-    'Attested: Late Antique (AD 300 - 625)'
+    'Attested: Late Antique (AD 300 - 640)'
     >>> tps1.getId()
     'late-antique'
     >>> tps1.getAttestationConfidence()
@@ -110,7 +110,7 @@ Load one entity
     [('http://www.unc.edu/awmc/pleiades/bibliography/re.html', 'RE Aphrodisias 2'), ('http://www.unc.edu/awmc/pleiades/bibliography/npauly.html', 'NPauly Aphrodisias 1')]
 
     >>> n0.getTimePeriods()
-    ['Roman (30 BC - AD 300)', 'Late Antique (AD 300 - 625)']
+    ['roman', 'late-antique']
 
     >>> n1 = folder['names'][nids[1]]
     >>> n1.title
@@ -167,25 +167,25 @@ Load one entity
     'confident'
     >>> tps1 = tps[1].getObject()
     >>> tps1.Title()
-    'Attested: Roman (30 BC - AD 300)'
+    'Attested: Roman (Early Empire; 30 BC - AD 300)'
     >>> tps1.getId()
     'roman'
     >>> tps1.getAttestationConfidence()
     'confident'
     >>> tps2 = tps[2].getObject()
     >>> tps2.Title()
-    'Attested: Late Antique (AD 300 - 625)'
+    'Attested: Late Antique (AD 300 - 640)'
     >>> tps2.getId()
     'late-antique'
     >>> tps2.getAttestationConfidence()
     'confident'
     >>> l.getTimePeriods()
-    ['Classical (550 - 330 BC)', 'Roman (30 BC - AD 300)', 'Late Antique (AD 300 - 625)']
+    ['classical', 'roman', 'late-antique']
 
     Check Place time periods
 
     >>> p.getTimePeriods()
-    ['Classical (550 - 330 BC)', 'Roman (30 BC - AD 300)', 'Late Antique (AD 300 - 625)']
+    ['classical', 'roman', 'late-antique']
 
     Test associations
 
