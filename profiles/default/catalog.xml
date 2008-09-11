@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <object name="portal_catalog" meta_type="Plone Catalog Tool">
   <index name="getNameAttested" 
-         meta_type="ZCTextIndex">
+         meta_type="FieldIndex">
     <indexed_attr value="getNameAttested"/>
   </index>
   <index name="getNameLanguage" 
@@ -19,7 +19,10 @@
   <index name="getAttestationConfidence" 
          meta_type="FieldIndex">
     <indexed_attr value="getAttestationConfidence"/>
-    <indexed_attr value="getAttestationConfidence"/>
+  </index>
+  <index name="getTimePeriods" 
+         meta_type="KeywordIndex">
+    <indexed_attr value="getTimePeriods"/>
   </index>
   <index name="getFeatureType" 
          meta_type="KeywordIndex">
@@ -30,7 +33,7 @@
     <indexed_attr value="getAssociationCertainty"/>
   </index>
   <index name="getModernLocation" 
-         meta_type="ZCTextIndex">
+         meta_type="FieldIndex">
     <indexed_attr value="getModernLocation"/>
   </index>
   <column value="getNameAttested"/>
@@ -38,9 +41,12 @@
   <column value="getAccuracy"/>
   <column value="getCompleteness"/>
   <column value="getAttestationConfidence"/>
+  <column value="getTimePeriods"/>
   <column value="getFeatureType"/>
   <column value="getAssociationCertainty"/>
   <column value="getModernLocation"/>
+  <column value="getTermKey"/>
+  <column value="getTermValue"/>
 <!-- ##code-section FOOT -->
 <!-- ##/code-section FOOT -->
 </object>

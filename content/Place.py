@@ -134,6 +134,17 @@ class Place(BaseContent, BrowserDefaultMixin):
 
     # Manually created methods
 
+    security.declareProtected(permissions.View, 'getFeatureType')
+    def getFeatureType(self):
+        """
+        """
+        result = []
+        for o in self.getFeatures():
+            t = o.getFeatureType()
+            if t not in result:
+                result.append(t)
+        return result
+
     security.declareProtected(permissions.View, 'getFeatures')
     def getFeatures(self):
          for o in self.getRefs('hasFeature'):

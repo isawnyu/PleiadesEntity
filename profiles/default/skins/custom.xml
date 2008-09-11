@@ -1,9 +1,0 @@
-<?xml version="1.0"?>
-<object name="custom" meta_type="Folder">
- <property name="title"></property>
- <object name="base_properties" meta_type="Folder"/>
- <object name="kml_macros" meta_type="Page Template"/>
- <object name="nwlink" meta_type="Page Template"/>
- <object name="ol_templates" meta_type="Page Template"/>
- <object name="place_view" meta_type="Page Template"/>
-</object>
