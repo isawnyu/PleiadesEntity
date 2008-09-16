@@ -3,24 +3,28 @@
   xmlns:tal="http://xml.zope.org/namespaces/tal"
   xmlns:metal="http://xml.zope.org/namespaces/metal"
   xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+  lang="en"
   i18n:domain="plone"
   >
-    <head>
-      <title />
-    </head>
 
-    <body>
-        <metal:placecontents_macro metal:define-macro="placecontents">
-            <div id="pleiades-placecontents">
-                <div id="pleiades-secondaryreferences" 
-                    tal:define="global metatype string:Feature">
-                    <label><span>Features</span>:</label>
-                    <tal:helpcontext tal:define="global helpcontext metatype">
-                        <p metal:use-macro="here/pleiades_helplink/macros/helplink">helpful link</p>
-                    </tal:helpcontext> 
-                    <p metal:use-macro="here/pleiades_featurelisting/macros/contentlisting">name content</p>
-                </div>
-            </div>
-        </metal:placecontents_macro>
-    </body>
+<body>
+  <metal:placecontents_macro metal:define-macro="placecontents">
+  <div id="pleiades-placecontents">
+    <div 
+      id="pleiades-features" 
+      tal:define="global metatype string:Feature"
+      >
+      <label><span>Features</span>:</label>
+      <tal:helpcontext tal:define="global helpcontext metatype">
+      <p metal:use-macro="here/pleiades_helplink/macros/helplink">
+        helpful link
+      </p>
+      </tal:helpcontext> 
+      <p metal:use-macro="here/pleiades_featurelisting/macros/contentlisting">
+        features
+      </p>
+    </div>
+  </div>
+  </metal:placecontents_macro>
+</body>
 </html>

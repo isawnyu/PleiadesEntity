@@ -15,8 +15,9 @@
  <property name="allowed_content_types">
  </property>
  <property name="allow_discussion">False</property>
- <property name="default_view">base_view</property>
+ <property name="default_view">place_view</property>
  <property name="view_methods">
+  <element value="place_view"/>
   <element value="base_view"/>
  </property>
  <property name="default_view_fallback">False</property>

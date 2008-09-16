@@ -88,6 +88,7 @@ class Place(BaseContent, BrowserDefaultMixin):
     schema = Place_schema
 
     ##code-section class-header #fill in your manual code here
+    schema["features"].widget.visible = {"edit": "visible", "view": "invisible"}
     ##/code-section class-header
 
     # Methods
@@ -96,6 +97,14 @@ class Place(BaseContent, BrowserDefaultMixin):
     def Title(self):
         """
         """
+        t = self.getField('title').get(self)
+        if t:
+            return t
+        if not t:
+            return self.get_title()
+
+    security.declareProtected(permissions.View, 'get_title')
+    def get_title(self):
         titles = []
         types = []
         for o in self.getFeatures():
@@ -109,7 +118,7 @@ class Place(BaseContent, BrowserDefaultMixin):
             return 'Unnamed Place'
         else:
             return '/'.join([t for t in titles if t])
-
+    
     security.declareProtected(permissions.View, 'getTimePeriods')
     def getTimePeriods(self):
         """
@@ -147,10 +156,28 @@ class Place(BaseContent, BrowserDefaultMixin):
 
     security.declareProtected(permissions.View, 'getFeatures')
     def getFeatures(self):
-         for o in self.getRefs('hasFeature'):
+        for o in self.getRefs('hasFeature'):
             if interfaces.IFeature.providedBy(o):
                 yield o
 
+    security.declareProtected(permissions.View, 'featuresByLocation')
+    def featuresByLocation(self):
+        """
+        """
+        d = {}
+        for f in self.getFeatures():
+            for l in f.getLocations():
+                lid = l.getId()
+                if lid not in d:
+                    d[lid] = dict(
+                        url=l.absolute_url(), 
+                        title=l.pretty_title_or_id(), 
+                        features=[]
+                        )
+                d[lid]['features'].append(
+                    dict(title=f.pretty_title_or_id(), url=f.absolute_url())
+                    )
+        return d
 
 
 registerType(Place, PROJECTNAME)

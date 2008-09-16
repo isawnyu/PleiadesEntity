@@ -28,6 +28,7 @@ from Products.PleiadesEntity.config import *
 ##code-section module-header #fill in your manual code here
 from Products.CMFCore import permissions
 from Products.PleiadesEntity.time import TimePeriodCmp
+from Products.PleiadesEntity.content.interfaces import ILocation
 ##/code-section module-header
 
 schema = Schema((
@@ -144,6 +145,12 @@ class Feature(BaseFolder, BrowserDefaultMixin):
             if p not in result:
                 result.append(p)
         return sorted(result, cmp=TimePeriodCmp(self))
+
+    security.declareProtected(permissions.View, 'getLocations')
+    def getLocations(self):
+        for o in self.getRefs('hasLocation'):
+            if interfaces.ILocation.providedBy(o):
+                yield o
 
 
 registerType(Feature, PROJECTNAME)
