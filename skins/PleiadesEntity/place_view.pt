@@ -9,13 +9,62 @@
   >
 
 <metal:javascript fill-slot="javascript_head_slot">
-  <script type="text/javascript" src="/ol/lib/OpenLayers.js"></script>
-  <script
-    type="text/javascript" 
-    src="ol.js"
-    tal:attributes="src string:${context/absolute_url}/ol.js"
-    >
-  </script>
+<script
+  src="key"
+  tal:attributes="src string:http://maps.google.com/maps?file=api&amp;v=2&amp;key=${context/@@ol-gmaps-key}"
+  type="text/javascript"
+  >
+</script>
+<script src="http://openlayers.org/api/OpenLayers.js"></script>
+<script
+  type="text/javascript"
+  src="../@@ol.js"
+  tal:attributes="src string:${context/absolute_url}/@@ol.js"
+  >
+</script>
+<script type="text/javascript">
+  var map, base, marker, coords;
+  var SHADOW_Z_INDEX = 10;
+  var MARKER_Z_INDEX = 11;
+        
+  function init() {
+    map = new OpenLayers.Map('map');
+    base = new OpenLayers.Layer.Google(
+                "Base", {   
+                    isBaseLayer: true,
+                    type: G_PHYSICAL_MAP, 
+                    //sphericalMercator: true
+                    }
+                );
+    marker = new OpenLayers.Layer.Vector(
+                "Marker",
+                {
+                    styleMap: new OpenLayers.StyleMap({
+                        externalGraphic: "http://openlayers.org/dev/img/marker-gold.png",
+                        backgroundGraphic: "http://openlayers.org/dev/examples/marker_shadow.png",
+                        backgroundXOffset: 0,
+                        backgroundYOffset: -7,
+                        graphicZIndex: MARKER_Z_INDEX,
+                        backgroundGraphicZIndex: SHADOW_Z_INDEX,
+                        pointRadius: 10
+                    }),
+                    reproject: true,
+                    isBaseLayer: false,
+                    projection 
+                    rendererOptions: {yOrdering: true}
+                }
+            );
+    coords = pleiades_oljs.centroid.coordinates;
+    map.addLayers([base, marker]);
+    //map.addControl(new OpenLayers.Control.LayerSwitcher());
+    map.setCenter(new OpenLayers.LonLat(coords[0], coords[1]), 5);
+    marker.features.push(
+                    new OpenLayers.Feature.Vector(
+                        new OpenLayers.Geometry.Point(coords[0], coords[1])
+                    )
+                );
+  }
+</script>
 </metal:javascript>
 
 <body>
@@ -38,6 +87,13 @@
     </h1>
 
     <div tal:replace="structure provider:plone.belowcontenttitle" />
+
+    <div id="map" style="float:right;width:200px;height:300px;border:solid gray 1px;background-color:#cccccc;margin-left:1em;"></div>
+    <script defer="defer" type="text/javascript">
+      init();
+    </script>
+
+    <div id="non-map" style="float:left">
 
     <p class="documentDescription">
       <metal:field
@@ -64,6 +120,9 @@
         features
       </p>
     </div>
+
+    </div>
+    <hr style="display: block; clear: right; visibility: hidden;"/>
 
     <div tal:replace="structure provider:plone.abovecontentbody" />
 
