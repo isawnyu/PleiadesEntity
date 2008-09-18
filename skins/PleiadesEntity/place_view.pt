@@ -33,7 +33,7 @@
                 "Base", {   
                     isBaseLayer: true,
                     type: G_PHYSICAL_MAP, 
-                    //sphericalMercator: true
+                    sphericalMercator: true
                     }
                 );
     marker = new OpenLayers.Layer.Vector(
@@ -48,9 +48,8 @@
                         backgroundGraphicZIndex: SHADOW_Z_INDEX,
                         pointRadius: 10
                     }),
-                    reproject: true,
+                    //reproject: true,
                     isBaseLayer: false,
-                    projection 
                     rendererOptions: {yOrdering: true}
                 }
             );
