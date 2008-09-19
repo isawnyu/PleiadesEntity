@@ -128,6 +128,18 @@
       </p>
     </div>
 
+    <div>
+      <label><span>Alternate representations</span></label>:
+      <ul>
+        <li class="repr-georss">
+          <a rel="alternate" tal:attributes="href string:${context/absolute_url}/atom">Atom</a>
+        </li>
+        <li class="repr-kml">
+          <a rel="alternate" tal:attributes="href string:${context/absolute_url}/atom">KML</a>
+        </li>
+      </ul>
+    </div>  
+
     </div>
     <hr style="display: block; clear: right; visibility: hidden;"/>
 
