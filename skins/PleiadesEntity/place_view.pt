@@ -68,7 +68,7 @@
                         )
                     ]
                 );
-    map.setCenter(new OpenLayers.LonLat(coords[0], coords[1]), 5);
+    map.setCenter(new OpenLayers.LonLat(coords[0], coords[1]), 8);
   }
 </script>
 </metal:javascript>
@@ -100,7 +100,7 @@
       init();
     </script>
 
-    <div id="non-map" style="float:left;width:350px;">
+    <div id="non-map" style="float:left;width:400px;">
 
     <p class="documentDescription">
       <metal:field
