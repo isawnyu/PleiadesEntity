@@ -135,7 +135,7 @@
           <a rel="alternate" tal:attributes="href string:${context/absolute_url}/atom">Atom</a>
         </li>
         <li class="repr-kml">
-          <a rel="alternate" tal:attributes="href string:${context/absolute_url}/atom">KML</a>
+          <a rel="alternate" tal:attributes="href string:${context/absolute_url}/kml">KML</a>
         </li>
       </ul>
     </div>  
