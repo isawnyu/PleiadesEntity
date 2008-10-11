@@ -94,7 +94,7 @@
 
     <div tal:replace="structure provider:plone.belowcontenttitle" />
 
-    <div>
+    <!--div-->
     <div id="map" style="float:right;width:200px;height:300px;border:solid gray 1px;background-color:#cccccc;margin-left:1em;"></div>
     <script defer="defer" type="text/javascript">
       init();
@@ -140,7 +140,7 @@
       </ul>
     </div>  
 
-    </div>
+    <!--/div-->
     <hr style="display: block; clear: right; visibility: hidden;"/>
 
     <div tal:replace="structure provider:plone.abovecontentbody" />
