@@ -32,6 +32,20 @@ from Products.PleiadesEntity.time import TimePeriodCmp
 schema = Schema((
 
     StringField(
+        name='title',
+        required=1,
+        searchable=1,
+        default='',
+        accessor='Title',
+        widget=StringWidget(
+            label_msgid='label_title',
+            visible={'view' : 'invisible'},
+            i18n_domain='plone',
+            macro='rdfa_name_widget'
+        ),
+    ),
+    
+    StringField(
         name='modernLocation',
         widget=StringField._properties['widget'](
             label="Modern Location",

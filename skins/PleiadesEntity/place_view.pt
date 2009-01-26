@@ -8,6 +8,23 @@
   i18n:domain="plone"
   >
 
+<metal:links fill-slot="head_slot">
+  <link
+    rel="alternate"
+    tal:attributes="href string:${context/absolute_url}#this"
+    />
+  <link
+    rel="alternate"
+    type="application/atom+xml"
+    tal:attributes="href string:${context/absolute_url}/atom"
+    />
+  <link
+    rel="alternate"
+    type="application/vnd.google-earth.kml+xml"
+    tal:attributes="href string:${context/absolute_url}/kml"
+    />        
+</metal:links>
+
 <metal:javascript fill-slot="javascript_head_slot">
 <script
   src="key"
@@ -86,7 +103,9 @@
 
     <div tal:replace="structure provider:plone.abovecontenttitle" />
 
-    <h1 class="documentFirstHeading"> 
+    <h1 class="documentFirstHeading"
+      tal:attributes="about string:${context/absolute_url}#this"
+      > 
       <metal:field use-macro="python:context.widget('title', mode='view')">
       Title
       </metal:field>
