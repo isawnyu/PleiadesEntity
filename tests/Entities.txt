@@ -43,6 +43,10 @@ Test computed attributes
     [{'timePeriod': 'roman', 'confidence': 'certain'}]
     >>> list(p.getFeatures())
     [<Feature at /plone/Members/test_user_1_/features/...>]
+    >>> p.getTimePeriods()
+    ['roman']
+    >>> p[nid].getTimePeriods()
+    ['roman']    
 
 Test the geo adapters
 ---------------------

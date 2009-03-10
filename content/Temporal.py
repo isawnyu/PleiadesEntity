@@ -91,6 +91,12 @@ class Temporal(BrowserDefaultMixin):
             return TimePeriodCmp(self)(a['timePeriod'], b['timePeriod'])
         return sorted(self.getAttestations(), cmp=_cmp)
 
+    security.declareProtected(permissions.View, 'getTimePeriods')
+    def getTimePeriods(self):
+        """
+        """
+        return [a['timePeriod'] for a in self.getSortedTemporalAttestations()]
+
 # end of class Temporal
 
 ##code-section module-footer #fill in your manual code here

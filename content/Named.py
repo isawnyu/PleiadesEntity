@@ -89,6 +89,17 @@ class Named(BrowserDefaultMixin):
         """
         return [o for o in self.values() if interfaces.IName.providedBy(o)]
 
+    security.declareProtected(permissions.View, 'getTimePeriods')
+    def getTimePeriods(self):
+        """
+        """
+        periods = []
+        for name in self.getNames():
+            for a in name.getAttestations():
+                if a['timePeriod'] not in periods:
+                    periods.append(a['timePeriod'])
+        return sorted(periods, cmp=TimePeriodCmp(self))
+                
 # end of class Named
 
 ##code-section module-footer #fill in your manual code here
