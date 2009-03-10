@@ -2,7 +2,7 @@
 #
 # File: TemporalAttestation.py
 #
-# Copyright (c) 2008 by Ancient World Mapping Center, University of North
+# Copyright (c) 2009 by Ancient World Mapping Center, University of North
 # Carolina at Chapel Hill, U.S.A.
 # Generator: ArchGenXML Version 2.1
 #            http://plone.org/products/archgenxml
@@ -13,101 +13,113 @@
 __author__ = """Sean Gillies <unknown>, Tom Elliott <unknown>"""
 __docformat__ = 'plaintext'
 
+#TemporalAttestation
+
 from AccessControl import ClassSecurityInfo
-from Products.Archetypes.atapi import *
+from Acquisition import aq_base
+
+from Products.CMFCore.utils import getToolByName
+
+from Products.Archetypes.Field import ObjectField,encode,decode
+from Products.Archetypes.Registry import registerField
+from Products.Archetypes.utils import DisplayList
+from Products.Archetypes import config as atconfig
+from Products.Archetypes.Widget import *
+from Products.Archetypes.Field  import *
+from Products.Archetypes.Schema import Schema
+try:
+    from Products.generator import i18n
+except ImportError:
+    from Products.Archetypes.generator import i18n
+from Products.ATVocabularyManager.namedvocabulary import NamedVocabulary
+
+from Products.PleiadesEntity import config
+
+##code-section module-header #fill in your manual code here
+##/code-section module-header
+
 from zope.interface import implements
-import interfaces
 
 from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
 
-from Products.ATVocabularyManager.namedvocabulary import NamedVocabulary
-from Products.PleiadesEntity.config import *
 
-##code-section module-header #fill in your manual code here
-from Products.CMFCore import permissions
-##/code-section module-header
 
+from Products.CompoundField.CompoundField import CompoundField
+######CompoundField
 schema = Schema((
 
     StringField(
         name='timePeriod',
         widget=SelectionWidget(
-            label="Time Period",
+            label="Time period",
+            description="Select time period for which this name is attested",
             label_msgid='PleiadesEntity_label_timePeriod',
+            description_msgid='PleiadesEntity_help_timePeriod',
             i18n_domain='PleiadesEntity',
         ),
+        description="Time period for which this name is attested",
         vocabulary=NamedVocabulary("""time-periods"""),
         enforceVocabulary=1,
         required=1,
     ),
     StringField(
-        name='attestationConfidence',
+        name='confidence',
         widget=SelectionWidget(
-            label="Confidence in temporal attestation",
-            label_msgid='PleiadesEntity_label_attestationConfidence',
+            label="Level of confidence",
+            description="Select level of confidence in attestation",
+            label_msgid='PleiadesEntity_label_confidence',
+            description_msgid='PleiadesEntity_help_confidence',
             i18n_domain='PleiadesEntity',
         ),
+        description="Level of confidence in temportal attestation",
         vocabulary=NamedVocabulary("""attestation-confidence"""),
-        default="certain",
+        default="confident",
         enforceVocabulary=1,
-        required=1,
     ),
 
 ),
 )
 
-##code-section after-local-schema #fill in your manual code here
-##/code-section after-local-schema
 
-TemporalAttestation_schema = BaseSchema.copy() + \
-    schema.copy()
 
-##code-section after-schema #fill in your manual code here
-##/code-section after-schema
 
-class TemporalAttestation(BaseContent, BrowserDefaultMixin):
+class TemporalAttestation(CompoundField):
     """
     """
-    security = ClassSecurityInfo()
-
-    implements(interfaces.ITemporalAttestation)
-
-    meta_type = 'TemporalAttestation'
-    _at_rename_after_creation = False
-
-    schema = TemporalAttestation_schema
-
     ##code-section class-header #fill in your manual code here
-    schema["title"].required = 0
-    schema["title"].widget.visible = {"edit": "invisible", "view": "invisible"}
     ##/code-section class-header
 
-    # Methods
-
-    security.declareProtected(permissions.View, 'get_title')
-    def get_title(self):
-        """Return a title string derived from the associated time period and
-        attestation certainty """
-        vocab = self.getField('timePeriod').vocabulary
-        vd = dict(vocab.getDisplayList(self).items())
-        tv = vd.get(self.getTimePeriod(), None)
-        title = "Attested: %s" % tv
-        confidence = self.getAttestationConfidence()
-        if confidence.startswith('less-'):
-            title += '?'
-        if confidence.endswith('-inferred'):
-            title += ' - inferred'
-        return title
-
-    security.declareProtected(permissions.View, 'Title')
-    def Title(self):
-        """
-        """
-        return self.get_title()
 
 
-registerType(TemporalAttestation, PROJECTNAME)
-# end of class TemporalAttestation
+    _properties = CompoundField._properties.copy()
+    _properties.update({
+        'type': 'temporalattestation',
+        ##code-section field-properties #fill in your manual code here
+        ##/code-section field-properties
+
+        })
+
+    security  = ClassSecurityInfo()
+
+    schema=schema
+
+    security.declarePrivate('set')
+    security.declarePrivate('get')
+
+
+    def getRaw(self, instance, **kwargs):
+        return CompoundField.getRaw(self, instance, **kwargs)
+
+    def set(self, instance, value, **kwargs):
+        return CompoundField.set(self, instance, value, **kwargs)
+
+    def get(self, instance, **kwargs):
+        return CompoundField.get(self, instance, **kwargs)
+
+
+registerField(TemporalAttestation,
+              title='TemporalAttestation',
+              description='')
 
 ##code-section module-footer #fill in your manual code here
 ##/code-section module-footer

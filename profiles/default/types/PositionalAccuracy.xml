@@ -1,20 +1,18 @@
 <?xml version="1.0"?>
-<object name="NameContainer"
+<object name="PositionalAccuracy"
         meta_type="Factory-based Type Information with dynamic views"
         xmlns:i18n="http://xml.zope.org/namespaces/i18n">
    
- <property name="title">NameContainer</property>
+ <property name="title">Positional Accuracy Assessment</property>
  <property name="description"></property>
- <property name="content_icon">NameContainer.gif</property>
- <property name="content_meta_type">NameContainer</property>
+ <property name="content_icon">PositionalAccuracy.gif</property>
+ <property name="content_meta_type">PositionalAccuracy</property>
  <property name="product">PleiadesEntity</property>
- <property name="factory">addNameContainer</property>
+ <property name="factory">addPositionalAccuracy</property>
  <property name="immediate_view">base_view</property>
  <property name="global_allow">True</property>
- <property name="filter_content_types">True</property>
+ <property name="filter_content_types">False</property>
  <property name="allowed_content_types">
-   <element value="Name"/>
-   <element value="Topic"/>
  </property>
  <property name="allow_discussion">False</property>
  <property name="default_view">base_view</property>
@@ -23,10 +21,10 @@
  </property>
  <property name="default_view_fallback">False</property>
  <alias from="(Default)" to="(dynamic view)"/>
+ <alias from="index.html" to="(dynamic view)"/>
  <alias from="view" to="(selected layout)"/>
  <alias from="edit" to="base_edit"/>
  <alias from="properties" to="base_metadata"/>
- <alias from="sharing" to="folder_localrole_form"/>
  <action title="View" 
          action_id="view"
          category="object" 

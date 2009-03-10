@@ -81,14 +81,64 @@ msgstr ""
 msgid "GeographicEntityLite_label_timePeriods"
 msgstr ""
 
+#. Default: "Accuracy (horizontal) of geometry coordinates in meters"
+#: content/Location.py
+#: content/Name.py
+msgid "PleiadesEntity_help_accuracy"
+msgstr ""
+
+#. Default: "Select time period and level of confidence in attestation"
+#: content/Temporal.py
+msgid "PleiadesEntity_help_array:attestations"
+msgstr ""
+
 #. Default: "Certainty of association between locations and names"
 #: content\PlacefulAssociation.py
+#: content/Feature.py
+#: content/Name.py
 msgid "PleiadesEntity_help_associationCertainty"
 msgstr ""
 
 #. Default: "Certainty of association between locations and names"
 #: content\PlacefulAssociation.py
 msgid "PleiadesEntity_help_certainty"
+msgstr ""
+
+#. Default: "Select transcription completeness"
+#: content/Name.py
+msgid "PleiadesEntity_help_completeness"
+msgstr ""
+
+#. Default: "Select confidence level"
+#: content/Confidence.py
+#: content/Work.py
+#: content/TemporalAttestation.py
+msgid "PleiadesEntity_help_confidence"
+msgstr ""
+
+#. Default: "About the place"
+#: content/Place.py
+msgid "PleiadesEntity_help_content"
+msgstr ""
+
+#. Default: "Enter alternate description of location (for example: \"10 km N of Athens\")"
+#: content/Location.py
+msgid "PleiadesEntity_help_description"
+msgstr ""
+
+#. Default: "An explanation of the accuracy of the horizontal coordinate measurements and a description of the tests used."
+#: content/Location.py
+msgid "PleiadesEntity_help_explanation"
+msgstr ""
+
+#. Default: "Select feature type"
+#: content/Feature.py
+msgid "PleiadesEntity_help_featureType"
+msgstr ""
+
+#. Default: "Geometry using GeoJSON shorthand representation such as \"Point: (-105.0, 40.0)\" for a point"
+#: content/Location.py
+msgid "PleiadesEntity_help_geometry"
 msgstr ""
 
 #. Default: "A unique identifier for this name, assigned by the Pleiades editorial board."
@@ -98,6 +148,8 @@ msgstr ""
 
 #. Default: "A prose description, in modern terms, of this entity's location."
 #: content\Place.py
+#: content/Place.py
+#: content/Named.py
 msgid "PleiadesEntity_help_modernLocation"
 msgstr ""
 
@@ -109,6 +161,7 @@ msgstr ""
 
 #. Default: "This field contains a transcription of the attested form of the name, in its original language and script."
 #: content\Name.py
+#: content/Name.py
 msgid "PleiadesEntity_help_nameAttested"
 msgstr ""
 
@@ -132,6 +185,7 @@ msgstr ""
 
 #. Default: "This field indicates the language and writing system (script) of the attested name."
 #: content\Name.py
+#: content/Name.py
 msgid "PleiadesEntity_help_nameLanguage"
 msgstr ""
 
@@ -141,15 +195,31 @@ msgstr ""
 msgid "PleiadesEntity_help_nameReconstructed"
 msgstr ""
 
+#. Default: "Enter transliteration of attested name"
+#: content/Name.py
+msgid "PleiadesEntity_help_nameTransliterated"
+msgstr ""
+
+#. Default: "Select type of name"
+#: content/Name.py
+msgid "PleiadesEntity_help_nameType"
+msgstr ""
+
 #. Default: "If checked, this field indicates some degree of uncertainty in the assignment of this attested name to the parent geographic entity."
 #: content\GeographicName.py
 #: content\Name.py
 msgid "PleiadesEntity_help_nameUncertain"
 msgstr ""
 
+#. Default: "Select permanence of feature"
+#: content/Feature.py
+msgid "PleiadesEntity_help_permanent"
+msgstr ""
+
 #. Default: "Citations for primary sources in which this name appears."
 #: content\GeographicName.py
 #: content\Name.py
+#: content/name -> primary reference.py
 msgid "PleiadesEntity_help_primaryReferences"
 msgstr ""
 
@@ -165,6 +235,13 @@ msgstr ""
 msgid "PleiadesEntity_help_spatialCoordinates"
 msgstr ""
 
+#. Default: "Select a time period"
+#: content/Name.py
+#: content/Temporal.py
+#: content/TemporalAttestation.py
+msgid "PleiadesEntity_help_timePeriod"
+msgstr ""
+
 #. Default: "Standard time periods during which this name is believed to have been in use."
 #: content\GeographicName.py
 #: content\Place.py
@@ -177,19 +254,45 @@ msgstr ""
 msgid "PleiadesEntity_help_title"
 msgstr ""
 
+#. Default: "Enter the accuracy, in meters, of location or position"
+#: content/PositionalAccuracy.py
+msgid "PleiadesEntity_help_value"
+msgstr ""
+
 #. Default: "Accuracy of Attestation"
 #: content\Name.py
+#: content/Name.py
+#: content/Location.py
 msgid "PleiadesEntity_label_accuracy"
+msgstr ""
+
+#. Default: "Accuracy explanation"
+#: content/location -> accuracyExplanation.py
+msgid "PleiadesEntity_label_accuracyExplanation"
+msgstr ""
+
+#. Default: "Array:attestations"
+#: content/Temporal.py
+msgid "PleiadesEntity_label_array:attestations"
 msgstr ""
 
 #. Default: "Certainty of association"
 #: content\PlacefulAssociation.py
+#: content/Feature.py
+#: content/Name.py
 msgid "PleiadesEntity_label_associationCertainty"
 msgstr ""
 
 #. Default: "Attestationconfidence"
 #: content\TemporalAttestation.py
+#: content/TemporalAttestation.py
+#: content/Temporal.py
 msgid "PleiadesEntity_label_attestationConfidence"
+msgstr ""
+
+#. Default: "Attestations"
+#: content/Temporal.py
+msgid "PleiadesEntity_label_attestations"
 msgstr ""
 
 #. Default: "Certainty"
@@ -200,7 +303,40 @@ msgstr ""
 
 #. Default: "Completeness of Attestation"
 #: content\Name.py
+#: content/Name.py
 msgid "PleiadesEntity_label_completeness"
+msgstr ""
+
+#. Default: "Confidence in attestation"
+#: content/Confidence.py
+#: content/Name.py
+#: content/Work.py
+msgid "PleiadesEntity_label_confidence"
+msgstr ""
+
+#. Default: "Content"
+#: content/Place.py
+msgid "PleiadesEntity_label_content"
+msgstr ""
+
+#. Default: "Description"
+#: content/Location.py
+msgid "PleiadesEntity_label_description"
+msgstr ""
+
+#. Default: "Accuracy explanation"
+#: content/Location.py
+msgid "PleiadesEntity_label_explanation"
+msgstr ""
+
+#. Default: "Feature type"
+#: content/Feature.py
+msgid "PleiadesEntity_label_featureType"
+msgstr ""
+
+#. Default: "Features"
+#: content/Place.py
+msgid "PleiadesEntity_label_features"
 msgstr ""
 
 #. Default: "Entity Type"
@@ -211,6 +347,11 @@ msgstr ""
 #. Default: "Name Type"
 #: content\GeographicName.py
 msgid "PleiadesEntity_label_geoNameType"
+msgstr ""
+
+#. Default: "Geometry"
+#: content/Location.py
+msgid "PleiadesEntity_label_geometry"
 msgstr ""
 
 #. Default: "Geometry Type"
@@ -224,15 +365,22 @@ msgstr ""
 msgid "PleiadesEntity_label_identifier"
 msgstr ""
 
+#. Default: "Item"
+#: content/Reference.py
+msgid "PleiadesEntity_label_item"
+msgstr ""
+
 #. Default: "Locations"
 #: content\Place.py
 #: content\PlacefulAssociation.py
+#: content/hasLocation.py
 msgid "PleiadesEntity_label_locations"
 msgstr ""
 
 #. Default: "Modern Name / Location"
 #: content\GeographicEntity.py
 #: content\Place.py
+#: content/Place.py
 msgid "PleiadesEntity_label_modernLocation"
 msgstr ""
 
@@ -245,6 +393,7 @@ msgstr ""
 #. Default: "Name as Attested"
 #: content\GeographicName.py
 #: content\Name.py
+#: content/Name.py
 msgid "PleiadesEntity_label_nameAttested"
 msgstr ""
 
@@ -269,6 +418,7 @@ msgstr ""
 #. Default: "Language and Writing System of Attested Name"
 #: content\GeographicName.py
 #: content\Name.py
+#: content/Name.py
 msgid "PleiadesEntity_label_nameLanguage"
 msgstr ""
 
@@ -280,11 +430,13 @@ msgstr ""
 
 #. Default: "Transliterated name"
 #: content\Name.py
+#: content/Name.py
 msgid "PleiadesEntity_label_nameTransliterated"
 msgstr ""
 
 #. Default: "Name Type"
 #: content\Name.py
+#: content/Name.py
 msgid "PleiadesEntity_label_nameType"
 msgstr ""
 
@@ -297,7 +449,18 @@ msgstr ""
 #. Default: "Names"
 #: content\Place.py
 #: content\PlacefulAssociation.py
+#: content/hasName.py
 msgid "PleiadesEntity_label_names"
+msgstr ""
+
+#. Default: "Permanent"
+#: content/Feature.py
+msgid "PleiadesEntity_label_permanent"
+msgstr ""
+
+#. Default: "Place"
+#: content/feature -> place.py
+msgid "PleiadesEntity_label_place"
 msgstr ""
 
 #. Default: "Place Type"
@@ -306,15 +469,45 @@ msgstr ""
 msgid "PleiadesEntity_label_placeType"
 msgstr ""
 
+#. Default: "Places"
+#: content/parentFeature.py
+#: content/feature -> place.py
+msgid "PleiadesEntity_label_places"
+msgstr ""
+
+#. Default: "Positionalaccuracyreports"
+#: content/accuracyExplanation.py
+msgid "PleiadesEntity_label_positionalaccuracyreports"
+msgstr ""
+
+#. Default: "Primaryreference"
+#: content/name -> primary reference.py
+msgid "PleiadesEntity_label_primaryReference"
+msgstr ""
+
 #. Default: "Primary References"
 #: content\GeographicName.py
 #: content\Name.py
+#: content/name -> primary reference.py
 msgid "PleiadesEntity_label_primaryReferences"
+msgstr ""
+
+#. Default: "Citation range"
+#: content/Reference.py
+msgid "PleiadesEntity_label_range"
 msgstr ""
 
 #. Default: "Reference"
 #: content\Reference.py
+#: content/scholarly -> reference.py
+#: content/work -> reference.py
 msgid "PleiadesEntity_label_reference"
+msgstr ""
+
+#. Default: "PrimaryReference"
+#: content/name -> primary reference.py
+#: content/work -> reference.py
+msgid "PleiadesEntity_label_references"
 msgstr ""
 
 #. Default: "Secondary References"
@@ -339,6 +532,8 @@ msgstr ""
 
 #. Default: "Time Period"
 #: content\TemporalAttestation.py
+#: content/TemporalAttestation.py
+#: content/Name.py
 msgid "PleiadesEntity_label_timePeriod"
 msgstr ""
 
@@ -352,5 +547,10 @@ msgstr ""
 #. Default: "Transliterated Name"
 #: content\Name.py
 msgid "PleiadesEntity_label_title"
+msgstr ""
+
+#. Default: "Enter positional accuracy"
+#: content/PositionalAccuracy.py
+msgid "PleiadesEntity_label_value"
 msgstr ""
 

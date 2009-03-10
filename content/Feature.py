@@ -2,7 +2,7 @@
 #
 # File: Feature.py
 #
-# Copyright (c) 2008 by Ancient World Mapping Center, University of North
+# Copyright (c) 2009 by Ancient World Mapping Center, University of North
 # Carolina at Chapel Hill, U.S.A.
 # Generator: ArchGenXML Version 2.1
 #            http://plone.org/products/archgenxml
@@ -17,18 +17,22 @@ from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
 from zope.interface import implements
 import interfaces
-
+from Products.PleiadesEntity.content.Named import Named
+from Products.PleiadesEntity.content.Work import Work
 from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
 
 from Products.ATReferenceBrowserWidget.ATReferenceBrowserWidget import \
     ReferenceBrowserWidget
 from Products.ATVocabularyManager.namedvocabulary import NamedVocabulary
+from Products.ATContentTypes.content.document import ATDocument
+from Products.ATContentTypes.content.document import ATDocumentSchema
 from Products.PleiadesEntity.config import *
 
-##code-section module-header #fill in your manual code here
+# additional imports from tagged value 'import'
 from Products.CMFCore import permissions
-from Products.PleiadesEntity.time import TimePeriodCmp
-from Products.PleiadesEntity.content.interfaces import ILocation
+
+##code-section module-header #fill in your manual code here
+import transaction
 ##/code-section module-header
 
 schema = Schema((
@@ -37,46 +41,39 @@ schema = Schema((
         name='featureType',
         widget=SelectionWidget(
             label="Feature type",
+            description="Select type of feature",
             label_msgid='PleiadesEntity_label_featureType',
+            description_msgid='PleiadesEntity_help_featureType',
             i18n_domain='PleiadesEntity',
         ),
+        description="Type of feature",
         vocabulary=NamedVocabulary("""place-types"""),
         default="unknown",
         enforceVocabulary=1,
     ),
-    StringField(
-        name='associationCertainty',
-        widget=SelectionWidget(
-            label="Certainty of association",
-            description="Certainty of association between locations and names",
-            label_msgid='PleiadesEntity_label_associationCertainty',
-            description_msgid='PleiadesEntity_help_associationCertainty',
+    BooleanField(
+        name='permanent',
+        widget=BooleanField._properties['widget'](
+            label="Permanent",
+            description="Is the feature permanent, or existing across all time periods?",
+            label_msgid='PleiadesEntity_label_permanent',
+            description_msgid='PleiadesEntity_help_permanent',
             i18n_domain='PleiadesEntity',
         ),
-        vocabulary=NamedVocabulary("""association-certainty"""),
-        enforceVocabulary=1,
+        description="Permanence of the feature, regardless of name attestations",
     ),
     ReferenceField(
-        name='locations',
+        name='places',
         widget=ReferenceBrowserWidget(
-            label='Locations',
-            label_msgid='PleiadesEntity_label_locations',
+            label="Feature is a part of place(s)",
+            startup_directory="/places",
+            label_msgid='PleiadesEntity_label_places',
             i18n_domain='PleiadesEntity',
         ),
-        allowed_types=('Location',),
         multiValued=1,
-        relationship='hasLocation',
-    ),
-    ReferenceField(
-        name='names',
-        widget=ReferenceBrowserWidget(
-            label='Names',
-            label_msgid='PleiadesEntity_label_names',
-            i18n_domain='PleiadesEntity',
-        ),
-        allowed_types=('Name',),
-        multiValued=1,
-        relationship='hasName',
+        relationship="feature_place",
+        allowed_types=('Place',),
+        allow_browse=1,
     ),
 
 ),
@@ -86,12 +83,18 @@ schema = Schema((
 ##/code-section after-local-schema
 
 Feature_schema = BaseFolderSchema.copy() + \
+    getattr(Named, 'schema', Schema(())).copy() + \
+    getattr(Work, 'schema', Schema(())).copy() + \
     schema.copy()
 
 ##code-section after-schema #fill in your manual code here
+Feature_schema = BaseFolderSchema.copy() + \
+    schema.copy() + \
+    getattr(Named, 'schema', Schema(())).copy() + \
+    getattr(Work, 'schema', Schema(())).copy()
 ##/code-section after-schema
 
-class Feature(BaseFolder, BrowserDefaultMixin):
+class Feature(BaseFolder, Named, Work):
     """
     """
     security = ClassSecurityInfo()
@@ -99,7 +102,7 @@ class Feature(BaseFolder, BrowserDefaultMixin):
     implements(interfaces.IFeature)
 
     meta_type = 'Feature'
-    _at_rename_after_creation = False
+    _at_rename_after_creation = True
 
     schema = Feature_schema
 
@@ -108,49 +111,20 @@ class Feature(BaseFolder, BrowserDefaultMixin):
 
     # Methods
 
-    security.declareProtected(permissions.View, 'get_title')
-    def get_title(self):
-        """Return a title string derived from the ancient names to which
-        this place refers.
-        """
-        # Dodge a reference_catalog quirk
-        try:
-            names = self.getRefs('hasName')
-            if names:
-                return '/'.join([n.Title() for n in names if n.Title()])
-            else:
-                return "Unnamed %s" % self.getFeatureType().capitalize()
-        except AttributeError:
-            return 'Unnamed Place'
-
-    security.declareProtected(permissions.View, 'Title')
-    def Title(self):
-        """
-        """
-        return self.get_title()
-
-    security.declareProtected(permissions.View, 'getTimePeriods')
-    def getTimePeriods(self):
-        """
-        """
-        names = self.getRefs('hasName')
-        locations = self.getRefs('hasLocation')
-        periods = []
-        for name in names:
-            periods.extend(name.getTimePeriods())
-        for location in locations:
-            periods.extend(location.getTimePeriods())
-        result = []
-        for p in periods:
-            if p not in result:
-                result.append(p)
-        return sorted(result, cmp=TimePeriodCmp(self))
-
     security.declareProtected(permissions.View, 'getLocations')
     def getLocations(self):
-        for o in self.getRefs('hasLocation'):
-            if interfaces.ILocation.providedBy(o):
-                yield o
+        """
+        """
+        return [o for o in self.values() if interfaces.ILocation.providedBy(o)]
+
+    security.declareProtected(permissions.AddPortalContent, '_renameAfterCreation')
+    def _renameAfterCreation(self, check_auto_id=False):
+        parent = self.aq_inner.aq_parent
+        newid = parent.generateId(prefix='')
+        # Can't rename without a subtransaction commit when using
+        # portal_factory!
+        transaction.commit(1)
+        self.setId(newid)
 
 
 registerType(Feature, PROJECTNAME)

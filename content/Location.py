@@ -2,7 +2,7 @@
 #
 # File: Location.py
 #
-# Copyright (c) 2008 by Ancient World Mapping Center, University of North
+# Copyright (c) 2009 by Ancient World Mapping Center, University of North
 # Carolina at Chapel Hill, U.S.A.
 # Generator: ArchGenXML Version 2.1
 #            http://plone.org/products/archgenxml
@@ -17,14 +17,18 @@ from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
 from zope.interface import implements
 import interfaces
-
+from Products.PleiadesEntity.content.Work import Work
+from Products.PleiadesEntity.content.Temporal import Temporal
+from Products.PleiadesEntity.content.Work import Work
 from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
 
+from Products.ATReferenceBrowserWidget.ATReferenceBrowserWidget import \
+    ReferenceBrowserWidget
 from Products.PleiadesEntity.config import *
 
-##code-section module-header #fill in your manual code here
+# additional imports from tagged value 'import'
 from Products.CMFCore import permissions
-from Products.PleiadesEntity.time import TimePeriodCmp
+##code-section module-header #fill in your manual code here
 ##/code-section module-header
 
 schema = Schema((
@@ -33,31 +37,35 @@ schema = Schema((
         name='geometry',
         widget=StringField._properties['widget'](
             label="Geometry",
-            description="""Geometry using GeoJSON shorthand representation such as "Point: (-105.0, 40.0)" for a point""",
+            description="""Enter geometry using GeoJSON shorthand representation such as "Point: (-105.0, 40.0)" for a point""",
             label_msgid='PleiadesEntity_label_geometry',
             description_msgid='PleiadesEntity_help_geometry',
             i18n_domain='PleiadesEntity',
         ),
     ),
-    FloatField(
-        name='accuracy',
-        widget=FloatField._properties['widget'](
-            label="Accuracy value",
-            description="Accuracy (horizontal) of geometry coordinates in meters",
-            label_msgid='PleiadesEntity_label_accuracy',
-            description_msgid='PleiadesEntity_help_accuracy',
-            i18n_domain='PleiadesEntity',
-        ),
-    ),
     StringField(
-        name='explanation',
+        name='description',
         widget=StringField._properties['widget'](
-            label="Accuracy explanation",
-            description="An explanation of the accuracy of the horizontal coordinate measurements and a description of the tests used.",
-            label_msgid='PleiadesEntity_label_explanation',
-            description_msgid='PleiadesEntity_help_explanation',
+            label="Alternate description",
+            description="""Enter alternate description of location (for example: "10 km N of Athens")""",
+            label_msgid='PleiadesEntity_label_description',
+            description_msgid='PleiadesEntity_help_description',
             i18n_domain='PleiadesEntity',
         ),
+        description="Location as a text string suitable for geocoding",
+    ),
+    ReferenceField(
+        name='accuracy',
+        widget=ReferenceBrowserWidget(
+            startup_directory="/features/metadata",
+            label="Accuracy assessment",
+            label_msgid='PleiadesEntity_label_accuracy',
+            i18n_domain='PleiadesEntity',
+        ),
+        multiValued=0,
+        relationship="location_accuracy",
+        allowed_types=('PositionalAccuracy',),
+        allow_browse=1,
     ),
 
 ),
@@ -66,14 +74,20 @@ schema = Schema((
 ##code-section after-local-schema #fill in your manual code here
 ##/code-section after-local-schema
 
-Location_schema = BaseFolderSchema.copy() + \
+Location_schema = BaseSchema.copy() + \
+    getattr(Work, 'schema', Schema(())).copy() + \
+    getattr(Temporal, 'schema', Schema(())).copy() + \
+    getattr(Work, 'schema', Schema(())).copy() + \
     schema.copy()
 
 ##code-section after-schema #fill in your manual code here
-#del Location_schema['title']
+Location_schema = BaseSchema.copy() + \
+    schema.copy() + \
+    getattr(Temporal, 'schema', Schema(())).copy() + \
+    getattr(Work, 'schema', Schema(())).copy()
 ##/code-section after-schema
 
-class Location(BaseFolder, BrowserDefaultMixin):
+class Location(BaseContent, Work, Temporal, BrowserDefaultMixin):
     """
     """
     security = ClassSecurityInfo()
@@ -81,7 +95,7 @@ class Location(BaseFolder, BrowserDefaultMixin):
     implements(interfaces.ILocation)
 
     meta_type = 'Location'
-    _at_rename_after_creation = False
+    _at_rename_after_creation = True
 
     schema = Location_schema
 
@@ -89,41 +103,6 @@ class Location(BaseFolder, BrowserDefaultMixin):
     ##/code-section class-header
 
     # Methods
-
-    security.declareProtected(permissions.View, 'get_title')
-    def get_title(self):
-        """Return a title string derived from the geometry type."""
-        try:
-            return "%s %s" % (
-                self.getGeometry().split(':')[0].strip(),
-                self.getId()
-                )
-        except AttributeError:
-            return 'Unidentified Location'
-
-    security.declareProtected(permissions.View, 'getTitle')
-    getTitle = get_title
-
-    security.declareProtected(permissions.View, 'Title')
-    def Title(self):
-        """
-        """
-        return self.get_title()
-
-    security.declareProtected(permissions.View, 'getTimePeriods')
-    def getTimePeriods(self):
-        """
-        """
-        return sorted(
-            [t.getTimePeriod() for t in self.getTemporalAttestations()],
-            cmp=TimePeriodCmp(self)
-            )
-
-    security.declareProtected(permissions.View, 'getTemporalAttestations')
-    def getTemporalAttestations(self):
-         for o in self.values():
-            if interfaces.ITemporalAttestation.providedBy(o):
-                yield o
 
 
 registerType(Location, PROJECTNAME)

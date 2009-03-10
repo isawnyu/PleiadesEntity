@@ -10,19 +10,21 @@ import _testing
 
 ptc.installProduct('Geographer')
 ptc.installProduct('ATVocabularyManager')
+ptc.installProduct('Products.CompoundField')
+ptc.installProduct('Products.ATBackRef')
 ptc.installProduct('PleiadesEntity')
-ptc.setupPloneSite(products=['Archetypes', 'ATVocabularyManager', 'Geographer', 'PleiadesEntity'])
+ptc.setupPloneSite(products=['Archetypes', 'ATVocabularyManager',  'Geographer', 'Products.CompoundField', 'Products.ATBackRef', 'PleiadesEntity'])
 
 optionflags = (
     doctest.ELLIPSIS
-    | doctest.NORMALIZE_WHITESPACE 
+    | doctest.NORMALIZE_WHITESPACE
     | doctest.REPORT_ONLY_FIRST_FAILURE
     )
 
 class PleiadesEntityTestCase(ptc.PloneTestCase):
-
+    
     layer = PloneSite
-
+    
     def afterSetUp(self):
         self.test_params = _testing
         self.test_params.TEST_DATA = os.path.join(
@@ -30,17 +32,18 @@ class PleiadesEntityTestCase(ptc.PloneTestCase):
             )
         # Currently this stuff isn't being torn down between doctests. Why not?
         try:
-            self.folder.invokeFactory('NameContainer', id='names')
-            self.folder.invokeFactory('LocationContainer', id='locations')
             self.folder.invokeFactory('FeatureContainer', id='features')
+            self.folder['features'].invokeFactory('Folder', id='metadata')
             self.folder.invokeFactory('PlaceContainer', id='places')
+            self.folder.invokeFactory('ReferenceContainer', id='references')
+            mid = self.folder['features']['metadata'].invokeFactory('PositionalAccuracy', id='cap-map65')
+            self.folder['features']['metadata'][mid].setValue(0.01)
+            self.folder['features']['metadata'][mid].setText("That's right, 1 cm!")
         except:
             pass
 
 integration_tests = [
     'Entities.txt',
-    'Names.txt',
-    'TemporalAttestations.txt',
     'Vocabularies.txt',
     'WSTransliteration.txt',
     'WSValidation.txt',
@@ -50,8 +53,6 @@ integration_tests = [
     ]
 
 functional_tests = [
-    'LocationViews.txt',
-    'NameViews.txt'
     ]
 
 def make_integration_suite(name):
@@ -72,7 +73,7 @@ def make_functional_suite(name):
 
 def test_suite():
     return unittest.TestSuite(
-        [make_integration_suite(n) for n in integration_tests] 
+        [make_integration_suite(n) for n in integration_tests]
       + [make_functional_suite(n) for n in functional_tests]
       )
 

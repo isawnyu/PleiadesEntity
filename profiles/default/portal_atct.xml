@@ -5,45 +5,45 @@
   <!-- ##/code-section indexes -->
 
   <index name="getNameLanguage"
-     description="The language and writing system (script) of the attested name."
+     description="Select the language and writing system (script) of the attested name."
      enabled="True" 
-     friendlyName="Language and Writing System">
+     friendlyName="Language and writing system">
 
    <criteria>ATSelectionCriterion</criteria>
 
   </index>
 
   <index name="getAccuracy"
-     description=""
+     description="Select level of transcription accuracy"
      enabled="True" 
-     friendlyName="Accuracy of Attestation">
+     friendlyName="Accuracy of transcription">
 
    <criteria>ATSelectionCriteria</criteria>
 
   </index>
 
   <index name="getCompleteness"
-     description=""
+     description="Select level of transcription completeness"
      enabled="True" 
-     friendlyName="Completeness of Attestation">
-
-   <criteria>ATSelectionCriterion</criteria>
-
-  </index>
-
-  <index name="getFeatureType"
-     description=""
-     enabled="True" 
-     friendlyName="Feature type">
+     friendlyName="Level of transcription completeness">
 
    <criteria>ATSelectionCriterion</criteria>
 
   </index>
 
   <index name="getAssociationCertainty"
-     description="Certainty of association between locations and names"
+     description="Select level of certainty in association between name and feature"
      enabled="True" 
-     friendlyName="Certainty of association">
+     friendlyName="Level of certainty in association between name and feature">
+
+   <criteria>ATSelectionCriteria</criteria>
+
+  </index>
+
+  <index name="getFeatureType"
+     description="Select type of feature"
+     enabled="True" 
+     friendlyName="Feature type">
 
    <criteria>ATSelectionCriterion</criteria>
 
@@ -55,29 +55,29 @@
   <!-- ##/code-section metadata -->
 
   <metadata name="getNameLanguage" 
-     description="The language and writing system (script) of the attested name."
+     description="Select the language and writing system (script) of the attested name."
      enabled="True" 
-     friendlyName="Language and Writing System"/>
+     friendlyName="Language and writing system"/>
 
   <metadata name="getAccuracy" 
-     description=""
+     description="Select level of transcription accuracy"
      enabled="True" 
-     friendlyName="Accuracy of Attestation"/>
+     friendlyName="Accuracy of transcription"/>
 
   <metadata name="getCompleteness" 
-     description=""
+     description="Select level of transcription completeness"
      enabled="True" 
-     friendlyName="Completeness of Attestation"/>
-
-  <metadata name="getFeatureType" 
-     description=""
-     enabled="True" 
-     friendlyName="Feature type"/>
+     friendlyName="Level of transcription completeness"/>
 
   <metadata name="getAssociationCertainty" 
-     description="Certainty of association between locations and names"
+     description="Select level of certainty in association between name and feature"
      enabled="True" 
-     friendlyName="Certainty of association"/>
+     friendlyName="Level of certainty in association between name and feature"/>
+
+  <metadata name="getFeatureType" 
+     description="Select type of feature"
+     enabled="True" 
+     friendlyName="Feature type"/>
 
  </topic_metadata>
 </atcttool>

@@ -1,5 +1,4 @@
-import Products.PleiadesEntity.Extensions.ws_grek as ws_grek
-import Products.PleiadesEntity.Extensions.ws_latn as ws_latn
+from pleiades.transliteration import ws_grek, ws_latn
 
 def transliterate_name(lang, name_utf8):
     wsystem = lang.lower()

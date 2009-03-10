@@ -2,7 +2,7 @@
 #
 # File: PrimaryReference.py
 #
-# Copyright (c) 2008 by Ancient World Mapping Center, University of North
+# Copyright (c) 2009 by Ancient World Mapping Center, University of North
 # Carolina at Chapel Hill, U.S.A.
 # Generator: ArchGenXML Version 2.1
 #            http://plone.org/products/archgenxml

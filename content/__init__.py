@@ -2,7 +2,7 @@
 #
 # File: content.py
 #
-# Copyright (c) 2008 by Ancient World Mapping Center, University of North
+# Copyright (c) 2009 by Ancient World Mapping Center, University of North
 # Carolina at Chapel Hill, U.S.A.
 # Generator: ArchGenXML Version 2.1
 #            http://plone.org/products/archgenxml
@@ -39,16 +39,19 @@ __docformat__ = 'plaintext'
 # Classes
 import Name
 import Location
-import TemporalAttestation
 import Reference
 import SecondaryReference
 import PrimaryReference
 import Feature
-import NameContainer
-import LocationContainer
 import PlaceContainer
 import Place
 import FeatureContainer
+import PositionalAccuracy
+import Work
+import ReferenceContainer
+import Named
+import Temporal
+import TemporalAttestation
 
 ##code-section init-module-footer #fill in your manual code here
 ##/code-section init-module-footer

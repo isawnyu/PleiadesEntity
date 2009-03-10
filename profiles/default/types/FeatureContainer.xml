@@ -3,7 +3,7 @@
         meta_type="Factory-based Type Information with dynamic views"
         xmlns:i18n="http://xml.zope.org/namespaces/i18n">
    
- <property name="title">Feature Container</property>
+ <property name="title">Container for Features</property>
  <property name="description"></property>
  <property name="content_icon">FeatureContainer.gif</property>
  <property name="content_meta_type">FeatureContainer</property>
@@ -14,7 +14,7 @@
  <property name="filter_content_types">True</property>
  <property name="allowed_content_types">
    <element value="Feature"/>
-   <element value="Topic"/>
+   <element value="Folder"/>
  </property>
  <property name="allow_discussion">False</property>
  <property name="default_view">base_view</property>

@@ -2,25 +2,125 @@ Batch Loading of Entities
 =========================
 
 Setup
------
 
     >>> import transaction
     >>> self.setRoles(('Manager',))
     >>> folder = self.folder
-
+    
 Load one entity
----------------
 
     >>> TEST_DATA = self.test_params.TEST_DATA
     >>> from Products.PleiadesEntity.Extensions.loader import load_place
-    >>> r = load_place(folder, "%s/batlas-65-2-24-frank.xml" % TEST_DATA)
+    >>> r = load_place(folder, "%s/batlas-65-2-24-frank.xml" % TEST_DATA, 'cap-map65')
+    
+References
+----------
+
+We expect 4 references to have been created in the process
+(maybe move this down)
+
+    >>> references = folder['references']
+    >>> sorted(references.keys())
+    ['batlas-65-a2-aphrodisias-ninoe', 'npauly-aphrodisias-1', 're-aphrodisias-2', 're-ninoe']
+    >>> sorted(ref.Title() for ref in references.values())
+    ['BAtlas 65 A2 Aphrodisias/Ninoe', 'NPauly Aphrodisias 1', 'RE Aphrodisias 2', 'RE Ninoe']
+    >>> sorted((ref.getItem(), ref.getRange()) for ref in references.values())
+    [('http://www.unc.edu/awmc/pleiades/bibliography/batlas.html', 'BAtlas 65 A2 Aphrodisias/Ninoe'), ('http://www.unc.edu/awmc/pleiades/bibliography/npauly.html', 'NPauly Aphrodisias 1'), ('http://www.unc.edu/awmc/pleiades/bibliography/re.html', 'RE Aphrodisias 2'), ('http://www.unc.edu/awmc/pleiades/bibliography/re.html', 'RE Ninoe')]
+
+Feature
+-------
+
+One feature should be created, with one location, 2 names, and citing the 4 
+references above.
+
+    >>> fid = r['feature_id']
+    >>> fid in folder['features'].keys()
+    True
+    >>> f = folder['features'][fid]
+    >>> f.getLocations()
+    [<Location at /plone/Members/test_user_1_/features/.../position>]
+    >>> list(f.getNames())
+    [<Name at /plone/Members/test_user_1_/features/.../aphrodisias>, <Name at /plone/Members/test_user_1_/features/.../ninoe>]    
+    >>> [ref for ref in f.getSecondaryReferences()]
+    [<SecondaryReference at /plone/Members/test_user_1_/references/batlas-65-a2-aphrodisias-ninoe>, <SecondaryReference at /plone/Members/test_user_1_/references/re-aphrodisias-2>, <SecondaryReference at /plone/Members/test_user_1_/references/npauly-aphrodisias-1>, <SecondaryReference at /plone/Members/test_user_1_/references/re-ninoe>]
+    
+Feature Location
+----------------
+
+    >>> x = f.getLocations()[0]
+    >>> x.id
+    'position'
+    >>> x.getGeometry()
+    'Point:[28.7289,37.7145]'
+    >>> x.Title()
+    'Position'
+    
+Test credits and rights
+
+    >>> x.Creators()
+    ('C. Foss', 'S. Mitchell')
+    >>> x.Contributors()
+    ('R. Talbert', 'T. Elliott', 'S. Gillies')
+    >>> x.Rights()
+    'Copyright \xc2\xa9 2007 Ancient World Mapping Center. All rights reserved.'
+    
+Test temporal attestations
+
+    >>> x.getAttestations()
+    [{'timePeriod': 'classical', 'confidence': 'confident'}, {'timePeriod': 'roman', 'confidence': 'confident'}, {'timePeriod': 'late-antique', 'confidence': 'confident'}]
+    >>> x.getSortedTemporalAttestations()
+    [{'timePeriod': 'classical', 'confidence': 'confident'}, {'timePeriod': 'roman', 'confidence': 'confident'}, {'timePeriod': 'late-antique', 'confidence': 'confident'}]
+    
+Check metadata reference
+
+    >>> x.getAccuracy()
+    <PositionalAccuracy at /plone/Members/test_user_1_/features/metadata/cap-map65>
+    >>> x.getAccuracy().value
+    0.01
+    
+Feature Names
+-------------
+
+    >>> sorted(f.keys())
+    ['aphrodisias', 'ninoe', 'position']
+    >>> names = f.getNames()
+    >>> n = names[0]
+    >>> n.nameTransliterated
+    u'Aphrodisias'
+    >>> n.Title()
+    'Aphrodisias'
+    >>> n.title
+    u'Aphrodisias'
+    >>> n.nameAttested
+    u''
+    >>> n.getNameLanguage()
+    ''
+    >>> n.getNameType()
+    'geographic'
+    >>> n.getAccuracy()
+    'accurate'
+    >>> n.getCompleteness()
+    'complete'
+    >>> n.Creators()
+    ('C. Foss', 'S. Mitchell')
+    >>> n.Contributors()
+    ('R. Talbert', 'T. Elliott', 'S. Gillies')
+    >>> n.Rights()
+    'Copyright \xc2\xa9 2007 Ancient World Mapping Center. All rights reserved.'
+    
+    >>> x.getAttestations()
+    [{'timePeriod': 'classical', 'confidence': 'confident'}, {'timePeriod': 'roman', 'confidence': 'confident'}, {'timePeriod': 'late-antique', 'confidence': 'confident'}]
+    
+    >>> [ref for ref in n.getSecondaryReferences()]
+    [<SecondaryReference at /plone/Members/test_user_1_/references/re-aphrodisias-2>, <SecondaryReference at /plone/Members/test_user_1_/references/npauly-aphrodisias-1>]
+
+
+Place
+-----
+
+By default, we create a place for every feature.
+
     >>> pid = r['place_id']
-    >>> nids = r['name_ids']
-    >>> len(nids)
-    2
-
-    Test place
-
     >>> p = folder['places'][pid]
     >>> p.title_or_id()
     'Aphrodisias/Ninoe'
@@ -28,239 +128,51 @@ Load one entity
     'Aphrodisias/Ninoe'
     >>> p.modernLocation
     u'Geyre'
-    >>> p.getPlaceType()
-    ['settlement']
     >>> p.Creators()
     ('C. Foss', 'S. Mitchell')
     >>> p.Contributors()
     ('R. Talbert', 'T. Elliott', 'S. Gillies')
     >>> p.Rights()
     'Copyright \xc2\xa9 2007 Ancient World Mapping Center. All rights reserved.'
-
     >>> p.Description()
     'An ancient settlement, attested during the Classical, Roman and Late Antique periods (modern location: Geyre). It was known in antiquity by the names: Aphrodisias and Ninoe.'
 
-    Test Placeful Associations
 
-    >>> features = list(p.getFeatures())
-    >>> fids = [f.id for f in features]
-    >>> f = folder['features'][fids[0]]
-    >>> srs = f.getFolderContents({'meta_type':['SecondaryReference']})
-    >>> len(srs)
-    4
-    >>> [s.id for s in srs]
-    ['batlas-65-a2-aphrodisias-ninoe', 're-aphrodisias-2', 'npauly-aphrodisias-1', 're-ninoe']
-    >>> [s.Title for s in srs]
-    ['BAtlas 65 A2 Aphrodisias/Ninoe', 'RE Aphrodisias 2', 'NPauly Aphrodisias 1', 'RE Ninoe']
-    >>> [(f[s.id].getItem(), f[s.id].getRange()) for s in srs]
-    [('http://www.unc.edu/awmc/pleiades/bibliography/batlas.html', 'BAtlas 65 A2 Aphrodisias/Ninoe'), ('http://www.unc.edu/awmc/pleiades/bibliography/re.html', 'RE Aphrodisias 2'), ('http://www.unc.edu/awmc/pleiades/bibliography/npauly.html', 'NPauly Aphrodisias 1'), ('http://www.unc.edu/awmc/pleiades/bibliography/re.html', 'RE Ninoe')]
-
-    Test names
-
-    >>> n0 = folder['names'][nids[0]]
-    >>> n0.nameTransliterated
-    u'Aphrodisias'
-    >>> n0.Title()
-    'Aphrodisias'
-    >>> n0.title
-    u'Aphrodisias'
-    >>> n0.nameAttested
-    u''
-    >>> n0.getNameLanguage()
-    ''
-    >>> n0.getNameType()
-    'geographic'
-    >>> n0.getAccuracy()
-    'accurate'
-    >>> n0.getCompleteness()
-    'complete'
-    >>> n0.Creators()
-    ('C. Foss', 'S. Mitchell')
-    >>> n0.Contributors()
-    ('R. Talbert', 'T. Elliott', 'S. Gillies')
-    >>> n0.Rights()
-    'Copyright \xc2\xa9 2007 Ancient World Mapping Center. All rights reserved.'
-
-    >>> tps = n0.getFolderContents({'meta_type':['TemporalAttestation']})
-    >>> len(tps)
-    2
-    >>> tps0 = tps[0].getObject()
-    >>> tps0.Title()
-    'Attested: Roman (Early Empire; 30 BC - AD 300)'
-    >>> tps0.getId()
-    'roman'
-    >>> tps0.getAttestationConfidence()
-    'confident'
-    >>> tps1 = tps[1].getObject()
-    >>> tps1.Title()
-    'Attested: Late Antique (AD 300 - 640)'
-    >>> tps1.getId()
-    'late-antique'
-    >>> tps1.getAttestationConfidence()
-    'confident'
-    
-    >>> srs = n0.getFolderContents({'meta_type':['SecondaryReference']})
-    >>> len(srs)
-    2
-    >>> [s.id for s in srs]
-    ['re-aphrodisias-2', 'npauly-aphrodisias-1']
-    >>> [s.Title for s in srs]
-    ['RE Aphrodisias 2', 'NPauly Aphrodisias 1']
-    >>> [(n0[s.id].getItem(), n0[s.id].getRange()) for s in srs]
-    [('http://www.unc.edu/awmc/pleiades/bibliography/re.html', 'RE Aphrodisias 2'), ('http://www.unc.edu/awmc/pleiades/bibliography/npauly.html', 'NPauly Aphrodisias 1')]
-
-    >>> n0.getTimePeriods()
-    ['roman', 'late-antique']
-
-    >>> n1 = folder['names'][nids[1]]
-    >>> n1.title
-    u'Ninoe'
-    >>> n1.Title()
-    'Ninoe'
-    >>> n1.nameAttested
-    u''
-    
-    >>> tps = n1.getFolderContents({'meta_type':['TemporalAttestation']})
-    >>> len(tps)
-    1
-    >>> tps0 = tps[0].getObject()
-    >>> tps0.Title()
-    'Attested: Classical (550 - 330 BC)'
-    >>> tps0.getId()
-    'classical'
-    >>> tps0.getAttestationConfidence()
-    'confident'
-    >>> srs = n1.getFolderContents({'meta_type':['SecondaryReference']})
-    >>> len(srs)
-    1
-    >>> srs[0].Title
-    'RE Ninoe'
-
-    Test locations
-
-    >>> lid = r['location_ids'][0]
-    >>> l = folder['locations'][lid]
-    >>> l.getGeometry()
-    'Point:[28.7289,37.7145]'
-    >>> l.title_or_id() == "Point %s" % lid
-    True
-    >>> l.Title() == "Point %s" % lid
-    True
-    >>> l.Creators()
-    ('C. Foss', 'S. Mitchell')
-    >>> l.Contributors()
-    ('R. Talbert', 'T. Elliott', 'S. Gillies')
-    >>> l.Rights()
-    'Copyright \xc2\xa9 2007 Ancient World Mapping Center. All rights reserved.'
-
-    Test time periods for locations
-
-    >>> tps = l.getFolderContents({'meta_type':['TemporalAttestation']})
-    >>> len(tps)
-    3
-    >>> tps0 = tps[0].getObject()
-    >>> tps0.Title()
-    'Attested: Classical (550 - 330 BC)'
-    >>> tps0.getId()
-    'classical'
-    >>> tps0.getAttestationConfidence()
-    'confident'
-    >>> tps1 = tps[1].getObject()
-    >>> tps1.Title()
-    'Attested: Roman (Early Empire; 30 BC - AD 300)'
-    >>> tps1.getId()
-    'roman'
-    >>> tps1.getAttestationConfidence()
-    'confident'
-    >>> tps2 = tps[2].getObject()
-    >>> tps2.Title()
-    'Attested: Late Antique (AD 300 - 640)'
-    >>> tps2.getId()
-    'late-antique'
-    >>> tps2.getAttestationConfidence()
-    'confident'
-    >>> l.getTimePeriods()
-    ['classical', 'roman', 'late-antique']
-
-    Check Place time periods
-
-    >>> p.getTimePeriods()
-    ['classical', 'roman', 'late-antique']
-
-    Test associations
-
-    >>> contents = list(p.getFeatures())
-    >>> len(contents)
-    2
-    
-    >>> contents[0].getRefs('hasName')[0] = n0
-    >>> contents[1].getRefs('hasName')[0] = n1
-    >>> contents[0].getRefs('hasLocation')[0] = l
-    >>> contents[1].getRefs('hasLocation')[0] = l
-
-    >>> a = contents[0]
-    >>> a.getFeatureType()
-    'settlement'
-    >>> a.getAssociationCertainty()
-    'certain'
-
-    Test bibliographic references
-
-    >>> srefs = a.getFolderContents({'meta_type':['SecondaryReference']})
-    >>> len(srefs)
-    4
-    
-    >>> srefs[0].Title
-    'BAtlas 65 A2 Aphrodisias/Ninoe'
-    >>> srefs[1].Title
-    'RE Aphrodisias 2'
-    >>> srefs[2].Title
-    'NPauly Aphrodisias 1'
-    >>> srefs[3].Title
-    'RE Ninoe'
-    
 Load one nameless entity
-------------------------
+========================
 
-    >>> r = load_place(folder, "%s/batlas-65-2-101.xml" % TEST_DATA)
+    >>> r = load_place(folder, "%s/batlas-65-2-101.xml" % TEST_DATA, 'cap-map65')
     >>> pid = r['place_id']
     >>> r['name_ids']
     []
 
-    Test associations
+Check feature
 
     >>> p = folder['places'][pid]
     >>> contents = list(p.getFeatures())
     >>> len(contents)
-    1
-    
-    >>> a = contents[0]
-    >>> a.getRefs('hasName')
-    []
-    >>> a.getFeatureType()
+    1    
+    >>> f = contents[0]
+    >>> f.getFeatureType()
     'fort'
-    >>> a.getAssociationCertainty()
-    'certain'
+
 
 Load one unlocated entity
--------------------------
+=========================
 
-    >>> r = load_place(folder, "%s/batlas-65-7-21.xml" % TEST_DATA)
+    >>> r = load_place(folder, "%s/batlas-65-7-21.xml" % TEST_DATA, 'cap-map65')
     >>> pid = r['place_id']
     >>> len(r['name_ids'])
     1
 
-    Test associations
+Check feature
 
     >>> p = folder['places'][pid]
     >>> contents = list(p.getFeatures())
     >>> len(contents)
-    1
-    
-    >>> a = contents[0]
-    >>> a.getRefs('hasLocation')
+    1    
+    >>> f = contents[0]
+    >>> f.getLocations()
     []
-    >>> a.getFeatureType()
+    >>> f.getFeatureType()
     'undefined'
-    >>> a.getAssociationCertainty()
-    'certain'

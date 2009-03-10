@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<awmcgaz:geoEntity xmlns:awmcgaz="http://www.unc.edu/awmc/gazetteer/schemata/ns/0.3" xmlns:adlgaz="http://www.alexandria.ucsb.edu/gazetteer/ContentStandard/version3.2/" xmlns:georss="http://www.georss.org/georss" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><adlgaz:featureID>batlas-65-7-21</adlgaz:featureID>
+<awmcgaz:geoEntity xmlns:awmcgaz="http://www.unc.edu/awmc/gazetteer/schemata/ns/0.3" xmlns:adlgaz="http://www.alexandria.ucsb.edu/gazetteer/ContentStandard/version3.2/" xmlns:georss="http://www.georss.org/georss" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><adlgaz:featureID>batlas-99-7-21</adlgaz:featureID>
 <awmcgaz:modernLocation>near Aphrodisias</awmcgaz:modernLocation>
 <adlgaz:timePeriod><adlgaz:timePeriodName>Hellenistic (Roman Republic)</adlgaz:timePeriodName>
 </adlgaz:timePeriod>

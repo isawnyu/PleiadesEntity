@@ -6,18 +6,18 @@
         cookie_persistence="False"
         request_varname="plone_skin">
 
- <object name="PleiadesEntity_public"
-         meta_type="Filesystem Directory View"
-         directory="PleiadesEntity/skins/PleiadesEntity_public"/>
  <object name="PleiadesEntity"
          meta_type="Filesystem Directory View"
          directory="PleiadesEntity/skins/PleiadesEntity"/>
+ <object name="PleiadesEntity_public"
+         meta_type="Filesystem Directory View"
+         directory="PleiadesEntity/skins/PleiadesEntity_public"/>
  
  <skin-path name="Plone Default">
   <layer insert-after="custom" 
-         name="PleiadesEntity_public"/>
-  <layer insert-after="custom" 
          name="PleiadesEntity"/>
+  <layer insert-after="custom" 
+         name="PleiadesEntity_public"/>
  </skin-path>
 
 </object>

@@ -4,13 +4,13 @@ Batch Loading of Entities
 Setup
 -----
 
-  >>> self.setRoles(('Manager',))
-  >>> folder = self.folder
+    >>> self.setRoles(('Manager',))
+    >>> folder = self.folder
 
 Load entities
 -------------
 
   >>> from Products.PleiadesEntity.Extensions.loader import loaden
-  >>> loaden(folder, "/tmp/ba065/")
-  'Loaded 315 of 315 files.'
+  >>> loaden(folder, "/tmp/ba065/", 'cap-map65')
+  'Loaded 317 of 317 files.'
 

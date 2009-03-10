@@ -2,7 +2,7 @@
 #
 # File: PlaceContainer.py
 #
-# Copyright (c) 2008 by Ancient World Mapping Center, University of North
+# Copyright (c) 2009 by Ancient World Mapping Center, University of North
 # Carolina at Chapel Hill, U.S.A.
 # Generator: ArchGenXML Version 2.1
 #            http://plone.org/products/archgenxml
@@ -59,38 +59,6 @@ class PlaceContainer(BaseBTreeFolder, BrowserDefaultMixin):
     ##/code-section class-header
 
     # Methods
-
-    security.declareProtected(permissions.AddPortalContent, 'invokeFactory')
-    def invokeFactory(self, type_name, id=None, RESPONSE=None, **kw):
-        """
-        """
-        pt = getToolByName(self, 'portal_types')
-        myType = pt.getTypeInfo(self)
-        if myType is not None:
-            if not myType.allowType(type_name):
-                raise ValueError, 'Disallowed subobject type: %s' % type_name
-
-        # types other than Place
-        if type_name != 'Place' and id is not None:
-            args = (type_name, self, id, RESPONSE)
-            new_id = pt.constructContent(*args, **kw)
-            if new_id is None or new_id == '':
-                new_id = id
-            return new_id
-
-        # Places are handled differently
-        if id is not None:
-            obid = str(id)
-        else:
-            # prevent ids in the reserved range
-            obid = -1
-            while int(obid) <= BA_ID_MAX:
-                obid = self.generateId(prefix='')
-        args = ('Place', self, obid, RESPONSE)
-        new_id = pt.constructContent(*args, **kw)
-        if new_id is None or new_id == '':
-            new_id = obid
-        return new_id
 
 
 registerType(PlaceContainer, PROJECTNAME)

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# File: FeatureContainer.py
+# File: PositionalAccuracy.py
 #
 # Copyright (c) 2009 by Ancient World Mapping Center, University of North
 # Carolina at Chapel Hill, U.S.A.
@@ -20,16 +20,26 @@ import interfaces
 
 from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
 
+from Products.ATContentTypes.content.document import ATDocument
+from Products.ATContentTypes.content.document import ATDocumentSchema
 from Products.PleiadesEntity.config import *
-
-# additional imports from tagged value 'import'
-from Products.CMFCore import permissions
 
 ##code-section module-header #fill in your manual code here
 ##/code-section module-header
 
 schema = Schema((
 
+    FloatField(
+        name='value',
+        widget=FloatField._properties['widget'](
+            label="Positional accuracy",
+            description="Enter the accuracy, in meters, of location or position",
+            label_msgid='PleiadesEntity_label_value',
+            description_msgid='PleiadesEntity_help_value',
+            i18n_domain='PleiadesEntity',
+        ),
+        description="Positional accuracy value in meters",
+    ),
 
 ),
 )
@@ -37,23 +47,23 @@ schema = Schema((
 ##code-section after-local-schema #fill in your manual code here
 ##/code-section after-local-schema
 
-FeatureContainer_schema = BaseBTreeFolderSchema.copy() + \
+PositionalAccuracy_schema = ATDocumentSchema.copy() + \
     schema.copy()
 
 ##code-section after-schema #fill in your manual code here
 ##/code-section after-schema
 
-class FeatureContainer(BaseBTreeFolder, BrowserDefaultMixin):
+class PositionalAccuracy(ATDocument):
     """
     """
     security = ClassSecurityInfo()
 
-    implements(interfaces.IFeatureContainer)
+    implements(interfaces.IPositionalAccuracy)
 
-    meta_type = 'FeatureContainer'
+    meta_type = 'PositionalAccuracy'
     _at_rename_after_creation = True
 
-    schema = FeatureContainer_schema
+    schema = PositionalAccuracy_schema
 
     ##code-section class-header #fill in your manual code here
     ##/code-section class-header
@@ -61,8 +71,8 @@ class FeatureContainer(BaseBTreeFolder, BrowserDefaultMixin):
     # Methods
 
 
-registerType(FeatureContainer, PROJECTNAME)
-# end of class FeatureContainer
+registerType(PositionalAccuracy, PROJECTNAME)
+# end of class PositionalAccuracy
 
 ##code-section module-footer #fill in your manual code here
 ##/code-section module-footer

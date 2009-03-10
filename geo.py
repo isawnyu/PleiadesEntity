@@ -71,7 +71,7 @@ class FeatureGeoItem(object):
         """Initialize adapter."""
         self.context = context
         self._adapter = None
-        x = self.context.getRefs('hasLocation')
+        x = list(self.context.getLocations())
         if len(x) == 0:
             raise ValueError, "Unlocated: could not adapt %s" % str(context)
         else:

@@ -1,44 +1,54 @@
 
-Tests of relationships among Name, Location, and Place
+Tests of relationships among Feature and Place
 ======================================================
-
+    
     >>> folder = self.folder
-    >>> names = folder['names']
-    >>> locations = folder['locations']
     >>> features = folder['features']
     >>> places = folder['places']
 
-Add entities
+Add feature
+    
+    >>> fid = features.invokeFactory('Feature', None, title='Ninoe')
+    >>> f = features[fid]
+    >>> nameAttested = u'\u039d\u03b9\u03bd\u1f79\u03b7'.encode('utf-8')
+    >>> nid = f.invokeFactory('Name', 'ninoe', nameAttested=nameAttested, nameLanguage='grc', nameType='geographic', accuracy='accurate', completeness='complete')
+    >>> attestations = f[nid].Schema()['attestations']
+    >>> f[nid].update(attestations=[dict(confidence='certain', timePeriod='roman')])
+    >>> lid = f.invokeFactory('Location', 'location', title='Point 1', geometry='Point:[-86.4808333333333, 34.769722222222]')
 
-    >>> nid = names.invokeFactory('Name', nameAttested=u'\u1f08\u03c6\u03c1\u03bf\u03b4\u03b9\u03c3\u03b9\u1f71\u03c2', nameLanguage='grc', nameType='geographic')
-    >>> lid = locations.invokeFactory('Location')
-    >>> pid = places.invokeFactory('Place')
-    >>> fid = features.invokeFactory('Feature')
+Test computed attributes
+    
+    >>> f.Title()
+    'Ninoe'
+    >>> f[nid].getAttestations()
+    [{'timePeriod': 'roman', 'confidence': 'certain'}]
+
+Add place
+    
+    >>> pid = places.invokeFactory('Place', None, title='Ninoe')
+    >>> p = places[pid]
+    >>> nid = p.invokeFactory('Name', 'ninoe', nameAttested=nameAttested, nameLanguage='grc', nameType='geographic', accuracy='accurate', completeness='complete')
+    >>> attestations = p[nid].Schema()['attestations']
+    >>> p[nid].update(attestations=[dict(confidence='certain', timePeriod='roman')])
 
 And references
+    
+    >>> _ = f.addReference(p, 'feature_place')
 
-    >>> n = names[nid]
-    >>> x = locations[lid]
-    >>> f = features[fid]
-    >>> p = places[pid]
-    >>> _ = f.addReference(n, 'hasName')
-    >>> _ = f.addReference(x, 'hasLocation')
-    >>> _ = p.addReference(f, 'hasFeature')
-
-Set location coordinates
-
-    >>> _ = x.setGeometry('Point:[-86.4808333333333, 34.769722222222]')
-
-Test titling
-
+Test computed attributes
+    
     >>> p.Title()
-    'Aphrodisias'
+    'Ninoe'
+    >>> p[nid].getAttestations()
+    [{'timePeriod': 'roman', 'confidence': 'certain'}]
+    >>> list(p.getFeatures())
+    [<Feature at /plone/Members/test_user_1_/features/...>]
 
 Test the geo adapters
 ---------------------
-
+    
     >>> from zgeo.geographer.interfaces import IGeoreferenced
-
+    
     >>> g = IGeoreferenced(f)
     >>> gi = g.__geo_interface__
     >>> gi['type']
@@ -47,7 +57,7 @@ Test the geo adapters
     'Point'
     >>> g.coordinates
     [-86.480833333333294, 34.769722222222001]
-
+    
     >>> g = IGeoreferenced(p)
     >>> gi = g.__geo_interface__
     >>> gi['type']
