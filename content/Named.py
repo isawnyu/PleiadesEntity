@@ -98,7 +98,17 @@ class Named(BrowserDefaultMixin):
             for a in name.getAttestations():
                 if a['timePeriod'] not in periods:
                     periods.append(a['timePeriod'])
-        return sorted(periods, cmp=TimePeriodCmp(self))
+        if hasattr(self, 'getLocations'):
+            for l6n in self.getLocations():
+                for a in l6n.getAttestations():
+                    if a['timePeriod'] not in periods:
+                        periods.append(a['timePeriod'])
+        if hasattr(self, 'getFeatures'):
+            for f in self.getFeatures():
+                for p in f.getTimePeriods():
+                    if p not in periods:
+                        periods.append(p)
+        return sorted([p for p in periods if p], cmp=TimePeriodCmp(self))
 
 # end of class Named
 
