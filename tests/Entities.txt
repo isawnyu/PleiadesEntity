@@ -8,7 +8,7 @@ Tests of relationships among Feature and Place
 
 Add feature
     
-    >>> fid = features.invokeFactory('Feature', None, title='Ninoe')
+    >>> fid = features.invokeFactory('Feature', None, title='Ninoe', featureType='settlement')
     >>> f = features[fid]
     >>> nameAttested = u'\u039d\u03b9\u03bd\u1f79\u03b7'.encode('utf-8')
     >>> nid = f.invokeFactory('Name', 'ninoe', nameAttested=nameAttested, nameLanguage='grc', nameType='geographic', accuracy='accurate', completeness='complete')
@@ -46,7 +46,9 @@ Test computed attributes
     >>> p.getTimePeriods()
     ['roman']
     >>> p[nid].getTimePeriods()
-    ['roman']    
+    ['roman']
+    >>> p.getFeatureType()
+    ['settlement']
 
 Test the geo adapters
 ---------------------

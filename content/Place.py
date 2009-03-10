@@ -108,6 +108,17 @@ class Place(BaseFolder, ATDocumentBase, Named, Work, BrowserDefaultMixin):
             transaction.commit(1)
             self.setId(newid)
 
+    security.declareProtected(permissions.View, 'getFeatureType')
+    def getFeatureType(self):
+        """
+        """
+        ftypes = []
+        for f in self.getFeatures():
+            ftype = f.getFeatureType()
+            if ftype not in ftypes:
+                ftypes.append(ftype)
+        return ftypes
+
 
 registerType(Place, PROJECTNAME)
 # end of class Place
