@@ -25,7 +25,6 @@
   <index name="getConfidence" 
          meta_type="FieldIndex">
     <indexed_attr value="getConfidence"/>
-    <indexed_attr value="getConfidence"/>
   </index>
   <index name="getModernLocation" 
          meta_type="ZCTextIndex">

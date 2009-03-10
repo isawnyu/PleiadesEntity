@@ -28,6 +28,7 @@ from Products.PleiadesEntity.config import *
 
 # additional imports from tagged value 'import'
 from Products.CMFCore import permissions
+
 ##code-section module-header #fill in your manual code here
 ##/code-section module-header
 

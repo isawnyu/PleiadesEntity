@@ -99,7 +99,7 @@ class Named(BrowserDefaultMixin):
                 if a['timePeriod'] not in periods:
                     periods.append(a['timePeriod'])
         return sorted(periods, cmp=TimePeriodCmp(self))
-                
+
 # end of class Named
 
 ##code-section module-footer #fill in your manual code here
