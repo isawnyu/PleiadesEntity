@@ -97,7 +97,7 @@ class Place(BaseFolder, ATDocumentBase, Named, Work, BrowserDefaultMixin):
             if oldint <= BA_ID_MAX:
                 oldid = str(oldint)
             else:
-                oldid is None
+                oldid = None
         except ValueError:
             oldid = None
         if oldid is None:
