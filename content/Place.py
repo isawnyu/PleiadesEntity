@@ -78,6 +78,8 @@ class Place(BaseFolder, ATDocumentBase, Named, Work, BrowserDefaultMixin):
     schema = Place_schema
 
     ##code-section class-header #fill in your manual code here
+    schema["presentation"].widget.visible = {"edit": "invisible", "view": "invisible"}
+    schema["tableContents"].widget.visible = {"edit": "invisible", "view": "invisible"} 
     ##/code-section class-header
 
     # Methods

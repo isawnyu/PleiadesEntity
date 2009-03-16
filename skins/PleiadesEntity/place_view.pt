@@ -1,190 +1,80 @@
-<html
-  xmlns="http://www.w3.org/1999/xhtml"
-  xmlns:tal="http://xml.zope.org/namespaces/tal"
-  xmlns:metal="http://xml.zope.org/namespaces/metal"
-  xmlns:i18n="http://xml.zope.org/namespaces/i18n"
-  lang="en"
-  metal:use-macro="here/main_template/macros/master"
-  i18n:domain="plone"
-  >
-
-<metal:links fill-slot="head_slot">
-  <link
-    rel="alternate"
-    tal:attributes="href string:${context/absolute_url}#this"
-    />
-  <link
-    rel="alternate"
-    type="application/atom+xml"
-    tal:attributes="href string:${context/absolute_url}/atom"
-    />
-  <link
-    rel="alternate"
-    type="application/vnd.google-earth.kml+xml"
-    tal:attributes="href string:${context/absolute_url}/kml"
-    />        
-</metal:links>
-
-<metal:javascript fill-slot="javascript_head_slot">
-<script
-  src="key"
-  tal:attributes="src string:http://maps.google.com/maps?file=api&amp;v=2&amp;key=${context/@@ol-gmaps-key}"
-  type="text/javascript"
-  >
-</script>
-<script src="http://openlayers.org/api/OpenLayers.js"></script>
-<script
-  type="text/javascript"
-  src="../@@ol.js"
-  tal:attributes="src string:${context/absolute_url}/@@ol.js"
-  >
-</script>
-<script type="text/javascript">
-  var map, base, marker, coords;
-  var SHADOW_Z_INDEX = 10;
-  var MARKER_Z_INDEX = 11;
-        
-  function init() {
-    map = new OpenLayers.Map(
-                'map', {
-                    projection: new OpenLayers.Projection("EPSG:900913"),
-                    displayProjection: new OpenLayers.Projection("EPSG:4326"),
-                    units: "m",
-                    numZoomLevels: 18,
-                    maxResolution: 156543.0339,
-                    maxExtent: new OpenLayers.Bounds(-20037508, -20037508, 20037508, 20037508)
-                    }
-                );
-    base = new OpenLayers.Layer.Google(
-                "Base", {   
-                    isBaseLayer: true,
-                    type: G_PHYSICAL_MAP, 
-                    sphericalMercator: true
-                    }
-                );
-    marker = new OpenLayers.Layer.Vector(
-                "Marker", {
-                    styleMap: new OpenLayers.StyleMap({
-                        externalGraphic: url_marker_gold,
-                        backgroundGraphic: url_marker_shadow,
-                        backgroundXOffset: 0,
-                        backgroundYOffset: -7,
-                        graphicZIndex: MARKER_Z_INDEX,
-                        backgroundGraphicZIndex: SHADOW_Z_INDEX,
-                        pointRadius: 10
-                    }),
-                    isBaseLayer: false,
-                    rendererOptions: {yOrdering: true}
-                }
-            );
-    coords = pleiades_oljs.centroid.coordinates;
-    map.addLayers([base, marker]);
-    marker.addFeatures([
-                    new OpenLayers.Feature.Vector(
-                        new OpenLayers.Geometry.Point(coords[0], coords[1])
-                        )
-                    ]
-                );
-    map.setCenter(new OpenLayers.LonLat(coords[0], coords[1]), 8);
-  }
-</script>
-</metal:javascript>
-
-<body>
-<metal:main fill-slot="main">
-  <tal:main-macro 
-    metal:define-macro="main"
-    tal:define="
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xml:lang="en"
+      lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      i18n:domain="plone">
+  
+  <head>
+    
+    <metal:links_macro metal:define-macro="links"
+      tal:define="url context/absolute_url"
+      >
+      <link rel="alternate" tal:attributes="href string:${url}#this"/>
+      <link rel="alternate" type="application/atom+xml" tal:attributes="href string:${url}/atom"/>
+      <link rel="alternate" type="application/json" tal:attributes="href string:${url}/@@json?sm=1"/>
+      <link rel="alternate" type="application/vnd.google-earth.kml+xml" tal:attributes="href string:${url}/kml"/>
+    </metal:links_macro>
+    
+    <metal:js_macro metal:define-macro="js">
+      <script type="text/javascript" src="key" tal:attributes="src string:http://maps.google.com/maps?file=api&amp;v=2&amp;key=${context/@@ol-gmaps-key}"></script>
+      <script type="text/javascript" src="http://openlayers.org/api/OpenLayers.js"></script>
+      <script type="text/javascript" src="++resource++ol-map.js"></script>
+    </metal:js_macro>
+  
+  </head>
+  
+  <body>
+    
+    <metal:body_macro
+      metal:define-macro="body"
+      tal:define="field_macro field_macro | here/widgets/field/macros/view;
         kssClassesView context/@@kss_field_decorator_view;
         getKssClasses nocall:kssClassesView/getKssClassesInlineEditable;
-        templateId template/getId;
-        text here/getContent;"
+        templateId template/getId;"
         >
-
-    <div tal:replace="structure provider:plone.abovecontenttitle" />
-
-    <h1 class="documentFirstHeading"
-      tal:attributes="about string:${context/absolute_url}#this"
-      > 
-      <metal:field use-macro="python:context.widget('title', mode='view')">
-      Title
-      </metal:field>
-    </h1>
-
-    <div tal:replace="structure provider:plone.belowcontenttitle" />
-
-    <!--div-->
-    <div id="map" style="float:right;width:200px;height:300px;border:solid gray 1px;background-color:#cccccc;margin-left:1em;"></div>
-    <script defer="defer" type="text/javascript">
-      init();
-    </script>
-
-    <div id="non-map" style="float:left;width:400px;">
-
-    <p class="documentDescription">
-      <metal:field
-        use-macro="python:context.widget('description', mode='view')"
+      
+      <div id="map" style="width:485px;height:300px;border:solid gray 1px;background-color:#cccccc;margin-bottom:1.5em;"></div>
+      
+      <script defer="defer" type="text/javascript">
+        initMap();
+        function setZoom() {
+            var extent = vectors.getDataExtent();
+            extent.left -= 5000.0;
+            extent.right += 5000.0;
+            extent.top += 5000.0;
+            extent.bottom -= 5000.0;
+            map.zoomToExtent(extent);
+        }
+        jq(document).ready(setZoom);
+      </script>
+      <br/>
+      
+      <tal:repeat
+        repeat="field python:here.Schema().filterFields(isMetadata=0)"
         >
-      Description
-      </metal:field>
-    </p>
-
-    <p class="field">
-      <label><span>Modern Location</span>:</label>
-      <metal:field
-        use-macro="python:context.widget('modernLocation', mode='view')"
-        >
-      Description
-      </metal:field>
-    </p>
-
-    <div class="field" id="pleiades-features">
-      <label><span>Features</span>:</label>
-      <p
-        metal:use-macro="context/pleiades_featurelisting/macros/contentlisting"
-        >
-        features
+        <tal:if_visible
+          define="mode string:view; visState python:field.widget.isVisible(here, mode); visCondition python:field.widget.testCondition(here, portal, template);"
+          condition="python:visState == 'visible' and visCondition">
+          <metal:use_field use-macro="field_macro"/>
+        </tal:if_visible>
+      </tal:repeat>
+      
+      <div>
+      <h4>Alternate representations</h4>
+      <p tal:define="url context/absolute_url">
+          <a type="application/atom+xml" tal:attributes="href string:${url}/atom">Atom</a>,
+          <a type="application/json" tal:attributes="href string:${url}/json">JSON</a>,
+          <a type="application/vnd.google-earth.kml+xml" tal:attributes="href string:${url}/kml">KML</a>
       </p>
-    </div>
-
-    <div>
-      <label><span>Alternate representations</span></label>:
-      <ul>
-        <li class="repr-georss">
-          <a rel="alternate" tal:attributes="href string:${context/absolute_url}/atom">Atom</a>
-        </li>
-        <li class="repr-kml">
-          <a rel="alternate" tal:attributes="href string:${context/absolute_url}/kml">KML</a>
-        </li>
-      </ul>
-    </div>  
-
-    <!--/div-->
-    <hr style="display: block; clear: right; visibility: hidden;"/>
-
-    <div tal:replace="structure provider:plone.abovecontentbody" />
-
-    <p 
-      tal:condition="python: not text and is_editable"
-      i18n:translate="no_body_text"
-      class="discreet"
-      >
-      This item does not have any body text, click the edit tab to change it.
-    </p>
-
-    <metal:field use-macro="python:context.widget('content', mode='view')">
-      Body text
-    </metal:field>
-
-    <div metal:use-macro="here/document_relateditems/macros/relatedItems">
-      show related items if they exist
-    </div>
-
-    <div tal:replace="structure provider:plone.belowcontentbody" />
-
-  </tal:main-macro>
-</metal:main>
-</body>
-
+    
+    </metal:body_macro>
+    
+    <metal:folderlisting_macro define-macro="folderlisting">
+      <!-- nothing -->
+    </metal:folderlisting_macro>
+  
+  
+  </body>
 </html>
-
