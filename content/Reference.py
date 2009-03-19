@@ -35,10 +35,10 @@ schema = Schema((
     StringField(
         name='item',
         widget=StringField._properties['widget'](
+            macro="url_widget",
             label='Item',
             label_msgid='PleiadesEntity_label_item',
             i18n_domain='PleiadesEntity',
-            macro='url_widget'
         ),
     ),
     StringField(

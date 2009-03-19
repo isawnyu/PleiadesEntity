@@ -3,8 +3,6 @@
   <index name="getNameAttested" 
          meta_type="ZCTextIndex">
     <indexed_attr value="getNameAttested"/>
-    <extra name="index_type" value="Okapi BM25 Rank"/>
-    <extra name="lexicon_id" value="plone_lexicon"/>
   </index>
   <index name="getNameLanguage" 
          meta_type="FieldIndex">
@@ -18,26 +16,24 @@
          meta_type="FieldIndex">
     <indexed_attr value="getCompleteness"/>
   </index>
+  <index name="getAssociationCertainty" 
+         meta_type="FieldIndex">
+    <indexed_attr value="getAssociationCertainty"/>
+  </index>
   <index name="getFeatureType" 
          meta_type="KeywordIndex">
     <indexed_attr value="getFeatureType"/>
   </index>
-  <index name="getConfidence" 
-         meta_type="FieldIndex">
-    <indexed_attr value="getConfidence"/>
-  </index>
   <index name="getModernLocation" 
          meta_type="ZCTextIndex">
     <indexed_attr value="getModernLocation"/>
-    <extra name="index_type" value="Okapi BM25 Rank"/>
-    <extra name="lexicon_id" value="plone_lexicon"/>
   </index>
   <column value="getNameAttested"/>
   <column value="getNameLanguage"/>
   <column value="getAccuracy"/>
   <column value="getCompleteness"/>
+  <column value="getAssociationCertainty"/>
   <column value="getFeatureType"/>
-  <column value="getConfidence"/>
   <column value="getModernLocation"/>
 <!-- ##code-section FOOT -->
 <!-- ##/code-section FOOT -->

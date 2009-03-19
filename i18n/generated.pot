@@ -230,6 +230,11 @@ msgstr ""
 msgid "PleiadesEntity_help_secondaryReferences"
 msgstr ""
 
+#. Default: "Attach feature source file"
+#: content/PositionalAccuracy.py
+msgid "PleiadesEntity_help_source"
+msgstr ""
+
 #. Default: "Use GeoRSS-Simple representation."
 #: content\Location.py
 msgid "PleiadesEntity_help_spatialCoordinates"
@@ -515,6 +520,11 @@ msgstr ""
 #: content\GeographicName.py
 #: content\Place.py
 msgid "PleiadesEntity_label_secondaryReferences"
+msgstr ""
+
+#. Default: "Feature source file"
+#: content/PositionalAccuracy.py
+msgid "PleiadesEntity_label_source"
 msgstr ""
 
 #. Default: "Spatial Coordinates"

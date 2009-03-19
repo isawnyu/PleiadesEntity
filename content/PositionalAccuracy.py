@@ -40,6 +40,18 @@ schema = Schema((
         ),
         description="Positional accuracy value in meters",
     ),
+    FileField(
+        name='source',
+        widget=FileField._properties['widget'](
+            description="Attach feature source file",
+            label="Feature source file",
+            label_msgid='PleiadesEntity_label_source',
+            description_msgid='PleiadesEntity_help_source',
+            i18n_domain='PleiadesEntity',
+        ),
+        storage=AttributeStorage(),
+        description="XML source of features",
+    ),
 
 ),
 )
@@ -66,6 +78,8 @@ class PositionalAccuracy(ATDocument):
     schema = PositionalAccuracy_schema
 
     ##code-section class-header #fill in your manual code here
+    schema["presentation"].widget.visible = {"edit": "invisible", "view": "invisible"}
+    schema["tableContents"].widget.visible = {"edit": "invisible", "view": "invisible"}    
     ##/code-section class-header
 
     # Methods
