@@ -8,12 +8,9 @@
     </head>
 
     <body>
-
-        <metal:view_macro define-macro="view"
-            tal:define="langfield python:here.Schema()['nameLanguage'];
-                                  langaccessor python:getattr(here, langfield.accessor);">
-            <div xml:lang="" tal:attributes="xml:lang python:langaccessor()" 
-                      tal:content="structure accessor"></div>
+        
+        <metal:view_macro define-macro="view">
+          <a href="url" tal:attributes="href accessor" tal:content="accessor">LINK</a>
         </metal:view_macro> 
 
         <metal:define define-macro="edit">

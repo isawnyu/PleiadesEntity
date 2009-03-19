@@ -38,6 +38,7 @@ schema = Schema((
             label='Item',
             label_msgid='PleiadesEntity_label_item',
             i18n_domain='PleiadesEntity',
+            macro='url_widget'
         ),
     ),
     StringField(
