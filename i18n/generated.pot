@@ -375,6 +375,11 @@ msgstr ""
 msgid "PleiadesEntity_label_item"
 msgstr ""
 
+#. Default: "CIted by item(s)"
+#: content/SecondaryReference.py
+msgid "PleiadesEntity_label_items"
+msgstr ""
+
 #. Default: "Locations"
 #: content\Place.py
 #: content\PlacefulAssociation.py

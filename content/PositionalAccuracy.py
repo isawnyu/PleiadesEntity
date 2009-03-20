@@ -24,6 +24,9 @@ from Products.ATContentTypes.content.document import ATDocument
 from Products.ATContentTypes.content.document import ATDocumentSchema
 from Products.PleiadesEntity.config import *
 
+# additional imports from tagged value 'import'
+from Products.ATBackRef.backref import BackReferenceField, BackReferenceWidget
+
 ##code-section module-header #fill in your manual code here
 ##/code-section module-header
 
@@ -51,6 +54,17 @@ schema = Schema((
         ),
         storage=AttributeStorage(),
         description="XML source of features",
+    ),
+    BackReferenceField(
+        name='locations',
+        widget=BackReferenceWidget(
+            visible={'view': 'visible', 'edit': 'invisible'},
+            label="Describes accuracy of location(s)",
+            label_msgid='PleiadesEntity_label_locations',
+            i18n_domain='PleiadesEntity',
+        ),
+        multiValued=True,
+        relationship="location_accuracy",
     ),
 
 ),
@@ -83,7 +97,6 @@ class PositionalAccuracy(ATDocument):
     ##/code-section class-header
 
     # Methods
-
 
 registerType(PositionalAccuracy, PROJECTNAME)
 # end of class PositionalAccuracy

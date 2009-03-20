@@ -22,11 +22,25 @@ from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
 
 from Products.PleiadesEntity.config import *
 
+# additional imports from tagged value 'import'
+from Products.ATBackRef.backref import BackReferenceField, BackReferenceWidget
+
 ##code-section module-header #fill in your manual code here
 ##/code-section module-header
 
 schema = Schema((
 
+    BackReferenceField(
+        name='names',
+        widget=BackReferenceWidget(
+            visible={'view': 'visible', 'edit': 'invisible'},
+            label="Cited by name(s)",
+            label_msgid='PleiadesEntity_label_names',
+            i18n_domain='PleiadesEntity',
+        ),
+        multiValued=True,
+        relationship="name_reference",
+    ),
 
 ),
 )
