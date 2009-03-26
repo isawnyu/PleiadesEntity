@@ -1,0 +1,21 @@
+<configure
+  xmlns="http://namespaces.zope.org/zope"
+  xmlns:browser="http://namespaces.zope.org/browser"
+  i18n_domain="Products.PleiadesEntity"
+  >
+
+  <browser:view
+    for="Products.PleiadesEntity.content.interfaces.IPlace"
+    name="attestations"
+    class=".attestations.PlaceAttestations"
+    permission="zope2.View"
+    />
+    
+  <browser:view
+    for="Products.PleiadesEntity.content.interfaces.IFeature"
+    name="attestations"
+    class=".attestations.FeatureAttestations"
+    permission="zope2.View"
+    />
+
+</configure>

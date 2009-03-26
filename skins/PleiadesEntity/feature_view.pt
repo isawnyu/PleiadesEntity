@@ -34,16 +34,16 @@
             <!-- Names -->
             <div>
                 <h4>Ancient Names</h4>
-                <ul tal:repeat="name context/getNames">
-                    <li><a href="" tal:attributes="href name/getId" tal:content="name/getId"></a></li>
+                <ul tal:repeat="data context/@@attestations/names">
+                    <li tal:define="n python:data[0]; tps python:'(%s)' % ', '.join([a['timePeriod'].capitalize() for a in data[1]])"><a href="" tal:attributes="href n/getId" tal:content="n/title_or_id"></a> <span tal:content="tps"></span></li>
                 </ul>
             </div>
                     
             <!-- Locations -->
             <div>
                 <h4>Ancient Locations</h4>
-                <ul tal:repeat="loc context/getLocations">
-                    <li><a href="" tal:attributes="href loc/getId" tal:content="loc/getId"></a></li>
+                <ul tal:repeat="data context/@@attestations/locations">
+                    <li tal:define="n python:data[0]; tps python:'(%s)' % ', '.join([a['timePeriod'].capitalize() for a in data[1]])"><a href="" tal:attributes="href n/getId" tal:content="n/title_or_id"></a> <span tal:content="tps"></span></li>
                 </ul>            
             </div>
         

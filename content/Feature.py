@@ -107,6 +107,7 @@ class Feature(BaseFolder, Named, Work):
     schema = Feature_schema
 
     ##code-section class-header #fill in your manual code here
+    schema["modernLocation"].widget.visible = {"edit": "invisible", "view": "invisible"}
     ##/code-section class-header
 
     # Methods

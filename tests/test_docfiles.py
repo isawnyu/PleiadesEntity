@@ -49,7 +49,8 @@ integration_tests = [
     'WSValidation.txt',
     'subscribers.txt',
     'LoadEntity.txt',
-    'BatchLoad.txt'
+    'BatchLoad.txt',
+    'attestations-view.txt'
     ]
 
 functional_tests = [

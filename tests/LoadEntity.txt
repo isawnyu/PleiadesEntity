@@ -37,6 +37,8 @@ references above.
     >>> fid in folder['features'].keys()
     True
     >>> f = folder['features'][fid]
+    >>> f.title_or_id()
+    'Feature batlas-99-2-24 (attested: Aphrodisias/Ninoe)'
     >>> f.getLocations()
     [<Location at /plone/Members/test_user_1_/features/.../position>]
     >>> list(f.getNames())

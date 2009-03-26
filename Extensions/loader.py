@@ -483,7 +483,9 @@ def load_place(site, file, metadataId=None):
         nids = parse_names(root, site, feature, ptool, creators=creators, contributors=contributors, rights=rights)
         
         # Retitle the feature
-        feature.setTitle(feature.get_title())
+        feature.setTitle(
+            'Feature %s (attested: %s)' % (str(e[0].text), feature.get_title())
+            )
         
         # Locations
         if metadataId is None:
