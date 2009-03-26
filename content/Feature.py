@@ -33,6 +33,7 @@ from Products.CMFCore import permissions
 
 ##code-section module-header #fill in your manual code here
 import transaction
+from Products.ATContentTypes.content.document import ATDocumentBase, ATDocumentSchema
 ##/code-section module-header
 
 schema = Schema((
@@ -88,13 +89,13 @@ Feature_schema = BaseFolderSchema.copy() + \
     schema.copy()
 
 ##code-section after-schema #fill in your manual code here
-Feature_schema = BaseFolderSchema.copy() + \
+Feature_schema = ATDocumentSchema.copy() + \
     schema.copy() + \
     getattr(Named, 'schema', Schema(())).copy() + \
     getattr(Work, 'schema', Schema(())).copy()
 ##/code-section after-schema
 
-class Feature(BaseFolder, Named, Work):
+class Feature(BaseFolder, ATDocumentBase, Named, Work):
     """
     """
     security = ClassSecurityInfo()
@@ -108,6 +109,8 @@ class Feature(BaseFolder, Named, Work):
 
     ##code-section class-header #fill in your manual code here
     schema["modernLocation"].widget.visible = {"edit": "invisible", "view": "invisible"}
+    schema["presentation"].widget.visible = {"edit": "invisible", "view": "invisible"}
+    schema["tableContents"].widget.visible = {"edit": "invisible", "view": "invisible"}    
     ##/code-section class-header
 
     # Methods
