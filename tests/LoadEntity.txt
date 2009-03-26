@@ -137,7 +137,9 @@ By default, we create a place for every feature.
     >>> p.Rights()
     'Copyright \xc2\xa9 2007 Ancient World Mapping Center. All rights reserved.'
     >>> p.Description()
-    'An ancient settlement, attested during the Classical, Roman and Late Antique periods (modern location: Geyre). It was known in antiquity by the names: Aphrodisias and Ninoe.'
+    'Containing ancient world features extracted from the Barrington Atlas and its Map-by-Map directory.'
+    >>> p.getText()
+    '<p>An ancient settlement, attested during the Classical, Roman and Late Antique periods (modern location: Geyre). It was known in antiquity by the names: Aphrodisias and Ninoe.</p>'
 
 
 Load one nameless entity

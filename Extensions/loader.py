@@ -471,10 +471,10 @@ def load_place(site, file, metadataId=None):
                 modernLocation=modernLocation,
                 featureType=placeType,
                 permanent=False,
-                description=description,
+                description='Feature %s, extracted from the Barrington Atlas and its Map-by-Map directory.' % str(e[0].text),
                 creators=creators,
                 contributors=contributors,
-                rights=rights,
+                rights=rights
                 )
         
         feature = features[fid]
@@ -503,27 +503,36 @@ def load_place(site, file, metadataId=None):
             )
         
         # SecondaryReferences associated with the feature
-        parse_secondary_references(root, site, feature, ptool, creators=creators, contributors=contributors, rights=rights)
+        parse_secondary_references(
+            root,
+            site,
+            feature,
+            ptool,
+            creators=creators,
+            contributors=contributors,
+            rights=rights
+            )
         
         # Place
         pid = places.invokeFactory('Place',
                     id=baid,
                     title=fid,
                     modernLocation=modernLocation,
-                    description=description,
+                    description='Containing ancient world features extracted from the Barrington Atlas and its Map-by-Map directory.',
+                    text=description,
                     creators=creators,
                     contributors=contributors,
-                    rights=rights,
+                    rights=rights
                     )
         
         place = places[pid]
         
         # Names
         nids = parse_names(root, site, place, ptool, creators=creators, contributors=contributors, rights=rights)
-
+        
         # Retitle the place
         place.setTitle(feature.get_title())
-                
+        
         # SecondaryReferences associated with the place
         parse_secondary_references(root, site, place, ptool, creators=creators, contributors=contributors, rights=rights)
         

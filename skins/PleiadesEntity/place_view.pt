@@ -50,6 +50,12 @@
         jq(document).ready(setZoom);
       </script>
       <br/>
+
+        <p class="documentDescription">
+            <metal:field use-macro="python:here.widget('description', mode='view')">
+            Description
+            </metal:field>
+        </p>
       
       <tal:repeat
         repeat="field python:here.Schema().filterFields(isMetadata=0)"
