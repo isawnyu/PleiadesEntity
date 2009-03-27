@@ -1,0 +1,37 @@
+
+Tests of subscribers that keep catalog metadata in synch
+========================================================
+
+    >>> folder = self.folder
+    >>> features = folder['features']
+    >>> places = folder['places']
+
+Add entities
+
+    >>> fid = features.invokeFactory('Feature', '0', title='Test')
+    >>> f = features[fid]
+    >>> nameAttested = u'\u039d\u03b9\u03bd\u1f79\u03b7'.encode('utf-8')    
+    >>> nid = f.invokeFactory('Name', 'ninoe', nameAttested=nameAttested, nameLanguage='grc', nameType='geographic', accuracy='accurate', completeness='complete')
+    >>> lid = f.invokeFactory('Location', 'p1', title='Point 1', geometry='Point:[-86.4808333333333, 34.769722222222]')
+    >>> pid = places.invokeFactory('Place', '0', title='Test')
+    >>> p = places[pid]
+    >>> nid = p.invokeFactory('Name', 'ninoe', nameAttested=nameAttested, nameLanguage='grc', nameType='geographic', accuracy='accurate', completeness='complete')
+    
+And references
+
+    >>> _ = f.addReference(p, 'feature_place')
+
+Make sure catalog is caught up
+
+    >>> from zope.event import notify
+    >>> from Products.Archetypes.event import ObjectEditedEvent
+    >>> notify(ObjectEditedEvent(f[nid]))
+
+Test @@attestations view
+
+    >>> atts = f.restrictedTraverse('@@attestations')
+    >>> atts.names
+    [(<Name at /plone/Members/test_user_1_/features/0/ninoe>, [{'timePeriod': '', 'confidence': 'confident'}])]
+    >>> atts.locations
+    [(<Location at /plone/Members/test_user_1_/features/0/p1>, [{'timePeriod': '', 'confidence': 'confident'}])]
+    
