@@ -202,7 +202,7 @@ def getalltext(elem):
         text = text + " " + getalltext(e)
     return text.strip()
 
-def parse_secondary_references(xmlcontext, site, portalcontext, ptool, **kw):
+def parse_secondary_references(xmlcontext, site, portalcontext, ptool, cb=lambda x: None, **kw):
     srs =  xmlcontext.find("{%s}secondaryReferences" % AWMC)
     if srs is not None:
         bibls = srs.xpath('tei:bibl', namespaces={'tei': TEI}) or []
@@ -223,6 +223,7 @@ def parse_secondary_references(xmlcontext, site, portalcontext, ptool, **kw):
                     range=bibstr,
                     **kw
                 )
+                cb(references[rid])
             if id in references:
                 portalcontext.addReference(
                     references[id],
@@ -230,7 +231,7 @@ def parse_secondary_references(xmlcontext, site, portalcontext, ptool, **kw):
                     )
     return None
 
-def parse_primary_references(xmlcontext, site, portalcontext, ptool, **kw):
+def parse_primary_references(xmlcontext, site, portalcontext, ptool, cb=lambda x: None, **kw):
     srs =  xmlcontext.find("{%s}primaryReferences" % AWMC)
     if srs is not None:
         bibls = srs.xpath('tei:bibl', namespaces={'tei': TEI})
@@ -252,6 +253,7 @@ def parse_primary_references(xmlcontext, site, portalcontext, ptool, **kw):
                         range=bibstr,
                         **kw
                     )
+                    cb(references[rid])
                     portalcontext.addReference(
                         references[rid],
                         'name_reference'
@@ -281,7 +283,7 @@ def find_next_valid_name_id(context, initial):
         # Shouldn't get here
         raise Exception, "Number of allowable name duplicates exceeded"
 
-def parse_names(root, site, feature, ptool, **kw):
+def parse_names(root, site, feature, ptool, cb=lambda x: None, **kw):
     names = feature
     nids = []
     for e in root.findall("{%s}featureName" % ADLGAZ):
@@ -367,10 +369,10 @@ def parse_names(root, site, feature, ptool, **kw):
         parse_periods(e, name, **kw)
         
         # PrimaryReferences associated with the name
-        parse_primary_references(e, site, name, ptool, **kw)
+        parse_primary_references(e, site, name, ptool, cb=cb, **kw)
         
         # SecondaryReferences associated with the name
-        parse_secondary_references(e, site, name, ptool, **kw)
+        parse_secondary_references(e, site, name, ptool, cb=cb, **kw)
     
     return nids
 
@@ -397,9 +399,13 @@ def parse_locations(root, feature, ptool, metadataDoc, **kw):
         lids.append(lid)
     return lids
 
-def load_place(site, file, metadataId=None):
+def load_place(site, file, metadataId=None, cb=lambda x: None):
     """Create a new Place in plonefolder and populate it with
-    the data found in the xml file at sourcepath."""
+    the data found in the xml file at sourcepath.
+    
+    The cb parameter is a callback, executed for each feature, place,   
+    metadata, and reference object.
+    """
     
     ptool = getToolByName(site, 'plone_utils')
     
@@ -478,9 +484,10 @@ def load_place(site, file, metadataId=None):
                 )
         
         feature = features[fid]
+        cb(feature)
         
         # Names
-        nids = parse_names(root, site, feature, ptool, creators=creators, contributors=contributors, rights=rights)
+        nids = parse_names(root, site, feature, ptool, cb=cb, creators=creators, contributors=contributors, rights=rights)
         
         # Retitle the feature
         feature.setTitle(
@@ -492,6 +499,7 @@ def load_place(site, file, metadataId=None):
             posAccDoc = None
         else:
             posAccDoc = site['features']['metadata'][metadataId]
+            cb(posAccDoc)
         lids = parse_locations(
             root,
             feature,
@@ -508,6 +516,7 @@ def load_place(site, file, metadataId=None):
             site,
             feature,
             ptool,
+            cb=cb,
             creators=creators,
             contributors=contributors,
             rights=rights
@@ -526,6 +535,7 @@ def load_place(site, file, metadataId=None):
                     )
         
         place = places[pid]
+        cb(place)
         
         # Names
         nids = parse_names(root, site, place, ptool, creators=creators, contributors=contributors, rights=rights)
@@ -534,7 +544,7 @@ def load_place(site, file, metadataId=None):
         place.setTitle(feature.get_title())
         
         # SecondaryReferences associated with the place
-        parse_secondary_references(root, site, place, ptool, creators=creators, contributors=contributors, rights=rights)
+        parse_secondary_references(root, site, place, ptool, cb=cb,  creators=creators, contributors=contributors, rights=rights)
         
         features[fid].addReference(
             places[pid],

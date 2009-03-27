@@ -72,42 +72,6 @@ def install(self):
                  PROJECTNAME)
     install_subskin(self, out, GLOBALS)
 
-
-    # Create vocabularies in vocabulary lib
-    from Products.ATVocabularyManager.config import TOOL_NAME as ATVOCABULARYTOOL
-    atvm = getToolByName(self, ATVOCABULARYTOOL)
-    vocabmap = {'name-accuracy': ('VdexVocabulary', 'VdexTerm'),
-         'association-certainty': ('VdexVocabulary', 'VdexTerm'),
-         'place-types': ('VdexVocabulary', 'VdexTerm'),
-         'attestation-confidence': ('VdexVocabulary', 'VdexTerm'),
-         'time-periods': ('VdexVocabulary', 'VdexTerm'),
-         'name-completeness': ('VdexVocabulary', 'VdexTerm'),
-         'ancient-name-languages': ('VdexVocabulary', 'VdexTerm'),
-         'name-types': ('VdexVocabulary', 'VdexTerm'),
-        }
-    for vocabname in vocabmap.keys():
-        if not vocabname in atvm.contentIds():
-            atvm.invokeFactory(vocabmap[vocabname][0], vocabname)
-
-        if len(atvm[vocabname].contentIds()) < 1:
-            if vocabmap[vocabname][0] == "VdexVocabulary":
-                vdexpath = os.path.join(
-                    package_home(GLOBALS), 'data', '%s.vdex' % vocabname)
-                if not (os.path.exists(vdexpath) and os.path.isfile(vdexpath)):
-                    print >>out, 'No VDEX import file provided at %s.' % vdexpath
-                    continue
-                try:
-                    #read data
-                    f = open(vdexpath, 'r')
-                    data = f.read()
-                    f.close()
-                except:
-                    print >>out, 'Problems while reading VDEX import file provided at %s.' % vdexpath
-                    continue
-                atvm[vocabname].importXMLBinding(data)
-            else:
-                pass
-
     # try to call a workflow install method
     # in 'InstallWorkflows.py' method 'installWorkflows'
     try:
@@ -123,23 +87,6 @@ def install(self):
         print >>out,res or 'no output'
     else:
         print >>out,'no workflow install'
-
-
-    # enable portal_factory for given types
-    #factory_tool = getToolByName(self,'portal_factory')
-    #factory_types=[
-    #    "Name",
-    #    "Location",
-    #    "TemporalAttestation",
-    #    "Reference",
-    #    "SecondaryReference",
-    #    "PrimaryReference",
-    #    "Feature",
-    #    "LocationContainer",
-    #    "PlaceContainer",
-    #    "Place",
-    #    ] + factory_tool.getFactoryTypes().keys()
-    #factory_tool.manage_setPortalFactoryTypes(listOfTypeIds=factory_types)
 
     try:
         from Products.PleiadesEntity.config import STYLESHEETS

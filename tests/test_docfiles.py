@@ -8,12 +8,11 @@ from Products.PloneTestCase import PloneTestCase as ptc
 from Products.PloneTestCase.layer import onsetup, PloneSite, ZCMLLayer
 import _testing
 
-ptc.installProduct('Geographer')
 ptc.installProduct('ATVocabularyManager')
-ptc.installProduct('Products.CompoundField')
-ptc.installProduct('Products.ATBackRef')
+ptc.installProduct('ATBackRef')
+ptc.installProduct('CompoundField')
 ptc.installProduct('PleiadesEntity')
-ptc.setupPloneSite(products=['Archetypes', 'ATVocabularyManager',  'Geographer', 'Products.CompoundField', 'Products.ATBackRef', 'PleiadesEntity'])
+ptc.setupPloneSite(products=['ATVocabularyManager', 'PleiadesEntity'])
 
 optionflags = (
     doctest.ELLIPSIS

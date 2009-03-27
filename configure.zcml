@@ -4,6 +4,7 @@
   
   <include file="profiles.zcml" />
   <include package=".browser" />
+  <include package="pleiades.workspace"/>
 
 
   <!-- ##code-section configure.zcml -->

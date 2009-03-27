@@ -1,16 +1,6 @@
 <?xml version="1.0"?>
 <import-steps>
 
- 
- <import-step 
-    id="PleiadesEntity-Install-Vocabularies" 
-    handler="Products.PleiadesEntity.setuphandlers.installVocabularies"
-    title="Install Vocabularies for PleiadesEntity"
-    version="2009-03-19T21:44:18.201127">
-   <dependency step="PleiadesEntity-QI-dependencies"/>
-   Installs the vocabulary files into vocabulary library for PleiadesEntity
- </import-step>
-
  <import-step 
     id="PleiadesEntity-Update-RoleMappings" 
     handler="Products.PleiadesEntity.setuphandlers.updateRoleMappings"
