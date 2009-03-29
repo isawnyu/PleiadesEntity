@@ -34,13 +34,13 @@ schema = Schema((
 ##code-section after-local-schema #fill in your manual code here
 ##/code-section after-local-schema
 
-ReferenceContainer_schema = BaseFolderSchema.copy() + \
+ReferenceContainer_schema = BaseBTreeFolderSchema.copy() + \
     schema.copy()
 
 ##code-section after-schema #fill in your manual code here
 ##/code-section after-schema
 
-class ReferenceContainer(BaseFolder, BrowserDefaultMixin):
+class ReferenceContainer(BaseBTreeFolder, BrowserDefaultMixin):
     """
     """
     security = ClassSecurityInfo()
