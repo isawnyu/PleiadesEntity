@@ -31,6 +31,7 @@ from Products.CMFCore import permissions
 import transaction
 from Products.ATContentTypes.content.document import ATDocumentBase, ATDocumentSchema
 from Products.ATBackRef.backref import BackReferenceField, BackReferenceWidget
+from AccessControl import getSecurityManager
 ##/code-section module-header
 
 schema = Schema((
@@ -89,8 +90,9 @@ class Place(BaseFolder, ATDocumentBase, Named, Work, BrowserDefaultMixin):
     def getFeatures(self):
         """
         """
+        sm = getSecurityManager()
         for o in self.getBRefs('feature_place'):
-            if interfaces.IFeature.providedBy(o):
+            if interfaces.IFeature.providedBy(o) and sm.checkPermission(permissions.View, o):
                 yield o
 
     security.declareProtected(permissions.AddPortalContent, '_renameAfterCreation')
