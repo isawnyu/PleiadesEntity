@@ -62,6 +62,7 @@ schema = Schema((
             label="Describes accuracy of location(s)",
             label_msgid='PleiadesEntity_label_locations',
             i18n_domain='PleiadesEntity',
+            macro='betterbackrefwidget'
         ),
         multiValued=True,
         relationship="location_accuracy",

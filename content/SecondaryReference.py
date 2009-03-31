@@ -37,6 +37,7 @@ schema = Schema((
             label="CIted by item(s)",
             label_msgid='PleiadesEntity_label_items',
             i18n_domain='PleiadesEntity',
+            macro='betterbackrefwidget'
         ),
         multiValued=True,
         relationship="work_reference",
