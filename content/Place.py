@@ -42,6 +42,7 @@ schema = Schema((
             label="Place has feature part(s)",
             label_msgid='PleiadesEntity_label_features',
             i18n_domain='PleiadesEntity',
+            macro='betterbackrefwidget'
         ),
         multiValued=True,
         relationship="feature_place",

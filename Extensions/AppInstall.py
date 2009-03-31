@@ -3,10 +3,9 @@ from Products.CMFCore.utils import getToolByName
 
 indexes = [
     ('getTimePeriods', 'KeywordIndex'),
-    ('getPlaceType', 'KeywordIndex')
     ]
 
-columns = ['getTermKey', 'getTermValue', 'getAttestationConfidence']
+columns = ['getTermKey', 'getTermValue']
 
 EXTENSION_PROFILES = ('Products.PleiadesEntity:default',)
 
