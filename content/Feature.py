@@ -34,6 +34,7 @@ from Products.CMFCore import permissions
 ##code-section module-header #fill in your manual code here
 import transaction
 from Products.ATContentTypes.content.document import ATDocumentBase, ATDocumentSchema
+from AccessControl import getSecurityManager
 ##/code-section module-header
 
 schema = Schema((
@@ -119,7 +120,8 @@ class Feature(BaseFolder, ATDocumentBase, Named, Work):
     def getLocations(self):
         """
         """
-        return [o for o in self.values() if interfaces.ILocation.providedBy(o)]
+        sm = getSecurityManager()
+        return [o for o in self.values() if interfaces.ILocation.providedBy(o) and sm.checkPermission(permissions.View, o)]
 
     security.declareProtected(permissions.AddPortalContent, '_renameAfterCreation')
     def _renameAfterCreation(self, check_auto_id=False):

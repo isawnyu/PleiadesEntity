@@ -27,6 +27,7 @@ from Products.CMFCore import permissions
 
 ##code-section module-header #fill in your manual code here
 from Products.PleiadesEntity.time import TimePeriodCmp
+from AccessControl import getSecurityManager
 ##/code-section module-header
 
 schema = Schema((
@@ -87,7 +88,8 @@ class Named(BrowserDefaultMixin):
     def getNames(self):
         """
         """
-        return [o for o in self.values() if interfaces.IName.providedBy(o)]
+        sm = getSecurityManager()
+        return [o for o in self.values() if interfaces.IName.providedBy(o) and sm.checkPermission(permissions.View, o)]
 
     security.declareProtected(permissions.View, 'getTimePeriods')
     def getTimePeriods(self):
