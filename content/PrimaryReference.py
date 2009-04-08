@@ -4,7 +4,7 @@
 #
 # Copyright (c) 2009 by Ancient World Mapping Center, University of North
 # Carolina at Chapel Hill, U.S.A.
-# Generator: ArchGenXML Version 2.1
+# Generator: ArchGenXML Version 2.3
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
@@ -33,14 +33,12 @@ schema = Schema((
     BackReferenceField(
         name='names',
         widget=BackReferenceWidget(
-            visible={'view': 'visible', 'edit': 'invisible'},
+            visible="{'view': 'visible', 'edit': 'invisible'}",
             label="Cited by name(s)",
+            macro="betterbackrefwidget",
             label_msgid='PleiadesEntity_label_names',
             i18n_domain='PleiadesEntity',
-            macro='betterbackrefwidget'
         ),
-        multiValued=True,
-        relationship="name_reference",
     ),
 
 ),

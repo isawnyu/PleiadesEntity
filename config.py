@@ -4,7 +4,7 @@
 #
 # Copyright (c) 2009 by Ancient World Mapping Center, University of North
 # Carolina at Chapel Hill, U.S.A.
-# Generator: ArchGenXML Version 2.1
+# Generator: ArchGenXML Version 2.3
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
@@ -32,7 +32,7 @@ PROJECTNAME = "PleiadesEntity"
 
 # Permissions
 DEFAULT_ADD_CONTENT_PERMISSION = "Add portal content"
-setDefaultRoles(DEFAULT_ADD_CONTENT_PERMISSION, ('Manager', 'Owner'))
+setDefaultRoles(DEFAULT_ADD_CONTENT_PERMISSION, ('Manager', 'Owner', 'Contributor'))
 ADD_CONTENT_PERMISSIONS = {
     'Name': 'PleiadesEntity: Add Name',
     'Location': 'PleiadesEntity: Add Location',

@@ -4,7 +4,7 @@
 #
 # Copyright (c) 2009 by Ancient World Mapping Center, University of North
 # Carolina at Chapel Hill, U.S.A.
-# Generator: ArchGenXML Version 2.1
+# Generator: ArchGenXML Version 2.3
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
@@ -27,7 +27,7 @@ from Products.PleiadesEntity.config import *
 
 copied_fields = {}
 copied_fields['title'] = BaseSchema['title'].copy()
-copied_fields['title'].widget.label = "Citation"
+copied_fields['title'].widget.label = "Title"
 schema = Schema((
 
     copied_fields['title'],
@@ -36,16 +36,20 @@ schema = Schema((
         name='item',
         widget=StringField._properties['widget'](
             macro="url_widget",
-            label='Item',
+            label="Identifier",
+            description="Enter bibliographic reference identifier",
             label_msgid='PleiadesEntity_label_item',
+            description_msgid='PleiadesEntity_help_item',
             i18n_domain='PleiadesEntity',
         ),
     ),
     StringField(
         name='range',
         widget=StringField._properties['widget'](
-            label="Citation range",
+            label="Specific citation",
+            description="Enter specific range of citation",
             label_msgid='PleiadesEntity_label_range',
+            description_msgid='PleiadesEntity_help_range',
             i18n_domain='PleiadesEntity',
         ),
     ),

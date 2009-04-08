@@ -22,9 +22,9 @@
          meta_type="KeywordIndex">
     <indexed_attr value="getFeatureType"/>
   </index>
-  <index name="getTimePeriods" 
-         meta_type="KeywordIndex">
-    <indexed_attr value="getTimePeriods"/>
+  <index name="getConfidence" 
+         meta_type="FieldIndex">
+    <indexed_attr value="getConfidence"/>
   </index>
   <index name="getModernLocation" 
          meta_type="ZCTextIndex">
@@ -37,7 +37,7 @@
   <column value="getAccuracy"/>
   <column value="getCompleteness"/>
   <column value="getFeatureType"/>
-  <column value="getTimePeriods"/>
+  <column value="getConfidence"/>
   <column value="getModernLocation"/>
 <!-- ##code-section FOOT -->
 <!-- ##/code-section FOOT -->

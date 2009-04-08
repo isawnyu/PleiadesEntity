@@ -1,15 +1,16 @@
 <?xml version="1.0"?>
 <object name="ReferenceContainer"
         meta_type="Factory-based Type Information with dynamic views"
-        xmlns:i18n="http://xml.zope.org/namespaces/i18n">
+        xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+        i18n:domain="plone">
    
- <property name="title">ReferenceContainer</property>
- <property name="description"></property>
+ <property name="title" i18n:translate="">ReferenceContainer</property>
+ <property name="description" i18n:translate=""></property>
  <property name="content_icon">ReferenceContainer.gif</property>
  <property name="content_meta_type">ReferenceContainer</property>
  <property name="product">PleiadesEntity</property>
  <property name="factory">addReferenceContainer</property>
- <property name="immediate_view">base_view</property>
+ <property name="immediate_view">folder_listing</property>
  <property name="global_allow">True</property>
  <property name="filter_content_types">True</property>
  <property name="allowed_content_types">
@@ -17,16 +18,18 @@
    <element value="PrimaryReference"/>
  </property>
  <property name="allow_discussion">False</property>
- <property name="default_view">base_view</property>
+ <property name="default_view">folder_listing</property>
  <property name="view_methods">
-  <element value="base_view"/>
+  <element value="folder_summary_view"/>
+  <element value="folder_tabular_view"/>
+  <element value="atct_album_view"/>
+  <element value="folder_listing"/>
  </property>
  <property name="default_view_fallback">False</property>
  <alias from="(Default)" to="(dynamic view)"/>
  <alias from="view" to="(selected layout)"/>
  <alias from="edit" to="base_edit"/>
- <alias from="properties" to="base_metadata"/>
- <alias from="sharing" to="folder_localrole_form"/>
+ <alias from="sharing" to="@@sharing"/>
  <action title="View" 
          action_id="view"
          category="object" 
@@ -40,14 +43,6 @@
          category="object" 
          condition_expr="not:object/@@plone_lock_info/is_locked_for_current_user"
          url_expr="string:${object_url}/edit" 
-         visible="True">
-  <permission value="Modify portal content"/>
- </action>
- <action title="Properties" 
-         action_id="metadata"
-         category="object" 
-         condition_expr=""
-         url_expr="string:${object_url}/properties" 
          visible="True">
   <permission value="Modify portal content"/>
  </action>

@@ -4,7 +4,7 @@
 #
 # Copyright (c) 2009 by Ancient World Mapping Center, University of North
 # Carolina at Chapel Hill, U.S.A.
-# Generator: ArchGenXML Version 2.1
+# Generator: ArchGenXML Version 2.3
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
@@ -29,6 +29,7 @@ from Products.PleiadesEntity.config import *
 
 # additional imports from tagged value 'import'
 from Products.CMFCore import permissions
+from Products.ATReferenceBrowserWidget.ATReferenceBrowserWidget import ReferenceBrowserWidget
 
 ##code-section module-header #fill in your manual code here
 from Products.PleiadesEntity.Extensions.ws_validation import validate_name
@@ -49,7 +50,6 @@ schema = Schema((
             description_msgid='PleiadesEntity_help_nameAttested',
             i18n_domain='PleiadesEntity',
         ),
-        description="A transcription of the attested form of the name, in its original language and script.",
     ),
     StringField(
         name='nameLanguage',
@@ -60,9 +60,7 @@ schema = Schema((
             description_msgid='PleiadesEntity_help_nameLanguage',
             i18n_domain='PleiadesEntity',
         ),
-        description="The language and writing system (script) of the attested name.",
         vocabulary=NamedVocabulary("""ancient-name-languages"""),
-        enforceVocabulary=1,
     ),
     StringField(
         name='nameTransliterated',
@@ -83,10 +81,7 @@ schema = Schema((
             description_msgid='PleiadesEntity_help_nameType',
             i18n_domain='PleiadesEntity',
         ),
-        description="Type of name",
         vocabulary=NamedVocabulary("""name-types"""),
-        default="geographic",
-        enforceVocabulary=1,
     ),
     StringField(
         name='accuracy',
@@ -97,10 +92,7 @@ schema = Schema((
             description_msgid='PleiadesEntity_help_accuracy',
             i18n_domain='PleiadesEntity',
         ),
-        description="Level of accuracy of transcription",
         vocabulary=NamedVocabulary("""name-accuracy"""),
-        default="accurate",
-        enforceVocabulary=1,
     ),
     StringField(
         name='completeness',
@@ -111,10 +103,7 @@ schema = Schema((
             description_msgid='PleiadesEntity_help_completeness',
             i18n_domain='PleiadesEntity',
         ),
-        description="Level of completeness of transcription",
         vocabulary=NamedVocabulary("""name-completeness"""),
-        default="complete",
-        enforceVocabulary=1,
     ),
     StringField(
         name='associationCertainty',
@@ -125,25 +114,21 @@ schema = Schema((
             description_msgid='PleiadesEntity_help_associationCertainty',
             i18n_domain='PleiadesEntity',
         ),
-        description="Level of certainty in association between name and feature",
         vocabulary=NamedVocabulary("""association-certainty"""),
-        default="certain",
-        enforceVocabulary=1,
     ),
     ReferenceField(
         name='primaryReferences',
         widget=ReferenceBrowserWidget(
-            label="Primary references",
+            label="Primary reference citations",
             startup_directory="/references",
-            description="Browse and select primary references",
+            description="Browse and select primary reference citations",
             label_msgid='PleiadesEntity_label_primaryReferences',
             description_msgid='PleiadesEntity_help_primaryReferences',
             i18n_domain='PleiadesEntity',
         ),
-        multiValued=1,
-        relationship="name_reference",
         allowed_types=('PrimaryReference',),
-        allow_browse=1,
+        multiValued=1,
+        relationship='name_reference',
     ),
 
 ),

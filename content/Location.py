@@ -4,7 +4,7 @@
 #
 # Copyright (c) 2009 by Ancient World Mapping Center, University of North
 # Carolina at Chapel Hill, U.S.A.
-# Generator: ArchGenXML Version 2.1
+# Generator: ArchGenXML Version 2.3
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
@@ -28,6 +28,7 @@ from Products.PleiadesEntity.config import *
 
 # additional imports from tagged value 'import'
 from Products.CMFCore import permissions
+from Products.ATReferenceBrowserWidget.ATReferenceBrowserWidget import ReferenceBrowserWidget
 
 ##code-section module-header #fill in your manual code here
 ##/code-section module-header
@@ -53,7 +54,6 @@ schema = Schema((
             description_msgid='PleiadesEntity_help_description',
             i18n_domain='PleiadesEntity',
         ),
-        description="Location as a text string suitable for geocoding",
     ),
     ReferenceField(
         name='accuracy',
@@ -63,10 +63,9 @@ schema = Schema((
             label_msgid='PleiadesEntity_label_accuracy',
             i18n_domain='PleiadesEntity',
         ),
-        multiValued=0,
-        relationship="location_accuracy",
         allowed_types=('PositionalAccuracy',),
-        allow_browse=1,
+        multiValued=0,
+        relationship='location_accuracy',
     ),
 
 ),

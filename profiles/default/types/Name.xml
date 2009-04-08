@@ -1,10 +1,11 @@
 <?xml version="1.0"?>
 <object name="Name"
         meta_type="Factory-based Type Information with dynamic views"
-        xmlns:i18n="http://xml.zope.org/namespaces/i18n">
+        xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+        i18n:domain="plone">
    
- <property name="title">Ancient Name</property>
- <property name="description"></property>
+ <property name="title" i18n:translate="">Ancient Name</property>
+ <property name="description" i18n:translate="">Any sort of name that can be applied to a geographic place.</property>
  <property name="content_icon">document_icon.gif</property>
  <property name="content_meta_type">Name</property>
  <property name="product">PleiadesEntity</property>
@@ -24,7 +25,6 @@
  <alias from="index.html" to="(dynamic view)"/>
  <alias from="view" to="(selected layout)"/>
  <alias from="edit" to="base_edit"/>
- <alias from="properties" to="base_metadata"/>
  <action title="Edit" 
          action_id="edit"
          category="object" 
@@ -33,15 +33,8 @@
          visible="True">
   <permission value="Modify portal content"/>
  </action>
- <action title="Properties" 
-         action_id="metadata"
-         category="object" 
-         condition_expr=""
-         url_expr="string:${object_url}/properties" 
-         visible="True">
-  <permission value="Modify portal content"/>
- </action>
  <action title="view" 
+         i18n:attributes="title"
          action_id="view"
          category="object" 
          condition_expr="python:1"

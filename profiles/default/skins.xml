@@ -13,7 +13,7 @@
          meta_type="Filesystem Directory View"
          directory="PleiadesEntity/skins/PleiadesEntity_public"/>
  
- <skin-path name="Plone Default">
+ <skin-path name="*">
   <layer insert-after="custom" 
          name="PleiadesEntity"/>
   <layer insert-after="custom" 

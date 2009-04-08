@@ -146,6 +146,11 @@ msgstr ""
 msgid "PleiadesEntity_help_identifier"
 msgstr ""
 
+#. Default: "Enter bibliographic reference identifier"
+#: content/Reference.py
+msgid "PleiadesEntity_help_item"
+msgstr ""
+
 #. Default: "A prose description, in modern terms, of this entity's location."
 #: content\Place.py
 #: content/Place.py
@@ -221,6 +226,11 @@ msgstr ""
 #: content\Name.py
 #: content/name -> primary reference.py
 msgid "PleiadesEntity_help_primaryReferences"
+msgstr ""
+
+#. Default: "Enter specific range of citation"
+#: content/Reference.py
+msgid "PleiadesEntity_help_range"
 msgstr ""
 
 #. Default: "Citations for works of modern scholarship in which this name is discussed."
@@ -482,6 +492,7 @@ msgstr ""
 #. Default: "Places"
 #: content/parentFeature.py
 #: content/feature -> place.py
+#: content/feature_place.py
 msgid "PleiadesEntity_label_places"
 msgstr ""
 

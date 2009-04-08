@@ -4,7 +4,7 @@
 #
 # Copyright (c) 2009 by Ancient World Mapping Center, University of North
 # Carolina at Chapel Hill, U.S.A.
-# Generator: ArchGenXML Version 2.1
+# Generator: ArchGenXML Version 2.3
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
@@ -24,6 +24,9 @@ from Products.ATReferenceBrowserWidget.ATReferenceBrowserWidget import \
     ReferenceBrowserWidget
 from Products.PleiadesEntity.config import *
 
+# additional imports from tagged value 'import'
+from Products.ATReferenceBrowserWidget.ATReferenceBrowserWidget import ReferenceBrowserWidget
+
 ##code-section module-header #fill in your manual code here
 ##/code-section module-header
 
@@ -33,16 +36,15 @@ schema = Schema((
         name='secondaryReferences',
         widget=ReferenceBrowserWidget(
             startup_directory="/references",
-            label="Secondary references",
-            description="Browse and select secondary references",
+            label="Secondary reference citations",
+            description="Browse and select secondary reference citations",
             label_msgid='PleiadesEntity_label_secondaryReferences',
             description_msgid='PleiadesEntity_help_secondaryReferences',
             i18n_domain='PleiadesEntity',
         ),
-        multiValued=1,
-        relationship="work_reference",
         allowed_types=('SecondaryReference',),
-        allow_browse=1,
+        multiValued=1,
+        relationship='work_reference',
     ),
 
 ),

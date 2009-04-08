@@ -4,7 +4,7 @@
 #
 # Copyright (c) 2009 by Ancient World Mapping Center, University of North
 # Carolina at Chapel Hill, U.S.A.
-# Generator: ArchGenXML Version 2.1
+# Generator: ArchGenXML Version 2.3
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
@@ -25,6 +25,7 @@ from Products.PleiadesEntity.config import *
 
 # additional imports from tagged value 'import'
 from Products.CMFCore import permissions
+from Products.ATBackRef.backref import BackReferenceField, BackReferenceWidget
 
 ##code-section module-header #fill in your manual code here
 from Products.CMFCore import permissions
@@ -39,14 +40,12 @@ schema = Schema((
     BackReferenceField(
         name='features',
         widget=BackReferenceWidget(
-            visible={'view': 'visible', 'edit': 'invisible'},
+            visible="{'view': 'visible', 'edit': 'invisible'}",
             label="Place has feature part(s)",
+            macro="betterbackrefwidget",
             label_msgid='PleiadesEntity_label_features',
             i18n_domain='PleiadesEntity',
-            macro='betterbackrefwidget'
         ),
-        multiValued=True,
-        relationship="feature_place",
     ),
 
 ),

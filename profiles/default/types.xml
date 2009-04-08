@@ -1,35 +1,26 @@
 <?xml version="1.0"?>
 <object name="portal_types"
         meta_type="Plone Types Tool">
-
  <object name="Name"
          meta_type="Factory-based Type Information with dynamic views"/>
-
  <object name="Location"
          meta_type="Factory-based Type Information with dynamic views"/>
-
  <object name="SecondaryReference"
          meta_type="Factory-based Type Information with dynamic views"/>
-
  <object name="PrimaryReference"
          meta_type="Factory-based Type Information with dynamic views"/>
-
  <object name="Feature"
          meta_type="Factory-based Type Information with dynamic views"/>
-
  <object name="PlaceContainer"
          meta_type="Factory-based Type Information with dynamic views"/>
-
  <object name="Place"
          meta_type="Factory-based Type Information with dynamic views"/>
-
  <object name="FeatureContainer"
          meta_type="Factory-based Type Information with dynamic views"/>
-
  <object name="PositionalAccuracy"
          meta_type="Factory-based Type Information with dynamic views"/>
-
  <object name="ReferenceContainer"
          meta_type="Factory-based Type Information with dynamic views"/>
-
+ <!-- ##code-section TYPES -->
+ <!-- ##/code-section TYPES -->
 </object>

@@ -1,11 +1,23 @@
 <?xml version="1.0"?>
 <import-steps>
 
+ 
+ <import-step 
+    id="PleiadesEntity-Install-Vocabularies" 
+    handler="Products.PleiadesEntity.setuphandlers.installVocabularies"
+    title="Install Vocabularies for PleiadesEntity"
+    version="2009-04-08T14:22:42.583735">
+   <dependency step="PleiadesEntity-QI-dependencies"/>
+   Installs the vocabulary files into vocabulary library for PleiadesEntity
+ </import-step>
+
+
+
  <import-step 
     id="PleiadesEntity-Update-RoleMappings" 
     handler="Products.PleiadesEntity.setuphandlers.updateRoleMappings"
     title="Update Workflow role mappings for PleiadesEntity"
-    version="2009-03-19T21:44:18.201127">
+    version="2009-04-08T14:22:42.583735">
    <dependency step="PleiadesEntity-QI-dependencies"/>
    updates the workflow role mappings for PleiadesEntity
  </import-step>
@@ -14,7 +26,7 @@
     id="PleiadesEntity-postInstall" 
     handler="Products.PleiadesEntity.setuphandlers.postInstall"
     title="manual coded post-install for PleiadesEntity"
-    version="2009-03-19T21:44:18.201127">
+    version="2009-04-08T14:22:42.583735">
    <dependency step="PleiadesEntity-QI-dependencies"/>
    manual coded post-install for PleiadesEntity
  </import-step>
@@ -28,7 +40,7 @@
    <dependency step="PleiadesEntity-QI-dependencies"/>
    Enables versioning for content types
  </import-step>
-<!-- ##/code-section ADDITIONALSTEPS --> 
+<!-- ##/code-section ADDITIONALSTEPS -->
 
 </import-steps>
  

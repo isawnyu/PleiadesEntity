@@ -4,7 +4,7 @@
 #
 # Copyright (c) 2009 by Ancient World Mapping Center, University of North
 # Carolina at Chapel Hill, U.S.A.
-# Generator: ArchGenXML Version 2.1
+# Generator: ArchGenXML Version 2.3
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
@@ -34,13 +34,13 @@ schema = Schema((
 ##code-section after-local-schema #fill in your manual code here
 ##/code-section after-local-schema
 
-ReferenceContainer_schema = BaseBTreeFolderSchema.copy() + \
+ReferenceContainer_schema = BaseFolderSchema.copy() + \
     schema.copy()
 
 ##code-section after-schema #fill in your manual code here
 ##/code-section after-schema
 
-class ReferenceContainer(BaseBTreeFolder, BrowserDefaultMixin):
+class ReferenceContainer(BaseFolder, BrowserDefaultMixin):
     """
     """
     security = ClassSecurityInfo()

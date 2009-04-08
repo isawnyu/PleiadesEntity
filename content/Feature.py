@@ -4,7 +4,7 @@
 #
 # Copyright (c) 2009 by Ancient World Mapping Center, University of North
 # Carolina at Chapel Hill, U.S.A.
-# Generator: ArchGenXML Version 2.1
+# Generator: ArchGenXML Version 2.3
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
@@ -24,12 +24,11 @@ from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
 from Products.ATReferenceBrowserWidget.ATReferenceBrowserWidget import \
     ReferenceBrowserWidget
 from Products.ATVocabularyManager.namedvocabulary import NamedVocabulary
-from Products.ATContentTypes.content.document import ATDocument
-from Products.ATContentTypes.content.document import ATDocumentSchema
 from Products.PleiadesEntity.config import *
 
 # additional imports from tagged value 'import'
 from Products.CMFCore import permissions
+from Products.ATReferenceBrowserWidget.ATReferenceBrowserWidget import ReferenceBrowserWidget
 
 ##code-section module-header #fill in your manual code here
 import transaction
@@ -48,10 +47,7 @@ schema = Schema((
             description_msgid='PleiadesEntity_help_featureType',
             i18n_domain='PleiadesEntity',
         ),
-        description="Type of feature",
         vocabulary=NamedVocabulary("""place-types"""),
-        default="unknown",
-        enforceVocabulary=1,
     ),
     BooleanField(
         name='permanent',
@@ -62,7 +58,6 @@ schema = Schema((
             description_msgid='PleiadesEntity_help_permanent',
             i18n_domain='PleiadesEntity',
         ),
-        description="Permanence of the feature, regardless of name attestations",
     ),
     ReferenceField(
         name='places',
@@ -72,10 +67,9 @@ schema = Schema((
             label_msgid='PleiadesEntity_label_places',
             i18n_domain='PleiadesEntity',
         ),
-        multiValued=1,
-        relationship="feature_place",
         allowed_types=('Place',),
-        allow_browse=1,
+        multiValued=1,
+        relationship='feature_place',
     ),
 
 ),
@@ -96,7 +90,7 @@ Feature_schema = ATDocumentSchema.copy() + \
     getattr(Work, 'schema', Schema(())).copy()
 ##/code-section after-schema
 
-class Feature(BaseFolder, ATDocumentBase, Named, Work):
+class Feature(BaseFolder, ATDocumentBase, Named, Work, BrowserDefaultMixin):
     """
     """
     security = ClassSecurityInfo()
@@ -111,7 +105,7 @@ class Feature(BaseFolder, ATDocumentBase, Named, Work):
     ##code-section class-header #fill in your manual code here
     schema["modernLocation"].widget.visible = {"edit": "invisible", "view": "invisible"}
     schema["presentation"].widget.visible = {"edit": "invisible", "view": "invisible"}
-    schema["tableContents"].widget.visible = {"edit": "invisible", "view": "invisible"}    
+    schema["tableContents"].widget.visible = {"edit": "invisible", "view": "invisible"}
     ##/code-section class-header
 
     # Methods

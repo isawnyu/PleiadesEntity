@@ -4,7 +4,7 @@
 #
 # Copyright (c) 2009 by Ancient World Mapping Center, University of North
 # Carolina at Chapel Hill, U.S.A.
-# Generator: ArchGenXML Version 2.1
+# Generator: ArchGenXML Version 2.3
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
@@ -41,7 +41,6 @@ schema = Schema((
             description_msgid='PleiadesEntity_help_value',
             i18n_domain='PleiadesEntity',
         ),
-        description="Positional accuracy value in meters",
     ),
     FileField(
         name='source',
@@ -53,19 +52,16 @@ schema = Schema((
             i18n_domain='PleiadesEntity',
         ),
         storage=AttributeStorage(),
-        description="XML source of features",
     ),
     BackReferenceField(
         name='locations',
         widget=BackReferenceWidget(
-            visible={'view': 'visible', 'edit': 'invisible'},
+            visible="{'view': 'visible', 'edit': 'invisible'}",
             label="Describes accuracy of location(s)",
+            macro="betterbackrefwidget",
             label_msgid='PleiadesEntity_label_locations',
             i18n_domain='PleiadesEntity',
-            macro='betterbackrefwidget'
         ),
-        multiValued=True,
-        relationship="location_accuracy",
     ),
 
 ),
@@ -94,10 +90,11 @@ class PositionalAccuracy(ATDocument):
 
     ##code-section class-header #fill in your manual code here
     schema["presentation"].widget.visible = {"edit": "invisible", "view": "invisible"}
-    schema["tableContents"].widget.visible = {"edit": "invisible", "view": "invisible"}    
+    schema["tableContents"].widget.visible = {"edit": "invisible", "view": "invisible"}
     ##/code-section class-header
 
     # Methods
+
 
 registerType(PositionalAccuracy, PROJECTNAME)
 # end of class PositionalAccuracy
