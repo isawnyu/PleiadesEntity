@@ -186,15 +186,12 @@ def parse_periods(xmlcontext, portalcontext, **kw):
             confidence = conf
         
         tid=period_ids[tpnstr]
-        # attestation = TemporalAttestation()
-        # attestation.set(attestation, dict(timePeriod=tid, confidence=confidence))
         attestation = dict(timePeriod=tid, confidence=confidence)
         tas.append(attestation)
     
     attestations = portalcontext.getField('attestations')
     attestations.resize(len(tas), portalcontext)
     portalcontext.update(attestations=tas)
-    # attestations.set(attestations, tas)
 
 def getalltext(elem):
     text = elem.text or ""

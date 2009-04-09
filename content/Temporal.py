@@ -51,7 +51,7 @@ schema = Schema((
             description_msgid='PleiadesEntity_help_array:attestations',
             i18n_domain='PleiadesEntity',
         ),
-        size=1,
+        size=0,
     ),
 
 ),
