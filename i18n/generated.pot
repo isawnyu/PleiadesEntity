@@ -92,6 +92,16 @@ msgstr ""
 msgid "PleiadesEntity_help_array:attestations"
 msgstr ""
 
+#. Default: "Enter reference work and citation range"
+#: content/Name.py
+msgid "PleiadesEntity_help_array:primaryReferenceCitations"
+msgstr ""
+
+#. Default: "Enter reference work and citation"
+#: content/Work.py
+msgid "PleiadesEntity_help_array:referenceCitations"
+msgstr ""
+
 #. Default: "Certainty of association between locations and names"
 #: content\PlacefulAssociation.py
 #: content/Feature.py
@@ -143,6 +153,7 @@ msgstr ""
 
 #. Default: "A unique identifier for this name, assigned by the Pleiades editorial board."
 #: content\GeographicName.py
+#: content/ReferenceCitation.py
 msgid "PleiadesEntity_help_identifier"
 msgstr ""
 
@@ -230,6 +241,7 @@ msgstr ""
 
 #. Default: "Enter specific range of citation"
 #: content/Reference.py
+#: content/ReferenceCitation.py
 msgid "PleiadesEntity_help_range"
 msgstr ""
 
@@ -289,6 +301,16 @@ msgstr ""
 #. Default: "Array:attestations"
 #: content/Temporal.py
 msgid "PleiadesEntity_label_array:attestations"
+msgstr ""
+
+#. Default: "Primary reference citations"
+#: content/Name.py
+msgid "PleiadesEntity_label_array:primaryReferenceCitations"
+msgstr ""
+
+#. Default: "Reference citations"
+#: content/Work.py
+msgid "PleiadesEntity_label_array:referenceCitations"
 msgstr ""
 
 #. Default: "Certainty of association"
@@ -377,6 +399,7 @@ msgstr ""
 #. Default: "Identifier"
 #: content\GeographicEntity.py
 #: content\GeographicName.py
+#: content/ReferenceCitation.py
 msgid "PleiadesEntity_label_identifier"
 msgstr ""
 
@@ -506,6 +529,11 @@ msgstr ""
 msgid "PleiadesEntity_label_primaryReference"
 msgstr ""
 
+#. Default: "Reference work and citation range"
+#: content/Name.py
+msgid "PleiadesEntity_label_primaryReferenceCitations"
+msgstr ""
+
 #. Default: "Primary References"
 #: content\GeographicName.py
 #: content\Name.py
@@ -515,6 +543,7 @@ msgstr ""
 
 #. Default: "Citation range"
 #: content/Reference.py
+#: content/ReferenceCitation.py
 msgid "PleiadesEntity_label_range"
 msgstr ""
 
@@ -523,6 +552,11 @@ msgstr ""
 #: content/scholarly -> reference.py
 #: content/work -> reference.py
 msgid "PleiadesEntity_label_reference"
+msgstr ""
+
+#. Default: "Reference work and citation range"
+#: content/Work.py
+msgid "PleiadesEntity_label_referenceCitations"
 msgstr ""
 
 #. Default: "PrimaryReference"

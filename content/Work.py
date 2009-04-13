@@ -20,31 +20,40 @@ import interfaces
 
 from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
 
-from Products.ATReferenceBrowserWidget.ATReferenceBrowserWidget import \
-    ReferenceBrowserWidget
+from Products.CompoundField.ArrayField import ArrayField
+from Products.CompoundField.ArrayWidget import ArrayWidget
+from Products.CompoundField.EnhancedArrayWidget import EnhancedArrayWidget
+from Products.CompoundField.EnhancedArrayWidget import EnhancedArrayWidget
 from Products.PleiadesEntity.config import *
 
 # additional imports from tagged value 'import'
 from Products.ATReferenceBrowserWidget.ATReferenceBrowserWidget import ReferenceBrowserWidget
-
+from Products.CompoundField.CompoundWidget import CompoundWidget
+from Products.CMFCore import permissions
+from Products.PleiadesEntity.content.ReferenceCitation import ReferenceCitation
 ##code-section module-header #fill in your manual code here
 ##/code-section module-header
 
 schema = Schema((
 
-    ReferenceField(
-        name='secondaryReferences',
-        widget=ReferenceBrowserWidget(
-            startup_directory="/references",
-            label="Secondary reference citations",
-            description="Browse and select secondary reference citations",
-            label_msgid='PleiadesEntity_label_secondaryReferences',
-            description_msgid='PleiadesEntity_help_secondaryReferences',
+    ArrayField(
+        ReferenceCitation(
+            name='referenceCitations',
+            widget=CompoundWidget(
+                label="Reference work and citation range",
+                label_msgid='PleiadesEntity_label_referenceCitations',
+                i18n_domain='PleiadesEntity',
+            ),
+        ),
+
+        widget=EnhancedArrayWidget(
+            label="Reference citations",
+            description="Enter reference work and citation",
+            label_msgid='PleiadesEntity_label_array:referenceCitations',
+            description_msgid='PleiadesEntity_help_array:referenceCitations',
             i18n_domain='PleiadesEntity',
         ),
-        allowed_types=('SecondaryReference',),
-        multiValued=1,
-        relationship='work_reference',
+        size=0,
     ),
 
 ),

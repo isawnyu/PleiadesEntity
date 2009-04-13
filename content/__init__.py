@@ -39,19 +39,16 @@ __docformat__ = 'plaintext'
 # Classes
 import Name
 import Location
-import Reference
-import SecondaryReference
-import PrimaryReference
 import Feature
 import PlaceContainer
 import Place
 import FeatureContainer
 import PositionalAccuracy
 import Work
-import ReferenceContainer
 import Named
 import Temporal
 import TemporalAttestation
+import ReferenceCitation
 
 ##code-section init-module-footer #fill in your manual code here
 ##/code-section init-module-footer

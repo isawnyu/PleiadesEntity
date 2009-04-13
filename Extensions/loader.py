@@ -202,6 +202,7 @@ def getalltext(elem):
 def parse_secondary_references(xmlcontext, site, portalcontext, ptool, cb=lambda x: None, **kw):
     srs =  xmlcontext.find("{%s}secondaryReferences" % AWMC)
     if srs is not None:
+        citations = []
         bibls = srs.xpath('tei:bibl', namespaces={'tei': TEI}) or []
         for bibl in bibls:
             title_elem = bibl.xpath('tei:title', namespaces={'tei': TEI})
@@ -209,28 +210,34 @@ def parse_secondary_references(xmlcontext, site, portalcontext, ptool, cb=lambda
                 continue
             url = title_elem[0].attrib.get('{http://www.w3.org/1999/xlink}href', '')
             bibstr = getalltext(bibl)
-            id = ptool.normalizeString(bibstr)
-            references = site['references']
-            if id not in references:
-                rid = references.invokeFactory(
-                    'SecondaryReference',
-                    id=id,
-                    title=bibstr,
-                    item=url,
-                    range=bibstr,
-                    **kw
-                )
-                cb(references[rid])
-            if id in references:
-                portalcontext.addReference(
-                    references[id],
-                    'work_reference'
-                    )
+            citations.append(dict(identifier=url, range=bibstr))
+            #
+            # id = ptool.normalizeString(bibstr)
+            # references = site['references']
+            # if id not in references:
+            #     rid = references.invokeFactory(
+            #         'SecondaryReference',
+            #         id=id,
+            #         title=bibstr,
+            #         item=url,
+            #         range=bibstr,
+            #         **kw
+            #     )
+            #     cb(references[rid])
+            # if id in references:
+            #     portalcontext.addReference(
+            #         references[id],
+            #         'work_reference'
+            #         )
+        refCitations = portalcontext.getField('referenceCitations')
+        refCitations.resize(len(citations), portalcontext)
+        portalcontext.update(referenceCitations=citations)
     return None
 
 def parse_primary_references(xmlcontext, site, portalcontext, ptool, cb=lambda x: None, **kw):
     srs =  xmlcontext.find("{%s}primaryReferences" % AWMC)
     if srs is not None:
+        citations = []
         bibls = srs.xpath('tei:bibl', namespaces={'tei': TEI})
         if bibls is not None:
             for bibl in bibls:
@@ -239,25 +246,30 @@ def parse_primary_references(xmlcontext, site, portalcontext, ptool, cb=lambda x
                     continue
                 url = title_elem[0].attrib.get('{http://www.w3.org/1999/xlink}href', '')
                 bibstr = getalltext(bibl)
-                id = ptool.normalizeString(bibstr)
-                references = site['references']
-                if id not in references:
-                    rid = references.invokeFactory(
-                        'PrimaryReference',
-                        id=id,
-                        title=bibstr,
-                        item=url,
-                        range=bibstr,
-                        **kw
-                    )
-                    cb(references[rid])
-                    portalcontext.addReference(
-                        references[rid],
-                        'name_reference'
-                        )
-                else:
-                    # skip dupe
-                    pass
+                citations.append(dict(identifier=url, range=bibstr))
+                # id = ptool.normalizeString(bibstr)
+                # references = site['references']
+                # if id not in references:
+                #     rid = references.invokeFactory(
+                #         'PrimaryReference',
+                #         id=id,
+                #         title=bibstr,
+                #         item=url,
+                #         range=bibstr,
+                #         **kw
+                #     )
+                #     cb(references[rid])
+                #     portalcontext.addReference(
+                #         references[rid],
+                #         'name_reference'
+                #         )
+                # else:
+                #     # skip dupe
+                #     pass
+        refCitations = portalcontext.getField('primaryReferenceCitations')
+        refCitations.resize(len(citations), portalcontext)
+        portalcontext.update(referenceCitations=citations)
+    return None
 
 def parse_attrib_rights(root):
     creators = [e.text for e in root.findall("{%s}creator" % DC)]
@@ -400,7 +412,7 @@ def load_place(site, file, metadataId=None, cb=lambda x: None):
     """Create a new Place in plonefolder and populate it with
     the data found in the xml file at sourcepath.
     
-    The cb parameter is a callback, executed for each feature, place,   
+    The cb parameter is a callback, executed for each feature, place,
     metadata, and reference object.
     """
     
@@ -408,7 +420,6 @@ def load_place(site, file, metadataId=None, cb=lambda x: None):
     
     places = site['places']
     features = site['features']
-    references = site['references']
     
     fids = []
     

@@ -13,20 +13,6 @@ Load one entity
     >>> from Products.PleiadesEntity.Extensions.loader import load_place
     >>> r = load_place(folder, "%s/batlas-65-2-24-frank.xml" % TEST_DATA, 'cap-map65')
     
-References
-----------
-
-We expect 4 references to have been created in the process
-(maybe move this down)
-
-    >>> references = folder['references']
-    >>> sorted(references.keys())
-    ['batlas-65-a2-aphrodisias-ninoe', 'npauly-aphrodisias-1', 're-aphrodisias-2', 're-ninoe']
-    >>> sorted(ref.Title() for ref in references.values())
-    ['BAtlas 65 A2 Aphrodisias/Ninoe', 'NPauly Aphrodisias 1', 'RE Aphrodisias 2', 'RE Ninoe']
-    >>> sorted((ref.getItem(), ref.getRange()) for ref in references.values())
-    [('http://www.unc.edu/awmc/pleiades/bibliography/batlas.html', 'BAtlas 65 A2 Aphrodisias/Ninoe'), ('http://www.unc.edu/awmc/pleiades/bibliography/npauly.html', 'NPauly Aphrodisias 1'), ('http://www.unc.edu/awmc/pleiades/bibliography/re.html', 'RE Aphrodisias 2'), ('http://www.unc.edu/awmc/pleiades/bibliography/re.html', 'RE Ninoe')]
-
 Feature
 -------
 
@@ -43,8 +29,8 @@ references above.
     [<Location at /plone/Members/test_user_1_/features/.../position>]
     >>> list(f.getNames())
     [<Name at /plone/Members/test_user_1_/features/.../aphrodisias>, <Name at /plone/Members/test_user_1_/features/.../ninoe>]    
-    >>> [ref for ref in f.getSecondaryReferences()]
-    [<SecondaryReference at /plone/Members/test_user_1_/references/batlas-65-a2-aphrodisias-ninoe>, <SecondaryReference at /plone/Members/test_user_1_/references/re-aphrodisias-2>, <SecondaryReference at /plone/Members/test_user_1_/references/npauly-aphrodisias-1>, <SecondaryReference at /plone/Members/test_user_1_/references/re-ninoe>]
+    >>> [ref for ref in f.getReferenceCitations()]
+    [{'range': 'BAtlas 65 A2 Aphrodisias/Ninoe', 'identifier': 'http://www.unc.edu/awmc/pleiades/bibliography/batlas.html'}, {'range': 'RE Aphrodisias 2', 'identifier': 'http://www.unc.edu/awmc/pleiades/bibliography/re.html'}, {'range': 'NPauly Aphrodisias 1', 'identifier': 'http://www.unc.edu/awmc/pleiades/bibliography/npauly.html'}, {'range': 'RE Ninoe', 'identifier': 'http://www.unc.edu/awmc/pleiades/bibliography/re.html'}]
     
 Feature Location
 ----------------
@@ -113,8 +99,8 @@ Feature Names
     >>> x.getAttestations()
     [{'timePeriod': 'classical', 'confidence': 'confident'}, {'timePeriod': 'roman', 'confidence': 'confident'}, {'timePeriod': 'late-antique', 'confidence': 'confident'}]
     
-    >>> [ref for ref in n.getSecondaryReferences()]
-    [<SecondaryReference at /plone/Members/test_user_1_/references/re-aphrodisias-2>, <SecondaryReference at /plone/Members/test_user_1_/references/npauly-aphrodisias-1>]
+    >>> [ref for ref in n.getReferenceCitations()]
+    [{'range': 'RE Aphrodisias 2', 'identifier': 'http://www.unc.edu/awmc/pleiades/bibliography/re.html'}, {'range': 'NPauly Aphrodisias 1', 'identifier': 'http://www.unc.edu/awmc/pleiades/bibliography/npauly.html'}]
 
 
 Place

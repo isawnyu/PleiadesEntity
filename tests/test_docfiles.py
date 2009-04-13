@@ -34,7 +34,6 @@ class PleiadesEntityTestCase(ptc.PloneTestCase):
             self.folder.invokeFactory('FeatureContainer', id='features')
             self.folder['features'].invokeFactory('Folder', id='metadata')
             self.folder.invokeFactory('PlaceContainer', id='places')
-            self.folder.invokeFactory('ReferenceContainer', id='references')
             mid = self.folder['features']['metadata'].invokeFactory('PositionalAccuracy', id='cap-map65')
             self.folder['features']['metadata'][mid].setValue(0.01)
             self.folder['features']['metadata'][mid].setText("That's right, 1 cm!")
@@ -43,7 +42,6 @@ class PleiadesEntityTestCase(ptc.PloneTestCase):
 
 integration_tests = [
     'Entities.txt',
-    'Vocabularies.txt',
     'WSTransliteration.txt',
     'WSValidation.txt',
     'subscribers.txt',

@@ -26,6 +26,9 @@ from Products.CompoundField.EnhancedArrayWidget import EnhancedArrayWidget
 from Products.CompoundField.EnhancedArrayWidget import EnhancedArrayWidget
 from Products.PleiadesEntity.config import *
 
+# additional imports from tagged value 'import'
+from Products.CompoundField.CompoundWidget import CompoundWidget
+
 ##code-section module-header #fill in your manual code here
 from Products.CMFCore import permissions
 from Products.PleiadesEntity.time import TimePeriodCmp

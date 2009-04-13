@@ -3,13 +3,10 @@
  <factorytypes>
   <type portal_type="Name"/>
   <type portal_type="Location"/>
-  <type portal_type="SecondaryReference"/>
-  <type portal_type="PrimaryReference"/>
   <type portal_type="Feature"/>
   <type portal_type="PlaceContainer"/>
   <type portal_type="Place"/>
   <type portal_type="FeatureContainer"/>
   <type portal_type="PositionalAccuracy"/>
-  <type portal_type="ReferenceContainer"/>
  </factorytypes>
 </object>

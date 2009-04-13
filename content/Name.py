@@ -22,16 +22,20 @@ from Products.PleiadesEntity.content.Temporal import Temporal
 from Products.PleiadesEntity.content.Work import Work
 from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
 
-from Products.ATReferenceBrowserWidget.ATReferenceBrowserWidget import \
-    ReferenceBrowserWidget
+from Products.CompoundField.ArrayField import ArrayField
+from Products.CompoundField.ArrayWidget import ArrayWidget
+from Products.CompoundField.EnhancedArrayWidget import EnhancedArrayWidget
+from Products.CompoundField.EnhancedArrayWidget import EnhancedArrayWidget
 from Products.ATVocabularyManager.namedvocabulary import NamedVocabulary
 from Products.PleiadesEntity.config import *
 
 # additional imports from tagged value 'import'
 from Products.CMFCore import permissions
 from Products.ATReferenceBrowserWidget.ATReferenceBrowserWidget import ReferenceBrowserWidget
+from Products.CompoundField.CompoundWidget import CompoundWidget
 
 ##code-section module-header #fill in your manual code here
+from Products.PleiadesEntity.content.ReferenceCitation import ReferenceCitation
 from Products.PleiadesEntity.Extensions.ws_validation import validate_name
 from Products.CMFCore import permissions
 import transaction
@@ -116,19 +120,24 @@ schema = Schema((
         ),
         vocabulary=NamedVocabulary("""association-certainty"""),
     ),
-    ReferenceField(
-        name='primaryReferences',
-        widget=ReferenceBrowserWidget(
+    ArrayField(
+        ReferenceCitation(
+            name='primaryReferenceCitations',
+            widget=CompoundWidget(
+                label="Reference work and citation range",
+                label_msgid='PleiadesEntity_label_primaryReferenceCitations',
+                i18n_domain='PleiadesEntity',
+            ),
+        ),
+
+        widget=EnhancedArrayWidget(
             label="Primary reference citations",
-            startup_directory="/references",
-            description="Browse and select primary reference citations",
-            label_msgid='PleiadesEntity_label_primaryReferences',
-            description_msgid='PleiadesEntity_help_primaryReferences',
+            description="Enter reference work and citation range",
+            label_msgid='PleiadesEntity_label_array:primaryReferenceCitations',
+            description_msgid='PleiadesEntity_help_array:primaryReferenceCitations',
             i18n_domain='PleiadesEntity',
         ),
-        allowed_types=('PrimaryReference',),
-        multiValued=1,
-        relationship='name_reference',
+        size=0,
     ),
 
 ),

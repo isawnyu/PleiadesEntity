@@ -13,18 +13,6 @@ class ILocation(Interface):
     """Marker interface for .Location.Location
     """
 
-class IReference(Interface):
-    """Marker interface for .Reference.Reference
-    """
-
-class ISecondaryReference(Interface):
-    """Marker interface for .SecondaryReference.SecondaryReference
-    """
-
-class IPrimaryReference(Interface):
-    """Marker interface for .PrimaryReference.PrimaryReference
-    """
-
 class IFeature(Interface):
     """Marker interface for .Feature.Feature
     """
@@ -47,10 +35,6 @@ class IPositionalAccuracy(Interface):
 
 class IWork(Interface):
     """Marker interface for .Work.Work
-    """
-
-class IReferenceContainer(Interface):
-    """Marker interface for .ReferenceContainer.ReferenceContainer
     """
 
 class INamed(Interface):

@@ -36,26 +36,20 @@ setDefaultRoles(DEFAULT_ADD_CONTENT_PERMISSION, ('Manager', 'Owner', 'Contributo
 ADD_CONTENT_PERMISSIONS = {
     'Name': 'PleiadesEntity: Add Name',
     'Location': 'PleiadesEntity: Add Location',
-    'SecondaryReference': 'PleiadesEntity: Add SecondaryReference',
-    'PrimaryReference': 'PleiadesEntity: Add PrimaryReference',
     'Feature': 'PleiadesEntity: Add Feature',
     'PlaceContainer': 'PleiadesEntity: Add PlaceContainer',
     'Place': 'PleiadesEntity: Add Place',
     'FeatureContainer': 'PleiadesEntity: Add FeatureContainer',
     'PositionalAccuracy': 'PleiadesEntity: Add PositionalAccuracy',
-    'ReferenceContainer': 'PleiadesEntity: Add ReferenceContainer',
 }
 
 setDefaultRoles('PleiadesEntity: Add Name', ('Manager','Owner'))
 setDefaultRoles('PleiadesEntity: Add Location', ('Manager','Owner'))
-setDefaultRoles('PleiadesEntity: Add SecondaryReference', ('Manager','Owner'))
-setDefaultRoles('PleiadesEntity: Add PrimaryReference', ('Manager','Owner'))
 setDefaultRoles('PleiadesEntity: Add Feature', ('Manager','Owner'))
 setDefaultRoles('PleiadesEntity: Add PlaceContainer', ('Manager','Owner'))
 setDefaultRoles('PleiadesEntity: Add Place', ('Manager','Owner'))
 setDefaultRoles('PleiadesEntity: Add FeatureContainer', ('Manager','Owner'))
 setDefaultRoles('PleiadesEntity: Add PositionalAccuracy', ('Manager','Owner'))
-setDefaultRoles('PleiadesEntity: Add ReferenceContainer', ('Manager','Owner'))
 
 product_globals = globals()
 

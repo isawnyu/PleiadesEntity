@@ -12,6 +12,7 @@
 
   <!-- ##code-section configure.zcml -->
 
+  <include package="pleiades.vocabularies"/>
   <include package=".browser" />
   
   <five:registerPackage package="." initialize=".initialize" />

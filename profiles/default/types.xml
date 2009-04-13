@@ -5,10 +5,6 @@
          meta_type="Factory-based Type Information with dynamic views"/>
  <object name="Location"
          meta_type="Factory-based Type Information with dynamic views"/>
- <object name="SecondaryReference"
-         meta_type="Factory-based Type Information with dynamic views"/>
- <object name="PrimaryReference"
-         meta_type="Factory-based Type Information with dynamic views"/>
  <object name="Feature"
          meta_type="Factory-based Type Information with dynamic views"/>
  <object name="PlaceContainer"
@@ -18,8 +14,6 @@
  <object name="FeatureContainer"
          meta_type="Factory-based Type Information with dynamic views"/>
  <object name="PositionalAccuracy"
-         meta_type="Factory-based Type Information with dynamic views"/>
- <object name="ReferenceContainer"
          meta_type="Factory-based Type Information with dynamic views"/>
  <!-- ##code-section TYPES -->
  <!-- ##/code-section TYPES -->
