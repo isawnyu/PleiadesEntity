@@ -33,6 +33,7 @@ from Products.PleiadesEntity.config import *
 from Products.CMFCore import permissions
 from Products.ATReferenceBrowserWidget.ATReferenceBrowserWidget import ReferenceBrowserWidget
 from Products.CompoundField.CompoundWidget import CompoundWidget
+from Products.PleiadesEntity.content.ReferenceCitation import ReferenceCitation
 
 ##code-section module-header #fill in your manual code here
 from Products.PleiadesEntity.content.ReferenceCitation import ReferenceCitation
@@ -215,6 +216,10 @@ class Name(BaseContent, Work, Temporal, BrowserDefaultMixin):
             transaction.commit(1)
             self.setId(new_id)
             return new_id
+
+    def SearchableText(self):
+        text = super(Name, self).SearchableText().strip()
+        return text + ' ' + self.rangesText()
 
     # Manually created methods
 

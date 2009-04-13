@@ -31,6 +31,7 @@ from Products.ATReferenceBrowserWidget.ATReferenceBrowserWidget import Reference
 from Products.CompoundField.CompoundWidget import CompoundWidget
 from Products.CMFCore import permissions
 from Products.PleiadesEntity.content.ReferenceCitation import ReferenceCitation
+
 ##code-section module-header #fill in your manual code here
 ##/code-section module-header
 
@@ -82,6 +83,10 @@ class Work(BrowserDefaultMixin):
     ##/code-section class-header
 
     # Methods
+
+    security.declarePublic('rangesText')
+    def rangesText(self):
+        return ' '.join([c['range'] for c in self.getReferenceCitations()])
 
 # end of class Work
 

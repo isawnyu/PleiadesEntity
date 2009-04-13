@@ -42,6 +42,7 @@ from zope.interface import implements
 from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
 
 
+from Products.CMFCore import permissions
 
 from Products.CompoundField.CompoundField import CompoundField
 ######CompoundField
@@ -99,15 +100,17 @@ class ReferenceCitation(CompoundField):
     security.declarePrivate('get')
 
 
-    def get(self, instance, **kwargs):
-        return CompoundField.get(self, instance, **kwargs)
-
     def getRaw(self, instance, **kwargs):
         return CompoundField.getRaw(self, instance, **kwargs)
 
-    security.declarePrivate('set')
+    def SearchableText(self,):
+        return 'foobar'
+
     def set(self, instance, value, **kwargs):
         return CompoundField.set(self, instance, value, **kwargs)
+
+    def get(self, instance, **kwargs):
+        return CompoundField.get(self, instance, **kwargs)
 
 
 registerField(ReferenceCitation,

@@ -104,6 +104,9 @@ class Location(BaseContent, Work, Temporal, BrowserDefaultMixin):
 
     # Methods
 
+    def SearchableText(self):
+        text = super(Location, self).SearchableText().strip()
+        return text + ' ' + self.rangesText()
 
 registerType(Location, PROJECTNAME)
 # end of class Location

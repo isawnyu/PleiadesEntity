@@ -47,7 +47,8 @@ integration_tests = [
     'subscribers.txt',
     'LoadEntity.txt',
     'BatchLoad.txt',
-    'attestations-view.txt'
+    'attestations-view.txt',
+    'citations.txt'
     ]
 
 functional_tests = [
