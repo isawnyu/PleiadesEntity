@@ -137,6 +137,7 @@ schema = Schema((
             label_msgid='PleiadesEntity_label_array:primaryReferenceCitations',
             description_msgid='PleiadesEntity_help_array:primaryReferenceCitations',
             i18n_domain='PleiadesEntity',
+            macro='pleiadescitationrefwidget',
         ),
         size=0,
     ),
@@ -217,6 +218,7 @@ class Name(BaseContent, Work, Temporal, BrowserDefaultMixin):
             self.setId(new_id)
             return new_id
 
+    security.declarePublic('SearchableText')
     def SearchableText(self):
         text = super(Name, self).SearchableText().strip()
         return text + ' ' + self.rangesText()

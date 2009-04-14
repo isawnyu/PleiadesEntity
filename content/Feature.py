@@ -126,6 +126,7 @@ class Feature(BaseFolder, ATDocumentBase, Named, Work, BrowserDefaultMixin):
         transaction.commit(1)
         self.setId(newid)
 
+    security.declarePublic('SearchableText')
     def SearchableText(self):
         text = super(Feature, self).SearchableText().strip()
         return text + ' ' + self.rangesText()

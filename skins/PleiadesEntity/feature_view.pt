@@ -11,54 +11,60 @@
             <!--script type="text/javascript" src="ol.js" tal:attributes="src string:${context/absolute_url}/ol.js"></script-->
         </metal:block>
     </head>
-      
+    
     <body>
-        <metal:body_macro metal:define-macro="body">
-
-            <p class="documentDescription">
-                <metal:field use-macro="python:here.widget('description', mode='view')">
-                Description
-                </metal:field>
-            </p>
-            
-            <!-- Fields -->
-            <div
-                tal:define="portal python:here.portal_url.getPortalObject();
-                            field_macro field_macro | here/widgets/field/macros/view;"
-                tal:repeat="field python:here.Schema().filterFields(isMetadata=0)"
-                >
-                <tal:if_visible define="mode string:view;
-                                    visState python:field.widget.isVisible(here, mode);
-                                    visCondition python:field.widget.testCondition(here, portal, template);"
-                    condition="python:visState == 'visible' and visCondition"
-                    >
-                    <metal:use_field use-macro="field_macro"/>
-                </tal:if_visible>
-            </div>
-            
-            <hr/>
-            <!-- Names -->
-            <div>
-                <h4>Ancient Names</h4>
-                <ul tal:repeat="data context/@@attestations/names">
-                    <li tal:define="n python:data[0]; tps python:'(%s)' % ', '.join([a['timePeriod'].capitalize() for a in data[1]])"><a href="" tal:attributes="href n/getId" tal:content="n/title_or_id"></a> <span tal:content="tps"></span></li>
-                </ul>
-            </div>
-                    
-            <!-- Locations -->
-            <div>
-                <h4>Ancient Locations</h4>
-                <ul tal:repeat="data context/@@attestations/locations">
-                    <li tal:define="n python:data[0]; tps python:'(%s)' % ', '.join([a['timePeriod'].capitalize() for a in data[1]])"><a href="" tal:attributes="href n/getId" tal:content="n/title_or_id"></a> <span tal:content="tps"></span></li>
-                </ul>            
-            </div>
+      <metal:body_macro metal:define-macro="body">
         
-        </metal:body_macro>
-
-        <metal:folderlisting_macro define-macro="folderlisting">
-            <!-- do nothing: suppresses default folderlisting behaviors -->
-        </metal:folderlisting_macro>
-
-      </body>
-    </html>
+        <p class="documentDescription">
+          <metal:field use-macro="python:here.widget('description', mode='view')">Description</metal:field>
+        </p>
+        
+        <!-- Names -->
+        <div class="field">
+          <label class="formQuestion"><span>Named</span>:</label>
+            <ul tal:repeat="data context/@@attestations/names">
+                <li tal:define="n python:data[0]; tps python:'(%s)' % ', '.join([a['timePeriod'].capitalize() for a in data[1]])"><a href="" tal:attributes="href n/getId" tal:content="n/title_or_id"></a> <span tal:content="tps"></span></li>
+            </ul>
+        </div>
+        
+        <!-- Locations -->
+        <div class="field">
+          <label class="formQuestion"><span>Has locations</span>:</label>
+            <ul tal:repeat="data context/@@attestations/locations">
+                <li tal:define="n python:data[0]; tps python:'(%s)' % ', '.join([a['timePeriod'].capitalize() for a in data[1]])"><a href="" tal:attributes="href n/getId" tal:content="n/title_or_id"></a> <span tal:content="tps"></span></li>
+            </ul>
+        </div>
+        
+        <!-- Fields -->
+        <div
+            tal:define="portal python:here.portal_url.getPortalObject();
+                        field_macro field_macro | here/widgets/field/macros/view;"
+            tal:repeat="field python:here.Schema().filterFields(isMetadata=0)"
+            >
+            <tal:if_visible define="mode string:view;
+                                visState python:field.widget.isVisible(here, mode);
+                                visCondition python:field.widget.testCondition(here, portal, template);"
+                condition="python:visState == 'visible' and visCondition"
+                >
+                <metal:use_field use-macro="field_macro"/>
+            </tal:if_visible>
+        </div>
+      
+      <div class="field">
+        <label class="formQuestion"><span>Alternate representations</span>:</label>
+        <p tal:define="url context/absolute_url">
+          <!--a type="application/atom+xml" tal:attributes="href string:${url}/atom">Atom</a-->
+          <a type="application/json" tal:attributes="href string:${url}/json">JSON</a>
+          <!--a type="application/vnd.google-earth.kml+xml" tal:attributes="href string:${url}/kml">KML</a-->
+        </p>
+      </div>
+    
+    </metal:body_macro>
+    
+    <metal:folderlisting_macro define-macro="folderlisting">
+        <!-- do nothing: suppresses default folderlisting behaviors -->
+    </metal:folderlisting_macro>
+  
+  </body>
+</html>
 

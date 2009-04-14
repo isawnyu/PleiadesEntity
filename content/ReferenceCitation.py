@@ -103,14 +103,14 @@ class ReferenceCitation(CompoundField):
     def getRaw(self, instance, **kwargs):
         return CompoundField.getRaw(self, instance, **kwargs)
 
-    def SearchableText(self,):
-        return 'foobar'
+    def get(self, instance, **kwargs):
+        return CompoundField.get(self, instance, **kwargs)
 
     def set(self, instance, value, **kwargs):
         return CompoundField.set(self, instance, value, **kwargs)
 
-    def get(self, instance, **kwargs):
-        return CompoundField.get(self, instance, **kwargs)
+    def SearchableText(self,):
+        return 'foobar'
 
 
 registerField(ReferenceCitation,

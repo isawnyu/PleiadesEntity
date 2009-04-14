@@ -33,6 +33,7 @@ from Products.CompoundField.CompoundWidget import CompoundWidget
 from Products.CMFCore import permissions
 from Products.PleiadesEntity.time import TimePeriodCmp
 from Products.CompoundField.CompoundWidget import CompoundWidget
+from Products.CMFCore.utils import getToolByName
 ##/code-section module-header
 
 schema = Schema((
@@ -53,6 +54,7 @@ schema = Schema((
             label_msgid='PleiadesEntity_label_array:attestations',
             description_msgid='PleiadesEntity_help_array:attestations',
             i18n_domain='PleiadesEntity',
+            macro='pleiadesattestationwidget',
         ),
         size=0,
     ),
@@ -91,6 +93,18 @@ class Temporal(BrowserDefaultMixin):
         def _cmp(a, b):
             return TimePeriodCmp(self)(a['timePeriod'], b['timePeriod'])
         return sorted(self.getAttestations(), cmp=_cmp)
+
+    security.declareProtected(permissions.View, 'displaySortedTemporalAttestations')
+    def displaySortedTemporalAttestations(self):
+        """
+        """
+        def _cmp(a, b):
+            return TimePeriodCmp(self)(a['timePeriod'], b['timePeriod'])
+        attestations = sorted(self.getAttestations(), cmp=_cmp)
+        vocab_t = TemporalAttestation.schema['timePeriod'].vocabulary.getVocabularyDict(self)
+        vocab_c = TemporalAttestation.schema['confidence'].vocabulary.getVocabularyDict(self)
+        return [dict(timePeriod=vocab_t[a['timePeriod']][0], confidence=vocab_c[a['confidence']][0]) for a in attestations]
+        
 
     security.declareProtected(permissions.View, 'getTimePeriods')
     def getTimePeriods(self):

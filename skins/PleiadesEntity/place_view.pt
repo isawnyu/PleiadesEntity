@@ -56,6 +56,14 @@
             Description
             </metal:field>
         </p>
+
+        <!-- Names -->
+        <div class="field">
+          <label class="formQuestion"><span>Named</span>:</label>
+          <ul tal:repeat="data context/@@attestations/names">
+            <li tal:define="n python:data[0]; tps python:'(%s)' % ', '.join([a['timePeriod'].capitalize() for a in data[1]])"><a href="" tal:attributes="href n/getId" tal:content="n/title_or_id"></a> <span tal:content="tps"></span></li>
+          </ul>
+        </div>
       
       <tal:repeat
         repeat="field python:here.Schema().filterFields(isMetadata=0)"
@@ -66,23 +74,15 @@
           <metal:use_field use-macro="field_macro"/>
         </tal:if_visible>
       </tal:repeat>
-
-            <hr/>
-            <!-- Names -->
-            <div>
-                <h4>Ancient Names</h4>
-                <ul tal:repeat="data context/@@attestations/names">
-                    <li tal:define="n python:data[0]; tps python:'(%s)' % ', '.join([a['timePeriod'].capitalize() for a in data[1]])"><a href="" tal:attributes="href n/getId" tal:content="n/title_or_id"></a> <span tal:content="tps"></span></li>
-                </ul>
-            </div>
                   
-      <div>
-      <h4>Alternate representations</h4>
-      <p tal:define="url context/absolute_url">
+      <div class="field">
+        <label class="formQuestion"><span>Alternate representations</span>:</label>
+        <p tal:define="url context/absolute_url">
           <a type="application/atom+xml" tal:attributes="href string:${url}/atom">Atom</a>,
           <a type="application/json" tal:attributes="href string:${url}/json">JSON</a>,
           <a type="application/vnd.google-earth.kml+xml" tal:attributes="href string:${url}/kml">KML</a>
-      </p>
+        </p>
+      </div>
     
     </metal:body_macro>
     

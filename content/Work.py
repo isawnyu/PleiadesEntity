@@ -53,6 +53,7 @@ schema = Schema((
             label_msgid='PleiadesEntity_label_array:referenceCitations',
             description_msgid='PleiadesEntity_help_array:referenceCitations',
             i18n_domain='PleiadesEntity',
+            macro='pleiadescitationrefwidget',
         ),
         size=0,
     ),
