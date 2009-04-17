@@ -40,7 +40,7 @@ schema = Schema((
 
     StringField(
         name='featureType',
-        widget=SelectionWidget(
+        widget=InAndOutWidget(
             label="Feature type",
             description="Select type of feature",
             label_msgid='PleiadesEntity_label_featureType',
@@ -48,16 +48,6 @@ schema = Schema((
             i18n_domain='PleiadesEntity',
         ),
         vocabulary=NamedVocabulary("""place-types"""),
-    ),
-    BooleanField(
-        name='permanent',
-        widget=BooleanField._properties['widget'](
-            label="Permanent",
-            description="Is the feature permanent, or existing across all time periods?",
-            label_msgid='PleiadesEntity_label_permanent',
-            description_msgid='PleiadesEntity_help_permanent',
-            i18n_domain='PleiadesEntity',
-        ),
     ),
     ReferenceField(
         name='places',

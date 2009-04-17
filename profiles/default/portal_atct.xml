@@ -49,6 +49,15 @@
 
   </index>
 
+  <index name="getPlaceType"
+     description="Select type of place"
+     enabled="True" 
+     friendlyName="Place type">
+
+   <criteria>ATSelectionCriterion</criteria>
+
+  </index>
+
  </topic_indexes>
  <topic_metadata>
   <!-- ##code-section metadata -->
@@ -78,6 +87,11 @@
      description="Select type of feature"
      enabled="True" 
      friendlyName="Feature type"/>
+
+  <metadata name="getPlaceType" 
+     description="Select type of place"
+     enabled="True" 
+     friendlyName="Place type"/>
 
  </topic_metadata>
 </atcttool>

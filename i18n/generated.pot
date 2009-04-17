@@ -229,7 +229,13 @@ msgstr ""
 
 #. Default: "Select permanence of feature"
 #: content/Feature.py
+#: content/Named.py
 msgid "PleiadesEntity_help_permanent"
+msgstr ""
+
+#. Default: "Select type of place"
+#: content/Place.py
+msgid "PleiadesEntity_help_placeType"
 msgstr ""
 
 #. Default: "Citations for primary sources in which this name appears."
@@ -301,6 +307,16 @@ msgstr ""
 #. Default: "Array:attestations"
 #: content/Temporal.py
 msgid "PleiadesEntity_label_array:attestations"
+msgstr ""
+
+#. Default: "Array:featuretype"
+#: content/Feature.py
+msgid "PleiadesEntity_label_array:featureType"
+msgstr ""
+
+#. Default: "Array:placetype"
+#: content/Place.py
+msgid "PleiadesEntity_label_array:placeType"
 msgstr ""
 
 #. Default: "Primary reference citations"
@@ -498,6 +514,7 @@ msgstr ""
 
 #. Default: "Permanent"
 #: content/Feature.py
+#: content/Named.py
 msgid "PleiadesEntity_label_permanent"
 msgstr ""
 
@@ -509,6 +526,7 @@ msgstr ""
 #. Default: "Place Type"
 #: content\Place.py
 #: content\PlacefulAssociation.py
+#: content/Place.py
 msgid "PleiadesEntity_label_placeType"
 msgstr ""
 

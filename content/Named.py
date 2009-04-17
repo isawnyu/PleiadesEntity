@@ -42,6 +42,16 @@ schema = Schema((
             i18n_domain='PleiadesEntity',
         ),
     ),
+    BooleanField(
+        name='permanent',
+        widget=BooleanField._properties['widget'](
+            label="Permanent",
+            description="Is the feature or place permanent, or existing across all time periods?",
+            label_msgid='PleiadesEntity_label_permanent',
+            description_msgid='PleiadesEntity_help_permanent',
+            i18n_domain='PleiadesEntity',
+        ),
+    ),
 
 ),
 )

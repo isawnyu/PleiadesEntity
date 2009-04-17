@@ -134,10 +134,10 @@ schema = Schema((
         widget=EnhancedArrayWidget(
             label="Primary reference citations",
             description="Enter reference work and citation range",
+            macro="pleiadescitationrefwidget",
             label_msgid='PleiadesEntity_label_array:primaryReferenceCitations',
             description_msgid='PleiadesEntity_help_array:primaryReferenceCitations',
             i18n_domain='PleiadesEntity',
-            macro='pleiadescitationrefwidget',
         ),
         size=0,
     ),

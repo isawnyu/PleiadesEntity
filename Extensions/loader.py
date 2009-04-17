@@ -211,24 +211,7 @@ def parse_secondary_references(xmlcontext, site, portalcontext, ptool, cb=lambda
             url = title_elem[0].attrib.get('{http://www.w3.org/1999/xlink}href', '')
             bibstr = getalltext(bibl)
             citations.append(dict(identifier=url, range=bibstr))
-            #
-            # id = ptool.normalizeString(bibstr)
-            # references = site['references']
-            # if id not in references:
-            #     rid = references.invokeFactory(
-            #         'SecondaryReference',
-            #         id=id,
-            #         title=bibstr,
-            #         item=url,
-            #         range=bibstr,
-            #         **kw
-            #     )
-            #     cb(references[rid])
-            # if id in references:
-            #     portalcontext.addReference(
-            #         references[id],
-            #         'work_reference'
-            #         )
+
         refCitations = portalcontext.getField('referenceCitations')
         refCitations.resize(len(citations), portalcontext)
         portalcontext.update(referenceCitations=citations)
@@ -247,25 +230,7 @@ def parse_primary_references(xmlcontext, site, portalcontext, ptool, cb=lambda x
                 url = title_elem[0].attrib.get('{http://www.w3.org/1999/xlink}href', '')
                 bibstr = getalltext(bibl)
                 citations.append(dict(identifier=url, range=bibstr))
-                # id = ptool.normalizeString(bibstr)
-                # references = site['references']
-                # if id not in references:
-                #     rid = references.invokeFactory(
-                #         'PrimaryReference',
-                #         id=id,
-                #         title=bibstr,
-                #         item=url,
-                #         range=bibstr,
-                #         **kw
-                #     )
-                #     cb(references[rid])
-                #     portalcontext.addReference(
-                #         references[rid],
-                #         'name_reference'
-                #         )
-                # else:
-                #     # skip dupe
-                #     pass
+
         refCitations = portalcontext.getField('primaryReferenceCitations')
         refCitations.resize(len(citations), portalcontext)
         portalcontext.update(referenceCitations=citations)
@@ -427,20 +392,7 @@ def load_place(site, file, metadataId=None, cb=lambda x: None):
     
     savepoint = transaction.savepoint()
     try:
-        
-        # Make a feature
-        # add its names
-        # add its locations
-        # add its references
-        # link to references
-        # make a place
-        # link to place
-        
         creators, contributors, rights = parse_attrib_rights(root)
-        
-        # Feature
-        # ==================================================================
-        
         e = root.findall("{%s}modernLocation" % AWMC)
         if e:
             modernLocation = str(e[0].text.encode('utf-8'))
@@ -482,8 +434,7 @@ def load_place(site, file, metadataId=None, cb=lambda x: None):
                 'Feature',
                 features.generateId(prefix=''),
                 title=fid,
-                modernLocation=modernLocation,
-                featureType=placeType,
+                featureType=[],
                 permanent=False,
                 description='Feature %s, extracted from the Barrington Atlas and its Map-by-Map directory.' % str(e[0].text),
                 creators=creators,
@@ -534,7 +485,9 @@ def load_place(site, file, metadataId=None, cb=lambda x: None):
         pid = places.invokeFactory('Place',
                     id=baid,
                     title=fid,
+                    placeType=[placeType],
                     modernLocation=modernLocation,
+                    permanent=False,
                     description='Containing ancient world features extracted from the Barrington Atlas and its Map-by-Map directory.',
                     text=description,
                     creators=creators,

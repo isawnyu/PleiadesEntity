@@ -21,6 +21,7 @@ from Products.PleiadesEntity.content.Named import Named
 from Products.PleiadesEntity.content.Work import Work
 from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
 
+from Products.ATVocabularyManager.namedvocabulary import NamedVocabulary
 from Products.PleiadesEntity.config import *
 
 # additional imports from tagged value 'import'
@@ -46,6 +47,17 @@ schema = Schema((
             label_msgid='PleiadesEntity_label_features',
             i18n_domain='PleiadesEntity',
         ),
+    ),
+    StringField(
+        name='placeType',
+        widget=InAndOutWidget(
+            label="Place type",
+            description="Select type of place",
+            label_msgid='PleiadesEntity_label_placeType',
+            description_msgid='PleiadesEntity_help_placeType',
+            i18n_domain='PleiadesEntity',
+        ),
+        vocabulary=NamedVocabulary("""place-types"""),
     ),
 
 ),
@@ -114,13 +126,16 @@ class Place(BaseFolder, ATDocumentBase, Named, Work, BrowserDefaultMixin):
 
     security.declareProtected(permissions.View, 'getFeatureType')
     def getFeatureType(self):
+        """Get list of feature types for the place, digging into backref'd
+        features if no types are explicitly set on the place.
         """
-        """
-        ftypes = []
-        for f in self.getFeatures():
-            ftype = f.getFeatureType()
-            if ftype not in ftypes:
-                ftypes.append(ftype)
+        ftypes = [t for t in self.getPlaceType() if bool(t)]
+        if not ftypes:
+            for f in self.getFeatures():
+                candidates = [t for t in f.getFeatureType() if bool(t)]
+                for t in candidates:
+                    if t not in ftypes:
+                        ftypes.append(t)
         return ftypes
 
     security.declarePublic('SearchableText')

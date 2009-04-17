@@ -27,7 +27,6 @@ from Products.CompoundField.EnhancedArrayWidget import EnhancedArrayWidget
 from Products.PleiadesEntity.config import *
 
 # additional imports from tagged value 'import'
-from Products.ATReferenceBrowserWidget.ATReferenceBrowserWidget import ReferenceBrowserWidget
 from Products.CompoundField.CompoundWidget import CompoundWidget
 from Products.CMFCore import permissions
 from Products.PleiadesEntity.content.ReferenceCitation import ReferenceCitation
@@ -50,10 +49,10 @@ schema = Schema((
         widget=EnhancedArrayWidget(
             label="Reference citations",
             description="Enter reference work and citation",
+            macro="pleiadescitationrefwidget",
             label_msgid='PleiadesEntity_label_array:referenceCitations',
             description_msgid='PleiadesEntity_help_array:referenceCitations',
             i18n_domain='PleiadesEntity',
-            macro='pleiadescitationrefwidget',
         ),
         size=0,
     ),

@@ -37,7 +37,7 @@ from Products.CMFCore.utils import getToolByName
 ##/code-section module-header
 
 schema = Schema((
-    
+
     ArrayField(
         TemporalAttestation(
             name='attestations',
@@ -47,14 +47,14 @@ schema = Schema((
                 i18n_domain='PleiadesEntity',
             ),
         ),
-        
+
         widget=EnhancedArrayWidget(
             label="Temporal attestations",
             description="Select time period and level of confidence in attestation",
+            macro="pleiadesattestationwidget",
             label_msgid='PleiadesEntity_label_array:attestations',
             description_msgid='PleiadesEntity_help_array:attestations',
             i18n_domain='PleiadesEntity',
-            macro='pleiadesattestationwidget',
         ),
         size=0,
     ),
@@ -74,18 +74,18 @@ class Temporal(BrowserDefaultMixin):
     """
     """
     security = ClassSecurityInfo()
-    
+
     implements(interfaces.ITemporal)
-    
+
     _at_rename_after_creation = True
-    
+
     schema = Temporal_schema
-    
+
     ##code-section class-header #fill in your manual code here
     ##/code-section class-header
-    
+
     # Methods
-    
+
     security.declareProtected(permissions.View, 'getSortedTemporalAttestations')
     def getSortedTemporalAttestations(self):
         """
@@ -93,7 +93,15 @@ class Temporal(BrowserDefaultMixin):
         def _cmp(a, b):
             return TimePeriodCmp(self)(a['timePeriod'], b['timePeriod'])
         return sorted(self.getAttestations(), cmp=_cmp)
-    
+
+    security.declareProtected(permissions.View, 'getTimePeriods')
+    def getTimePeriods(self):
+        """
+        """
+        return [a['timePeriod'] for a in self.getSortedTemporalAttestations()]
+
+    # Manually created methods
+
     security.declareProtected(permissions.View, 'displaySortedTemporalAttestations')
     def displaySortedTemporalAttestations(self):
         """
@@ -104,12 +112,7 @@ class Temporal(BrowserDefaultMixin):
         vocab_t = TemporalAttestation.schema['timePeriod'].vocabulary.getVocabularyDict(self)
         vocab_c = TemporalAttestation.schema['confidence'].vocabulary.getVocabularyDict(self)
         return [dict(timePeriod=vocab_t[a['timePeriod']], confidence=vocab_c[a['confidence']]) for a in attestations]
-    
-    security.declareProtected(permissions.View, 'getTimePeriods')
-    def getTimePeriods(self):
-        """
-        """
-        return [a['timePeriod'] for a in self.getSortedTemporalAttestations()]
+
 
 # end of class Temporal
 

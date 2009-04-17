@@ -25,6 +25,8 @@ references above.
     >>> f = folder['features'][fid]
     >>> f.title_or_id()
     'Feature batlas-99-2-24 (attested: Aphrodisias/Ninoe)'
+    >>> f.getFeatureType()
+    []
     >>> f.getLocations()
     [<Location at /plone/Members/test_user_1_/features/.../position>]
     >>> list(f.getNames())
@@ -57,7 +59,7 @@ Test temporal attestations
     >>> x.getAttestations()
     [{'timePeriod': 'classical', 'confidence': 'confident'}, {'timePeriod': 'roman', 'confidence': 'confident'}, {'timePeriod': 'late-antique', 'confidence': 'confident'}]
     >>> x.getSortedTemporalAttestations()
-    [{'timePeriod': 'classical', 'confidence': 'confident'}, {'timePeriod': 'roman', 'confidence': 'confident'}, {'timePeriod': 'late-antique', 'confidence': 'confident'}]
+    [{'timePeriod': 'classical', 'confidence': 'confident'}, {'timePeriod': 'late-antique', 'confidence': 'confident'}, {'timePeriod': 'roman', 'confidence': 'confident'}]
     
 Check metadata reference
 
@@ -114,6 +116,10 @@ By default, we create a place for every feature.
     'Aphrodisias/Ninoe'
     >>> p.Title()
     'Aphrodisias/Ninoe'
+    >>> p.getPlaceType()
+    ['settlement']
+    >>> p.getFeatureType()
+    ['settlement']
     >>> p.modernLocation
     u'Geyre'
     >>> p.Creators()
@@ -143,8 +149,6 @@ Check feature
     >>> len(contents)
     1    
     >>> f = contents[0]
-    >>> f.getFeatureType()
-    'fort'
 
 
 Load one unlocated entity
@@ -158,11 +162,12 @@ Load one unlocated entity
 Check feature
 
     >>> p = folder['places'][pid]
+    >>> p.getFeatureType()
+    ['undefined']    
     >>> contents = list(p.getFeatures())
     >>> len(contents)
     1    
     >>> f = contents[0]
     >>> f.getLocations()
     []
-    >>> f.getFeatureType()
-    'undefined'
+

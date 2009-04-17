@@ -7,14 +7,12 @@
   <body>
 
     <metal:view_macro define-macro="view">
-
         <ul>
           <li tal:repeat="citation here/getReferenceCitations">
             <span tal:content="citation/range">Range</span> 
             [<a href="#" tal:attributes="href citation/identifier">work</a>]
           </li>
         </ul>
-
     </metal:view_macro>
 
     <metal:edit_macro define-macro="edit">
