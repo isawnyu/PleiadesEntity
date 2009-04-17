@@ -1,18 +1,32 @@
 import os, sys
-
 import glob
 import unittest
 import doctest
+
 from Testing import ZopeTestCase as ztc
+from Products.Five import zcml
+from Products.Five import fiveconfigure
 from Products.PloneTestCase import PloneTestCase as ptc
 from Products.PloneTestCase.layer import onsetup, PloneSite, ZCMLLayer
+import Products.PleiadesEntity
 import _testing
 
 ptc.installProduct('ATVocabularyManager')
 ptc.installProduct('ATBackRef')
 ptc.installProduct('CompoundField')
 ptc.installProduct('PleiadesEntity')
-ptc.setupPloneSite(products=['ATVocabularyManager', 'PleiadesEntity'])
+
+@onsetup
+def setup_pleiades_entity():
+    fiveconfigure.debug_mode = True
+    import pleiades.vocabularies
+    zcml.load_config('configure.zcml', Products.PleiadesEntity)
+    fiveconfigure.debug_mode = False
+    ztc.installPackage('pleiades.vocabularies')
+    ztc.installPackage('Products.PleiadesEntity')
+    
+setup_pleiades_entity()
+ptc.setupPloneSite(products=['PleiadesEntity'])
 
 optionflags = (
     doctest.ELLIPSIS

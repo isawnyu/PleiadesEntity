@@ -94,12 +94,5 @@ def initialize(context):
                               permission  = ADD_CONTENT_PERMISSIONS[klassname])
 
     ##code-section custom-init-bottom #fill in your manual code here
-    #profile_registry.registerProfile('default',
-    #                                 'Pleiades entities',
-    #                                 'Entity infrastructure',
-    #                                 'profiles/default',
-    #                                 'PleiadesEntity',
-    #                                 EXTENSION,
-    #                                 for_=IPloneSiteRoot)
     ##/code-section custom-init-bottom
 
