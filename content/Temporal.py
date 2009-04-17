@@ -103,8 +103,7 @@ class Temporal(BrowserDefaultMixin):
         attestations = sorted(self.getAttestations(), cmp=_cmp)
         vocab_t = TemporalAttestation.schema['timePeriod'].vocabulary.getVocabularyDict(self)
         vocab_c = TemporalAttestation.schema['confidence'].vocabulary.getVocabularyDict(self)
-        return [dict(timePeriod=vocab_t[a['timePeriod']][0], confidence=vocab_c[a['confidence']][0]) for a in attestations]
-        
+        return [dict(timePeriod=vocab_t[a['timePeriod']], confidence=vocab_c[a['confidence']]) for a in attestations]
 
     security.declareProtected(permissions.View, 'getTimePeriods')
     def getTimePeriods(self):
