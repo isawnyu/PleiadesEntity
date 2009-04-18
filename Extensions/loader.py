@@ -352,7 +352,7 @@ def parse_names(root, site, feature, ptool, cb=lambda x: None, **kw):
 
 def parse_locations(root, feature, ptool, metadataDoc, **kw):
     lids = []
-    for e in root.findall("{%s}spatialLocation" % ADLGAZ):
+    for e in root.findall("{%s}spatialLocation" % ADLGAZ)[:1]:
         coords = e.findall("{%s}point" % GEORSS)[0].text.split()
         lid = feature.invokeFactory(
                 'Location',
