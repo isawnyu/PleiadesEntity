@@ -8,7 +8,7 @@
 
     <metal:view_macro define-macro="view">
         <ul>
-          <li tal:repeat="citation here/getReferenceCitations">
+          <li tal:repeat="citation accessor">
             <span tal:content="citation/range">Range</span> 
             [<a href="#" tal:attributes="href citation/identifier">work</a>]
           </li>
