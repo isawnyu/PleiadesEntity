@@ -42,12 +42,4 @@
          visible="True">
   <permission value="Modify portal content"/>
  </action>
- <action title="Properties" 
-         action_id="metadata"
-         category="object" 
-         condition_expr=""
-         url_expr="string:${object_url}/properties" 
-         visible="True">
-  <permission value="Modify portal content"/>
- </action>
 </object>

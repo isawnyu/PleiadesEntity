@@ -28,28 +28,16 @@
  <alias from="(Default)" to="(dynamic view)"/>
  <alias from="edit" to="atct_edit"/>
  <alias from="index.html" to="(dynamic view)"/>
- <alias from="map" to="ol_map_view"/>
  <alias from="properties" to="base_metadata"/>
  <alias from="sharing" to="folder_localrole_form"/>
  <alias from="view" to="(selected layout)"/>
- <alias from="kml" to="@@kml-document"/>
- <alias from="atom" to="@@atom-syndication-feed"/>
  <action title="View" action_id="view" category="object" condition_expr=""
     url_expr="string:${folder_url}/" visible="True">
-  <permission value="View"/>
- </action>
- <action title="Map" action_id="map_view" category="object" condition_expr=""
-    url_expr="string:${folder_url}/map" visible="True">
   <permission value="View"/>
  </action>
  <action title="Edit" action_id="edit" category="object" condition_expr=""
     url_expr="string:${object_url}/edit" visible="True">
   <permission value="Change portal topics"/>
- </action>
- <action title="Properties" action_id="metadata" category="object"
-    condition_expr="" url_expr="string:${object_url}/properties"
-    visible="True">
-  <permission value="Modify portal content"/>
  </action>
  <action title="References" action_id="references" category="object"
     condition_expr="object/archetype_tool/has_graphviz"
