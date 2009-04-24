@@ -35,7 +35,7 @@
         templateId template/getId;"
         >
       
-      <div id="map" style="width:485px;height:300px;border:solid gray 1px;background-color:#cccccc;margin-bottom:1.5em;"></div>
+      <div id="map" style="align:center;width:410px;height:250px;border:solid gray 1px;background-color:#cccccc;margin-bottom:1.5em;"></div>
       
       <script defer="defer" type="text/javascript">
         initMap();

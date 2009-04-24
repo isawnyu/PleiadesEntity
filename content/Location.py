@@ -21,6 +21,8 @@ from Products.PleiadesEntity.content.Work import Work
 from Products.PleiadesEntity.content.Temporal import Temporal
 from Products.PleiadesEntity.content.Work import Work
 from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
+from Products.ATContentTypes.content.document import ATDocument
+from Products.ATContentTypes.content.document import ATDocumentSchema
 
 from Products.ATReferenceBrowserWidget.ATReferenceBrowserWidget import \
     ReferenceBrowserWidget
@@ -74,20 +76,20 @@ schema = Schema((
 ##code-section after-local-schema #fill in your manual code here
 ##/code-section after-local-schema
 
-Location_schema = BaseSchema.copy() + \
+Location_schema = ATDocumentSchema.copy() + \
     getattr(Work, 'schema', Schema(())).copy() + \
     getattr(Temporal, 'schema', Schema(())).copy() + \
     getattr(Work, 'schema', Schema(())).copy() + \
     schema.copy()
 
 ##code-section after-schema #fill in your manual code here
-Location_schema = BaseSchema.copy() + \
+Location_schema = ATDocumentSchema.copy() + \
     schema.copy() + \
     getattr(Temporal, 'schema', Schema(())).copy() + \
     getattr(Work, 'schema', Schema(())).copy()
 ##/code-section after-schema
 
-class Location(BaseContent, Work, Temporal, BrowserDefaultMixin):
+class Location(ATDocument, Work, Temporal, BrowserDefaultMixin):
     """
     """
     security = ClassSecurityInfo()
@@ -100,6 +102,7 @@ class Location(BaseContent, Work, Temporal, BrowserDefaultMixin):
     schema = Location_schema
 
     ##code-section class-header #fill in your manual code here
+    schema["text"].widget.label = 'Details'
     ##/code-section class-header
 
     # Methods

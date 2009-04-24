@@ -21,6 +21,8 @@ from Products.PleiadesEntity.content.Work import Work
 from Products.PleiadesEntity.content.Temporal import Temporal
 from Products.PleiadesEntity.content.Work import Work
 from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
+from Products.ATContentTypes.content.document import ATDocument
+from Products.ATContentTypes.content.document import ATDocumentSchema
 
 from Products.CompoundField.ArrayField import ArrayField
 from Products.CompoundField.ArrayWidget import ArrayWidget
@@ -148,20 +150,20 @@ schema = Schema((
 ##code-section after-local-schema #fill in your manual code here
 ##/code-section after-local-schema
 
-Name_schema = BaseSchema.copy() + \
+Name_schema = ATDocumentSchema.copy() + \
     getattr(Work, 'schema', Schema(())).copy() + \
     getattr(Temporal, 'schema', Schema(())).copy() + \
     getattr(Work, 'schema', Schema(())).copy() + \
     schema.copy()
 
 ##code-section after-schema #fill in your manual code here
-Name_schema = BaseSchema.copy() + \
+Name_schema = ATDocumentSchema.copy() + \
     schema.copy() + \
     getattr(Temporal, 'schema', Schema(())).copy() + \
     getattr(Work, 'schema', Schema(())).copy()
 ##/code-section after-schema
 
-class Name(BaseContent, Work, Temporal, BrowserDefaultMixin):
+class Name(ATDocument, Work, Temporal, BrowserDefaultMixin):
     """
     """
     security = ClassSecurityInfo()
@@ -177,6 +179,7 @@ class Name(BaseContent, Work, Temporal, BrowserDefaultMixin):
     schema["title"].required = 0
     schema["title"].widget.visible = {"edit": "invisible", "view": "invisible"}
     schema["nameTransliterated"].widget.visible = {"edit": "invisible", "view": "visible"}
+    schema["text"].widget.label = 'Details'
     ##/code-section class-header
 
     # Methods
