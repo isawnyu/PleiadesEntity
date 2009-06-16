@@ -63,7 +63,11 @@ def install(self):
     quickinstaller = portal.portal_quickinstaller
     for dependency in DEPENDENCIES:
         print >> out, "Installing dependency %s:" % dependency
-        quickinstaller.installProduct(dependency)
+        try:
+            quickinstaller.installProduct(dependency)
+        except:
+            import pdb; pdb.set_trace()
+            raise
         transaction.commit()
 
     classes = listTypes(PROJECTNAME)

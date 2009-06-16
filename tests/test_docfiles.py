@@ -11,17 +11,19 @@ from Products.PloneTestCase.layer import onsetup, PloneSite, ZCMLLayer
 import Products.PleiadesEntity
 import _testing
 
-ptc.installProduct('ATVocabularyManager')
-ptc.installProduct('ATBackRef')
-ptc.installProduct('CompoundField')
-ptc.installProduct('PleiadesEntity')
+ztc.installProduct('ATVocabularyManager')
+ztc.installProduct('Products.ATBackRef')
+ztc.installProduct('Products.CompoundField')
+ztc.installProduct('pleiades.vocabularies')
+ztc.installProduct('PleiadesEntity')
 
 @onsetup
 def setup_pleiades_entity():
     fiveconfigure.debug_mode = True
-    import pleiades.vocabularies
+    import Products.PleiadesEntity
     zcml.load_config('configure.zcml', Products.PleiadesEntity)
     fiveconfigure.debug_mode = False
+    
     ztc.installPackage('pleiades.vocabularies')
     ztc.installPackage('Products.PleiadesEntity')
     
