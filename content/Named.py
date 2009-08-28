@@ -4,7 +4,7 @@
 #
 # Copyright (c) 2009 by Ancient World Mapping Center, University of North
 # Carolina at Chapel Hill, U.S.A.
-# Generator: ArchGenXML Version 2.3
+# Generator: ArchGenXML Version 2.4.1
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
@@ -41,6 +41,7 @@ schema = Schema((
             description_msgid='PleiadesEntity_help_modernLocation',
             i18n_domain='PleiadesEntity',
         ),
+        description="The modern location or vicinity of the ancient place or feature",
     ),
     BooleanField(
         name='permanent',
@@ -51,6 +52,7 @@ schema = Schema((
             description_msgid='PleiadesEntity_help_permanent',
             i18n_domain='PleiadesEntity',
         ),
+        description="Permanence of the feature or place, regardless of name attestations",
     ),
 
 ),

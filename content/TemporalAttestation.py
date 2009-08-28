@@ -4,7 +4,7 @@
 #
 # Copyright (c) 2009 by Ancient World Mapping Center, University of North
 # Carolina at Chapel Hill, U.S.A.
-# Generator: ArchGenXML Version 2.3
+# Generator: ArchGenXML Version 2.4.1
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
@@ -57,7 +57,10 @@ schema = Schema((
             description_msgid='PleiadesEntity_help_timePeriod',
             i18n_domain='PleiadesEntity',
         ),
+        description="Time period for which this name is attested",
         vocabulary=NamedVocabulary("""time-periods"""),
+        enforceVocabulary=1,
+        required=1,
     ),
     StringField(
         name='confidence',
@@ -68,7 +71,10 @@ schema = Schema((
             description_msgid='PleiadesEntity_help_confidence',
             i18n_domain='PleiadesEntity',
         ),
+        description="Level of confidence in temportal attestation",
         vocabulary=NamedVocabulary("""attestation-confidence"""),
+        default="confident",
+        enforceVocabulary=1,
     ),
 
 ),

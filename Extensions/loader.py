@@ -373,7 +373,7 @@ def parse_locations(root, feature, ptool, metadataDoc, **kw):
         lids.append(lid)
     return lids
 
-def load_place(site, file, metadataId=None, cb=lambda x: None):
+def load_place(site, file, with_features=True, metadataId=None, cb=lambda x: None):
     """Create a new Place in plonefolder and populate it with
     the data found in the xml file at sourcepath.
     
@@ -427,64 +427,11 @@ def load_place(site, file, metadataId=None, cb=lambda x: None):
                 baid = baident(fid)
         else:
             baid = -1
-        
-        # Create feature
-        
-        fid = features.invokeFactory(
-                'Feature',
-                features.generateId(prefix=''),
-                title=fid,
-                featureType=[],
-                permanent=False,
-                description='Feature %s, extracted from the Barrington Atlas and its Map-by-Map directory.' % str(e[0].text),
-                creators=creators,
-                contributors=contributors,
-                rights=rights
-                )
-        
-        feature = features[fid]
-        cb(feature)
-        
-        # Names
-        nids = parse_names(root, site, feature, ptool, cb=cb, creators=creators, contributors=contributors, rights=rights)
-        
-        # Retitle the feature
-        feature.setTitle(
-            'Feature %s (attested: %s)' % (str(e[0].text), feature.get_title())
-            )
-        
-        # Locations
-        if metadataId is None:
-            posAccDoc = None
-        else:
-            posAccDoc = site['features']['metadata'][metadataId]
-            cb(posAccDoc)
-        lids = parse_locations(
-            root,
-            feature,
-            ptool,
-            posAccDoc,
-            creators=creators,
-            contributors=contributors,
-            rights=rights
-            )
-        
-        # SecondaryReferences associated with the feature
-        parse_secondary_references(
-            root,
-            site,
-            feature,
-            ptool,
-            cb=cb,
-            creators=creators,
-            contributors=contributors,
-            rights=rights
-            )
-        
+
         # Place
         pid = places.invokeFactory('Place',
                     id=baid,
-                    title=fid,
+                    #title=fid,
                     placeType=[placeType],
                     modernLocation=modernLocation,
                     permanent=False,
@@ -498,18 +445,73 @@ def load_place(site, file, metadataId=None, cb=lambda x: None):
         place = places[pid]
         cb(place)
         
-        # Names
+        # Names for the place
         nids = parse_names(root, site, place, ptool, creators=creators, contributors=contributors, rights=rights)
         
         # Retitle the place
-        place.setTitle(feature.get_title())
+        place.setTitle(place.get_title())
         
         # SecondaryReferences associated with the place
         parse_secondary_references(root, site, place, ptool, cb=cb,  creators=creators, contributors=contributors, rights=rights)
         
-        features[fid].addReference(
-            places[pid],
-            'feature_place'
+        if with_features is True:
+            # Create feature
+        
+            fid = features.invokeFactory(
+                    'Feature',
+                    features.generateId(prefix=''),
+                    title=fid,
+                    featureType=[],
+                    permanent=False,
+                    description='Feature %s, extracted from the Barrington Atlas and its Map-by-Map directory.' % str(e[0].text),
+                    creators=creators,
+                    contributors=contributors,
+                    rights=rights
+                    )
+            
+            feature = features[fid]
+            cb(feature)
+        
+            # Names
+            nids = parse_names(root, site, feature, ptool, cb=cb, creators=creators, contributors=contributors, rights=rights)
+        
+            # Retitle the feature
+            feature.setTitle(
+                'Feature %s (attested: %s)' % (str(e[0].text), feature.get_title())
+                )
+        
+            # SecondaryReferences associated with the feature
+            parse_secondary_references(
+                root,
+                site,
+                feature,
+                ptool,
+                cb=cb,
+                creators=creators,
+                contributors=contributors,
+                rights=rights
+                )
+                
+            feature.addReference(place, 'feature_place')
+            
+            spatial_ob = feature
+        else:
+            spatial_ob = place
+        
+        # Locations
+        if metadataId is None:
+            posAccDoc = None
+        else:
+            posAccDoc = site['features']['metadata'][metadataId]
+            cb(posAccDoc)
+        lids = parse_locations(
+            root,
+            spatial_ob,
+            ptool,
+            posAccDoc,
+            creators=creators,
+            contributors=contributors,
+            rights=rights
             )
     
     except:

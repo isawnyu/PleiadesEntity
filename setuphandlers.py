@@ -4,7 +4,7 @@
 #
 # Copyright (c) 2009 by Ancient World Mapping Center, University of North
 # Carolina at Chapel Hill, U.S.A.
-# Generator: ArchGenXML Version 2.3
+# Generator: ArchGenXML Version 2.4.1
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
@@ -39,6 +39,48 @@ TYPES_TO_VERSION = (
 
 def isNotPleiadesEntityProfile(context):
     return context.readDataFile("PleiadesEntity_marker.txt") is None
+
+def installVocabularies(context):
+    """creates/imports the atvm vocabs."""
+    if isNotPleiadesEntityProfile(context): return 
+    site = context.getSite()
+    # Create vocabularies in vocabulary lib
+    atvm = getToolByName(site, ATVOCABULARYTOOL)
+    vocabmap = {'name-accuracy': ('VdexVocabulary', 'VdexTerm'),
+         'association-certainty': ('VdexVocabulary', 'VdexTerm'),
+         'place-types': ('SimpleVocabulary', 'SimpleVocabularyTerm'),
+         'attestation-confidence': ('VdexVocabulary', 'VdexTerm'),
+         'time-periods': ('VdexVocabulary', 'VdexTerm'),
+         'name-completeness': ('VdexVocabulary', 'VdexTerm'),
+         'ancient-name-languages': ('VdexVocabulary', 'VdexTerm'),
+         'name-types': ('VdexVocabulary', 'VdexTerm'),
+        }
+    for vocabname in vocabmap.keys():
+        if not vocabname in atvm.contentIds():
+            atvm.invokeFactory(vocabmap[vocabname][0], vocabname)
+
+        if len(atvm[vocabname].contentIds()) < 1:
+            if vocabmap[vocabname][0] == "VdexVocabulary":
+                vdexpath = os.path.join(
+                    package_home(product_globals), 'data', '%s.vdex' % vocabname)
+                if not (os.path.exists(vdexpath) and os.path.isfile(vdexpath)):
+                    logger.warn('No VDEX import file provided at %s.' % vdexpath)
+                    continue
+                try:
+                    #read data
+                    f = open(vdexpath, 'r')
+                    data = f.read()
+                    f.close()
+                except:
+                    logger.warn("Problems while reading VDEX import file "+\
+                                "provided at %s." % vdexpath)
+                    continue
+                # this might take some time!
+                atvm[vocabname].importXMLBinding(data)
+            else:
+                pass
+
+
 
 def updateRoleMappings(context):
     """after workflow changed update the roles mapping. this is like pressing

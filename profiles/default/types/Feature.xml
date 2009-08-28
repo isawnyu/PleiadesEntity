@@ -14,8 +14,8 @@
  <property name="global_allow">False</property>
  <property name="filter_content_types">True</property>
  <property name="allowed_content_types">
-   <element value="Location"/>
    <element value="Name"/>
+   <element value="Location"/>
  </property>
  <property name="allow_discussion">False</property>
  <property name="default_view">base_view</property>
@@ -39,7 +39,7 @@
          visible="True">
   <permission value="Modify portal content"/>
  </action>
- <action title="View" 
+ <action title="view" 
          i18n:attributes="title"
          action_id="view"
          category="object" 

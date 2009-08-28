@@ -4,7 +4,7 @@
 #
 # Copyright (c) 2009 by Ancient World Mapping Center, University of North
 # Carolina at Chapel Hill, U.S.A.
-# Generator: ArchGenXML Version 2.3
+# Generator: ArchGenXML Version 2.4.1
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
@@ -47,6 +47,8 @@ schema = Schema((
             label_msgid='PleiadesEntity_label_features',
             i18n_domain='PleiadesEntity',
         ),
+        multiValued=True,
+        relationship="feature_place",
     ),
     StringField(
         name='placeType',
@@ -57,7 +59,11 @@ schema = Schema((
             description_msgid='PleiadesEntity_help_placeType',
             i18n_domain='PleiadesEntity',
         ),
+        description="Type of place",
         vocabulary=NamedVocabulary("""place-types"""),
+        default=["unknown"],
+        enforceVocabulary=1,
+        multiValued=1,
     ),
 
 ),
@@ -131,12 +137,14 @@ class Place(BaseFolder, ATDocumentBase, Named, Work, BrowserDefaultMixin):
         features if no types are explicitly set on the place.
         """
         ftypes = [t for t in self.getPlaceType() if bool(t)]
-        if not ftypes:
+        if not ftypes or ftypes == ['unknown']:
             for f in self.getFeatures():
                 candidates = [t for t in f.getFeatureType() if bool(t)]
                 for t in candidates:
                     if t not in ftypes:
                         ftypes.append(t)
+        if len(ftypes) > 1 and 'unknown' in ftypes:
+            ftypes.remove('unknown')
         return ftypes
 
     security.declarePublic('SearchableText')

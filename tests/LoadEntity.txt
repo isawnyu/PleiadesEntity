@@ -11,7 +11,7 @@ Load one entity
 
     >>> TEST_DATA = self.test_params.TEST_DATA
     >>> from Products.PleiadesEntity.Extensions.loader import load_place
-    >>> r = load_place(folder, "%s/batlas-65-2-24-frank.xml" % TEST_DATA, 'cap-map65')
+    >>> r = load_place(folder, "%s/batlas-65-2-24-frank.xml" % TEST_DATA, metadataId='cap-map65')
     
 Feature
 -------
@@ -137,7 +137,7 @@ By default, we create a place for every feature.
 Load one nameless entity
 ========================
 
-    >>> r = load_place(folder, "%s/batlas-65-2-101.xml" % TEST_DATA, 'cap-map65')
+    >>> r = load_place(folder, "%s/batlas-65-2-101.xml" % TEST_DATA, metadataId='cap-map65')
     >>> pid = r['place_id']
     >>> r['name_ids']
     []
@@ -154,7 +154,7 @@ Check feature
 Load one unlocated entity
 =========================
 
-    >>> r = load_place(folder, "%s/batlas-65-7-21.xml" % TEST_DATA, 'cap-map65')
+    >>> r = load_place(folder, "%s/batlas-65-7-21.xml" % TEST_DATA, metadataId='cap-map65')
     >>> pid = r['place_id']
     >>> len(r['name_ids'])
     1

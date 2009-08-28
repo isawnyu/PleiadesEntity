@@ -4,7 +4,7 @@
 #
 # Copyright (c) 2009 by Ancient World Mapping Center, University of North
 # Carolina at Chapel Hill, U.S.A.
-# Generator: ArchGenXML Version 2.3
+# Generator: ArchGenXML Version 2.4.1
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
@@ -21,8 +21,6 @@ from Products.PleiadesEntity.content.Work import Work
 from Products.PleiadesEntity.content.Temporal import Temporal
 from Products.PleiadesEntity.content.Work import Work
 from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
-from Products.ATContentTypes.content.document import ATDocument
-from Products.ATContentTypes.content.document import ATDocumentSchema
 
 from Products.CompoundField.ArrayField import ArrayField
 from Products.CompoundField.ArrayWidget import ArrayWidget
@@ -38,6 +36,7 @@ from Products.CompoundField.CompoundWidget import CompoundWidget
 from Products.PleiadesEntity.content.ReferenceCitation import ReferenceCitation
 
 ##code-section module-header #fill in your manual code here
+from Products.ATContentTypes.content.document import ATDocumentSchema
 from Products.PleiadesEntity.content.ReferenceCitation import ReferenceCitation
 from Products.PleiadesEntity.Extensions.ws_validation import validate_name
 from Products.CMFCore import permissions
@@ -57,6 +56,8 @@ schema = Schema((
             description_msgid='PleiadesEntity_help_nameAttested',
             i18n_domain='PleiadesEntity',
         ),
+        description="A transcription of the attested form of the name, in its original language and script.",
+        searchable=True,
     ),
     StringField(
         name='nameLanguage',
@@ -67,7 +68,9 @@ schema = Schema((
             description_msgid='PleiadesEntity_help_nameLanguage',
             i18n_domain='PleiadesEntity',
         ),
+        description="The language and writing system (script) of the attested name.",
         vocabulary=NamedVocabulary("""ancient-name-languages"""),
+        enforceVocabulary=1,
     ),
     StringField(
         name='nameTransliterated',
@@ -78,6 +81,7 @@ schema = Schema((
             description_msgid='PleiadesEntity_help_nameTransliterated',
             i18n_domain='PleiadesEntity',
         ),
+        searchable=True,
     ),
     StringField(
         name='nameType',
@@ -88,7 +92,10 @@ schema = Schema((
             description_msgid='PleiadesEntity_help_nameType',
             i18n_domain='PleiadesEntity',
         ),
+        description="Type of name",
         vocabulary=NamedVocabulary("""name-types"""),
+        default="geographic",
+        enforceVocabulary=1,
     ),
     StringField(
         name='accuracy',
@@ -99,7 +106,10 @@ schema = Schema((
             description_msgid='PleiadesEntity_help_accuracy',
             i18n_domain='PleiadesEntity',
         ),
+        description="Level of accuracy of transcription",
         vocabulary=NamedVocabulary("""name-accuracy"""),
+        default="accurate",
+        enforceVocabulary=1,
     ),
     StringField(
         name='completeness',
@@ -110,7 +120,10 @@ schema = Schema((
             description_msgid='PleiadesEntity_help_completeness',
             i18n_domain='PleiadesEntity',
         ),
+        description="Level of completeness of transcription",
         vocabulary=NamedVocabulary("""name-completeness"""),
+        default="complete",
+        enforceVocabulary=1,
     ),
     StringField(
         name='associationCertainty',
@@ -121,7 +134,10 @@ schema = Schema((
             description_msgid='PleiadesEntity_help_associationCertainty',
             i18n_domain='PleiadesEntity',
         ),
+        description="Level of certainty in association between name and feature",
         vocabulary=NamedVocabulary("""association-certainty"""),
+        default="certain",
+        enforceVocabulary=1,
     ),
     ArrayField(
         ReferenceCitation(
@@ -131,6 +147,9 @@ schema = Schema((
                 label_msgid='PleiadesEntity_label_primaryReferenceCitations',
                 i18n_domain='PleiadesEntity',
             ),
+            description="Reference work and citation range",
+            searchable=True,
+            multiValued=True,
         ),
 
         widget=EnhancedArrayWidget(
@@ -150,7 +169,7 @@ schema = Schema((
 ##code-section after-local-schema #fill in your manual code here
 ##/code-section after-local-schema
 
-Name_schema = ATDocumentSchema.copy() + \
+Name_schema = BaseSchema.copy() + \
     getattr(Work, 'schema', Schema(())).copy() + \
     getattr(Temporal, 'schema', Schema(())).copy() + \
     getattr(Work, 'schema', Schema(())).copy() + \
@@ -163,7 +182,7 @@ Name_schema = ATDocumentSchema.copy() + \
     getattr(Work, 'schema', Schema(())).copy()
 ##/code-section after-schema
 
-class Name(ATDocument, Work, Temporal, BrowserDefaultMixin):
+class Name(BaseContent, Work, Temporal, BrowserDefaultMixin):
     """
     """
     security = ClassSecurityInfo()

@@ -4,7 +4,7 @@
 #
 # Copyright (c) 2009 by Ancient World Mapping Center, University of North
 # Carolina at Chapel Hill, U.S.A.
-# Generator: ArchGenXML Version 2.3
+# Generator: ArchGenXML Version 2.4.1
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
@@ -103,14 +103,14 @@ class ReferenceCitation(CompoundField):
     def getRaw(self, instance, **kwargs):
         return CompoundField.getRaw(self, instance, **kwargs)
 
-    def get(self, instance, **kwargs):
-        return CompoundField.get(self, instance, **kwargs)
+    def SearchableText(self,):
+        return 'foobar'
 
     def set(self, instance, value, **kwargs):
         return CompoundField.set(self, instance, value, **kwargs)
 
-    def SearchableText(self,):
-        return 'foobar'
+    def get(self, instance, **kwargs):
+        return CompoundField.get(self, instance, **kwargs)
 
 
 registerField(ReferenceCitation,

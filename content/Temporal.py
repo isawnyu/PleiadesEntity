@@ -4,7 +4,7 @@
 #
 # Copyright (c) 2009 by Ancient World Mapping Center, University of North
 # Carolina at Chapel Hill, U.S.A.
-# Generator: ArchGenXML Version 2.3
+# Generator: ArchGenXML Version 2.4.1
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
@@ -46,6 +46,8 @@ schema = Schema((
                 label_msgid='PleiadesEntity_label_attestations',
                 i18n_domain='PleiadesEntity',
             ),
+            description="Temporal attestations",
+            multiValued=True,
         ),
 
         widget=EnhancedArrayWidget(

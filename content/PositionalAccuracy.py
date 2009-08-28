@@ -4,7 +4,7 @@
 #
 # Copyright (c) 2009 by Ancient World Mapping Center, University of North
 # Carolina at Chapel Hill, U.S.A.
-# Generator: ArchGenXML Version 2.3
+# Generator: ArchGenXML Version 2.4.1
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
@@ -41,6 +41,7 @@ schema = Schema((
             description_msgid='PleiadesEntity_help_value',
             i18n_domain='PleiadesEntity',
         ),
+        description="Positional accuracy value in meters",
     ),
     FileField(
         name='source',
@@ -52,6 +53,7 @@ schema = Schema((
             i18n_domain='PleiadesEntity',
         ),
         storage=AttributeStorage(),
+        description="XML source of features",
     ),
     BackReferenceField(
         name='locations',
@@ -62,6 +64,8 @@ schema = Schema((
             label_msgid='PleiadesEntity_label_locations',
             i18n_domain='PleiadesEntity',
         ),
+        multiValued=True,
+        relationship="location_accuracy",
     ),
 
 ),

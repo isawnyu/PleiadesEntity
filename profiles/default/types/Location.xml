@@ -33,7 +33,7 @@
          visible="True">
   <permission value="Modify portal content"/>
  </action>
- <action title="View" 
+ <action title="view" 
          i18n:attributes="title"
          action_id="view"
          category="object" 

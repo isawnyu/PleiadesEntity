@@ -31,7 +31,7 @@ Test @@attestations view
 
     >>> atts = f.restrictedTraverse('@@attestations')
     >>> atts.names
-    [(<Name at /plone/Members/test_user_1_/features/0/ninoe>, [{'timePeriod': '', 'confidence': ''}])]
+    [(<Name at /plone/Members/test_user_1_/features/0/ninoe>, [{'timePeriod': '', 'confidence': 'confident'}])]
     >>> atts.locations
     [(<Location at /plone/Members/test_user_1_/features/0/p1>, [])]
     

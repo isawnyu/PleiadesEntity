@@ -4,7 +4,7 @@
 #
 # Copyright (c) 2009 by Ancient World Mapping Center, University of North
 # Carolina at Chapel Hill, U.S.A.
-# Generator: ArchGenXML Version 2.3
+# Generator: ArchGenXML Version 2.4.1
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
@@ -21,8 +21,6 @@ from Products.PleiadesEntity.content.Work import Work
 from Products.PleiadesEntity.content.Temporal import Temporal
 from Products.PleiadesEntity.content.Work import Work
 from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
-from Products.ATContentTypes.content.document import ATDocument
-from Products.ATContentTypes.content.document import ATDocumentSchema
 
 from Products.ATReferenceBrowserWidget.ATReferenceBrowserWidget import \
     ReferenceBrowserWidget
@@ -33,6 +31,7 @@ from Products.CMFCore import permissions
 from Products.ATReferenceBrowserWidget.ATReferenceBrowserWidget import ReferenceBrowserWidget
 
 ##code-section module-header #fill in your manual code here
+from Products.ATContentTypes.content.document import ATDocumentBase, ATDocumentSchema
 ##/code-section module-header
 
 schema = Schema((
@@ -56,6 +55,7 @@ schema = Schema((
             description_msgid='PleiadesEntity_help_description',
             i18n_domain='PleiadesEntity',
         ),
+        description="Location as a text string suitable for geocoding",
     ),
     ReferenceField(
         name='accuracy',
@@ -65,9 +65,10 @@ schema = Schema((
             label_msgid='PleiadesEntity_label_accuracy',
             i18n_domain='PleiadesEntity',
         ),
-        allowed_types=('PositionalAccuracy',),
-        multiValued=0,
+        multiValued=False,
         relationship='location_accuracy',
+        allowed_types="('PositionalAccuracyAssessment',)",
+        allow_browse="True",
     ),
 
 ),
@@ -76,7 +77,7 @@ schema = Schema((
 ##code-section after-local-schema #fill in your manual code here
 ##/code-section after-local-schema
 
-Location_schema = ATDocumentSchema.copy() + \
+Location_schema = BaseSchema.copy() + \
     getattr(Work, 'schema', Schema(())).copy() + \
     getattr(Temporal, 'schema', Schema(())).copy() + \
     getattr(Work, 'schema', Schema(())).copy() + \
@@ -89,7 +90,7 @@ Location_schema = ATDocumentSchema.copy() + \
     getattr(Work, 'schema', Schema(())).copy()
 ##/code-section after-schema
 
-class Location(ATDocument, Work, Temporal, BrowserDefaultMixin):
+class Location(ATDocumentBase, Work, Temporal, BrowserDefaultMixin):
     """
     """
     security = ClassSecurityInfo()
@@ -102,6 +103,8 @@ class Location(ATDocument, Work, Temporal, BrowserDefaultMixin):
     schema = Location_schema
 
     ##code-section class-header #fill in your manual code here
+    schema["presentation"].widget.visible = {"edit": "invisible", "view": "invisible"}
+    schema["tableContents"].widget.visible = {"edit": "invisible", "view": "invisible"}
     schema["text"].widget.label = 'Details'
     ##/code-section class-header
 
@@ -111,7 +114,6 @@ class Location(ATDocument, Work, Temporal, BrowserDefaultMixin):
     def SearchableText(self):
         text = super(Location, self).SearchableText().strip()
         return text + ' ' + self.rangesText()
-
 
 registerType(Location, PROJECTNAME)
 # end of class Location

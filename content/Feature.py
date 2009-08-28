@@ -4,7 +4,7 @@
 #
 # Copyright (c) 2009 by Ancient World Mapping Center, University of North
 # Carolina at Chapel Hill, U.S.A.
-# Generator: ArchGenXML Version 2.3
+# Generator: ArchGenXML Version 2.4.1
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
@@ -47,7 +47,11 @@ schema = Schema((
             description_msgid='PleiadesEntity_help_featureType',
             i18n_domain='PleiadesEntity',
         ),
+        description="Type of feature",
         vocabulary=NamedVocabulary("""place-types"""),
+        default=["unknown"],
+        enforceVocabulary=1,
+        multiValued=1,
     ),
     ReferenceField(
         name='places',
@@ -57,9 +61,10 @@ schema = Schema((
             label_msgid='PleiadesEntity_label_places',
             i18n_domain='PleiadesEntity',
         ),
-        allowed_types=('Place',),
-        multiValued=1,
+        multiValued=True,
         relationship='feature_place',
+        allowed_types="('Place',)",
+        allow_browse="True",
     ),
 
 ),
