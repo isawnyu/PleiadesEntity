@@ -109,12 +109,16 @@ class PlaceGeoItem(object):
         """Initialize adapter."""
         self.context = context
         self._adapter = None
-        for ob in self.context.getFeatures():
-            try:
-                self._adapter = IGeoreferenced(ob)
-            except:
-                continue
-            break
+        x = list(self.context.getLocations())
+        if len(x) > 0:
+            self._adapter = IGeoreferenced(x[0])
+        else:
+            for ob in self.context.getFeatures():
+                try:
+                    self._adapter = IGeoreferenced(ob)
+                except:
+                    continue
+                    break
         if not self._adapter:
             raise ValueError, "Could not adapt %s" % str(context)
 
@@ -132,8 +136,12 @@ class PlaceGeoItem(object):
 
     @property
     def __geo_interface__(self):
-        return IGeoreferenced(self._adapter).__geo_interface__
-
+        context = self.context
+        return dict(
+            type='Feature',
+            id=context.getId(),
+            geometry=self._adapter.__geo_interface__
+            )
 
 def createGeoItem(context):
     """Factory for adapters."""

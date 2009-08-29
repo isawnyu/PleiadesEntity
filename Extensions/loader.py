@@ -497,6 +497,7 @@ def load_place(site, file, with_features=True, metadataId=None, cb=lambda x: Non
             spatial_ob = feature
         else:
             spatial_ob = place
+            fid = None
         
         # Locations
         if metadataId is None:

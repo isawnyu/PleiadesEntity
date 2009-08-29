@@ -106,13 +106,6 @@ class Feature(BaseFolder, ATDocumentBase, Named, Work, BrowserDefaultMixin):
 
     # Methods
 
-    security.declareProtected(permissions.View, 'getLocations')
-    def getLocations(self):
-        """
-        """
-        sm = getSecurityManager()
-        return [o for o in self.values() if interfaces.ILocation.providedBy(o) and sm.checkPermission(permissions.View, o)]
-
     security.declareProtected(permissions.AddPortalContent, '_renameAfterCreation')
     def _renameAfterCreation(self, check_auto_id=False):
         parent = self.aq_inner.aq_parent

@@ -1,0 +1,141 @@
+Loading of Entities
+===================
+
+Setup
+
+    >>> import transaction
+    >>> self.setRoles(('Manager',))
+    >>> folder = self.folder
+    
+Load one entity
+
+    >>> TEST_DATA = self.test_params.TEST_DATA
+    >>> from Products.PleiadesEntity.Extensions.loader import load_place
+    >>> r = load_place(folder, "%s/batlas-65-2-24-frank.xml" % TEST_DATA, with_features=False, metadataId='cap-map65')
+    
+Feature
+-------
+
+No feature should be created.
+
+    >>> r['feature_id'] is None
+    True
+    >>> len(folder['features'])
+    1
+
+Place
+-----
+
+By default, we create a place for every feature.
+
+    >>> pid = r['place_id']
+    >>> p = folder['places'][pid]
+    >>> p.title_or_id()
+    'Aphrodisias/Ninoe'
+    >>> p.Title()
+    'Aphrodisias/Ninoe'
+    >>> p.getPlaceType()
+    ['settlement']
+    >>> p.getFeatureType()
+    ['settlement']
+    >>> p.modernLocation
+    u'Geyre'
+    >>> p.Creators()
+    ('C. Foss', 'S. Mitchell')
+    >>> p.Contributors()
+    ('R. Talbert', 'T. Elliott', 'S. Gillies')
+    >>> p.Rights()
+    'Copyright \xc2\xa9 2007 Ancient World Mapping Center. All rights reserved.'
+    >>> p.Description()
+    'Containing ancient world features extracted from the Barrington Atlas and its Map-by-Map directory.'
+    >>> p.getText()
+    '<p>An ancient settlement, attested during the Classical, Roman and Late Antique periods (modern location: Geyre). It was known in antiquity by the names: Aphrodisias and Ninoe.</p>'
+
+Names
+
+    >>> sorted(p.keys())
+    ['aphrodisias', 'ninoe', 'position']
+    >>> names = p.getNames()
+    >>> n = names[0]
+    >>> n.nameTransliterated
+    u'Aphrodisias'
+    >>> n.Title()
+    'Aphrodisias'
+    >>> n.title
+    u'Aphrodisias'
+    >>> n.nameAttested
+    u''
+    >>> n.getNameLanguage()
+    ''
+    >>> n.getNameType()
+    'geographic'
+    >>> n.getAccuracy()
+    'accurate'
+    >>> n.getCompleteness()
+    'complete'
+    >>> n.Creators()
+    ('C. Foss', 'S. Mitchell')
+    >>> n.Contributors()
+    ('R. Talbert', 'T. Elliott', 'S. Gillies')
+    >>> n.Rights()
+    'Copyright \xc2\xa9 2007 Ancient World Mapping Center. All rights reserved.'
+    >>> [ref for ref in n.getReferenceCitations()]
+    [{'range': 'RE Aphrodisias 2', 'identifier': 'http://www.unc.edu/awmc/pleiades/bibliography/re.html'}, {'range': 'NPauly Aphrodisias 1', 'identifier': 'http://www.unc.edu/awmc/pleiades/bibliography/npauly.html'}]
+
+Locations
+---------
+
+    >>> x = p.getLocations()[0]
+    >>> x.id
+    'position'
+    >>> x.getGeometry()
+    'Point:[28.7289,37.7145]'
+    >>> x.Title()
+    'Position'
+    >>> x.getAttestations()
+    [{'timePeriod': 'classical', 'confidence': 'confident'}, {'timePeriod': 'roman', 'confidence': 'confident'}, {'timePeriod': 'late-antique', 'confidence': 'confident'}]
+
+Test credits and rights
+
+    >>> x.Creators()
+    ('C. Foss', 'S. Mitchell')
+    >>> x.Contributors()
+    ('R. Talbert', 'T. Elliott', 'S. Gillies')
+    >>> x.Rights()
+    'Copyright \xc2\xa9 2007 Ancient World Mapping Center. All rights reserved.'
+    
+Test temporal attestations
+
+    >>> x.getAttestations()
+    [{'timePeriod': 'classical', 'confidence': 'confident'}, {'timePeriod': 'roman', 'confidence': 'confident'}, {'timePeriod': 'late-antique', 'confidence': 'confident'}]
+    >>> x.getSortedTemporalAttestations()
+    [{'timePeriod': 'classical', 'confidence': 'confident'}, {'timePeriod': 'late-antique', 'confidence': 'confident'}, {'timePeriod': 'roman', 'confidence': 'confident'}]
+    
+Check metadata reference
+
+    >>> x.getAccuracy()
+    <PositionalAccuracy at /plone/Members/test_user_1_/features/metadata/cap-map65>
+    >>> x.getAccuracy().value
+    0.01
+    
+Georeferencing
+
+    >>> from zgeo.geographer.interfaces import IGeoreferenced
+    >>> g = IGeoreferenced(p)
+    >>> gi = g.__geo_interface__
+    >>> gi['type']
+    'Feature'
+    >>> g.type
+    'Point'
+    >>> g.coordinates
+    [28.728899999999999, 37.714500000000001]
+
+    >>> g = IGeoreferenced(x)
+    >>> gi = g.__geo_interface__
+    >>> gi['type']
+    'Point'
+    >>> g.type
+    'Point'
+    >>> g.coordinates
+    [28.728899999999999, 37.714500000000001]
+    

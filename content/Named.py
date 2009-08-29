@@ -102,6 +102,13 @@ class Named(BrowserDefaultMixin):
         sm = getSecurityManager()
         return [o for o in self.values() if interfaces.IName.providedBy(o) and sm.checkPermission(permissions.View, o)]
 
+    security.declareProtected(permissions.View, 'getLocations')
+    def getLocations(self):
+        """
+        """
+        sm = getSecurityManager()
+        return [o for o in self.values() if interfaces.ILocation.providedBy(o) and sm.checkPermission(permissions.View, o)]
+        
     security.declareProtected(permissions.View, 'getTimePeriods')
     def getTimePeriods(self):
         """
