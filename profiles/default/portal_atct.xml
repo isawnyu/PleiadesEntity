@@ -31,15 +31,6 @@
 
   </index>
 
-  <index name="getAssociationCertainty"
-     description="Select level of certainty in association between name and feature"
-     enabled="True" 
-     friendlyName="Level of certainty in association between name and feature">
-
-   <criteria>ATSelectionCriteria</criteria>
-
-  </index>
-
   <index name="getFeatureType"
      description="Select type of feature"
      enabled="True" 
@@ -86,11 +77,6 @@
      description="Select level of transcription completeness"
      enabled="True" 
      friendlyName="Level of transcription completeness"/>
-
-  <metadata name="getAssociationCertainty" 
-     description="Select level of certainty in association between name and feature"
-     enabled="True" 
-     friendlyName="Level of certainty in association between name and feature"/>
 
   <metadata name="getFeatureType" 
      description="Select type of feature"
