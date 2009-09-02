@@ -22,6 +22,10 @@
          meta_type="KeywordIndex">
     <indexed_attr value="getFeatureType"/>
   </index>
+  <index name="getTimePeriods" 
+         meta_type="KeywordIndex">
+    <indexed_attr value="getTimePeriods"/>
+  </index>
   <index name="getConfidence" 
          meta_type="FieldIndex">
     <indexed_attr value="getConfidence"/>

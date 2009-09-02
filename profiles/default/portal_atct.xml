@@ -58,6 +58,15 @@
 
   </index>
 
+  <index name="getTimePeriods"
+     description="Select time period"
+     enabled="True" 
+     friendlyName="Time periods">
+
+   <criteria>ATSelectionCriterion</criteria>
+
+  </index>
+  
  </topic_indexes>
  <topic_metadata>
   <!-- ##code-section metadata -->
@@ -93,5 +102,10 @@
      enabled="True" 
      friendlyName="Place type"/>
 
+  <metadata name="getTimePeriods" 
+     description="Select time periods"
+     enabled="True" 
+     friendlyName="Time periods"/>
+     
  </topic_metadata>
 </atcttool>
