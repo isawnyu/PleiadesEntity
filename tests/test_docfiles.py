@@ -66,6 +66,7 @@ integration_tests = [
     'attestations-view.txt',
     'citations.txt',
     'LoadEntityNoFeature.txt',
+    'LoadCAP.txt'
     ]
 
 functional_tests = [

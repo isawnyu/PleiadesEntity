@@ -134,6 +134,7 @@ GEORSS = "http://www.georss.org/georss"
 DC = "http://purl.org/dc/elements/1.1/"
 XML = "http://www.w3.org/XML/1998/namespace"
 TEI = "http://www.tei-c.org/ns/1.0"
+BATLAS = "http://atlantides.org/batlas/"
 
 NAMESPACES = {
     'awmc': AWMC,
@@ -141,7 +142,8 @@ NAMESPACES = {
     'georss': GEORSS,
     'dc': DC,
     'xml': XML,
-    'tei': TEI
+    'tei': TEI,
+    'batlas': BATLAS,
     }
 
 periods = {
@@ -521,3 +523,107 @@ def load_place(site, file, with_features=True, metadataId=None, cb=lambda x: Non
     
     transaction.commit()
     return dict(place_id=pid, feature_id=fid, location_ids=lids, name_ids=nids)
+
+def load_cap(site, root, mapid=None, metadataId=None, cb=lambda x: None):
+    """Create a new Place in plonefolder and populate it with
+    the data found in the xml file at sourcepath.
+    
+    The cb parameter is a callback, executed for each feature, place,
+    metadata, and reference object.
+    """
+    
+    ptool = getToolByName(site, 'plone_utils')
+    places = site['places']
+    features = site['features']
+    
+    savepoint = transaction.savepoint()
+    try:
+        creators, contributors, rights = parse_attrib_rights(root)
+        # e = root.findall("{%s}modernLocation" % AWMC)
+        # if e:
+        #     modernLocation = str(e[0].text.encode('utf-8'))
+        # else:
+        #     modernLocation = 'None'
+        # 
+        # e = root.findall("{%s}classificationSection/{%s}classificationTerm" \
+        #                  % (ADLGAZ, ADLGAZ))
+        # if e:
+        #     placeType = str(e[0].text)
+        # else:
+        #     placeType = 'unknown'
+            
+        # legaltypes = ['aqueduct', 'bath', 'bay', 'bridge', 'canal', 'cape', 'cave', 'cemetery', 'centuriation', 'church', 'coast', 'dam', 'estate', 'estuary', 'false', 'findspot', 'forest', 'fort', 'hill', 'island', 'lighthouse', 'mine', 'mountain', 'oasis', 'pass', 'people', 'plain', 'port', 'production', 'region', 'reservoir', 'ridge', 'river', 'road', 'salt-marsh', 'settlement', 'settlement-modern', 'spring', 'station', 'temple', 'tumulus', 'undefined', 'unknown', 'unlocated', 'valley', 'villa', 'wall', 'water-inland', 'water-open', 'well', 'wheel', 'whirlpool']
+        # try:
+        #     ptidx = legaltypes.index(placeType)
+        # except:
+        #     raise EntityLoadError, "Invalid placeType  = %s" % placeType
+        
+        
+        # Get the legacy BA identifier
+        e = root.findall("{%s}featureID" % ADLGAZ)
+        fid = str(e[0].text)
+        if fid.startswith('batlas'):
+            if fid.find('anon') >= 0:
+                baid = baident_anon(root)
+            else:
+                baid = baident(fid)
+        else:
+            baid = -1
+
+        citation = getattr(root.find('{%s}citation' % BATLAS), 'text')
+        gridsquare = getattr(root.find('{%s}gridsquare' % BATLAS), 'text')
+        modernLocation = getattr(root.find('{%s}modern' % BATLAS), 'text')
+        placeType = getattr(root.find('{%s}type' % BATLAS), 'text')
+        label = getattr(root.find('{%s}label' % BATLAS), 'text', 'Untitled')
+        
+        # Place
+        pid = places.invokeFactory('Place',
+                    id=baid,
+                    title=label,
+                    placeType=[placeType],
+                    modernLocation=modernLocation,
+                    permanent=False,
+                    description='Containing ancient world features extracted from the Barrington Atlas and its Map-by-Map directory',
+                    text=citation,
+                    creators=creators,
+                    contributors=contributors,
+                    # rights=rights,
+                    location='%s:%s' % (mapid, gridsquare)
+                    )
+        
+        place = places[pid]
+        cb(place)
+        
+        # Names for the place
+        nids = parse_names(root, site, place, ptool, creators=creators, contributors=contributors, rights=rights)
+        
+        # Retitle the place
+        # place.setTitle(place.get_title())
+        
+        # SecondaryReferences associated with the place
+        parse_secondary_references(root, site, place, ptool, cb=cb,  creators=creators, contributors=contributors, rights=rights)
+        
+        spatial_ob = place
+        
+        # Locations
+        if metadataId is None:
+            posAccDoc = None
+        else:
+            posAccDoc = site['features']['metadata'][metadataId]
+            cb(posAccDoc)
+        lids = parse_locations(
+            root,
+            spatial_ob,
+            ptool,
+            posAccDoc,
+            creators=creators,
+            contributors=contributors,
+            rights=rights
+            )
+    
+    except:
+        savepoint.rollback()
+        raise
+    
+    transaction.commit()
+    return dict(place_id=pid, location_ids=lids, name_ids=nids)

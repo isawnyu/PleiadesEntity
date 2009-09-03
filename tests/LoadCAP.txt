@@ -1,0 +1,110 @@
+Loading of Entities from New directory data format
+==================================================
+
+Setup
+
+    >>> import transaction
+    >>> self.setRoles(('Manager',))
+    >>> folder = self.folder
+    
+Load one unlabeled place
+
+    >>> TEST_DATA = self.test_params.TEST_DATA
+    >>> from Products.PleiadesEntity.Extensions.loader import load_cap
+    >>> from lxml import etree
+    >>> doc = etree.parse('%s/map35-fixed.xml' % TEST_DATA)
+    >>> x = doc.findall('{http://atlantides.org/batlas/}place')[0]
+    >>> r = load_cap(folder, x, '35', metadataId='cap-map65')
+    
+Count the content objects
+
+    >>> len(folder['features'])
+    1
+    >>> len(folder['places'])
+    1
+    
+Test attributes of the place
+
+    >>> pid = r['place_id']
+    >>> p = folder['places'][pid]
+    >>> p.Title()
+    'Untitled'
+    >>> p.getPlaceType()
+    ['wall']
+    >>> p.getFeatureType()
+    ['wall']
+    >>> p.getModernLocation()
+    'clausuraNE Bezereos at Tebaga'
+    >>> p.getText()
+    '<p>BAtlas 35 B1 unnamed wall (NE Bezereos at Tebaga)</p>'
+    >>> p.Creators()
+    ('D.J. Mattingly',)
+    >>> p.Contributors()
+    ('R. Talbert', 'T. Elliott', 'S. Gillies')
+    >>> p.Description()
+    'Containing ancient world features extracted from the Barrington Atlas and its Map-by-Map directory'
+    >>> p.getLocation()
+    '35:B1'
+
+More complicated place
+
+   >>> ns={'a': 'http://www.alexandria.ucsb.edu/gazetteer/ContentStandard/version3.2/', 'b': 'http://atlantides.org/batlas/'}
+    >>> x = doc.xpath("//b:place[a:featureID='batlas-35-2-3']", namespaces=ns)[0]
+    >>> r = load_cap(folder, x, '35', metadataId='cap-map65')
+    
+Quick count of content
+
+    >>> len(folder['features'])
+    1
+    >>> len(folder['places'])
+    2
+
+Verify attributes
+
+    >>> pid = r['place_id']
+    >>> p = folder['places'][pid]
+    >>> p.Title()
+    'Abrotonum/Sabratha'
+    >>> p.getPlaceType()
+    ['labeled feature']
+    >>> p.getModernLocation()
+    'Sabrata, Zuaga'
+    >>> p.getText()
+    '<p>BAtlas 35 E2 Abrotonum/Sabratha</p>'
+    >>> p.Creators()
+    ('D.J. Mattingly',)
+    >>> p.Contributors()
+    ('R. Talbert', 'T. Elliott', 'S. Gillies')
+    >>> p.Description()
+    'Containing ancient world features extracted from the Barrington Atlas and its Map-by-Map directory'
+    >>> p.getLocation()
+    '35:E2'
+    
+    >>> [ref for ref in p.getReferenceCitations()]
+    [{'range': 'BAtlas 35 E2 Abrotonum/Sabratha', 'identifier': ''}, {'range': 'Desanges1978,100-101', 'identifier': ''}, {'range': 'Mattingly1994,125-27', 'identifier': ''}]
+    
+Names
+
+    >>> sorted(p.keys())
+    ['abrotonum', 'sabratha']
+    >>> names = p.getNames()
+    >>> n = names[0]
+    >>> n.getNameTransliterated()
+    'Abrotonum'
+    >>> n.Title()
+    'Abrotonum'
+    >>> n.getNameLanguage()
+    ''
+    >>> n.getNameType()
+    'geographic'
+    >>> n.getAccuracy()
+    'accurate'
+    >>> n.getCompleteness()
+    'complete'
+    >>> p.Creators()
+    ('D.J. Mattingly',)
+    >>> p.Contributors()
+    ('R. Talbert', 'T. Elliott', 'S. Gillies')
+
+    >>> n.getAttestations()
+    [{'timePeriod': 'classical', 'confidence': 'confident'}, {'timePeriod': 'hellenistic-republican', 'confidence': 'confident'}]
