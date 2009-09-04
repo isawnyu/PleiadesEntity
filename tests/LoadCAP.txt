@@ -36,13 +36,13 @@ Test attributes of the place
     >>> p.getModernLocation()
     'clausuraNE Bezereos at Tebaga'
     >>> p.getText()
-    '<p>BAtlas 35 B1 unnamed wall (NE Bezereos at Tebaga)</p>'
+    '<p>None</p>'
     >>> p.Creators()
     ('D.J. Mattingly',)
     >>> p.Contributors()
     ('R. Talbert', 'T. Elliott', 'S. Gillies')
     >>> p.Description()
-    'Containing ancient world features extracted from the Barrington Atlas and its Map-by-Map directory'
+    'An ancient place, cited: BAtlas 35 B1 unnamed wall (NE Bezereos at Tebaga)'
     >>> p.getLocation()
     'http://atlantides.org/capgrids/35/B1'
 
@@ -70,13 +70,13 @@ Verify attributes
     >>> p.getModernLocation()
     'Sabrata, Zuaga'
     >>> p.getText()
-    '<p>BAtlas 35 E2 Abrotonum/Sabratha</p>'
+    '<p>None</p>'
     >>> p.Creators()
     ('D.J. Mattingly',)
     >>> p.Contributors()
     ('R. Talbert', 'T. Elliott', 'S. Gillies')
     >>> p.Description()
-    'Containing ancient world features extracted from the Barrington Atlas and its Map-by-Map directory'
+    'An ancient place, cited: BAtlas 35 E2 Abrotonum/Sabratha'
     >>> p.getLocation()
     'http://atlantides.org/capgrids/35/E2'
     

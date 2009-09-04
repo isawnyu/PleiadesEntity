@@ -573,8 +573,9 @@ def load_cap(site, root, mapid=None, metadataId=None, cb=lambda x: None):
         citation = getattr(root.find('{%s}citation' % BATLAS), 'text', None)
         gridsquare = getattr(root.find('{%s}gridsquare' % BATLAS), 'text', None)
         modernLocation = getattr(root.find('{%s}modern' % BATLAS), 'text', None)
-        placeType = getattr(root.find('{%s}type' % BATLAS), 'text', None)
+        placeType = getattr(root.find('{%s}type' % BATLAS), 'text', 'unknown')
         label = getattr(root.find('{%s}label' % BATLAS), 'text', 'Untitled')
+        summary = 'An ancient place, cited: %s' % citation
         
         # Place
         pid = places.invokeFactory('Place',
@@ -583,8 +584,8 @@ def load_cap(site, root, mapid=None, metadataId=None, cb=lambda x: None):
                     placeType=[placeType],
                     modernLocation=modernLocation,
                     permanent=False,
-                    description='Containing ancient world features extracted from the Barrington Atlas and its Map-by-Map directory',
-                    text=citation,
+                    description=summary,
+                    text='None',
                     creators=creators,
                     contributors=contributors,
                     # rights=rights,
