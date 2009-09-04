@@ -570,10 +570,10 @@ def load_cap(site, root, mapid=None, metadataId=None, cb=lambda x: None):
         else:
             baid = -1
 
-        citation = getattr(root.find('{%s}citation' % BATLAS), 'text')
-        gridsquare = getattr(root.find('{%s}gridsquare' % BATLAS), 'text')
-        modernLocation = getattr(root.find('{%s}modern' % BATLAS), 'text')
-        placeType = getattr(root.find('{%s}type' % BATLAS), 'text')
+        citation = getattr(root.find('{%s}citation' % BATLAS), 'text', None)
+        gridsquare = getattr(root.find('{%s}gridsquare' % BATLAS), 'text', None)
+        modernLocation = getattr(root.find('{%s}modern' % BATLAS), 'text', None)
+        placeType = getattr(root.find('{%s}type' % BATLAS), 'text', None)
         label = getattr(root.find('{%s}label' % BATLAS), 'text', 'Untitled')
         
         # Place
@@ -588,10 +588,12 @@ def load_cap(site, root, mapid=None, metadataId=None, cb=lambda x: None):
                     creators=creators,
                     contributors=contributors,
                     # rights=rights,
-                    location='%s:%s' % (mapid, gridsquare)
                     )
         
         place = places[pid]
+        if gridsquare:
+            place.setLocation('http://atlantides.org/capgrids/%s/%s' % (mapid, gridsquare))
+
         cb(place)
         
         # Names for the place

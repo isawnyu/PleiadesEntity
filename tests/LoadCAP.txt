@@ -14,7 +14,7 @@ Load one unlabeled place
     >>> from lxml import etree
     >>> doc = etree.parse('%s/map35-fixed.xml' % TEST_DATA)
     >>> x = doc.findall('{http://atlantides.org/batlas/}place')[0]
-    >>> r = load_cap(folder, x, '35', metadataId='cap-map65')
+    >>> r = load_cap(folder, x, '35')
     
 Count the content objects
 
@@ -44,7 +44,7 @@ Test attributes of the place
     >>> p.Description()
     'Containing ancient world features extracted from the Barrington Atlas and its Map-by-Map directory'
     >>> p.getLocation()
-    '35:B1'
+    'http://atlantides.org/capgrids/35/B1'
 
 More complicated place
 
@@ -78,7 +78,7 @@ Verify attributes
     >>> p.Description()
     'Containing ancient world features extracted from the Barrington Atlas and its Map-by-Map directory'
     >>> p.getLocation()
-    '35:E2'
+    'http://atlantides.org/capgrids/35/E2'
     
     >>> [ref for ref in p.getReferenceCitations()]
     [{'range': 'BAtlas 35 E2 Abrotonum/Sabratha', 'identifier': ''}, {'range': 'Desanges1978,100-101', 'identifier': ''}, {'range': 'Mattingly1994,125-27', 'identifier': ''}]
