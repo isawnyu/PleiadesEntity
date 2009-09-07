@@ -62,10 +62,9 @@ integration_tests = [
     'WSValidation.txt',
     'subscribers.txt',
     'LoadEntity.txt',
-    'BatchLoad.txt',
+#    'BatchLoad.txt',
     'attestations-view.txt',
     'citations.txt',
-    'LoadEntityNoFeature.txt',
     'LoadCAP.txt'
     ]
 

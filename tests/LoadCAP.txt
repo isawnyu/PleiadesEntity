@@ -15,14 +15,7 @@ Load one unlabeled place
     >>> doc = etree.parse('%s/map35-fixed.xml' % TEST_DATA)
     >>> x = doc.findall('{http://atlantides.org/batlas/}place')[0]
     >>> r = load_cap(folder, x, '35')
-    
-Count the content objects
-
-    >>> len(folder['features'])
-    1
-    >>> len(folder['places'])
-    1
-    
+        
 Test attributes of the place
 
     >>> pid = r['place_id']
@@ -46,19 +39,18 @@ Test attributes of the place
     >>> p.getLocation()
     'http://atlantides.org/capgrids/35/B1'
 
-More complicated place
+Georeferencing
+
+    >>> from zgeo.geographer.interfaces import IGeoreferenced
+    >>> geo = IGeoreferenced(p)
+    Traceback (most recent call last):
+    ...
+    ValueError: Could not adapt <Place at 346547>
 
    >>> ns={'a': 'http://www.alexandria.ucsb.edu/gazetteer/ContentStandard/version3.2/', 'b': 'http://atlantides.org/batlas/'}
     >>> x = doc.xpath("//b:place[a:featureID='batlas-35-2-3']", namespaces=ns)[0]
-    >>> r = load_cap(folder, x, '35', metadataId='cap-map65')
+    >>> r = load_cap(folder, x, '35')
     
-Quick count of content
-
-    >>> len(folder['features'])
-    1
-    >>> len(folder['places'])
-    2
-
 Verify attributes
 
     >>> pid = r['place_id']
@@ -86,7 +78,7 @@ Verify attributes
 Names
 
     >>> sorted(p.keys())
-    ['abrotonum', 'sabratha']
+    ['abrotonum', 'sabratha', 'undetermined']
     >>> names = p.getNames()
     >>> n = names[0]
     >>> n.getNameTransliterated()
@@ -108,3 +100,14 @@ Names
 
     >>> n.getAttestations()
     [{'timePeriod': 'classical', 'confidence': 'confident'}, {'timePeriod': 'hellenistic-republican', 'confidence': 'confident'}]
+
+Location
+
+    >>> x = p.getLocations()[0]
+    >>> x.Creators()
+    ('D.J. Mattingly',)
+    >>> x.Contributors()
+    ('R. Talbert', 'T. Elliott', 'S. Gillies')
+    >>> x.getAttestations()
+    [{'timePeriod': 'archaic', 'confidence': 'confident'}, {'timePeriod': 'classical', 'confidence': 'confident'}, {'timePeriod': 'hellenistic-republican', 'confidence': 'confident'}, {'timePeriod': 'roman', 'confidence': 'confident'}, {'timePeriod': 'late-antique', 'confidence': 'confident'}]
+    

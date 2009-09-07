@@ -605,23 +605,30 @@ def load_cap(site, root, mapid=None, metadataId=None, cb=lambda x: None):
         
         # SecondaryReferences associated with the place
         parse_secondary_references(root, site, place, ptool, cb=cb,  creators=creators, contributors=contributors, rights=rights)
-        
-        spatial_ob = place
-        
+                
         # Locations
         if metadataId is None:
             posAccDoc = None
         else:
             posAccDoc = site['features']['metadata'][metadataId]
             cb(posAccDoc)
-        lids = parse_locations(
-            root,
-            spatial_ob,
-            ptool,
-            posAccDoc,
+            
+        lid = place.invokeFactory(
+                'Location',
+                id='undetermined',
+                title='Undetermined location',
+                description='Location is attested by BAtlas, but undetermined',
+                geometry=None,
+                creators=creators,
+                contributors=contributors,
+                )
+        loc = place[lid]
+        # Time Periods associated with the location
+        parse_periods(
+            root, 
+            loc, 
             creators=creators,
-            contributors=contributors,
-            rights=rights
+            contributors=contributors
             )
     
     except:
@@ -629,4 +636,4 @@ def load_cap(site, root, mapid=None, metadataId=None, cb=lambda x: None):
         raise
     
     transaction.commit()
-    return dict(place_id=pid, location_ids=lids, name_ids=nids)
+    return dict(place_id=pid, location_ids=[lid], name_ids=nids)

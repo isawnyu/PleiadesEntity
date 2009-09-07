@@ -35,29 +35,38 @@ import logging
 log = logging.getLogger('PleiadesEntity.geo')
 
 
+class NotLocatedError(Exception):
+    pass
+
+
 class LocationGeoItem(object):
     implements(IGeoreferenced)
 
     def __init__(self, context):
-        self.context = context
-
-    @property
-    def __geo_interface__(self):
         """Expect getGeometry() returns a string like
         'Point:[-105.0, 40.0]'
         """
-        d = self.context.getGeometry().split(':')
-        data = '{"type": "%s", "coordinates": %s}' % tuple(d)
-        x = geojson.loads(data, object_hook=geojson.GeoJSON.to_instance)
-        return x.__geo_interface__
+        self.context = context
+        try:
+            d = self.context.getGeometry().split(':')
+            data = '{"type": "%s", "coordinates": %s}' % tuple(d)
+            self.geo = geojson.loads(
+                        data, object_hook=geojson.GeoJSON.to_instance)
+        except:
+            raise NotLocatedError, \
+            "Context %s has no location geometry" % context
+
+    @property
+    def __geo_interface__(self):
+        return self.geo.__geo_interface__
 
     @property
     def type(self):
-        return self.__geo_interface__['type']
+        return self.geo.type
 
     @property
     def coordinates(self):
-        return self.__geo_interface__['coordinates']
+        return self.geo.coordinates
 
     @property
     def crs(self):
@@ -110,7 +119,7 @@ class PlaceGeoItem(object):
         self.context = context
         self._adapter = None
         x = list(self.context.getLocations())
-        if len(x) > 0:
+        if len(x) > 0 and x[0].getGeometry():
             self._adapter = IGeoreferenced(x[0])
         else:
             for ob in self.context.getFeatures():
@@ -118,7 +127,7 @@ class PlaceGeoItem(object):
                     self._adapter = IGeoreferenced(ob)
                 except:
                     continue
-                    break
+                break
         if not self._adapter:
             raise ValueError, "Could not adapt %s" % str(context)
 
