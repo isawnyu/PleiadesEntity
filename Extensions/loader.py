@@ -592,9 +592,6 @@ def load_cap(site, root, mapid=None, metadataId=None, cb=lambda x: None):
                     )
         
         place = places[pid]
-        if gridsquare:
-            place.setLocation('http://atlantides.org/capgrids/%s/%s' % (mapid, gridsquare))
-
         cb(place)
         
         # Names for the place
@@ -623,6 +620,10 @@ def load_cap(site, root, mapid=None, metadataId=None, cb=lambda x: None):
                 contributors=contributors,
                 )
         loc = place[lid]
+        
+        if gridsquare:
+            loc.setLocation('http://atlantides.org/capgrids/%s/%s' % (mapid, gridsquare))
+
         # Time Periods associated with the location
         parse_periods(
             root, 
@@ -630,7 +631,7 @@ def load_cap(site, root, mapid=None, metadataId=None, cb=lambda x: None):
             creators=creators,
             contributors=contributors
             )
-    
+
     except:
         savepoint.rollback()
         raise

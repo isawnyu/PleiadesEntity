@@ -36,16 +36,37 @@ Test attributes of the place
     ('R. Talbert', 'T. Elliott', 'S. Gillies')
     >>> p.Description()
     'An ancient place, cited: BAtlas 35 B1 unnamed wall (NE Bezereos at Tebaga)'
-    >>> p.getLocation()
-    'http://atlantides.org/capgrids/35/B1'
 
-Georeferencing
+Location
+
+    >>> x = p.getLocations()[0]
+    >>> x.Creators()
+    ('D.J. Mattingly',)
+    >>> x.Contributors()
+    ('R. Talbert', 'T. Elliott', 'S. Gillies')
+    >>> x.getAttestations()
+    [{'timePeriod': 'roman', 'confidence': 'confident'}, {'timePeriod': 'late-antique', 'confidence': 'confident'}]
+    >>> x.getLocation()
+    'http://atlantides.org/capgrids/35/B1'
+    
+Georeferencing, location
 
     >>> from zgeo.geographer.interfaces import IGeoreferenced
-    >>> geo = IGeoreferenced(p)
-    Traceback (most recent call last):
-    ...
-    ValueError: Could not adapt <Place at 346547>
+    >>> geo = IGeoreferenced(x)
+    >>> geo.type
+    'Polygon'
+    >>> geo.coordinates
+    (((9.0, 33.0), (9.0, 34.0), (10.0, 34.0), (10.0, 33.0), (9.0, 33.0)),)
+
+Georeferencing, place
+
+    >>> gp = IGeoreferenced(p)
+    >>> gp.type
+    'Polygon'
+    >>> gp.coordinates
+    (((9.0, 33.0), (9.0, 34.0), (10.0, 34.0), (10.0, 33.0), (9.0, 33.0)),)
+
+Next, test an entity with names
 
    >>> ns={'a': 'http://www.alexandria.ucsb.edu/gazetteer/ContentStandard/version3.2/', 'b': 'http://atlantides.org/batlas/'}
     >>> x = doc.xpath("//b:place[a:featureID='batlas-35-2-3']", namespaces=ns)[0]
@@ -69,8 +90,6 @@ Verify attributes
     ('R. Talbert', 'T. Elliott', 'S. Gillies')
     >>> p.Description()
     'An ancient place, cited: BAtlas 35 E2 Abrotonum/Sabratha'
-    >>> p.getLocation()
-    'http://atlantides.org/capgrids/35/E2'
     
     >>> [ref for ref in p.getReferenceCitations()]
     [{'range': 'BAtlas 35 E2 Abrotonum/Sabratha', 'identifier': ''}, {'range': 'Desanges1978,100-101', 'identifier': ''}, {'range': 'Mattingly1994,125-27', 'identifier': ''}]
@@ -100,14 +119,3 @@ Names
 
     >>> n.getAttestations()
     [{'timePeriod': 'classical', 'confidence': 'confident'}, {'timePeriod': 'hellenistic-republican', 'confidence': 'confident'}]
-
-Location
-
-    >>> x = p.getLocations()[0]
-    >>> x.Creators()
-    ('D.J. Mattingly',)
-    >>> x.Contributors()
-    ('R. Talbert', 'T. Elliott', 'S. Gillies')
-    >>> x.getAttestations()
-    [{'timePeriod': 'archaic', 'confidence': 'confident'}, {'timePeriod': 'classical', 'confidence': 'confident'}, {'timePeriod': 'hellenistic-republican', 'confidence': 'confident'}, {'timePeriod': 'roman', 'confidence': 'confident'}, {'timePeriod': 'late-antique', 'confidence': 'confident'}]
-    

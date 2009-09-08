@@ -27,11 +27,15 @@
 # U.S. National Endowment for the Humanities (http://www.neh.gov).
 # ===========================================================================
 
-from zope.interface import implements
-from zgeo.geographer.interfaces import IGeoreferenced, IWriteGeoreferenced
-import geojson
-from Products.PleiadesEntity.content.interfaces import IPlace
 import logging
+
+import geojson
+
+from pleiades.capgrids import Grid
+from Products.PleiadesEntity.content.interfaces import IPlace
+from zgeo.geographer.interfaces import IGeoreferenced, IWriteGeoreferenced
+from zope.interface import implements
+
 log = logging.getLogger('PleiadesEntity.geo')
 
 
@@ -47,15 +51,20 @@ class LocationGeoItem(object):
         'Point:[-105.0, 40.0]'
         """
         self.context = context
-        try:
+        dc_coverage = self.context.getLocation()
+        if context.getGeometry():
             d = self.context.getGeometry().split(':')
             data = '{"type": "%s", "coordinates": %s}' % tuple(d)
             self.geo = geojson.loads(
                         data, object_hook=geojson.GeoJSON.to_instance)
-        except:
-            raise NotLocatedError, \
-            "Context %s has no location geometry" % context
-
+        elif dc_coverage.startswith('http://atlantides.org/capgrids'):
+                s = dc_coverage.rstrip('/')
+                mapid, gridsquare = s.split('/')[-2:]
+                grid = Grid(mapid, gridsquare)
+                self.geo = grid
+        else:
+            raise NotLocatedError, "Location cannot be determined"
+            
     @property
     def __geo_interface__(self):
         return self.geo.__geo_interface__
@@ -119,7 +128,7 @@ class PlaceGeoItem(object):
         self.context = context
         self._adapter = None
         x = list(self.context.getLocations())
-        if len(x) > 0 and x[0].getGeometry():
+        if len(x) > 0:
             self._adapter = IGeoreferenced(x[0])
         else:
             for ob in self.context.getFeatures():

@@ -7,14 +7,14 @@
   <browser:view
     for="Products.PleiadesEntity.content.interfaces.IPlace"
     name="attestations"
-    class=".attestations.PlaceAttestations"
+    class=".attestations.PlacefulAttestations"
     permission="zope2.View"
     />
     
   <browser:view
     for="Products.PleiadesEntity.content.interfaces.IFeature"
     name="attestations"
-    class=".attestations.FeatureAttestations"
+    class=".attestations.PlacefulAttestations"
     permission="zope2.View"
     />
 
