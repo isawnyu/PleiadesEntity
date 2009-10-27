@@ -92,7 +92,7 @@ Verify attributes
     'An ancient place, cited: BAtlas 35 E2 Abrotonum/Sabratha'
     
     >>> [ref for ref in p.getReferenceCitations()]
-    [{'range': 'BAtlas 35 E2 Abrotonum/Sabratha', 'identifier': ''}, {'range': 'Desanges 1978 100-101', 'identifier': ''}, {'range': 'Mattingly 1994 125-27', 'identifier': ''}]
+    [{'range': 'BAtlas 35 E2 Abrotonum/Sabratha', 'identifier': ''}, {'range': 'Desanges 1978, 100-101', 'identifier': ''}, {'range': 'Mattingly 1994, 125-27', 'identifier': ''}]
     
 Names
 

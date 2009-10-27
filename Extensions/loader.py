@@ -196,7 +196,7 @@ def parse_periods(xmlcontext, portalcontext, **kw):
     portalcontext.update(attestations=tas)
 
 def getalltext(elem):
-    text = elem.text or ""
+    text = (elem.text or "") + (elem.tail or '')
     for e in elem:
         text = text + " " + getalltext(e)
     return text.strip()
