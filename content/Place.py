@@ -150,7 +150,10 @@ class Place(BaseFolder, ATDocumentBase, Named, Work, BrowserDefaultMixin):
     security.declarePublic('SearchableText')
     def SearchableText(self):
         text = super(Place, self).SearchableText().strip()
-        return text + ' ' + self.rangesText()
+        return "%s %s %s" % ( text
+                            , self.getModernLocation()
+                            , self.rangesText()
+                            )
 
 
 registerType(Place, PROJECTNAME)

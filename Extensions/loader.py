@@ -572,7 +572,8 @@ def load_cap(site, root, mapid=None, metadataId=None, cb=lambda x: None):
 
         citation = getattr(root.find('{%s}citation' % BATLAS), 'text', None)
         gridsquare = getattr(root.find('{%s}gridsquare' % BATLAS), 'text', None)
-        modernLocation = getattr(root.find('{%s}modernLocation' % AWMC), 'text', None)
+        modernLocations = [getattr(e, 'text', None) for e in root.findall('{%s}modernLocation' % AWMC)]
+        modernLocation = ', '.join(modernLocations)
         placeType = getattr(root.find('{%s}type' % BATLAS), 'text', 'unknown')
         label = getattr(root.find('{%s}label' % BATLAS), 'text', 'Untitled')
         summary = 'An ancient place, cited: %s' % citation

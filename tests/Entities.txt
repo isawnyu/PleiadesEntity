@@ -25,7 +25,7 @@ Test computed attributes
 
 Add place
     
-    >>> pid = places.invokeFactory('Place', '1', title='Ninoe')
+    >>> pid = places.invokeFactory('Place', '1', title='Ninoe', modernLocation=nameAttested)
     >>> p = places[pid]
     >>> nid = p.invokeFactory('Name', 'ninoe', nameAttested=nameAttested, nameLanguage='grc', nameType='geographic', accuracy='accurate', completeness='complete')
     >>> attestations = p[nid].Schema()['attestations']
@@ -50,6 +50,8 @@ Test computed attributes
     ['roman']
     >>> p.getFeatureType()
     ['settlement']
+    >>> p.SearchableText()
+    '1  Ninoe \xce\x9d\xce\xb9\xce\xbd\xe1\xbd\xb9\xce\xb7 '
 
 Test the geo adapters
 ---------------------
