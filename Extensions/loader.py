@@ -287,15 +287,15 @@ def parse_names(root, site, feature, ptool, cb=lambda x: None, **kw):
         else:
             description = ''
         
-        type = e.findall("{%s}classificationSection/{%s}classificationTerm" \
+        nametype = e.findall("{%s}classificationSection/{%s}classificationTerm" \
                          % (ADLGAZ, ADLGAZ))[0].text
-        type = str(type)
-        if not transliteration or not type:
+        nametype = str(nametype)
+        if not transliteration or not nametype:
             raise EntityLoadError, "Incomplete featureName element"
         
         # accuracy = ('accurate' | 'inaccurate' | 'false')
         accuracy = 'accurate'
-        if type == 'false':
+        if nametype == 'false':
             accuracy = 'false'
         else:
             a = e.xpath("descendant::*[@ref='na-inaccurate']")
@@ -312,12 +312,12 @@ def parse_names(root, site, feature, ptool, cb=lambda x: None, **kw):
             if a:
                 completeness = 'non-reconstructable'
         
-        id = ptool.normalizeString(transliteration)
+        nameid = ptool.normalizeString(transliteration)
         
-        if type not in ['geographic', 'ethnic', 'false', 'undefined']:
-            raise EntityLoadError, "Invalid name type = %s" % type
+        if nametype not in ['geographic', 'ethnic', 'false', 'undefined']:
+            raise EntityLoadError, "Invalid name type = %s" % nametype
         # false -> geographic
-        if type == 'false': type = 'geographic'
+        if nametype == 'false': nametype = 'geographic'
         
         certainty = 'certain'
         try:
@@ -325,19 +325,32 @@ def parse_names(root, site, feature, ptool, cb=lambda x: None, **kw):
         except:
             pass
         
-        nid = names.invokeFactory("Name",
-                id=id,
+        candidateid = nameid
+        while hasattr(names, candidateid):
+            candidateid = nameid + '-name'
+            i = 1
+            while hasattr(names, candidateid):
+                candidateid = nameid + '-name' + '-' + str(i)
+                i = i + 1
+        nameid = candidateid
+        
+        try:
+            nid = names.invokeFactory("Name",
+                id=nameid,
                 title=transliteration.encode('utf-8'),
                 description=description,
                 nameTransliterated=transliteration.encode('utf-8'),
                 nameAttested=nameAttested.encode('utf-8'),
                 nameLanguage=nameLanguage.encode('utf-8'),
-                nameType=type,
+                nameType=nametype,
                 accuracy=accuracy,
                 completeness=completeness,
                 associationCertainty=certainty,
                 **kw
                 )
+        except:
+            import pdb; pdb.set_trace()
+            raise
         name = names[nid]
         nids.append(nid)
         
