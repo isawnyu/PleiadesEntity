@@ -79,7 +79,7 @@ Verify attributes
     >>> p.Title()
     'Abrotonum/Sabratha'
     >>> p.getPlaceType()
-    ['labeled feature']
+    ['unknown']
     >>> p.getModernLocation()
     'Sabrata, Zuaga'
     >>> p.getText()

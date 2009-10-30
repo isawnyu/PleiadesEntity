@@ -588,6 +588,11 @@ def load_cap(site, root, mapid=None, metadataId=None, cb=lambda x: None):
         modernLocations = [getattr(e, 'text', None) for e in root.findall('{%s}modernLocation' % AWMC)]
         modernLocation = ', '.join(modernLocations)
         placeType = getattr(root.find('{%s}type' % BATLAS), 'text', 'unknown')
+        
+        # Hack to fix a data bug
+        if placeType == 'labeled feature':
+            placeType = 'unknown'
+            
         label = getattr(root.find('{%s}label' % BATLAS), 'text', 'Untitled')
         summary = 'An ancient place, cited: %s' % citation
         
