@@ -21,6 +21,8 @@ from Products.PleiadesEntity.content.Named import Named
 from Products.PleiadesEntity.content.Work import Work
 from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
 
+from Products.ATReferenceBrowserWidget.ATReferenceBrowserWidget import \
+    ReferenceBrowserWidget
 from Products.ATVocabularyManager.namedvocabulary import NamedVocabulary
 from Products.PleiadesEntity.config import *
 
@@ -39,10 +41,10 @@ from AccessControl import getSecurityManager
 schema = Schema((
 
     BackReferenceField(
-        name='features',
+        name='parts',
         widget=BackReferenceWidget(
             visible="{'view': 'visible', 'edit': 'invisible'}",
-            label="Place has feature part(s)",
+            label="Has part(s)",
             macro="betterbackrefwidget",
             label_msgid='PleiadesEntity_label_features',
             i18n_domain='PleiadesEntity',
@@ -64,6 +66,19 @@ schema = Schema((
         default=["unknown"],
         enforceVocabulary=1,
         multiValued=1,
+    ),
+    ReferenceField(
+        name='places',
+        widget=ReferenceBrowserWidget(
+            label="Is a part of place(s)",
+            startup_directory="/places",
+            label_msgid='PleiadesEntity_label_places',
+            i18n_domain='PleiadesEntity',
+        ),
+        multiValued=True,
+        relationship='feature_place',
+        allowed_types="('Place',)",
+        allow_browse="True",
     ),
 
 ),
@@ -110,8 +125,14 @@ class Place(BaseFolder, ATDocumentBase, Named, Work, BrowserDefaultMixin):
         """
         sm = getSecurityManager()
         for o in self.getBRefs('feature_place'):
-            if interfaces.IFeature.providedBy(o) and sm.checkPermission(permissions.View, o):
+            if (interfaces.IFeature.providedBy(o) or interfaces.IPlace.providedBy(o)) and sm.checkPermission(permissions.View, o):
                 yield o
+
+    security.declareProtected(permissions.View, 'getParts')
+    def getParts(self):
+        """
+        """
+        return self.getFeatures()
 
     security.declareProtected(permissions.AddPortalContent, '_renameAfterCreation')
     def _renameAfterCreation(self, check_auto_id=False):

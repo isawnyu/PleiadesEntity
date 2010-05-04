@@ -30,6 +30,7 @@
 import logging
 
 import geojson
+from shapely.geometry import asShape
 
 from pleiades.capgrids import Grid
 from Products.PleiadesEntity.content.interfaces import IPlace
@@ -126,27 +127,51 @@ class PlaceGeoItem(object):
     def __init__(self, context):
         """Initialize adapter."""
         self.context = context
-        self._adapter = None
-        x = list(self.context.getLocations())
+        self.geo = None
+        x = list(IGeoreferenced(o) for o in self.context.getLocations())
         if len(x) > 0:
-            self._adapter = IGeoreferenced(x[0])
+            self.geo = self._geo(x)
         else:
-            for ob in self.context.getFeatures():
+            geo_parts = []
+            for ob in self.context.getParts():
                 try:
-                    self._adapter = IGeoreferenced(ob)
+                    # rule out reference circles
+                    assert self.context not in ob.getParts()
+                    geo_parts.append(IGeoreferenced(ob))
                 except:
-                    continue
-                break
-        if not self._adapter:
-            raise ValueError, "Could not adapt %s" % str(context)
+                    pass
+            self.geo = self._geo(geo_parts)
 
+    def _geo(self, obs):
+        # Returns a geometric object or a bounding box for multiple objects
+        if len(obs) == 1:
+            return obs[0].geo
+        else:
+            xs = []
+            ys = []
+            for o in obs:
+                try:
+                    geometry = o.__geo_interface__.get('geometry', o)
+                    b = asShape(geometry).bounds
+                except:
+                    import pdb; pdb.set_trace()
+                    raise
+                xs += b[0::2]
+                ys += b[1::2]
+            x0, x1, y0, y1 = (min(xs), max(xs), min(ys), max(ys))
+            data = '{"type": "%s", "coordinates": %s}' % (
+                   'Polygon',
+                   [[[x0, y0], [x0, y1], [x1, y1], [x1, y0], [x0, y0]]] 
+                   )
+            return geojson.loads(data, object_hook=geojson.GeoJSON.to_instance)
+    
     @property
     def type(self):
-        return IGeoreferenced(self._adapter).type
+        return self.geo.type
 
     @property
     def coordinates(self):
-        return IGeoreferenced(self._adapter).coordinates
+        return self.geo.coordinates
 
     @property
     def crs(self):
@@ -158,7 +183,7 @@ class PlaceGeoItem(object):
         return dict(
             type='Feature',
             id=context.getId(),
-            geometry=self._adapter.__geo_interface__
+            geometry=self.geo.__geo_interface__
             )
 
 def createGeoItem(context):

@@ -1,64 +1,65 @@
 
-Tests of relationships among Feature and Place
-======================================================
+Tests of Places and "part of" relationships
+===========================================
     
     >>> folder = self.folder
-    >>> features = folder['features']
     >>> places = folder['places']
 
-Add feature
+Add first place
     
-    >>> fid = features.invokeFactory('Feature', '1', title='Ninoe', featureType=['settlement'])
-    >>> f = features[fid]
+    >>> pid1 = places.invokeFactory('Place', '1', title='Ninoe', placeType=['settlement'])
+    >>> p1 = places[pid1]
     >>> nameAttested = u'\u039d\u03b9\u03bd\u1f79\u03b7'.encode('utf-8')
-    >>> nid = f.invokeFactory('Name', 'ninoe', nameAttested=nameAttested, nameLanguage='grc', nameType='geographic', accuracy='accurate', completeness='complete')
-    >>> attestations = f[nid].Schema()['attestations']
+    >>> nid = p1.invokeFactory('Name', 'ninoe', nameAttested=nameAttested, nameLanguage='grc', nameType='geographic', accuracy='accurate', completeness='complete')
+    >>> attestations = p1[nid].Schema()['attestations']
     >>> attestations.resize(1)
-    >>> f[nid].update(attestations=[dict(confidence='certain', timePeriod='roman')])
+    >>> p1[nid].update(attestations=[dict(confidence='certain', timePeriod='roman')])
 
 Test computed attributes
     
-    >>> f.Title()
+    >>> p1.Title()
     'Ninoe'
-    >>> f[nid].getAttestations()
+    >>> p1[nid].getAttestations()
     [{'timePeriod': 'roman', 'confidence': 'certain'}]
 
-Add place
+Add second place
     
-    >>> pid = places.invokeFactory('Place', '1', title='Ninoe', modernLocation=nameAttested)
-    >>> p = places[pid]
-    >>> nid = p.invokeFactory('Name', 'ninoe', nameAttested=nameAttested, nameLanguage='grc', nameType='geographic', accuracy='accurate', completeness='complete')
-    >>> attestations = p[nid].Schema()['attestations']
+    >>> pid2 = places.invokeFactory('Place', '2', title='Ninoe', modernLocation=nameAttested)
+    >>> p2 = places[pid2]
+    >>> nid = p2.invokeFactory('Name', 'ninoe', nameAttested=nameAttested, nameLanguage='grc', nameType='geographic', accuracy='accurate', completeness='complete')
+    >>> attestations = p2[nid].Schema()['attestations']
     >>> attestations.resize(1)
-    >>> p[nid].update(attestations=[dict(confidence='certain', timePeriod='roman')])
+    >>> p2[nid].update(attestations=[dict(confidence='certain', timePeriod='roman')])
 
 And references
     
-    >>> _ = f.addReference(p, 'feature_place')
+    >>> _ = p1.addReference(p2, 'feature_place')
 
 Test computed attributes
     
-    >>> p.Title()
+    >>> p2.Title()
     'Ninoe'
-    >>> p[nid].getAttestations()
+    >>> p2[nid].getAttestations()
     [{'timePeriod': 'roman', 'confidence': 'certain'}]
-    >>> list(p.getFeatures())
-    [<Feature at /plone/Members/test_user_1_/features/...>]
-    >>> p.getTimePeriods()
+    >>> list(p2.getFeatures())
+    [<Place at /plone/Members/test_user_1_/places/1>]
+    >>> list(p2.getParts())
+    [<Place at /plone/Members/test_user_1_/places/1>]
+    >>> p2.getTimePeriods()
     ['roman']
-    >>> p[nid].getTimePeriods()
+    >>> p2[nid].getTimePeriods()
     ['roman']
-    >>> p.getFeatureType()
+    >>> p2.getFeatureType()
     ['settlement']
-    >>> p.SearchableText()
-    '1  Ninoe \xce\x9d\xce\xb9\xce\xbd\xe1\xbd\xb9\xce\xb7 '
+    >>> p2.SearchableText()
+    '2  Ninoe \xce\x9d\xce\xb9\xce\xbd\xe1\xbd\xb9\xce\xb7 '
 
 Test the geo adapters
 ---------------------
     
-    >>> lid = f.invokeFactory('Location', 'location', title='Point 1', geometry='Point:[-86.4808333333333, 34.769722222222]')
+    >>> lid = p1.invokeFactory('Location', 'location', title='Point 1', geometry='Point:[-86.4808333333333, 34.769722222222]')
     >>> from zgeo.geographer.interfaces import IGeoreferenced
-    >>> g = IGeoreferenced(f)
+    >>> g = IGeoreferenced(p1)
     >>> gi = g.__geo_interface__
     >>> gi['type']
     'Feature'
@@ -66,8 +67,11 @@ Test the geo adapters
     'Point'
     >>> g.coordinates
     [-86.480833333333294, 34.769722222222001]
-    
-    >>> g = IGeoreferenced(p)
+
+For a "fuzzy" place with no location of its own, we should get the envelope of
+its parts. A point in this case.
+
+    >>> g = IGeoreferenced(p2)
     >>> gi = g.__geo_interface__
     >>> gi['type']
     'Feature'
@@ -75,3 +79,38 @@ Test the geo adapters
     'Point'
     >>> g.coordinates
     [-86.480833333333294, 34.769722222222001]
+
+Add another location to the part and check that we get back a box for p1 and p2
+
+    >>> lid = p1.invokeFactory('Location', 'location2', title='Point 2', geometry='Point:[-85.4808333333333, 35.769722222222]')
+    >>> g = IGeoreferenced(p1)
+    >>> gi = g.__geo_interface__
+    >>> gi['type']
+    'Feature'
+    >>> g.type
+    'Polygon'
+    >>> g.coordinates
+    [[[-86.480833333333294, 34.769722222222001], [-86.480833333333294, 35.769722222222001], [-85.480833333333294, 35.769722222222001], [-85.480833333333294, 34.769722222222001], [-86.480833333333294, 34.769722222222001]]]
+    >>> g2 = IGeoreferenced(p2)
+    >>> gi2 = g2.__geo_interface__
+    >>> gi2['type']
+    'Feature'
+    >>> g2.type
+    'Polygon'
+    >>> g2.coordinates
+    [[[-86.480833333333294, 34.769722222222001], [-86.480833333333294, 35.769722222222001], [-85.480833333333294, 35.769722222222001], [-85.480833333333294, 34.769722222222001], [-86.480833333333294, 34.769722222222001]]]
+
+Add another place part
+
+    >>> pid3 = places.invokeFactory('Place', '3', title='Ninoe', placeType=['settlement'])
+    >>> p3 = places[pid3]
+    >>> _ = p3.invokeFactory('Location', 'location', title='Point 3-1', geometry='Point:[0.0, 0.0]')
+    >>> _ = p3.addReference(p2, 'feature_place')
+    >>> g2 = IGeoreferenced(p2)
+    >>> gi2 = g2.__geo_interface__
+    >>> gi2['type']
+    'Feature'
+    >>> g2.type
+    'Polygon'
+    >>> g2.coordinates
+    [[[-86.480833333333294, 0.0], [-86.480833333333294, 35.769722222222001], [0.0, 35.769722222222001], [0.0, 0.0], [-86.480833333333294, 0.0]]]

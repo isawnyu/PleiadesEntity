@@ -56,7 +56,7 @@ schema = Schema((
     ReferenceField(
         name='places',
         widget=ReferenceBrowserWidget(
-            label="Feature is a part of place(s)",
+            label="Is a part of place(s)",
             startup_directory="/places",
             label_msgid='PleiadesEntity_label_places',
             i18n_domain='PleiadesEntity',
