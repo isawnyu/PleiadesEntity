@@ -11,3 +11,5 @@ http://codespeak.net/lxml/index.html
 http://plone.org/products/atvocabularymanager
 tested with ATVM svn trunk r7620
 
+- pleiades.openlayers 0.2.2
+

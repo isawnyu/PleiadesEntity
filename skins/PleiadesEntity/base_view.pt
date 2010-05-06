@@ -9,36 +9,6 @@
 
   <head><title></title></head>
 
-  <metal:javascript_head fill-slot="javascript_head_slot">
-    <tal:block define="macro here/archetypes_custom_js/macros/javascript_head | nothing"
-               condition="macro">
-      <metal:block use-macro="macro" />
-    </tal:block>
-    <tal:comment replace="nothing">
-      Many of the following defines duplicated from the tal:defines in the
-      main slot. With base_edit, edit_macros could be reused as it was defined
-      for the entire document. base_view uses main_template and thus must
-      create additional defines for each slot it fills.
-    </tal:comment>
-    <tal:js define="fields python:here.Schema().viewableFields(here);
-                    js python:here.getUniqueWidgetAttr(fields, 'helper_js')"
-            condition="js"
-            repeat="item js">
-      <script type="text/javascript"
-              charset="iso-8859-1"
-              tal:condition="python:exists('portal/%s' % item)"
-              tal:attributes="src string:$portal_url/$item">
-      </script>
-    </tal:js>
-    <tal:block define="portal_type python:here.getPortalTypeName().lower().replace(' ', '_');
-                       view_template python:'%s_view' % portal_type;
-                       view_macros python:path('here/%s/macros|nothing' % view_template);
-                       macro view_macros/js | nothing"
-               condition="macro">
-      <metal:block use-macro="macro" />
-    </tal:block>
-  </metal:javascript_head>
-
   <metal:links fill-slot="head_slot">
     <tal:block define="portal_type python:here.getPortalTypeName().lower().replace(' ', '_');
                        view_template python:'%s_view' % portal_type;
@@ -74,6 +44,37 @@
       <metal:block use-macro="macro" />
     </tal:block>
   </metal:css>
+
+  <metal:javascript_head fill-slot="javascript_head_slot">
+    <tal:block define="macro here/archetypes_custom_js/macros/javascript_head | nothing"
+               condition="macro">
+      <metal:block use-macro="macro" />
+    </tal:block>
+    <tal:comment replace="nothing">
+      Many of the following defines duplicated from the tal:defines in the
+      main slot. With base_edit, edit_macros could be reused as it was defined
+      for the entire document. base_view uses main_template and thus must
+      create additional defines for each slot it fills.
+    </tal:comment>
+    <tal:js define="fields python:here.Schema().viewableFields(here);
+                    js python:here.getUniqueWidgetAttr(fields, 'helper_js')"
+            condition="js"
+            repeat="item js">
+      <script type="text/javascript"
+              charset="iso-8859-1"
+              tal:condition="python:exists('portal/%s' % item)"
+              tal:attributes="src string:$portal_url/$item">
+      </script>
+    </tal:js>
+    <tal:block define="portal_type python:here.getPortalTypeName().lower().replace(' ', '_');
+                       view_template python:'%s_view' % portal_type;
+                       view_macros python:path('here/%s/macros|nothing' % view_template);
+                       macro view_macros/js | nothing"
+               condition="macro">
+      <metal:block use-macro="macro" />
+    </tal:block>
+  </metal:javascript_head>
+
 
   <body>
     <metal:fill fill-slot="main">

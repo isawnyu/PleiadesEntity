@@ -22,7 +22,7 @@
       <script type="text/javascript" src="http://openlayers.org/api/OpenLayers.js"></script>
       <script type="text/javascript" src="++resource++ol-map.js"></script>
     </metal:js_macro>
-  
+
   </head>
   
   <body>
@@ -37,18 +37,6 @@
       
       <div id="map" style="align:center;width:410px;height:250px;border:solid gray 1px;background-color:#cccccc;margin-bottom:1.5em;"></div>
       
-      <script defer="defer" type="text/javascript">
-        initMap();
-        function setZoom() {
-            var extent = vectors.getDataExtent();
-            extent.left -= 5000.0;
-            extent.right += 5000.0;
-            extent.top += 5000.0;
-            extent.bottom -= 5000.0;
-            map.zoomToExtent(extent);
-        }
-        jq(document).ready(setZoom);
-      </script>
       <br/>
 
         <p class="documentDescription">
@@ -91,13 +79,12 @@
           <a type="application/vnd.google-earth.kml+xml" tal:attributes="href string:${url}/kml">KML</a>
         </p>
       </div>
-    
+
     </metal:body_macro>
     
     <metal:folderlisting_macro define-macro="folderlisting">
       <!-- nothing -->
     </metal:folderlisting_macro>
-  
-  
+
   </body>
 </html>
