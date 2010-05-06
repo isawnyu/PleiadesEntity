@@ -16,6 +16,7 @@ def nameChangeSubscriber(obj, event):
     obj.reindexObject()
     x = aq_inner(obj)
     f = aq_parent(x)
+    f.reindexObject()
     featureChangeSubscriber(f, event)
     
 @adapter(ILocation, IObjectModifiedEvent)
@@ -23,11 +24,11 @@ def locationChangeSubscriber(obj, event):
     obj.reindexObject()
     x = aq_inner(obj)
     f = aq_parent(x)
+    f.reindexObject()
     featureChangeSubscriber(f, event)
 
 @adapter(IFeature, IObjectModifiedEvent)
 def featureChangeSubscriber(obj, event):
-    obj.reindexObject()
     for p in obj.getBRefs('feature_place'):
         p.reindexObject()
 

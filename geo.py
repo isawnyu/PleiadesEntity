@@ -133,6 +133,13 @@ class PlaceGeoItem(object):
             self.geo = self._geo(x)
         else:
             geo_parts = []
+            for ob in self.context.getFeatures():
+                try:
+                    # rule out reference circles
+                    assert self.context not in ob.getParts()
+                    geo_parts.append(IGeoreferenced(ob))
+                except:
+                    pass
             for ob in self.context.getParts():
                 try:
                     # rule out reference circles

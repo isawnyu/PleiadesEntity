@@ -41,16 +41,16 @@ from AccessControl import getSecurityManager
 schema = Schema((
 
     BackReferenceField(
-        name='parts',
+        name='places',
         widget=BackReferenceWidget(
             visible="{'view': 'visible', 'edit': 'invisible'}",
-            label="Has part(s)",
+            label="Is a part of",
             macro="betterbackrefwidget",
             label_msgid='PleiadesEntity_label_features',
             i18n_domain='PleiadesEntity',
         ),
         multiValued=True,
-        relationship="feature_place",
+        relationship="hasPart",
     ),
     StringField(
         name='placeType',
@@ -68,15 +68,15 @@ schema = Schema((
         multiValued=1,
     ),
     ReferenceField(
-        name='places',
+        name='parts',
         widget=ReferenceBrowserWidget(
-            label="Is a part of place(s)",
+            label="Has part(s)",
             startup_directory="/places",
             label_msgid='PleiadesEntity_label_places',
             i18n_domain='PleiadesEntity',
         ),
         multiValued=True,
-        relationship='feature_place',
+        relationship='hasPart',
         allowed_types="('Place',)",
         allow_browse="True",
     ),
@@ -125,14 +125,19 @@ class Place(BaseFolder, ATDocumentBase, Named, Work, BrowserDefaultMixin):
         """
         sm = getSecurityManager()
         for o in self.getBRefs('feature_place'):
-            if (interfaces.IFeature.providedBy(o) or interfaces.IPlace.providedBy(o)) and sm.checkPermission(permissions.View, o):
+            if interfaces.IFeature.providedBy(o) and sm.checkPermission(permissions.View, o):
                 yield o
 
     security.declareProtected(permissions.View, 'getParts')
     def getParts(self):
         """
         """
-        return self.getFeatures()
+        sm = getSecurityManager()
+        # for f in self.getFeatures():
+        #    yield f
+        for o in self.getRefs('hasPart'):
+            if interfaces.IPlace.providedBy(o) and sm.checkPermission(permissions.View, o):
+                yield o
 
     security.declareProtected(permissions.AddPortalContent, '_renameAfterCreation')
     def _renameAfterCreation(self, check_auto_id=False):

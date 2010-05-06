@@ -24,7 +24,7 @@ Test computed attributes
 
 Add second place
     
-    >>> pid2 = places.invokeFactory('Place', '2', title='Ninoe', modernLocation=nameAttested)
+    >>> pid2 = places.invokeFactory('Place', '2', title='Ninoe', modernLocation=nameAttested, placeType=['valley'])
     >>> p2 = places[pid2]
     >>> nid = p2.invokeFactory('Name', 'ninoe', nameAttested=nameAttested, nameLanguage='grc', nameType='geographic', accuracy='accurate', completeness='complete')
     >>> attestations = p2[nid].Schema()['attestations']
@@ -33,7 +33,7 @@ Add second place
 
 And references
     
-    >>> _ = p1.addReference(p2, 'feature_place')
+    >>> _ = p2.addReference(p1, 'hasPart')
 
 Test computed attributes
     
@@ -41,7 +41,7 @@ Test computed attributes
     'Ninoe'
     >>> p2[nid].getAttestations()
     [{'timePeriod': 'roman', 'confidence': 'certain'}]
-    >>> list(p2.getFeatures())
+    >>> list(p2.getParts())
     [<Place at /plone/Members/test_user_1_/places/1>]
     >>> list(p2.getParts())
     [<Place at /plone/Members/test_user_1_/places/1>]
@@ -50,7 +50,7 @@ Test computed attributes
     >>> p2[nid].getTimePeriods()
     ['roman']
     >>> p2.getFeatureType()
-    ['settlement']
+    ['valley']
     >>> p2.SearchableText()
     '2  Ninoe \xce\x9d\xce\xb9\xce\xbd\xe1\xbd\xb9\xce\xb7 '
 
@@ -105,7 +105,7 @@ Add another place part
     >>> pid3 = places.invokeFactory('Place', '3', title='Ninoe', placeType=['settlement'])
     >>> p3 = places[pid3]
     >>> _ = p3.invokeFactory('Location', 'location', title='Point 3-1', geometry='Point:[0.0, 0.0]')
-    >>> _ = p3.addReference(p2, 'feature_place')
+    >>> _ = p2.addReference(p3, 'hasPart')
     >>> g2 = IGeoreferenced(p2)
     >>> gi2 = g2.__geo_interface__
     >>> gi2['type']
