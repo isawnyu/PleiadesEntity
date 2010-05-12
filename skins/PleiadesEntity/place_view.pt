@@ -11,7 +11,7 @@
     <metal:links_macro metal:define-macro="links"
       tal:define="url context/absolute_url"
       >
-      <link rel="alternate" tal:attributes="href string:${url}#this"/>
+      <link rel="foaf:primaryTopic" tal:attributes="href string:${url}#this"/>
       <link rel="alternate" type="application/atom+xml" tal:attributes="href string:${url}/atom"/>
       <link rel="alternate" type="application/json" tal:attributes="href string:${url}/@@json?sm=1"/>
       <link rel="alternate" type="application/vnd.google-earth.kml+xml" tal:attributes="href string:${url}/kml"/>
