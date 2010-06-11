@@ -38,6 +38,7 @@ schema = Schema((
 
     TextField(
         name='geometry',
+        default='',
         widget=TextAreaWidget(
             label="Geometry",
             description="""Enter geometry using GeoJSON shorthand representation such as "Point:[-105.0, 40.0]" for a point""",
