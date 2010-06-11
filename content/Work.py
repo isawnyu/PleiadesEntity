@@ -49,7 +49,7 @@ schema = Schema((
         ),
 
         widget=EnhancedArrayWidget(
-            label="Reference citations",
+            label="References",
             description="Enter reference work and citation",
             macro="pleiadescitationrefwidget",
             label_msgid='PleiadesEntity_label_array:referenceCitations',
