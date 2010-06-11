@@ -38,7 +38,6 @@ schema = Schema((
 
     TextField(
         name='geometry',
-        default='',
         widget=TextAreaWidget(
             label="Geometry",
             description="""Enter geometry using GeoJSON shorthand representation such as "Point:[-105.0, 40.0]" for a point""",
@@ -47,6 +46,8 @@ schema = Schema((
             description_msgid='PleiadesEntity_help_geometry',
             i18n_domain='PleiadesEntity',
         ),
+        accessor='getGeometry',
+        edit_accessor='getGeometryRaw',
     ),
     StringField(
         name='description',
@@ -116,6 +117,14 @@ class Location(ATDocumentBase, Work, Temporal, BrowserDefaultMixin):
     def SearchableText(self):
         text = super(Location, self).SearchableText().strip()
         return text + ' ' + self.rangesText()
+
+    security.declarePublic('getGeometry')
+    def getGeometry(self):
+        return self.Schema()["geometry"].get(self) or ''
+
+    security.declarePublic('getGeometryRaw')
+    def getGeometryRaw(self):
+        return self.Schema()["geometry"].get(self) or ''
 
 registerType(Location, PROJECTNAME)
 # end of class Location

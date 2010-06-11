@@ -199,6 +199,8 @@ class Name(BaseContent, Work, Temporal, BrowserDefaultMixin):
     schema["title"].widget.visible = {"edit": "invisible", "view": "invisible"}
     schema["nameTransliterated"].widget.visible = {"edit": "invisible", "view": "visible"}
     schema["text"].widget.label = 'Details'
+    schema["presentation"].widget.visible = {"edit": "invisible", "view": "invisible"}
+    schema["tableContents"].widget.visible = {"edit": "invisible", "view": "invisible"}
     ##/code-section class-header
 
     # Methods
