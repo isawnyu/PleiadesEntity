@@ -629,13 +629,13 @@ def load_cap(site, root, mapid=None, metadataId=None, cb=lambda x: None):
         else:
             posAccDoc = site['features']['metadata'][metadataId]
             cb(posAccDoc)
-            
+
         lid = place.invokeFactory(
                 'Location',
-                id='undetermined',
-                title='Undetermined location',
-                description='Location is attested by BAtlas, but undetermined',
-                geometry=None,
+                id='batlas-location',
+                title='Barrington Atlas location',
+                description='Location is attested by BAtlas, but otherwise undetermined',
+                geometry='',
                 creators=creators,
                 contributors=contributors,
                 )
@@ -643,6 +643,7 @@ def load_cap(site, root, mapid=None, metadataId=None, cb=lambda x: None):
         
         if gridsquare:
             loc.setLocation('http://atlantides.org/capgrids/%s/%s' % (mapid, gridsquare))
+            loc.setDescription('Location is within the footprint of BAtlas map %s grid %s, but otherwise undetermined' % (mapid, gridsquare))
 
         # Time Periods associated with the location
         parse_periods(
