@@ -120,11 +120,14 @@ class Location(ATDocumentBase, Work, Temporal, BrowserDefaultMixin):
 
     security.declarePublic('getGeometry')
     def getGeometry(self):
-        return self.Schema()["geometry"].get(self) or ''
+        return self.getGeometryRaw()
 
     security.declarePublic('getGeometryRaw')
     def getGeometryRaw(self):
-        return self.Schema()["geometry"].get(self) or ''
+        try:
+            return self.Schema()["geometry"].get(self)
+        except AssertionError:
+            return ''
 
 registerType(Location, PROJECTNAME)
 # end of class Location
