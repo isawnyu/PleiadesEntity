@@ -36,11 +36,12 @@ from Products.ATContentTypes.content.document import ATDocumentBase, ATDocumentS
 
 schema = Schema((
 
-    StringField(
+    TextField(
         name='geometry',
-        widget=StringField._properties['widget'](
+        widget=TextAreaWidget(
             label="Geometry",
-            description="""Enter geometry using GeoJSON shorthand representation such as "Point: (-105.0, 40.0)" for a point""",
+            description="""Enter geometry using GeoJSON shorthand representation such as "Point:[-105.0, 40.0]" for a point""",
+            rows=10,
             label_msgid='PleiadesEntity_label_geometry',
             description_msgid='PleiadesEntity_help_geometry',
             i18n_domain='PleiadesEntity',

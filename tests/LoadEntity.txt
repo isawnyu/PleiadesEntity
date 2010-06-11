@@ -117,9 +117,9 @@ By default, we create a place for every feature.
     >>> p.Title()
     'Aphrodisias/Ninoe'
     >>> p.getPlaceType()
-    ['settlement']
+    ['unknown']
     >>> p.getFeatureType()
-    ['settlement']
+    ['unknown']
     >>> p.modernLocation
     u'Geyre'
     >>> p.Creators()
@@ -163,7 +163,7 @@ Check feature
 
     >>> p = folder['places'][pid]
     >>> p.getFeatureType()
-    ['undefined']    
+    ['unknown']    
     >>> contents = list(p.getFeatures())
     >>> len(contents)
     1    

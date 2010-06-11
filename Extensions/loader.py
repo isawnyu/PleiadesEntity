@@ -414,17 +414,18 @@ def load_place(site, file, with_features=True, metadataId=None, cb=lambda x: Non
         else:
             modernLocation = 'None'
         
-        e = root.findall("{%s}classificationSection/{%s}classificationTerm" \
-                         % (ADLGAZ, ADLGAZ))
+        #e = root.findall("{%s}classificationSection/{%s}classificationTerm" \
+        #                 % (ADLGAZ, ADLGAZ))
+        e = root.findall("{%s}type" % BATLAS)
         if e:
-            placeType = str(e[0].text)
+            placeType = [str(t.text) for t in e]
         else:
-            placeType = 'unknown'
-        legaltypes = ['aqueduct', 'bath', 'bay', 'bridge', 'canal', 'cape', 'cave', 'cemetery', 'centuriation', 'church', 'coast', 'dam', 'estate', 'estuary', 'false', 'findspot', 'forest', 'fort', 'hill', 'island', 'lighthouse', 'mine', 'mountain', 'oasis', 'pass', 'people', 'plain', 'port', 'production', 'region', 'reservoir', 'ridge', 'river', 'road', 'salt-marsh', 'settlement', 'settlement-modern', 'spring', 'station', 'temple', 'tumulus', 'undefined', 'unknown', 'unlocated', 'valley', 'villa', 'wall', 'water-inland', 'water-open', 'well', 'wheel', 'whirlpool']
-        try:
-            ptidx = legaltypes.index(placeType)
-        except:
-            raise EntityLoadError, "Invalid placeType  = %s" % placeType
+            placeType = ['unknown']
+        legaltypes = ['aqueduct', 'bath', 'bay', 'bridge', 'canal', 'cape', 'cave', 'cemetery', 'centuriation', 'church', 'coast', 'dam', 'estate', 'estuary', 'false', 'findspot', 'forest', 'fort', 'hill', 'island', 'labeled feature', 'lighthouse', 'mine', 'mountain', 'oasis', 'pass', 'people', 'plain', 'port', 'production', 'region', 'reservoir', 'ridge', 'river', 'road', 'salt-marsh', 'settlement', 'settlement-modern', 'spring', 'station', 'temple', 'tumulus', 'undefined', 'unknown', 'unlocated', 'valley', 'villa', 'wall', 'water-inland', 'water-open', 'well', 'wheel', 'whirlpool']
+        #try:
+        #    ptidx = legaltypes.index(placeType)
+        #except:
+        #    raise EntityLoadError, "Invalid placeType  = %s" % placeType
         
         e = root.findall("{%s}description" % DC)
         if e:
@@ -447,7 +448,7 @@ def load_place(site, file, with_features=True, metadataId=None, cb=lambda x: Non
         pid = places.invokeFactory('Place',
                     id=baid,
                     #title=fid,
-                    placeType=[placeType],
+                    placeType=placeType,
                     modernLocation=modernLocation,
                     permanent=False,
                     description='Containing ancient world features extracted from the Barrington Atlas and its Map-by-Map directory.',
