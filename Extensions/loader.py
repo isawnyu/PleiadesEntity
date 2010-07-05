@@ -595,6 +595,15 @@ def load_cap(site, root, mapid=None, metadataId=None, cb=lambda x: None):
             placeType = 'unknown'
             
         label = getattr(root.find('{%s}label' % BATLAS), 'text', 'Untitled')
+        
+        # Use the geogname if label is a number
+        try:
+            assert int(label) > 0
+            label = getattr(
+                root.find('{%s}geogname' % BATLAS), 'text', 'Untitled')
+        except ValueError:
+            pass
+
         summary = 'An ancient place, cited: %s' % citation
         
         # Place
