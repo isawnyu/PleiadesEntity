@@ -115,6 +115,11 @@ class Place(BaseFolder, ATDocumentBase, Named, Work, BrowserDefaultMixin):
     schema["presentation"].widget.visible = {"edit": "invisible", "view": "invisible"}
     schema["tableContents"].widget.visible = {"edit": "invisible", "view": "invisible"}
     schema["text"].widget.label = 'Details'
+    schema["parts"].widget.visible = {"edit": "invisible", "view": "invisible"}
+    schema["places"].widget.visible = {"edit": "invisible", "view": "invisible"}
+    schema["permanent"].widget.visible = {"edit": "invisible", "view": "invisible"}
+    schema["modernLocation"].widget.visible = {"edit": "invisible", "view": "invisible"}
+    schema.moveField('placeType', pos='top')
     ##/code-section class-header
 
     # Methods

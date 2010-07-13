@@ -49,15 +49,15 @@
         <div class="field">
           <label class="formQuestion"><span>Names</span>:</label>
           <ul tal:repeat="data context/@@attestations/names">
-            <li tal:define="n python:data[0]; tps python:'(%s)' % ', '.join([a['timePeriod'].capitalize() for a in data[1]])"><a href="" tal:attributes="href n/getId" tal:content="n/title_or_id"></a> <span tal:content="tps"></span></li>
+            <li tal:define="n python:data[0]; tps python:', '.join([a['timePeriod'].capitalize() for a in data[1]])"><a href="" tal:attributes="href n/getId" tal:content="n/title_or_id"></a> <span tal:condition="tps" tal:content="string:($tps)"></span></li>
           </ul>
         </div>
 
-        <!-- Names -->
+        <!-- Locations -->
         <div class="field">
           <label class="formQuestion"><span>Locations</span>:</label>
           <ul tal:repeat="data context/@@attestations/locations">
-            <li tal:define="n python:data[0]; tps python:'(%s)' % ', '.join([a['timePeriod'].capitalize() for a in data[1]])"><a href="" tal:attributes="href n/getId" tal:content="n/title_or_id"></a> <span tal:content="tps"></span></li>
+            <li tal:define="n python:data[0]; tps python:', '.join([a['timePeriod'].capitalize() for a in data[1]])"><a href="" tal:attributes="href n/getId" tal:content="n/title_or_id"></a> <span tal:condition="tps" tal:content="string:($tps)"></span></li>
           </ul>
         </div>
         
