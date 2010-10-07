@@ -60,7 +60,7 @@ class LocationGeoItem(object):
                         data, object_hook=geojson.GeoJSON.to_instance)
         elif dc_coverage.startswith('http://atlantides.org/capgrids'):
                 s = dc_coverage.rstrip('/')
-                mapid, gridsquare = s.split('/')[-2:]
+                mapid, gridsquare = s.split('/')[4:6]
                 grid = Grid(mapid, gridsquare)
                 self.geo = grid
         else:
@@ -147,7 +147,10 @@ class PlaceGeoItem(object):
                     geo_parts.append(IGeoreferenced(ob))
                 except:
                     pass
-            self.geo = self._geo(geo_parts)
+            if geo_parts:
+                self.geo = self._geo(geo_parts)
+        if self.geo is None:
+            raise NotLocatedError, "Location cannot be determined"
 
     def _geo(self, obs):
         # Returns a geometric object or a bounding box for multiple objects
@@ -165,7 +168,11 @@ class PlaceGeoItem(object):
                     raise
                 xs += b[0::2]
                 ys += b[1::2]
-            x0, x1, y0, y1 = (min(xs), max(xs), min(ys), max(ys))
+            try:
+                x0, x1, y0, y1 = (min(xs), max(xs), min(ys), max(ys))
+            except:
+                import pdb; pdb.set_trace()
+                raise
             data = '{"type": "%s", "coordinates": %s}' % (
                    'Polygon',
                    [[[x0, y0], [x0, y1], [x1, y1], [x1, y0], [x0, y0]]] 

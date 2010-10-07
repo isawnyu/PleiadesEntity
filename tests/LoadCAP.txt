@@ -97,7 +97,7 @@ Verify attributes
 Names
 
     >>> sorted(p.keys())
-    ['abrotonum', 'sabratha', 'undetermined']
+    ['abrotonum', 'batlas-location', 'sabratha']
     >>> names = p.getNames()
     >>> n = names[0]
     >>> n.getNameTransliterated()
