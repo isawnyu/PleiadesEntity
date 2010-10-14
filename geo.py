@@ -68,6 +68,9 @@ class LocationGeoItem(object):
             mapid, gridsquare = s.split('/')[4:6]
             grid = Grid(mapid, gridsquare)
             self.geo = dict(bbox=grid.bounds, relation='relates', type=grid.type, coordinates=grid.coordinates)
+        else:
+            raise NotLocatedError, "Location cannot be determined"
+            
         #try:
         #    _ = self.geo.__geo_interface__
         #except:
