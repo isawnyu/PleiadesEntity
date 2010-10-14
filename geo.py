@@ -142,11 +142,12 @@ class PlaceGeoItem(object):
         """Initialize adapter."""
         self.context = context
         self.geo = None
-        try:
-            x = list(IGeoreferenced(o) for o in self.context.getLocations())
-        except:
-            import pdb; pdb.set_trace()
-            raise
+        x = []
+        for o in self.context.getLocations():
+            try:
+                x.append(IGeoreferenced(o))
+            except NotLocatedError:
+                continue
         if len(x) > 0:
             self.geo = self._geo(x)
         else:
