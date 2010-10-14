@@ -30,6 +30,7 @@
 import logging
 
 import geojson
+import simplejson
 from shapely.geometry import asShape
 
 from pleiades.capgrids import Grid
@@ -54,31 +55,39 @@ class LocationGeoItem(object):
         self.context = context
         dc_coverage = self.context.getLocation()
         if context.getGeometry():
-            d = self.context.getGeometry().split(':')
-            data = '{"type": "%s", "coordinates": %s}' % tuple(d)
-            self.geo = geojson.loads(
-                        data, object_hook=geojson.GeoJSON.to_instance)
+            t, c = self.context.getGeometry().split(':')
+            j = '{"type": "%s", "coordinates": %s}' % (t, c)
+            data = simplejson.loads(j)
+            self.geo = dict(data)
+            g = asShape(data)
+            self.geo.update(bbox=g.bounds)
+            #self.geo = geojson.loads(
+            #            data, object_hook=geojson.GeoJSON.to_instance)
         elif dc_coverage.startswith('http://atlantides.org/capgrids'):
-                s = dc_coverage.rstrip('/')
-                mapid, gridsquare = s.split('/')[4:6]
-                grid = Grid(mapid, gridsquare)
-                self.geo = grid
-        try:
-            _ = self.geo.__geo_interface__
-        except:
-            raise NotLocatedError, "Location cannot be determined"
+            s = dc_coverage.rstrip('/')
+            mapid, gridsquare = s.split('/')[4:6]
+            grid = Grid(mapid, gridsquare)
+            self.geo = dict(bbox=grid.bounds, relation='relates', type=grid.type, coordinates=grid.coordinates)
+        #try:
+        #    _ = self.geo.__geo_interface__
+        #except:
+        #    raise NotLocatedError, "Location cannot be determined"
             
     @property
     def __geo_interface__(self):
-        return self.geo.__geo_interface__
+        return self.geo #.__geo_interface__
+
+    @property
+    def bounds(self):
+        return self.geo['bbox']
 
     @property
     def type(self):
-        return self.geo.type
+        return self.geo['type']
 
     @property
     def coordinates(self):
-        return self.geo.coordinates
+        return self.geo['coordinates']
 
     @property
     def crs(self):
@@ -130,7 +139,11 @@ class PlaceGeoItem(object):
         """Initialize adapter."""
         self.context = context
         self.geo = None
-        x = list(IGeoreferenced(o) for o in self.context.getLocations())
+        try:
+            x = list(IGeoreferenced(o) for o in self.context.getLocations())
+        except:
+            import pdb; pdb.set_trace()
+            raise
         if len(x) > 0:
             self.geo = self._geo(x)
         else:
@@ -161,13 +174,21 @@ class PlaceGeoItem(object):
         else:
             xs = []
             ys = []
+            fuzzy = []
             for o in obs:
+                if o.__geo_interface__.has_key('relation'):
+                    fuzzy.append(o)
+                    continue
                 try:
-                    geometry = o.__geo_interface__.get('geometry', o)
-                    b = asShape(geometry).bounds
+                    b = o.bounds #geometry = o.__geo_interface__.get('geometry', o)
+                    #b = asShape(geometry).bounds
                 except:
                     import pdb; pdb.set_trace()
                     raise
+                xs += b[0::2]
+                ys += b[1::2]
+            for o in fuzzy:
+                b = o.bounds
                 xs += b[0::2]
                 ys += b[1::2]
             try:
@@ -175,19 +196,22 @@ class PlaceGeoItem(object):
             except:
                 import pdb; pdb.set_trace()
                 raise
-            data = '{"type": "%s", "coordinates": %s}' % (
-                   'Polygon',
-                   [[[x0, y0], [x0, y1], [x1, y1], [x1, y0], [x0, y0]]] 
-                   )
-            return geojson.loads(data, object_hook=geojson.GeoJSON.to_instance)
+            #data = '{"type": "%s", "coordinates": %s}' % (
+            #       'Polygon',
+            coords = [[[x0, y0], [x0, y1], [x1, y1], [x1, y0], [x0, y0]]] 
+            #       )
+            return dict(bbox=(x0, y0, x1, y1), relation='relates' * int(bool(fuzzy)) or None, type='Polygon', coordinates=coords) #geojson.loads(data, object_hook=geojson.GeoJSON.to_instance)
     
     @property
+    def bounds(self):
+        return self.geo['bbox']
+    @property
     def type(self):
-        return self.geo.type
+        return self.geo['type']
 
     @property
     def coordinates(self):
-        return self.geo.coordinates
+        return self.geo['coordinates']
 
     @property
     def crs(self):
@@ -199,7 +223,8 @@ class PlaceGeoItem(object):
         return dict(
             type='Feature',
             id=context.getId(),
-            geometry=self.geo.__geo_interface__
+            bbox=self.geo['bbox'],
+            geometry=self.geo
             )
 
 def createGeoItem(context):
