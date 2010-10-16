@@ -34,12 +34,6 @@
 
         <div tal:replace="structure provider:plone.abovecontentbody" />
 
-        <div 
-          tal:condition="nocall: here/kml|nothing" 
-          id="map" 
-          style="width:100%;height:300px;border:solid #ccc 1px;background-color:#cccccc;"></div>
-        <br/>
-
         <metal:listingmacro define-macro="listing">
         <tal:topiccontents define="topicContents python:here.queryCatalog(batch=True);
                                    batch topicContents;">
