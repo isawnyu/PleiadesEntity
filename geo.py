@@ -61,20 +61,17 @@ class LocationGeoItem(object):
             self.geo = dict(data)
             g = asShape(data)
             self.geo.update(bbox=g.bounds)
-            #self.geo = geojson.loads(
-            #            data, object_hook=geojson.GeoJSON.to_instance)
         elif dc_coverage.startswith('http://atlantides.org/capgrids'):
-            s = dc_coverage.rstrip('/')
-            mapid, gridsquare = s.split('/')[4:6]
-            grid = Grid(mapid, gridsquare)
-            self.geo = dict(bbox=grid.bounds, relation='relates', type=grid.type, coordinates=grid.coordinates)
+            try:
+                s = dc_coverage.rstrip('/')
+                mapid, gridsquare = s.split('/')[4:6]
+                grid = Grid(mapid, gridsquare)
+                self.geo = dict(bbox=grid.bounds, relation='relates', type=grid.type, coordinates=grid.coordinates)
+            except Exception, e:
+                log.warn("%s: %s, %s" % (str(e), context, context.getLocation()))
+                raise NotLocatedError, "Location cannot be determined"
         else:
             raise NotLocatedError, "Location cannot be determined"
-            
-        #try:
-        #    _ = self.geo.__geo_interface__
-        #except:
-        #    raise NotLocatedError, "Location cannot be determined"
             
     @property
     def __geo_interface__(self):
