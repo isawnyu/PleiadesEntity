@@ -14,8 +14,7 @@
       <link rel="foaf:primaryTopic" tal:attributes="href string:${url}#this"/>
       <link rel="alternate" type="application/atom+xml" tal:attributes="href string:${url}/atom"/>
       <link rel="alternate" type="application/json" tal:attributes="href string:${url}/@@json?sm=1"/>
-      <!--link rel="alternate" type="application/vnd.google-earth.kml+xml" tal:attributes="href string:${url}/kml"/-->
-      <link rel="alternate" type="application/vnd.google-earth.kml+xml" href="http://pleiades.stoa.org/places/756300529/kml"/>
+      <link rel="alternate" type="application/vnd.google-earth.kml+xml" tal:attributes="href string:${url}/kml"/>
 
           </metal:links_macro>
     
