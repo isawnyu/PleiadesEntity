@@ -14,8 +14,10 @@
       <link rel="foaf:primaryTopic" tal:attributes="href string:${url}#this"/>
       <link rel="alternate" type="application/atom+xml" tal:attributes="href string:${url}/atom"/>
       <link rel="alternate" type="application/json" tal:attributes="href string:${url}/@@json?sm=1"/>
-      <link rel="alternate" type="application/vnd.google-earth.kml+xml" tal:attributes="href string:${url}/kml"/>
-    </metal:links_macro>
+      <!--link rel="alternate" type="application/vnd.google-earth.kml+xml" tal:attributes="href string:${url}/kml"/-->
+      <link rel="alternate" type="application/vnd.google-earth.kml+xml" href="http://pleiades.stoa.org/places/756300529/kml"/>
+
+          </metal:links_macro>
     
     <metal:js_macro metal:define-macro="js">
       <script type="text/javascript"
@@ -23,6 +25,8 @@
       </script>
       <script type="text/javascript">
   var MTID = 'aw';
+  infowindow = new google.maps.InfoWindow();
+  map = null;
 
   function getKML() {
     var documentNode = document;
@@ -46,10 +50,23 @@
       mapTypeId: google.maps.MapTypeId.TERRAIN
     };
 
-    var map = new google.maps.Map(document.getElementById("map"),
+    map = new google.maps.Map(document.getElementById("map"),
         myOptions);
+      
+    var kmlLayer = new google.maps.KmlLayer(getKML(), {suppressInfoWindows: true});
 
-  var kmlLayer = new google.maps.KmlLayer(getKML());
+    google.maps.event.addListener(kmlLayer, 'click', function(evt) {
+      var msg = document.createElement("div");
+      var head = document.createElement("h4");
+      var descr = document.createElement("div");
+      jq(head).text(evt.featureData.name);
+      jq(msg).append(head);
+      jq(msg).append(unescape(unescape(evt.featureData.description)));
+      infowindow.close();
+      infowindow.setOptions({position: evt.latLng, content: msg});
+      infowindow.open(map);
+    });
+
   kmlLayer.setMap(map);
   }
 

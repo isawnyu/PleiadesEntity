@@ -40,15 +40,6 @@
 
   </index>
 
-  <index name="getPlaceType"
-     description="Select type of place"
-     enabled="True" 
-     friendlyName="Place type">
-
-   <criteria>ATSelectionCriterion</criteria>
-
-  </index>
-
   <index name="getTimePeriods"
      description="Select time period"
      enabled="True" 
@@ -82,11 +73,6 @@
      description="Select type of feature"
      enabled="True" 
      friendlyName="Feature type"/>
-
-  <metadata name="getPlaceType" 
-     description="Select type of place"
-     enabled="True" 
-     friendlyName="Place type"/>
 
   <metadata name="getTimePeriods" 
      description="Select time periods"
