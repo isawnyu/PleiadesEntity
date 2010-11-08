@@ -17,19 +17,26 @@ from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
 from zope.interface import implements
 import interfaces
+from Products.CompoundField.ArrayField import ArrayField
+from Products.CompoundField.ArrayWidget import ArrayWidget
+from Products.CompoundField.EnhancedArrayWidget import EnhancedArrayWidget
+from Products.CompoundField.EnhancedArrayWidget import EnhancedArrayWidget
+
+from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
+
+#from Products.ATReferenceBrowserWidget.ATReferenceBrowserWidget import \
+#    ReferenceBrowserWidget
+
+from Products.OrderableReferenceField import OrderableReferenceField, OrderableReferenceWidget
+from Products.PleiadesEntity.config import *
 from Products.PleiadesEntity.content.Work import Work
 from Products.PleiadesEntity.content.Temporal import Temporal
 from Products.PleiadesEntity.content.Work import Work
-from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
-
-from Products.ATReferenceBrowserWidget.ATReferenceBrowserWidget import \
-    ReferenceBrowserWidget
-from Products.PleiadesEntity.config import *
 
 # additional imports from tagged value 'import'
 from Products.CMFCore import permissions
-from Products.ATReferenceBrowserWidget.ATReferenceBrowserWidget import ReferenceBrowserWidget
-
+#from Products.ATReferenceBrowserWidget.ATReferenceBrowserWidget import ReferenceBrowserWidget
+from archetypes.referencebrowserwidget import ReferenceBrowserWidget
 ##code-section module-header #fill in your manual code here
 from Products.ATContentTypes.content.document import ATDocumentBase, ATDocumentSchema
 ##/code-section module-header
@@ -74,6 +81,22 @@ schema = Schema((
         allow_browse="True",
     ),
 
+    OrderableReferenceField(
+        name='nodes',
+        widget=ReferenceBrowserWidget(
+            startup_directory="/places",
+            label="Connects",
+            description=u'Select places or locations to add in order',
+            label_msgid='PleiadesEntity_label_nodes',
+            i18n_domain='PleiadesEntity',
+        ),
+        description="Feature node in a network location",
+        multiValued=True,
+        relationship='location_node',
+        allowed_types="('Place', 'Location')",
+        allow_browse="True",
+    ),
+
 ),
 )
 
@@ -81,7 +104,6 @@ schema = Schema((
 ##/code-section after-local-schema
 
 Location_schema = BaseSchema.copy() + \
-    getattr(Work, 'schema', Schema(())).copy() + \
     getattr(Temporal, 'schema', Schema(())).copy() + \
     getattr(Work, 'schema', Schema(())).copy() + \
     schema.copy()
