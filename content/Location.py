@@ -35,7 +35,6 @@ from Products.PleiadesEntity.content.Work import Work
 
 # additional imports from tagged value 'import'
 from Products.CMFCore import permissions
-#from Products.ATReferenceBrowserWidget.ATReferenceBrowserWidget import ReferenceBrowserWidget
 from archetypes.referencebrowserwidget import ReferenceBrowserWidget
 ##code-section module-header #fill in your manual code here
 from Products.ATContentTypes.content.document import ATDocumentBase, ATDocumentSchema

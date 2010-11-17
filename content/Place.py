@@ -21,8 +21,6 @@ from Products.PleiadesEntity.content.Named import Named
 from Products.PleiadesEntity.content.Work import Work
 from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
 
-from Products.ATReferenceBrowserWidget.ATReferenceBrowserWidget import \
-    ReferenceBrowserWidget
 from Products.ATVocabularyManager.namedvocabulary import NamedVocabulary
 from Products.PleiadesEntity.config import *
 
@@ -33,6 +31,7 @@ from Products.ATBackRef.backref import BackReferenceField, BackReferenceWidget
 ##code-section module-header #fill in your manual code here
 from Products.CMFCore import permissions
 import transaction
+from archetypes.referencebrowserwidget import ReferenceBrowserWidget
 from Products.ATContentTypes.content.document import ATDocumentBase, ATDocumentSchema
 from Products.ATBackRef.backref import BackReferenceField, BackReferenceWidget
 from AccessControl import getSecurityManager
