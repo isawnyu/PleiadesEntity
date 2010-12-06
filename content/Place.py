@@ -22,6 +22,7 @@ from Products.PleiadesEntity.content.Work import Work
 from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
 
 from Products.ATVocabularyManager.namedvocabulary import NamedVocabulary
+from Products.OrderableReferenceField import OrderableReferenceField, OrderableReferenceWidget
 from Products.PleiadesEntity.config import *
 
 # additional imports from tagged value 'import'
@@ -39,18 +40,6 @@ from AccessControl import getSecurityManager
 
 schema = Schema((
 
-    BackReferenceField(
-        name='places',
-        widget=BackReferenceWidget(
-            visible="{'view': 'visible', 'edit': 'invisible'}",
-            label="Is a part of",
-            macro="betterbackrefwidget",
-            label_msgid='PleiadesEntity_label_features',
-            i18n_domain='PleiadesEntity',
-        ),
-        multiValued=True,
-        relationship="hasPart",
-    ),
     StringField(
         name='placeType',
         widget=InAndOutWidget(
@@ -66,10 +55,11 @@ schema = Schema((
         enforceVocabulary=1,
         multiValued=1,
     ),
-    ReferenceField(
+    OrderableReferenceField(
         name='parts',
         widget=ReferenceBrowserWidget(
             label="Has part(s)",
+            description="Order is important for graph-like places: roads, itineraries, etc",
             startup_directory="/places",
             label_msgid='PleiadesEntity_label_places',
             i18n_domain='PleiadesEntity',
@@ -78,6 +68,19 @@ schema = Schema((
         relationship='hasPart',
         allowed_types="('Place',)",
         allow_browse="True",
+    ),
+
+    BackReferenceField(
+        name='places',
+        widget=BackReferenceWidget(
+            visible="{'view': 'visible', 'edit': 'invisible'}",
+            label="Is a part of",
+            macro="betterbackrefwidget",
+            label_msgid='PleiadesEntity_label_features',
+            i18n_domain='PleiadesEntity',
+        ),
+        multiValued=True,
+        relationship="hasPart",
     ),
 
 ),
@@ -114,8 +117,8 @@ class Place(BaseFolder, ATDocumentBase, Named, Work, BrowserDefaultMixin):
     schema["presentation"].widget.visible = {"edit": "invisible", "view": "invisible"}
     schema["tableContents"].widget.visible = {"edit": "invisible", "view": "invisible"}
     schema["text"].widget.label = 'Details'
-    schema["parts"].widget.visible = {"edit": "invisible", "view": "invisible"}
-    schema["places"].widget.visible = {"edit": "invisible", "view": "invisible"}
+#    schema["parts"].widget.visible = {"edit": "invisible", "view": "invisible"}
+#    schema["places"].widget.visible = {"edit": "invisible", "view": "invisible"}
     schema["permanent"].widget.visible = {"edit": "invisible", "view": "invisible"}
     schema["modernLocation"].widget.visible = {"edit": "invisible", "view": "invisible"}
     schema.moveField('placeType', pos='top')
@@ -137,8 +140,6 @@ class Place(BaseFolder, ATDocumentBase, Named, Work, BrowserDefaultMixin):
         """
         """
         sm = getSecurityManager()
-        # for f in self.getFeatures():
-        #    yield f
         for o in self.getRefs('hasPart'):
             if interfaces.IPlace.providedBy(o) and sm.checkPermission(permissions.View, o):
                 yield o
@@ -184,7 +185,6 @@ class Place(BaseFolder, ATDocumentBase, Named, Work, BrowserDefaultMixin):
                             , self.getModernLocation()
                             , self.rangesText()
                             )
-
 
 registerType(Place, PROJECTNAME)
 # end of class Place

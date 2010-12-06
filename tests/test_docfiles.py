@@ -14,6 +14,7 @@ import _testing
 ztc.installProduct('ATVocabularyManager')
 ztc.installProduct('Products.ATBackRef')
 ztc.installProduct('Products.CompoundField')
+ztc.installProduct('Products.OrderableReferenceField')
 ztc.installProduct('pleiades.vocabularies')
 ztc.installProduct('PleiadesEntity')
 

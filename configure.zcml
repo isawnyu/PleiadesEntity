@@ -17,24 +17,6 @@
   
   <five:registerPackage package="." initialize=".initialize" />
 
-  <adapter
-    for="Products.PleiadesEntity.content.Location.Location"
-    provides="zgeo.geographer.interfaces.IGeoreferenced"
-    factory=".geo.LocationGeoItem"
-    />
-
-  <adapter
-    for="Products.PleiadesEntity.content.Feature.Feature"
-    provides="zgeo.geographer.interfaces.IGeoreferenced"
-    factory=".geo.FeatureGeoItem"
-    />
-  
-  <adapter
-    for="Products.PleiadesEntity.content.Place.Place"
-    provides="zgeo.geographer.interfaces.IGeoreferenced"
-    factory=".geo.PlaceGeoItem"
-    />
-
   <five:implements
     class="Products.PleiadesEntity.content.PlaceContainer.PlaceContainer"
     interface="zope.dublincore.interfaces.ICMFDublinCore"

@@ -41,7 +41,7 @@ Feature Location
     >>> x.id
     'position'
     >>> x.getGeometry()
-    'Point:[28.7289,37.7145]'
+    'Point:[28.728899999999999, 37.714500000000001]'
     >>> x.Title()
     'Position'
     

@@ -24,9 +24,6 @@ from Products.CompoundField.EnhancedArrayWidget import EnhancedArrayWidget
 
 from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
 
-#from Products.ATReferenceBrowserWidget.ATReferenceBrowserWidget import \
-#    ReferenceBrowserWidget
-
 from Products.OrderableReferenceField import OrderableReferenceField, OrderableReferenceWidget
 from Products.PleiadesEntity.config import *
 from Products.PleiadesEntity.content.Work import Work
@@ -38,6 +35,11 @@ from Products.CMFCore import permissions
 from archetypes.referencebrowserwidget import ReferenceBrowserWidget
 ##code-section module-header #fill in your manual code here
 from Products.ATContentTypes.content.document import ATDocumentBase, ATDocumentSchema
+
+import re
+from shapely.geometry import asShape
+from shapely import wkt
+import simplejson
 ##/code-section module-header
 
 schema = Schema((
@@ -54,6 +56,7 @@ schema = Schema((
         ),
         accessor='getGeometry',
         edit_accessor='getGeometryRaw',
+        mutator='setGeometry',
     ),
     StringField(
         name='description',
@@ -92,7 +95,7 @@ schema = Schema((
         description="Feature node in a network location",
         multiValued=True,
         relationship='location_node',
-        allowed_types="('Place', 'Location')",
+        allowed_types=('Place', 'Location'),
         allow_browse="True",
     ),
 
@@ -102,10 +105,10 @@ schema = Schema((
 ##code-section after-local-schema #fill in your manual code here
 ##/code-section after-local-schema
 
-Location_schema = BaseSchema.copy() + \
-    getattr(Temporal, 'schema', Schema(())).copy() + \
-    getattr(Work, 'schema', Schema(())).copy() + \
-    schema.copy()
+#Location_schema = BaseSchema.copy() + \
+#    getattr(Temporal, 'schema', Schema(())).copy() + \
+#    getattr(Work, 'schema', Schema(())).copy() + \
+#    schema.copy()
 
 ##code-section after-schema #fill in your manual code here
 Location_schema = ATDocumentSchema.copy() + \
@@ -129,19 +132,34 @@ class Location(ATDocumentBase, Work, Temporal, BrowserDefaultMixin):
     ##code-section class-header #fill in your manual code here
     schema["presentation"].widget.visible = {"edit": "invisible", "view": "invisible"}
     schema["tableContents"].widget.visible = {"edit": "invisible", "view": "invisible"}
+    schema["nodes"].widget.visible = {"edit": "invisible", "view": "invisible"}
     schema["text"].widget.label = 'Details'
     ##/code-section class-header
 
     # Methods
 
-    security.declarePublic('SearchableText')
+    security.declareProtected(permissions.View, 'SearchableText')
     def SearchableText(self):
         text = super(Location, self).SearchableText().strip()
         return text + ' ' + self.rangesText()
 
-    security.declarePublic('getGeometry')
+    security.declareProtected(permissions.View, 'getGeometry')
     def getGeometry(self):
         return self.getGeometryRaw()
+
+    security.declareProtected(permissions.View, 'getGeometryJSON')
+    def getGeometryJSON(self):
+        parts = self.getGeometryRaw().split(':')
+        return '{"type": "%s", "coordinates": %s}' % (
+            parts[0].strip(), parts[1].strip())
+
+    security.declareProtected(permissions.View, 'getGeometryWKT')
+    def getGeometryWKT(self):
+        parts = self.getGeometryRaw().split(':')
+        j = '{"type": "%s", "coordinates": %s}' % (
+            parts[0].strip(), parts[1].strip())
+        d = simplejson.loads(j)
+        return wkt.dumps(asShape(d))
 
     security.declarePublic('getGeometryRaw')
     def getGeometryRaw(self):
@@ -149,6 +167,30 @@ class Location(ATDocumentBase, Work, Temporal, BrowserDefaultMixin):
             return self.Schema()["geometry"].get(self)
         except AssertionError:
             return ''
+
+    security.declareProtected(permissions.AddPortalContent, 'setGeometry')
+    def setGeometry(self, value):
+        field = self.Schema()["geometry"]
+        text = value.strip()
+        if text == '':
+            return
+        elif text[0] == '{':
+            # geojson
+            g = simplejson.loads(text)
+        elif re.match(r'[a-zA-Z]+\s*\(', text):
+            # WKT
+            gi = wkt.loads(text).__geo_interface__
+            g = simplejson.loads(simplejson.dumps(gi))
+        else:
+            # format X
+            parts = text.split(':')
+            coords = parts[1].replace('(', '[')
+            coords = coords.replace(')', ']')
+            j = '{"type": "%s", "coordinates": %s}' % (
+                parts[0].strip(), coords.strip())
+            g = simplejson.loads(j)
+        v = "%s:%s" % (g['type'], g['coordinates'])
+        field.set(self, v)
 
 registerType(Location, PROJECTNAME)
 # end of class Location
