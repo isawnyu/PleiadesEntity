@@ -54,6 +54,7 @@ schema = Schema((
             description_msgid='PleiadesEntity_help_geometry',
             i18n_domain='PleiadesEntity',
         ),
+        default='',
         accessor='getGeometry',
         edit_accessor='getGeometryRaw',
         mutator='setGeometry',
@@ -163,33 +164,31 @@ class Location(ATDocumentBase, Work, Temporal, BrowserDefaultMixin):
 
     security.declarePublic('getGeometryRaw')
     def getGeometryRaw(self):
-        try:
-            return self.Schema()["geometry"].get(self)
-        except AssertionError:
-            return ''
+        return self.Schema()["geometry"].get(self)
 
-    security.declareProtected(permissions.AddPortalContent, 'setGeometry')
+    security.declareProtected(permissions.ModifyPortalContent, 'setGeometry')
     def setGeometry(self, value):
         field = self.Schema()["geometry"]
-        text = value.strip()
-        if text == '':
-            return
-        elif text[0] == '{':
-            # geojson
-            g = simplejson.loads(text)
-        elif re.match(r'[a-zA-Z]+\s*\(', text):
-            # WKT
-            gi = wkt.loads(text).__geo_interface__
-            g = simplejson.loads(simplejson.dumps(gi))
+        if not value:
+            v = ''
         else:
-            # format X
-            parts = text.split(':')
-            coords = parts[1].replace('(', '[')
-            coords = coords.replace(')', ']')
-            j = '{"type": "%s", "coordinates": %s}' % (
-                parts[0].strip(), coords.strip())
-            g = simplejson.loads(j)
-        v = "%s:%s" % (g['type'], g['coordinates'])
+            text = value.strip()
+            if text[0] == '{':
+                # geojson
+                g = simplejson.loads(text)
+            elif re.match(r'[a-zA-Z]+\s*\(', text):
+                # WKT
+                gi = wkt.loads(text).__geo_interface__
+                g = simplejson.loads(simplejson.dumps(gi))
+            else:
+                # format X
+                parts = text.split(':')
+                coords = parts[1].replace('(', '[')
+                coords = coords.replace(')', ']')
+                j = '{"type": "%s", "coordinates": %s}' % (
+                    parts[0].strip(), coords.strip())
+                g = simplejson.loads(j)
+            v = "%s:%s" % (g['type'], g['coordinates'])
         field.set(self, v)
 
 registerType(Location, PROJECTNAME)
