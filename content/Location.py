@@ -59,17 +59,17 @@ schema = Schema((
         edit_accessor='getGeometryRaw',
         mutator='setGeometry',
     ),
-    StringField(
-        name='description',
-        widget=StringField._properties['widget'](
-            label="Alternate description",
-            description="""Enter alternate description of location (for example: "10 km N of Athens")""",
-            label_msgid='PleiadesEntity_label_description',
-            description_msgid='PleiadesEntity_help_description',
-            i18n_domain='PleiadesEntity',
-        ),
-        description="Location as a text string suitable for geocoding",
-    ),
+    #StringField(
+    #    name='description',
+    #    widget=StringField._properties['widget'](
+    #        label="Alternate description",
+    #        description="""Enter alternate description of location (for example: "10 km N of Athens")""",
+    #        label_msgid='PleiadesEntity_label_description',
+    #        description_msgid='PleiadesEntity_help_description',
+    #        i18n_domain='PleiadesEntity',
+    #    ),
+    #    description="Location as a text string suitable for geocoding",
+    #),
     ReferenceField(
         name='accuracy',
         widget=ReferenceBrowserWidget(
@@ -80,7 +80,7 @@ schema = Schema((
         ),
         multiValued=False,
         relationship='location_accuracy',
-        allowed_types="('PositionalAccuracyAssessment',)",
+       # allowed_types="('PositionalAccuracyAssessment',)",
         allow_browse="True",
     ),
 

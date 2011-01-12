@@ -86,13 +86,9 @@
         templateId template/getId;"
         >
 
-        <p class="documentDescription">
-            <metal:field use-macro="python:here.widget('description', mode='view')">
-            Description
-            </metal:field>
-        </p>
-
-      <div id="map" style="width:100%;height:300px;border:solid #ccc 1px;background-color:#cccccc;"></div>
+      <div 
+        id="map" 
+        style="width:100%;height:300px;border:solid #ccc 1px;"></div>
       
       <br/>
 
