@@ -9,7 +9,7 @@ def validate_name(lang, name_utf8):
         name = name.replace(ignore, u'')
     if wsystem == 'en':
         invalids = []
-    if wsystem == 'grc' or wsystem == 'la-grek':
+    elif wsystem == 'grc' or wsystem == 'la-grek':
         invalids = ws_grek.validate(name, 'all')
     elif wsystem == 'la' or wsystem == 'grc-latn':
         invalids = ws_latn.validate(name, 'all')
