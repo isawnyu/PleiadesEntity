@@ -9,9 +9,11 @@
     <metal:view_macro define-macro="view">
         <ul>
           <li tal:repeat="citation accessor">
-            <span tal:content="citation/range">Range</span>
             <tal:block tal:condition="citation/identifier">
-            [<a href="#" tal:attributes="href citation/identifier">work</a>]
+              <span tal:content="citation/range">Range</span>: <a href="#" tal:attributes="href citation/identifier"><span tal:content="citation/identifier">Identifier</span></a>
+            </tal:block>
+            <tal:block tal:condition="not:citation/identifier">
+              <span tal:content="citation/range">Range</span>
             </tal:block>
           </li>
         </ul>
