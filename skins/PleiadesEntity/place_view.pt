@@ -99,10 +99,6 @@
       infowindow.open(map);
     });
 
-    google.maps.event.addListener(kmlLayer3, 'metadata_changed', function() {
-      map.panTo(kmlLayer3.getDefaultViewport().getCenter());
-    });
-
     google.maps.event.addListener(kmlLayer2, 'metadata_changed', function() {
       var bounds = kmlLayer2.getDefaultViewport();
       if (bounds.isEmpty() == false) {
@@ -112,6 +108,9 @@
     });
 
     if (/neighbors$/.test(document.location.href)) {
+      google.maps.event.addListener(kmlLayer3, 'metadata_changed', function() {
+        map.panToBounds(kmlLayer3.getDefaultViewport()); 
+      });
       google.maps.event.addListener(kmlLayer1, 'metadata_changed', function() {
         var bounds = kmlLayer1.getDefaultViewport();
         if (bounds.isEmpty() == false) {
@@ -122,6 +121,9 @@
       kmlLayer1.setMap(map);
     }
     else {
+      google.maps.event.addListener(kmlLayer3, 'metadata_changed', function() {
+        map.panTo(kmlLayer3.getDefaultViewport().getCenter()); 
+      });
       kmlLayer2.setMap(map);
     }
   }
