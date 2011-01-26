@@ -15,6 +15,8 @@
       <link rel="alternate" type="application/atom+xml" tal:attributes="href string:${url}/atom"/>
       <link rel="alternate" type="application/json" tal:attributes="href string:${url}/@@json?sm=1"/>
       <link rel="alternate" type="application/vnd.google-earth.kml+xml" tal:attributes="href string:${url}/kml"/>
+      <link rel="alternate p-neighbors" type="application/vnd.google-earth.kml+xml" tal:attributes="href string:${url}/p-neighbors-kml"/>
+      <link rel="alternate r-neighbors" type="application/vnd.google-earth.kml+xml" tal:attributes="href string:${url}/r-neighbors-kml"/>
 
           </metal:links_macro>
     
@@ -24,13 +26,16 @@
       </script>
       <script type="text/javascript">
   var MTID = 'aw';
-  infowindow = new google.maps.InfoWindow();
-  map = null;
+  var infowindow = new google.maps.InfoWindow();
+  var map = null;
+  var kmlLayer1 = null;
+  var kmlLayer2 = null;
+  var kmlLayer3 = null;
 
-  function getKML() {
+  function getKML(rel) {
     var documentNode = document;
     var linkNode = documentNode.evaluate(
-                    '//link[@rel="alternate" and @type="application/vnd.google-earth.kml+xml"]',
+                    '//link[@rel="' + rel + '" and @type="application/vnd.google-earth.kml+xml"]',
                     documentNode,
                     null,
                     XPathResult.FIRST_ORDERED_NODE_TYPE,
@@ -51,10 +56,10 @@
 
     map = new google.maps.Map(document.getElementById("map"),
         myOptions);
-      
-    var kmlLayer = new google.maps.KmlLayer(getKML(), {suppressInfoWindows: true});
 
-    google.maps.event.addListener(kmlLayer, 'click', function(evt) {
+    kmlLayer1 = new google.maps.KmlLayer(getKML("alternate r-neighbors"), {suppressInfoWindows: true, preserveViewport: true});
+
+    google.maps.event.addListener(kmlLayer1, 'click', function(evt) {
       var msg = document.createElement("div");
       var head = document.createElement("h4");
       var descr = document.createElement("div");
@@ -66,7 +71,59 @@
       infowindow.open(map);
     });
 
-  kmlLayer.setMap(map);
+    kmlLayer2 = new google.maps.KmlLayer(getKML("alternate p-neighbors"), {suppressInfoWindows: true, preserveViewport: true});
+
+    google.maps.event.addListener(kmlLayer2, 'click', function(evt) {
+      var msg = document.createElement("div");
+      var head = document.createElement("h4");
+      var descr = document.createElement("div");
+      jq(head).text(evt.featureData.name);
+      jq(msg).append(head);
+      jq(msg).append(unescape(unescape(evt.featureData.description)));
+      infowindow.close();
+      infowindow.setOptions({position: evt.latLng, content: msg});
+      infowindow.open(map);
+    });
+
+    kmlLayer3 = new google.maps.KmlLayer(getKML("alternate"), {suppressInfoWindows: true, preserveViewport: true});
+
+    google.maps.event.addListener(kmlLayer3, 'click', function(evt) {
+      var msg = document.createElement("div");
+      var head = document.createElement("h4");
+      var descr = document.createElement("div");
+      jq(head).text(evt.featureData.name);
+      jq(msg).append(head);
+      jq(msg).append(unescape(unescape(evt.featureData.description)));
+      infowindow.close();
+      infowindow.setOptions({position: evt.latLng, content: msg});
+      infowindow.open(map);
+    });
+
+    google.maps.event.addListener(kmlLayer3, 'metadata_changed', function() {
+      map.panTo(kmlLayer3.getDefaultViewport().getCenter());
+    });
+
+    google.maps.event.addListener(kmlLayer2, 'metadata_changed', function() {
+      var bounds = kmlLayer2.getDefaultViewport();
+      if (bounds.isEmpty() == false) {
+        map.fitBounds(bounds);
+      }
+      kmlLayer3.setMap(map);
+    });
+
+    if (/neighbors$/.test(document.location.href)) {
+      google.maps.event.addListener(kmlLayer1, 'metadata_changed', function() {
+        var bounds = kmlLayer1.getDefaultViewport();
+        if (bounds.isEmpty() == false) {
+          map.fitBounds(bounds);
+        }
+        kmlLayer2.setMap(map);
+      });
+      kmlLayer1.setMap(map);
+    }
+    else {
+      kmlLayer2.setMap(map);
+    }
   }
 
   registerPloneFunction(initialize);
@@ -135,3 +192,4 @@
 
   </body>
 </html>
+
