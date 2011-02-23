@@ -159,7 +159,7 @@ class Place(BaseFolder, ATDocumentBase, Named, Work, BrowserDefaultMixin):
             newid = -1
             while int(newid) <= BA_ID_MAX:
                 newid = parent.generateId(prefix='')
-            transaction.commit(1)
+            transaction.commit()
             self.setId(newid)
 
     security.declareProtected(permissions.View, 'getFeatureType')
