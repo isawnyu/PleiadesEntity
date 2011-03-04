@@ -10,6 +10,19 @@ from pleiades.transliteration import transliterate_name
 
 log = logging.getLogger('PleiadesEntity')
 
+def reindexWhole(obj, event):
+    for p in obj.getBRefs('hasPart'):
+        log.info("Reindexing whole %s", p)
+        p.reindexObject()
+
+def reindexContainer(obj, event):
+    x = aq_inner(obj)
+    f = aq_parent(x)
+    if IPlace.providedBy(f):
+        log.info("Reindexing container %s", f)
+        f.reindexObject()
+        reindexWhole(f, event)
+
 @adapter(IName, IObjectModifiedEvent)
 def nameChangeSubscriber(obj, event):
     nameAttested = obj.getNameAttested()
@@ -18,36 +31,24 @@ def nameChangeSubscriber(obj, event):
         t = transliterate_name(nameLanguage, nameAttested)
         obj.getField('nameTransliterated').set(obj, t)
     obj.getField('title').set(obj, obj.getNameTransliterated())
-    obj.reindexObject()
-    x = aq_inner(obj)
-    f = aq_parent(x)
-    f.reindexObject()
-    featureChangeSubscriber(f, event)
+    reindexContainer(obj, event)
     
 @adapter(ILocation, IObjectModifiedEvent)
 def locationChangeSubscriber(obj, event):
-    # obj.reindexObject()
-    x = aq_inner(obj)
-    f = aq_parent(x)
-    if IPlace.providedBy(f):
-        log.info("Reindexing container %s", f)
-        f.reindexObject()
-        featureChangeSubscriber(f, event)
+    reindexContainer(obj, event)
 
 @adapter(IFeature, IObjectModifiedEvent)
 def featureChangeSubscriber(obj, event):
-    for p in obj.getBRefs('hasPart'):
-        log.info("Reindexing whole %s", p)
-        p.reindexObject()
+    reindexWhole(obj, event)
 
-# We want to reindex containers when locations change state
+# We want to reindex containers when locations, names change state
+#
 @adapter(ILocation, IActionSucceededEvent)
 def locationActionSucceededSubscriber(obj, event):
-    x = aq_inner(obj)
-    f = aq_parent(x)
-    if IPlace.providedBy(f):
-        log.info("Reindexing container %s", f)
-        f.reindexObject()
-        featureChangeSubscriber(f, event)
+    reindexContainer(obj, event)
+
+@adapter(IName, IActionSucceededEvent)
+def nameActionSucceededSubscriber(obj, event):
+    reindexContainer(obj, event)
 
 
