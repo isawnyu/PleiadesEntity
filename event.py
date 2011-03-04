@@ -12,14 +12,14 @@ log = logging.getLogger('PleiadesEntity')
 
 def reindexWhole(obj, event):
     for p in obj.getBRefs('hasPart'):
-        log.info("Reindexing whole %s", p)
+        log.debug("Reindexing whole %s", p)
         p.reindexObject()
 
 def reindexContainer(obj, event):
     x = aq_inner(obj)
     f = aq_parent(x)
     if IPlace.providedBy(f):
-        log.info("Reindexing container %s", f)
+        log.debug("Reindexing container %s", f)
         f.reindexObject()
         reindexWhole(f, event)
 
