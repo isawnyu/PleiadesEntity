@@ -1,4 +1,4 @@
-from pleiades.transliteration import ws_grek, ws_latn
+from pleiades.transliteration import ws_grek, ws_latn, ws_en, ws_tr
 
 ignores = [u'(...)',u' ']
 
@@ -8,11 +8,13 @@ def validate_name(lang, name_utf8):
     for ignore in ignores:
         name = name.replace(ignore, u'')
     if wsystem == 'en':
-        invalids = []
+        invalids = ws_en.validate(name, 'all')
     elif wsystem == 'grc' or wsystem == 'la-grek':
         invalids = ws_grek.validate(name, 'all')
     elif wsystem == 'la' or wsystem == 'grc-latn':
         invalids = ws_latn.validate(name, 'all')
+    elif wsystem == 'tr':
+        invalids = ws_tr.validate(name, 'all')
     else:
         return 'Unsupported writing system (%s) in PleiadesEntity/Extensions/ws_validation.py' % lang
     imsg = ''
