@@ -1,4 +1,4 @@
-from pleiades.transliteration import ws_grek, ws_latn, ws_en, ws_tr
+from pleiades.transliteration import ws_grek, ws_latn, ws_en, ws_tr, ws_copt
 
 ignores = [u'(...)',u' ']
 

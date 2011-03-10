@@ -33,6 +33,8 @@
   <subscriber handler=".event.locationActionSucceededSubscriber"/>
   <subscriber handler=".event.nameActionSucceededSubscriber"/>
 
+  <adapter name="titleStarts" factory=".indexers.name_titleStarts"/>
+  
   <!-- ##/code-section configure.zcml -->
 
 </configure>

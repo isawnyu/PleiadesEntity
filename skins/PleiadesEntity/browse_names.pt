@@ -1,0 +1,57 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="here/main_template/macros/master"
+      i18n:domain="plone">
+
+  <head>
+    <title tal:content="template/title">The title</title>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8">
+
+    <tal:links metal:fill-slot="head_slot" tal:define="url context/absolute_url">
+    </tal:links>
+
+    <tal:js metal:fill-slot="javascript_head_slot">
+    </tal:js>
+
+  </head>
+  <body>
+  <div metal:fill-slot="main">
+
+    <h1 class="documentFirstHeading">Ancient Names</h1>
+
+    <p>These resources describe the ancient appellations associated with places during a particular time period. The titles of these resources are initially derived from the Barrington Atlas and formed by transliteration of a name from its original language. 
+    Additional non-word characters carry additional semantics. <!-- (TODO: explain)--></p>
+
+    <p>A name resource's primary attributes are:</p>
+    <ul>
+    <li>attested representation of the name in its original language</li>
+    <li>accuracy and completeness of transcription of the name</li>
+    <li>certainty of association between the name and its place context, and the time period(s) of association</li>
+    </ul>
+    <p>The Pleiades vocabularies have been used as facets for exploring names in the sections below. Click any link to access a sub-listing of resources sorted by title. The size of each set is shown in parentheses.</p>
+
+    <div tal:define="data here/getNameFacets">
+      
+      <div tal:repeat="label data/sortedLabels">
+        <h3 tal:content="label">LABEL</h3>
+        <ul>
+          <li tal:repeat="facet python:data[label]">
+            <a tal:attributes="href facet/details" tal:content="facet/value/capitalize">VALUE</a> (<span class="discreet" tal:content="facet/count">COUNT</span>) 
+            <tal:groups tal:condition="facet/groups|nothing">
+              - by initial character: 
+              <tal:group tal:repeat="group facet/groups">
+                <a tal:attributes="href group/details" tal:content="group/value">VALUE</a> (<span class="discreet" tal:content="group/count">COUNT</span>)<span tal:condition="not:repeat/group/end">,</span>
+              </tal:group>
+            </tal:groups>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+
+  </div>
+  </body>
+</html>
