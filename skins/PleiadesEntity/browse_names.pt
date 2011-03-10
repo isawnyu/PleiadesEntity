@@ -20,7 +20,7 @@
   <body>
   <div metal:fill-slot="main">
 
-    <h1 class="documentFirstHeading">Ancient Names</h1>
+    <h1 class="documentFirstHeading">Name resources</h1>
 
     <p>These resources describe the appellations associated with places during a particular time period. The titles of these resources are initially derived from the Barrington Atlas and formed by transliteration of a name from its original language. 
     Additional non-word characters carry additional semantics. <!-- (TODO: explain)--></p>

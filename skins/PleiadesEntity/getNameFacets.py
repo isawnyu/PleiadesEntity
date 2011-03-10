@@ -14,9 +14,10 @@ vocabs = {
 
 portalurl = context.portal_url()
 vtool = context.portal_vocabularies
+wftool = context.portal_workflow
 catalog = context.portal_catalog
 
-basequery = {'portal_type': 'Name'}
+basequery = {'portal_type': 'Name', 'review_state': 'published'}
 
 data = {}
 sortedlabels = indexes.keys()
@@ -36,6 +37,8 @@ for label, index in indexes.items():
         query[index] = v
         term = vocab.get(v, None)
         if term:
+            if wftool.getInfoFor(term, 'review_state') != 'published':
+                continue
             tval = term.getTermValue()
         else:
             tval = "Undefined"
@@ -48,7 +51,9 @@ for label, index in indexes.items():
                     details="%s/search?portal_type=Name&%s=%s" % (
                         portalurl, index, v)
                     )
-        if len(results) > 100:
+        if len(results) <= 100:
+            item['details'] = "%s/search?portal_type=Name&sort_on=sortable_title&%s=%s" % (portalurl, index, v)
+        else:
             # subqueries using titleStarts index
             item['groups'] = []
             for group in 'ABCDEFGHIJKLMNOPQRSTUVWXYZ':
