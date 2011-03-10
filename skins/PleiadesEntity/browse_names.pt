@@ -7,10 +7,10 @@
       i18n:domain="plone">
 
   <head>
-    <title tal:content="template/title">The title</title>
+    <title tal:content="template/title">Ancient Names</title>
     <meta http-equiv="content-type" content="text/html;charset=utf-8">
 
-    <tal:links metal:fill-slot="head_slot" tal:define="url context/absolute_url">
+    <tal:links metal:fill-slot="head_slot">
     </tal:links>
 
     <tal:js metal:fill-slot="javascript_head_slot">
@@ -22,7 +22,7 @@
 
     <h1 class="documentFirstHeading">Ancient Names</h1>
 
-    <p>These resources describe the ancient appellations associated with places during a particular time period. The titles of these resources are initially derived from the Barrington Atlas and formed by transliteration of a name from its original language. 
+    <p>These resources describe the appellations associated with places during a particular time period. The titles of these resources are initially derived from the Barrington Atlas and formed by transliteration of a name from its original language. 
     Additional non-word characters carry additional semantics. <!-- (TODO: explain)--></p>
 
     <p>A name resource's primary attributes are:</p>
@@ -41,9 +41,9 @@
           <li tal:repeat="facet python:data[label]">
             <a tal:attributes="href facet/details" tal:content="facet/value/capitalize">VALUE</a> (<span class="discreet" tal:content="facet/count">COUNT</span>) 
             <tal:groups tal:condition="facet/groups|nothing">
-              - by initial character: 
+              – by initial character: 
               <tal:group tal:repeat="group facet/groups">
-                <a tal:attributes="href group/details" tal:content="group/value">VALUE</a> (<span class="discreet" tal:content="group/count">COUNT</span>)<span tal:condition="not:repeat/group/end">,</span>
+                <a tal:attributes="href group/details" tal:content="group/value">VALUE</a>
               </tal:group>
             </tal:groups>
           </li>

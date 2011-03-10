@@ -51,8 +51,7 @@ for label, index in indexes.items():
         if len(results) > 100:
             # subqueries using titleStarts index
             item['groups'] = []
-            for group in [
-                'ABC', 'DEF', 'GHI', 'JKL', 'MNO', 'PQR', 'STU', 'VWX', 'YZ']:
+            for group in 'ABCDEFGHIJKLMNOPQRSTUVWXYZ':
                 chars = [char for char in group]
                 query['titleStarts'] = chars
                 results = catalog(query, sort_on='sortable_title')
@@ -63,7 +62,7 @@ for label, index in indexes.items():
                     dict(
                         value=group,
                         count=len(results),
-                        details="%s/search?portal_type=Name&%s=%s&%s" % (
+                        details="%s/search?portal_type=Name&sort_on=sortable_title&%s=%s&%s" % (
                             portalurl, index, v, tqs)
                     ))
 
