@@ -32,6 +32,7 @@
   <subscriber handler=".event.featureChangeSubscriber"/>
   <subscriber handler=".event.locationActionSucceededSubscriber"/>
   <subscriber handler=".event.nameActionSucceededSubscriber"/>
+  <subscriber handler=".event.placeAfterCheckinSubscriber"/>
 
   <adapter name="titleStarts" factory=".indexers.name_titleStarts"/>
   

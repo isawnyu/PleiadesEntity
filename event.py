@@ -1,6 +1,7 @@
 import logging
 
 from Acquisition import aq_inner, aq_parent
+from plone.app.iterate.interfaces import IAfterCheckinEvent
 from Products.CMFCore.interfaces import IActionSucceededEvent
 from zope.component import adapter
 from zope.lifecycleevent.interfaces import IObjectModifiedEvent
@@ -51,4 +52,9 @@ def locationActionSucceededSubscriber(obj, event):
 def nameActionSucceededSubscriber(obj, event):
     reindexContainer(obj, event)
 
+@adapter(IPlace, IAfterCheckinEvent)
+def placeAfterCheckinSubscriber(obj, event):
+    for child in obj.values():
+        child.reindexObject()
+    reindexContainer(event.object, event)
 
