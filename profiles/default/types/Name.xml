@@ -4,7 +4,7 @@
         xmlns:i18n="http://xml.zope.org/namespaces/i18n"
         i18n:domain="plone">
    
- <property name="title" i18n:translate="">Ancient Name</property>
+ <property name="title" i18n:translate="">Name</property>
  <property name="description" i18n:translate="">Any sort of name that can be applied to a geographic place.</property>
  <property name="content_icon">document_icon.gif</property>
  <property name="content_meta_type">Name</property>
