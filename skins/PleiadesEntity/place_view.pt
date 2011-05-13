@@ -12,124 +12,25 @@
       tal:define="url context/absolute_url"
       >
       <link rel="foaf:primaryTopic" tal:attributes="href string:${url}#this"/>
-      <link rel="alternate" type="application/atom+xml" tal:attributes="href string:${url}/atom"/>
-      <link rel="alternate" type="application/json" tal:attributes="href string:${url}/@@json?sm=1"/>
-      <link rel="alternate" type="application/vnd.google-earth.kml+xml" tal:attributes="href string:${url}/kml"/>
-      <link rel="alternate p-neighbors" type="application/vnd.google-earth.kml+xml" tal:attributes="href string:${url}/p-neighbors-kml"/>
-      <link rel="alternate r-neighbors" type="application/vnd.google-earth.kml+xml" tal:attributes="href string:${url}/r-neighbors-kml"/>
+      <link rel="where" type="application/json" tal:attributes="href context/@@json/data_uri"/>
+      <link rel="nofollow alternate" type="application/atom+xml" tal:attributes="href string:${url}/atom"/>
+      <link rel="nofollow alternate" type="application/json" tal:attributes="href string:${url}/@@json?sm=1"/>
+      <link rel="nofollow alternate" type="application/vnd.google-earth.kml+xml" tal:attributes="href string:${url}/kml"/>
+      <link rel="nofollow alternate p-neighbors" type="application/vnd.google-earth.kml+xml" tal:attributes="href string:${url}/p-neighbors-kml"/>
+      <link rel="nofollow alternate r-neighbors" type="application/vnd.google-earth.kml+xml" tal:attributes="href string:${url}/r-neighbors-kml"/>
 
           </metal:links_macro>
     
     <metal:js_macro metal:define-macro="js">
-      <script type="text/javascript"
+      <script 
+        type="text/javascript"
         src="http://maps.google.com/maps/api/js?sensor=false">
       </script>
-      <script type="text/javascript">
-  var MTID = 'aw';
-  var infowindow = new google.maps.InfoWindow();
-  var map = null;
-  var kmlLayer1 = null;
-  var kmlLayer2 = null;
-  var kmlLayer3 = null;
+      <script 
+        type="text/javascript"
+        src="context_map.js">
+      </script>
 
-  function getKML(rel) {
-    var documentNode = document;
-    var linkNode = documentNode.evaluate(
-                    '//link[@rel="' + rel + '" and @type="application/vnd.google-earth.kml+xml"]',
-                    documentNode,
-                    null,
-                    XPathResult.FIRST_ORDERED_NODE_TYPE,
-                    null
-                    ).singleNodeValue;
-    var uri = linkNode.getAttribute("href");
-    return uri;
-  }
-
-  function initialize() {
-    var latlng = new google.maps.LatLng(0.0, 0.0);
-
-    var myOptions = {
-      zoom: 8,
-      center: latlng,
-      mapTypeId: google.maps.MapTypeId.TERRAIN
-    };
-
-    map = new google.maps.Map(document.getElementById("map"),
-        myOptions);
-
-    kmlLayer1 = new google.maps.KmlLayer(getKML("alternate r-neighbors"), {suppressInfoWindows: true, preserveViewport: true});
-
-    google.maps.event.addListener(kmlLayer1, 'click', function(evt) {
-      var msg = document.createElement("div");
-      var head = document.createElement("h4");
-      var descr = document.createElement("div");
-      jq(head).text(evt.featureData.name);
-      jq(msg).append(head);
-      jq(msg).append(unescape(unescape(evt.featureData.description)));
-      infowindow.close();
-      infowindow.setOptions({position: evt.latLng, content: msg});
-      infowindow.open(map);
-    });
-
-    kmlLayer2 = new google.maps.KmlLayer(getKML("alternate p-neighbors"), {suppressInfoWindows: true, preserveViewport: true});
-
-    google.maps.event.addListener(kmlLayer2, 'click', function(evt) {
-      var msg = document.createElement("div");
-      var head = document.createElement("h4");
-      var descr = document.createElement("div");
-      jq(head).text(evt.featureData.name);
-      jq(msg).append(head);
-      jq(msg).append(unescape(unescape(evt.featureData.description)));
-      infowindow.close();
-      infowindow.setOptions({position: evt.latLng, content: msg});
-      infowindow.open(map);
-    });
-
-    kmlLayer3 = new google.maps.KmlLayer(getKML("alternate"), {suppressInfoWindows: true, preserveViewport: true});
-
-    google.maps.event.addListener(kmlLayer3, 'click', function(evt) {
-      var msg = document.createElement("div");
-      var head = document.createElement("h4");
-      var descr = document.createElement("div");
-      jq(head).text(evt.featureData.name);
-      jq(msg).append(head);
-      jq(msg).append(unescape(unescape(evt.featureData.description)));
-      infowindow.close();
-      infowindow.setOptions({position: evt.latLng, content: msg});
-      infowindow.open(map);
-    });
-
-    google.maps.event.addListener(kmlLayer2, 'metadata_changed', function() {
-      var bounds = kmlLayer2.getDefaultViewport();
-      if (bounds.isEmpty() == false) {
-        map.fitBounds(bounds);
-      }
-      kmlLayer3.setMap(map);
-    });
-
-    if (/neighbors$/.test(document.location.href)) {
-      google.maps.event.addListener(kmlLayer3, 'metadata_changed', function() {
-        map.panToBounds(kmlLayer3.getDefaultViewport()); 
-      });
-      google.maps.event.addListener(kmlLayer1, 'metadata_changed', function() {
-        var bounds = kmlLayer1.getDefaultViewport();
-        if (bounds.isEmpty() == false) {
-          map.fitBounds(bounds);
-        }
-        kmlLayer2.setMap(map);
-      });
-      kmlLayer1.setMap(map);
-    }
-    else {
-      google.maps.event.addListener(kmlLayer3, 'metadata_changed', function() {
-        map.panTo(kmlLayer3.getDefaultViewport().getCenter()); 
-      });
-      kmlLayer2.setMap(map);
-    }
-  }
-
-  registerPloneFunction(initialize);
-</script>
       
     </metal:js_macro>
 
@@ -145,28 +46,40 @@
         templateId template/getId;"
         >
 
-      <div 
-        id="map" 
-        style="width:100%;height:300px;border:solid #ccc 1px;"></div>
-      
-      <br/>
+      <div style="margin-top:1em">
+      <table style="width:100%">
+        <tr>
+      <!--br/-->
 
-        <!-- Names -->
-        <div class="field">
-          <label class="formQuestion"><span>Names</span>:</label>
-          <ul tal:repeat="data context/@@attestations/names">
-            <li tal:define="n python:data[0]; tps python:', '.join([a['timePeriod'].capitalize() for a in data[1]])"><a href="" tal:attributes="href n/getId" tal:content="n/title_or_id"></a> <span tal:condition="tps" tal:content="string:($tps)"></span></li>
-          </ul>
-        </div>
-
+        <td style="width:33%;vertical-align:top">
         <!-- Locations -->
         <div class="field">
-          <label class="formQuestion"><span>Locations</span>:</label>
+          <label class="formQuestion"><span>Locations</span>: [<a href="createObject?type_name=Location" title="Create a new Location">+</a>]</label>
           <ul tal:repeat="data context/@@attestations/locations">
             <li tal:define="n python:data[0]; tps python:', '.join([a['timePeriod'].capitalize() for a in data[1]])"><a href="" tal:attributes="href n/getId" tal:content="n/title_or_id"></a> <span tal:condition="tps" tal:content="string:($tps)"></span></li>
           </ul>
         </div>
         
+        <!-- Names -->
+        <div class="field">
+          <label class="formQuestion"><span>Names</span>: [<a href="createObject?type_name=Name" title="Create a new Name">+</a>]</label>
+          <ul tal:repeat="data context/@@attestations/names">
+            <li tal:define="n python:data[0]; tps python:', '.join([a['timePeriod'].capitalize() for a in data[1]])"><a href="" tal:attributes="href n/getId" tal:content="n/title_or_id"></a> <span tal:condition="tps" tal:content="string:($tps)"></span></li>
+          </ul>
+        </div>
+      <div><p><a href="folder_contents">Folder listing</a></p></div>
+      </td>
+
+        <td style="vertical-align:top">
+      <div 
+        id="map" 
+        style="height:300px;border:solid #ccc 1px;"
+        />
+      </td>
+
+      </tr></table>
+      </div>
+
       <tal:repeat
         repeat="field python:here.Schema().filterFields(isMetadata=0)"
         >
@@ -179,15 +92,15 @@
                   
       <div class="field">
         <label class="formQuestion"><span>Alternate representations</span>:</label>
-        <p tal:define="url context/absolute_url">
+        <span tal:define="url context/absolute_url">
           <a type="application/atom+xml" tal:attributes="href string:${url}/atom">Atom</a>,
           <a type="application/json" tal:attributes="href string:${url}/json">JSON</a>,
           <a type="application/vnd.google-earth.kml+xml" tal:attributes="href string:${url}/kml">KML</a>
-        </p>
+        </span>
       </div>
-
-    </metal:body_macro>
     
+    </metal:body_macro>
+   
     <metal:folderlisting_macro define-macro="folderlisting">
       <!-- nothing -->
     </metal:folderlisting_macro>

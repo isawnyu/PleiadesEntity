@@ -8,8 +8,6 @@
 
   <include file="profiles.zcml" />
 
-
-
   <!-- ##code-section configure.zcml -->
 
   <include package="pleiades.vocabularies"/>
@@ -25,6 +23,11 @@
   <five:implements
     class="Products.PleiadesEntity.content.Place.Place"
     interface="zope.dublincore.interfaces.ICMFDublinCore"
+    />
+
+  <five:implements
+    class="Products.PleiadesEntity.content.Place.Place"
+    interface="Products.CMFPlone.interfaces.INonStructuralFolder"
     />
 
   <subscriber handler=".event.nameChangeSubscriber"/>
