@@ -19,7 +19,7 @@ function getJSON(rel) {
       null,
       XPathResult.FIRST_ORDERED_NODE_TYPE,
       null).singleNodeValue;
-  if (linkNodes != null) {
+  if (linkNode != null) {
     var uri = linkNode.getAttribute("href");
     var json = unescape(uri.split(',').pop());
     return jq.parseJSON(json);
@@ -163,7 +163,11 @@ function initialize() {
 
     var f = where.features[i];
     var geom = f.geometry;
-      
+    
+    if (geom == null) {
+      continue;
+    }
+
     var relation = null;
     if (geom.hasOwnProperty('relation')) {
       relation = geom.relation;
