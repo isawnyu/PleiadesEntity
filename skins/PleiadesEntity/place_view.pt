@@ -16,10 +16,11 @@
       <link rel="nofollow alternate" type="application/atom+xml" tal:attributes="href string:${url}/atom"/>
       <link rel="nofollow alternate" type="application/json" tal:attributes="href string:${url}/@@json?sm=1"/>
       <link rel="nofollow alternate" type="application/vnd.google-earth.kml+xml" tal:attributes="href string:${url}/kml"/>
-      <link rel="nofollow alternate p-neighbors" type="application/vnd.google-earth.kml+xml" tal:attributes="href string:${url}/p-neighbors-kml"/>
-      <link rel="nofollow alternate r-neighbors" type="application/vnd.google-earth.kml+xml" tal:attributes="href string:${url}/r-neighbors-kml"/>
 
-          </metal:links_macro>
+      <span tal:replace="structure context/@@neighborhood/p_link">P LINK</span>
+      <span tal:replace="structure context/@@neighborhood/r_link">R LINK</span>
+
+    </metal:links_macro>
     
     <metal:js_macro metal:define-macro="js">
       <script 

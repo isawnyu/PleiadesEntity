@@ -19,9 +19,14 @@ function getJSON(rel) {
       null,
       XPathResult.FIRST_ORDERED_NODE_TYPE,
       null).singleNodeValue;
-  var uri = linkNode.getAttribute("href");
-  var json = unescape(uri.split(',').pop());
-  return jq.parseJSON(json);
+  if (linkNodes != null) {
+    var uri = linkNode.getAttribute("href");
+    var json = unescape(uri.split(',').pop());
+    return jq.parseJSON(json);
+  }
+  else {
+    return null;
+  }
 }
 
 function getKML(rel) {
@@ -33,13 +38,21 @@ function getKML(rel) {
       null,
       XPathResult.FIRST_ORDERED_NODE_TYPE,
       null).singleNodeValue;
-  var uri = linkNode.getAttribute("href");
-  return uri;
+  if (linkNode != null) {
+    var uri = linkNode.getAttribute("href");
+    return uri;
+  }
+  else {
+    return null;
+  }
 }
 
 function getBounds(collection) {
   if (collection.hasOwnProperty('bbox') == true) {
     return collection.bbox;
+  }
+  else {
+    return null;
   }
 }
 
@@ -122,11 +135,15 @@ function initialize() {
 
   where = getJSON('where');
   var bounds = getBounds(where);
-  var latlng = new google.maps.LatLng(
-    (bounds[1]+bounds[3])/2.0, (bounds[0]+bounds[2])/2.0);
-
+  var latlng = new google.maps.LatLng(0.0, 0.0);
+  var zoom = 1;
+  if (bounds != null) {
+    var latlng = new google.maps.LatLng(
+      (bounds[1]+bounds[3])/2.0, (bounds[0]+bounds[2])/2.0);
+    zoom = 10;
+  }
   var myOptions = {
-    zoom: 10,
+    zoom: zoom,
     center: latlng,
     mapTypeId: google.maps.MapTypeId.TERRAIN
   };
@@ -135,7 +152,7 @@ function initialize() {
             document.getElementById("map"),
             myOptions);
 
-  if ((bounds[2]-bounds[0])*(bounds[3]-bounds[1]) >= 0.001) {
+  if (bounds != null && (bounds[2]-bounds[0])*(bounds[3]-bounds[1]) >= 0.001) {
     map.fitBounds(
       new google.maps.LatLngBounds(
         new google.maps.LatLng(bounds[1], bounds[0]), 
@@ -199,7 +216,7 @@ function initialize() {
   r_kml = getKML("nofollow alternate r-neighbors");
   p_kml = getKML("nofollow alternate p-neighbors");
 
-  if (r_kml.substring(0, 16) != "http://localhost") {
+  if (r_kml != null && r_kml.substring(0, 16) != "http://localhost") {
     
     r_neighbors = new google.maps.KmlLayer(
         r_kml, {preserveViewport: true, suppressInfoWindows: true});
