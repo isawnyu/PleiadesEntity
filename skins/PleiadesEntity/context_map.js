@@ -4,12 +4,23 @@ var MTID = 'aw';
 var infoWindow = new google.maps.InfoWindow();
 var map = null;
 var where = null;
-var overlays = [];
-var r_neighbors = null;
+var rWhere = null;
+var roughOverlays = [];
+var contextOverlays = [];
 var p_neighbors = null;
+
+var worldBounds = new google.maps.LatLngBounds(
+  new google.maps.LatLng(-90.0, -180.0), new google.maps.LatLng(90.0, 180.0));
 
 var placeIcon = new google.maps.MarkerImage(
     "http://google-maps-icons.googlecode.com/files/justice.png");
+
+var cloudIcon = new google.maps.MarkerImage(
+    "http://atlantides.org/images/cloud-marker.png",
+    null,
+    null,
+    new google.maps.Point(34, 29)
+    );
 
 function getJSON(rel) {
   var documentNode = document;
@@ -57,31 +68,39 @@ function getBounds(collection) {
 }
 
 function clearContextOverlays() {
-  if (overlays) {
-    for (var i=0; i<overlays.length; i++) {
-      overlays[i].setMap(null);
+  if (contextOverlays) {
+    for (var i=0; i<contextOverlays.length; i++) {
+      contextOverlays[i].setMap(null);
       }
     }
   }
 
 function showContextOverlays() {
-  if (overlays) {
-    for (var i=0; i<overlays.length; i++) {
-      overlays[i].setMap(map);
+  if (contextOverlays) {
+    for (var i=0; i<contextOverlays.length; i++) {
+      contextOverlays[i].setMap(map);
     }
   }
 }
 
 function deleteContextOverlays() {
-  if (overlays) {
-    for (var i=0; i<overlays.length; i++) {
-      overlays[i].setMap(null);
+  if (contextOverlays) {
+    for (var i=0; i<contextOverlays.length; i++) {
+      contextOverlays[i].setMap(null);
     }
-    overlays.length = 0;
+    contextOverlays.length = 0;
   }
 }
 
-function popupNeighbor(evt) {
+function showRoughOverlays() {
+  if (roughOverlays) {
+    for (var i=0; i<roughOverlays.length; i++) {
+      roughOverlays[i].setMap(map);
+    }
+  }
+}
+
+function popupKMLNeighbor(evt) {
   /* Uses the global info window */
   var msg = document.createElement("div");
   msg.setAttribute("style", "overflow:auto");
@@ -119,38 +138,211 @@ function popupContext(context) {
   infoWindow.open(map);
 }
 
-function registerContextClick(context, position, feature) {
+function registerFeatureClick(marker, xy, properties) {
   google.maps.event.addListener(
-    context, 'click', function() {
+    marker, 'click', function(e) {
       popupContext({
-        position: position,
-        title: feature.properties.title,
-        link: feature.properties.link,
-        description: feature.properties.description
-        });
+        position: xy,
+        title: properties.title,
+        link: properties.link,
+        description: properties.description
+      });
     });
 }
 
+function registerMarkerClick(marker, properties) {
+  google.maps.event.addListener(
+    marker, 'click', function(e) {
+      popupContext({
+        position: marker.getPosition(),
+        title: properties.title,
+        link: properties.link,
+        description: properties.description
+      });
+    });
+}
+
+function registerCloudMouseover(marker, box) {
+  google.maps.event.addListener(
+    marker, 'mouseover', function(e) {
+      box.setMap(map);
+    });
+}
+
+function registerCloudMouseout(marker, box) {
+  google.maps.event.addListener(
+    marker, 'mouseout', function(e) {
+      box.setMap(null);
+    });
+}
+
+function cloudPosition(feature, mapBounds) {
+  // Cloud's anchor point approaches context origin as we zoom in,
+  // approaches other end of the line as we zoom out
+  var coords = feature.geometry.coordinates;
+  var bbox = feature.bbox;
+  var mapLL = mapBounds.getSouthWest();
+  var mapUR = mapBounds.getNorthEast();
+  var mapDiameter = Math.sqrt(
+    (mapUR.lat() - mapLL.lat())*(mapUR.lat() - mapLL.lat()) +
+    (mapUR.lng() - mapLL.lng())*(mapUR.lng() - mapLL.lng()));
+  var diameter = Math.sqrt(
+    (bbox[2]-bbox[0])*(bbox[2]-bbox[0]) +
+    (bbox[3]-bbox[1])*(bbox[3]-bbox[1]));
+  var scale = mapDiameter/diameter;
+  var c = 0.8;
+  var f = c*scale/2.0;
+  f = Math.min(1.0, f);
+  var cloudLat = (1.0-f)*coords[0][1] + f*coords[1][1];
+  var cloudLon = (1.0-f)*coords[0][0] + f*coords[1][0];
+  return new google.maps.LatLng(cloudLat, cloudLon);
+}
+
 function initialize() {
+  /*
+   * 1. Get the KML of precisely located neighbors, register mouse listeners
+   * 2. Populate a global array of roughly located neighbor aggregations, 
+   *    with mouse listeners
+   * 3. Populate a global array of context features, with mouse listeners
+   * 4. Render map (Precise, rough, context)
+   * 5. Register bounds change listener that redraws rough markers
+   */
+
+  var mapOptions = {
+    mapTypeId: google.maps.MapTypeId.TERRAIN
+  };
+
+  map = new google.maps.Map(
+          document.getElementById("map"),
+          mapOptions);
+
+  var p_kml = getKML("nofollow alternate p-neighbors");
+  if (p_kml != null && p_kml.substring(0, 16) != "http://localhost") {
+    p_neighbors = new google.maps.KmlLayer(
+        p_kml, {preserveViewport: true, suppressInfoWindows: true});
+    google.maps.event.addListener(
+      p_neighbors, 'click', function(evt) {
+        popupKMLNeighbor(evt);
+      });
+    google.maps.event.addListener(
+      p_neighbors, 'metadata_changed', function() {
+        var pBounds = p_neighbors.getDefaultViewport();
+        if (
+          pBounds != null && 
+          !pBounds.equals(worldBounds) &&
+          map.getBounds() != null) {
+          map.fitBounds(pBounds.union(map.getBounds()));
+        }
+      });
+  }
+
+  rWhere = getJSON('r-where');
+  for (var i=0; i<rWhere.features.length; i++) {
+    var f = rWhere.features[i];
+    var geom = f.geometry;
+    if (geom == null) {
+      continue;
+    }
+    if (f.type == "pleiades.stoa.org.BoxBoundedRoughFeature") {
+      var cloudMark = new google.maps.Marker({
+                position: null, 
+                icon: cloudIcon,
+                });
+      var cloudBox = new google.maps.Rectangle({
+          bounds: new google.maps.LatLngBounds(
+            new google.maps.LatLng(f.bbox[1], f.bbox[0]),
+            new google.maps.LatLng(f.bbox[3], f.bbox[2])),
+          strokeColor: "#cc6633",
+          strokeOpacity: 0.5,
+          strokeWeight: 2,
+          strokeColor: "#cc6633",
+          fillOpacity: 0.25
+          });
+      registerMarkerClick(cloudMark, f.properties);
+      registerCloudMouseover(cloudMark, cloudBox);
+      registerCloudMouseout(cloudMark, cloudBox);
+      roughOverlays.push(cloudMark);
+    }
+  }
 
   where = getJSON('where');
+  for (var i=0; i<where.features.length; i++) {
+    var f = where.features[i];
+    var geom = f.geometry;
+    if (geom == null) {
+      continue;
+    }
+    var relation = null;
+    if (geom.hasOwnProperty('relation')) {
+      relation = geom.relation;
+    }
+    var color = "#0000FF";
+    var opacity = 1.0;
+    if (relation != null) {
+      opacity = 0.5;
+    }
+    if (f.type == "Feature") {
+      if (f.geometry.type == 'Point') {
+        var xy = new google.maps.LatLng(
+                  geom.coordinates[1], geom.coordinates[0]);
+        var whereMark = new google.maps.Marker({
+                  position: xy, 
+                  icon: placeIcon,
+                  });
+        registerMarkerClick(whereMark, f.properties);
+        contextOverlays.push(whereMark);
+      }
+      else if (f.geometry.type == 'Polygon') {
+        var exterior = f.geometry.coordinates[0];
+        var ring = [];
+        var cx = 0.0;
+        var cy = 0.0;
+        var v = null;
+        for (var j=0; j<exterior.length; j++) {
+          v = exterior[j];
+          ring.push(new google.maps.LatLng(v[1], v[0]));
+          cx += v[0];
+          cy += v[1];
+        }
+        cx = cx/exterior.length;
+        cy = cy/exterior.length;
+        var polygon = new google.maps.Polygon({
+          paths: ring,
+          strokeColor: color,
+          strokeOpacity: opacity,
+          strokeWeight: 3,
+          strokeColor: color,
+          fillOpacity: opacity/2.0
+          });
+        registerFeatureClick(polygon, new google.maps.LatLng(cy, cx), f.properties);
+        contextOverlays.push(polygon);
+      }
+    }
+  }
+
+  google.maps.event.addListener(
+    map, 'bounds_changed', function() {
+      var mapBounds = map.getBounds();
+      for (i=0; i<roughOverlays.length; i++) {
+        var marker = roughOverlays[i];
+        marker.setMap(null);
+        marker.setPosition(cloudPosition(rWhere.features[i], mapBounds));
+        marker.setMap(map);
+      }
+    });
+
   var bounds = getBounds(where);
   var latlng = new google.maps.LatLng(0.0, 0.0);
   var zoom = 1;
+
   if (bounds != null) {
     var latlng = new google.maps.LatLng(
       (bounds[1]+bounds[3])/2.0, (bounds[0]+bounds[2])/2.0);
     zoom = 10;
   }
-  var myOptions = {
-    zoom: zoom,
-    center: latlng,
-    mapTypeId: google.maps.MapTypeId.TERRAIN
-  };
 
-  map = new google.maps.Map(
-            document.getElementById("map"),
-            myOptions);
+  map.setCenter(latlng);
+  map.setZoom(zoom);
 
   if (bounds != null && (bounds[2]-bounds[0])*(bounds[3]-bounds[1]) >= 0.001) {
     map.fitBounds(
@@ -159,100 +351,12 @@ function initialize() {
         new google.maps.LatLng(bounds[3], bounds[2])));
   }
 
-  for (var i=0; i<where.features.length; i++) {
-
-    var f = where.features[i];
-    var geom = f.geometry;
-    
-    if (geom == null) {
-      continue;
-    }
-
-    var relation = null;
-    if (geom.hasOwnProperty('relation')) {
-      relation = geom.relation;
-    }
-
-    var color = "#0000FF";
-    var opacity = 1.0;
-    if (relation != null) {
-      opacity = 0.5;
-    }
-
-    if (f.geometry.type == 'Point') {
-      var xy = new google.maps.LatLng(
-                geom.coordinates[1], geom.coordinates[0]);
-      var whereMark = new google.maps.Marker({
-                position: xy, 
-                icon: placeIcon,
-                });
-      overlays.push(whereMark);
-      registerContextClick(whereMark, xy, f);
-    }
-
-    else if (f.geometry.type == 'Polygon') {
-      var exterior = f.geometry.coordinates[0];
-      var ring = [];
-      var cx = 0.0;
-      var cy = 0.0;
-      var v = null;
-      for (var j=0; j<exterior.length; j++) {
-        v = exterior[j];
-        ring.push(new google.maps.LatLng(v[1], v[0]));
-        cx += v[0];
-        cy += v[1];
-      }
-      cx = cx/exterior.length;
-      cy = cy/exterior.length;
-      var polygon = new google.maps.Polygon({
-        paths: ring,
-        strokeColor: color,
-        strokeOpacity: opacity,
-        strokeWeight: 3,
-        strokeColor: color,
-        fillOpacity: opacity/2.0
-        });
-      overlays.push(polygon);
-      registerContextClick(polygon, new google.maps.LatLng(cy, cx), f);
-    }
+  if (p_neighbors != null) {
+    p_neighbors.setMap(map);
   }
 
-  r_kml = getKML("nofollow alternate r-neighbors");
-  p_kml = getKML("nofollow alternate p-neighbors");
-
-  if (r_kml != null && r_kml.substring(0, 16) != "http://localhost") {
-    
-    r_neighbors = new google.maps.KmlLayer(
-        r_kml, {preserveViewport: true, suppressInfoWindows: true});
-    p_neighbors = new google.maps.KmlLayer(
-        p_kml, {preserveViewport: true, suppressInfoWindows: true});
-
-    google.maps.event.addListener(
-      r_neighbors, 'click', function(evt) {
-        popupNeighbor(evt);
-      });
-
-    google.maps.event.addListener(
-      p_neighbors, 'click', function(evt) {
-        popupNeighbor(evt);
-      });
-
-    google.maps.event.addListener(
-      r_neighbors, 'metadata_changed', function() {
-        p_neighbors.setMap(map);
-      });
-
-    google.maps.event.addListener(
-      p_neighbors, 'metadata_changed', function() {
-        showContextOverlays();
-      });
-
-    r_neighbors.setMap(map);
-  }
-  else {
-    showContextOverlays();
-  }
-
+  showRoughOverlays();
+  showContextOverlays();
 }
 
 registerPloneFunction(initialize);
