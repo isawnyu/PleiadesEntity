@@ -55,6 +55,7 @@ schema = Schema((
         enforceVocabulary=1,
         multiValued=1,
     ),
+
     OrderableReferenceField(
         name='parts',
         widget=ReferenceBrowserWidget(
@@ -81,6 +82,34 @@ schema = Schema((
         ),
         multiValued=True,
         relationship="hasPart",
+    ),
+
+    ReferenceField(
+        name='connections',
+        widget=ReferenceBrowserWidget(
+            label="Makes a connection with",
+            description="Establishes a connection to another place.",
+            startup_directory="/places",
+            label_msgid='PleiadesEntity_label_connections',
+            i18n_domain='PleiadesEntity',
+        ),
+        multiValued=True,
+        relationship='connectsWith',
+        allowed_types="('Place',)",
+        allow_browse="True",
+    ),
+
+    BackReferenceField(
+        name='connectsWith',
+        widget=BackReferenceWidget(
+            visible="{'view': 'visible', 'edit': 'invisible'}",
+            label="Has a connection with",
+            macro="betterbackrefwidget",
+            label_msgid='PleiadesEntity_label_connectsWith',
+            i18n_domain='PleiadesEntity',
+        ),
+        multiValued=True,
+        relationship="connectsWith",
     ),
 
 ),
