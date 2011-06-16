@@ -90,13 +90,16 @@ schema = Schema((
             label="Makes a connection with",
             description="Establishes a connection to another place.",
             startup_directory="/places",
+            allow_browse=0,
+            allow_search=1,
+            base_query={'portal_type': ['Place']},
+            search_index='SearchableText',
             label_msgid='PleiadesEntity_label_connections',
             i18n_domain='PleiadesEntity',
         ),
         multiValued=True,
         relationship='connectsWith',
         allowed_types="('Place',)",
-        allow_browse="True",
     ),
 
     BackReferenceField(
