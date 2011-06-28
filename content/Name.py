@@ -50,8 +50,9 @@ schema = Schema((
         name='nameAttested',
         widget=StringField._properties['widget'](
             label="Name as attested",
-            description="Enter transcription of the attested form of the name, in its original language and script.",
+            description="Enter transcription of the attested form of the name in its original language and script. The title and id of this resource will be formed by automatic transliteration.",
             macro="nameattested_widget",
+            size=60,
             label_msgid='PleiadesEntity_label_nameAttested',
             description_msgid='PleiadesEntity_help_nameAttested',
             i18n_domain='PleiadesEntity',
@@ -62,13 +63,13 @@ schema = Schema((
     StringField(
         name='nameLanguage',
         widget=SelectionWidget(
-            label="Language and writing system",
-            description="Select the language and writing system (script) of the attested name.",
+            label="Language",
+            description="Select the language and writing system or script of the attested name.",
             label_msgid='PleiadesEntity_label_nameLanguage',
             description_msgid='PleiadesEntity_help_nameLanguage',
             i18n_domain='PleiadesEntity',
         ),
-        description="The language and writing system (script) of the attested name.",
+        description="The language and writing system or script of the attested name.",
         vocabulary=NamedVocabulary("""ancient-name-languages"""),
         enforceVocabulary=1,
     ),
@@ -201,6 +202,8 @@ class Name(BaseContent, Work, Temporal, BrowserDefaultMixin):
     schema["text"].widget.label = 'Details'
     schema["presentation"].widget.visible = {"edit": "invisible", "view": "invisible"}
     schema["tableContents"].widget.visible = {"edit": "invisible", "view": "invisible"}
+    schema.moveField('nameLanguage', pos='top')
+    schema.moveField('nameAttested', after='nameLanguage')
     ##/code-section class-header
 
     # Methods

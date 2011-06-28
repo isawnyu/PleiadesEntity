@@ -103,7 +103,7 @@ schema = Schema((
     ),
 
     BackReferenceField(
-        name='connectsWith',
+        name='connections_from',
         widget=BackReferenceWidget(
             visible="{'view': 'visible', 'edit': 'invisible'}",
             label="Has a connection with",
