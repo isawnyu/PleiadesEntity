@@ -15,6 +15,7 @@ def reindexWhole(obj, event):
     for p in obj.getBRefs('hasPart'):
         log.debug("Reindexing whole %s", p)
         p.reindexObject()
+        p.reindexObject(['location_precision'])
 
 def reindexContainer(obj, event):
     x = aq_inner(obj)
@@ -22,6 +23,7 @@ def reindexContainer(obj, event):
     if IPlace.providedBy(f):
         log.debug("Reindexing container %s", f)
         f.reindexObject()
+        p.reindexObject(['location_precision'])
         reindexWhole(f, event)
 
 @adapter(IName, IObjectModifiedEvent)
