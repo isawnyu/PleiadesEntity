@@ -15,7 +15,6 @@ def reindexWhole(obj, event):
     for p in obj.getBRefs('hasPart'):
         log.debug("Reindexing whole %s", p)
         p.reindexObject()
-        p.reindexObject(['location_precision'])
 
 def reindexContainer(obj, event):
     x = aq_inner(obj)
@@ -23,7 +22,6 @@ def reindexContainer(obj, event):
     if IPlace.providedBy(f):
         log.debug("Reindexing container %s", f)
         f.reindexObject()
-        p.reindexObject(['location_precision'])
         reindexWhole(f, event)
 
 @adapter(IName, IObjectModifiedEvent)
@@ -38,6 +36,7 @@ def nameChangeSubscriber(obj, event):
     
 @adapter(ILocation, IObjectModifiedEvent)
 def locationChangeSubscriber(obj, event):
+    log.debug("Event handled: %s, %s", obj, event)
     reindexContainer(obj, event)
 
 @adapter(IFeature, IObjectModifiedEvent)
@@ -48,6 +47,7 @@ def featureChangeSubscriber(obj, event):
 #
 @adapter(ILocation, IActionSucceededEvent)
 def locationActionSucceededSubscriber(obj, event):
+    log.debug("Event handled: %s, %s", obj, event)
     reindexContainer(obj, event)
 
 @adapter(IName, IActionSucceededEvent)

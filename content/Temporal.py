@@ -31,7 +31,7 @@ from Products.CompoundField.CompoundWidget import CompoundWidget
 
 ##code-section module-header #fill in your manual code here
 from Products.CMFCore import permissions
-from Products.PleiadesEntity.time import TimePeriodCmp
+from Products.PleiadesEntity.time import periodRanges, TimePeriodCmp
 from Products.CompoundField.CompoundWidget import CompoundWidget
 from Products.CMFCore.utils import getToolByName
 ##/code-section module-header
@@ -111,10 +111,37 @@ class Temporal(BrowserDefaultMixin):
         def _cmp(a, b):
             return TimePeriodCmp(self)(a['timePeriod'], b['timePeriod'])
         attestations = sorted(self.getAttestations(), cmp=_cmp)
-        vocab_t = TemporalAttestation.schema['timePeriod'].vocabulary.getVocabularyDict(self)
-        vocab_c = TemporalAttestation.schema['confidence'].vocabulary.getVocabularyDict(self)
-        return [dict(timePeriod=vocab_t[a['timePeriod']], confidence=vocab_c[a['confidence']]) for a in attestations]
+        vocab_t = TemporalAttestation.schema[
+            'timePeriod'].vocabulary.getVocabularyDict(self)
+        vocab_c = TemporalAttestation.schema[
+            'confidence'].vocabulary.getVocabularyDict(self)
+        try:
+            return [dict(timePeriod=vocab_t[a['timePeriod']], confidence=vocab_c[a['confidence']]) for a in attestations]
+        except KeyError:
+            return []
 
+    def period_vocab(self):
+        return TemporalAttestation.schema[
+            'timePeriod'].vocabulary.getVocabulary(self).getTarget()
+    def confidence_vocab(self):
+        return TemporalAttestation.schema[
+            'confidence'].vocabulary.getVocabulary(self).getTarget()
+
+    security.declareProtected(permissions.View, 'temporalRange')
+    def temporalRange(self, period_vocab=None):
+        """Nominal temporal range, not accounting for level of confidence"""
+        vocab = period_vocab or self.period_vocab()
+        ranges = periodRanges(vocab)
+        years = []
+        check = self.getAttestations()
+        for a in self.getAttestations():
+            tp = a['timePeriod']
+            if tp:
+                years.extend(list(ranges[a['timePeriod']]))
+        if len(years) >= 2:
+            return min(years), max(years)
+        else:
+            return None
 
 # end of class Temporal
 
