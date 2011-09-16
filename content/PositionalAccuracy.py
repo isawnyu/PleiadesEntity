@@ -55,19 +55,6 @@ schema = Schema((
         storage=AttributeStorage(),
         description="XML source of features",
     ),
-    BackReferenceField(
-        name='locations',
-        widget=BackReferenceWidget(
-            visible="{'view': 'visible', 'edit': 'invisible'}",
-            label="Describes accuracy of location(s)",
-            macro="betterbackrefwidget",
-            label_msgid='PleiadesEntity_label_locations',
-            i18n_domain='PleiadesEntity',
-        ),
-        multiValued=True,
-        relationship="location_accuracy",
-    ),
-
 ),
 )
 
