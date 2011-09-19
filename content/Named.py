@@ -130,6 +130,19 @@ class Named(BrowserDefaultMixin):
                         periods.append(p)
         return sorted([p for p in periods if p], cmp=TimePeriodCmp(self))
 
+    security.declareProtected(permissions.View, 'temporalRange')
+    def temporalRange(self, period_vocab=None):
+        """Nominal temporal range, not accounting for level of confidence"""
+        years = []
+        for child in (list(self.getNames()) + list(self.getLocations())):
+            trange = child.temporalRange(period_vocab)
+            if trange:
+                years.extend(list(trange))
+        if len(years) >= 2:
+            return min(years), max(years)
+        else:
+            return None
+
 # end of class Named
 
 ##code-section module-footer #fill in your manual code here
