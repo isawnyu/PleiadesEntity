@@ -40,7 +40,7 @@ schema = Schema((
         ReferenceCitation(
             name='referenceCitations',
             widget=CompoundWidget(
-                label="Reference work and citation range",
+                label="Reference identifier and citation",
                 label_msgid='PleiadesEntity_label_referenceCitations',
                 i18n_domain='PleiadesEntity',
             ),
@@ -50,7 +50,7 @@ schema = Schema((
 
         widget=EnhancedArrayWidget(
             label="References",
-            description="Enter reference work and citation",
+            description="Add or remove references",
             macro="pleiadescitationrefwidget",
             label_msgid='PleiadesEntity_label_array:referenceCitations',
             description_msgid='PleiadesEntity_help_array:referenceCitations',
