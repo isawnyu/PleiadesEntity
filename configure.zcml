@@ -38,6 +38,7 @@
   <subscriber handler=".event.placeAfterCheckinSubscriber"/>
 
   <adapter name="titleStarts" factory=".indexers.name_titleStarts"/>
+  <adapter name="titleStarts" factory=".indexers.place_titleStarts"/>
   
   <!-- ##/code-section configure.zcml -->
 
