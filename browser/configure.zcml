@@ -18,4 +18,18 @@
     permission="zope2.View"
     />
 
+  <browser:view
+    for="Products.PleiadesEntity.content.interfaces.IPlace"
+    name="locations-table"
+    class=".attestations.LocationsTable"
+    permission="zope2.View"
+    />
+
+  <browser:view
+    for="Products.PleiadesEntity.content.interfaces.IPlace"
+    name="names-table"
+    class=".attestations.NamesTable"
+    permission="zope2.View"
+    />
+
 </configure>

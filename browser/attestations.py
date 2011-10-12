@@ -1,7 +1,10 @@
 from Acquisition import aq_inner, aq_parent
 from Products.Five.browser import BrowserView
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.CMFCore.utils import getToolByName
+from contentratings.interfaces import IUserRating
 from plone.memoize import view
+from zope.component import getAdapters, getMultiAdapter
 
 
 class PlacefulAttestations(BrowserView):
@@ -9,10 +12,60 @@ class PlacefulAttestations(BrowserView):
     @property
     @view.memoize
     def names(self):
-        return [(n, n.getSortedTemporalAttestations()) for n in self.context.getNames()]
+        results = []
+        for ob in self.context.getNames():
+            results.append((ob, ob.getSortedTemporalAttestations()))
+        return results
 
     @property
     @view.memoize
     def locations(self):
-        return [(n, n.getSortedTemporalAttestations()) for n in self.context.getLocations()]
+        results = []
+        for ob in self.context.getLocations():
+            results.append((ob, ob.getSortedTemporalAttestations()))
+        return results
+
+class LocationsTable(BrowserView):
+    """table of locations
+    """
+    def __call__(self):
+        locations = []
+        for ob in self.context.getLocations():
+            category = dict(getAdapters((ob,), IUserRating))['three_stars']
+            avg_rating = category.averageRating
+            locations.append((avg_rating, ob, category))
+        rows = []
+        for rating, ob, category in sorted(locations, reverse=True):
+            stars = getMultiAdapter((ob, self.request),
+                                   name='user-ratings')()
+            classes = ["RatingViewlet"]
+            if category.can_write:
+                classes.append("Rateable")
+            innerHTML = '<td valign="top"><div class="%s">\n%s\n</div></td>' % (" ".join(classes), stars)
+            innerHTML += '<td valign="top"><div class="PlaceChildItem"><a href="%s">%s</a> (%s)</div></td>' % (ob.absolute_url(), ob.title_or_id(), ", ".join([a['timePeriod'].capitalize() for a in ob.getSortedTemporalAttestations()]))
+            innerHTML = '\n<tr>%s</tr>' % innerHTML
+            rows.append(innerHTML)
+        return '<table class="PlaceChildren Locations">' + ''.join(rows) + '</table>'
+
+class NamesTable(BrowserView):
+    """table of locations
+    """
+    def __call__(self):
+        names = []
+        for ob in self.context.getNames():
+            category = dict(getAdapters((ob,), IUserRating))['three_stars']
+            avg_rating = category.averageRating
+            names.append((avg_rating, ob, category))
+        rows = []
+        for rating, ob, category in sorted(names, reverse=True):
+            stars = getMultiAdapter((ob, self.request),
+                                   name='user-ratings')()
+            classes = ["RatingViewlet"]
+            if category.can_write:
+                classes.append("Rateable")
+            innerHTML = '<td valign="top"><div class="%s">\n%s\n</div></td>' % (" ".join(classes), stars)
+            innerHTML += '<td valign="top"><div class="PlaceChildItem"><a href="%s">%s</a> (%s)</div></td>' % (ob.absolute_url(), ob.title_or_id(), ", ".join([a['timePeriod'].capitalize() for a in ob.getSortedTemporalAttestations()]))
+            innerHTML = '\n<tr>%s</tr>' % innerHTML
+            rows.append(innerHTML)
+        return '<table class="PlaceChildren Names">' + ''.join(rows) + '</table>'
 
