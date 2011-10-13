@@ -135,6 +135,7 @@ class Location(ATDocumentBase, Work, Temporal, BrowserDefaultMixin):
     schema["tableContents"].widget.visible = {"edit": "invisible", "view": "invisible"}
     schema["nodes"].widget.visible = {"edit": "invisible", "view": "invisible"}
     schema["text"].widget.label = 'Details'
+    schema.moveField('text', pos='bottom')
     ##/code-section class-header
 
     # Methods

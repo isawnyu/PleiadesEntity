@@ -204,6 +204,7 @@ class Name(BaseContent, Work, Temporal, BrowserDefaultMixin):
     schema["tableContents"].widget.visible = {"edit": "invisible", "view": "invisible"}
     schema.moveField('nameLanguage', pos='top')
     schema.moveField('nameAttested', after='nameLanguage')
+    schema.moveField('text', pos='bottom')
     ##/code-section class-header
 
     # Methods
