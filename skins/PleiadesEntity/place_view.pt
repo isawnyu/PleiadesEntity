@@ -13,9 +13,11 @@
       >
       <link rel="foaf:primaryTopic" tal:attributes="href string:${url}#this"/>
       <link rel="where" type="application/json" tal:attributes="href context/@@json/data_uri"/>
+      <link rel="r-where" type="application/json" tal:attributes="href context/@@r-neighbors-json/data_uri"/>
       <link rel="nofollow alternate" type="application/atom+xml" tal:attributes="href string:${url}/atom"/>
       <link rel="nofollow alternate" type="application/json" tal:attributes="href string:${url}/@@json?sm=1"/>
       <link rel="nofollow alternate" type="application/vnd.google-earth.kml+xml" tal:attributes="href string:${url}/kml"/>
+      <link rel="canonical" tal:attributes="href url"/>
 
       <span tal:replace="structure context/@@neighborhood/p_link">P LINK</span>
       <span tal:replace="structure context/@@neighborhood/r_link">R LINK</span>
@@ -23,16 +25,17 @@
     </metal:links_macro>
     
     <metal:js_macro metal:define-macro="js">
+      
       <script 
         type="text/javascript"
-        src="http://maps.google.com/maps/api/js?sensor=false">
+        src="http://maps.googleapis.com/maps/api/js?sensor=false">
       </script>
+      
       <script 
         type="text/javascript"
         src="context_map.js">
       </script>
-
-      
+    
     </metal:js_macro>
 
   </head>
@@ -44,62 +47,143 @@
       tal:define="field_macro field_macro | here/widgets/field/macros/view;
         kssClassesView context/@@kss_field_decorator_view;
         getKssClasses nocall:kssClassesView/getKssClassesInlineEditable;
-        templateId template/getId;"
-        >
+        templateId template/getId;">
 
-      <div style="margin-top:1em">
-      <table style="width:100%">
+      <div class="RatingPopup" id="rating-popup">
+        <div class="RatingPopupBody">
+          <div id="rating-content" class="Rating"></div>
+          <p><input
+                class="standalone" 
+                type="submit" 
+                value="Cancel" 
+                name="rating.popup.cancel"
+                onclick="javascript:jq('#rating-popup').hide()"/></p>
+        </div>
+      </div>
+
+      <table id="map-children">
         <tr>
-      <!--br/-->
+          <td id="map-column">
+            <div id="map"></div>
+          </td>
+          <td id="fields-column">
+            <h3 style="margin-top:0px">In This Context</h3>
+            <div id="locationsField" class="field">
+              <label>Locations: [<a href="createObject?type_name=Location" title="Create a new Location">+</a>]</label>
+            </div>
+            <div id="PlaceChildItems" class="LocationChildren">
+              <table tal:replace="structure context/@@locations-table"></table>
+            </div>
+            <div id="namesField" class="field">
+              <label>Names: [<a href="createObject?type_name=Name" title="Create a new Name">+</a>]</label>
+            </div>
+            <div id="PlaceChildItems" class="NameChildren">
+              <table tal:replace="structure context/@@names-table"></table>
+            </div>
 
-        <td style="width:33%;vertical-align:top">
-        <!-- Locations -->
+            <div><p>
+              <a href="folder_contents">Folder listing of locations and names</a>
+            </p></div>
+          </td> <!-- fields -->
+        </tr>
+      </table>
+
+      <div id="fields-continued">
+
         <div class="field">
-          <label class="formQuestion"><span>Locations</span>: [<a href="createObject?type_name=Location" title="Create a new Location">+</a>]</label>
-          <ul tal:repeat="data context/@@attestations/locations">
-            <li tal:define="n python:data[0]; tps python:', '.join([a['timePeriod'].capitalize() for a in data[1]])"><a href="" tal:attributes="href n/getId" tal:content="n/title_or_id"></a> <span tal:condition="tps" tal:content="string:($tps)"></span></li>
-          </ul>
+          <label>Canonical URI:</label>
+          <br/>
+          <code tal:content="context/absolute_url"></code>
         </div>
-        
-        <!-- Names -->
+
         <div class="field">
-          <label class="formQuestion"><span>Names</span>: [<a href="createObject?type_name=Name" title="Create a new Name">+</a>]</label>
-          <ul tal:repeat="data context/@@attestations/names">
-            <li tal:define="n python:data[0]; tps python:', '.join([a['timePeriod'].capitalize() for a in data[1]])"><a href="" tal:attributes="href n/getId" tal:content="n/title_or_id"></a> <span tal:condition="tps" tal:content="string:($tps)"></span></li>
-          </ul>
+          <label>Alternate representations:</label>
+          <br/>
+          <span tal:define="url context/absolute_url">
+            <a type="application/atom+xml" 
+               tal:attributes="href string:${url}/atom">Atom</a>,
+            <a type="application/json" 
+               tal:attributes="href string:${url}/json">JSON</a>,
+            <a type="application/vnd.google-earth.kml+xml"
+               tal:attributes="href string:${url}/kml">KML</a>
+          </span>
         </div>
-      <div><p><a href="folder_contents">Folder listing</a></p></div>
-      </td>
 
-        <td style="vertical-align:top">
-      <div 
-        id="map" 
-        style="height:300px;border:solid #ccc 1px;"
-        />
-      </td>
+        <tal:repeat
+          repeat="field python:here.Schema().filterFields(isMetadata=0)">
+          <tal:if_visible
+            define="mode string:view; visState python:field.widget.isVisible(here, mode); visCondition python:field.widget.testCondition(here, portal, template);"
+            condition="python:visState == 'visible' and visCondition">
+            <metal:use_field use-macro="field_macro"/>
+          </tal:if_visible>
+        </tal:repeat>
 
-      </tr></table>
+        <div class="field">
+          <label><span>Suggested citation:</label>
+          <br/>
+          <span>Coming soon</span>
+        </div>
       </div>
 
-      <tal:repeat
-        repeat="field python:here.Schema().filterFields(isMetadata=0)"
-        >
-        <tal:if_visible
-          define="mode string:view; visState python:field.widget.isVisible(here, mode); visCondition python:field.widget.testCondition(here, portal, template);"
-          condition="python:visState == 'visible' and visCondition">
-          <metal:use_field use-macro="field_macro"/>
-        </tal:if_visible>
-      </tal:repeat>
-                  
-      <div class="field">
-        <label class="formQuestion"><span>Alternate representations</span>:</label>
-        <span tal:define="url context/absolute_url">
-          <a type="application/atom+xml" tal:attributes="href string:${url}/atom">Atom</a>,
-          <a type="application/json" tal:attributes="href string:${url}/json">JSON</a>,
-          <a type="application/vnd.google-earth.kml+xml" tal:attributes="href string:${url}/kml">KML</a>
-        </span>
-      </div>
-    
+<script type="text/javascript">
+<!--
+
+  function openPopup(event) {
+      jq("#rating-popup").hide();
+      jq("#rating-content").empty();
+      rating = jq(event.target).parents(".Rating")[0];
+      user = jq(rating).children("#user_rating")[0];
+      var table = jq(user).parents("#PlaceChildItems")[0];
+      content = jq(user).clone();
+      jq(content).show();
+
+      jq("div.UserRating a.DeleteRating", content).each(
+        function (i, elem) {
+          var url = jq(elem).attr("href");
+          jq(elem).removeAttr("href");
+          jq(elem).click(function(){rate(table, url);});
+        });
+
+      jq("div.UserRating a.rate", content).each(
+        function (i, elem) {
+          var url = jq(elem).attr("href");
+          jq(elem).removeAttr("href");
+          jq(elem).click(function(){rate(table, url);});
+        });
+
+      jq("#rating-content").append(content);
+      offset = jq(event.target).offset();
+      jq("#rating-popup").css(
+        "left", offset.left-95).css("top", offset.top-80).show();
+  }
+
+  function rate(table, url) {
+    jq.ajax({
+      "url": url,
+      "success": function (data) {
+        jq("#rating-popup").hide();
+        view_url = null;
+        if (jq(table).hasClass("LocationChildren")) { 
+            view_url = document.baseURI + "@@locations-table"; }
+        else if (jq(table).hasClass("NameChildren")) { 
+            view_url = document.baseURI + "@@names-table"; }
+        jq(table).load(
+          view_url, 
+          function () {
+            jq(".Rateable .AverageRating").click(openPopup);
+          });
+      },
+      "error": function (req, status, err) {
+        alert(err);
+      }
+    });
+  }
+
+  jq(".Rateable .AverageRating").click(openPopup);
+
+  -->
+</script>
+  
     </metal:body_macro>
    
     <metal:folderlisting_macro define-macro="folderlisting">
