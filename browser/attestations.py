@@ -41,11 +41,12 @@ class LocationsTable(BrowserView):
             classes = ["RatingViewlet"]
             if category.can_write:
                 classes.append("Rateable")
-            innerHTML = '<td valign="top"><div class="%s">\n%s\n</div></td>' % (" ".join(classes), stars)
-            innerHTML += '<td valign="top"><div class="PlaceChildItem"><a href="%s">%s</a> (%s)</div></td>' % (ob.absolute_url(), ob.title_or_id(), ", ".join([a['timePeriod'].capitalize() for a in ob.getSortedTemporalAttestations()]))
-            innerHTML = '\n<tr>%s</tr>' % innerHTML
+            # build inner HTML as unicode, encode at the end
+            innerHTML = u'<td valign="top"><div class="%s">\n%s\n</div></td>' % (" ".join(classes), stars)
+            innerHTML += u'<td valign="top"><div class="PlaceChildItem"><a href="%s">%s</a> (%s)</div></td>' % (ob.absolute_url(),  unicode(ob.Title(), 'utf-8'), ", ".join([a['timePeriod'].capitalize() for a in ob.getSortedTemporalAttestations()]))
+            innerHTML = u'\n<tr>%s</tr>' % innerHTML
             rows.append(innerHTML)
-        return '<table class="PlaceChildren Locations">' + ''.join(rows) + '</table>'
+        return u'<table class="PlaceChildren Locations">' + ''.join(rows) + '</table>'
 
 class NamesTable(BrowserView):
     """table of locations
@@ -63,9 +64,9 @@ class NamesTable(BrowserView):
             classes = ["RatingViewlet"]
             if category.can_write:
                 classes.append("Rateable")
-            innerHTML = '<td valign="top"><div class="%s">\n%s\n</div></td>' % (" ".join(classes), stars)
-            innerHTML += '<td valign="top"><div class="PlaceChildItem"><a href="%s">%s</a> (%s)</div></td>' % (ob.absolute_url(), ob.title_or_id(), ", ".join([a['timePeriod'].capitalize() for a in ob.getSortedTemporalAttestations()]))
-            innerHTML = '\n<tr>%s</tr>' % innerHTML
+            innerHTML = u'<td valign="top"><div class="%s">\n%s\n</div></td>' % (" ".join(classes), stars)
+            innerHTML += u'<td valign="top"><div class="PlaceChildItem"><a href="%s">%s</a> (%s)</div></td>' % (ob.absolute_url(), unicode(ob.Title(), 'utf-8'), ", ".join([a['timePeriod'].capitalize() for a in ob.getSortedTemporalAttestations()]))
+            innerHTML = u'\n<tr>%s</tr>' % innerHTML
             rows.append(innerHTML)
-        return '<table class="PlaceChildren Names">' + ''.join(rows) + '</table>'
+        return u'<table class="PlaceChildren Names">' + ''.join(rows) + '</table>'
 
