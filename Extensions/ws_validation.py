@@ -18,7 +18,8 @@ def validate_name(lang, name_utf8):
     elif wsystem == 'cop':
         invalids = ws_copt.validate(name, 'all')
     else:
-        return 'Unsupported writing system (%s) in PleiadesEntity/Extensions/ws_validation.py' % lang
+        invalids = []
+        # return 'Unsupported writing system (%s) in PleiadesEntity/Extensions/ws_validation.py' % lang
     imsg = ''
     invalidcount = len(invalids)
     if invalidcount > 0:
