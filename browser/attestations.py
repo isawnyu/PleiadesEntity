@@ -29,6 +29,9 @@ class LocationsTable(BrowserView):
     """table of locations
     """
     def __call__(self):
+        wftool = getToolByName(self.context, "portal_workflow")
+        def getState(ob):
+            return wftool.getInfoFor(ob, 'review_state')
         locations = []
         for ob in self.context.getLocations():
             category = dict(getAdapters((ob,), IUserRating))['three_stars']
@@ -43,7 +46,7 @@ class LocationsTable(BrowserView):
                 classes.append("Rateable")
             # build inner HTML as unicode, encode at the end
             innerHTML = u'<td valign="top"><div class="%s">\n%s\n</div></td>' % (" ".join(classes), stars)
-            innerHTML += u'<td valign="top"><div class="PlaceChildItem"><a href="%s">%s</a> (%s)</div></td>' % (ob.absolute_url(),  unicode(ob.Title(), 'utf-8'), ", ".join([a['timePeriod'].capitalize() for a in ob.getSortedTemporalAttestations()]))
+            innerHTML += u'<td valign="top"><div id="%s" class="PlaceChildItem Location"><a class="state-%s" href="%s">%s</a> (%s)</div></td>' % (ob.getId(), getState(ob), ob.absolute_url(),  unicode(ob.Title(), 'utf-8') + " (copy)" * ("copy" in ob.getId()), ", ".join([a['timePeriod'].capitalize() for a in ob.getSortedTemporalAttestations()]))
             innerHTML = u'\n<tr>%s</tr>' % innerHTML
             rows.append(innerHTML)
         return u'<table class="PlaceChildren Locations">' + ''.join(rows) + '</table>'

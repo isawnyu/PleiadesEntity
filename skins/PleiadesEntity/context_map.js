@@ -292,6 +292,30 @@ function initialize() {
         registerMarkerClick(whereMark, f.properties);
         contextOverlays.push(whereMark);
       }
+      else if (geom.type == 'LineString') {
+        var coords = [];
+        var cx = 0.0;
+        var cy = 0.0;
+        var v = null;
+        for (var j=0; j<geom.coordinates.length; j++) {
+          v = geom.coordinates[j];
+          coords.push(new google.maps.LatLng(v[1], v[0]));
+          cx += v[0];
+          cy += v[1];
+        }
+        cx = cx/coords.length;
+        cy = cy/coords.length;
+        xy = new google.maps.LatLng(cy, cx);
+        var polyline = new google.maps.Polyline({
+          path: coords,
+          strokeColor: color,
+          strokeOpacity: opacity,
+          strokeWeight: 3,
+          });
+        registerFeatureClick(
+            polyline, new google.maps.LatLng(cy, cx), f.properties);
+        contextOverlays.push(polyline);
+      }
       else if (f.geometry.type == 'Polygon') {
         var exterior = f.geometry.coordinates[0];
         var ring = [];
@@ -357,6 +381,61 @@ function initialize() {
 
   showRoughOverlays();
   showContextOverlays();
+}
+
+function overlayIndexOf(elem) {
+  for (var i=0;i<contextOverlays.length;i++) {
+    var f = where.features[i];
+    if (f.id == elem.id) {
+      return i;
+    }
+  }
+  return -1;
+}
+
+function raiseInMap() {
+  var i = overlayIndexOf(this);
+  var marker = contextOverlays[i];
+  var f = where.features[i];
+  var properties = f.properties;
+  var geom = f.geometry;
+  var xy = null;
+  if (geom.type == 'Point') {
+    xy = new google.maps.LatLng(geom.coordinates[1], geom.coordinates[0]);
+  }
+  else if (geom.type == 'LineString') {
+    var coords = geom.coordinates;
+    var cx = 0.0;
+    var cy = 0.0;
+    var v = null;
+    for (var j=0; j<coords.length; j++) {
+      cx += v[0];
+      cy += v[1];
+    }
+    cx = cx/coords.length;
+    cy = cy/coords.length;
+    xy = new google.maps.LatLng(cy, cx);
+  }
+  else if (geom.type == 'Polygon') {
+    var exterior = geom.coordinates[0];
+    var cx = 0.0;
+    var cy = 0.0;
+    var v = null;
+    for (var j=0; j<exterior.length; j++) {
+      v = exterior[j];
+      cx += v[0];
+      cy += v[1];
+    }
+    cx = cx/exterior.length;
+    cy = cy/exterior.length;
+    xy = new google.maps.LatLng(cy, cx);
+  }
+  popupContext({
+    position: xy,
+    title: properties.title,
+    link: properties.link,
+    description: properties.description
+  });
 }
 
 registerPloneFunction(initialize);

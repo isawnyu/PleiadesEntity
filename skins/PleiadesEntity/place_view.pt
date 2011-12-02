@@ -63,10 +63,10 @@
 
       <table id="map-children">
         <tr>
-          <td id="map-column">
+          <td id="map-column" title="Locations of this particular place are shown in blue. Nearby precisely located places are shown in brown. Nearby places which are only roughly located are collected in groups displayed as clouds.">
             <div id="map"></div>
           </td>
-          <td id="fields-column">
+          <td id="fields-column" title="The authority rating, title and attested time periods of this place's names and locations are listed here. Red titles indicate drafting-state and yellow, pending-state. Mouse over any title to raise an info window over the location in the map.">
             <h3 style="margin-top:0px">In This Context</h3>
             <div id="locationsField" class="field">
               <label>Locations: [<a href="createObject?type_name=Location" title="Create a new Location">+</a>]</label>
@@ -180,6 +180,8 @@
   }
 
   jq(".Rateable .AverageRating").click(openPopup);
+  jq(".Location").mouseover(raiseInMap);
+  jq(".Location").mouseout(function(){infoWindow.close();});
 
   -->
 </script>

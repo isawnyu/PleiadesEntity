@@ -8,7 +8,7 @@
 
     <metal:view_macro define-macro="view">
         <ul>
-          <li tal:repeat="citation accessor">
+          <li tal:repeat="citation python:here.sortCitations(accessor())">
             <tal:block tal:condition="citation/identifier">
               <span tal:content="citation/range">Range</span>: <a href="#" tal:attributes="href citation/identifier"><span tal:content="citation/identifier">Identifier</span></a>
             </tal:block>
