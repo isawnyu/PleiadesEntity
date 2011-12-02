@@ -55,6 +55,9 @@ class NamesTable(BrowserView):
     """table of locations
     """
     def __call__(self):
+        wftool = getToolByName(self.context, "portal_workflow")
+        def getState(ob):
+            return wftool.getInfoFor(ob, 'review_state')
         names = []
         for ob in self.context.getNames():
             category = dict(getAdapters((ob,), IUserRating))['three_stars']
@@ -68,7 +71,7 @@ class NamesTable(BrowserView):
             if category.can_write:
                 classes.append("Rateable")
             innerHTML = u'<td valign="top"><div class="%s">\n%s\n</div></td>' % (" ".join(classes), stars)
-            innerHTML += u'<td valign="top"><div class="PlaceChildItem"><a href="%s">%s</a> (%s)</div></td>' % (ob.absolute_url(), unicode(ob.Title(), 'utf-8'), ", ".join([a['timePeriod'].capitalize() for a in ob.getSortedTemporalAttestations()]))
+            innerHTML += u'<td valign="top"><div class="PlaceChildItem"><a class="state-%s" href="%s">%s</a> (%s)</div></td>' % (getState(ob), ob.absolute_url(), unicode(ob.Title(), 'utf-8') + " (copy)" * ("copy" in ob.getId()), ", ".join([a['timePeriod'].capitalize() for a in ob.getSortedTemporalAttestations()]))
             innerHTML = u'\n<tr>%s</tr>' % innerHTML
             rows.append(innerHTML)
         return u'<table class="PlaceChildren Names">' + ''.join(rows) + '</table>'
