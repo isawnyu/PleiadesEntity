@@ -26,12 +26,8 @@ def reindexContainer(obj, event):
 
 @adapter(IName, IObjectModifiedEvent)
 def nameChangeSubscriber(obj, event):
-    nameAttested = obj.getNameAttested()
-    nameLanguage = obj.getNameLanguage()
-    if nameAttested and nameLanguage:
-        t = transliterate_name(nameLanguage, nameAttested)
-        obj.getField('nameTransliterated').set(obj, t)
-    obj.getField('title').set(obj, obj.getNameTransliterated())
+    obj.getField('title').set(
+        obj, obj.getNameTransliterated().split(',')[0].strip() or "Untitled")
     reindexContainer(obj, event)
     
 @adapter(ILocation, IObjectModifiedEvent)
