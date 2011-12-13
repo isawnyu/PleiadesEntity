@@ -91,21 +91,19 @@
       <div id="fields-continued">
 
         <div class="field">
-          <label>Canonical URI:</label>
-          <br/>
-          <code tal:content="context/absolute_url"></code>
-        </div>
-
-        <div class="field">
           <label>Alternate representations:</label>
           <br/>
           <span tal:define="url context/absolute_url">
-            <a type="application/atom+xml" 
+            <a type="application/atom+xml" rel="nofollow alternate"
                tal:attributes="href string:${url}/atom">Atom</a>,
-            <a type="application/json" 
+            <a type="application/json" rel="nofollow alternate"
                tal:attributes="href string:${url}/json">JSON</a>,
-            <a type="application/vnd.google-earth.kml+xml"
-               tal:attributes="href string:${url}/kml">KML</a>
+            <a type="application/vnd.google-earth.kml+xml" rel="nofollow alternate"
+               tal:attributes="href string:${url}/kml">KML</a>,
+           <a type="application/rdf+xml" rel="nofollow alternate"
+               tal:attributes="href string:${url}/rdf">RDF+XML</a>,
+           <a type="text/turtle" rel="nofollow alternate"
+               tal:attributes="href string:${url}/turtle">Turtle</a>
           </span>
         </div>
 
@@ -118,11 +116,29 @@
           </tal:if_visible>
         </tal:repeat>
 
+
+        <div class="field">
+          <label>Canonical URI:</label>
+          <br/>
+          <code tal:content="context/absolute_url"></code>
+        </div>
+
         <div class="field">
           <label><span>Suggested citation:</label>
           <br/>
-          <span>Coming soon</span>
+<span tal:replace="here/citationAuthors">R. Talbert</span>.
+"Places: <span tal:replace="here/getId">ID</span> (<span tal:replace="here/Title">TITLE</span>)". Pleiades.
+&lt;<span tal:replace="here/absolute_url">http://opencontext.org/subjects/HazorZooSPA0000009703</span>&gt; [Accessed: <span tal:replace="python:DateTime().fCommon() or ''">2006-05-12</span>]
         </div>
+
+        <div class="field">
+          <label><span>Cite this resource in Wikipedia:</label>
+          <br/>
+<pre>
+{{cite web |url=<span tal:replace="here/absolute_url">http://example.com/foo</span> |title=Places: <span tal:replace="here/getId">ID</span> (<span tal:replace="here/Title">TITLE</span>) |author=<span tal:replace="here/citationAuthors">R. Talbert</span> |accessdate=<span tal:replace="python:DateTime().fCommon() or ''">2006-05-12</span> |publisher=Pleiades}}
+</pre>
+        </div>
+
       </div>
 
 <script type="text/javascript">
@@ -185,7 +201,39 @@
 
   -->
 </script>
+
+<script type="text/javascript">
+<!--
   
+  function queryFlickr() {
+    jq.ajax({
+      "url": document.baseURI + "@@flickr-tagged",
+      "success": function (data) {
+        jq("#flickr-photos-count").html(data['related']['total']);
+        jq("#flickr-photos-link").attr("href", data['related']['url']);
+        if (data['portrait'] == null) {
+          jq("#flickr-portrait-loading").hide();
+          jq("#flickr-portrait-tip").show();
+        }
+        else {
+          jq("#flickr-portrait").attr("src", data['portrait']['img']);
+          jq("#flickr-portrait").attr("title", data['portrait']['title']);
+          jq("#flickr-portrait-link").attr("href", data['portrait']['page']);
+          jq("#flickr-portrait-loading").hide();
+          jq("#flickr-portrait-link").show();
+        }
+      },
+      "error": function (req, status, err) {
+        alert(err);
+      }
+    });
+  }
+
+  jq(document).ready(queryFlickr);
+
+  -->
+</script>
+
     </metal:body_macro>
    
     <metal:folderlisting_macro define-macro="folderlisting">
