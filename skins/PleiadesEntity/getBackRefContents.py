@@ -7,7 +7,15 @@
 ##parameters=refs,b_size=50
 ##title=wrapper method around to use catalog to get folder contents
 ##
-contents = [b.getSourceObject() for b in refs]
+
+from AccessControl import Unauthorized
+
+contents = []
+for b in refs:
+    try:
+        contents.append(b.getSourceObject())
+    except Unauthorized:
+        pass
 
 from Products.CMFPlone import Batch
 b_start = context.REQUEST.get('b_start', 0)
