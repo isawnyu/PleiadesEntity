@@ -41,7 +41,29 @@
   </head>
   
   <body>
-    
+
+    <metal:header_macro define-macro="header"
+      tal:define="kssClassesView context/@@kss_field_decorator_view;
+                  getKssClasses nocall:kssClassesView/getKssClassesInlineEditable">
+
+      <div itemscope itemtype="http://schema.org/Place">
+      <div tal:replace="structure provider:plone.abovecontenttitle" />
+      <h1 itemprop="name" tal:content="here/title_or_id">
+        Title or id
+      </h1>
+      <div tal:replace="structure provider:plone.belowcontenttitle" />
+      <p itemprop="description" 
+        class="documentDescription"
+        tal:content="here/Description">
+        Description
+      </p>
+      <a itemprop="maps" href="" style="display:none"
+        tal:attributes="href string:http://maps.google.com/maps?f=q&q=${here/absolute_url}/neighborhood-kml">URL</a>
+      <div tal:replace="structure provider:plone.abovecontentbody" />
+      </div>
+
+    </metal:header_macro>
+
     <metal:body_macro
       metal:define-macro="body"
       tal:define="field_macro field_macro | here/widgets/field/macros/view;
@@ -100,6 +122,8 @@
                tal:attributes="href string:${url}/json">JSON</a>,
             <a type="application/vnd.google-earth.kml+xml" rel="nofollow alternate"
                tal:attributes="href string:${url}/kml">KML</a>,
+            <a type="application/vnd.google-earth.kml+xml" rel="nofollow alternate"
+               tal:attributes="href string:${url}/neighborhood-kml">KML (Neighborhood)</a>,
            <a type="application/rdf+xml" rel="nofollow alternate"
                tal:attributes="href string:${url}/rdf">RDF+XML</a>,
            <a type="text/turtle" rel="nofollow alternate"
