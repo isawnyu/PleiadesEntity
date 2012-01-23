@@ -17,13 +17,12 @@ from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
 from zope.interface import implements
 import interfaces
+from Products.ATVocabularyManager.namedvocabulary import NamedVocabulary
 from Products.CompoundField.ArrayField import ArrayField
 from Products.CompoundField.ArrayWidget import ArrayWidget
 from Products.CompoundField.EnhancedArrayWidget import EnhancedArrayWidget
 from Products.CompoundField.EnhancedArrayWidget import EnhancedArrayWidget
-
 from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
-
 from Products.OrderableReferenceField import OrderableReferenceField, OrderableReferenceWidget
 from Products.PleiadesEntity.config import *
 from Products.PleiadesEntity.content.Work import Work
@@ -59,28 +58,33 @@ schema = Schema((
         edit_accessor='getGeometryRaw',
         mutator='setGeometry',
     ),
-    #StringField(
-    #    name='description',
-    #    widget=StringField._properties['widget'](
-    #        label="Alternate description",
-    #        description="""Enter alternate description of location (for example: "10 km N of Athens")""",
-    #        label_msgid='PleiadesEntity_label_description',
-    #        description_msgid='PleiadesEntity_help_description',
-    #        i18n_domain='PleiadesEntity',
-    #    ),
-    #    description="Location as a text string suitable for geocoding",
-    #),
+
+    StringField(
+        name='associationCertainty',
+        widget=SelectionWidget(
+            label="Association Certainty",
+            description="Select level of certainty in association between location and place",
+            label_msgid='PleiadesEntity_label_associationCertainty',
+            description_msgid='PleiadesEntity_help_associationCertainty',
+            i18n_domain='PleiadesEntity',
+        ),
+        description="Level of certainty in association between location and place",
+        vocabulary=NamedVocabulary("""association-certainty"""),
+        default="certain",
+        enforceVocabulary=1,
+    ),
+
     ReferenceField(
         name='accuracy',
         widget=ReferenceBrowserWidget(
             startup_directory="/features/metadata",
-            label="Accuracy assessment",
+            label="Positional Accuracy Assessment",
+            description="Select document describing the postional accuracy of this location",
             label_msgid='PleiadesEntity_label_accuracy',
             i18n_domain='PleiadesEntity',
         ),
         multiValued=False,
         relationship='location_accuracy',
-       # allowed_types="('PositionalAccuracyAssessment',)",
         allow_browse="True",
     ),
 
@@ -99,6 +103,7 @@ schema = Schema((
         allowed_types=('Place', 'Location'),
         allow_browse="True",
     ),
+
 
 ),
 )
