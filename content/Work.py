@@ -44,13 +44,13 @@ schema = Schema((
                 label_msgid='PleiadesEntity_label_referenceCitations',
                 i18n_domain='PleiadesEntity',
             ),
-            description="Reference work and citation range",
+            description="External entity cited",
             multiValued=True,
         ),
 
         widget=EnhancedArrayWidget(
             label="References",
-            description="Add or remove references",
+            description="Add or remove references cited by this entity",
             macro="pleiadescitationrefwidget",
             label_msgid='PleiadesEntity_label_array:referenceCitations',
             description_msgid='PleiadesEntity_help_array:referenceCitations',
@@ -89,6 +89,25 @@ class Work(BrowserDefaultMixin):
     security.declarePublic('rangesText')
     def rangesText(self):
         return ' '.join([c['range'] for c in self.getReferenceCitations()])
+
+    security.declarePublic('getCitationTypes')
+    def getCitationTypes(self):
+        return dict(ReferenceCitation.schema["type"].vocabulary)
+
+    security.declarePublic('getSortedReferenceCitations')
+    def getSortedReferenceCitations(self):
+        vocab = self.getCitationTypes()
+        refs = {}
+        # Access once to prime it. TODO: WTF?
+        self.getReferenceCitations()
+        for c in self.getReferenceCitations():
+            label = vocab[c.get('type', "seeFurther")]
+            if label not in refs.keys():
+                refs[label] = []
+            cite = c.copy()
+            del cite['type']
+            refs[label].append(cite.items())
+        return sorted(refs.items())
 
 # end of class Work
 

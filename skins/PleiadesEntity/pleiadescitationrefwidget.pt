@@ -7,15 +7,19 @@
   <body>
 
     <metal:view_macro define-macro="view">
+      
         <ul>
-          <li tal:repeat="citation python:here.sortCitations(accessor())">
+          <tal:block tal:repeat="batch here/getSortedReferenceCitations">
+          <li tal:repeat="citation python:[dict(x) for x in batch[1]]">
+            <em tal:content="python:batch[0]">See Further</em>:
             <tal:block tal:condition="citation/identifier">
-              <span tal:content="citation/range">Range</span>: <a href="#" tal:attributes="href citation/identifier"><span tal:content="citation/identifier">Identifier</span></a>
+              <a tal:condition="citation/identifier" href="#" tal:attributes="href citation/identifier"><span tal:content="citation/range">Range</span></a>
             </tal:block>
             <tal:block tal:condition="not:citation/identifier">
               <span tal:content="citation/range">Range</span>
             </tal:block>
           </li>
+          </tal:block>
         </ul>
     </metal:view_macro>
 

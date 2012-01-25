@@ -53,7 +53,7 @@ schema = Schema((
         widget=StringField._properties['widget'](
             macro="url_widget",
             label="Reference identifier",
-            description="Link (URL preferred) or other identifier (DOI, ISSN, Handle, etc)",
+            description="This is a link (URL preferred) or other electronic information system identifier (DOI, ISSN, Handle, etc).",
             label_msgid='PleiadesEntity_label_identifier',
             description_msgid='PleiadesEntity_help_identifier',
             i18n_domain='PleiadesEntity',
@@ -63,9 +63,22 @@ schema = Schema((
         name='range',
         widget=StringField._properties['widget'](
             label="Specific citation",
-            description="Plain-text AJA style citation (see http://www.ajaonline.org/submissions#4)",
+            description="A plain-text AJA style citation (see http://www.ajaonline.org/submissions#4) is preferred for entities with no identifier. A short form is acceptable for those with an identifier.",
             label_msgid='PleiadesEntity_label_range',
             description_msgid='PleiadesEntity_help_range',
+            i18n_domain='PleiadesEntity',
+        ),
+    ),
+
+    StringField(
+        name='type',
+        vocabulary=[("seeFurther", "See Further"), ("seeAlso", "See Also"), ("citesAsEvidence", "Cites As Evidence"), ("isConfirmedBy", "Is Confirmed By")],
+        default="seeFurther",
+        widget=SelectionWidget(
+            label="Citation Type",
+            description='Places need "See Further" and "See Also" citations. Locations and Names should cite ancient texts or objects as evidence and records in external databases or specific articles as confirmation.',
+            label_msgid='PleiadesEntity_label_citationType',
+            description_msgid='PleiadesEntity_help_citationType',
             i18n_domain='PleiadesEntity',
         ),
     ),
