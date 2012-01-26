@@ -59,6 +59,20 @@ schema = Schema((
         size=0,
     ),
 
+    StringField(
+        name='initialProvenance',
+        widget=StringField._properties['widget'](
+            label="Initial Provenance",
+            description="The origin of this entity.",
+            label_msgid='PleiadesEntity_label_initialProvenance',
+            description_msgid='PleiadesEntity_help_initialProvenance',
+            i18n_domain='PleiadesEntity',
+        ),
+        searchable=True,
+        required=0,
+        default="Pleiades"
+    ),
+
 ),
 )
 

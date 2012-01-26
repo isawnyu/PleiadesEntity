@@ -202,8 +202,12 @@ class Name(BaseContent, Work, Temporal, BrowserDefaultMixin):
     schema["title"].required = 0
     schema["title"].widget.visible = {"edit": "invisible", "view": "invisible"}
     schema["text"].widget.label = 'Details'
-    schema["presentation"].widget.visible = {"edit": "invisible", "view": "invisible"}
-    schema["tableContents"].widget.visible = {"edit": "invisible", "view": "invisible"}
+    schema["presentation"].widget.visible = {
+        "edit": "invisible", "view": "invisible"}
+    schema["tableContents"].widget.visible = {
+        "edit": "invisible", "view": "invisible"}
+    schema["primaryReferenceCitations"].widget.visible = {
+        "edit": "invisible", "view": "invisible"}
     schema.moveField('nameAttested', pos='top')
     schema.moveField('nameLanguage', after='nameAttested')    
     schema.moveField('nameTransliterated', after='nameLanguage')
