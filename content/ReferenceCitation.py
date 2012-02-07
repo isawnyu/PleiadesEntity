@@ -72,7 +72,7 @@ schema = Schema((
 
     StringField(
         name='type',
-        vocabulary=[("seeFurther", "See Further"), ("seeAlso", "See Also"), ("citesAsEvidence", "Cites As Evidence"), ("isConfirmedBy", "Is Confirmed By")],
+        vocabulary=[("seeFurther", "See Further"), ("seeAlso", "See Also"), ("citesAsEvidence", "Cites As Evidence"), ("cites", "Cites")],
         default="seeFurther",
         widget=SelectionWidget(
             label="Citation Type",

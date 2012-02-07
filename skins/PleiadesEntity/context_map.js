@@ -6,6 +6,7 @@ var map = null;
 var where = null;
 var rWhere = null;
 var roughOverlays = [];
+var roughFeatures = [];
 var contextOverlays = [];
 var p_neighbors = null;
 
@@ -15,8 +16,18 @@ var worldBounds = new google.maps.LatLngBounds(
 var placeIcon = new google.maps.MarkerImage(
     "http://google-maps-icons.googlecode.com/files/justice.png");
 
+var connectionIcon = new google.maps.MarkerImage(
+    "http://atlantides.org/images/justice-green.png");
+
 var cloudIcon = new google.maps.MarkerImage(
     "http://atlantides.org/images/cloud-marker.png",
+    null,
+    null,
+    new google.maps.Point(34, 29)
+    );
+
+var cloudIconG = new google.maps.MarkerImage(
+    "http://atlantides.org/images/cloud-marker-green.png",
     null,
     null,
     new google.maps.Point(34, 29)
@@ -198,76 +209,9 @@ function cloudPosition(feature, mapBounds) {
   return new google.maps.LatLng(cloudLat, cloudLon);
 }
 
-function initialize() {
-  /*
-   * 1. Get the KML of precisely located neighbors, register mouse listeners
-   * 2. Populate a global array of roughly located neighbor aggregations, 
-   *    with mouse listeners
-   * 3. Populate a global array of context features, with mouse listeners
-   * 4. Render map (Precise, rough, context)
-   * 5. Register bounds change listener that redraws rough markers
-   */
-
-  var mapOptions = {
-    mapTypeId: google.maps.MapTypeId.TERRAIN
-  };
-
-  map = new google.maps.Map(
-          document.getElementById("map"),
-          mapOptions);
-
-  var p_kml = getKML("nofollow alternate p-neighbors");
-  if (p_kml != null && p_kml.substring(0, 16) != "http://localhost") {
-    p_neighbors = new google.maps.KmlLayer(
-        p_kml, {preserveViewport: true, suppressInfoWindows: true});
-    google.maps.event.addListener(
-      p_neighbors, 'click', function(evt) {
-        popupKMLNeighbor(evt);
-      });
-    google.maps.event.addListener(
-      p_neighbors, 'metadata_changed', function() {
-        var pBounds = p_neighbors.getDefaultViewport();
-        if (
-          pBounds != null && 
-          !pBounds.equals(worldBounds) &&
-          map.getBounds() != null) {
-          map.fitBounds(pBounds.union(map.getBounds()));
-        }
-      });
-  }
-
-  rWhere = getJSON('r-where');
-  for (var i=0; i<rWhere.features.length; i++) {
-    var f = rWhere.features[i];
-    var geom = f.geometry;
-    if (geom == null) {
-      continue;
-    }
-    if (f.type == "pleiades.stoa.org.BoxBoundedRoughFeature") {
-      var cloudMark = new google.maps.Marker({
-                position: null, 
-                icon: cloudIcon,
-                });
-      var cloudBox = new google.maps.Rectangle({
-          bounds: new google.maps.LatLngBounds(
-            new google.maps.LatLng(f.bbox[1], f.bbox[0]),
-            new google.maps.LatLng(f.bbox[3], f.bbox[2])),
-          strokeColor: "#cc6633",
-          strokeOpacity: 0.5,
-          strokeWeight: 2,
-          strokeColor: "#cc6633",
-          fillOpacity: 0.25
-          });
-      registerMarkerClick(cloudMark, f.properties);
-      registerCloudMouseover(cloudMark, cloudBox);
-      registerCloudMouseout(cloudMark, cloudBox);
-      roughOverlays.push(cloudMark);
-    }
-  }
-
-  where = getJSON('where');
-  for (var i=0; i<where.features.length; i++) {
-    var f = where.features[i];
+function make_overlays(collection, color, icon) {
+  for (var i=0; i<collection.features.length; i++) {
+    var f = collection.features[i];
     var geom = f.geometry;
     if (geom == null) {
       continue;
@@ -276,7 +220,6 @@ function initialize() {
     if (geom.hasOwnProperty('relation')) {
       relation = geom.relation;
     }
-    var color = "#0000FF";
     var opacity = 1.0;
     if (relation != null) {
       opacity = 0.5;
@@ -287,7 +230,7 @@ function initialize() {
                   geom.coordinates[1], geom.coordinates[0]);
         var whereMark = new google.maps.Marker({
                   position: xy, 
-                  icon: placeIcon,
+                  icon: icon,
                   });
         registerMarkerClick(whereMark, f.properties);
         contextOverlays.push(whereMark);
@@ -342,7 +285,103 @@ function initialize() {
         contextOverlays.push(polygon);
       }
     }
+    else if (f.type == "pleiades.stoa.org.BoxBoundedRoughFeature") {
+      var cloudMark = new google.maps.Marker({
+                position: null, 
+                icon: cloudIconG,
+                });
+      var cloudBox = new google.maps.Rectangle({
+          bounds: new google.maps.LatLngBounds(
+            new google.maps.LatLng(f.bbox[1], f.bbox[0]),
+            new google.maps.LatLng(f.bbox[3], f.bbox[2])),
+          strokeColor: color,
+          strokeOpacity: opacity,
+          strokeWeight: 3,
+          strokeColor: color,
+          fillOpacity: opacity/2.0
+          });
+      registerMarkerClick(cloudMark, f.properties);
+      registerCloudMouseover(cloudMark, cloudBox);
+      registerCloudMouseout(cloudMark, cloudBox);
+      roughOverlays.push(cloudMark);
+      roughFeatures.push(f);
+    }
   }
+}
+
+function initialize() {
+  /*
+   * 1. Get the KML of precisely located neighbors, register mouse listeners
+   * 2. Populate a global array of roughly located neighbor aggregations, 
+   *    with mouse listeners
+   * 3. Populate a global array of context features, with mouse listeners
+   * 4. Render map (Precise, rough, context)
+   * 5. Register bounds change listener that redraws rough markers
+   */
+
+  var mapOptions = {
+    mapTypeId: google.maps.MapTypeId.TERRAIN
+  };
+
+  map = new google.maps.Map(
+          document.getElementById("map"),
+          mapOptions);
+
+  var p_kml = getKML("nofollow alternate p-neighbors");
+  if (p_kml != null && p_kml.substring(0, 16) != "http://localhost") {
+    p_neighbors = new google.maps.KmlLayer(
+        p_kml, {preserveViewport: true, suppressInfoWindows: true});
+    google.maps.event.addListener(
+      p_neighbors, 'click', function(evt) {
+        popupKMLNeighbor(evt);
+      });
+    google.maps.event.addListener(
+      p_neighbors, 'metadata_changed', function() {
+        var pBounds = p_neighbors.getDefaultViewport();
+        if (
+          pBounds != null && 
+          !pBounds.equals(worldBounds) &&
+          map.getBounds() != null) {
+          map.fitBounds(pBounds.union(map.getBounds()));
+        }
+      });
+  }
+
+  rWhere = getJSON('r-where');
+
+  for (var i=0; i<rWhere.features.length; i++) {
+    var f = rWhere.features[i];
+    var geom = f.geometry;
+    if (geom == null) {
+      continue;
+    }
+    if (f.type == "pleiades.stoa.org.BoxBoundedRoughFeature") {
+      var cloudMark = new google.maps.Marker({
+                position: null, 
+                icon: cloudIcon,
+                });
+      var cloudBox = new google.maps.Rectangle({
+          bounds: new google.maps.LatLngBounds(
+            new google.maps.LatLng(f.bbox[1], f.bbox[0]),
+            new google.maps.LatLng(f.bbox[3], f.bbox[2])),
+          strokeColor: "#cc6633",
+          strokeOpacity: 0.5,
+          strokeWeight: 2,
+          strokeColor: "#cc6633",
+          fillOpacity: 0.25
+          });
+      registerMarkerClick(cloudMark, f.properties);
+      registerCloudMouseover(cloudMark, cloudBox);
+      registerCloudMouseout(cloudMark, cloudBox);
+      roughOverlays.push(cloudMark);
+      roughFeatures.push(f);
+    }
+  }
+
+  var connections = getJSON('connections');
+  make_overlays(connections, "#00FF00", connectionIcon);
+  var where = getJSON('where');
+  make_overlays(where, "#0000FF", placeIcon);
 
   google.maps.event.addListener(
     map, 'bounds_changed', function() {
@@ -350,7 +389,7 @@ function initialize() {
       for (i=0; i<roughOverlays.length; i++) {
         var marker = roughOverlays[i];
         marker.setMap(null);
-        marker.setPosition(cloudPosition(rWhere.features[i], mapBounds));
+        marker.setPosition(cloudPosition(roughFeatures[i], mapBounds));
         marker.setMap(map);
       }
     });
@@ -358,6 +397,10 @@ function initialize() {
   var bounds = getBounds(where);
   var latlng = new google.maps.LatLng(0.0, 0.0);
   var zoom = 1;
+
+  if (bounds == null) {
+    bounds = getBounds(connections);
+  }
 
   if (bounds != null) {
     var latlng = new google.maps.LatLng(

@@ -13,6 +13,7 @@
       >
       <link rel="foaf:primaryTopic" tal:attributes="href string:${url}#this"/>
       <link rel="where" type="application/json" tal:attributes="href context/@@json/data_uri"/>
+      <link rel="connections" type="application/json" tal:attributes="href context/@@connections-json/data_uri"/>
       <link rel="r-where" type="application/json" tal:attributes="href context/@@r-neighbors-json/data_uri"/>
       <link rel="nofollow alternate" type="application/atom+xml" tal:attributes="href string:${url}/atom"/>
       <link rel="nofollow alternate" type="application/json" tal:attributes="href string:${url}/@@json?sm=1"/>
