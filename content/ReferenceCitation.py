@@ -50,6 +50,7 @@ schema = Schema((
 
     StringField(
         name='identifier',
+        default="http://atlantides.org/bibliography/",
         widget=StringField._properties['widget'](
             macro="url_widget",
             label="Reference identifier",

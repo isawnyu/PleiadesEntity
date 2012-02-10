@@ -104,6 +104,14 @@ class Work(BrowserDefaultMixin):
     def rangesText(self):
         return ' '.join([c['range'] for c in self.getReferenceCitations()])
 
+    security.declarePublic('Cites')
+    def Cites(self):
+        return self.rangesText()
+
+    security.declarePublic('Provenance')
+    def Provenance(self):
+        return self.getInitialProvenance()
+
     security.declarePublic('getCitationTypes')
     def getCitationTypes(self):
         return dict(ReferenceCitation.schema["type"].vocabulary)
