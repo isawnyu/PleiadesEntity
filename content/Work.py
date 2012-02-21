@@ -102,7 +102,7 @@ class Work(BrowserDefaultMixin):
 
     security.declarePublic('rangesText')
     def rangesText(self):
-        return ' '.join([c['range'] for c in self.getReferenceCitations()])
+        return  "; ".join([c['range'] for c in self.getReferenceCitations()])
 
     security.declarePublic('Cites')
     def Cites(self):

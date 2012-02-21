@@ -209,7 +209,7 @@ function cloudPosition(feature, mapBounds) {
   return new google.maps.LatLng(cloudLat, cloudLon);
 }
 
-function make_overlays(collection, color, icon) {
+function make_overlays(collection, color, icon, zIndex) {
   for (var i=0; i<collection.features.length; i++) {
     var f = collection.features[i];
     var geom = f.geometry;
@@ -231,6 +231,7 @@ function make_overlays(collection, color, icon) {
         var whereMark = new google.maps.Marker({
                   position: xy, 
                   icon: icon,
+                  zIndex: zIndex
                   });
         registerMarkerClick(whereMark, f.properties);
         contextOverlays.push(whereMark);
@@ -254,6 +255,7 @@ function make_overlays(collection, color, icon) {
           strokeColor: color,
           strokeOpacity: opacity,
           strokeWeight: 3,
+          zIndex: zIndex
           });
         registerFeatureClick(
             polyline, new google.maps.LatLng(cy, cx), f.properties);
@@ -279,7 +281,8 @@ function make_overlays(collection, color, icon) {
           strokeOpacity: opacity,
           strokeWeight: 3,
           strokeColor: color,
-          fillOpacity: opacity/2.0
+          fillOpacity: opacity/2.0,
+          zIndex: zIndex
           });
         registerFeatureClick(polygon, new google.maps.LatLng(cy, cx), f.properties);
         contextOverlays.push(polygon);
@@ -379,9 +382,10 @@ function initialize() {
   }
 
   var connections = getJSON('connections');
-  make_overlays(connections, "#00FF00", connectionIcon);
+  make_overlays(connections, "#00FF00", connectionIcon, 101);
+
   var where = getJSON('where');
-  make_overlays(where, "#0000FF", placeIcon);
+  make_overlays(where, "#0000FF", placeIcon, 102);
 
   google.maps.event.addListener(
     map, 'bounds_changed', function() {
@@ -405,7 +409,7 @@ function initialize() {
   if (bounds != null) {
     var latlng = new google.maps.LatLng(
       (bounds[1]+bounds[3])/2.0, (bounds[0]+bounds[2])/2.0);
-    zoom = 10;
+    zoom = 11;
   }
 
   map.setCenter(latlng);
@@ -426,7 +430,7 @@ function initialize() {
   showContextOverlays();
 }
 
-function overlayIndexOf(elem) {
+function overlayIndexOf(where, elem) {
   for (var i=0;i<contextOverlays.length;i++) {
     var f = where.features[i];
     if (f.id == elem.id) {
@@ -437,7 +441,8 @@ function overlayIndexOf(elem) {
 }
 
 function raiseInMap() {
-  var i = overlayIndexOf(this);
+  var where = getJSON("where");
+  var i = overlayIndexOf(where, this);
   var marker = contextOverlays[i];
   var f = where.features[i];
   var properties = f.properties;
@@ -482,3 +487,4 @@ function raiseInMap() {
 }
 
 registerPloneFunction(initialize);
+
