@@ -53,14 +53,25 @@
         Title or id
       </h1>
       <div tal:replace="structure provider:plone.belowcontenttitle" />
+
+      <p><strong>Primary Topic</strong> [<a href="http://xmlns.com/foaf/spec/#term_primaryTopic">about</a>]: 
+      <a rel="foaf:primaryTopic" tal:attributes="href string:${here/absolute_url}#this" tal:content="string:${here/absolute_url}#this">THIS</a> 
+      [<a type="application/rdf+xml" rel="nofollow alternate"
+               tal:attributes="href string:${here/absolute_url}/rdf">RDF+XML</a>,
+           <a type="text/turtle" rel="nofollow alternate"
+               tal:attributes="href string:${here/absolute_url}/turtle">Turtle</a>]
+      </p>
+
       <p itemprop="description" 
         class="documentDescription"
         tal:content="here/Description">
-        Description
-      </p>
+        Description</p>
+
       <a itemprop="maps" href="" style="display:none"
         tal:attributes="href string:http://maps.google.com/maps?f=q&q=${here/absolute_url}/neighborhood-kml">URL</a>
+
       <div tal:replace="structure provider:plone.abovecontentbody" />
+      
       </div>
 
     </metal:header_macro>
@@ -143,7 +154,7 @@
 
 
         <div class="field">
-          <label>Canonical URI:</label>
+          <label>Canonical URI for this page:</label>
           <br/>
           <code tal:content="context/absolute_url"></code>
         </div>

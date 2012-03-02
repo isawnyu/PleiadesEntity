@@ -2,11 +2,13 @@ import logging
 
 from Acquisition import aq_inner, aq_parent
 from plone.app.iterate.interfaces import IAfterCheckinEvent
-from Products.CMFCore.interfaces import IActionSucceededEvent
+from Products.CMFCore.interfaces import IActionSucceededEvent, IContentish
+from Products.CMFCore.utils import getToolByName
 from zope.component import adapter
 from zope.lifecycleevent.interfaces import IObjectModifiedEvent
 
-from Products.PleiadesEntity.content.interfaces import ILocation, IName, IFeature, IPlace
+from Products.PleiadesEntity.content.interfaces import ILocation, IName
+from Products.PleiadesEntity.content.interfaces import IFeature, IPlace
 from pleiades.transliteration import transliterate_name
 
 log = logging.getLogger('PleiadesEntity')
@@ -38,6 +40,29 @@ def locationChangeSubscriber(obj, event):
 @adapter(IFeature, IObjectModifiedEvent)
 def featureChangeSubscriber(obj, event):
     reindexWhole(obj, event)
+
+@adapter(IContentish, IObjectModifiedEvent)
+def contributorsSubscriber(obj, event):
+    # Ensure that principals from the obj's version history are represented
+    # in the Contributors field.
+    creators = list(obj.Creators())
+    contributors = list(obj.Contributors())
+    credited = set(creators + contributors)
+    try:
+        principals = set()
+        context = aq_inner(obj)
+        rt = getToolByName(context, "portal_repository")
+        history = rt.getHistoryMetadata(context)
+        if history:
+            for i in range(len(history)):
+                metadata = history.retrieve(i)['metadata']['sys_metadata']
+                principals.add(metadata['principal'])
+        uncredited = principals - credited
+        obj.setContributors(contributors + list(uncredited))
+        obj.reindexObject(idxs=['Contributors'])
+    except:
+        log.error(
+            "Failed to sync Contributors with revision history" )
 
 # We want to reindex containers when locations, names change state
 #
