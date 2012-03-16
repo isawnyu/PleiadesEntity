@@ -45,9 +45,18 @@ def featureChangeSubscriber(obj, event):
 def contributorsSubscriber(obj, event):
     # Ensure that principals from the obj's version history are represented
     # in the Contributors field.
-    creators = list(obj.Creators())
-    contributors = list(obj.Contributors())
-    credited = set(creators + contributors)
+    def fixSeanTom(p):
+        if p == "T. Elliott":
+            return "thomase"
+        elif p in ("S. Gillies", "admin"):
+            return "sgillies"
+        else:
+            return p
+    creators = set(map(fixSeanTom, obj.Creators()))
+    contributors = set(filter(
+        lambda x: x not in creators, 
+        map(fixSeanTom, obj.Contributors())))
+    credited = creators.union(contributors)
     try:
         principals = set()
         context = aq_inner(obj)
@@ -58,8 +67,10 @@ def contributorsSubscriber(obj, event):
                 metadata = history.retrieve(i)['metadata']['sys_metadata']
                 principals.add(metadata['principal'])
         uncredited = principals - credited
-        obj.setContributors(contributors + list(uncredited))
-        obj.reindexObject(idxs=['Contributors'])
+        obj.update(
+            creators=list(creators), 
+            contributors=list(contributors.union(uncredited)))
+        obj.reindexObject(idxs=['Creator', 'Contributors'])
     except:
         log.error(
             "Failed to sync Contributors with revision history" )
