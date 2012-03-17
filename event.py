@@ -57,22 +57,39 @@ def contributorsSubscriber(obj, event):
         lambda x: x not in creators, 
         map(fixSeanTom, obj.Contributors())))
     credited = creators.union(contributors)
-    try:
+    
+    def getPrincipals(ob):
         principals = set()
-        context = aq_inner(obj)
+        context = aq_inner(ob)
         rt = getToolByName(context, "portal_repository")
         history = rt.getHistoryMetadata(context)
         if history:
             for i in range(len(history)):
                 metadata = history.retrieve(i)['metadata']['sys_metadata']
-                principals.add(metadata['principal'])
+                principals.add(fixSeanTom(metadata['principal']))
+        return principals
+
+    try:
+        principals = getPrincipals(obj)
+        if IPlace.providedBy(obj):
+            for sub in (obj.getNames() + obj.getLocations()):
+                sub_principals = set(
+                    map(fixSeanTom, sub.Creators()) \
+                    + map(fixSeanTom, sub.Contributors()))
+                principals = principals.union(sub_principals)
         uncredited = principals - credited
-        obj.update(
-            creators=list(creators), 
-            contributors=list(contributors.union(uncredited)))
+        
+        obj.setCreators(list(creators))
+        obj.setContributors(list(contributors.union(uncredited)))
         obj.reindexObject(idxs=['Creator', 'Contributors'])
+        
+        context = aq_inner(obj)
+        parent = aq_parent(context)
+        if IPlace.providedBy(parent):
+            contributorsSubscriber(parent, event)
+
     except:
-        log.error(
+        log.exception(
             "Failed to sync Contributors with revision history" )
 
 # We want to reindex containers when locations, names change state
