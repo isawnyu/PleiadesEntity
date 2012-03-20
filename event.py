@@ -45,17 +45,25 @@ def featureChangeSubscriber(obj, event):
 def contributorsSubscriber(obj, event):
     # Ensure that principals from the obj's version history are represented
     # in the Contributors field.
+    
     def fixSeanTom(p):
-        if p == "T. Elliott":
+        if p in ("T. Elliott", "Tom Elliott"):
             return "thomase"
-        elif p in ("S. Gillies", "admin"):
+        elif p in ("S. Gillies", "Sean Gillies", "admin"):
             return "sgillies"
         else:
             return p
-    creators = set(map(fixSeanTom, obj.Creators()))
+
+    def repairPrincipal(p):
+        return [fixSeanTom(v.strip()) for v in p.split(",")]
+    
+    def repairPrincipals(seq):
+        return reduce(lambda x, y: x+y, map(repairPrincipal, seq), [])
+
+    creators = set(repairPrincipals(obj.Creators()))
     contributors = set(filter(
         lambda x: x not in creators, 
-        map(fixSeanTom, obj.Contributors())))
+        repairPrincipals(obj.Contributors())))
     credited = creators.union(contributors)
     
     def getPrincipals(ob):
@@ -66,7 +74,8 @@ def contributorsSubscriber(obj, event):
         if history:
             for i in range(len(history)):
                 metadata = history.retrieve(i)['metadata']['sys_metadata']
-                principals.add(fixSeanTom(metadata['principal']))
+                for p in repairPrincipal(metadata['principal']):
+                    principals.add(p)
         return principals
 
     try:
@@ -74,8 +83,8 @@ def contributorsSubscriber(obj, event):
         if IPlace.providedBy(obj):
             for sub in (obj.getNames() + obj.getLocations()):
                 sub_principals = set(
-                    map(fixSeanTom, sub.Creators()) \
-                    + map(fixSeanTom, sub.Contributors()))
+                    repairPrincipals(sub.Creators()) \
+                    + repairPrincipals(sub.Contributors()))
                 principals = principals.union(sub_principals)
         uncredited = principals - credited
         
