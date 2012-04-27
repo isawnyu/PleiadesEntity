@@ -115,15 +115,18 @@ function popupKMLNeighbor(evt) {
   /* Uses the global info window */
   var msg = document.createElement("div");
   msg.setAttribute("style", "overflow:auto");
-  var head = document.createElement("h3");
+  var head = document.createElement("h2");
   var tail = document.createElement("p");
-  var details = document.createElement("a");
-  details.setAttribute("href", evt.featureData.author.uri);
-  jq(details).text("Details");
-  jq(tail).append(details);
+  var descr = document.createElement("p");
+  var link = document.createElement("a");
+  link.setAttribute("href", evt.featureData.author.uri);
+  jq(link).text(evt.featureData.snippet);
   jq(head).text(evt.featureData.name);
+  jq(descr).html(unescape(unescape(evt.featureData.description)));
+  jq(tail).text("ID: " + evt.featureData.id);
   jq(msg).append(head);
-  jq(msg).append(unescape(unescape(evt.featureData.description)));
+  jq(msg).append(link);
+  jq(msg).append(descr);
   jq(msg).append(tail);
   infoWindow.close();
   infoWindow.setOptions({position: evt.latLng, content: msg});
@@ -134,41 +137,48 @@ function popupContext(context) {
   /* Uses the global info window */
   var msg = document.createElement("div");
   msg.setAttribute("style", "overflow:auto");
-  var head = document.createElement("h3");
+  var head = document.createElement("h2");
   var tail = document.createElement("p");
-  var details = document.createElement("a");
-  details.setAttribute("href", context.link);
-  jq(details).text("Details");
-  jq(tail).append(details);
+  var descr = document.createElement("p");
+  var link = document.createElement("a");
+  link.setAttribute("href", context.link);
+  jq(link).text(context.snippet);
   jq(head).text(context.title);
+  jq(descr).html(unescape(unescape(context.description)));
+  jq(tail).text("ID: " + context.id);
   jq(msg).append(head);
-  jq(msg).append(context.description);
+  jq(msg).append(link);
+  jq(msg).append(descr);
   jq(msg).append(tail);
   infoWindow.close();
   infoWindow.setOptions({position: context.position, content: msg});
   infoWindow.open(map);
 }
 
-function registerFeatureClick(marker, xy, properties) {
+function registerFeatureClick(marker, xy, properties, fid) {
   google.maps.event.addListener(
     marker, 'click', function(e) {
       popupContext({
         position: xy,
+        id: fid,
         title: properties.title,
         link: properties.link,
-        description: properties.description
+        description: properties.description,
+        snippet: properties.snippet
       });
     });
 }
 
-function registerMarkerClick(marker, properties) {
+function registerMarkerClick(marker, properties, fid) {
   google.maps.event.addListener(
     marker, 'click', function(e) {
       popupContext({
+        id: fid,
         position: marker.getPosition(),
         title: properties.title,
         link: properties.link,
-        description: properties.description
+        description: properties.description,
+        snippet: properties.snippet
       });
     });
 }
@@ -233,7 +243,7 @@ function make_overlays(collection, color, icon, zIndex) {
                   icon: icon,
                   zIndex: zIndex
                   });
-        registerMarkerClick(whereMark, f.properties);
+        registerMarkerClick(whereMark, f.properties, f.id);
         contextOverlays.push(whereMark);
       }
       else if (geom.type == 'LineString') {
@@ -258,7 +268,7 @@ function make_overlays(collection, color, icon, zIndex) {
           zIndex: zIndex
           });
         registerFeatureClick(
-            polyline, new google.maps.LatLng(cy, cx), f.properties);
+            polyline, new google.maps.LatLng(cy, cx), f.properties. f.id);
         contextOverlays.push(polyline);
       }
       else if (f.geometry.type == 'Polygon') {
@@ -284,7 +294,11 @@ function make_overlays(collection, color, icon, zIndex) {
           fillOpacity: opacity/2.0,
           zIndex: zIndex
           });
-        registerFeatureClick(polygon, new google.maps.LatLng(cy, cx), f.properties);
+        registerFeatureClick(
+            polygon, 
+            new google.maps.LatLng(cy, cx), 
+            f.properties,
+            f.id);
         contextOverlays.push(polygon);
       }
     }
@@ -303,7 +317,7 @@ function make_overlays(collection, color, icon, zIndex) {
           strokeColor: color,
           fillOpacity: opacity/2.0
           });
-      registerMarkerClick(cloudMark, f.properties);
+      registerMarkerClick(cloudMark, f.properties, f.id);
       registerCloudMouseover(cloudMark, cloudBox);
       registerCloudMouseout(cloudMark, cloudBox);
       roughOverlays.push(cloudMark);
@@ -373,7 +387,7 @@ function initialize() {
           strokeColor: "#cc6633",
           fillOpacity: 0.25
           });
-      registerMarkerClick(cloudMark, f.properties);
+      registerMarkerClick(cloudMark, f.properties, f.id);
       registerCloudMouseover(cloudMark, cloudBox);
       registerCloudMouseout(cloudMark, cloudBox);
       roughOverlays.push(cloudMark);
@@ -480,9 +494,11 @@ function raiseInMap() {
   }
   popupContext({
     position: xy,
+    id: f.id,
     title: properties.title,
     link: properties.link,
-    description: properties.description
+    description: properties.description,
+    snippet: properties.snippet
   });
 }
 

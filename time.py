@@ -47,3 +47,10 @@ def temporal_overlap(a, b, period_vocab=None):
         bmin, bmax = rb
         return amin < bmax and amax > bmin or amin == bmin and amax == bmax
 
+def to_ad(year):
+    sign = (year>0)*2-1
+    if sign >= 0:
+        return "AD %d" % year
+    else:
+        return "%d BC" % (sign*year)
+
