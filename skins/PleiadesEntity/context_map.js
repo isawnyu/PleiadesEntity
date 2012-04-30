@@ -360,7 +360,7 @@ function initialize() {
 
   rWhere = getJSON('r-where');
 
-  for (var i=0; i<rWhere.features.length; i++) {
+  for (var i=0; i<Math.min(rWhere.features.length, 10); i++) {
     var f = rWhere.features[i];
     var geom = f.geometry;
     if (geom == null) {
