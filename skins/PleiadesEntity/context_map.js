@@ -405,31 +405,34 @@ function initialize() {
         marker.setMap(map);
       }
     });
+  
+  /* Default view */
+  var latlng = new google.maps.LatLng(35.0, 20.0);
+  var zoom = 4;
 
   var bounds = getBounds(where);
-  var latlng = new google.maps.LatLng(0.0, 0.0);
-  var zoom = 1;
-
+  
   if (bounds == null) {
     bounds = getBounds(connections);
   }
 
-  if (bounds != null) {
-    var latlng = new google.maps.LatLng(
+  /*if (bounds != null) {
+    latlng = new google.maps.LatLng(
       (bounds[1]+bounds[3])/2.0, (bounds[0]+bounds[2])/2.0);
     zoom = 11;
-  }
+  }*/
 
-  map.setCenter(latlng);
-  map.setZoom(zoom);
-
-  if (bounds != null && (bounds[2]-bounds[0])*(bounds[3]-bounds[1]) >= 0.001) {
+  if (bounds != null) {
     map.fitBounds(
       new google.maps.LatLngBounds(
         new google.maps.LatLng(bounds[1], bounds[0]), 
         new google.maps.LatLng(bounds[3], bounds[2])));
   }
-
+  else {
+    map.setCenter(latlng);
+    map.setZoom(zoom);
+  }
+  
   if (p_neighbors != null) {
     p_neighbors.setMap(map);
   }
