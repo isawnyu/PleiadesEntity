@@ -35,7 +35,7 @@
         <div tal:replace="structure provider:plone.abovecontentbody" />
 
         <metal:listingmacro define-macro="listing">
-        <tal:topiccontents define="topicContents python:here.queryCatalog(batch=True);
+        <tal:topiccontents define="topicContents python:here.limitedQueryCatalog();
                                    batch topicContents;">
 
         <tal:listing condition="topicContents">

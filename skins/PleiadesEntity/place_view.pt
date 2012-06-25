@@ -9,10 +9,14 @@
   <head>
     
     <metal:links_macro metal:define-macro="links"
-      tal:define="url context/absolute_url"
-      >
+      tal:define="url context/absolute_url;
+                  baseline context/@@iterate/baseline|nothing;" >
       <link rel="foaf:primaryTopic" tal:attributes="href string:${url}#this"/>
       <link rel="where" type="application/json" tal:attributes="href context/@@json/data_uri"/>
+      <link tal:condition="baseline"
+        rel="baseline-where" 
+        type="application/json" 
+        tal:attributes="href baseline/@@json/data_uri" />
       <link rel="connections" type="application/json" tal:attributes="href context/@@connections-json/data_uri"/>
       <link rel="r-where" type="application/json" tal:attributes="href context/@@r-neighbors-json/data_uri"/>
       <link rel="nofollow alternate" type="application/atom+xml" tal:attributes="href string:${url}/atom"/>
@@ -54,13 +58,13 @@
       </h1>
       <div tal:replace="structure provider:plone.belowcontenttitle" />
 
-      <p><strong>Primary Topic</strong> [<a href="http://xmlns.com/foaf/spec/#term_primaryTopic">about</a>]: 
+      <!--p><strong>Primary Topic</strong> [<a href="http://xmlns.com/foaf/spec/#term_primaryTopic">about</a>]: 
       <a rel="foaf:primaryTopic" tal:attributes="href string:${here/absolute_url}#this" tal:content="string:${here/absolute_url}#this">THIS</a> 
       [<a type="application/rdf+xml" rel="nofollow alternate"
                tal:attributes="href string:${here/absolute_url}/rdf">RDF+XML</a>,
            <a type="text/turtle" rel="nofollow alternate"
                tal:attributes="href string:${here/absolute_url}/turtle">Turtle</a>]
-      </p>
+      </p-->
 
       <p itemprop="description" 
         class="documentDescription"
@@ -81,48 +85,104 @@
       tal:define="field_macro field_macro | here/widgets/field/macros/view;
         kssClassesView context/@@kss_field_decorator_view;
         getKssClasses nocall:kssClassesView/getKssClassesInlineEditable;
-        templateId template/getId;">
-
-      <div class="RatingPopup" id="rating-popup">
-        <div class="RatingPopupBody">
-          <div id="rating-content" class="Rating"></div>
-          <p><input
-                class="standalone" 
-                type="submit" 
-                value="Cancel" 
-                name="rating.popup.cancel"
-                onclick="javascript:jq('#rating-popup').hide()"/></p>
-        </div>
-      </div>
+        templateId template/getId;
+        portal_state context/@@plone_portal_state;">
 
       <table id="map-children">
         <tr>
+
           <td id="map-column" title="Locations of this particular place are shown in blue. Nearby precisely located places are shown in brown. Nearby places which are only roughly located are collected in groups displayed as clouds.">
             <div id="map"></div>
           </td>
+
           <td id="fields-column" title="The authority rating, title and attested time periods of this place's names and locations are listed here. Red titles indicate drafting-state and yellow, pending-state. Mouse over any title to raise an info window over the location in the map.">
-            <h3 style="margin-top:0px">In This Context</h3>
+
+            <div tal:condition="not:context/@@iterate/baseline|nothing">
             <div id="locationsField" class="field">
-              <label>Locations: [<a href="createObject?type_name=Location" title="Create a new Location">+</a>]</label>
-            </div>
-            <div id="PlaceChildItems" class="LocationChildren">
-              <table tal:replace="structure context/@@locations-table"></table>
+              <label>Locations</label>
+            <dl tal:replace="structure context/@@locations-listing"></dl>
+            <a tal:condition="not:portal_state/anonymous"
+              class="createObjectButton"
+              href="createObject?type_name=Location" 
+              title="Create a new Location"
+              >Add Location</a>
             </div>
             <div id="namesField" class="field">
-              <label>Names: [<a href="createObject?type_name=Name" title="Create a new Name">+</a>]</label>
+              <label>Names</label>
+            <dl tal:replace="structure context/@@names-listing"></dl>
+            <a tal:condition="not:portal_state/anonymous"
+              class="createObjectButton"
+              href="createObject?type_name=Name"
+              title="Create a new Name"
+              >Add Name</a>
             </div>
-            <div id="PlaceChildItems" class="NameChildren">
-              <table tal:replace="structure context/@@names-table"></table>
+            <div tal:condition="not:portal_state/anonymous"><p>
+              <a href="folder_contents">Folder listing of locations and names</a>
+            </p></div>
+            </div>
+
+            <div tal:condition="context/@@iterate/baseline|nothing"
+              tal:define="baseline context/@@iterate/baseline" >
+
+            <div tal:condition="context/@@iterate/baseline|nothing">
+            <h3 style="margin-top:0px;">In this working copy</h3>
+            <p>These will be copied to the baseline place when a reviewer checks the working copy in.</p>
+            <div id="locationsField" class="field">
+              <label>Locations</label>
+            <dl tal:replace="structure context/@@locations-listing"></dl>
+            <a tal:condition="not:portal_state/anonymous"
+              class="createObjectButton"
+              href="createObject?type_name=Location" 
+              title="Create a new Location"
+              >Add Location</a>
+            </div>
+            <div id="namesField" class="field">
+              <label>Names</label>
+            <dl tal:replace="structure context/@@names-listing"></dl>
+            <a tal:condition="not:portal_state/anonymous"
+              class="createObjectButton"
+              href="createObject?type_name=Name"
+              title="Create a new Name"
+              >Add Name</a>
+            </div>
+
+            <h3 style="margin-top:2em">In the baseline place</h3>
+            <div id="locationsField" class="field baseline">
+              <label>Locations</label>
+              <dl tal:replace="structure baseline/@@locations-listing"></dl>
+            </div>
+            <div id="namesField" class="field">
+              <label>Names</label>
+              <dl tal:replace="structure baseline/@@names-listing"></dl>
+            </div>
             </div>
 
             <div><p>
               <a href="folder_contents">Folder listing of locations and names</a>
             </p></div>
+            </div>
+
           </td> <!-- fields -->
+
         </tr>
       </table>
 
       <div id="fields-continued">
+
+        <tal:repeat
+          repeat="field python:here.Schema().filterFields(isMetadata=0)">
+          <tal:if_visible
+            define="mode string:view; visState python:field.widget.isVisible(here, mode); visCondition python:field.widget.testCondition(here, portal, template);"
+            condition="python:visState == 'visible' and visCondition">
+            <metal:use_field use-macro="field_macro"/>
+          </tal:if_visible>
+        </tal:repeat>
+
+        <div class="field">
+          <label>Canonical URI for this page:</label>
+          <br/>
+          <code tal:content="context/absolute_url"></code>
+        </div>
 
         <div class="field">
           <label>Alternate representations:</label>
@@ -141,22 +201,6 @@
            <a type="text/turtle" rel="nofollow alternate"
                tal:attributes="href string:${url}/turtle">Turtle</a>
           </span>
-        </div>
-
-        <tal:repeat
-          repeat="field python:here.Schema().filterFields(isMetadata=0)">
-          <tal:if_visible
-            define="mode string:view; visState python:field.widget.isVisible(here, mode); visCondition python:field.widget.testCondition(here, portal, template);"
-            condition="python:visState == 'visible' and visCondition">
-            <metal:use_field use-macro="field_macro"/>
-          </tal:if_visible>
-        </tal:repeat>
-
-
-        <div class="field">
-          <label>Canonical URI for this page:</label>
-          <br/>
-          <code tal:content="context/absolute_url"></code>
         </div>
 
         <div class="field">
@@ -180,58 +224,6 @@
 <script type="text/javascript">
 <!--
 
-  function openPopup(event) {
-      jq("#rating-popup").hide();
-      jq("#rating-content").empty();
-      rating = jq(event.target).parents(".Rating")[0];
-      user = jq(rating).children("#user_rating")[0];
-      var table = jq(user).parents("#PlaceChildItems")[0];
-      content = jq(user).clone();
-      jq(content).show();
-
-      jq("div.UserRating a.DeleteRating", content).each(
-        function (i, elem) {
-          var url = jq(elem).attr("href");
-          jq(elem).removeAttr("href");
-          jq(elem).click(function(){rate(table, url);});
-        });
-
-      jq("div.UserRating a.rate", content).each(
-        function (i, elem) {
-          var url = jq(elem).attr("href");
-          jq(elem).removeAttr("href");
-          jq(elem).click(function(){rate(table, url);});
-        });
-
-      jq("#rating-content").append(content);
-      offset = jq(event.target).offset();
-      jq("#rating-popup").css(
-        "left", offset.left-95).css("top", offset.top-80).show();
-  }
-
-  function rate(table, url) {
-    jq.ajax({
-      "url": url,
-      "success": function (data) {
-        jq("#rating-popup").hide();
-        view_url = null;
-        if (jq(table).hasClass("LocationChildren")) { 
-            view_url = document.baseURI + "@@locations-table"; }
-        else if (jq(table).hasClass("NameChildren")) { 
-            view_url = document.baseURI + "@@names-table"; }
-        jq(table).load(
-          view_url, 
-          function () {
-            jq(".Rateable .AverageRating").click(openPopup);
-          });
-      },
-      "error": function (req, status, err) {
-        alert(err);
-      }
-    });
-  }
-
-  jq(".Rateable .AverageRating").click(openPopup);
   jq(".Location").mouseover(raiseInMap);
   jq(".Location").mouseout(function(){infoWindow.close();});
 

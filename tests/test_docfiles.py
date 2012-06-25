@@ -9,7 +9,7 @@ from Products.Five import fiveconfigure
 from Products.PloneTestCase import PloneTestCase as ptc
 from Products.PloneTestCase.layer import onsetup, PloneSite, ZCMLLayer
 import Products.PleiadesEntity
-import _testing
+from Products.PleiadesEntity.tests import _testing
 
 ztc.installProduct('ATVocabularyManager')
 ztc.installProduct('Products.ATBackRef')

@@ -6,7 +6,8 @@ from contentratings.interfaces import IUserRating
 from plone.memoize import view
 from zope.component import getAdapters, getMultiAdapter
 
-from Products.PleiadesEntity.time import periodRanges, TimePeriodCmp, to_ad
+from zgeo.geographer.interfaces import IGeoreferenced
+from Products.PleiadesEntity.time import to_ad
 
 
 class TimeSpanWrapper(object):
@@ -36,11 +37,13 @@ class TimeSpanWrapper(object):
     @property
     def snippet(self):
         timespan = self.timeSpanAD
-        return timespan and "%(start)s - %(end)s" % timespan or "Unattested"
+        if timespan and timespan['end'] == "AD 2100":
+            timespan['end'] = "Present"
+        return (timespan and "%(start)s - %(end)s" % timespan
+            ) or "Dates unattested"
 
 
 class PlacefulAttestations(BrowserView):
-
 
     @property
     @view.memoize
@@ -58,54 +61,88 @@ class PlacefulAttestations(BrowserView):
             results.append((ob, TimeSpanWrapper(ob).snippet))
         return results
 
-class LocationsTable(BrowserView):
-    """table of locations
+class ChildrenTable(BrowserView):
+    """table of locations or names
     """
     def __call__(self):
-        wftool = getToolByName(self.context, "portal_workflow")
-        def getState(ob):
-            return wftool.getInfoFor(ob, 'review_state')
-        locations = []
-        for ob in self.context.getLocations():
-            category = dict(getAdapters((ob,), IUserRating))['three_stars']
-            avg_rating = category.averageRating
-            locations.append((avg_rating, ob, category))
-        rows = []
-        for rating, ob, category in sorted(locations, reverse=True):
-            stars = getMultiAdapter((ob, self.request),
-                                   name='user-ratings')()
-            classes = ["RatingViewlet"]
-            if category.can_write:
-                classes.append("Rateable")
-            # build inner HTML as unicode, encode at the end
-            innerHTML = u'<td valign="top"><div class="%s">\n%s\n</div></td>' % (" ".join(classes), stars)
-            innerHTML += u'<td valign="top"><div id="%s" class="PlaceChildItem Location"><a class="state-%s" href="%s">%s</a> (%s)</div></td>' % (ob.getId(), getState(ob), ob.absolute_url(),  unicode(ob.Title(), 'utf-8') + " (copy)" * ("copy" in ob.getId()), TimeSpanWrapper(ob).snippet)
-            innerHTML = u'\n<tr>%s</tr>' % innerHTML
-            rows.append(innerHTML)
-        return u'<table class="PlaceChildren Locations">' + ''.join(rows) + '</table>'
+        self.wftool = getToolByName(self.context, "portal_workflow")
+        self.vtool = getToolByName(self.context, 'portal_vocabularies')
+        self.iterate = self.context.restrictedTraverse("@@iterate")
+        portal_state = self.context.restrictedTraverse("@@plone_portal_state")
+        children = []
+        for ob in self.accessor():
+            category = dict(
+                getAdapters((ob,), IUserRating)).get('three_stars', 0)
+            avg_rating = float(category and category.averageRating)
+            nrefs = len(ob.getReferenceCitations())
+            score = (avg_rating + 1.0)*(nrefs + 1.0)
+            children.append((score, ob, nrefs))
+        if len(children) == 0 and portal_state.anonymous():
+            rows = ['<dt class="emptyChildItem"><em>None</em></dt>']
+        else:
+            rows = self.rows(children)
+        return u'<dl class="placeChildren">' + ''.join(rows) + '</dl>'
 
-class NamesTable(BrowserView):
+class LocationsTable(ChildrenTable):
+    def accessor(self):
+        return self.context.getLocations()
+    def snippet(self, ob):
+        return "; ".join([
+            IGeoreferenced(ob).type,
+            TimeSpanWrapper(ob).snippet ])
+    def rows(self, locations):
+        output = []
+        where_tag = "where"
+        if self.iterate and self.iterate()['working_copy'] is not None:
+            where_tag = "baseline-where"
+        for score, ob, nrefs in sorted(locations, reverse=True):
+            innerHTML = [
+                u'<dt id="%s_%s" class="placeChildItem Location">' % (
+                    ob.getId(),
+                    where_tag ),
+                u'<a class="state-%s" href="%s">%s</a>' % (
+                     self.wftool.getInfoFor(ob, 'review_state'), 
+                     ob.absolute_url(), 
+                     unicode(
+                        ob.Title(), 'utf-8') + " (copy)" * (
+                            "copy" in ob.getId())),
+                u' (%s)</dt>' % self.snippet(ob),
+                u'<dd class="placeChildItem">%s</dd>' % ob.Description() ]
+            output.append("".join(innerHTML))
+        return u'<dl class="placeChildren">' + ''.join(output) + '</dl>'
+
+
+class NamesTable(ChildrenTable):
     """table of locations
     """
-    def __call__(self):
-        wftool = getToolByName(self.context, "portal_workflow")
-        def getState(ob):
-            return wftool.getInfoFor(ob, 'review_state')
-        names = []
-        for ob in self.context.getNames():
-            category = dict(getAdapters((ob,), IUserRating))['three_stars']
-            avg_rating = category.averageRating
-            names.append((avg_rating, ob, category))
-        rows = []
-        for rating, ob, category in sorted(names, reverse=True):
-            stars = getMultiAdapter((ob, self.request),
-                                   name='user-ratings')()
-            classes = ["RatingViewlet"]
-            if category.can_write:
-                classes.append("Rateable")
-            innerHTML = u'<td valign="top"><div class="%s">\n%s\n</div></td>' % (" ".join(classes), stars)
-            innerHTML += u'<td valign="top"><div class="PlaceChildItem"><a class="state-%s" href="%s">%s</a> (%s)</div></td>' % (getState(ob), ob.absolute_url(), unicode(ob.Title(), 'utf-8') + " (copy)" * ("copy" in ob.getId()), TimeSpanWrapper(ob).snippet)
-            innerHTML = u'\n<tr>%s</tr>' % innerHTML
-            rows.append(innerHTML)
-        return u'<table class="PlaceChildren Names">' + ''.join(rows) + '</table>'
+    def accessor(self):
+        return self.context.getNames()
+    def snippet(self, ob):
+        return "; ".join([
+            self.langs[ob.getNameLanguage()],
+            TimeSpanWrapper(ob).snippet ])
+    def rows(self, names):
+        vocab = self.vtool.getVocabularyByName('ancient-name-languages')
+        self.langs = dict(vocab.getDisplayList(vocab).items())
+        output = []
+        for score, ob, nrefs in sorted(names, reverse=True):
+            nameAttested = ob.getNameAttested() or None
+            title = ob.Title() or "Untitled"
+            if nameAttested:
+                label, label_class = nameAttested, "nameAttested"
+            else:
+                label, label_class = title, "nameUnattested"
+            innerHTML = [
+                u'<dt id="%s" class="placeChildItem">' % ob.getId(),
+                u'<a class="state-%s %s" href="%s">%s</a>' % (
+                     self.wftool.getInfoFor(ob, 'review_state'), 
+                     label_class,
+                     ob.absolute_url(),
+                     unicode(
+                        label, 'utf-8') + " (copy)" * (
+                            "copy" in ob.getId())),
+                u' (%s)</dt>' % self.snippet(ob),
+                u'<dd class="placeChildItem">%s</dd>' % ob.Description() ]
+            output.append("".join(innerHTML))
+        return u'<dl class="placeChildren">' + ''.join(output) + '</dl>'
 

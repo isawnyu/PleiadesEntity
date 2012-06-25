@@ -14,7 +14,10 @@ var worldBounds = new google.maps.LatLngBounds(
   new google.maps.LatLng(-90.0, -180.0), new google.maps.LatLng(90.0, 180.0));
 
 var placeIcon = new google.maps.MarkerImage(
-    "http://google-maps-icons.googlecode.com/files/justice.png");
+    "http://atlantides.org/images/justice-blue.png");
+
+var baselineIcon = new google.maps.MarkerImage(
+    "http://atlantides.org/images/justice-blue-light.png");
 
 var connectionIcon = new google.maps.MarkerImage(
     "http://atlantides.org/images/justice-green.png");
@@ -70,11 +73,24 @@ function getKML(rel) {
 }
 
 function getBounds(collection) {
+  if (!collection) { return null; }
   if (collection.hasOwnProperty('bbox') == true) {
     return collection.bbox;
   }
   else {
     return null;
+  }
+}
+
+function addBounds(b1, b2) {
+  if (!b2) { return b1; }
+  else if (!b1) { return b2; }
+  else {
+    return [
+      Math.min(b1[0], b2[0]), 
+      Math.min(b1[1], b2[1]), 
+      Math.max(b1[2], b2[2]), 
+      Math.max(b1[3], b2[3])] ;
   }
 }
 
@@ -213,7 +229,8 @@ function cloudPosition(feature, mapBounds) {
   return new google.maps.LatLng(cloudLat, cloudLon);
 }
 
-function make_overlays(collection, color, icon, zIndex) {
+function make_overlays(collection, color, opacity, icon, zIndex) {
+  if (!collection || !collection.features) { return; }
   for (var i=0; i<collection.features.length; i++) {
     var f = collection.features[i];
     var geom = f.geometry;
@@ -224,9 +241,8 @@ function make_overlays(collection, color, icon, zIndex) {
     if (geom.hasOwnProperty('relation')) {
       relation = geom.relation;
     }
-    var opacity = 1.0;
     if (relation != null) {
-      opacity = 0.5;
+      opacity *= 0.5;
     }
     if (f.type == "Feature") {
       if (f.geometry.type == 'Point') {
@@ -390,10 +406,13 @@ function initialize() {
   }
 
   var connections = getJSON('connections');
-  make_overlays(connections, "#00FF00", connectionIcon, 101);
+  make_overlays(connections, "#00FF00", 0.5, connectionIcon, 101);
+
+  var baselineWhere = getJSON('baseline-where');
+  make_overlays(baselineWhere, "#00FF00", 0.5, baselineIcon, 102);
 
   var where = getJSON('where');
-  make_overlays(where, "#0000FF", placeIcon, 102);
+  make_overlays(where, "#0000FF", 1.0, placeIcon, 103);
 
   google.maps.event.addListener(
     map, 'bounds_changed', function() {
@@ -410,17 +429,13 @@ function initialize() {
   var latlng = new google.maps.LatLng(35.0, 20.0);
   var zoom = 4;
 
+  /* Compute bounds of map from the several feature collections */
   var bounds = getBounds(where);
-  
-  if (bounds == null) {
-    bounds = getBounds(connections);
-  }
+  var baselineBounds = getBounds(baselineWhere);
+  var connectionBounds = getBounds(connections);
 
-  /*if (bounds != null) {
-    latlng = new google.maps.LatLng(
-      (bounds[1]+bounds[3])/2.0, (bounds[0]+bounds[2])/2.0);
-    zoom = 11;
-  }*/
+  bounds = addBounds(bounds, baselineBounds);
+  bounds = addBounds(bounds, connectionBounds);
 
   if (bounds != null) {
     map.fitBounds(
@@ -441,10 +456,11 @@ function initialize() {
   showContextOverlays();
 }
 
-function overlayIndexOf(where, elem) {
+function overlayIndexOf(where, elem_id) {
+  if (!where) { return -1; }
   for (var i=0;i<contextOverlays.length;i++) {
     var f = where.features[i];
-    if (f.id == elem.id) {
+    if (f.id == elem_id) {
       return i;
     }
   }
@@ -452,8 +468,16 @@ function overlayIndexOf(where, elem) {
 }
 
 function raiseInMap() {
-  var where = getJSON("where");
-  var i = overlayIndexOf(where, this);
+  var where = null;
+  var s = this.id.split("_");
+  if (s[1] == "baseline-where") {
+    where = getJSON(s[1]);
+  }
+  if (!where) {
+    where = getJSON("where");
+  }
+  var i = overlayIndexOf(where, s[0]);
+  if (i < 0) { return; }
   var marker = contextOverlays[i];
   var f = where.features[i];
   var properties = f.properties;
