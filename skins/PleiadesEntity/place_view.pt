@@ -247,8 +247,10 @@
           jq("#flickr-portrait").attr("src", data['portrait']['img']);
           jq("#flickr-portrait").attr("title", data['portrait']['title']);
           jq("#flickr-portrait-link").attr("href", data['portrait']['page']);
+          jq("#flickr-portrait-attribution").html(data['portrait']['title']);
           jq("#flickr-portrait-loading").hide();
           jq("#flickr-portrait-link").show();
+          jq("#flickr-portrait-attribution").show();
         }
       },
       "error": function (req, status, err) {
