@@ -7,6 +7,7 @@ from plone.memoize import view
 from zope.component import getAdapters, getMultiAdapter
 
 from zgeo.geographer.interfaces import IGeoreferenced
+from pleiades.geographer.geo import NotLocatedError
 from Products.PleiadesEntity.time import to_ad
 
 
@@ -87,9 +88,13 @@ class LocationsTable(ChildrenTable):
     def accessor(self):
         return self.context.getLocations()
     def snippet(self, ob):
-        return "; ".join([
-            IGeoreferenced(ob).type,
-            TimeSpanWrapper(ob).snippet ])
+        parts = []
+        try:
+            parts.append(IGeoreferenced(ob).type)
+        except NotLocatedError:
+            pass # TODO: log properly
+        parts.append(TimeSpanWrapper(ob).snippet)
+        return "; ".join(parts)
     def rows(self, locations):
         output = []
         where_tag = "where"
