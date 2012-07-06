@@ -118,9 +118,11 @@ class NamesTable(ChildrenTable):
     def accessor(self):
         return self.context.getNames()
     def snippet(self, ob):
-        return "; ".join([
-            self.langs[ob.getNameLanguage()],
-            TimeSpanWrapper(ob).snippet ])
+        parts = []
+        if ob.getNameLanguage():
+            parts.append(self.langs[ob.getNameLanguage()])
+        parts.append(TimeSpanWrapper(ob).snippet)
+        return "; ".join(parts)
     def rows(self, names):
         vocab = self.vtool.getVocabularyByName('ancient-name-languages')
         self.langs = dict(vocab.getDisplayList(vocab).items())
@@ -129,18 +131,18 @@ class NamesTable(ChildrenTable):
             nameAttested = ob.getNameAttested() or None
             title = ob.Title() or "Untitled"
             if nameAttested:
-                label, label_class = nameAttested, "nameAttested"
+                label, label_class = unicode(
+                    nameAttested, "utf-8"), "nameAttested"
             else:
-                label, label_class = title, "nameUnattested"
+                label, label_class = unicode(
+                    title, "utf-8"), "nameUnattested"
             innerHTML = [
                 u'<dt id="%s" class="placeChildItem">' % ob.getId(),
                 u'<a class="state-%s %s" href="%s">%s</a>' % (
                      self.wftool.getInfoFor(ob, 'review_state'), 
                      label_class,
                      ob.absolute_url(),
-                     unicode(
-                        label, 'utf-8') + " (copy)" * (
-                            "copy" in ob.getId())),
+                     label + u" (copy)" * ("copy" in ob.getId())),
                 u' (%s)</dt>' % self.snippet(ob),
                 u'<dd class="placeChildItem">%s</dd>' % ob.Description() ]
             output.append("".join(innerHTML))
