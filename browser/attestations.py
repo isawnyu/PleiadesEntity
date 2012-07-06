@@ -104,11 +104,12 @@ class LocationsTable(ChildrenTable):
                      self.wftool.getInfoFor(ob, 'review_state'), 
                      ob.absolute_url(), 
                      unicode(
-                        ob.Title(), 'utf-8') + " (copy)" * (
+                        ob.Title(), 'utf-8') + u" (copy)" * (
                             "copy" in ob.getId())),
                 u' (%s)</dt>' % self.snippet(ob),
-                u'<dd class="placeChildItem">%s</dd>' % ob.Description() ]
-            output.append("".join(innerHTML))
+                u'<dd class="placeChildItem">%s</dd>' % unicode(
+                    ob.Description(), "utf-8") ]
+            output.append(u"".join(innerHTML))
         return u'<dl class="placeChildren">' + ''.join(output) + '</dl>'
 
 
@@ -144,7 +145,8 @@ class NamesTable(ChildrenTable):
                      ob.absolute_url(),
                      label + u" (copy)" * ("copy" in ob.getId())),
                 u' (%s)</dt>' % self.snippet(ob),
-                u'<dd class="placeChildItem">%s</dd>' % ob.Description() ]
-            output.append("".join(innerHTML))
+                u'<dd class="placeChildItem">%s</dd>' % unicode(
+                    ob.Description(), "utf-8") ]
+            output.append(u"".join(innerHTML))
         return u'<dl class="placeChildren">' + ''.join(output) + '</dl>'
 
