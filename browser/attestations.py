@@ -41,7 +41,7 @@ class TimeSpanWrapper(object):
         if timespan and timespan['end'] == "AD 2100":
             timespan['end'] = "Present"
         return (timespan and "%(start)s - %(end)s" % timespan
-            ) or "Dates unattested"
+            ) or "Attested dates needed"
 
 
 class PlacefulAttestations(BrowserView):

@@ -59,7 +59,7 @@ schema = Schema((
         ),
         description="A transcription of the attested form of the name, in its original language and script.",
         searchable=True,
-        required=1,
+        required=0,
     ),
     StringField(
         name='nameLanguage',
@@ -73,7 +73,7 @@ schema = Schema((
         description="The language and writing system or script of the attested name.",
         vocabulary=NamedVocabulary("""ancient-name-languages"""),
         enforceVocabulary=1,
-        required=1,
+        required=0,
     ),
     StringField(
         name='nameTransliterated',
