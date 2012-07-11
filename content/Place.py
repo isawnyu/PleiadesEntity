@@ -34,6 +34,7 @@ from Products.CMFCore import permissions
 import transaction
 from archetypes.referencebrowserwidget import ReferenceBrowserWidget
 from Products.ATContentTypes.content.document import ATDocumentBase, ATDocumentSchema
+from Products.ATContentTypes.content import schemata
 from Products.ATBackRef.backref import BackReferenceField, BackReferenceWidget
 from AccessControl import getSecurityManager
 ##/code-section module-header
@@ -132,6 +133,25 @@ Place_schema = ATDocumentSchema.copy() + \
     getattr(Named, 'schema', Schema(())).copy() + \
     getattr(Work, 'schema', Schema(())).copy()
 ##/code-section after-schema
+
+off = {"edit": "invisible", "view": "invisible"}
+
+schema = Place_schema
+
+schema["effectiveDate"].widget.visible = off
+schema["expirationDate"].widget.visible = off
+schema["allowDiscussion"].widget.visible = off
+schema["excludeFromNav"].widget.visible = off
+schema["text"].widget.label = 'Details'
+schema["presentation"].widget.visible = off
+schema["tableContents"].widget.visible = off
+schema["text"].schemata = "Details"
+
+schemata.finalizeATCTSchema(
+    Place_schema,
+    folderish=True,
+    moveDiscussion=False
+)
 
 class Place(BaseFolder, ATDocumentBase, Named, Work, BrowserDefaultMixin):
     """

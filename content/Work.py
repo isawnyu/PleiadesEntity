@@ -57,6 +57,7 @@ schema = Schema((
             i18n_domain='PleiadesEntity',
         ),
         size=0,
+        schemata="References",
     ),
 
     StringField(

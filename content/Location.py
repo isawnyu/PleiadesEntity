@@ -27,13 +27,13 @@ from Products.OrderableReferenceField import OrderableReferenceField, OrderableR
 from Products.PleiadesEntity.config import *
 from Products.PleiadesEntity.content.Work import Work
 from Products.PleiadesEntity.content.Temporal import Temporal
-from Products.PleiadesEntity.content.Work import Work
 
 # additional imports from tagged value 'import'
 from Products.CMFCore import permissions
 from archetypes.referencebrowserwidget import ReferenceBrowserWidget
 ##code-section module-header #fill in your manual code here
 from Products.ATContentTypes.content.document import ATDocumentBase, ATDocumentSchema
+from Products.ATContentTypes.content import schemata
 
 import re
 from shapely.geometry import asShape
@@ -45,6 +45,7 @@ schema = Schema((
 
     TextField(
         name='geometry',
+        schemata="Coordinates",
         widget=TextAreaWidget(
             label="Geometry",
             description="""Enter geometry using GeoJSON shorthand representation with longitude (decimal degrees east of the Greenwich Meridian), latitude (decimal degrees north of the Equator) coordinate ordering, such as "Point:[-105.0, 40.0]" for a point or "Polygon:[[[28.72188, 37.70815], [28.72194, 37.70741], [28.72241, 37.70744], [28.72233, 37.70819], [28.72188, 37.70815]]]" for a region. Values in WKT or full GeoJSON format, with the same longitude/latitude ordering, are also acceptable.""",
@@ -76,6 +77,7 @@ schema = Schema((
 
     ReferenceField(
         name='accuracy',
+        schemata="Coordinates",
         widget=ReferenceBrowserWidget(
             startup_directory="/features/metadata",
             label="Positional Accuracy Assessment",
@@ -123,6 +125,27 @@ Location_schema = ATDocumentSchema.copy() + \
     getattr(Work, 'schema', Schema(())).copy()
 ##/code-section after-schema
 
+off = {"edit": "invisible", "view": "invisible"}
+
+schema = Location_schema
+
+schema["effectiveDate"].widget.visible = off
+schema["expirationDate"].widget.visible = off
+schema["allowDiscussion"].widget.visible = off
+schema["excludeFromNav"].widget.visible = off
+schema["presentation"].widget.visible = off
+schema["tableContents"].widget.visible = off
+schema["nodes"].widget.visible = off
+schema["text"].widget.label = 'Details'
+schema["text"].schemata = "Details"
+schema.moveField('text', pos='bottom')
+
+schemata.finalizeATCTSchema(
+    Location_schema,
+    folderish=False,
+    moveDiscussion=False
+)
+
 class Location(ATDocumentBase, Work, Temporal, BrowserDefaultMixin):
     """
     """
@@ -136,11 +159,7 @@ class Location(ATDocumentBase, Work, Temporal, BrowserDefaultMixin):
     schema = Location_schema
 
     ##code-section class-header #fill in your manual code here
-    schema["presentation"].widget.visible = {"edit": "invisible", "view": "invisible"}
-    schema["tableContents"].widget.visible = {"edit": "invisible", "view": "invisible"}
-    schema["nodes"].widget.visible = {"edit": "invisible", "view": "invisible"}
-    schema["text"].widget.label = 'Details'
-    schema.moveField('text', pos='bottom')
+
     ##/code-section class-header
 
     # Methods

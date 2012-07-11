@@ -19,7 +19,6 @@ from zope.interface import implements
 import interfaces
 from Products.PleiadesEntity.content.Work import Work
 from Products.PleiadesEntity.content.Temporal import Temporal
-from Products.PleiadesEntity.content.Work import Work
 from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
 
 from Products.CompoundField.ArrayField import ArrayField
@@ -37,20 +36,20 @@ from Products.PleiadesEntity.content.ReferenceCitation import ReferenceCitation
 
 ##code-section module-header #fill in your manual code here
 from Products.ATContentTypes.content.document import ATDocumentSchema
+from Products.ATContentTypes.content import schemata
 from Products.PleiadesEntity.content.ReferenceCitation import ReferenceCitation
-from Products.PleiadesEntity.Extensions.ws_validation import validate_name
 from Products.CMFCore import permissions
 import transaction
-from pleiades.transliteration import transliterate_name
 ##/code-section module-header
 
 schema = Schema((
 
     StringField(
         name='nameAttested',
+        schemata="Transcription",
         widget=StringField._properties['widget'](
             label="Name as attested",
-            description="Enter transcription of the attested form of the name in its original language and script. The title and id of this resource will be formed by automatic transliteration.",
+            description="Enter transcription of the attested form of the name in its original language and script, if known.",
             macro="nameattested_widget",
             size=60,
             label_msgid='PleiadesEntity_label_nameAttested',
@@ -63,23 +62,24 @@ schema = Schema((
     ),
     StringField(
         name='nameLanguage',
+        schemata="Transcription",
         widget=SelectionWidget(
             label="Language",
-            description="Select the language and writing system or script of the attested name.",
+            description="Select the language and writing system or script of the attested name above.",
             label_msgid='PleiadesEntity_label_nameLanguage',
             description_msgid='PleiadesEntity_help_nameLanguage',
             i18n_domain='PleiadesEntity',
         ),
         description="The language and writing system or script of the attested name.",
         vocabulary=NamedVocabulary("""ancient-name-languages"""),
-        enforceVocabulary=1,
+        enforceVocabulary=0,
         required=0,
     ),
     StringField(
         name='nameTransliterated',
         widget=StringField._properties['widget'](
-            label="Transliterations",
-            description="A comma-separated list of transliterations of the attested name. The first will become the title of this resource.",
+            label="Romanized Name(s)",
+            description="A comma-separated list of romanized forms of the name. The first will become the title of this resource.",
             size=120,
             label_msgid='PleiadesEntity_label_nameTransliterated',
             description_msgid='PleiadesEntity_help_nameTransliterated',
@@ -104,6 +104,7 @@ schema = Schema((
     ),
     StringField(
         name='accuracy',
+        schemata="Transcription",
         widget=SelectionWidget(
             label="Accuracy of transcription",
             description="Select level of transcription accuracy",
@@ -118,6 +119,7 @@ schema = Schema((
     ),
     StringField(
         name='completeness',
+        schemata="Transcription",
         widget=SelectionWidget(
             label="Level of transcription completeness",
             description="Select level of transcription completeness",
@@ -133,7 +135,7 @@ schema = Schema((
     StringField(
         name='associationCertainty',
         widget=SelectionWidget(
-            label="Level of certainty in association between name and feature",
+            label="Level of certainty in association between name and the place",
             description="Select level of certainty in association between name and feature",
             label_msgid='PleiadesEntity_label_associationCertainty',
             description_msgid='PleiadesEntity_help_associationCertainty',
@@ -174,18 +176,41 @@ schema = Schema((
 ##code-section after-local-schema #fill in your manual code here
 ##/code-section after-local-schema
 
-Name_schema = BaseSchema.copy() + \
-    getattr(Work, 'schema', Schema(())).copy() + \
-    getattr(Temporal, 'schema', Schema(())).copy() + \
-    getattr(Work, 'schema', Schema(())).copy() + \
-    schema.copy()
-
 ##code-section after-schema #fill in your manual code here
 Name_schema = ATDocumentSchema.copy() + \
     schema.copy() + \
     getattr(Temporal, 'schema', Schema(())).copy() + \
     getattr(Work, 'schema', Schema(())).copy()
 ##/code-section after-schema
+
+off = {"edit": "invisible", "view": "invisible"}
+
+schema = Name_schema
+
+schema["title"].required = 0
+schema["title"].widget.visible = off
+
+schema["effectiveDate"].widget.visible = off
+schema["expirationDate"].widget.visible = off
+schema["allowDiscussion"].widget.visible = off
+schema["excludeFromNav"].widget.visible = off
+schema["text"].widget.label = 'Details'
+schema["presentation"].widget.visible = off
+schema["tableContents"].widget.visible = off
+schema["primaryReferenceCitations"].widget.visible = off
+
+schema["text"].schemata = "Details"
+
+schema.moveField('nameAttested', pos='top')
+schema.moveField('nameLanguage', after='nameAttested')    
+schema.moveField('nameTransliterated', pos='top')
+schema.moveField('text', pos='bottom')
+
+schemata.finalizeATCTSchema(
+    Name_schema,
+    folderish=False,
+    moveDiscussion=False
+)
 
 class Name(BaseContent, Work, Temporal, BrowserDefaultMixin):
     """
@@ -200,19 +225,6 @@ class Name(BaseContent, Work, Temporal, BrowserDefaultMixin):
     schema = Name_schema
 
     ##code-section class-header #fill in your manual code here
-    schema["title"].required = 0
-    schema["title"].widget.visible = {"edit": "invisible", "view": "invisible"}
-    schema["text"].widget.label = 'Details'
-    schema["presentation"].widget.visible = {
-        "edit": "invisible", "view": "invisible"}
-    schema["tableContents"].widget.visible = {
-        "edit": "invisible", "view": "invisible"}
-    schema["primaryReferenceCitations"].widget.visible = {
-        "edit": "invisible", "view": "invisible"}
-    schema.moveField('nameAttested', pos='top')
-    schema.moveField('nameLanguage', after='nameAttested')    
-    schema.moveField('nameTransliterated', after='nameLanguage')
-    schema.moveField('text', pos='bottom')
     ##/code-section class-header
 
     # Methods
@@ -260,8 +272,6 @@ class Name(BaseContent, Work, Temporal, BrowserDefaultMixin):
         return text + ' ' + self.rangesText()
 
     # Manually created methods
-
-
 
 registerType(Name, PROJECTNAME)
 # end of class Name
