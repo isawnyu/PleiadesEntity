@@ -230,40 +230,6 @@
   -->
 </script>
 
-<script type="text/javascript">
-<!--
-  
-  function queryFlickr() {
-    jq.ajax({
-      "url": document.baseURI + "@@flickr-tagged",
-      "success": function (data) {
-        jq("#flickr-photos-count").html(data['related']['total']);
-        jq("#flickr-photos-link").attr("href", data['related']['url']);
-        if (data['portrait'] == null) {
-          jq("#flickr-portrait-loading").hide();
-          jq("#flickr-portrait-tip").show();
-        }
-        else {
-          jq("#flickr-portrait").attr("src", data['portrait']['img']);
-          jq("#flickr-portrait").attr("title", data['portrait']['title']);
-          jq("#flickr-portrait-link").attr("href", data['portrait']['page']);
-          jq("#flickr-portrait-attribution").html(data['portrait']['title']);
-          jq("#flickr-portrait-loading").hide();
-          jq("#flickr-portrait-link").show();
-          jq("#flickr-portrait-attribution").show();
-        }
-      },
-      "error": function (req, status, err) {
-        alert(err);
-      }
-    });
-  }
-
-  jq(document).ready(queryFlickr);
-
-  -->
-</script>
-
     </metal:body_macro>
    
     <metal:folderlisting_macro define-macro="folderlisting">
