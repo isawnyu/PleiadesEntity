@@ -86,7 +86,8 @@
         kssClassesView context/@@kss_field_decorator_view;
         getKssClasses nocall:kssClassesView/getKssClassesInlineEditable;
         templateId template/getId;
-        portal_state context/@@plone_portal_state;">
+        portal_state context/@@plone_portal_state;
+        context_state context/@@plone_context_state">
 
       <table id="map-children">
         <tr>
@@ -116,7 +117,7 @@
               title="Create a new Name"
               >Add Name</a>
             </div>
-            <div tal:condition="not:portal_state/anonymous"><p>
+            <div tal:condition="python:context.portal_membership.checkPermission('List folder contents', context)"><p>
               <a href="folder_contents">Folder listing of locations and names</a>
             </p></div>
             </div>
@@ -157,7 +158,7 @@
             </div>
             </div>
 
-            <div><p>
+            <div tal:condition="python:context.portal_membership.checkPermission('List folder contents', context)"><p>
               <a href="folder_contents">Folder listing of locations and names</a>
             </p></div>
             </div>
