@@ -51,6 +51,7 @@ schema = Schema((
     StringField(
         name='identifier',
         default="http://atlantides.org/bibliography/",
+        required=1,
         widget=StringField._properties['widget'](
             macro="url_widget",
             label="Reference identifier",
@@ -62,6 +63,7 @@ schema = Schema((
     ),
     StringField(
         name='range',
+        required=1,
         widget=StringField._properties['widget'](
             label="Specific citation",
             description="A plain-text AJA style citation (see http://www.ajaonline.org/submissions#4) is preferred for entities with no identifier. A short form is acceptable for those with an identifier.",

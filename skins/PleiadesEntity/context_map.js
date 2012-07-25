@@ -233,6 +233,9 @@ function make_overlays(collection, color, opacity, icon, zIndex) {
   if (!collection || !collection.features) { return; }
   for (var i=0; i<collection.features.length; i++) {
     var f = collection.features[i];
+    if (!f) {
+      continue;
+    }
     var geom = f.geometry;
     if (geom == null) {
       continue;
@@ -278,7 +281,10 @@ function make_overlays(collection, color, opacity, icon, zIndex) {
           zIndex: zIndex
           });
         registerFeatureClick(
-            polyline, new google.maps.LatLng(cy, cx), f.properties. f.id);
+            polyline, 
+            new google.maps.LatLng(cy, cx), 
+            f.properties,
+            f.id);
         contextOverlays.push(polyline);
       }
       else if (f.geometry.type == 'Polygon') {
@@ -316,6 +322,7 @@ function make_overlays(collection, color, opacity, icon, zIndex) {
       var cloudMark = new google.maps.Marker({
                 position: null, 
                 icon: cloudIconG,
+                zIndex: 100,
                 });
       var cloudBox = new google.maps.Rectangle({
           bounds: new google.maps.LatLngBounds(
@@ -386,6 +393,7 @@ function initialize() {
       var cloudMark = new google.maps.Marker({
                 position: null, 
                 icon: cloudIcon,
+                zIndex: 100,
                 });
       var cloudBox = new google.maps.Rectangle({
           bounds: new google.maps.LatLngBounds(
@@ -429,13 +437,26 @@ function initialize() {
   var latlng = new google.maps.LatLng(35.0, 20.0);
   var zoom = 4;
 
+  map.setCenter(latlng);
+  map.setZoom(zoom);
+
   /* Compute bounds of map from the several feature collections */
   var bounds = getBounds(where);
   var baselineBounds = getBounds(baselineWhere);
   var connectionBounds = getBounds(connections);
 
   bounds = addBounds(bounds, baselineBounds);
-  bounds = addBounds(bounds, connectionBounds);
+  /* bounds = addBounds(bounds, connectionBounds); */
+
+
+  /*
+  if (p_neighbors != null) {
+    p_neighbors.setMap(map);
+  }
+  */
+
+  showRoughOverlays();
+  showContextOverlays();
 
   if (bounds != null) {
     map.fitBounds(
@@ -443,17 +464,7 @@ function initialize() {
         new google.maps.LatLng(bounds[1], bounds[0]), 
         new google.maps.LatLng(bounds[3], bounds[2])));
   }
-  else {
-    map.setCenter(latlng);
-    map.setZoom(zoom);
-  }
   
-  if (p_neighbors != null) {
-    p_neighbors.setMap(map);
-  }
-
-  showRoughOverlays();
-  showContextOverlays();
 }
 
 function overlayIndexOf(where, elem_id) {
@@ -492,6 +503,7 @@ function raiseInMap() {
     var cy = 0.0;
     var v = null;
     for (var j=0; j<coords.length; j++) {
+      v = coords[j];
       cx += v[0];
       cy += v[1];
     }

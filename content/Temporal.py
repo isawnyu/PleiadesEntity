@@ -12,7 +12,6 @@
 
 __author__ = """Sean Gillies <unknown>, Tom Elliott <unknown>"""
 __docformat__ = 'plaintext'
-
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
 from zope.interface import implements
@@ -24,6 +23,7 @@ from Products.CompoundField.ArrayField import ArrayField
 from Products.CompoundField.ArrayWidget import ArrayWidget
 from Products.CompoundField.EnhancedArrayWidget import EnhancedArrayWidget
 from Products.CompoundField.EnhancedArrayWidget import EnhancedArrayWidget
+
 from Products.PleiadesEntity.config import *
 
 # additional imports from tagged value 'import'

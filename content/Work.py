@@ -23,7 +23,8 @@ from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
 from Products.CompoundField.ArrayField import ArrayField
 from Products.CompoundField.ArrayWidget import ArrayWidget
 from Products.CompoundField.EnhancedArrayWidget import EnhancedArrayWidget
-from Products.CompoundField.EnhancedArrayWidget import EnhancedArrayWidget
+from Products.validation.interfaces.IValidator import IValidator
+
 from Products.PleiadesEntity.config import *
 
 # additional imports from tagged value 'import'
@@ -33,6 +34,19 @@ from Products.PleiadesEntity.content.ReferenceCitation import ReferenceCitation
 
 ##code-section module-header #fill in your manual code here
 ##/code-section module-header
+
+class ReferencesValidator(object):
+
+    __implements__ = (IValidator,)
+    name = 'referencesvalidator'
+
+    def __call__(self, value, instance, *args, **kwargs):
+        # Check that ranges of all attestations are not empty
+        if not value.get('identifier')[0]:
+            return "Reference is missing identifier"
+        elif not value.get('range')[0]:
+            return "Reference is missing specific citation"
+        return True
 
 schema = Schema((
 
@@ -46,6 +60,8 @@ schema = Schema((
             ),
             description="External entity cited",
             multiValued=True,
+            validators=(
+                ReferencesValidator(),)
         ),
 
         widget=EnhancedArrayWidget(
