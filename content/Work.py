@@ -42,9 +42,7 @@ class ReferencesValidator(object):
 
     def __call__(self, value, instance, *args, **kwargs):
         # Check that ranges of all attestations are not empty
-        if not value.get('identifier')[0]:
-            return "Reference is missing identifier"
-        elif not value.get('range')[0]:
+        if not value.get('range')[0]:
             return "Reference is missing specific citation"
         return True
 
