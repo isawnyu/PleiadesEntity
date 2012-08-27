@@ -118,18 +118,21 @@ class ReferenceCitation(CompoundField):
     def _defaultBibliography(self, instance, value):
         ptool = getToolByName(instance, 'plone_utils')
         r = value.get('range')
-        if not r:
-            raise ValueError, "Missing citation range"
-        return "".join([
+        if r:
+            return "".join([
                 "http://atlantides.org/bibliography/",
                 ptool.normalizeString(r[0]),
                 '.html#',
                 r.split(',')[0].strip() ])
-        
+        else:
+            return ""
+
     def getRaw(self, instance, **kwargs):
         value = CompoundField.getRaw(self, instance, **kwargs)
         if not value.get('identifier'):
-            value['identifier'] = self._defaultBibliography(instance, value)
+            default = self._defaultBibliography(instance, value)
+            if default:
+                value['identifier'] = default
         return value
 
     def SearchableText(self,):
@@ -141,7 +144,9 @@ class ReferenceCitation(CompoundField):
     def get(self, instance, **kwargs):
         value = CompoundField.get(self, instance, **kwargs)
         if not value.get('identifier'):
-            value['identifier'] = self._defaultBibliography(instance, value)
+            default = self._defaultBibliography(instance, value)
+            if default:
+                value['identifier'] = default
         return value
 
 registerField(ReferenceCitation,
