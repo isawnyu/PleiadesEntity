@@ -1,0 +1,122 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xml:lang="en"
+      lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      i18n:domain="plone">
+
+  <head>
+  <metal:head define-macro="topslot">
+  </metal:head>
+
+  <metal:head define-macro="javascript_head">
+  <script src="http://cdn.leafletjs.com/leaflet-0.4.4/leaflet.js"></script>
+  </metal:head>
+
+    <metal:links_macro metal:define-macro="css">
+      <link rel="where" type="application/json" tal:attributes="href context/aq_parent/@@json/data_uri"/>
+      <link rel="stylesheet" 
+        href="http://cdn.leafletjs.com/leaflet-0.4.4/leaflet.css" />
+      <style>
+        #map { height: 480px; float: right; }
+        .leaflet-control-zoom-reset {
+          background-image: url(zoom-reset.png);
+          margin-bottom: 5px; }
+        td.fields { padding-right: 1em; }
+      </style>
+    </metal:links_macro>
+  </head>
+
+  <body>
+        <!-- header, h1 of Edit <Type>, schemata links and webdav lock message -->
+        <!--metal:header define-macro="header">
+        </metal:header-->
+        
+        <!-- typedesription, typeDescription from the content type -->
+        <!--metal:typedescription define-macro="typedescription">
+        </metal:typedescription-->
+
+        <!-- body, editform , fields, buttons, the default macro 
+             contains a number of slots which usually provide enough
+             ways to customise so often I use that macro and just 
+             fill the slots
+        -->
+        <metal:body define-macro="body">
+                <table>
+    <tr style="width:100%">
+    <td class="fields" style="width:56%">
+
+            <metal:default_body use-macro="here/edit_macros/macros/body">
+
+              <!-- inside the fieldset but above all the fields -->
+              <!--metal:block fill-slot="extra_top">
+              </metal:block-->
+
+              <!-- listing of the fields, usually I won't customise this
+              <metal:block fill-slot="widgets">
+              </metal:block>
+              -->
+
+              <!-- below the fields above the formControls (hidden fields for refernce stuff is above buttons) -->
+              <!--metal:block fill-slot="extra_bottom">
+              </metal:block-->
+
+              <!-- within the formControls these are the default previous, next, save, cancel buttons -->
+              <!--metal:block fill-slot="buttons">
+              </metal:block-->
+
+              <!-- within the formControls a slot for extra buttons -->
+              <!--metal:block fill-slot="extra_buttons">
+              </metal:block-->
+
+            </metal:default_body>
+
+    </td>
+    <td style="width:36%">
+    <div id="map"></div>
+    </td>
+    </tr>
+    </table>
+
+<script src="location_map.js"></script>
+<script type="text/javascript">
+<!--
+var f = null;
+var editing = null;
+if (jq("textarea#geometry").val()) {
+  f = {
+    type: 'Feature',
+    id: 'editing', 
+    description: 'Location currently being edited',
+    geometry: jq.parseJSON(jq("textarea#geometry").val()) };
+  editing = L.GeoJSON.geometryToLayer(f);
+  editing.bindPopup(f.description);
+  editing.addTo(map);
+  editing.openPopup();
+}
+
+jq("textarea#geometry").change(function() {
+  if (editing) { 
+    map.removeLayer(editing);
+  }
+  f = {
+    type: 'Feature',
+    id: 'editing', 
+    description: 'Location currently being edited',
+    geometry: jq.parseJSON(jq("textarea#geometry").val()) }
+  editing = L.GeoJSON.geometryToLayer(f);
+  editing.bindPopup(f.description);
+  editing.addTo(map);
+  editing.openPopup();
+});
+-->
+</script>
+        </metal:body>
+
+        <!-- footer, by line created date etc. -->
+        <metal:footer define-macro="footer">
+        </metal:footer>
+
+  </body>
+</html>

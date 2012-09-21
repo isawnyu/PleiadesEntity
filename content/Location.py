@@ -169,19 +169,30 @@ class Location(ATDocumentBase, Work, Temporal, BrowserDefaultMixin):
         text = super(Location, self).SearchableText().strip()
         return text + ' ' + self.rangesText()
 
+    def _getGeometryRaw(self):
+        return self.Schema()["geometry"].get(self)
+
     security.declareProtected(permissions.View, 'getGeometry')
     def getGeometry(self):
-        return self.getGeometryRaw()
+        """Return representation of geometry"""
+        return self.getGeometryJSON(indent=2)
 
     security.declareProtected(permissions.View, 'getGeometryJSON')
-    def getGeometryJSON(self):
-        parts = self.getGeometryRaw().split(':')
-        return '{"type": "%s", "coordinates": %s}' % (
+    def getGeometryJSON(self, indent=None):
+        """Return GeoJSON geometry"""
+        raw = self._getGeometryRaw()
+        if not raw:
+            return "{}"
+        parts = raw.split(':')
+        data = '{"type": "%s", "coordinates": %s}' % (
             parts[0].strip(), parts[1].strip())
+        return simplejson.dumps(
+            simplejson.loads(data), sort_keys=False, indent=indent )
 
     security.declareProtected(permissions.View, 'getGeometryWKT')
     def getGeometryWKT(self):
-        parts = self.getGeometryRaw().split(':')
+        """Return WKT representation of geometry"""
+        parts = self._getGeometryRaw().split(':')
         j = '{"type": "%s", "coordinates": %s}' % (
             parts[0].strip(), parts[1].strip())
         d = simplejson.loads(j)
@@ -189,7 +200,7 @@ class Location(ATDocumentBase, Work, Temporal, BrowserDefaultMixin):
 
     security.declarePublic('getGeometryRaw')
     def getGeometryRaw(self):
-        return self.Schema()["geometry"].get(self)
+        return self.getGeometryJSON()
 
     security.declareProtected(permissions.ModifyPortalContent, 'setGeometry')
     def setGeometry(self, value):
