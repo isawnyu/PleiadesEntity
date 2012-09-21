@@ -48,7 +48,7 @@ schema = Schema((
         schemata="Coordinates",
         widget=TextAreaWidget(
             label="Geometry",
-            description="""Enter geometry using GeoJSON shorthand representation with longitude (decimal degrees east of the Greenwich Meridian), latitude (decimal degrees north of the Equator) coordinate ordering, such as "Point:[-105.0, 40.0]" for a point or "Polygon:[[[28.72188, 37.70815], [28.72194, 37.70741], [28.72241, 37.70744], [28.72233, 37.70819], [28.72188, 37.70815]]]" for a region. Values in WKT or full GeoJSON format, with the same longitude/latitude ordering, are also acceptable.""",
+            description="""Enter geometry using GeoJSON shorthand representation with longitude (decimal degrees east of the Greenwich Meridian), latitude (decimal degrees north of the Equator) coordinate ordering, such as "Point:[-105.0, 40.0]" for a point or "Polygon:[[[28.72188, 37.70815], [28.72194, 37.70741], [28.72241, 37.70744], [28.72233, 37.70819], [28.72188, 37.70815]]]" for a region. Values in standard GeoJSON format, with the same longitude/latitude ordering, are also acceptable.""",
             rows=10,
             label_msgid='PleiadesEntity_label_geometry',
             description_msgid='PleiadesEntity_help_geometry',
@@ -208,6 +208,23 @@ class Location(ATDocumentBase, Work, Temporal, BrowserDefaultMixin):
         if not value:
             v = ''
         else:
+            # Correct common errors with input
+            point_pat = re.compile("point", re.I)
+            line_pat = re.compile("linestring", re.I)
+            polygon_pat = re.compile("polygon", re.I)
+            mpoint_pat = re.compile("multipoint", re.I)
+            mline_pat = re.compile("multilinestring", re.I)
+            mpolygon_pat = re.compile("multipolygon", re.I)
+            type_pat = re.compile("type", re.I)
+            coords_pat = re.compile("coordinates", re.I)
+            value = re.sub(point_pat, "Point", value)
+            value = re.sub(line_pat, "LineString", value)
+            value = re.sub(polygon_pat, "Polygon", value)
+            value = re.sub(mpoint_pat, "MultiPoint", value)
+            value = re.sub(mline_pat, "MultiLineString", value)
+            value = re.sub(mpolygon_pat, "MultiPolygon", value)
+            value = re.sub(type_pat, "type", value)
+            value = re.sub(coords_pat, "coordinates", value)
             text = value.strip()
             if text[0] == '{':
                 # geojson

@@ -82,14 +82,45 @@
 <script src="location_map.js"></script>
 <script type="text/javascript">
 <!--
+function toGeoJSON(val) {
+  if (val.indexOf("{") != 0) {
+    var parts = val.split(":");
+    return '{"type": "' + parts[0].substring(0, 1).toUpperCase() 
+      + parts[0].substring(1).toLowerCase() + '", "coordinates": ' + parts[1] 
+      + '}'
+  }
+  else { 
+    var point_pat = /point/i;
+    var line_pat = /linestring/i;
+    var polygon_pat = /polygon/i;
+    var mpoint_pat = /multipoint/i;
+    var mline_pat = /multilinestring/i;
+    var mpolygon_pat = /multipolygon/i;
+    var type_pat = /type/i;
+    var coords_pat = /coordinates/i;
+    var json = val.replace(point_pat, "Point");
+    json = json.replace(line_pat, "LineString");
+    json = json.replace(polygon_pat, "Polygon");
+    json = json.replace(mpoint_pat, "MultiPoint");
+    json = json.replace(mline_pat, "MultiLineString");
+    json = json.replace(mpolygon_pat, "MultiPolygon");
+    json = json.replace(type_pat, "type");
+    json = json.replace(coords_pat, "coordinates")
+    return json;
+  }
+}
+
 var f = null;
 var editing = null;
-if (jq("textarea#geometry").val()) {
+var geom_val = jq("textarea#geometry").val().trim();
+if (geom_val && geom_val != "{}") {
+  json = toGeoJSON(geom_val);
+  jq("textarea#geometry").val(json);
   f = {
     type: 'Feature',
     id: 'editing', 
     description: 'Location currently being edited',
-    geometry: jq.parseJSON(jq("textarea#geometry").val()) };
+    geometry: jq.parseJSON(json) };
   editing = L.GeoJSON.geometryToLayer(f);
   editing.bindPopup(f.description);
   editing.addTo(map);
@@ -100,11 +131,14 @@ jq("textarea#geometry").change(function() {
   if (editing) { 
     map.removeLayer(editing);
   }
+  geom_val = jq("textarea#geometry").val().trim();
+  json = toGeoJSON(geom_val);
+  jq("textarea#geometry").val(json);
   f = {
     type: 'Feature',
     id: 'editing', 
     description: 'Location currently being edited',
-    geometry: jq.parseJSON(jq("textarea#geometry").val()) }
+    geometry: jq.parseJSON(json) };
   editing = L.GeoJSON.geometryToLayer(f);
   editing.bindPopup(f.description);
   editing.addTo(map);
