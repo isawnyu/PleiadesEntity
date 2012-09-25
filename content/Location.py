@@ -47,9 +47,9 @@ schema = Schema((
         name='geometry',
         schemata="Coordinates",
         widget=TextAreaWidget(
-            label="Geometry",
-            description="""Enter geometry using GeoJSON shorthand representation with longitude (decimal degrees east of the Greenwich Meridian), latitude (decimal degrees north of the Equator) coordinate ordering, such as "Point:[-105.0, 40.0]" for a point or "Polygon:[[[28.72188, 37.70815], [28.72194, 37.70741], [28.72241, 37.70744], [28.72233, 37.70819], [28.72188, 37.70815]]]" for a region. Values in standard GeoJSON format, with the same longitude/latitude ordering, are also acceptable.""",
-            rows=10,
+            label="Latitude and Longitude coordinates",
+            description="""<p>Enter the coordinates of this location in one of 2 forms:<ol><li>Decimal latitude, longitude pair separated by whitespace or comma for point locations (example: <code>41.9, 12.5</code>)</li><li>GeoJSON (example: <code>{"type": "Point", "coordinates": [12.5,41.9]}</code>)</li></ol><p>Note that coordinate order in GeoJSON is longitude, latitude. Change focus to another form field and the map will update.</p>""",
+            rows=4,
             label_msgid='PleiadesEntity_label_geometry',
             description_msgid='PleiadesEntity_help_geometry',
             i18n_domain='PleiadesEntity',
@@ -206,42 +206,50 @@ class Location(ATDocumentBase, Work, Temporal, BrowserDefaultMixin):
     def setGeometry(self, value):
         field = self.Schema()["geometry"]
         if not value:
-            v = ''
+            v = ""
         else:
-            # Correct common errors with input
-            point_pat = re.compile("point", re.I)
-            line_pat = re.compile("linestring", re.I)
-            polygon_pat = re.compile("polygon", re.I)
-            mpoint_pat = re.compile("multipoint", re.I)
-            mline_pat = re.compile("multilinestring", re.I)
-            mpolygon_pat = re.compile("multipolygon", re.I)
-            type_pat = re.compile("type", re.I)
-            coords_pat = re.compile("coordinates", re.I)
-            value = re.sub(point_pat, "Point", value)
-            value = re.sub(line_pat, "LineString", value)
-            value = re.sub(polygon_pat, "Polygon", value)
-            value = re.sub(mpoint_pat, "MultiPoint", value)
-            value = re.sub(mline_pat, "MultiLineString", value)
-            value = re.sub(mpolygon_pat, "MultiPolygon", value)
-            value = re.sub(type_pat, "type", value)
-            value = re.sub(coords_pat, "coordinates", value)
-            text = value.strip()
-            if text[0] == '{':
-                # geojson
-                g = simplejson.loads(text)
-            elif re.match(r'[a-zA-Z]+\s*\(', text):
-                # WKT
-                gi = wkt.loads(text).__geo_interface__
-                g = simplejson.loads(simplejson.dumps(gi))
+            value = value.strip()
+            # Have we been given a latitude, longitude pair?
+            m = re.match(r"(\-?\d+(\.\d+)?)\s*,*\s*(\-?\d+(\.\d+)?)", value)
+            if m:
+                lat, lon = float(m.group(1)), float(m.group(3))
+                v = "Point:[%f,%f]" % (lon, lat)
+            # Determine whether we've been given GeoJSON or WKT
             else:
-                # format X
-                parts = text.split(':')
-                coords = parts[1].replace('(', '[')
-                coords = coords.replace(')', ']')
-                j = '{"type": "%s", "coordinates": %s}' % (
-                    parts[0].strip(), coords.strip())
-                g = simplejson.loads(j)
-            v = "%s:%s" % (g['type'], g['coordinates'])
+                # Correct common errors with input
+                point_pat = re.compile("point", re.I)
+                line_pat = re.compile("linestring", re.I)
+                polygon_pat = re.compile("polygon", re.I)
+                mpoint_pat = re.compile("multipoint", re.I)
+                mline_pat = re.compile("multilinestring", re.I)
+                mpolygon_pat = re.compile("multipolygon", re.I)
+                type_pat = re.compile("type", re.I)
+                coords_pat = re.compile("coordinates", re.I)
+                value = re.sub(point_pat, "Point", value)
+                value = re.sub(line_pat, "LineString", value)
+                value = re.sub(polygon_pat, "Polygon", value)
+                value = re.sub(mpoint_pat, "MultiPoint", value)
+                value = re.sub(mline_pat, "MultiLineString", value)
+                value = re.sub(mpolygon_pat, "MultiPolygon", value)
+                value = re.sub(type_pat, "type", value)
+                value = re.sub(coords_pat, "coordinates", value)
+                text = value.strip()
+                if text[0] == '{':
+                    # geojson
+                    g = simplejson.loads(text)
+                elif re.match(r'[a-zA-Z]+\s*\(', text):
+                    # WKT
+                    gi = wkt.loads(text).__geo_interface__
+                    g = simplejson.loads(simplejson.dumps(gi))
+                else:
+                    # format X
+                    parts = text.split(':')
+                    coords = parts[1].replace('(', '[')
+                    coords = coords.replace(')', ']')
+                    j = '{"type": "%s", "coordinates": %s}' % (
+                        parts[0].strip(), coords.strip())
+                    g = simplejson.loads(j)
+                v = "%s:%s" % (g['type'], g['coordinates'])
         field.set(self, v)
 
 registerType(Location, PROJECTNAME)

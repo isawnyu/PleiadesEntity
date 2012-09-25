@@ -84,10 +84,14 @@
 <!--
 function toGeoJSON(val) {
   if (val.indexOf("{") != 0) {
-    var parts = val.split(":");
-    return '{"type": "' + parts[0].substring(0, 1).toUpperCase() 
-      + parts[0].substring(1).toLowerCase() + '", "coordinates": ' + parts[1] 
-      + '}'
+    // Have we been given a latitude, longitude pair?
+    var match = val.match(/^(\-?\d+(\.\d+)?)\s*,*\s*(\-?\d+(\.\d+)?)/);
+    if (match) {
+      return '{"type": "Point", "coordinates": [' 
+        + match[3] + ',' + match[1] + ']}';
+    }
+    // TODO: WKT
+    else { return "{}"; }
   }
   else { 
     var point_pat = /point/i;
