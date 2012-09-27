@@ -13,6 +13,8 @@
 __author__ = """Sean Gillies <unknown>, Tom Elliott <unknown>"""
 __docformat__ = 'plaintext'
 
+from itertools import chain
+
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
 from zope.interface import implements
@@ -55,6 +57,8 @@ schema = Schema((
         default=["unknown"],
         enforceVocabulary=1,
         multiValued=1,
+        accessor='getFeatureType',
+        edit_accessor='getPlaceTypeRaw'
     ),
 
     OrderableReferenceField(
@@ -215,21 +219,26 @@ class Place(BaseFolder, ATDocumentBase, Named, Work, BrowserDefaultMixin):
             transaction.commit()
             self.setId(newid)
 
+    security.declareProtected(permissions.View, 'getPlaceTypeRaw')
+    def getPlaceTypeRaw(self):
+        return self.Schema()["placeType"].get(self)
+
+    security.declareProtected(permissions.View, 'getPlaceType')
+    def getPlaceType(self):
+        return [t for t in self.getPlaceTypeRaw() if bool(t)]
+
     security.declareProtected(permissions.View, 'getFeatureType')
     def getFeatureType(self):
         """Get list of feature types for the place, digging into backref'd
         features if no types are explicitly set on the place.
         """
-        ftypes = [t for t in self.getPlaceType() if bool(t)]
-        if not ftypes or ftypes == ['unknown']:
-            for f in self.getFeatures():
-                candidates = [t for t in f.getFeatureType() if bool(t)]
-                for t in candidates:
-                    if t not in ftypes:
-                        ftypes.append(t)
+        ftypes = self.getPlaceType()
+        for f in list(self.getLocations()) + list(self.getFeatures()):
+            ftypes.extend([t for t in f.getFeatureType() if bool(t)])
+        ftypes = set(ftypes)
         if len(ftypes) > 1 and 'unknown' in ftypes:
             ftypes.remove('unknown')
-        return ftypes
+        return list(ftypes)
 
     security.declarePublic('SearchableText')
     def SearchableText(self):

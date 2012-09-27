@@ -43,6 +43,22 @@ import simplejson
 
 schema = Schema((
 
+    StringField(
+        name='featureType',
+        widget=InAndOutWidget(
+            label="Feature type",
+            description="Feature type categories",
+            label_msgid='PleiadesEntity_label_featureType',
+            description_msgid='PleiadesEntity_help_featureType',
+            i18n_domain='PleiadesEntity',
+        ),
+        description="Feature type categories",
+        vocabulary=NamedVocabulary("""place-types"""),
+        default=["unknown"],
+        enforceVocabulary=1,
+        multiValued=1,
+    ),
+
     TextField(
         name='geometry',
         schemata="Coordinates",
