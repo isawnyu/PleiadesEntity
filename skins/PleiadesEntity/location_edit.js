@@ -35,6 +35,14 @@ function toGeoJSON(val) {
   }
 }
 
+var geom_field = jq("textarea#geometry");
+
+function updateFieldFromDrag(e) {
+  var coords = e.target.getLatLng();
+  geom_field.val(coords.lat + ", " + coords.lng);
+  geom_field.change();
+}
+
 /* Shows the location data using the given layer */
 function showLocation(map, layer, data, bounds) {
   if (layer && map.hasLayer(layer)) {
@@ -45,7 +53,16 @@ function showLocation(map, layer, data, bounds) {
   layer.bindPopup(data.description);
   layer.addTo(map);
   layer.openPopup();
+  try {
+    layer.dragging.enable();
+  }
+  catch(err) {
+    // do nothing if it's a line, polygon, other non-marker object.
+  }
   if (bounds) { map.fitBounds(bounds); }
+  
+  /* On drag end, update the form field */
+  layer.on('dragend', updateFieldFromDrag);
   return layer;
 }
 
