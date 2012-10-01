@@ -35,12 +35,36 @@ function toGeoJSON(val) {
   }
 }
 
+function precisionDecimalPlaces(map) {
+  var llBounds = map.getBounds();
+  var xyBounds = map.getPixelBounds();
+  var dLat = (
+    llBounds.getNorthEast().lat - llBounds.getSouthWest().lat)/(
+    xyBounds.getBottomLeft().y - xyBounds.getTopRight().y);
+  var dLon = (
+    llBounds.getNorthEast().lng - llBounds.getSouthWest().lng)/(
+    xyBounds.getTopRight().x - xyBounds.getBottomLeft().x);
+  var degreesPerPixel = Math.max(dLat, dLon);
+  return Math.floor(Math.abs(Math.log(degreesPerPixel)/Math.LN10));
+}
+
+function truncateCoords(value, map) {
+  return value.toFixed(precisionDecimalPlaces(map));
+}
+
 var geom_field = jq("textarea#geometry");
 
 function updateFieldFromDrag(e) {
   var coords = e.target.getLatLng();
-  geom_field.val(coords.lat + ", " + coords.lng);
-  geom_field.change();
+  var geom_val = truncateCoords(coords.lat, map) + ", " + truncateCoords(coords.lng, map);
+  geom_field.val(geom_val);
+  var json = toGeoJSON(geom_val);
+  var f = { type: 'Feature', id: 'editing', 
+    description: 'Location currently being edited',
+    geometry: jq.parseJSON(json) };
+  
+  var test_layer = L.GeoJSON.geometryToLayer(f);
+  editing = showLocation(map, editing, f, null);
 }
 
 /* Shows the location data using the given layer */
@@ -100,7 +124,7 @@ var geom_val = jq("textarea#geometry").val().trim();
 
 if (!geom_val || geom_val == "{}" && bounds) {
   var center = L.latLngBounds(bounds).getCenter();
-  jq("textarea#geometry").val(center.lat + ", " + center.lng);
+  jq("textarea#geometry").val(truncateCoords(center.lat, map) + ", " + truncateCoords(center.lng, map));
   editing = showLocation(map, editing, {type: 'Feature', id: 'editing', 
       description: 'Suggested location, please change in the form field',
       geometry: {type: "Point", coordinates: [center.lng, center.lat]} } );

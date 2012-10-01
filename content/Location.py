@@ -13,6 +13,8 @@
 __author__ = """Sean Gillies <unknown>, Tom Elliott <unknown>"""
 __docformat__ = 'plaintext'
 
+from decimal import Decimal
+
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
 from zope.interface import implements
@@ -39,6 +41,13 @@ import re
 from shapely.geometry import asShape
 from shapely import wkt
 import simplejson
+
+def decimalize(value):
+    try:
+        return [decimalize(inner) for inner in value]
+    except:
+        return Decimal("%s" % value)
+
 ##/code-section module-header
 
 schema = Schema((
@@ -63,7 +72,7 @@ schema = Schema((
         name='geometry',
         schemata="Coordinates",
         widget=TextAreaWidget(
-            label="Latitude and Longitude coordinates",
+            label="Geometry and coordinates (long, lat order)",
             description="""<p>Enter the coordinates of this location in one of 2 forms:<ol><li>Decimal latitude, longitude pair separated by whitespace or comma for point locations (example: <code>41.9, 12.5</code>)</li><li>GeoJSON (example: <code>{"type": "Point", "coordinates": [12.5,41.9]}</code>)</li></ol><p>Note that coordinate order in GeoJSON is longitude, latitude. Change focus to another form field and the map will update.</p>""",
             rows=4,
             label_msgid='PleiadesEntity_label_geometry',
@@ -203,7 +212,10 @@ class Location(ATDocumentBase, Work, Temporal, BrowserDefaultMixin):
         data = '{"type": "%s", "coordinates": %s}' % (
             parts[0].strip(), parts[1].strip())
         return simplejson.dumps(
-            simplejson.loads(data), sort_keys=False, indent=indent )
+            simplejson.loads(data, use_decimal=True),
+            use_decimal=True,
+            sort_keys=False, 
+            indent=indent )
 
     security.declareProtected(permissions.View, 'getGeometryWKT')
     def getGeometryWKT(self):
@@ -228,8 +240,8 @@ class Location(ATDocumentBase, Work, Temporal, BrowserDefaultMixin):
             # Have we been given a latitude, longitude pair?
             m = re.match(r"(\-?\d+(\.\d+)?)\s*,*\s*(\-?\d+(\.\d+)?)", value)
             if m:
-                lat, lon = float(m.group(1)), float(m.group(3))
-                v = "Point:[%f,%f]" % (lon, lat)
+                lat, lon = Decimal(m.group(1)), Decimal(m.group(3))
+                v = "Point:[%s,%s]" % (lon, lat)
             # Determine whether we've been given GeoJSON or WKT
             else:
                 # Correct common errors with input
@@ -252,11 +264,11 @@ class Location(ATDocumentBase, Work, Temporal, BrowserDefaultMixin):
                 text = value.strip()
                 if text[0] == '{':
                     # geojson
-                    g = simplejson.loads(text)
+                    g = simplejson.loads(text, use_decimal=True)
                 elif re.match(r'[a-zA-Z]+\s*\(', text):
                     # WKT
-                    gi = wkt.loads(text).__geo_interface__
-                    g = simplejson.loads(simplejson.dumps(gi))
+                    g = mapping(wkt.loads(text))
+                    g['coordinates'] = decimalize(g['coordinates'])
                 else:
                     # format X
                     parts = text.split(':')
@@ -264,7 +276,7 @@ class Location(ATDocumentBase, Work, Temporal, BrowserDefaultMixin):
                     coords = coords.replace(')', ']')
                     j = '{"type": "%s", "coordinates": %s}' % (
                         parts[0].strip(), coords.strip())
-                    g = simplejson.loads(j)
+                    g = simplejson.loads(j, use_decimal=True)
                 v = "%s:%s" % (g['type'], g['coordinates'])
         field.set(self, v)
 
