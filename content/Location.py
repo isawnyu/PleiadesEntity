@@ -277,7 +277,9 @@ class Location(ATDocumentBase, Work, Temporal, BrowserDefaultMixin):
                     j = '{"type": "%s", "coordinates": %s}' % (
                         parts[0].strip(), coords.strip())
                     g = simplejson.loads(j, use_decimal=True)
-                v = "%s:%s" % (g['type'], g['coordinates'])
+                v = "%s:%s" % (
+                    g['type'], 
+                    simplejson.dumps(g['coordinates'], use_decimal=True) )
         field.set(self, v)
 
 registerType(Location, PROJECTNAME)
