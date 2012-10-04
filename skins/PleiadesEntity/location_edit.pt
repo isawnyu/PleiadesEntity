@@ -15,9 +15,15 @@
   </metal:head>
 
     <metal:links_macro metal:define-macro="css">
-      <link rel="where" type="application/json" tal:attributes="href context/aq_parent/@@json/data_uri"/>
+    <tal:block tal:define="place context/@@place; baseline place/@@iterate/baseline">
+      <link rel="where" type="application/json" tal:attributes="href place/@@json/data_uri"/>
+      <link tal:condition="baseline"
+        rel="baseline-where" 
+        type="application/json" 
+        tal:attributes="href baseline/@@json/data_uri|nothing" />
       <link rel="stylesheet" 
         href="http://cdn.leafletjs.com/leaflet-0.4.4/leaflet.css" />
+    </tal:block>
       <style>
         #map { height: 480px; float: right; }
         .leaflet-control-zoom-reset {

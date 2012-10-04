@@ -43,6 +43,8 @@ logger.debug('Installing Product')
 
 import os
 import os.path
+
+from AccessControl import allow_class, allow_module
 from Globals import package_home
 import Products.CMFPlone.interfaces
 from Products.Archetypes import listTypes
@@ -60,6 +62,9 @@ DirectoryView.registerDirectory('skins', product_globals)
 ##code-section custom-init-head #fill in your manual code here
 ##/code-section custom-init-head
 
+allow_module("Products.PleiadesEntity.content.interfaces")
+from Products.PleiadesEntity.content.interfaces import *
+allow_class(IPlace)
 
 def initialize(context):
     """initialize product (called by zope)"""

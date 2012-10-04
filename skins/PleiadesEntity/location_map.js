@@ -70,19 +70,38 @@ function getJSON(rel) {
 }
 
 var bounds = null;
+
 var where = getJSON("where");
 if (where && where.bbox) {
   bounds = L.latLngBounds([
     [where.bbox[1], where.bbox[0]],
     [where.bbox[3], where.bbox[2]] ]).pad(0.10);
 }
-else { bounds = L.latLngBounds([[20.0, -5.0], [50.0, 45.0]]); }
+
+var baselineWhere = getJSON("baseline-where");
+if (baselineWhere && baselineWhere.bbox) {
+  baselineBounds = L.latLngBounds([
+    [baselineWhere.bbox[1], baselineWhere.bbox[0]],
+    [baselineWhere.bbox[3], baselineWhere.bbox[2]] ]).pad(0.10);
+  if (bounds) {
+    bounds.extend(baselineBounds);
+  }
+  else { bounds = baselineBounds; }
+}
+
+/* If there's no spatial context at all, set large bounds. */
+if (!bounds) { bounds = L.latLngBounds([[20.0, -5.0], [50.0, 45.0]]); }
 
 var map = L.map('map', {zoomControl: false}).fitBounds(bounds);
+
+/* Guard against zooming in too far. */
 if (map.getZoom() > 11) { 
-  map.setZoom(11);
-  bounds = map.getBounds();
+  setTimeout( function() {
+    map.setZoom(11);
+    bounds = map.getBounds();
+    }, 0 );
 }
+
 pl_zoom({initialBounds: bounds}).addTo(map);
 
 var terrain = L.tileLayer(
@@ -111,7 +130,8 @@ L.control.layers({
 
 var target = null;
 
-L.geoJson(where, {
+if (where) {
+  L.geoJson(where, {
     onEachFeature: function (f, layer) {
       layer.bindPopup(
         '<dt><a href="' 
@@ -119,7 +139,19 @@ L.geoJson(where, {
         + '<dd>' + f.properties.description + '</dd>' );
         if (jq("h1").text() == f.properties.title) { target = layer; }
     }
-}).addTo(map);
+  }).addTo(map);
+}
+
+if (baselineWhere) {
+  L.geoJson(baselineWhere, {
+    onEachFeature: function (f, layer) {
+      layer.bindPopup(
+        '<dt><a href="' 
+        + f.properties.link + '">' + f.properties.title + '</a></dt>'
+        + '<dd>' + f.properties.description + '</dd>' );
+    }
+  }).addTo(map);
+}
 
 if (target != null) {
   target.openPopup();

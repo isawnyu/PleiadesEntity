@@ -32,4 +32,11 @@
     permission="zope2.View"
     />
 
+  <browser:view
+    for="*"
+    name="place"
+    class=".PlaceFinder"
+    permission="zope2.View"
+    />
+
 </configure>
