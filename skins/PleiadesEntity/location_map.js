@@ -70,6 +70,7 @@ function getJSON(rel) {
 }
 
 var bounds = null;
+var baselineBounds = null;
 
 var where = getJSON("where");
 if (where && where.bbox) {
@@ -92,16 +93,9 @@ if (baselineWhere && baselineWhere.bbox) {
 /* If there's no spatial context at all, set large bounds. */
 if (!bounds) { bounds = L.latLngBounds([[20.0, -5.0], [50.0, 45.0]]); }
 
-var map = L.map('map', {zoomControl: false}).fitBounds(bounds);
-
-/* Guard against zooming in too far. */
-if (map.getZoom() > 11) { 
-  setTimeout( function() {
-    map.setZoom(11);
-    bounds = map.getBounds();
-    }, 0 );
-}
-
+var map = L.map('map', {zoomControl: false, attributionControl: false});
+map.setView(bounds.getCenter(), Math.min(map.getBoundsZoom(bounds), 11), true);
+L.control.attribution({prefix: false}).addTo(map);
 pl_zoom({initialBounds: bounds}).addTo(map);
 
 var terrain = L.tileLayer(

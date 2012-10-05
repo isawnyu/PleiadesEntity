@@ -83,7 +83,12 @@ function showLocation(map, layer, data, bounds) {
   catch(err) {
     // do nothing if it's a line, polygon, other non-marker object.
   }
-  if (bounds) { map.fitBounds(bounds); }
+  if (bounds) { 
+    map.setView(
+      bounds.getCenter(), 
+      Math.min(map.getBoundsZoom(bounds), 11), 
+      true );
+ }
   
   /* On drag end, update the form field */
   layer.on('dragend', updateFieldFromDrag);
