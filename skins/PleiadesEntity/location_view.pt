@@ -1,0 +1,109 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xml:lang="en"
+      lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      i18n:domain="plone">
+  
+  <head>
+    <metal:links_macro metal:define-macro="links"
+      tal:define="url context/absolute_url;
+        place context/@@place;
+        baseline place/@@iterate/baseline">
+      <link 
+        rel="where" 
+        type="application/json" 
+        tal:attributes="href place/@@json/data_uri" />
+      <link tal:condition="baseline"
+        rel="baseline-where" 
+        type="application/json" 
+        tal:attributes="href baseline/@@json/data_uri|nothing" />
+      <link rel="nofollow alternate" type="application/atom+xml" tal:attributes="href string:${url}/atom"/>
+      <link rel="nofollow alternate" type="application/json" tal:attributes="href string:${url}/@@json?sm=1"/>
+      <link rel="nofollow alternate" type="application/vnd.google-earth.kml+xml" tal:attributes="href string:${url}/kml"/>
+      <link rel="canonical" tal:attributes="href url"/>
+      <link rel="stylesheet" 
+        href="http://cdn.leafletjs.com/leaflet-0.4.4/leaflet.css" />
+      <style>
+        #map { height: 480px; float: right; }
+        .leaflet-control-zoom-reset {
+          background-image: url(zoom-reset.png);
+          margin-bottom: 5px; }
+        #fields-continued { padding-right: 1em; }
+        /*#parent-fieldname-geometry { display: none; } */
+      </style>
+</metal:links_macro>
+
+    <metal:js_macro metal:define-macro="js">
+<script src="http://cdn.leafletjs.com/leaflet-0.4.4/leaflet.js"></script>
+    </metal:js_macro>
+
+  </head>
+  
+  <body>
+
+    <metal:header_macro define-macro="header"
+      tal:define="kssClassesView context/@@kss_field_decorator_view;
+                  getKssClasses nocall:kssClassesView/getKssClassesInlineEditable">
+
+      <div itemscope itemtype="http://schema.org/Place">
+      <div tal:replace="structure provider:plone.abovecontenttitle" />
+      <h1 itemprop="name" tal:content="here/title_or_id">
+        Title or id
+      </h1>
+      <div tal:replace="structure provider:plone.belowcontenttitle" />
+
+      <p itemprop="description" 
+        class="documentDescription"
+        tal:content="python:here.Description() or 'Description missing, please edit'">
+        Description</p>
+
+      <div><div tal:replace="structure provider:plone.abovecontentbody" /></div>
+      
+      </div>
+
+    </metal:header_macro>
+
+    <metal:body_macro
+      metal:define-macro="body"
+      tal:define="field_macro field_macro | here/widgets/field/macros/view;
+        kssClassesView context/@@kss_field_decorator_view;
+        getKssClasses nocall:kssClassesView/getKssClassesInlineEditable;
+        templateId template/getId;
+        portal_state context/@@plone_portal_state;">
+
+    <table>
+    <tr>
+    <td style="width:46%">
+
+      <div id="fields-continued">
+
+        <tal:repeat
+          repeat="field python:here.Schema().filterFields(isMetadata=0)">
+          <tal:if_visible
+            define="mode string:view; visState python:field.widget.isVisible(here, mode); visCondition python:field.widget.testCondition(here, portal, template);"
+            condition="python:visState == 'visible' and visCondition">
+            <metal:use_field use-macro="field_macro"/>
+          </tal:if_visible>
+        </tal:repeat>
+
+      </div>
+    </td>
+    <td style="width:46%">
+    <div id="map"></div>
+    </td>
+    </tr>
+    </table>
+
+<script src="location_map.js"></script>
+    </metal:body_macro>
+   
+    <metal:folderlisting_macro define-macro="folderlisting">
+      <!-- nothing -->
+    </metal:folderlisting_macro>
+
+  </body>
+</html>
+
+
