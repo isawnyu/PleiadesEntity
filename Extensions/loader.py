@@ -583,7 +583,7 @@ def load_cap(site, root, mapid=None, metadataId=None, cb=lambda x: None):
                 baid = baident(fid)
         else:
             baid = -1
-
+        
         citation = getattr(root.find('{%s}citation' % BATLAS), 'text', None)
         gridsquare = getattr(root.find('{%s}gridsquare' % BATLAS), 'text', None)
         modernLocations = [getattr(e, 'text', None) for e in root.findall('{%s}modernLocation' % AWMC)]
@@ -605,6 +605,17 @@ def load_cap(site, root, mapid=None, metadataId=None, cb=lambda x: None):
             pass
 
         summary = 'An ancient place, cited: %s' % citation
+       
+        # We accidentally loaded map 87 inset places before map 87 
+        if " 87 " in (citation or ""):
+            baid = str(int(baid) + 3099)
+
+        note = modernLocation
+        details = "None"
+        if note:
+            #note = unicode(note, 'utf-8')
+            note = note.replace(unichr(174), unichr(0x2192))
+            details = "The Barrington Atlas Directory notes: %s" % note 
         
         # Place
         pid = places.invokeFactory('Place',
@@ -614,7 +625,7 @@ def load_cap(site, root, mapid=None, metadataId=None, cb=lambda x: None):
                     modernLocation=modernLocation,
                     permanent=False,
                     description=summary,
-                    text='None',
+                    text=details,
                     creators=creators,
                     contributors=contributors,
                     # rights=rights,

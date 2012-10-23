@@ -13,7 +13,7 @@
 __author__ = """Sean Gillies <unknown>, Tom Elliott <unknown>"""
 __docformat__ = 'plaintext'
 
-#ReferenceCitation
+import logging
 
 from AccessControl import ClassSecurityInfo
 from Acquisition import aq_base
@@ -45,7 +45,9 @@ from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
 from Products.CMFCore import permissions
 
 from Products.CompoundField.CompoundField import CompoundField
-######CompoundField
+
+log = logging.getLogger("PleiadesEntity")
+
 schema = Schema((
 
     StringField(
@@ -119,11 +121,15 @@ class ReferenceCitation(CompoundField):
         ptool = getToolByName(instance, 'plone_utils')
         r = value.get('range')
         if r:
-            return "".join([
-                "http://atlantides.org/bibliography/",
-                ptool.normalizeString(r[0]),
-                '.html#',
-                r.split(',')[0].strip() ])
+            try:
+                return "".join([
+                    "http://atlantides.org/bibliography/",
+                    ptool.normalizeString(r)[0],
+                    '.html#',
+                    r.split(',')[0].strip() ])
+            except UnicodeDecodeError:
+                log.exception("UnicodeDecodeError in default biblio")
+                return ""
         else:
             return ""
 
