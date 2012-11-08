@@ -99,14 +99,14 @@ L.control.attribution({prefix: false}).addTo(map);
 pl_zoom({initialBounds: bounds}).addTo(map);
 
 var terrain = L.tileLayer(
-    'http://api.tiles.mapbox.com/v3/sgillies.map-ac5eaoks/{z}/{x}/{y}.png', {
+    'http://api.tiles.mapbox.com/v3/isawnyu.map-p75u7mnj/{z}/{x}/{y}.png', {
         attribution: "ISAW, 2012"
         });
 terrain.addTo(map);
 
 /* Not added by default, only through user control action */
 var streets = L.tileLayer(
-    'http://api.tiles.mapbox.com/v3/sgillies.map-pmfv2yqx/{z}/{x}/{y}.png', {
+    'http://api.tiles.mapbox.com/v3/isawnyu.map-zr78g89o/{z}/{x}/{y}.png', {
         attribution: "ISAW, 2012"
         });
 

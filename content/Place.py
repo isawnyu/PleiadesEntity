@@ -221,10 +221,12 @@ class Place(BaseFolder, ATDocumentBase, Named, Work, BrowserDefaultMixin):
 
     security.declareProtected(permissions.View, 'getPlaceTypeRaw')
     def getPlaceTypeRaw(self):
+        """ """
         return self.Schema()["placeType"].get(self)
 
     security.declareProtected(permissions.View, 'getPlaceType')
     def getPlaceType(self):
+        """ """
         return [t for t in self.getPlaceTypeRaw() if bool(t)]
 
     security.declareProtected(permissions.View, 'getFeatureType')
