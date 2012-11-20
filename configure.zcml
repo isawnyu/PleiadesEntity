@@ -40,6 +40,7 @@
 
   <adapter name="titleStarts" factory=".indexers.name_titleStarts"/>
   <adapter name="titleStarts" factory=".indexers.place_titleStarts"/>
+  <adapter name="currentVersion" factory=".indexers.currentVersion"/>
   
   <!-- ##/code-section configure.zcml -->
 

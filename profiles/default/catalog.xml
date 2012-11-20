@@ -43,6 +43,7 @@
   <column value="getFeatureType"/>
   <column value="getConfidence"/>
   <column value="getModernLocation"/>
+  <column value="currentVersion"/>
 <!-- ##code-section FOOT -->
 <!-- ##/code-section FOOT -->
 </object>

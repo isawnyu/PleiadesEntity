@@ -1,6 +1,8 @@
 import logging
 
 from plone.indexer.decorator import indexer
+from Products.CMFCore.interfaces import IContentish
+from Products.CMFCore.utils import getToolByName
 
 from pleiades.transliteration import transliterate_name
 from Products.PleiadesEntity.content.interfaces import IName, IPlace
@@ -26,3 +28,9 @@ def place_titleStarts(object, **kw):
     tvalue = object.Title() or "?"
     return tvalue[0].upper()
 
+@indexer(IContentish)
+def currentVersion(obj, **kw):
+    repo = getToolByName(obj, 'portal_repository')
+    rt = repo.getHistoryMetadata(obj)
+    return rt.getVersionId(None, False)
+    
