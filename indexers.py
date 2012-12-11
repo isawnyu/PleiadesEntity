@@ -33,4 +33,12 @@ def currentVersion(obj, **kw):
     repo = getToolByName(obj, 'portal_repository')
     rt = repo.getHistoryMetadata(obj)
     return rt.getVersionId(None, False)
-    
+
+@indexer(IPlace):
+def connectsWith(obj, **kw):
+    return [o.getId() for o in self.getRefs("connectsWith")] or None
+
+@indexer(IPlace):
+def hasConnectionWith(obj, **kw):
+    return [o.getId() for o in self.getBRefs("connectsWith")] or None
+

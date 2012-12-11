@@ -41,7 +41,9 @@
   <adapter name="titleStarts" factory=".indexers.name_titleStarts"/>
   <adapter name="titleStarts" factory=".indexers.place_titleStarts"/>
   <adapter name="currentVersion" factory=".indexers.currentVersion"/>
-  
+  <adapter name="connectsWith" factory=".indexers.connectsWith"/>
+  <adapter name="hasConnectionsWith" factory=".indexers.hasConnectionsWith"/>
+
   <!-- ##/code-section configure.zcml -->
 
 </configure>
