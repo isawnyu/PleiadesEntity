@@ -36,9 +36,9 @@ def currentVersion(obj, **kw):
 
 @indexer(IPlace)
 def connectsWith(obj, **kw):
-    return [o.getId() for o in self.getRefs("connectsWith")] or None
+    return [o.getId() for o in obj.getRefs("connectsWith")] or None
 
 @indexer(IPlace)
 def hasConnectionsWith(obj, **kw):
-    return [o.getId() for o in self.getBRefs("connectsWith")] or None
+    return [o.getId() for o in obj.getBRefs("connectsWith")] or None
 
