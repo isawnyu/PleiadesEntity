@@ -34,11 +34,11 @@ def currentVersion(obj, **kw):
     rt = repo.getHistoryMetadata(obj)
     return rt.getVersionId(None, False)
 
-@indexer(IPlace):
+@indexer(IPlace)
 def connectsWith(obj, **kw):
     return [o.getId() for o in self.getRefs("connectsWith")] or None
 
-@indexer(IPlace):
-def hasConnectionWith(obj, **kw):
+@indexer(IPlace)
+def hasConnectionsWith(obj, **kw):
     return [o.getId() for o in self.getBRefs("connectsWith")] or None
 
