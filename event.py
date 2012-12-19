@@ -9,6 +9,7 @@ from zope.lifecycleevent.interfaces import IObjectModifiedEvent
 
 from Products.PleiadesEntity.content.interfaces import ILocation, IName
 from Products.PleiadesEntity.content.interfaces import IFeature, IPlace
+from Products.PleiadesEntity.time import temporal_overlap
 from pleiades.transliteration import transliterate_name
 
 log = logging.getLogger('PleiadesEntity')
@@ -35,6 +36,15 @@ def nameChangeSubscriber(obj, event):
 @adapter(ILocation, IObjectModifiedEvent)
 def locationChangeSubscriber(obj, event):
     log.debug("Event handled: %s, %s", obj, event)
+
+    # Reindex co-temporal names of the parent place since they are being
+    # localized by this location.
+    place = aq_parent(aq_inner(obj))
+    for o in filter(
+            lambda x: temporal_overlap(obj, x),
+            place.getNames() ):
+        o.reindexObject()
+
     reindexContainer(obj, event)
 
 @adapter(IFeature, IObjectModifiedEvent)
