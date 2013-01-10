@@ -72,15 +72,15 @@ schema = Schema((
         ),
         description="The language and writing system or script of the attested name.",
         vocabulary=NamedVocabulary("""ancient-name-languages"""),
-        enforceVocabulary=0,
-        required=0,
+        enforceVocabulary=1,
+        required=1,
     ),
     StringField(
         name='nameTransliterated',
         widget=StringField._properties['widget'](
             label="Romanized Name(s)",
             description="A comma-separated list of romanized forms of the name. The first will become the title of this resource.",
-            size=120,
+            size=140,
             label_msgid='PleiadesEntity_label_nameTransliterated',
             description_msgid='PleiadesEntity_help_nameTransliterated',
             i18n_domain='PleiadesEntity',

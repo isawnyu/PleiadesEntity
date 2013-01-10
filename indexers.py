@@ -10,11 +10,11 @@ from Products.PleiadesEntity.content.interfaces import IName, IPlace
 log = logging.getLogger('PleiadesEntity')
 
 @indexer(IName)
-def name_titleStarts(object, **kw):
-    title = object.getNameTransliterated() or object.Title()
+def name_titleStarts(obj, **kw):
+    title = obj.getNameTransliterated() or obj.Title()
     if not title:
-        nameAttested = object.getNameAttested()
-        nameLanguage = object.getNameLanguage()
+        nameAttested = obj.getNameAttested()
+        nameLanguage = obj.getNameLanguage()
         if not nameAttested or not nameLanguage:
             return None
         title = transliterate_name(nameLanguage, nameAttested)
@@ -24,8 +24,8 @@ def name_titleStarts(object, **kw):
         return None
 
 @indexer(IPlace)
-def place_titleStarts(object, **kw):
-    tvalue = object.Title() or "?"
+def place_titleStarts(obj, **kw):
+    tvalue = obj.Title() or "?"
     return tvalue[0].upper()
 
 @indexer(IContentish)
