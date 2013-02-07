@@ -74,7 +74,7 @@ class OSMLocationFactory(BrowserView):
         citations= [dict(
             identifier=url,
             range="osm:node=%s" % nodeid,
-            type="cites" )] 
+            type="citesAsDataSource" )] 
 
         field = locn.getField('referenceCitations')
         field.resize(len(citations), locn)

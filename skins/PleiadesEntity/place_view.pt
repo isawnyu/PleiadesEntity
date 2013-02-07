@@ -116,7 +116,8 @@
                   type="text" placeholder="Foo"/>
                   <label for="title">Title (optional)</label></p>
                 </div>
-                <div><input type="Submit" name="submit" value="Go"/></div>
+                <div><input type="Submit" name="submit" value="Go"/>
+                <span><a href="http://pleiades.stoa.org/help/content/linking-pleiades-to-openstreetmap">What's this?</a></span></div>
               </form>
               </div>
 
