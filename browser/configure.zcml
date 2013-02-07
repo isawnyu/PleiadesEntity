@@ -39,4 +39,15 @@
     permission="zope2.View"
     />
 
+  <permission
+    id="pleiades.addLocation"
+    title="PleiadesEntity: Add Location" />
+
+  <browser:view
+    for="Products.PleiadesEntity.content.interfaces.IPlace"
+    name="create-location-osm"
+    class=".osm.OSMLocationFactory"
+    permission="pleiades.addLocation"
+    />
+
 </configure>
