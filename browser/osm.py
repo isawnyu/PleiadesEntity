@@ -8,6 +8,7 @@ from DateTime import DateTime
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone import PloneMessageFactory as _
 from contentratings.interfaces import IUserRating
 from plone.memoize import view
 from zope.component import getAdapters, getMultiAdapter
@@ -22,19 +23,38 @@ MESSAGE = (
 
 log = logging.getLogger("Pleiades OSM Client")
 
-OSM_API_ENDPOINT = "http://www.openstreetmap.org/api/0.6/node/"
+OSM_API_ENDPOINT = "http://www.openstreetmap.org/api/0.6"
+OSM_BROWSE = "http://www.openstreetmap.org/browse"
 
 class OSMLocationFactory(BrowserView):
 
-    def __call__(self):
-        nodeid = self.request.get('node')
-        url = OSM_API_ENDPOINT + nodeid
+    # Makes a location using only an OSM node id.
+    # Terribly raw at the moment. A mere glance reveals so many places
+    # this can fail ungracefully.
 
+    def _fall_back(self, msg):
+        # Redirects back to context with a message
+        getToolByName(
+            self.context, 'plone_utils' ).addPortalMessage(
+                _("Location not created. " + msg.rstrip('.') + ".") )
+        self.request.response.redirect(self.context.absolute_url())
+        return
+
+    def __call__(self):
+        
+        try:
+            nodeid = str(int(self.request.get('node')))
+        except (TypeError, ValueError), e:
+            self._fall_back(str(e))
+            return
+
+        url = "/".join([OSM_API_ENDPOINT, "node", nodeid])
         h = httplib2.Http()        
         resp, content = h.request(url, "GET")
         
         if not resp['status'] == "200":
-            return None
+            self._fall_back("OSM API response: " + resp['status'])
+            return
 
         osm = etree.fromstring(content)
         node = osm.find('node')
@@ -56,23 +76,30 @@ class OSMLocationFactory(BrowserView):
         title = self.request.get('title') or tag_name or "OSM Node " + nodeid
         name = ptool.normalizeString(title)
 
-        locid = self.context.invokeFactory(
-            'Location',
-            name,
-            title=title,
-            description="Location based on OpenStreetMap",
-            geometry="Point:[%s,%s]" % (lon, lat),
-            creators=[mtool.getAuthenticatedMember().getUserName()],
-            initialProvenance="OpenStreetMap (changeset %s, %s)" % (
-                changeset, timestamp) )
+        try:
+            locid = self.context.invokeFactory(
+                'Location',
+                name,
+                title=title,
+                description="Location based on OpenStreetMap",
+                geometry="Point:[%s,%s]" % (lon, lat),
+                creators=[mtool.getAuthenticatedMember().getUserName()],
+                initialProvenance=(
+                    "OpenStreetMap (Node %s, version %s, "
+                    "osm:changeset=%s, %s)" % (
+                        nodeid, version, changeset, timestamp) ))
+        except Exception, e:
+            self._fall_back(str(e))
+            return
 
         locn = self.context[locid]
         metadataDoc = site['features']['metadata'][
             'generic-osm-accuracy-assessment']
         locn.addReference(metadataDoc, 'location_accuracy')
 
+        browse_url = "/".join([OSM_BROWSE, "node", nodeid])
         citations= [dict(
-            identifier=url,
+            identifier=browse_url,
             range="osm:node=%s" % nodeid,
             type="citesAsDataSource" )] 
 
