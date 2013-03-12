@@ -43,13 +43,16 @@ class OSMLocationFactory(BrowserView):
     def __call__(self):
         
         try:
-            nodeid = str(int(self.request.get('node')))
+            objid = str(int(self.request.get('obj')))
+            objtype = str(self.request.get('type'))
         except (TypeError, ValueError), e:
             self._fall_back(str(e))
             return
 
-        url = "/".join([OSM_API_ENDPOINT, "node", nodeid])
-        h = httplib2.Http()        
+        url = "/".join([OSM_API_ENDPOINT, objtype, objid] + (
+            objtype == "way" and ['full'] or []))
+
+        h = httplib2.Http()
         resp, content = h.request(url, "GET")
         
         if not resp['status'] == "200":
@@ -57,23 +60,30 @@ class OSMLocationFactory(BrowserView):
             return
 
         osm = etree.fromstring(content)
-        node = osm.find('node')
-        assert node.attrib.get('id') == nodeid
+        elem = osm.find(objtype)
+        assert elem.attrib.get('id') == objid
 
-        version = node.attrib.get("version")
-        changeset = node.attrib.get("changeset")
-        lon = node.attrib.get("lon")
-        lat = node.attrib.get("lat")
-        timestamp = node.attrib.get("timestamp")
+        version = elem.attrib.get("version")
+        changeset = elem.attrib.get("changeset")
+        timestamp = elem.attrib.get("timestamp")
         tag_name = getattr(
-            node.find("tag[@k='name']"), "attrib", {} ).get("v", None)
+            elem.find("tag[@k='name']"), "attrib", {} ).get("v", None)
+
+        if objtype == "node":
+            lon = elem.attrib.get("lon")
+            lat = elem.attrib.get("lat")
+        elif objtype == "way":
+            node = osm.find("node")
+            lon = node.attrib.get("lon")
+            lat = node.attrib.get("lat")
 
         ptool = getToolByName(self.context, 'plone_utils')
         mtool = getToolByName(self.context, 'portal_membership')
         repo = getToolByName(self.context, 'portal_repository')
         site = getToolByName(self.context, 'portal_url').getPortalObject()
 
-        title = self.request.get('title') or tag_name or "OSM Node " + nodeid
+        title = self.request.get('title') or tag_name or "OSM %s %s" % (
+            objtype.capitalize(), objid)
         name = ptool.normalizeString(title)
 
         try:
@@ -85,9 +95,10 @@ class OSMLocationFactory(BrowserView):
                 geometry="Point:[%s,%s]" % (lon, lat),
                 creators=[mtool.getAuthenticatedMember().getUserName()],
                 initialProvenance=(
-                    "OpenStreetMap (Node %s, version %s, "
+                    "OpenStreetMap (%s %s, version %s, "
                     "osm:changeset=%s, %s)" % (
-                        nodeid, version, changeset, timestamp) ))
+                        objtype.capitalize(), objid, 
+                        version, changeset, timestamp) ))
         except Exception, e:
             self._fall_back(str(e))
             return
@@ -97,10 +108,10 @@ class OSMLocationFactory(BrowserView):
             'generic-osm-accuracy-assessment']
         locn.addReference(metadataDoc, 'location_accuracy')
 
-        browse_url = "/".join([OSM_BROWSE, "node", nodeid])
+        browse_url = "/".join([OSM_BROWSE, objtype, objid])
         citations= [dict(
             identifier=browse_url,
-            range="osm:node=%s" % nodeid,
+            range="osm:%s=%s" % (objtype, objid),
             type="citesAsDataSource" )] 
 
         field = locn.getField('referenceCitations')

@@ -1,3 +1,6 @@
+
+import logging
+
 from Acquisition import aq_inner, aq_parent
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
@@ -9,6 +12,8 @@ from zope.component import getAdapters, getMultiAdapter
 from zgeo.geographer.interfaces import IGeoreferenced
 from pleiades.geographer.geo import NotLocatedError
 from Products.PleiadesEntity.time import to_ad
+
+log = logging.getLogger('Products.PleiadesEntity')
 
 
 class TimeSpanWrapper(object):
@@ -91,8 +96,8 @@ class LocationsTable(ChildrenTable):
         parts = []
         try:
             parts.append(IGeoreferenced(ob).type)
-        except NotLocatedError:
-            pass # TODO: log properly
+        except (ValueError, NotLocatedError):
+            parts.append("unlocated")
         parts.append(TimeSpanWrapper(ob).snippet)
         return "; ".join(parts)
     def rows(self, locations):
