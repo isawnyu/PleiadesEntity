@@ -77,6 +77,7 @@ class OSMLocationFactory(BrowserView):
             lon = node.attrib.get("lon")
             lat = node.attrib.get("lat")
 
+        ttool = getToolByName(self.context, "portal_types")
         ptool = getToolByName(self.context, 'plone_utils')
         mtool = getToolByName(self.context, 'portal_membership')
         repo = getToolByName(self.context, 'portal_repository')
@@ -87,23 +88,20 @@ class OSMLocationFactory(BrowserView):
         name = ptool.normalizeString(title)
 
         try:
-            locid = self.context.invokeFactory(
-                'Location',
-                name,
-                title=title,
-                description="Location based on OpenStreetMap",
-                geometry="Point:[%s,%s]" % (lon, lat),
-                creators=[mtool.getAuthenticatedMember().getUserName()],
-                initialProvenance=(
-                    "OpenStreetMap (%s %s, version %s, "
-                    "osm:changeset=%s, %s)" % (
+            type_info = ttool.getTypeInfo('Location')
+            locn = type_info._constructInstance(self.context, name)
+            locn.setTitle(title)
+            locn.setDescription(u"Location based on OpenStreetMap")
+            locn.setGeometry("Point:[%s,%s]" % (lon, lat))
+            locn.setInitialProvenance(
+                    u"OpenStreetMap (%s %s, version %s, "
+                    u"osm:changeset=%s, %s)" % (
                         objtype.capitalize(), objid, 
-                        version, changeset, timestamp) ))
+                        version, changeset, timestamp) )
         except Exception, e:
             self._fall_back(str(e))
             return
 
-        locn = self.context[locid]
         metadataDoc = site['features']['metadata'][
             'generic-osm-accuracy-assessment']
         locn.addReference(metadataDoc, 'location_accuracy')
@@ -123,5 +121,5 @@ class OSMLocationFactory(BrowserView):
         repo.save(locn, MESSAGE)
 
         self.request.response.redirect(
-            "%s/edit" % self.context[locid].absolute_url() )
+            "%s/edit" % locn.absolute_url() )
 
