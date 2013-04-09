@@ -77,7 +77,6 @@ class OSMLocationFactory(BrowserView):
             lon = node.attrib.get("lon")
             lat = node.attrib.get("lat")
 
-        ttool = getToolByName(self.context, "portal_types")
         ptool = getToolByName(self.context, 'plone_utils')
         mtool = getToolByName(self.context, 'portal_membership')
         repo = getToolByName(self.context, 'portal_repository')
@@ -88,8 +87,8 @@ class OSMLocationFactory(BrowserView):
         name = ptool.normalizeString(title)
 
         try:
-            type_info = ttool.getTypeInfo('Location')
-            locn = type_info._constructInstance(self.context, name)
+            locid = self.context.invokeFactory('Location', name)
+            locn = self.context[locid]
             locn.setTitle(title)
             locn.setDescription(u"Location based on OpenStreetMap")
             locn.setGeometry("Point:[%s,%s]" % (lon, lat))
@@ -114,11 +113,12 @@ class OSMLocationFactory(BrowserView):
 
         field = locn.getField('referenceCitations')
         field.resize(len(citations), locn)
-        locn.update(referenceCitations=citations)
+        locn.setReferenceCitations(citations)
 
         now = DateTime(datetime.datetime.now().isoformat())
         locn.setModificationDate(now)
         repo.save(locn, MESSAGE)
+        locn.reindexObject()
 
         self.request.response.redirect(
             "%s/edit" % locn.absolute_url() )
