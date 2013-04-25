@@ -131,7 +131,7 @@ class ReferenceCitation(CompoundField):
                     "http://atlantides.org/bibliography/",
                     ptool.normalizeString(r)[0],
                     '.html#',
-                    r.split(',')[0].strip() ])
+                    r.split(',')[0].strip().replace(' ', '-')])
             except UnicodeDecodeError:
                 log.exception("UnicodeDecodeError in default biblio")
                 return ""
