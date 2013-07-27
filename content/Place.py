@@ -61,33 +61,33 @@ schema = Schema((
         edit_accessor='getPlaceTypeRaw'
     ),
 
-    OrderableReferenceField(
-        name='parts',
-        widget=ReferenceBrowserWidget(
-            label="Has part(s)",
-            description="Order is important for graph-like places: roads, itineraries, etc",
-            startup_directory="/places",
-            label_msgid='PleiadesEntity_label_places',
-            i18n_domain='PleiadesEntity',
-        ),
-        multiValued=True,
-        relationship='hasPart',
-        allowed_types="('Place',)",
-        allow_browse="True",
-    ),
+#    OrderableReferenceField(
+#        name='parts',
+#        widget=ReferenceBrowserWidget(
+#            label="Has part(s)",
+#            description="Order is important for graph-like places: roads, itineraries, etc",
+#            startup_directory="/places",
+#            label_msgid='PleiadesEntity_label_places',
+#            i18n_domain='PleiadesEntity',
+#        ),
+#        multiValued=True,
+#        relationship='hasPart',
+#        allowed_types="('Place',)",
+#        allow_browse="True",
+#    ),
 
-    BackReferenceField(
-        name='places',
-        widget=BackReferenceWidget(
-            visible="{'view': 'visible', 'edit': 'invisible'}",
-            label="Is a part of",
-            macro="betterbackrefwidget",
-            label_msgid='PleiadesEntity_label_features',
-            i18n_domain='PleiadesEntity',
-        ),
-        multiValued=True,
-        relationship="hasPart",
-    ),
+#    BackReferenceField(
+#        name='places',
+#        widget=BackReferenceWidget(
+#            visible="{'view': 'visible', 'edit': 'invisible'}",
+#            label="Is a part of",
+#            macro="betterbackrefwidget",
+#            label_msgid='PleiadesEntity_label_features',
+#            i18n_domain='PleiadesEntity',
+#        ),
+#        multiValued=True,
+#        relationship="hasPart",
+#    ),
 
     ReferenceField(
         name='connections',
@@ -101,6 +101,7 @@ schema = Schema((
             search_index='SearchableText',
             label_msgid='PleiadesEntity_label_connections',
             i18n_domain='PleiadesEntity',
+            hide_inaccessible=True,
         ),
         multiValued=True,
         relationship='connectsWith',
@@ -115,6 +116,7 @@ schema = Schema((
             macro="betterbackrefwidget",
             label_msgid='PleiadesEntity_label_connectsWith',
             i18n_domain='PleiadesEntity',
+            hide_inaccessible=True,
         ),
         multiValued=True,
         relationship="connectsWith",
@@ -173,8 +175,8 @@ class Place(BaseFolder, ATDocumentBase, Named, Work, BrowserDefaultMixin):
     schema["presentation"].widget.visible = {"edit": "invisible", "view": "invisible"}
     schema["tableContents"].widget.visible = {"edit": "invisible", "view": "invisible"}
     schema["text"].widget.label = 'Details'
-    schema["parts"].widget.visible = {"edit": "invisible", "view": "invisible"}
-    schema["places"].widget.visible = {"edit": "invisible", "view": "invisible"}
+#    schema["parts"].widget.visible = {"edit": "invisible", "view": "invisible"}
+#    schema["places"].widget.visible = {"edit": "invisible", "view": "invisible"}
     schema["permanent"].widget.visible = {"edit": "invisible", "view": "invisible"}
     schema["modernLocation"].widget.visible = {"edit": "invisible", "view": "invisible"}
     schema.moveField('placeType', after='description')
