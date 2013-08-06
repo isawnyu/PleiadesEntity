@@ -77,17 +77,22 @@ class ChildrenTable(BrowserView):
         portal_state = self.context.restrictedTraverse("@@plone_portal_state")
         children = []
         for ob in self.accessor():
-            category = dict(
-                getAdapters((ob,), IUserRating)).get('three_stars', 0)
-            avg_rating = float(category and category.averageRating)
+            #category = dict(
+            #    getAdapters((ob,), IUserRating)).get('three_stars', 0)
+            #avg_rating = float(category and category.averageRating)
             nrefs = len(ob.getReferenceCitations())
-            score = (avg_rating + 1.0)*(nrefs + 1.0)
+            #score = (avg_rating + 1.0)*(nrefs + 1.0)
+            span = TimeSpanWrapper(ob).timeSpan
+            if span:
+                score = span['start']
+            else:
+                score = 2112
             children.append((score, ob, nrefs))
         if len(children) == 0 and portal_state.anonymous():
-            rows = ['<dt class="emptyChildItem"><em>None</em></dt>']
+            rows = ['<span class="emptyChildItem"><em>None</em></span>']
         else:
             rows = self.rows(children)
-        return u'<dl class="placeChildren">' + ''.join(rows) + '</dl>'
+        return u'<p class="placeChildren">' + ''.join(rows) + '</p>'
 
 class LocationsTable(ChildrenTable):
     def accessor(self):
@@ -105,22 +110,21 @@ class LocationsTable(ChildrenTable):
         where_tag = "where"
         if self.iterate and self.iterate()['working_copy'] is not None:
             where_tag = "baseline-where"
-        for score, ob, nrefs in sorted(locations, reverse=True):
+        for score, ob, nrefs in sorted(locations, reverse=False):
             innerHTML = [
-                u'<dt id="%s_%s" class="placeChildItem Location">' % (
+                u'<span id="%s_%s" class="placeChildItem Location" title="%s">' % (
                     ob.getId(),
-                    where_tag ),
+                    where_tag,
+                    self.snippet(ob) + "; " + unicode(ob.Description(), "utf-8") ),
                 u'<a class="state-%s" href="%s">%s</a>' % (
                      self.wftool.getInfoFor(ob, 'review_state'), 
                      ob.absolute_url(), 
                      unicode(
                         ob.Title(), 'utf-8') + u" (copy)" * (
                             "copy" in ob.getId())),
-                u' (%s)</dt>' % self.snippet(ob),
-                u'<dd class="placeChildItem">%s</dd>' % unicode(
-                    ob.Description(), "utf-8") ]
+                u'</span>' ]
             output.append(u"".join(innerHTML))
-        return u'<dl class="placeChildren">' + ''.join(output) + '</dl>'
+        return u'<p class="placeChildren">' + ', '.join(output) + '</p>'
 
 
 class NamesTable(ChildrenTable):
@@ -138,7 +142,7 @@ class NamesTable(ChildrenTable):
         vocab = self.vtool.getVocabularyByName('ancient-name-languages')
         self.langs = dict(vocab.getDisplayList(vocab).items())
         output = []
-        for score, ob, nrefs in sorted(names, reverse=True):
+        for score, ob, nrefs in sorted(names, reverse=False):
             nameAttested = ob.getNameAttested() or None
             title = ob.Title() or "Untitled"
             if nameAttested:
@@ -148,15 +152,13 @@ class NamesTable(ChildrenTable):
                 label, label_class = unicode(
                     title, "utf-8"), "nameUnattested"
             innerHTML = [
-                u'<dt id="%s" class="placeChildItem">' % ob.getId(),
+                u'<span id="%s" class="placeChildItem" title="%s">' % (ob.getId(), self.snippet(ob) + "; " + unicode(ob.Description(), "utf-8")),
                 u'<a class="state-%s %s" href="%s">%s</a>' % (
                      self.wftool.getInfoFor(ob, 'review_state'), 
                      label_class,
                      ob.absolute_url(),
                      label + u" (copy)" * ("copy" in ob.getId())),
-                u' (%s)</dt>' % self.snippet(ob),
-                u'<dd class="placeChildItem">%s</dd>' % unicode(
-                    ob.Description(), "utf-8") ]
+                u'</span>' ]
             output.append(u"".join(innerHTML))
-        return u'<dl class="placeChildren">' + ''.join(output) + '</dl>'
+        return u'<p class="placeChildren">' + ', '.join(output) + '</p>'
 
