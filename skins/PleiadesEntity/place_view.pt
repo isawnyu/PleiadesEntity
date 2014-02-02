@@ -27,20 +27,20 @@
       <span tal:replace="structure context/@@neighborhood/p_link">P LINK</span>
       <span tal:replace="structure context/@@neighborhood/r_link">R LINK</span>
 
+      <link rel="stylesheet" 
+        href="http://cdn.leafletjs.com/leaflet-0.4.4/leaflet.css" />
+      <style>
+        #map { height: 480px; float: right; }
+        #below-map { float: right; }
+        .leaflet-control-zoom-reset {
+          background-image: url(zoom-reset.png);
+          margin-bottom: 5px; }
+        #fields-continued { padding-right: 1em; }
+      </style>
     </metal:links_macro>
-    
+
     <metal:js_macro metal:define-macro="js">
-      
-      <script 
-        type="text/javascript"
-        src="http://maps.googleapis.com/maps/api/js?sensor=false">
-      </script>
-      
-      <script 
-        type="text/javascript"
-        src="context_map.js">
-      </script>
-    
+      <script src="http://cdn.leafletjs.com/leaflet-0.4.4/leaflet.js"></script>
     </metal:js_macro>
 
   </head>
@@ -254,6 +254,8 @@
   -->
 </script>
 
+<script src="location_map.js"></script>
+
     </metal:body_macro>
    
     <metal:folderlisting_macro define-macro="folderlisting">
@@ -262,4 +264,5 @@
 
   </body>
 </html>
+
 
