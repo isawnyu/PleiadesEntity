@@ -151,6 +151,9 @@ var connections = getJSON("connections");
 
 if (connections) {
   L.geoJson(connections, {
+    filter: function (f, layer) {
+      return f.location_precision == 'precise';
+    },
     onEachFeature: function (f, layer) {
       layer.bindPopup(
         '<dt><a href="' 
