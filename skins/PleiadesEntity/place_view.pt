@@ -92,11 +92,11 @@
       <table id="map-children">
         <tr>
 
-          <td id="map-column" title="Locations of this particular place are shown in blue. Nearby precisely located places are shown in brown. Nearby places which are only roughly located are collected in groups displayed as clouds.">
+          <td id="map-column" title="Locations of this particular place are shown in blue.">
             <div id="map"></div>
           </td>
 
-          <td id="fields-column" title="The authority rating, title and attested time periods of this place's names and locations are listed here. Red titles indicate drafting-state and yellow, pending-state. Mouse over any title to raise an info window over the location in the map.">
+          <td id="fields-column" title="The authority rating, title and attested time periods of this place's names and locations are listed here. Red titles indicate drafting-state and yellow, pending-state.">
 
             <div tal:condition="not:context/@@iterate/baseline|nothing">
             <div id="locationsField" class="field">
@@ -247,9 +247,6 @@
 
 <script type="text/javascript">
 <!--
-
-  jq(".Location").mouseover(raiseInMap);
-  jq(".Location").mouseout(function(){infoWindow.close();});
 
   jq("span.formButton").click(function(){jq("div.createLocationForm").toggle();});
   -->
