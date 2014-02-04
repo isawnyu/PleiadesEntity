@@ -157,6 +157,7 @@ if (connections) {
     geom.type = 'Point';
     geom.coordinates = [(bbox[0]+bbox[2])/2.0, (bbox[1]+bbox[3])/2.0]
     features[i].geometry = geom;
+  }
 }
 
 if (connections) {
