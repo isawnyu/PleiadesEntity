@@ -153,9 +153,25 @@ if (baselineWhere) {
   }).addTo(map);
 }
 
+var connections = getJSON("connections");
+
+if (connections) {
+  L.geoJson(connections, {
+    filter: function (f, layer) {
+      return f.type == 'Feature';
+    },
+    onEachFeature: function (f, layer) {
+      layer.bindPopup(
+        '<dt><a href="' 
+        + f.properties.link + '">' + f.properties.title + '</a></dt>'
+        + '<dd>' + f.properties.description + '</dd>' );
+        if (jq("h1").text() == f.properties.title) { target = layer; }
+    }
+  }).addTo(map);
+}
+
 if (target != null) {
   target.openPopup();
 }
-
 
 

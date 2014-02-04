@@ -26,21 +26,22 @@
 
       <span tal:replace="structure context/@@neighborhood/p_link">P LINK</span>
       <span tal:replace="structure context/@@neighborhood/r_link">R LINK</span>
-
+      <link 
+        rel="stylesheet" 
+        href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" />
+        
+      <style>
+        #map { height: 480px; float: right; }
+        #below-map { float: right; }
+        .leaflet-control-zoom-reset {
+          background-image: url(zoom-reset.png);
+          margin-bottom: 5px; }
+        #fields-continued { padding-right: 1em; }
+      </style>
     </metal:links_macro>
-    
+
     <metal:js_macro metal:define-macro="js">
-      
-      <script 
-        type="text/javascript"
-        src="http://maps.googleapis.com/maps/api/js?sensor=false">
-      </script>
-      
-      <script 
-        type="text/javascript"
-        src="context_map.js">
-      </script>
-    
+      <script src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js"></script>
     </metal:js_macro>
 
   </head>
@@ -91,11 +92,11 @@
       <table id="map-children">
         <tr>
 
-          <td id="map-column" title="Locations of this particular place are shown in blue. Nearby precisely located places are shown in brown. Nearby places which are only roughly located are collected in groups displayed as clouds.">
+          <td id="map-column" title="Locations of this particular place are shown in blue.">
             <div id="map"></div>
           </td>
 
-          <td id="fields-column" title="The authority rating, title and attested time periods of this place's names and locations are listed here. Red titles indicate drafting-state and yellow, pending-state. Mouse over any title to raise an info window over the location in the map.">
+          <td id="fields-column" title="The authority rating, title and attested time periods of this place's names and locations are listed here. Red titles indicate drafting-state and yellow, pending-state.">
 
             <div tal:condition="not:context/@@iterate/baseline|nothing">
             <div id="locationsField" class="field">
@@ -247,12 +248,11 @@
 <script type="text/javascript">
 <!--
 
-  jq(".Location").mouseover(raiseInMap);
-  jq(".Location").mouseout(function(){infoWindow.close();});
-
   jq("span.formButton").click(function(){jq("div.createLocationForm").toggle();});
   -->
 </script>
+
+<script src="place_map.js"></script>
 
     </metal:body_macro>
    
@@ -262,4 +262,5 @@
 
   </body>
 </html>
+
 
