@@ -152,7 +152,7 @@ var connections = getJSON("connections");
 if (connections) {
   L.geoJson(connections, {
     filter: function (f, layer) {
-      return f.location_precision == 'precise';
+      return f.properties.location_precision == 'precise';
     },
     onEachFeature: function (f, layer) {
       layer.bindPopup(
