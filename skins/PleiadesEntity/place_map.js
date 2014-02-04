@@ -148,17 +148,6 @@ if (baselineWhere) {
 }
 
 var connections = getJSON("connections");
-if (connections) {
-  var features = connections.features;
-  for (var i=0; i<features.length; i++) {
-    var feature = features[i];
-    var geom = feature.geometry;
-    var bbox = feature.bbox;
-    geom.type = 'Point';
-    geom.coordinates = [(bbox[0]+bbox[2])/2.0, (bbox[1]+bbox[3])/2.0]
-    features[i].geometry = geom;
-  }
-}
 
 if (connections) {
   L.geoJson(connections, {
