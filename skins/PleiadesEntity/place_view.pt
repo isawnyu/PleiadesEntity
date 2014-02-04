@@ -26,9 +26,10 @@
 
       <span tal:replace="structure context/@@neighborhood/p_link">P LINK</span>
       <span tal:replace="structure context/@@neighborhood/r_link">R LINK</span>
-
-      <link rel="stylesheet" 
-        href="http://cdn.leafletjs.com/leaflet-0.4.4/leaflet.css" />
+      <link 
+        rel="stylesheet" 
+        href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" />
+        
       <style>
         #map { height: 480px; float: right; }
         #below-map { float: right; }
@@ -40,7 +41,7 @@
     </metal:links_macro>
 
     <metal:js_macro metal:define-macro="js">
-      <script src="http://cdn.leafletjs.com/leaflet-0.4.4/leaflet.js"></script>
+      <script src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js"></script>
     </metal:js_macro>
 
   </head>
@@ -254,7 +255,7 @@
   -->
 </script>
 
-<script src="location_map.js"></script>
+<script src="place_map.js"></script>
 
     </metal:body_macro>
    
