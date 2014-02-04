@@ -150,6 +150,9 @@ if (baselineWhere) {
 var connections = getJSON("connections");
 if (connections) {
   L.geoJson(connections, {
+    style: function (feature) {
+        return {color: '#33ff33'};
+    },
     onEachFeature: function (f, layer) {
       layer.bindPopup(
         '<dt><a href="' 
