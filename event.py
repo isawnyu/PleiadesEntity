@@ -29,7 +29,7 @@ def reindexContainer(obj, event):
         f.reindexObject()
         reindexWhole(f, event)
 
-def writePlaceJSON(obj, event):
+def writePlaceJSON(place, event):
     
     # determine the filename to write
     pid = place.getId()
