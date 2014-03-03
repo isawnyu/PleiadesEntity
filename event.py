@@ -32,7 +32,7 @@ def reindexContainer(obj, event):
 def writePlaceJSON(place, event):
     
     # determine the filename to write
-#    pid = place.getId()
+    pid = place.getId()
     fn = "/home/zope/pleiades/json/place-%s.json" % pid
     f = open(fn, 'w')
     f.write("foo")
