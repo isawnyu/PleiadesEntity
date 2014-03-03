@@ -33,7 +33,10 @@ def writePlaceJSON(place, event):
     
     # determine the filename to write
 #    pid = place.getId()
-#    fn = "/home/zope/pleiades/json/place-%s.json" % pid
+    fn = "/home/zope/pleiades/json/place-%s.json" % pid
+    f = open(fn, 'w')
+    f.write("foo")
+    f.close()
 
     # construct the json
 #    data = {}
