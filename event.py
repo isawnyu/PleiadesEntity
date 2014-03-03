@@ -1,5 +1,5 @@
 #import io
-import json
+#import json
 import logging
 
 from Acquisition import aq_inner, aq_parent
