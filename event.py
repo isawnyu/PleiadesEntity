@@ -1,3 +1,5 @@
+import io
+import json
 import logging
 
 from Acquisition import aq_inner, aq_parent
@@ -27,8 +29,35 @@ def reindexContainer(obj, event):
         f.reindexObject()
         reindexWhole(f, event)
 
-def writePlaceJSON(obj, event):
-    pass
+def writePlaceJSON(obj):
+    
+    # determine the filename to write
+    pid = place.getId()
+    fn = "/home/zope/pleiades/json/place-%s.json" % pid
+
+    # construct the json
+    data = {}
+
+    # id
+    data['id'] = pid
+
+    # title
+    # description 
+    # connectsWith
+    # recent_changes
+    # reprPoint
+    # features
+    # names
+    # type == FeatureColleciton
+    # bbox    
+
+    # write the json
+    f = io.open(fn, 'w', encoding='utf-8')
+    dump = json.dumps(data, ensure_ascii=False)
+    udump = unicode(dump)
+    f.write(udump)
+    f.close()
+    log.debug("Wrote JSON file to %s" % fn)
 
 @adapter(IPlace, IObjectModifiedEvent)
 def placeJSONSubscriber(obj, event):
