@@ -1,5 +1,5 @@
-#import io
-#import json
+import io
+import json
 import logging
 
 from Acquisition import aq_inner, aq_parent
@@ -59,7 +59,7 @@ def writePlaceJSON(place, event):
 #    f.close()
 #    log.debug("Wrote JSON file to %s" % fn)
     pass
-    
+
 @adapter(IPlace, IObjectModifiedEvent)
 def placeJSONSubscriber(obj, event):
     log.debug("Event handled: %s, %s", obj, event)
