@@ -29,7 +29,7 @@ def reindexContainer(obj, event):
         f.reindexObject()
         reindexWhole(f, event)
 
-def writePlaceJSON(obj):
+def writePlaceJSON(obj, event):
     
     # determine the filename to write
     pid = place.getId()
@@ -62,7 +62,7 @@ def writePlaceJSON(obj):
 @adapter(IPlace, IObjectModifiedEvent)
 def placeJSONSubscriber(obj, event):
     log.debug("Event handled: %s, %s", obj, event)
-    writePlaceJSON(obj)
+    writePlaceJSON(obj, event)
 
 @adapter(IName, IObjectModifiedEvent)
 def nameChangeSubscriber(obj, event):
