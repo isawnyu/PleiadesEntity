@@ -27,6 +27,14 @@ def reindexContainer(obj, event):
         f.reindexObject()
         reindexWhole(f, event)
 
+def writePlaceJSON(obj, event):
+    pass
+
+@adapter(IPlace, IObjectModifiedEvent)
+def placeJSONSubscriber(obj, event):
+    log.debug("Event handled: %s, %s", obj, event)
+    writePlaceJSON(obj)
+
 @adapter(IName, IObjectModifiedEvent)
 def nameChangeSubscriber(obj, event):
     obj.getField('title').set(
