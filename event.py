@@ -111,7 +111,7 @@ def writePlaceJSON(place, event, published_only=True):
 
     # Modification time, actor, contributors
     try:
-        context = aq_inner(place)
+        context = place
         rt = getToolByName(context, "portal_repository")
         records = []
         history = rt.getHistoryMetadata(context)
