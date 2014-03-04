@@ -122,10 +122,10 @@ def writePlaceJSON(place, event, published_only=True):
 #                [('portal_type', 'Name')] + contentFilter.items())))
     objs = place.listFolderContents(contentFilter={'portal_type':'Name'})
     names = []
-    for o in objs:
+    for ob in objs:
         status = portal_workflow.getStatusOf("pleiades_entity_workflow", ob)
         if status and status.get("review_state", None) == "published":
-            names.append(o.getNameAttested() or o.getNameTransliterated())
+            names.append(ob.getNameAttested() or ob.getNameTransliterated())
 
     # Build the dictionary that will be saved as JSON
     d = {
