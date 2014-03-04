@@ -12,7 +12,7 @@ from Products.PleiadesEntity.content.interfaces import ILocation, IName
 from Products.PleiadesEntity.content.interfaces import IFeature, IPlace
 from Products.PleiadesEntity.time import temporal_overlap
 from pleiades.transliteration import transliterate_name
-from pleiades.json.browser import getContents, wrap
+from pleiades.json.browser import getContents, wrap, W
 from pleiades.geographer.geo import extent, representative_point
 
 log = logging.getLogger('PleiadesEntity')
