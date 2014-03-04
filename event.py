@@ -69,7 +69,7 @@ def writePlaceJSON(place, event, published_only=True):
 
 
     wftool = getToolByName(place, "portal_workflow")
-    rtool = getToolByName(place, "portal_respository")
+    rtool = getToolByName(place, "portal_repository")
 
     # Locations that belong to this place
     xs = []
