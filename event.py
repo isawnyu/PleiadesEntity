@@ -71,6 +71,7 @@ def writePlaceJSON(place, event, published_only=True):
 
     wftool = getToolByName(place, "portal_workflow")
     rtool = getToolByName(place, "portal_repository")
+    mtool = getToolByName(place, 'portal_membership')
 
     # Locations that belong to this place
     xs = []
@@ -126,6 +127,7 @@ def writePlaceJSON(place, event, published_only=True):
         principal = record[1]['principal']
         if principal != principal0:
             modified = DateTime(record[0]).HTML4()
+            member = mtool.getMemberById(principal)
             recent_changes.append(
                 dict(modified=modified, principal=principal))
             break
