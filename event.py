@@ -68,34 +68,15 @@ def writePlaceJSON(place, event, published_only=True):
         }
 
 
-    # id
-    # title
-    # description 
-    # connectsWith
-    # recent_changes
-    # reprPoint
-    # features
-    # names
-    # type == FeatureColleciton
-    # bbox    
-
-    #j = wrap(place)
-
     portal_workflow = getToolByName(place, "portal_workflow")
 
     # Locations that belong to this place
     xs = []
     ys = []
-    #x = list(
-    #    getContents(
-    #        place,
-    #        **dict(
-    #            [('portal_type', 'Location')] + contentFilter.items())))
-
-    x = place.listFolderContents(contentFilter={'portal_type':'Location'})
-    if len(x) > 0:
+    location_objects = place.listFolderContents(contentFilter={'portal_type':'Location'})
+    if len(location_objects) > 0:
         features = []
-        for ob in x:
+        for ob in location_objects:
             status = portal_workflow.getStatusOf("pleiades_entity_workflow", ob)
             if status and status.get("review_state", None) == "published":
                 features.append(wrap(ob))
@@ -115,11 +96,6 @@ def writePlaceJSON(place, event, published_only=True):
         reprPoint = None
 
     # Names that belong to this place
-#    objs = list(
-#        getContents(
-#            place,
-#            **dict(
-#                [('portal_type', 'Name')] + contentFilter.items())))
     objs = place.listFolderContents(contentFilter={'portal_type':'Name'})
     names = []
     for ob in objs:
@@ -127,7 +103,23 @@ def writePlaceJSON(place, event, published_only=True):
         if status and status.get("review_state", None) == "published":
             names.append(ob.getNameAttested() or ob.getNameTransliterated())
 
+
+
+
+
     # Build the dictionary that will be saved as JSON
+    # @context (for json ld)
+    # type == FeatureCollection
+    # id
+    # title
+    # description 
+    # features
+    # names
+    # reprPoint
+    # bbox    
+    # connectsWith
+    # recent_changes
+
     d = {
         '@context': ctx,
         'type': 'FeatureCollection',
@@ -140,6 +132,7 @@ def writePlaceJSON(place, event, published_only=True):
         'bbox': bbox,
         'precision': precision
     }
+
 
     f = open(fn, 'w')
     f.write(geojson.dumps(d))
