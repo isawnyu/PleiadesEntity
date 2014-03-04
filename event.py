@@ -83,7 +83,7 @@ def writePlaceJSON(place, event, published_only=True):
 
     portal_workflow = getToolByName(place, "portal_workflow")
 
-    # Locations
+    # Locations that belong to this place
     xs = []
     ys = []
     #x = list(
@@ -103,6 +103,7 @@ def writePlaceJSON(place, event, published_only=True):
         features = [wrap(ob) for ob in place.getFeatures()] \
                  + [wrap(ob) for ob in place.getParts()]
 
+    # Geometry aspects of the place itself
     try:
         ex = extent(place)
         bbox = shape(ex['extent']).bounds
@@ -113,16 +114,20 @@ def writePlaceJSON(place, event, published_only=True):
         bbox = None
         reprPoint = None
 
-    # Names
+    # Names that belong to this place
 #    objs = list(
 #        getContents(
 #            place,
 #            **dict(
 #                [('portal_type', 'Name')] + contentFilter.items())))
     objs = place.listFolderContents(contentFilter={'portal_type':'Name'})
+    names = []
+    for o in objs:
+        status = portal_workflow.getStatusOf("pleiades_entity_workflow", ob)
+        if status and status.get("review_state", None) == "published":
+            names.append(o.getNameAttested() or o.getNameTransliterated())
 
-    names = [o.getNameAttested() or o.getNameTransliterated() for o in objs]
-
+    # Build the dictionary that will be saved as JSON
     d = {
         '@context': ctx,
         'type': 'FeatureCollection',
