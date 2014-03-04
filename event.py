@@ -39,7 +39,10 @@ def writePlaceJSON(place, event, published_only=True):
     pid = place.getId()
     pidbits = list(pid)
     pidpath = '/home/zope/pleiades/json/' + '/'.join(pidbits[:3]) + "/%s" % pid
-    makedirs(pidpath)
+    try:
+        makedirs(pidpath)
+    except OSError:
+        pass
 
     fn = "%s/json" % pidpath
 
