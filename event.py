@@ -12,7 +12,7 @@ from Products.PleiadesEntity.content.interfaces import ILocation, IName
 from Products.PleiadesEntity.content.interfaces import IFeature, IPlace
 from Products.PleiadesEntity.time import temporal_overlap
 from pleiades.transliteration import transliterate_name
-from pleiades.json.browser import wrap, make_ld_context
+from pleiades.json.browser import wrap
 
 log = logging.getLogger('PleiadesEntity')
 
