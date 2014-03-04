@@ -82,7 +82,7 @@ def writePlaceJSON(place, event, published_only=True):
     #j = wrap(place)
 
     portal_workflow = getToolByName(place, "portal_workflow")
-    
+
     # Locations
     xs = []
     ys = []
@@ -92,9 +92,9 @@ def writePlaceJSON(place, event, published_only=True):
     #        **dict(
     #            [('portal_type', 'Location')] + contentFilter.items())))
 
-    x = place.listFolderContents(contentFilter={'portal_type':'Location', 'review_state': 'published'})
+    x = place.listFolderContents(contentFilter={'portal_type':'Location'})
     if len(x) > 0:
-        features = [wrap(ob) for ob in x]
+        features = [wrap(ob) for ob in x if portal_workflow.getStatusOf("plone_workflow", ob).get("review_state", None) == "published"]
     else:
         features = [wrap(ob) for ob in place.getFeatures()] \
                  + [wrap(ob) for ob in place.getParts()]
@@ -115,7 +115,7 @@ def writePlaceJSON(place, event, published_only=True):
 #            place,
 #            **dict(
 #                [('portal_type', 'Name')] + contentFilter.items())))
-    objs = place.listFolderContents(contentFilter={'portal_type':'Name', 'review_state': 'published'})
+    objs = place.listFolderContents(contentFilter={'portal_type':'Name'})
 
     names = [o.getNameAttested() or o.getNameTransliterated() for o in objs]
 
