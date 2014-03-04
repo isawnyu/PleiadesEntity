@@ -89,7 +89,8 @@ def writePlaceJSON(place, event, published_only=True):
     # Locations
     xs = []
     ys = []
-    x = list(getContents(
+    x = list(
+        getContents(
             place,
             **dict(
                 [('portal_type', 'Location')] + contentFilter.items())))
@@ -111,12 +112,11 @@ def writePlaceJSON(place, event, published_only=True):
         reprPoint = None
 
     # Names
-    objs = sorted(
+    objs = list(
         getContents(
             place,
             **dict(
-                [('portal_type', 'Name')] + contentFilter.items())),
-        key=rating, reverse=True)
+                [('portal_type', 'Name')] + contentFilter.items())))
     names = [o.getNameAttested() or o.getNameTransliterated() for o in objs]
 
     d = {
