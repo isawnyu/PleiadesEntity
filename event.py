@@ -79,10 +79,12 @@ def writePlaceJSON(place, event, published_only=True):
     # type == FeatureColleciton
     # bbox    
 
-    if published_only:
-        contentFilter = {'review_state': 'published'}
-    else:
-        contentFilter = {}
+    #if published_only:
+    #    contentFilter = {'review_state': 'published'}
+    #else:
+    #    contentFilter = {}
+
+    contentFilter = {}
 
     #j = wrap(place)
 
@@ -129,6 +131,7 @@ def writePlaceJSON(place, event, published_only=True):
         'names': [unicode(n, "utf-8") for n in names],
         'reprPoint': reprPoint,
         'bbox': bbox,
+        'precision': precision
     }
 
     f = open(fn, 'w')
