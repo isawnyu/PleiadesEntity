@@ -14,6 +14,8 @@ from Products.PleiadesEntity.time import temporal_overlap
 from pleiades.transliteration import transliterate_name
 from pleiades.json.browser import getContents, wrap, W
 from pleiades.geographer.geo import extent, representative_point
+from shapely.geometry import asShape, LineString, mapping, Point, shape
+from pleiades.kml.browser import PleiadesBrainPlacemark
 
 log = logging.getLogger('PleiadesEntity')
 
@@ -93,26 +95,69 @@ def writePlaceJSON(place, event, published_only=True):
     #            [('portal_type', 'Location')] + contentFilter.items())))
 
     path = place.getPhysicalPath()
-    x = place.listFolderContents(contentFilter={'portal_type':'Location'})
-    if len(x) > 0:
-        features = []
-        for ob in x:
-            status = portal_workflow.getStatusOf("plone_workflow", ob)
-            if status and status.get("review_state", None) == "published":
-                features.append(wrap(ob))
-    else:
-        features = [wrap(ob) for ob in place.getFeatures()] \
-                 + [wrap(ob) for ob in place.getParts()]
+    path = "/".join(path)
+    brains = context.portal_catalog(path={"query": path, "depth": 1})
 
-    try:
-        ex = extent(place)
-        bbox = shape(ex['extent']).bounds
-        precision = ex['precision']
-        reprPoint = representative_point(place)['coords']
-    except:
-        precision = "unlocated"
-        bbox = None
-        reprPoint = None
+    features = []
+    xs = []
+    ys = []
+
+    for brain in brains:
+        
+        try:
+            extent = brain.zgeo_geometry
+            bbox = brain.bbox
+            if not (extent or bbox):
+                continue
+            bbox = bbox or shape(extent).bounds
+            extent = extent or mapping(box(*bbox))
+            reprPt = brain.reprPt and brain.reprPt[0] or list(
+                shape(extent).centroid.coords)[0]
+            precision = brain.reprPt and brain.reprPt[1] or "unlocated"
+            mark = PleiadesBrainPlacemark(brain)
+        except Exception, e:
+            log.exception(
+                "Search marking failure for %s: %s",
+                brain.getPath(), str(e) )
+            continue
+
+        features.append(
+            geojson.Feature(
+                id=brain.getId,
+                properties=dict(
+                    title=brain.Title,
+                    snippet=mark.snippet,
+                    description=brain.Description,
+                    link=brain.getURL(),
+                    location_precision=precision,
+                ),
+                geometry={'type': 'Point', 'coordinates': reprPt} ))
+        xs.extend([bbox[0], bbox[2]])
+        ys.extend([bbox[1], bbox[3]])
+    if len(xs) * len(ys) > 0:
+        bbox = [min(xs), min(ys), max(xs), max(ys)]
+    else:
+        bbox = None    
+    #x = place.listFolderContents(contentFilter={'portal_type':'Location'})
+    #if len(x) > 0:
+    #    features = []
+    #    for ob in x:
+    #        status = portal_workflow.getStatusOf("plone_workflow", ob)
+    #        if status and status.get("review_state", None) == "published":
+    #            features.append(wrap(ob))
+    #else:
+    #    features = [wrap(ob) for ob in place.getFeatures()] \
+    #             + [wrap(ob) for ob in place.getParts()]
+
+    #try:
+    #    ex = extent(place)
+    #    bbox = shape(ex['extent']).bounds
+    #    precision = ex['precision']
+    #    reprPoint = representative_point(place)['coords']
+    #except:
+    #    precision = "unlocated"
+    #    bbox = None
+    #    reprPoint = None
 
     # Names
 #    objs = list(
@@ -130,7 +175,7 @@ def writePlaceJSON(place, event, published_only=True):
         'id': pid,
         'title': place.Title(),
         'description' : place.Description(),
-        'features': sorted(features, key=W, reverse=True),
+        'features': features, key=W, reverse=True,
         'names': [unicode(n, "utf-8") for n in names],
         'reprPoint': reprPoint,
         'bbox': bbox,
