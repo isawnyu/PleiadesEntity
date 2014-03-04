@@ -139,7 +139,7 @@ def writePlaceJSON(place, event, published_only=True):
                 break
     except:
         log.error(
-            "Failed to find last change metadata for %s", repr(self.context))
+            "Failed to find last change metadata for %s", repr(place))
         recent_changes = None
 
 
