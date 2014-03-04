@@ -1,5 +1,6 @@
 import geojson
 import logging
+from os import makedirs
 
 from Acquisition import aq_inner, aq_parent
 from plone.app.iterate.interfaces import IAfterCheckinEvent
@@ -35,7 +36,11 @@ def writePlaceJSON(place, event, published_only=True):
     
     # determine the filename to write
     pid = place.getId()
-    fn = "/home/zope/pleiades/json/place-%s.json" % pid
+    pidbits = list(pid)
+    pidpath = '/home/zope/pleiades/json/' + '/'.join(pidbits[:3]) + "/%s" % pid
+    makedirs(pidpath)
+
+    fn = "%s/json" % pidpath
 
     # Create a JSON-LD Context object. 
     #See http://json-ld.org/spec/latest/json-ld.
