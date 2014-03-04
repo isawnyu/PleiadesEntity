@@ -84,16 +84,16 @@ def writePlaceJSON(place, event, published_only=True):
         contentFilter = {}
 
     #j = wrap(place)
-    #d = {
-    #    '@context': make_ld_context(),
-    #    'type': 'FeatureCollection',
-    #    'id': pid,
-    #    'title': place.Title(),
-    #    'description' : place.Description()
-    #}
+    d = {
+        '@context': ctx,
+        'type': 'FeatureCollection',
+        'id': pid,
+        'title': place.Title(),
+        'description' : place.Description()
+    }
 
     f = open(fn, 'w')
-    #f.write(geojson.dumps(d))
+    f.write(geojson.dumps(d))
     f.close()
 
 
