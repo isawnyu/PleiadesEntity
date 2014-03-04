@@ -12,7 +12,7 @@ from Products.PleiadesEntity.content.interfaces import ILocation, IName
 from Products.PleiadesEntity.content.interfaces import IFeature, IPlace
 from Products.PleiadesEntity.time import temporal_overlap
 from pleiades.transliteration import transliterate_name
-from pleiades.json.browser import make_ld_context, wrap
+from pleiades.json.browser import wrap
 
 log = logging.getLogger('PleiadesEntity')
 
@@ -34,6 +34,38 @@ def writePlaceJSON(place, event, published_only=True):
     # determine the filename to write
     pid = place.getId()
     fn = "/home/zope/pleiades/json/place-%s.json" % pid
+
+    # Create a JSON-LD Context object. 
+    #See http://json-ld.org/spec/latest/json-ld.
+    ctx = {
+        'type': '@type',
+        'id': '@id',
+        'FeatureCollection': '_:n1',
+        'bbox': 'http://geovocab.org/geometry#bbox',
+        'features': '_:n3',
+        'Feature': 'http://geovocab.org/spatial#Feature',
+        'properties': '_:n4',
+        'geometry': 'http://geovocab.org/geometry#geometry',
+        'Point': 'http://geovocab.org/geometry#Point',
+        'LineString': 'http://geovocab.org/geometry#LineString',
+        'Polygon': 'http://geovocab.org/geometry#Polygon',
+        'MultiPoint': 'http://geovocab.org/geometry#MultiPoint',
+        'MultiLineString': 'http://geovocab.org/geometry#MultiLineString',
+        'MultiPolygon': 'http://geovocab.org/geometry#MultiPolygon',
+        'GeometryCollection': 
+            'http://geovocab.org/geometry#GeometryCollection',
+        'coordinates': '_:n5',
+        'description': 'http://purl.org/dc/terms/description',
+        'title': 'http://purl.org/dc/terms/title',
+        'link': '_:n6',
+        'location_precision': '_:n7',
+        'snippet': 'http://purl.org/dc/terms/abstract',
+        'connectsWith': '_:n8',
+        'names': '_:n9',
+        'recent_changes': '_:n10',
+        'reprPoint': '_:n11'
+        }
+
 
     # id
     # title
