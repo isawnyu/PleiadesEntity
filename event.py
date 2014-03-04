@@ -138,7 +138,7 @@ def writePlaceJSON(place, event, published_only=True):
         'id': pid,
         'title': place.Title(),
         'description' : place.Description(),
-        'features': features, key=W, reverse=True,
+        'features': features,
         'names': [unicode(n, "utf-8") for n in names],
         'reprPoint': reprPoint,
         'bbox': bbox,
