@@ -32,12 +32,10 @@ def reindexContainer(obj, event):
 def writePlaceJSON(place, event, published_only=True):
     
     # determine the filename to write
-    #pid = place.getId()
-    #fn = "/home/zope/pleiades/json/place-%s.json" % pid
-    #f = open(fn, 'w')
-    #f.write("foo")
-    #f.close()
+    pid = place.getId()
+    fn = "/home/zope/pleiades/json/place-%s.json" % pid
 
+    # id
     # title
     # description 
     # connectsWith
@@ -52,6 +50,13 @@ def writePlaceJSON(place, event, published_only=True):
         contentFilter = {'review_state': 'published'}
     else:
         contentFilter = {}
+
+    j = wrap(place)
+
+    f = open(fn, 'w')
+    f.write(geojson.dumps(j))
+    f.close()
+
 
 
 @adapter(IPlace, IObjectModifiedEvent)
