@@ -100,6 +100,42 @@ def writePlaceJSON(place, event, published_only=True):
     xs = []
     ys = []
 
+    for brain in brains:
+        
+        try:
+            extent = brain.zgeo_geometry
+            bbox = brain.bbox
+            if not (extent or bbox):
+                continue
+            bbox = bbox or shape(extent).bounds
+            extent = extent or mapping(box(*bbox))
+            reprPt = brain.reprPt and brain.reprPt[0] or list(
+                shape(extent).centroid.coords)[0]
+            precision = brain.reprPt and brain.reprPt[1] or "unlocated"
+            mark = PleiadesBrainPlacemark(brain)
+        except Exception, e:
+            log.exception(
+                "Search marking failure for %s: %s",
+                brain.getPath(), str(e) )
+            continue
+
+        features.append(
+            geojson.Feature(
+                id=brain.getId,
+                properties=dict(
+                    title=brain.Title,
+                    snippet=mark.snippet,
+                    description=brain.Description,
+                    link=brain.getURL(),
+                    location_precision=precision,
+                ),
+                geometry={'type': 'Point', 'coordinates': reprPt} ))
+        xs.extend([bbox[0], bbox[2]])
+        ys.extend([bbox[1], bbox[3]])
+    if len(xs) * len(ys) > 0:
+        bbox = [min(xs), min(ys), max(xs), max(ys)]
+    else:
+        bbox = None    
 
     #x = place.listFolderContents(contentFilter={'portal_type':'Location'})
     #if len(x) > 0:
