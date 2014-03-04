@@ -84,19 +84,20 @@ def writePlaceJSON(place, event, published_only=True):
     #else:
     #    contentFilter = {}
 
-    contentFilter = {}
+    contentFilter = {}  
 
     #j = wrap(place)
 
     # Locations
     xs = []
     ys = []
-    x = list(
-        getContents(
-            place,
-            **dict(
-                [('portal_type', 'Location')] + contentFilter.items())))
+    #x = list(
+    #    getContents(
+    #        place,
+    #        **dict(
+    #            [('portal_type', 'Location')] + contentFilter.items())))
 
+    x = place.listFolderContents(contentFilter={'portal_type':'Location'})
     if len(x) > 0:
         features = [wrap(ob) for ob in x]
     else:
@@ -114,11 +115,13 @@ def writePlaceJSON(place, event, published_only=True):
         reprPoint = None
 
     # Names
-    objs = list(
-        getContents(
-            place,
-            **dict(
-                [('portal_type', 'Name')] + contentFilter.items())))
+#    objs = list(
+#        getContents(
+#            place,
+#            **dict(
+#                [('portal_type', 'Name')] + contentFilter.items())))
+    objs = place.listFolderContents(contentFilter={'portal_type':'Name'})
+
     names = [o.getNameAttested() or o.getNameTransliterated() for o in objs]
 
     d = {
