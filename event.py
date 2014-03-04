@@ -136,7 +136,8 @@ def writePlaceJSON(place, event, published_only=True):
         'names': [unicode(n, "utf-8") for n in names],
         'reprPoint': reprPoint,
         'bbox': bbox,
-        'precision': precision
+        'precision': precision,
+        'connectsWith': connections
     }
 
 
