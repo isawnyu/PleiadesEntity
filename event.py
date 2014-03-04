@@ -69,6 +69,7 @@ def writePlaceJSON(place, event, published_only=True):
 
 
     wftool = getToolByName(place, "portal_workflow")
+    rtool = getToolByName(place, "portal_respository")
 
     # Locations that belong to this place
     xs = []
@@ -110,40 +111,7 @@ def writePlaceJSON(place, event, published_only=True):
                 if func(ob) ]
 
     # Modification time, actor, contributors
-    try:
-        context = place
-        rt = getToolByName(context, "portal_repository")
-        records = []
-        history = rt.getHistoryMetadata(context)
-        if history:
-            metadata = history.retrieve(-1)['metadata']['sys_metadata']
-            records.append((metadata['timestamp'], metadata))
-        for ob in place.listFolderContents(contentFilter={}):
-            status = wftool.getStatusOf("pleiades_entity_workflow", ob)
-            if status and status.get("review_state", None) == "published":
-                history = rt.getHistoryMetadata(ob)
-                if not history: continue
-                metadata = history.retrieve(-1)['metadata']['sys_metadata']
-                records.append((metadata['timestamp'], metadata))
-        records = sorted(records, reverse=True)
-        recent_changes = []
-        modified = DateTime(records[0][0]).HTML4()
-        principal0 = records[0][1]['principal']
-        recent_changes.append(dict(modified=modified, principal=principal0))
-        for record in records[1:]:
-            principal = record[1]['principal']
-            if principal != principal0:
-                modified = DateTime(record[0]).HTML4()
-                recent_changes.append(
-                    dict(modified=modified, principal=principal))
-                break
-    except:
-        log.error(
-            "Failed to find last change metadata for %s", repr(place))
-        recent_changes = None
-
-
-
+    recent_changes = []
 
 
     # Build the dictionary that will be saved as JSON
