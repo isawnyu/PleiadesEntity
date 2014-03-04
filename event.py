@@ -112,7 +112,11 @@ def writePlaceJSON(place, event, published_only=True):
 
     # Modification time, actor, contributors
     recent_changes = []
-
+    records = []
+    history = rtool.getHistoryMetadata(place)
+    if history:
+        metadata = history.retrieve(-1)['metadata']['sys_metadata']
+        records.append((metadata['timestamp'], metadata))
 
     # Build the dictionary that will be saved as JSON
     # @context (for json ld)
