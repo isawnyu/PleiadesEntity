@@ -89,10 +89,10 @@ def writePlaceJSON(place, event, published_only=True):
     # Locations
     xs = []
     ys = []
-    x = getContents(
+    x = list(getContents(
             place,
             **dict(
-                [('portal_type', 'Location')] + contentFilter.items()))
+                [('portal_type', 'Location')] + contentFilter.items())))
 
     if len(x) > 0:
         features = [wrap(ob) for ob in x]
