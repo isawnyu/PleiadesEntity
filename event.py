@@ -29,12 +29,13 @@ def reindexContainer(obj, event):
     f = aq_parent(x)
     if IPlace.providedBy(f):
         log.debug("Reindexing container %s", f)
+        writePlaceJSON(f, event)
         f.reindexObject()
         reindexWhole(f, event)
 
 def writePlaceJSON(place, event, published_only=True):
     
-    # determine the filename to write
+    # determine the filename to write, and what directory to use, so the filesystem doesn't choke
     pid = place.getId()
     pidbits = list(pid)
     pidpath = '/home/zope/pleiades/json/' + '/'.join(pidbits[:3]) + "/%s" % pid
