@@ -103,6 +103,10 @@ def writePlaceJSON(place, event, published_only=True):
         if status and status.get("review_state", None) == "published":
             names.append(ob.getNameAttested() or ob.getNameTransliterated())
 
+    # Connections to other places
+    connections = [ob.getId() for ob in place.getRefs(
+        "connectsWith") + place.getBRefs("connectsWith")]
+
 
 
 
