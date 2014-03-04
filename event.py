@@ -7,6 +7,7 @@ from Products.CMFCore.interfaces import IActionSucceededEvent, IContentish
 from Products.CMFCore.utils import getToolByName
 from zope.component import adapter
 from zope.lifecycleevent.interfaces import IObjectModifiedEvent
+from DateTime import DateTime
 
 from Products.PleiadesEntity.content.interfaces import ILocation, IName
 from Products.PleiadesEntity.content.interfaces import IFeature, IPlace
@@ -117,6 +118,17 @@ def writePlaceJSON(place, event, published_only=True):
     if history:
         metadata = history.retrieve(-1)['metadata']['sys_metadata']
         records.append((metadata['timestamp'], metadata))
+    records = sorted(records, reverse=True)
+    modified = DateTime(records[0][0]).HTML4()
+    principal0 = records[0][1]['principal']
+    recent_changes.append(dict(modified=modified, principal=principal0))
+    for record in records[1:]:
+        principal = record[1]['principal']
+        if principal != principal0:
+            modified = DateTime(record[0]).HTML4()
+            recent_changes.append(
+                dict(modified=modified, principal=principal))
+            break
 
     # Build the dictionary that will be saved as JSON
     # @context (for json ld)
