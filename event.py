@@ -96,9 +96,9 @@ def writePlaceJSON(place, event, published_only=True):
         reprPoint = None
 
     # Names that belong to this place
-    objs = place.listFolderContents(contentFilter={'portal_type':'Name'})
+    name_objects = place.listFolderContents(contentFilter={'portal_type':'Name'})
     names = []
-    for ob in objs:
+    for ob in name_objects:
         status = portal_workflow.getStatusOf("pleiades_entity_workflow", ob)
         if status and status.get("review_state", None) == "published":
             names.append(ob.getNameAttested() or ob.getNameTransliterated())
