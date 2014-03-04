@@ -12,7 +12,7 @@ from Products.PleiadesEntity.content.interfaces import ILocation, IName
 from Products.PleiadesEntity.content.interfaces import IFeature, IPlace
 from Products.PleiadesEntity.time import temporal_overlap
 from pleiades.transliteration import transliterate_name
-from pleiades.json.browser import wrap, FeatureCollection
+from pleiades.json.browser import wrap, make_ld_context
 
 log = logging.getLogger('PleiadesEntity')
 
@@ -51,10 +51,17 @@ def writePlaceJSON(place, event, published_only=True):
     else:
         contentFilter = {}
 
-    j = wrap(place)
+    #j = wrap(place)
+    d = {
+        '@context': make_ld_context(),
+        'type': 'FeatureCollection',
+        'id': pid,
+        'title': place.Title(),
+        'description' : place.Description()
+    }
 
     f = open(fn, 'w')
-    f.write(geojson.dumps(j))
+    f.write(geojson.dumps(d))
     f.close()
 
 
