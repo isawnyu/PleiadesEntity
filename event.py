@@ -68,7 +68,7 @@ def writePlaceJSON(place, event, published_only=True):
         }
 
 
-    portal_workflow = getToolByName(place, "portal_workflow")
+    wftool = getToolByName(place, "portal_workflow")
 
     # Locations that belong to this place
     xs = []
@@ -77,7 +77,7 @@ def writePlaceJSON(place, event, published_only=True):
     if len(location_objects) > 0:
         features = []
         for ob in location_objects:
-            status = portal_workflow.getStatusOf("pleiades_entity_workflow", ob)
+            status = wftool.getStatusOf("pleiades_entity_workflow", ob)
             if status and status.get("review_state", None) == "published":
                 features.append(wrap(ob))
     else:
@@ -99,13 +99,15 @@ def writePlaceJSON(place, event, published_only=True):
     name_objects = place.listFolderContents(contentFilter={'portal_type':'Name'})
     names = []
     for ob in name_objects:
-        status = portal_workflow.getStatusOf("pleiades_entity_workflow", ob)
+        status = wftool.getStatusOf("pleiades_entity_workflow", ob)
         if status and status.get("review_state", None) == "published":
             names.append(ob.getNameAttested() or ob.getNameTransliterated())
 
     # Connections to other places
-    connections = [ob.getId() for ob in place.getRefs(
-        "connectsWith") + place.getBRefs("connectsWith")]
+    func = lambda f: wftool.getStatusOf("pleiades_entity_workflow", f).get("review_state", None) == 'published'
+    connections = [ob.getId() for ob in list(
+                place.getConnections() + place.getConnections_from())
+                if func(ob) ]
 
 
 
