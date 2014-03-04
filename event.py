@@ -79,13 +79,6 @@ def writePlaceJSON(place, event, published_only=True):
     # type == FeatureColleciton
     # bbox    
 
-    #if published_only:
-    #    contentFilter = {'review_state': 'published'}
-    #else:
-    #    contentFilter = {}
-
-    contentFilter = {}  
-
     #j = wrap(place)
 
     # Locations
@@ -97,7 +90,7 @@ def writePlaceJSON(place, event, published_only=True):
     #        **dict(
     #            [('portal_type', 'Location')] + contentFilter.items())))
 
-    x = place.listFolderContents(contentFilter={'portal_type':'Location'})
+    x = place.listFolderContents(contentFilter={'portal_type':'Location', 'review_state': 'published'})
     if len(x) > 0:
         features = [wrap(ob) for ob in x]
     else:
@@ -120,7 +113,7 @@ def writePlaceJSON(place, event, published_only=True):
 #            place,
 #            **dict(
 #                [('portal_type', 'Name')] + contentFilter.items())))
-    objs = place.listFolderContents(contentFilter={'portal_type':'Name'})
+    objs = place.listFolderContents(contentFilter={'portal_type':'Name', 'review_state': 'published'})
 
     names = [o.getNameAttested() or o.getNameTransliterated() for o in objs]
 
