@@ -87,89 +87,43 @@ def writePlaceJSON(place, event, published_only=True):
 
 
     # Locations contained within the current place
-    #x = list(
-    #    getContents(
-    #        place,
-    #        **dict(
-    #            [('portal_type', 'Location')] + contentFilter.items())))
+    x = list(
+        getContents(
+            place,
+            **dict(
+                [('portal_type', 'Location')] + contentFilter.items())))
 
-    path = place.getPhysicalPath()
-    path = "/".join(path)
-    brains = place.portal_catalog(path={"query": path, "depth": 1})
-
-    features = []
-    xs = []
-    ys = []
-
-    for brain in brains:
-        
-        try:
-            extent = brain.zgeo_geometry
-            bbox = brain.bbox
-            if not (extent or bbox):
-                continue
-            bbox = bbox or shape(extent).bounds
-            extent = extent or mapping(box(*bbox))
-            reprPt = brain.reprPt and brain.reprPt[0] or list(
-                shape(extent).centroid.coords)[0]
-            precision = brain.reprPt and brain.reprPt[1] or "unlocated"
-            mark = PleiadesBrainPlacemark(brain)
-        except Exception, e:
-            log.exception(
-                "Search marking failure for %s: %s",
-                brain.getPath(), str(e) )
-            continue
-
-        features.append(
-            geojson.Feature(
-                id=brain.getId,
-                properties=dict(
-                    title=brain.Title,
-                    snippet=mark.snippet,
-                    description=brain.Description,
-                    link=brain.getURL(),
-                    location_precision=precision,
-                ),
-                geometry={'type': 'Point', 'coordinates': reprPt} ))
-        xs.extend([bbox[0], bbox[2]])
-        ys.extend([bbox[1], bbox[3]])
-    if len(xs) * len(ys) > 0:
-        bbox = [min(xs), min(ys), max(xs), max(ys)]
+    x = place.listFolderContents(contentFilter={'portal_type':'Location'})
+    if len(x) > 0:
+        features = []
+        for ob in x:
+            status = portal_workflow.getStatusOf("plone_workflow", ob)
+            if status and status.get("review_state", None) == "published":
+                features.append(wrap(ob))
     else:
-        bbox = None    
-
-    #x = place.listFolderContents(contentFilter={'portal_type':'Location'})
-    #if len(x) > 0:
-    #    features = []
-    #    for ob in x:
-    #        status = portal_workflow.getStatusOf("plone_workflow", ob)
-    #        if status and status.get("review_state", None) == "published":
-    #            features.append(wrap(ob))
-    #else:
-    #    features = [wrap(ob) for ob in place.getFeatures()] \
-    #             + [wrap(ob) for ob in place.getParts()]
+        features = [wrap(ob) for ob in place.getFeatures()] \
+                 + [wrap(ob) for ob in place.getParts()]
 
     # Names contained within the current place
-#    objs = list(
-#        getContents(
-#            place,
-#            **dict(
-#                [('portal_type', 'Name')] + contentFilter.items())))
+    objs = list(
+        getContents(
+            place,
+            **dict(
+                [('portal_type', 'Name')] + contentFilter.items())))
     objs = place.listFolderContents(contentFilter={'portal_type':'Name'})
-
     names = [o.getNameAttested() or o.getNameTransliterated() for o in objs]
 
 
     # Generalized geometry for the current place
-    try:
-        ex = extent(place)
-        bbox = shape(ex['extent']).bounds
-        precision = ex['precision']
-        reprPoint = representative_point(place)['coords']
-    except:
-        precision = "unlocated"
-        bbox = None
-        reprPoint = None
+        try:
+            ex = extent(place)
+            bbox = shape(ex['extent']).bounds
+            precision = ex['precision']
+            reprPoint = representative_point(place)['coords']
+        except:
+            precision = "unlocated"
+            bbox = None
+            reprPoint = None
 
 
     # Populate the dictionary that will be saved as json    
