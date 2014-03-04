@@ -124,15 +124,17 @@ def writePlaceJSON(place, event, published_only=True):
     principal0 = records[0][1]['principal']
     member = mtool.getMemberById(principal0)
     pname = member.getProperty("fullname")
-    recent_changes.append(dict(modified=modified, username=principal0, fullname=pname))
+    comment = records[0][1]['comment']
+    recent_changes.append(dict(modified=modified, username=principal0, fullname=pname, comment=comment))
     for record in records[1:]:
         principal = record[1]['principal']
         if principal != principal0:
             modified = DateTime(record[0]).HTML4()
             member = mtool.getMemberById(principal)
             pname = member.getProperty("fullname")
+            comment = record[1]['comment']
             recent_changes.append(
-                dict(modified=modified, username=principal, fullname=pname))
+                dict(modified=modified, username=principal, fullname=pname, comment=comment))
             break
 
     # Build the dictionary that will be saved as JSON
