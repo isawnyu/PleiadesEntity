@@ -119,6 +119,11 @@ def writePlaceJSON(place, event, published_only=True):
     if history:
         metadata = history.retrieve(-1)['metadata']['sys_metadata']
         records.append((metadata['timestamp'], metadata))
+    for ob in place.listFolderContents():
+        history = rtool.getHistoryMetadata(ob)
+        if not history: continue
+        metadata = history.retrieve(-1)['metadata']['sys_metadata']
+        records.append((metadata['timestamp'], metadata))
     records = sorted(records, reverse=True)
     modified = DateTime(records[0][0]).HTML4()
     principal0 = records[0][1]['principal']
