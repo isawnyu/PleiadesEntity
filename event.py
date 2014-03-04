@@ -81,6 +81,8 @@ def writePlaceJSON(place, event, published_only=True):
 
     #j = wrap(place)
 
+    portal_workflow = getToolByName(place, "portal_workflow")
+    
     # Locations
     xs = []
     ys = []
