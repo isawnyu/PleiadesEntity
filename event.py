@@ -94,7 +94,11 @@ def writePlaceJSON(place, event, published_only=True):
 
     x = place.listFolderContents(contentFilter={'portal_type':'Location'})
     if len(x) > 0:
-        features = [wrap(ob) for ob in x if portal_workflow.getStatusOf("plone_workflow", ob).get("review_state", None) == "published"]
+        features = []
+        for ob in x:
+            status = portal_workflow.getStatusOf("plone_workflow", ob)
+            if status and status.get("review_state", None) == "published":
+                features.append(wrap(ob))
     else:
         features = [wrap(ob) for ob in place.getFeatures()] \
                  + [wrap(ob) for ob in place.getParts()]
