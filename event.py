@@ -122,7 +122,9 @@ def writePlaceJSON(place, event, published_only=True):
     records = sorted(records, reverse=True)
     modified = DateTime(records[0][0]).HTML4()
     principal0 = records[0][1]['principal']
-    recent_changes.append(dict(modified=modified, principal=principal0))
+    member = mtool.getMemberById(principal0)
+    pname = member.getName()
+    recent_changes.append(dict(modified=modified, userid=principal0, username=pname))
     for record in records[1:]:
         principal = record[1]['principal']
         if principal != principal0:
