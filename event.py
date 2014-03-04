@@ -14,8 +14,6 @@ from Products.PleiadesEntity.time import temporal_overlap
 from pleiades.transliteration import transliterate_name
 from pleiades.json.browser import getContents, wrap, W
 from pleiades.geographer.geo import extent, representative_point
-from shapely.geometry import asShape, LineString, mapping, Point, shape
-from pleiades.kml.browser import PleiadesBrainPlacemark
 
 log = logging.getLogger('PleiadesEntity')
 
@@ -85,13 +83,14 @@ def writePlaceJSON(place, event, published_only=True):
 
     portal_workflow = getToolByName(place, "portal_workflow")
 
-
-    # Locations contained within the current place
-    x = list(
-        getContents(
-            place,
-            **dict(
-                [('portal_type', 'Location')] + contentFilter.items())))
+    # Locations
+    xs = []
+    ys = []
+    #x = list(
+    #    getContents(
+    #        place,
+    #        **dict(
+    #            [('portal_type', 'Location')] + contentFilter.items())))
 
     x = place.listFolderContents(contentFilter={'portal_type':'Location'})
     if len(x) > 0:
@@ -104,29 +103,25 @@ def writePlaceJSON(place, event, published_only=True):
         features = [wrap(ob) for ob in place.getFeatures()] \
                  + [wrap(ob) for ob in place.getParts()]
 
-    # Names contained within the current place
-    objs = list(
-        getContents(
-            place,
-            **dict(
-                [('portal_type', 'Name')] + contentFilter.items())))
+    try:
+        ex = extent(place)
+        bbox = shape(ex['extent']).bounds
+        precision = ex['precision']
+        reprPoint = representative_point(place)['coords']
+    except:
+        precision = "unlocated"
+        bbox = None
+        reprPoint = None
+
+    # Names
+#    objs = list(
+#        getContents(
+#            place,
+#            **dict(
+#                [('portal_type', 'Name')] + contentFilter.items())))
     objs = place.listFolderContents(contentFilter={'portal_type':'Name'})
+
     names = [o.getNameAttested() or o.getNameTransliterated() for o in objs]
-
-
-    # Generalized geometry for the current place
-        try:
-            ex = extent(place)
-            bbox = shape(ex['extent']).bounds
-            precision = ex['precision']
-            reprPoint = representative_point(place)['coords']
-        except:
-            precision = "unlocated"
-            bbox = None
-            reprPoint = None
-
-
-    # Populate the dictionary that will be saved as json    
 
     d = {
         '@context': ctx,
@@ -134,7 +129,7 @@ def writePlaceJSON(place, event, published_only=True):
         'id': pid,
         'title': place.Title(),
         'description' : place.Description(),
-        'features': features,
+        'features': sorted(features, key=W, reverse=True),
         'names': [unicode(n, "utf-8") for n in names],
         'reprPoint': reprPoint,
         'bbox': bbox,
