@@ -133,7 +133,7 @@ def writePlaceJSON(place, event, published_only=True):
         pname = member.getProperty("fullname")
         comment = record[1]['comment']
         recent_changes.append(
-            dict(modified=modified, username=principal, fullname=pname, comment=comment))
+            dict(modified=modified, username=principal, fullname=[pname,principal][pname==''], comment=comment))
 
     # Build the dictionary that will be saved as JSON
     # @context (for json ld)
