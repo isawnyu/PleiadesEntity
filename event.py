@@ -13,6 +13,7 @@ from Products.PleiadesEntity.content.interfaces import IFeature, IPlace
 from Products.PleiadesEntity.time import temporal_overlap
 from pleiades.transliteration import transliterate_name
 from pleiades.json.browser import getContents, wrap
+from pleiades.geographer.geo import extent, representative_point
 
 log = logging.getLogger('PleiadesEntity')
 
@@ -85,13 +86,51 @@ def writePlaceJSON(place, event, published_only=True):
 
     #j = wrap(place)
 
+    # Locations
+    xs = []
+    ys = []
+    x = sorted(
+        getContents(
+            place,
+            **dict(
+                [('portal_type', 'Location')] + contentFilter.items())),
+        key=rating, reverse=True)
+
+    if len(x) > 0:
+        features = [wrap(ob) for ob in x]
+    else:
+        features = [wrap(ob) for ob in place.getFeatures()] \
+                 + [wrap(ob) for ob in place.getParts()]
+
+    try:
+        ex = extent(place)
+        bbox = shape(ex['extent']).bounds
+        precision = ex['precision']
+        reprPoint = representative_point(place)['coords']
+    except:
+        precision = "unlocated"
+        bbox = None
+        reprPoint = None
+
+    # Names
+    objs = sorted(
+        getContents(
+            place,
+            **dict(
+                [('portal_type', 'Name')] + contentFilter.items())),
+        key=rating, reverse=True)
+    names = [o.getNameAttested() or o.getNameTransliterated() for o in objs]
 
     d = {
         '@context': ctx,
         'type': 'FeatureCollection',
         'id': pid,
         'title': place.Title(),
-        'description' : place.Description()
+        'description' : place.Description(),
+        'features': sorted(features, key=W, reverse=True),
+        'names': [unicode(n, "utf-8") for n in names],
+        'reprPoint': reprPoint,
+        'bbox': bbox,
     }
 
     f = open(fn, 'w')
