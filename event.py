@@ -96,7 +96,7 @@ def writePlaceJSON(place, event, published_only=True):
 
     path = place.getPhysicalPath()
     path = "/".join(path)
-    brains = context.portal_catalog(path={"query": path, "depth": 1})
+    brains = place.portal_catalog(path={"query": path, "depth": 1})
 
     features = []
     xs = []
