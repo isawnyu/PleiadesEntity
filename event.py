@@ -109,6 +109,39 @@ def writePlaceJSON(place, event, published_only=True):
                 place.getConnections() + place.getConnections_from())
                 if func(ob) ]
 
+    # Modification time, actor, contributors
+    try:
+        context = aq_inner(place)
+        rt = getToolByName(context, "portal_repository")
+        records = []
+        history = rt.getHistoryMetadata(context)
+        if history:
+            metadata = history.retrieve(-1)['metadata']['sys_metadata']
+            records.append((metadata['timestamp'], metadata))
+        for ob in place.listFolderContents(contentFilter={}):
+            status = wftool.getStatusOf("pleiades_entity_workflow", ob)
+            if status and status.get("review_state", None) == "published":
+                history = rt.getHistoryMetadata(ob)
+                if not history: continue
+                metadata = history.retrieve(-1)['metadata']['sys_metadata']
+                records.append((metadata['timestamp'], metadata))
+        records = sorted(records, reverse=True)
+        recent_changes = []
+        modified = DateTime(records[0][0]).HTML4()
+        principal0 = records[0][1]['principal']
+        recent_changes.append(dict(modified=modified, principal=principal0))
+        for record in records[1:]:
+            principal = record[1]['principal']
+            if principal != principal0:
+                modified = DateTime(record[0]).HTML4()
+                recent_changes.append(
+                    dict(modified=modified, principal=principal))
+                break
+    except:
+        log.error(
+            "Failed to find last change metadata for %s", repr(self.context))
+        recent_changes = None
+
 
 
 
@@ -137,7 +170,8 @@ def writePlaceJSON(place, event, published_only=True):
         'reprPoint': reprPoint,
         'bbox': bbox,
         'precision': precision,
-        'connectsWith': connections
+        'connectsWith': connections,
+        'recent_changes': recent_changes
     }
 
 
