@@ -96,7 +96,7 @@ def writePlaceJSON(place, event, published_only=True):
     if len(x) > 0:
         features = []
         for ob in x:
-            status = portal_workflow.getStatusOf("plone_workflow", ob)
+            status = portal_workflow.getStatusOf("pleiades_entity_workflow", ob)
             if status and status.get("review_state", None) == "published":
                 features.append(wrap(ob))
     else:
