@@ -92,6 +92,7 @@ def writePlaceJSON(place, event, published_only=True):
     #        **dict(
     #            [('portal_type', 'Location')] + contentFilter.items())))
 
+    path = place.getPhysicalPath()
     x = place.listFolderContents(contentFilter={'portal_type':'Location'})
     if len(x) > 0:
         features = []
