@@ -85,7 +85,20 @@ def writePlaceJSON(place, event, published_only=True):
 
     portal_workflow = getToolByName(place, "portal_workflow")
 
-    # Locations
+    # Generalized geometry for the current place
+    try:
+        ex = extent(place)
+        bbox = shape(ex['extent']).bounds
+        precision = ex['precision']
+        reprPoint = representative_point(place)['coords']
+    except:
+        precision = "unlocated"
+        bbox = None
+        reprPoint = None
+
+
+
+    # Locations contained within the current place
     #x = list(
     #    getContents(
     #        place,
@@ -148,17 +161,7 @@ def writePlaceJSON(place, event, published_only=True):
     #    features = [wrap(ob) for ob in place.getFeatures()] \
     #             + [wrap(ob) for ob in place.getParts()]
 
-    #try:
-    #    ex = extent(place)
-    #    bbox = shape(ex['extent']).bounds
-    #    precision = ex['precision']
-    #    reprPoint = representative_point(place)['coords']
-    #except:
-    #    precision = "unlocated"
-    #    bbox = None
-    #    reprPoint = None
-
-    # Names
+    # Names contained within the current place
 #    objs = list(
 #        getContents(
 #            place,
