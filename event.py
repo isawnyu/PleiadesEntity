@@ -17,6 +17,7 @@ from Products.PleiadesEntity.time import temporal_overlap
 from pleiades.transliteration import transliterate_name
 from pleiades.json.browser import getContents, wrap, W
 from pleiades.geographer.geo import extent, representative_point
+from shapely.geometry import asShape, LineString, mapping, Point, shape
 
 log = logging.getLogger('PleiadesEntity')
 
