@@ -1,5 +1,6 @@
 import geojson
 import logging
+import re
 from os import makedirs
 
 from Acquisition import aq_inner, aq_parent
@@ -19,6 +20,8 @@ from pleiades.geographer.geo import extent, representative_point
 
 log = logging.getLogger('PleiadesEntity')
 
+pidrex = re.compile('^\d+$')
+
 def reindexWhole(obj, event):
     for p in obj.getBRefs('hasPart'):
         log.debug("Reindexing whole %s", p)
@@ -35,15 +38,16 @@ def reindexContainer(obj, event):
 
 def writePlaceJSON(place, event, published_only=True):
     wftool = getToolByName(place, "portal_workflow")
-    rtool = getToolByName(place, "portal_repository")
-    mtool = getToolByName(place, 'portal_membership')
-
     status = wftool.getStatusOf("pleiades_entity_workflow", place)
     if published_only and status and status.get("review_state", None) != "published":
             return
 
     # determine the filename to write, and what directory to use, so the filesystem doesn't choke
     pid = place.getId()
+    m = pidrex.match(pid)
+    if not m:
+        # don't write out json for temp places, e.g., copy_of_12345
+        return
     pidbits = list(pid)
     pidpath = '/home/zope/pleiades/json/' + '/'.join(pidbits[:3]) + "/%s" % pid
     try:
@@ -127,6 +131,8 @@ def writePlaceJSON(place, event, published_only=True):
     # Modification time, actor, contributors
     recent_changes = []
     records = []
+    rtool = getToolByName(place, "portal_repository")    
+    mtool = getToolByName(place, 'portal_membership')
     history = rtool.getHistoryMetadata(place)
     if history:
         metadata = history.retrieve(-1)['metadata']['sys_metadata']
