@@ -29,9 +29,9 @@ def reindexContainer(obj, event):
     f = aq_parent(x)
     if IPlace.providedBy(f):
         log.debug("Reindexing container %s", f)
-        writePlaceJSON(f, event)
         f.reindexObject()
         reindexWhole(f, event)
+        writePlaceJSON(f, event)
 
 def writePlaceJSON(place, event, published_only=True):
     
