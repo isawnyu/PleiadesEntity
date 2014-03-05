@@ -169,7 +169,7 @@ def writePlaceJSON(place, event, published_only=True):
     citations = []
     rangecoersion = {
         "seeAlso": "citesAsRelated",
-        "seeFurther": "citesForInformation",
+        "seeFurther": "citesForInformation"
     }
     for ref in refs:
         ruri = ref['identifier']
