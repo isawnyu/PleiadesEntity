@@ -156,7 +156,7 @@ def writePlaceJSON(place, event, published_only=True):
         metadata = history.retrieve(-1)['metadata']['sys_metadata']
         records.append((metadata['timestamp'], metadata))
     try:
-        children = place.listFolderContents():
+        children = place.listFolderContents()
     except AttributeError:
         children = []
     for ob in children:
