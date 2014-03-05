@@ -164,6 +164,9 @@ def writePlaceJSON(place, event, published_only=True):
                     d['lang'] = lang                    
                 names.append(d)
 
+    # References
+    refs = place.getReferenceCitations()
+
     # Connections to other places
     func = lambda f: wftool.getStatusOf("pleiades_entity_workflow", f).get("review_state", None) == 'published'
     connections = [ob.getId() for ob in list(
