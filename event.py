@@ -166,6 +166,10 @@ def writePlaceJSON(place, event, published_only=True):
 
     # References
     refs = place.getReferenceCitations()
+    citations = []
+    for ref in refs:
+        citations.append(dict(uri=ref.getIdentifier(), type=ref.getType(), range=ref.getRange()))
+
 
     # Connections to other places
     func = lambda f: wftool.getStatusOf("pleiades_entity_workflow", f).get("review_state", None) == 'published'
@@ -226,7 +230,8 @@ def writePlaceJSON(place, event, published_only=True):
         'bbox': bbox,
         'precision': precision,
         'connectsWith': connections,
-        'recent_changes': recent_changes
+        'recent_changes': recent_changes,
+        'citations': citations
     }
 
 
