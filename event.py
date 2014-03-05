@@ -155,7 +155,11 @@ def writePlaceJSON(place, event, published_only=True):
     if history:
         metadata = history.retrieve(-1)['metadata']['sys_metadata']
         records.append((metadata['timestamp'], metadata))
-    for ob in place.listFolderContents():
+    try:
+        children = place.listFolderContents():
+    except AttributeError:
+        children = []
+    for ob in children:
         history = rtool.getHistoryMetadata(ob)
         if not history: continue
         metadata = history.retrieve(-1)['metadata']['sys_metadata']
