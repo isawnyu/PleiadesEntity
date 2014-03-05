@@ -168,7 +168,10 @@ def writePlaceJSON(place, event, published_only=True):
     refs = place.getReferenceCitations()
     citations = []
     for ref in refs:
-        citations.append(dict(uri=ref.getIdentifier(), type=ref.getType(), range=ref.getRange()))
+        ruri = ref['identifier']
+        rtype = ref['type']
+        rrange = ref['range']
+        citations.append(dict(uri=ruri, type=rtype, range=rrange))
 
 
     # Connections to other places
