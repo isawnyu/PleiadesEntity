@@ -134,7 +134,6 @@ def writePlaceJSON(place, event, published_only=True):
         metadata = history.retrieve(-1)['metadata']['sys_metadata']
         records.append((metadata['timestamp'], metadata))
     records = sorted(records, reverse=True)
-    modified = DateTime(records[0][0]).HTML4()
     for record in records:
         principal = record[1]['principal']
         modified = DateTime(record[0]).HTML4()
