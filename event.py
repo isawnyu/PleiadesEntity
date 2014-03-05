@@ -123,7 +123,10 @@ def writePlaceJSON(place, event, published_only=True):
             precision = ex['precision']
         except:
             precision = "unlocated"
-    reprPoint = representative_point(place)['coords']
+    try:
+        reprPoint = representative_point(place)['coords']
+    except:
+        reprPoint = None
 
 
     # Names that belong to this place
