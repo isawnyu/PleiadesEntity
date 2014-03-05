@@ -143,7 +143,9 @@ def writePlaceJSON(place, event, published_only=True):
             d = {}
             if attested and transliteration:
                 d['name'] = unicode(attested, 'utf-8')
-                d['transliteration'] = unicode(transliteration, 'utf-8')
+                t1 = unicode(transliteration, 'utf-8')
+                if t1 != d['name']:
+                    d['transliteration'] = t1
             elif attested:
                 d['name'] = unicode(attested, 'utf-8')
             elif transliteration:
