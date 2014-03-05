@@ -167,7 +167,7 @@ def writePlaceJSON(place, event, published_only=True):
     # References
     refs = place.getReferenceCitations()
     citations = []
-    rangecoersion = {
+    typecoersion = {
         "seeAlso": "citesAsRelated",
         "seeFurther": "citesForInformation"
     }
@@ -176,7 +176,7 @@ def writePlaceJSON(place, event, published_only=True):
         rtype = ref['type']
         rrange = ref['range']
         try:
-            rrange = rangecoersion[rrange]
+            rtype = typecoersion[rtype]
         except KeyError:
             pass
 
