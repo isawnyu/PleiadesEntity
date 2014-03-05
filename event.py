@@ -34,7 +34,14 @@ def reindexContainer(obj, event):
         writePlaceJSON(f, event)
 
 def writePlaceJSON(place, event, published_only=True):
-    
+    wftool = getToolByName(place, "portal_workflow")
+    rtool = getToolByName(place, "portal_repository")
+    mtool = getToolByName(place, 'portal_membership')
+
+    status = wftool.getStatusOf("pleiades_entity_workflow", place)
+    if published_only and status and status.get("review_state", None) != "published":
+            return
+
     # determine the filename to write, and what directory to use, so the filesystem doesn't choke
     pid = place.getId()
     pidbits = list(pid)
@@ -77,10 +84,6 @@ def writePlaceJSON(place, event, published_only=True):
         'reprPoint': '_:n11'
         }
 
-
-    wftool = getToolByName(place, "portal_workflow")
-    rtool = getToolByName(place, "portal_repository")
-    mtool = getToolByName(place, 'portal_membership')
 
     # Locations that belong to this place
     xs = []
@@ -282,5 +285,5 @@ def nameActionSucceededSubscriber(obj, event):
 def placeAfterCheckinSubscriber(obj, event):
     for child in obj.values():
         child.reindexObject()
-    reindexContainer(obj, event)
+    reindexContainer(event.object, event)
 
