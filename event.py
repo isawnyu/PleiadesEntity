@@ -34,6 +34,8 @@ def reindexContainer(obj, event):
         log.debug("Reindexing container %s", f)
         f.reindexObject()
         reindexWhole(f, event)
+        writePlaceJSON(f, event)
+
 
 def writePlaceJSON(place, event, published_only=True):
     wftool = getToolByName(place, "portal_workflow")
@@ -105,13 +107,14 @@ def writePlaceJSON(place, event, published_only=True):
     # Geometry aspects of the place itself
     try:
         ex = extent(place)
-        bbox = shape(ex['extent']).bounds
-        precision = ex['precision']
-        reprPoint = representative_point(place)['coords']
     except:
         precision = "unlocated"
         bbox = None
-        reprPoint = None
+    else:    
+        bbox = shape(ex['extent']).bounds
+        precision = ex['precision']
+    reprPoint = representative_point(place)['coords']
+
 
     # Names that belong to this place
     name_objects = place.listFolderContents(contentFilter={'portal_type':'Name'})
@@ -291,5 +294,4 @@ def placeAfterCheckinSubscriber(obj, event):
     for child in obj.values():
         child.reindexObject()
     reindexContainer(event.object, event)
-    writePlaceJSON(obj, event)
 
