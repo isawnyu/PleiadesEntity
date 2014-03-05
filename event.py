@@ -111,9 +111,15 @@ def writePlaceJSON(place, event, published_only=True):
     except:
         precision = "unlocated"
         bbox = None
-    else:    
-        bbox = shape(ex['extent']).bounds
-        precision = ex['precision']
+    else:  
+        try:  
+            bbox = shape(ex['extent']).bounds
+        except:
+            bbox = None
+        try:
+            precision = ex['precision']
+        except:
+            precision = "unlocated"
     reprPoint = representative_point(place)['coords']
 
 
