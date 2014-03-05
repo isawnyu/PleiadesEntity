@@ -282,5 +282,5 @@ def nameActionSucceededSubscriber(obj, event):
 def placeAfterCheckinSubscriber(obj, event):
     for child in obj.values():
         child.reindexObject()
-    reindexContainer(event.object, event)
+    reindexContainer(obj, event)
 
