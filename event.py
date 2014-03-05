@@ -138,7 +138,29 @@ def writePlaceJSON(place, event, published_only=True):
     for ob in name_objects:
         status = wftool.getStatusOf("pleiades_entity_workflow", ob)
         if status and status.get("review_state", None) == "published":
-            names.append(ob.getNameAttested() or ob.getNameTransliterated())
+            attested = ob.getNameAttested()
+            transliteration = ob.getNameTransliterated()
+            d = {}
+            if attested and transliteration:
+                d['name'] = attested
+                d['transliteration'] = transliteration
+            elif attested:
+                d['name'] = attested
+            elif transliteration:
+                try:
+                    d['name'] = transliteration.split(',')[0].strip()
+                except:
+                    d['name'] = transliteration
+                else:
+                    try:
+                        d['transliteration'] = transliteration.split(',')[1:].strip()
+                    except:
+                        pass
+            if len(d.keys()) > 0:
+                lang = ob.getNameLanguage()
+                if lang:
+                    d['lang'] = lang                    
+                names.append(d)
 
     # Connections to other places
     func = lambda f: wftool.getStatusOf("pleiades_entity_workflow", f).get("review_state", None) == 'published'
