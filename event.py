@@ -94,7 +94,10 @@ def writePlaceJSON(place, event, published_only=True):
     # Locations that belong to this place
     xs = []
     ys = []
-    location_objects = place.listFolderContents(contentFilter={'portal_type':'Location'})
+    try:
+        location_objects = place.listFolderContents(contentFilter={'portal_type':'Location'})
+    except AttributeError:
+        location_objects = []
     if len(location_objects) > 0:
         features = []
         for ob in location_objects:
@@ -124,7 +127,10 @@ def writePlaceJSON(place, event, published_only=True):
 
 
     # Names that belong to this place
-    name_objects = place.listFolderContents(contentFilter={'portal_type':'Name'})
+    try:
+        name_objects = place.listFolderContents(contentFilter={'portal_type':'Name'})
+    except AttributeError:
+        name_objects = []
     names = []
     for ob in name_objects:
         status = wftool.getStatusOf("pleiades_entity_workflow", ob)
