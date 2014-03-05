@@ -167,10 +167,19 @@ def writePlaceJSON(place, event, published_only=True):
     # References
     refs = place.getReferenceCitations()
     citations = []
+    rangecoersion = {
+        "seeAlso": "citesAsRelated",
+        "seeFurther": "citesForInformation",
+    }
     for ref in refs:
         ruri = ref['identifier']
         rtype = ref['type']
         rrange = ref['range']
+        try:
+            rrange = rangecoersion[rrange]
+        except KeyError:
+            pass
+
         citations.append(dict(uri=ruri, type=rtype, range=rrange))
 
 
