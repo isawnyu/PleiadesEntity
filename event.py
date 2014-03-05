@@ -142,18 +142,18 @@ def writePlaceJSON(place, event, published_only=True):
             transliteration = ob.getNameTransliterated()
             d = {}
             if attested and transliteration:
-                d['name'] = attested
-                d['transliteration'] = transliteration
+                d['name'] = unicode(attested, 'utf-8')
+                d['transliteration'] = unicode(transliteration, 'utf-8')
             elif attested:
-                d['name'] = attested
+                d['name'] = unicode(attested, 'utf-8')
             elif transliteration:
                 try:
-                    d['name'] = transliteration.split(',')[0].strip()
+                    d['name'] = unicode(transliteration.split(',')[0].strip(), 'utf-8')
                 except:
-                    d['name'] = transliteration
+                    d['name'] = unicode(transliteration, 'utf-8')
                 else:
                     try:
-                        d['transliteration'] = transliteration.split(',')[1:].strip()
+                        d['transliteration'] = unicode(transliteration.split(',')[1:].strip(), 'utf-8')
                     except:
                         pass
             if len(d.keys()) > 0:
@@ -216,7 +216,7 @@ def writePlaceJSON(place, event, published_only=True):
         'title': place.Title(),
         'description' : place.Description(),
         'features': sorted(features, key=W, reverse=True),
-        'names': [unicode(n, "utf-8") for n in names],
+        'names': names,
         'reprPoint': reprPoint,
         'bbox': bbox,
         'precision': precision,
