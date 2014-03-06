@@ -79,7 +79,7 @@ def writePlaceJSON2(place, published_only=True):
 
     # write JSON to disk
     f = open(fn, 'w')
-    f.write(geojson.dumps(data))
+    f.write(str(data))
     f.close()
 
 
