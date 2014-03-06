@@ -7,10 +7,9 @@ from Acquisition import aq_inner, aq_parent
 from plone.app.iterate.interfaces import IAfterCheckinEvent
 from Products.CMFCore.interfaces import IActionSucceededEvent, IContentish
 from Products.CMFCore.utils import getToolByName
-from zope.component import adapter
+from zope.component import adapter, getMultiAdapter
 from zope.lifecycleevent.interfaces import IObjectModifiedEvent
 from DateTime import DateTime
-from AccessControl.SecurityManagement import newSecurityManager
 
 from Products.PleiadesEntity.content.interfaces import ILocation, IName
 from Products.PleiadesEntity.content.interfaces import IFeature, IPlace
@@ -24,22 +23,13 @@ log = logging.getLogger('PleiadesEntity')
 
 pidrex = re.compile('^\d+$')
 
-def getView(context, name):
-    """ Return a view associated with the context and current HTTP request.
-
-    @param context: Any Plone content object.
-    @param name: Attribute name holding the view name.
-    """
-
-    admin=app.acl_users.getUserById("admin")
-    newSecurityManager(None, admin)
-    try:
-        view = context.unrestrictedTraverse("@@" + name)
-    except AttributeError:
-        raise RuntimeError("Instance %s did not have view %s" % (str(context), name))
-
+def getView(context, request, name):
+    # Remove the acquisition wrapper (prevent false context assumptions)
+    context = aq_inner(context)
+    # May raise ComponentLookUpError
+    view = getMultiAdapter((context, request), name=name)
+    # Add the view to the acquisition chain
     view = view.__of__(context)
-
     return view
 
 def reindexWhole(obj, event):
@@ -57,7 +47,7 @@ def reindexContainer(obj, event):
         #writePlaceJSON(f, event)
 
 
-def writePlaceJSON2(place, published_only=True):
+def writePlaceJSON2(place, event, published_only=True):
     wftool = getToolByName(place, "portal_workflow")
     status = wftool.getStatusOf("pleiades_entity_workflow", place)
     if published_only and status and status.get("review_state", None) != "published":
@@ -78,12 +68,12 @@ def writePlaceJSON2(place, published_only=True):
     fn = "%s/json" % pidpath
 
     # get JSON for this place
-    data = getView(place, 'json').mapping()
+    data = getView(place, event.request, 'json').mapping()
 
 
     # write JSON to disk
     f = open(fn, 'w')
-    f.write(str(names))
+    f.write(str(data))
     f.close()
 
 
