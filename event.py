@@ -10,6 +10,7 @@ from Products.CMFCore.utils import getToolByName
 from zope.component import adapter
 from zope.lifecycleevent.interfaces import IObjectModifiedEvent
 from DateTime import DateTime
+from AccessControl.SecurityManagement import newSecurityManager
 
 from Products.PleiadesEntity.content.interfaces import ILocation, IName
 from Products.PleiadesEntity.content.interfaces import IFeature, IPlace
@@ -30,6 +31,8 @@ def getView(context, name):
     @param name: Attribute name holding the view name.
     """
 
+    admin=app.acl_users.getUserById("admin")
+    newSecurityManager(None, admin)
     try:
         view = context.unrestrictedTraverse("@@" + name)
     except AttributeError:
@@ -75,42 +78,7 @@ def writePlaceJSON2(place, published_only=True):
     fn = "%s/json" % pidpath
 
     # get JSON for this place
-    #data = getView(place, 'json').mapping()
-
-    # force get names data for a particular place
-    try:
-        name_objects = place.listFolderContents(contentFilter={'portal_type':'Name'})
-    except AttributeError:
-        name_objects = []
-    names = []
-    for ob in name_objects:
-        status = wftool.getStatusOf("pleiades_entity_workflow", ob)
-        if status and status.get("review_state", None) == "published":
-            attested = ob.getNameAttested()
-            transliteration = ob.getNameTransliterated()
-            d = {}
-            if attested and transliteration:
-                d['name'] = unicode(attested, 'utf-8')
-                t1 = unicode(transliteration, 'utf-8')
-                if t1 != d['name']:
-                    d['transliteration'] = t1
-            elif attested:
-                d['name'] = unicode(attested, 'utf-8')
-            elif transliteration:
-                try:
-                    d['name'] = unicode(transliteration.split(',')[0].strip(), 'utf-8')
-                except:
-                    d['name'] = unicode(transliteration, 'utf-8')
-                else:
-                    try:
-                        d['transliteration'] = unicode(transliteration.split(',')[1:].strip(), 'utf-8')
-                    except:
-                        pass
-            if len(d.keys()) > 0:
-                lang = ob.getNameLanguage()
-                if lang:
-                    d['lang'] = lang                    
-                names.append(d)
+    data = getView(place, 'json').mapping()
 
 
     # write JSON to disk
