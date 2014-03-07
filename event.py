@@ -23,14 +23,22 @@ log = logging.getLogger('PleiadesEntity')
 
 pidrex = re.compile('^\d+$')
 
-def getView(context, request, name):
-    # Remove the acquisition wrapper (prevent false context assumptions)
-    context = aq_inner(context)
-    # May raise ComponentLookUpError
-    view = getMultiAdapter((context, request), name=name)
-    # Add the view to the acquisition chain
+def getView(context, name):
+    """ Return a view associated with the context and current HTTP request.
+
+    @param context: Any Plone content object.
+    @param name: Attribute name holding the view name.
+    """
+
+    try:
+        view = context.unrestrictedTraverse("@@" + name)
+    except AttributeError:
+        raise RuntimeError("Instance %s did not have view %s" % (str(context), name))
+
     view = view.__of__(context)
+
     return view
+
 
 def reindexWhole(obj, event):
     for p in obj.getBRefs('hasPart'):
@@ -68,7 +76,7 @@ def writePlaceJSON(place, event, published_only=True):
     fn = "%s/json" % pidpath
 
     # get JSON for this place
-    data = getView(place, event.request, 'json').mapping()
+    data = getView(place, 'json')._data(published_only=True)
 
 
     # write JSON to disk
