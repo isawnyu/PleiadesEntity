@@ -87,7 +87,7 @@ def writePlaceJSON(place, event, published_only=True):
 @adapter(IPlace, IObjectModifiedEvent)
 def placeJSONSubscriber(obj, event):
     log.debug("Event handled: %s, %s", obj, event)
-    writePlaceJSON(obj, event)
+    #writePlaceJSON(obj, event)
 
 @adapter(IName, IObjectModifiedEvent)
 def nameChangeSubscriber(obj, event):
