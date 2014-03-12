@@ -174,7 +174,7 @@ class NamesTable(ChildrenTable):
         vocab = self.vtool.getVocabularyByName('ancient-name-languages')
         self.langs = dict(vocab.getDisplayList(vocab).items())
         output = []
-        for score, ob, nrefs in sorted(names, reverse=False):
+        for score, ob, nrefs in sorted(names, key=lamba title: ob.Title(), reverse=False):
             nameAttested = ob.getNameAttested() or None
             title = ob.Title() or "Untitled"
             if nameAttested:
