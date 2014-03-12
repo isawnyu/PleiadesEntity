@@ -181,5 +181,5 @@ class NamesTable(ChildrenTable):
                      self.postfix(ob)),
                 u'</li>' ]
             output.append(u"".join(innerHTML))
-        return u'<ul class="placeChildren">' + ', '.join(output) + '</ul>'
+        return u'<ul class="placeChildren">' + u'\n'.join(output) + u'</ul>'
 
