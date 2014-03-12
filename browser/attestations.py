@@ -142,7 +142,7 @@ class NamesTable(ChildrenTable):
         acert = ob.getAssociationCertainty();
         nameAttested = ob.getNameAttested() or None
         nameTransliterated = [u'', ob.Title][nameAttested is not None]
-        pfixs = [u'\%s', u'(%s) \%s' % nameTransliterated][nameTransliterated != u'']
+        pfixs = [u'%s', u'({0}) %s'.format(nameTransliterated)][nameTransliterated != u'']
         if acert == 'less-certain':
             return pfixs % u'?'
         elif acert == 'uncertain':
