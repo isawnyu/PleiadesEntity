@@ -150,12 +150,23 @@ class NamesTable(ChildrenTable):
                     nameTransliterated = None
         else:
             nameTransliterated = None
-        if acert == 'less-certain':
-            return [u'?', u' (%s)?' % nameTransliterated][nameTransliterated is not None]
-        elif acert == 'uncertain':
-            return [u'??', u' (%s)??' % nameTransliterated][nameTransliterated is not None]
+        timespan = TimeSpanWrapper(ob).snippet
+        if timespan.strip() == '':
+            timespan = None
+        if timespan and nameTransliterated:
+            annotation = u'(%s; %s)' % (nameTransliterated, timespan)
+        elif nameTransliterated:
+            annotation = u'(%s)' % nameTransliterated
+        elif timespan:
+            annotation = u'(%s)' % timespan 
         else:
-            return [u'', u' (%s)' % nameTransliterated][nameTransliterated is not None]
+            annotation = None
+        if acert == 'less-certain':
+            return [u'?', u' %s?' % annotation][annotation is not None]
+        elif acert == 'uncertain':
+            return [u'??', u' %s??' % annotation][annotation is not None]
+        else:
+            return [u'', u' %s' % annotation][annotation is not None]
     def rows(self, names):
         vocab = self.vtool.getVocabularyByName('ancient-name-languages')
         self.langs = dict(vocab.getDisplayList(vocab).items())
