@@ -171,7 +171,7 @@ class NamesTable(ChildrenTable):
                     title, "utf-8"), "nameUnattested"
             labelLang = ob.getNameLanguage() or "und"
             innerHTML = [
-                u'<span id="%s" class="placeChildItem" title="%s">' % (ob.getId(), self.snippet(ob) + "; " + unicode(ob.Description(), "utf-8")),
+                u'<li id="%s" class="placeChildItem" title="%s">' % (ob.getId(), self.snippet(ob) + "; " + unicode(ob.Description(), "utf-8")),
                 u'<a class="state-%s %s" href="%s"><span lang="%s">%s</span>%s</a>' % (
                      self.wftool.getInfoFor(ob, 'review_state'), 
                      label_class,
@@ -179,7 +179,7 @@ class NamesTable(ChildrenTable):
                      labelLang,
                      label + u" (copy)" * ("copy" in ob.getId()),
                      self.postfix(ob)),
-                u'</span>' ]
+                u'</li>' ]
             output.append(u"".join(innerHTML))
-        return u'<p class="placeChildren">' + ', '.join(output) + '</p>'
+        return u'<ul class="placeChildren">' + ', '.join(output) + '</ul>'
 
