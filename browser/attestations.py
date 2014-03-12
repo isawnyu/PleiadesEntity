@@ -153,6 +153,8 @@ class NamesTable(ChildrenTable):
         timespan = TimeSpanWrapper(ob).snippet
         if timespan.strip() == '':
             timespan = None
+        elif timespan.strip() == 'AD 1700 - Present':
+            timespan = 'modern'
         if timespan and nameTransliterated:
             annotation = u'(%s; %s)' % (nameTransliterated, timespan)
         elif nameTransliterated:
