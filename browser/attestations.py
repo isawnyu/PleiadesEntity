@@ -165,7 +165,7 @@ class NamesTable(ChildrenTable):
                      label_class,
                      ob.absolute_url(),
                      label + u" (copy)" * ("copy" in ob.getId()),
-                     self.postfix(ob))
+                     self.postfix(ob)),
                 u'</span>' ]
             output.append(u"".join(innerHTML))
         return u'<p class="placeChildren">' + ', '.join(output) + '</p>'
