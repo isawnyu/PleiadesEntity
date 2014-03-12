@@ -142,9 +142,12 @@ class NamesTable(ChildrenTable):
         acert = ob.getAssociationCertainty();
         nameAttested = ob.getNameAttested() or None
         if nameAttested is not None:
-            nameTransliterated = ob.Title()
-            if nameTransliterated == nameAttested:
-                nameTransliterated = None
+            nameAttested = unicode(nameAttested, "utf-8")
+            nameTransliterated = ob.Title() or None
+            if nameTransliterated is not None:
+                nameTransliterated = unicode(nameTransliterated, "utf-8")
+                if nameTransliterated == nameAttested:
+                    nameTransliterated = None
         else:
             nameTransliterated = None
         if acert == 'less-certain':
