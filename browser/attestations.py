@@ -134,10 +134,11 @@ class NamesTable(ChildrenTable):
         return self.context.getNames()
     def snippet(self, ob):
         parts = []
-        if ob.getNameLanguage():
-            parts.append(self.langs[ob.getNameLanguage()])
-        parts.append(TimeSpanWrapper(ob).snippet)
-        return "; ".join(parts)
+        desc = unicode(ob.Description(), "utf-8")
+        if len(desc.strip()) == 0:
+            return unicode(ob.Title(), "utf-8")
+        else:
+            return desc.strip()
     def postfix(self, ob):
         acert = ob.getAssociationCertainty();
         nameAttested = ob.getNameAttested() or None
@@ -184,7 +185,7 @@ class NamesTable(ChildrenTable):
                     title, "utf-8"), "nameUnattested"
             labelLang = ob.getNameLanguage() or "und"
             innerHTML = [
-                u'<li id="%s" class="placeChildItem" title="%s">' % (ob.getId(), self.snippet(ob) + "; " + unicode(ob.Description(), "utf-8")),
+                u'<li id="%s" class="placeChildItem" title="%s">' % (ob.getId(), self.snippet(ob)),
                 u'<a class="state-%s %s" href="%s"><span lang="%s">%s</span>%s</a>' % (
                      self.wftool.getInfoFor(ob, 'review_state'), 
                      label_class,
