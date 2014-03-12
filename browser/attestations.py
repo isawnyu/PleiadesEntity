@@ -171,10 +171,8 @@ class NamesTable(ChildrenTable):
         else:
             return [u'', u' %s' % annotation][annotation is not None]
     def rows(self, names):
-        vocab = self.vtool.getVocabularyByName('ancient-name-languages')
-        self.langs = dict(vocab.getDisplayList(vocab).items())
         output = []
-        for score, ob, nrefs in sorted(names, key=lambda title: names[1].Title(), reverse=False):
+        for score, ob, nrefs in sorted(names, key=itemgetter(1).Title() or ''):
             nameAttested = ob.getNameAttested() or None
             title = ob.Title() or "Untitled"
             if nameAttested:
