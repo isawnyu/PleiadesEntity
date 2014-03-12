@@ -140,11 +140,15 @@ class NamesTable(ChildrenTable):
         return "; ".join(parts)
     def postfix(self, ob):
         acert = ob.getAssociationCertainty();
+        nameAttested = ob.getNameAttested() or None
+        nameTransliterated = [u'', ob.Title][nameAttested]
+        pfixs = [u'\%s', u'(%s) \%s' % nameTransliterated][nameTransliterated != u'']
         if acert == 'less-certain':
-            return u'?'
+            return pfixs % u'?'
         elif acert == 'uncertain':
-            return u'??'
-        return u''
+            return pfixs % u'??'
+        else:
+            return pfixs % u''
     def rows(self, names):
         vocab = self.vtool.getVocabularyByName('ancient-name-languages')
         self.langs = dict(vocab.getDisplayList(vocab).items())
