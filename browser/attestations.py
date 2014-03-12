@@ -138,6 +138,13 @@ class NamesTable(ChildrenTable):
             parts.append(self.langs[ob.getNameLanguage()])
         parts.append(TimeSpanWrapper(ob).snippet)
         return "; ".join(parts)
+    def postfix(self, ob):
+        acert = ob.getAssociationCertainty();
+        if acert == 'less-certain':
+            return u'?'
+        elif acert == 'uncertain':
+            return u'??'
+        return u''
     def rows(self, names):
         vocab = self.vtool.getVocabularyByName('ancient-name-languages')
         self.langs = dict(vocab.getDisplayList(vocab).items())
@@ -153,6 +160,7 @@ class NamesTable(ChildrenTable):
                     title, "utf-8"), "nameUnattested"
             innerHTML = [
                 u'<span id="%s" class="placeChildItem" title="%s">' % (ob.getId(), self.snippet(ob) + "; " + unicode(ob.Description(), "utf-8")),
+                u'%s' % self.postfix(ob),
                 u'<a class="state-%s %s" href="%s">%s</a>' % (
                      self.wftool.getInfoFor(ob, 'review_state'), 
                      label_class,
