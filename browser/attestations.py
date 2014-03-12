@@ -141,7 +141,7 @@ class NamesTable(ChildrenTable):
     def postfix(self, ob):
         acert = ob.getAssociationCertainty();
         nameAttested = ob.getNameAttested() or None
-        nameTransliterated = [u'', ob.Title][nameAttested]
+        nameTransliterated = [u'', ob.Title][nameAttested is not None]
         pfixs = [u'\%s', u'(%s) \%s' % nameTransliterated][nameTransliterated != u'']
         if acert == 'less-certain':
             return pfixs % u'?'
