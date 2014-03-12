@@ -160,12 +160,11 @@ class NamesTable(ChildrenTable):
                     title, "utf-8"), "nameUnattested"
             innerHTML = [
                 u'<span id="%s" class="placeChildItem" title="%s">' % (ob.getId(), self.snippet(ob) + "; " + unicode(ob.Description(), "utf-8")),
-                u'%s' % self.postfix(ob),
                 u'<a class="state-%s %s" href="%s">%s</a>' % (
                      self.wftool.getInfoFor(ob, 'review_state'), 
                      label_class,
                      ob.absolute_url(),
-                     label + u" (copy)" * ("copy" in ob.getId())),
+                     label + u" (copy)" * ("copy" in ob.getId())) + u'%s' % self.postfix(ob),
                 u'</span>' ]
             output.append(u"".join(innerHTML))
         return u'<p class="placeChildren">' + ', '.join(output) + '</p>'
