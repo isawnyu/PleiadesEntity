@@ -173,7 +173,7 @@ class NamesTable(ChildrenTable):
             return [u'', u' %s' % annotation][annotation is not None]
     def rows(self, names):
         output = []
-        for score, ob, nrefs in sorted(names, key=itemgetter(1).Title() or ''):
+        for score, ob, nrefs in sorted(names, key=lambda k: k[1].Title() or ''):
             nameAttested = ob.getNameAttested() or None
             title = ob.Title() or "Untitled"
             if nameAttested:
