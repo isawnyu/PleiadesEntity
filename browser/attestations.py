@@ -139,7 +139,7 @@ class NamesTable(ChildrenTable):
         if len(desc.strip()) == 0:
             return unicode(ob.Title(), "utf-8")
         else:
-            return unicode(ob:Title(), "utf-8") + u': ' + desc.strip()
+            return unicode(ob.Title(), "utf-8") + u': ' + desc.strip()
     def postfix(self, ob):
         acert = ob.getAssociationCertainty();
         nameAttested = ob.getNameAttested() or None
