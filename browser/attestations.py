@@ -129,7 +129,7 @@ class LocationsTable(ChildrenTable):
 
 
 class NamesTable(ChildrenTable):
-    """table of locations
+    """table of names and associated information for plone views, sorted by transliterated title
     """
     def accessor(self):
         return self.context.getNames()
