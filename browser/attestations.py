@@ -2,6 +2,7 @@
 import logging
 
 from Acquisition import aq_inner, aq_parent
+from operator import itemgetter
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.CMFCore.utils import getToolByName
@@ -128,21 +129,51 @@ class LocationsTable(ChildrenTable):
 
 
 class NamesTable(ChildrenTable):
-    """table of locations
+    """table of names and associated information for plone views, sorted by transliterated title
     """
     def accessor(self):
         return self.context.getNames()
     def snippet(self, ob):
         parts = []
-        if ob.getNameLanguage():
-            parts.append(self.langs[ob.getNameLanguage()])
-        parts.append(TimeSpanWrapper(ob).snippet)
-        return "; ".join(parts)
+        desc = unicode(ob.Description(), "utf-8")
+        if len(desc.strip()) == 0:
+            return unicode(ob.Title(), "utf-8")
+        else:
+            return unicode(ob.Title(), "utf-8") + u': ' + desc.strip()
+    def postfix(self, ob):
+        acert = ob.getAssociationCertainty();
+        nameAttested = ob.getNameAttested() or None
+        if nameAttested is not None:
+            nameAttested = unicode(nameAttested, "utf-8")
+            nameTransliterated = ob.Title() or None
+            if nameTransliterated is not None:
+                nameTransliterated = unicode(nameTransliterated, "utf-8")
+                if nameTransliterated == nameAttested:
+                    nameTransliterated = None
+        else:
+            nameTransliterated = None
+        timespan = TimeSpanWrapper(ob).snippet
+        if timespan.strip() == '':
+            timespan = None
+        elif timespan.strip() == 'AD 1700 - Present':
+            timespan = 'modern'
+        if timespan and nameTransliterated:
+            annotation = u'(%s; %s)' % (nameTransliterated, timespan)
+        elif nameTransliterated:
+            annotation = u'(%s)' % nameTransliterated
+        elif timespan:
+            annotation = u'(%s)' % timespan 
+        else:
+            annotation = None
+        if acert == 'less-certain':
+            return [u'?', u' %s?' % annotation][annotation is not None]
+        elif acert == 'uncertain':
+            return [u'??', u' %s??' % annotation][annotation is not None]
+        else:
+            return [u'', u' %s' % annotation][annotation is not None]
     def rows(self, names):
-        vocab = self.vtool.getVocabularyByName('ancient-name-languages')
-        self.langs = dict(vocab.getDisplayList(vocab).items())
         output = []
-        for score, ob, nrefs in sorted(names, reverse=False):
+        for score, ob, nrefs in sorted(names, key=lambda k: k[1].Title() or ''):
             nameAttested = ob.getNameAttested() or None
             title = ob.Title() or "Untitled"
             if nameAttested:
@@ -151,14 +182,17 @@ class NamesTable(ChildrenTable):
             else:
                 label, label_class = unicode(
                     title, "utf-8"), "nameUnattested"
+            labelLang = ob.getNameLanguage() or "und"
             innerHTML = [
-                u'<span id="%s" class="placeChildItem" title="%s">' % (ob.getId(), self.snippet(ob) + "; " + unicode(ob.Description(), "utf-8")),
-                u'<a class="state-%s %s" href="%s">%s</a>' % (
+                u'<li id="%s" class="placeChildItem" title="%s">' % (ob.getId(), self.snippet(ob)),
+                u'<a class="state-%s %s" href="%s"><span lang="%s">%s</span>%s</a>' % (
                      self.wftool.getInfoFor(ob, 'review_state'), 
                      label_class,
                      ob.absolute_url(),
-                     label + u" (copy)" * ("copy" in ob.getId())),
-                u'</span>' ]
+                     labelLang,
+                     label + u" (copy)" * ("copy" in ob.getId()),
+                     self.postfix(ob)),
+                u'</li>' ]
             output.append(u"".join(innerHTML))
-        return u'<p class="placeChildren">' + ', '.join(output) + '</p>'
+        return u'<ul class="placeChildren">' + u'\n'.join(output) + u'</ul>'
 
