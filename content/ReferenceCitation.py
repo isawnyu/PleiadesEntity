@@ -80,9 +80,10 @@ schema = Schema((
         vocabulary=[
             ("seeFurther", "See Further"), 
             ("seeAlso", "See Also"), 
-            ("citesAsEvidence", "Cites As Evidence"),
-            ("citesAsDataSource", "Cites As Data Source"),
-            ("cites", "Cites") ],
+            ("citesAsRelated", "Cite as Related"),
+            ("citesAsEvidence", "Cite As Evidence"),
+            ("citesAsDataSource", "Cite As Data Source"),
+            ("cites", "Cite") ],
         default="seeFurther",
         widget=SelectionWidget(
             label="Citation Type",
