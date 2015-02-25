@@ -89,109 +89,102 @@
         templateId template/getId;
         portal_state context/@@plone_portal_state;">
 
-      <table id="map-children">
-        <tr>
 
-          <td id="map-column" title="Locations of this particular place are shown in blue.">
+          <div id="map-block" title="Locations of this particular place are shown in blue.">
             <div id="map"></div>
           </td>
 
-          <td id="fields-column" title="The authority rating, title and attested time periods of this place's names and locations are listed here. Red titles indicate drafting-state and yellow, pending-state.">
+          <p tal:condition="not:portal_state/anonymous" class="gloss">Red titles indicate drafting-state and yellow, pending-state.</p>
 
-            <div tal:condition="not:context/@@iterate/baseline|nothing">
-            <div id="locationsField" class="field">
-              <label>Locations</label>
-            <dl tal:replace="structure context/@@locations-listing"></dl>
-                        
-            <div tal:condition="not:portal_state/anonymous">
+        <div tal:condition="not:context/@@iterate/baseline|nothing">
+        <div id="locationsField" class="field">
+          <label>Locations</label>
+        <dl tal:replace="structure context/@@locations-listing"></dl>
+                    
+        <div tal:condition="not:portal_state/anonymous">
 
-              <div><span class="createObjectButton"><a href="createObject?type_name=Location" title="Create a new Location">Add Location</a> <span class="formButton" title="Create a new Location based on an OpenStreetMap Node">&#9660;</span></div>
-              
-              <div class="createLocationForm" style="display:none;">
-              <form method="POST" action="@@create-location-osm">
-                <h4>Add OpenStreetMap Point Location</h4>
-                <div><p><input id="type" name="type" 
-                  type="radio" value="node" checked="1"/> Node 
-                  <input id="type" name="type" 
-                  type="radio" value="way"/> Way 
-                  <label for="type">Object type (required)</label></p>
-                <p><input id="obj" name="obj" 
-                  type="text" placeholder="486605843"/>
-                  <label for="node">Object ID (required)</label></p>
-                <p><input id="title" name="title" 
-                  type="text" placeholder="Foo"/>
-                  <label for="title">Title (optional)</label></p>
-                </div>
-                <div><input type="Submit" name="submit" value="Add"/>
-                <span><a href="http://pleiades.stoa.org/help/content/linking-pleiades-to-openstreetmap">What's this?</a></span></div>
-              </form>
-              </div>
-
+          <div><span class="createObjectButton"><a href="createObject?type_name=Location" title="Create a new Location">Add Location</a> <span class="formButton" title="Create a new Location based on an OpenStreetMap Node">&#9660;</span></div>
+          
+          <div class="createLocationForm" style="display:none;">
+          <form method="POST" action="@@create-location-osm">
+            <h4>Add OpenStreetMap Point Location</h4>
+            <div><p><input id="type" name="type" 
+              type="radio" value="node" checked="1"/> Node 
+              <input id="type" name="type" 
+              type="radio" value="way"/> Way 
+              <label for="type">Object type (required)</label></p>
+            <p><input id="obj" name="obj" 
+              type="text" placeholder="486605843"/>
+              <label for="node">Object ID (required)</label></p>
+            <p><input id="title" name="title" 
+              type="text" placeholder="Foo"/>
+              <label for="title">Title (optional)</label></p>
             </div>
-            
+            <div><input type="Submit" name="submit" value="Add"/>
+            <span><a href="http://pleiades.stoa.org/help/content/linking-pleiades-to-openstreetmap">What's this?</a></span></div>
+          </form>
+          </div>
 
-            </div>
-            <div id="namesField" class="field">
-              <label>Names</label>
-            <dl tal:replace="structure context/@@names-listing"></dl>
-            <a tal:condition="not:portal_state/anonymous"
-              class="createObjectButton"
-              href="createObject?type_name=Name"
-              title="Create a new Name"
-              >Add Name</a>
-            </div>
-            <div tal:condition="not:portal_state/anonymous"><p>
-              <a href="folder_contents">Folder listing of locations and names</a>
-            </p></div>
-            </div>
+        </div>
+        
 
-            <div tal:condition="context/@@iterate/baseline|nothing"
-              tal:define="baseline context/@@iterate/baseline" >
+        </div>
+        <div id="namesField" class="field">
+          <label>Names</label>
+        <dl tal:replace="structure context/@@names-listing"></dl>
+        <a tal:condition="not:portal_state/anonymous"
+          class="createObjectButton"
+          href="createObject?type_name=Name"
+          title="Create a new Name"
+          >Add Name</a>
+        </div>
+        <div tal:condition="not:portal_state/anonymous"><p>
+          <a href="folder_contents">Folder listing of locations and names</a>
+        </p></div>
+        </div>
 
-            <div tal:condition="context/@@iterate/baseline|nothing">
-            <h3 style="margin-top:0px;">In this working copy</h3>
-            <p>These will be copied to the baseline place when a reviewer checks the working copy in.</p>
-            <div id="locationsField" class="field">
-              <label>Locations</label>
-            <dl tal:replace="structure context/@@locations-listing"></dl>
-            <a tal:condition="not:portal_state/anonymous"
-              class="createObjectButton"
-              href="createObject?type_name=Location" 
-              title="Create a new Location"
-              >Add Location</a>
-            </div>
-            <div id="namesField" class="field">
-              <label>Names</label>
-            <dl tal:replace="structure context/@@names-listing"></dl>
-            <a tal:condition="not:portal_state/anonymous"
-              class="createObjectButton"
-              href="createObject?type_name=Name"
-              title="Create a new Name"
-              >Add Name</a>
-            </div>
+        <div tal:condition="context/@@iterate/baseline|nothing"
+          tal:define="baseline context/@@iterate/baseline" >
 
-            <h3 style="margin-top:2em">In the baseline place</h3>
-            <div id="locationsField" class="field baseline">
-              <label>Locations</label>
-              <dl tal:replace="structure baseline/@@locations-listing"></dl>
-            </div>
-            <div id="namesField" class="field">
-              <label>Names</label>
-              <dl tal:replace="structure baseline/@@names-listing"></dl>
-            </div>
-            </div>
+        <div tal:condition="context/@@iterate/baseline|nothing">
+        <h3 style="margin-top:0px;">In this working copy</h3>
+        <p>These will be copied to the baseline place when a reviewer checks the working copy in.</p>
+        <div id="locationsField" class="field">
+          <label>Locations</label>
+        <dl tal:replace="structure context/@@locations-listing"></dl>
+        <a tal:condition="not:portal_state/anonymous"
+          class="createObjectButton"
+          href="createObject?type_name=Location" 
+          title="Create a new Location"
+          >Add Location</a>
+        </div>
+        <div id="namesField" class="field">
+          <label>Names</label>
+        <dl tal:replace="structure context/@@names-listing"></dl>
+        <a tal:condition="not:portal_state/anonymous"
+          class="createObjectButton"
+          href="createObject?type_name=Name"
+          title="Create a new Name"
+          >Add Name</a>
+        </div>
 
-            <div><p>
-              <a href="folder_contents">Folder listing of locations and names</a>
-            </p></div>
-            </div>
+        <h3 style="margin-top:2em">In the baseline place</h3>
+        <div id="locationsField" class="field baseline">
+          <label>Locations</label>
+          <dl tal:replace="structure baseline/@@locations-listing"></dl>
+        </div>
+        <div id="namesField" class="field">
+          <label>Names</label>
+          <dl tal:replace="structure baseline/@@names-listing"></dl>
+        </div>
+        </div>
 
-          </td> <!-- fields -->
+        <div><p>
+          <a href="folder_contents">Folder listing of locations and names</a>
+        </p></div>
+        </div>
 
-        </tr>
-      </table>
 
-      <div id="fields-continued">
 
         <tal:repeat
           repeat="field python:here.Schema().filterFields(isMetadata=0)">
@@ -243,7 +236,6 @@
 </pre>
         </div>
 
-      </div>
 
 <script type="text/javascript">
 <!--
