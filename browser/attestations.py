@@ -113,7 +113,7 @@ class LocationsTable(ChildrenTable):
             where_tag = "baseline-where"
         for score, ob, nrefs in sorted(locations, reverse=False):
             innerHTML = [
-                u'<span id="%s_%s" class="placeChildItem Location" title="%s">' % (
+                u'<li id="%s_%s" class="placeChildItem Location" title="%s">' % (
                     ob.getId(),
                     where_tag,
                     self.snippet(ob) + "; " + unicode(ob.Description(), "utf-8") ),
@@ -123,9 +123,9 @@ class LocationsTable(ChildrenTable):
                      unicode(
                         ob.Title(), 'utf-8') + u" (copy)" * (
                             "copy" in ob.getId())),
-                u'</span>' ]
+                u'</li>' ]
             output.append(u"".join(innerHTML))
-        return u'<p class="placeChildren">' + ', '.join(output) + '</p>'
+        return u'<ul class="placeChildren">' + ', '.join(output) + '</ul>'
 
 
 class NamesTable(ChildrenTable):
