@@ -140,7 +140,7 @@ if (where) {
   L.geoJson(where, {
     pointToLayer: function (f, latlng) {
       return L.marker(latlng, {icon: placeIcon });
-    }
+    } ;
     onEachFeature: function (f, layer) {
       layer.bindPopup(
         '<dt><a href="' 
