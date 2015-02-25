@@ -138,10 +138,10 @@ var placeIcon = new L.Icon({
 
 if (where) {
   L.geoJson(where, {
+    pointToLayer: function (f, latlng) {
+      return L.marker(latlng, {icon: placeIcon });
+    }
     onEachFeature: function (f, layer) {
-      pointToLayer: function (f, latlng) {
-        return L.marker(latlng, {icon: placeIcon });
-      }
       layer.bindPopup(
         '<dt><a href="' 
         + f.properties.link + '">' + f.properties.title + '</a></dt>'
