@@ -89,6 +89,9 @@
 
         <div id="map-block" title="Locations of this particular place are shown in blue.">
           <div id="map"></div>
+          <p><a 
+            tal:attributes="href http://awmc.unc.edu/awmc/applications/alacarte/?pid={here/getId()}"
+            >view map in <i>Antiquity À-la-carte</i></a></p>
         </div>
 
         <p tal:condition="not:portal_state/anonymous">Red titles indicate drafting-state items. Yellow titles indicate pending-state.</p>
