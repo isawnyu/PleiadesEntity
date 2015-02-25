@@ -33,7 +33,7 @@
       <style>
         #map { height: 480px; float: left; }
         #below-map { float: left; width: 481px;}
-        #below-map > p { font-size: smaller; color: #DDD; font-style: italic; margin: 0px; margin-top: 0.5em;}
+        #below-map > p { font-size: smaller; color: #555; font-style: italic; margin: 0px; margin-top: 0.5em;}
         .leaflet-control-zoom-reset {
           background-image: url(zoom-reset.png);
           margin-bottom: 5px; }
