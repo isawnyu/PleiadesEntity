@@ -93,7 +93,7 @@ class ChildrenTable(BrowserView):
             rows = ['<span class="emptyChildItem"><em>None</em></span>']
         else:
             rows = self.rows(children)
-        return u'<p class="placeChildren">' + ''.join(rows) + '</p>'
+        return u'<ul class="placeChildren">' + u'\n'.join(rows) + '</ul>'
 
 class LocationsTable(ChildrenTable):
     def accessor(self):
@@ -124,8 +124,8 @@ class LocationsTable(ChildrenTable):
                         ob.Title(), 'utf-8') + u" (copy)" * (
                             "copy" in ob.getId())),
                 u'</li>' ]
-            output.append(u"".join(innerHTML))
-        return u'<ul class="placeChildren">' + '\n'.join(output) + '</ul>'
+            output.append(u"\n".join(innerHTML))
+        return output
 
 
 class NamesTable(ChildrenTable):
@@ -193,6 +193,6 @@ class NamesTable(ChildrenTable):
                      label + u" (copy)" * ("copy" in ob.getId()),
                      self.postfix(ob)),
                 u'</li>' ]
-            output.append(u"".join(innerHTML))
-        return u'<ul class="placeChildren">' + u'\n'.join(output) + u'</ul>'
+            output.append(u"\n".join(innerHTML))
+        return output
 
