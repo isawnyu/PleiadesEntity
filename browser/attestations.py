@@ -125,7 +125,7 @@ class LocationsTable(ChildrenTable):
                             "copy" in ob.getId())),
                 u'</li>' ]
             output.append(u"".join(innerHTML))
-        return u'<ul class="placeChildren">' + ', '.join(output) + '</ul>'
+        return u'<ul class="placeChildren">' + '\n'.join(output) + '</ul>'
 
 
 class NamesTable(ChildrenTable):
