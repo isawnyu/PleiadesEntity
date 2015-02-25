@@ -130,6 +130,12 @@ L.control.layers({
 
 var target = null;
 
+var placeIcon = new L.Icon({
+    iconUrl: "http://atlantides.org/images/justice-blue.png",
+    iconSize:     [32, 37],
+    iconAnchor:   [16, 37]
+  });
+
 if (where) {
   L.geoJson(where, {
     onEachFeature: function (f, layer) {
