@@ -127,7 +127,7 @@
 
                 </div>
             
-              </div> /* locationsField */
+              </div> <!-- locationsField -->
             
               <div id="namesField" class="field">
                 <label>Names</label>
@@ -137,7 +137,7 @@
                   href="createObject?type_name=Name"
                   title="Create a new Name"
                   >Add Name</a>
-              </div> /* namesField */
+              </div> <!-- namesField -->
 
               <div tal:condition="not:portal_state/anonymous">
                 <p>
@@ -256,7 +256,7 @@
           </pre>
         </div>
 
-      </div> /* fields-continued */
+      </div> <!-- fields-continued -->
 
 <script type="text/javascript">
 <!--
