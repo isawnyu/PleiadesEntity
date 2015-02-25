@@ -95,7 +95,7 @@
 
         <div tal:condition="not:context/@@iterate/baseline|nothing">
           <div id="locationsField" class="field">
-            <label>Locations</label>
+            <label>Locations:</label>
             <dl tal:replace="structure context/@@locations-listing"></dl>
                       
             <div tal:condition="not:portal_state/anonymous">
@@ -131,7 +131,7 @@
           </div> <!-- locationsField -->
         
           <div id="namesField" class="field">
-            <label>Names</label>
+            <label>Names:</label>
             <dl tal:replace="structure context/@@names-listing"></dl>
             <a tal:condition="not:portal_state/anonymous"
               class="createObjectButton"
