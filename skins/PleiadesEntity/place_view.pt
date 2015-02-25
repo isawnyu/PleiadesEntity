@@ -31,13 +31,12 @@
         href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" />
         
       <style>
-        #map { height: 480px; float: left; }
-        #below-map { float: left; width: 481px;}
+        #map { height: 480px; float: right; }
+        #below-map { float: right; width: 480px;}
         #below-map > p { font-size: smaller; color: #555; font-style: italic; margin: 0px; margin-top: 0.5em;}
         .leaflet-control-zoom-reset {
           background-image: url(zoom-reset.png);
           margin-bottom: 5px; }
-        #fields-continued { padding-right: 1em; }
       </style>
     </metal:links_macro>
 
