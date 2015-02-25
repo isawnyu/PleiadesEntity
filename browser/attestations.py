@@ -128,7 +128,7 @@ class LocationsTable(ChildrenTable):
                     ob.getId(),
                     where_tag,
                     self.snippet(ob) + "; " + unicode(ob.Description(), "utf-8") ),
-                u'<a class="state-%s" href="%s">%s%s</a>' % (
+                u'<a class="state-%s" href="%s">%s</a>%a' % (
                      self.wftool.getInfoFor(ob, 'review_state'), 
                      ob.absolute_url(), 
                      unicode(
@@ -197,7 +197,7 @@ class NamesTable(ChildrenTable):
             labelLang = ob.getNameLanguage() or "und"
             innerHTML = [
                 u'<li id="%s" class="placeChildItem" title="%s">' % (ob.getId(), self.snippet(ob)),
-                u'<a class="state-%s %s" href="%s"><span lang="%s">%s</span>%s</a>' % (
+                u'<a class="state-%s %s" href="%s"><span lang="%s">%s</span></a>%s' % (
                      self.wftool.getInfoFor(ob, 'review_state'), 
                      label_class,
                      ob.absolute_url(),
