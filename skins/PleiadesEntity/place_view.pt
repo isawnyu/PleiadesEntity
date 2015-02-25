@@ -208,6 +208,7 @@
           </tal:if_visible>
         </tal:repeat>
 
+        <div class="visualClear"></div>
         <div class="field">
           <label>Alternate representations:</label>
           <br/>
