@@ -90,7 +90,7 @@
         <div id="map-block" title="Locations of this particular place are shown in blue.">
           <div id="map"></div>
           <p><a href=""
-            tal:attributes="href string:http://awmc.unc.edu/awmc/applications/alacarte/?pid=${here/getId()}"
+            tal:attributes="href string:http://awmc.unc.edu/awmc/applications/alacarte/?pid=${here/getId}"
             >view map in <i>Antiquity À-la-carte</i></a></p>
         </div>
 
