@@ -95,7 +95,7 @@ if (!bounds) { bounds = L.latLngBounds([[20.0, -5.0], [50.0, 45.0]]); }
 
 var map = L.map('map', {zoomControl: false, attributionControl: false});
 map.setView(bounds.getCenter(), Math.min(map.getBoundsZoom(bounds), 11), true);
-L.control.attribution({prefix: false}).addTo(map);
+L.control.attribution({prefix: false, position: 'bottomleft'}).addTo(map);
 pl_zoom({initialBounds: bounds}).addTo(map);
 
 var awmcterrain = L.tileLayer(
