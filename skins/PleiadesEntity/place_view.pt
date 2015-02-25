@@ -64,12 +64,6 @@
           tal:content="here/Description">
           Description</p>
 
-        <div class="field">
-          <label>Canonical URI for this page:</label>
-          <br/>
-          <code tal:content="context/absolute_url"></code>
-        </div>
-
         <a itemprop="maps" href="" style="display:none"
           tal:attributes="href string:http://maps.google.com/maps?f=q&q=${here/absolute_url}/neighborhood-kml">URL</a>
 
@@ -105,6 +99,12 @@
                       >OpenStreetMap</a></span>.</p>
           </div>
           
+        </div>
+
+        <div class="field">
+          <label>Canonical URI for this page:</label>
+          <br/>
+          <code tal:content="context/absolute_url"></code>
         </div>
 
         <p tal:condition="not:portal_state/anonymous">Red titles indicate drafting-state items. Yellow titles indicate pending-state.</p>
