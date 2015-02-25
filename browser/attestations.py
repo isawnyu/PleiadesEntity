@@ -106,6 +106,17 @@ class LocationsTable(ChildrenTable):
             parts.append("unlocated")
         parts.append(TimeSpanWrapper(ob).snippet)
         return "; ".join(parts)
+    def postfix(self, ob):
+        timespan = TimeSpanWrapper(ob).snippet
+        if timespan.strip() == '':
+            timespan = None
+        elif timespan.strip() == 'AD 1700 - Present':
+            timespan = 'modern'
+        if timespan:
+            annotation = u'(%s)' % timespan 
+        else:
+            annotation = None
+        return [u'', u' %s' % annotation][annotation is not None]
     def rows(self, locations):
         output = []
         where_tag = "where"
@@ -117,12 +128,13 @@ class LocationsTable(ChildrenTable):
                     ob.getId(),
                     where_tag,
                     self.snippet(ob) + "; " + unicode(ob.Description(), "utf-8") ),
-                u'<a class="state-%s" href="%s">%s</a>' % (
+                u'<a class="state-%s" href="%s">%s%s</a>' % (
                      self.wftool.getInfoFor(ob, 'review_state'), 
                      ob.absolute_url(), 
                      unicode(
                         ob.Title(), 'utf-8') + u" (copy)" * (
-                            "copy" in ob.getId())),
+                            "copy" in ob.getId()),
+                     self.postfix(ob)),
                 u'</li>' ]
             output.append(u"\n".join(innerHTML))
         return output
