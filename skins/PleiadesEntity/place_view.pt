@@ -92,10 +92,10 @@
         <div id="map-block" title="Locations of this particular place are shown in blue.">
           <div id="map"></div>
           <div id="below-map">
-            <p>Show in 
+            <p>Show area in 
               <a href=""
                 tal:attributes="href string:http://awmc.unc.edu/awmc/applications/alacarte/?pid=${here/getId}"
-                >Antiquity À-la-carte</a><span 
+                >Antiquity &Agrave;-la-carte</a><span 
                   tal:condition="where"
                   tal:define="mlon python:where['reprPt'][0]; mlat python:where['reprPt'][1]"
                   >, <a 
