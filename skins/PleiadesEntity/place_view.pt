@@ -64,7 +64,11 @@
           tal:content="here/Description">
           Description</p>
 
-        <p>test2</p>
+        <div class="field">
+          <label>Canonical URI for this page:</label>
+          <br/>
+          <code tal:content="context/absolute_url"></code>
+        </div>
 
         <a itemprop="maps" href="" style="display:none"
           tal:attributes="href string:http://maps.google.com/maps?f=q&q=${here/absolute_url}/neighborhood-kml">URL</a>
@@ -203,12 +207,6 @@
             </tal:if_not_references>
           </tal:if_visible>
         </tal:repeat>
-
-        <div class="field">
-          <label>Canonical URI for this page:</label>
-          <br/>
-          <code tal:content="context/absolute_url"></code>
-        </div>
 
         <div class="field">
           <label>Alternate representations:</label>
