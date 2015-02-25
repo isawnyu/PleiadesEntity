@@ -85,7 +85,7 @@
 
         <div id="map-block" title="Locations of this particular place are shown in blue.">
           <div id="map"></div>
-        </td>
+        </div>
 
         <p tal:condition="not:portal_state/anonymous">Red titles indicate drafting-state items. Yellow titles indicate pending-state.</p>
 
