@@ -128,7 +128,7 @@ class LocationsTable(ChildrenTable):
                     ob.getId(),
                     where_tag,
                     self.snippet(ob) + "; " + unicode(ob.Description(), "utf-8") ),
-                u'<a class="state-%s" href="%s">%s</a>%a' % (
+                u'<a class="state-%s" href="%s">%s</a>%s' % (
                      self.wftool.getInfoFor(ob, 'review_state'), 
                      ob.absolute_url(), 
                      unicode(
