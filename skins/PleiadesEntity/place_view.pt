@@ -31,8 +31,9 @@
         href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" />
         
       <style>
-        #map { height: 480px; float: right; }
-        #below-map { float: right; }
+        #map { height: 480px; float: left; }
+        #below-map { float: left; background: #EEE; width: 481px; border: 1px solid #DDD;}
+        #below-map > p { font-size: smaller; color: #555; font-style: italic; margin: 0px;}
         .leaflet-control-zoom-reset {
           background-image: url(zoom-reset.png);
           margin-bottom: 5px; }
