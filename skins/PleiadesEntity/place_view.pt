@@ -57,7 +57,7 @@
         <h1 itemprop="name" tal:content="here/title_or_id">
           Title or id
         </h1>
-        <div tal:replace="structure provider:plone.belowcontenttitle.documentbyline" />
+        <div tal:replace="structure provider:plone.belowcontenttitle" />
 
         <p itemprop="description" 
           class="documentDescription"
