@@ -51,76 +51,19 @@
     <metal:header_macro define-macro="header"
       tal:define="kssClassesView context/@@kss_field_decorator_view;
                   getKssClasses nocall:kssClassesView/getKssClassesInlineEditable">
-
       <div itemscope itemtype="http://schema.org/Place">
         <div tal:replace="structure provider:plone.abovecontenttitle" />
         <h1 itemprop="name" tal:content="here/title_or_id">
           Title or id
         </h1>
-        <!-- <div tal:replace="structure provider:plone.belowcontenttitle" /> -->
-
-        <!-- byline -->
-        <div class="documentByLine"
-          id="plone-document-byline"
-          i18n:domain="plone"
-          tal:condition="view/show">
-          <span id="lock-icon"
-            tal:define="lock_icon view/locked_icon"
-            tal:condition="lock_icon">
-            <img tal:replace="structure lock_icon" />
-          </span>
-
-          <tal:name tal:condition="view/creator">
-            <span class="documentAuthor"
-              i18n:translate="label_by_author">
-              Creators:
-              <span i18n:name="name"
-                tal:omit-tag=""
-                tal:define="creators here/Creators">
-                <span tal:repeat="author python:[here.userInByline(name) for name in creators][:1]"><a tal:condition="author/id" tal:attributes="href string:/author/${author/id}" tal:content="author/fullname">Homer</a><span tal:condition="not:author/id" tal:content="author/fullname">Homer</span></span><span tal:repeat="author python:[here.userInByline(name) for name in creators][1:]">, <a tal:condition="author/id" tal:attributes="href string:/author/${author/id}" tal:content="author/fullname">Homer</a><span tal:condition="not:author/id" tal:content="author/fullname">Homer</span></span></span>
-            </span>
-          </tal:name>
-
-          <div class="documentContributors"
-               tal:condition="here/Contributors"
-               i18n:translate="text_contributors">
-            Contributors:
-            <span i18n:name="name"
-                  tal:omit-tag=""
-                  tal:define="contributors here/Contributors">
-        <span tal:repeat="author python:[here.userInByline(name) for name in contributors][:1]"><a tal:condition="author/id" tal:attributes="href string:/author/${author/id}" tal:content="author/fullname">Homer</a><span tal:condition="not:author/id" tal:content="author/fullname">Homer</span></span><span tal:repeat="author python:[here.userInByline(name) for name in contributors][1:]">, <a tal:condition="author/id" tal:attributes="href string:/author/${author/id}" tal:content="author/fullname">Homer</a><span tal:condition="not:author/id" tal:content="author/fullname">Homer</span></span>
-        </span>
-          </div>
-
-          <tal:rights condition="here/Rights">
-            <div tal:replace="here/Rights">
-              Copyleft NiceCorp Inc.
-            </div>
-          </tal:rights>
-
-          <div class="documentModified">
-            <span i18n:translate="box_last_modified">
-              Last modified
-            </span>
-            <span tal:replace="python:view.toLocalizedTime(here.ModificationDate(),long_format=1)">
-              August 16, 2001 at 23:35:59
-            </span>
-          </div>
-
-        </div>
-
-        <!-- description -->
-        
+        <div tal:replace="structure provider:plone.belowcontenttitle" />
         <p itemprop="description" 
           class="documentDescription"
           tal:content="here/Description">
           Description</p>
-
         <a itemprop="maps" href="" style="display:none"
           tal:attributes="href string:http://maps.google.com/maps?f=q&q=${here/absolute_url}/neighborhood-kml">URL</a>
-
         <div tal:replace="structure provider:plone.abovecontentbody" />
-      
       </div>
 
     </metal:header_macro>
