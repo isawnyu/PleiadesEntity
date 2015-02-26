@@ -80,11 +80,10 @@
         <div id="map-block" title="Locations of this particular place are shown in blue.">
           <div id="map"></div>
           <div id="below-map">
-            <p>Show area in 
+            <p tal:condition="python:hasattr(where, '__getitem__')">Show area in 
               <a href=""
                 tal:attributes="href string:http://awmc.unc.edu/awmc/applications/alacarte/?pid=${here/getId}"
                 >Antiquity &Agrave;-la-carte</a><span 
-                  tal:condition="not:context/@@iterate/baseline|nothing"
                   tal:define="mlon python:where['reprPt'][0]; mlat python:where['reprPt'][1]"
                   >, <a 
                       tal:attributes="href string:http://maps.google.com/?q=$mlat,$mlon" href=""
