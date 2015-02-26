@@ -130,18 +130,18 @@ L.control.layers({
 
 var target = null;
 
-var placeIcon = new L.Icon({
-    iconUrl: "http://atlantides.org/images/justice-blue.png",
+var locationIcon = new L.Icon({
+    iconUrl: "http://pleiades.stoa.org/images/pmapi/32/location-blue.png",
     iconSize:     [32, 37],
-    iconAnchor:   [16, 37],
-    popupAnchor:  [0, -37]
+    iconAnchor:   [15, 35],
+    popupAnchor:  [0, -32]
   });
 
 var connectionIcon = new L.Icon({
-    iconUrl: "http://pleiades.stoa.org/place_icon.gif",
-    iconSize:     [16, 16],
-    iconAnchor:   [8, 8],
-    popupAnchor:  [0, -8]
+    iconUrl: "http://pleiades.stoa.org/images/pmapi/21/connection-blue.png",
+    iconSize:     [21, 26],
+    iconAnchor:   [12, 28],
+    popupAnchor:  [0, -26]
   });
 
 var geojsonMarkerOptions = {
@@ -156,7 +156,7 @@ var geojsonMarkerOptions = {
 if (where) {
   L.geoJson(where, {
     pointToLayer: function (feature, latlng) {
-        return L.marker(latlng, {icon: placeIcon });
+        return L.marker(latlng, {icon: locationIcon });
     },
     onEachFeature: function (f, layer) {
       layer.bindPopup(
