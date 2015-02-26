@@ -31,12 +31,12 @@
         href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" />
         
       <style>
-        #map { height: 480px; float: right; }
-        #below-map { float: right; }
+        #map { height: 480px; }
+        #below-map { width: 480px;}
+        #below-map > p { font-size: 11px; color: #555; font-style: italic; margin: 0px; margin-top: 0.3em; padding-right: 0.5em; text-align: right;}
         .leaflet-control-zoom-reset {
           background-image: url(zoom-reset.png);
           margin-bottom: 5px; }
-        #fields-continued { padding-right: 1em; }
       </style>
     </metal:links_macro>
 
@@ -51,32 +51,19 @@
     <metal:header_macro define-macro="header"
       tal:define="kssClassesView context/@@kss_field_decorator_view;
                   getKssClasses nocall:kssClassesView/getKssClassesInlineEditable">
-
       <div itemscope itemtype="http://schema.org/Place">
-      <div tal:replace="structure provider:plone.abovecontenttitle" />
-      <h1 itemprop="name" tal:content="here/title_or_id">
-        Title or id
-      </h1>
-      <div tal:replace="structure provider:plone.belowcontenttitle" />
-
-      <!--p><strong>Primary Topic</strong> [<a href="http://xmlns.com/foaf/spec/#term_primaryTopic">about</a>]: 
-      <a rel="foaf:primaryTopic" tal:attributes="href string:${here/absolute_url}#this" tal:content="string:${here/absolute_url}#this">THIS</a> 
-      [<a type="application/rdf+xml" rel="nofollow alternate"
-               tal:attributes="href string:${here/absolute_url}/rdf">RDF+XML</a>,
-           <a type="text/turtle" rel="nofollow alternate"
-               tal:attributes="href string:${here/absolute_url}/turtle">Turtle</a>]
-      </p-->
-
-      <p itemprop="description" 
-        class="documentDescription"
-        tal:content="here/Description">
-        Description</p>
-
-      <a itemprop="maps" href="" style="display:none"
-        tal:attributes="href string:http://maps.google.com/maps?f=q&q=${here/absolute_url}/neighborhood-kml">URL</a>
-
-      <div tal:replace="structure provider:plone.abovecontentbody" />
-      
+        <div tal:replace="structure provider:plone.abovecontenttitle" />
+        <h1 itemprop="name" tal:content="here/title_or_id">
+          Title or id
+        </h1>
+        <div tal:replace="structure provider:plone.belowcontenttitle" />
+        <p itemprop="description" 
+          class="documentDescription"
+          tal:content="here/Description">
+          Description</p>
+        <a itemprop="maps" href="" style="display:none"
+          tal:attributes="href string:http://maps.google.com/maps?f=q&q=${here/absolute_url}/neighborhood-kml">URL</a>
+        <div tal:replace="structure provider:plone.abovecontentbody" />
       </div>
 
     </metal:header_macro>
@@ -87,120 +74,27 @@
         kssClassesView context/@@kss_field_decorator_view;
         getKssClasses nocall:kssClassesView/getKssClassesInlineEditable;
         templateId template/getId;
-        portal_state context/@@plone_portal_state;">
+        portal_state context/@@plone_portal_state;
+        where context/@@where;">
 
-      <table id="map-children">
-        <tr>
-
-          <td id="map-column" title="Locations of this particular place are shown in blue.">
-            <div id="map"></div>
-          </td>
-
-          <td id="fields-column" title="The authority rating, title and attested time periods of this place's names and locations are listed here. Red titles indicate drafting-state and yellow, pending-state.">
-
-            <div tal:condition="not:context/@@iterate/baseline|nothing">
-            <div id="locationsField" class="field">
-              <label>Locations</label>
-            <dl tal:replace="structure context/@@locations-listing"></dl>
-                        
-            <div tal:condition="not:portal_state/anonymous">
-
-              <div><span class="createObjectButton"><a href="createObject?type_name=Location" title="Create a new Location">Add Location</a> <span class="formButton" title="Create a new Location based on an OpenStreetMap Node">&#9660;</span></div>
-              
-              <div class="createLocationForm" style="display:none;">
-              <form method="POST" action="@@create-location-osm">
-                <h4>Add OpenStreetMap Point Location</h4>
-                <div><p><input id="type" name="type" 
-                  type="radio" value="node" checked="1"/> Node 
-                  <input id="type" name="type" 
-                  type="radio" value="way"/> Way 
-                  <label for="type">Object type (required)</label></p>
-                <p><input id="obj" name="obj" 
-                  type="text" placeholder="486605843"/>
-                  <label for="node">Object ID (required)</label></p>
-                <p><input id="title" name="title" 
-                  type="text" placeholder="Foo"/>
-                  <label for="title">Title (optional)</label></p>
-                </div>
-                <div><input type="Submit" name="submit" value="Add"/>
-                <span><a href="http://pleiades.stoa.org/help/content/linking-pleiades-to-openstreetmap">What's this?</a></span></div>
-              </form>
-              </div>
-
-            </div>
-            
-
-            </div>
-            <div id="namesField" class="field">
-              <label>Names</label>
-            <dl tal:replace="structure context/@@names-listing"></dl>
-            <a tal:condition="not:portal_state/anonymous"
-              class="createObjectButton"
-              href="createObject?type_name=Name"
-              title="Create a new Name"
-              >Add Name</a>
-            </div>
-            <div tal:condition="not:portal_state/anonymous"><p>
-              <a href="folder_contents">Folder listing of locations and names</a>
-            </p></div>
-            </div>
-
-            <div tal:condition="context/@@iterate/baseline|nothing"
-              tal:define="baseline context/@@iterate/baseline" >
-
-            <div tal:condition="context/@@iterate/baseline|nothing">
-            <h3 style="margin-top:0px;">In this working copy</h3>
-            <p>These will be copied to the baseline place when a reviewer checks the working copy in.</p>
-            <div id="locationsField" class="field">
-              <label>Locations</label>
-            <dl tal:replace="structure context/@@locations-listing"></dl>
-            <a tal:condition="not:portal_state/anonymous"
-              class="createObjectButton"
-              href="createObject?type_name=Location" 
-              title="Create a new Location"
-              >Add Location</a>
-            </div>
-            <div id="namesField" class="field">
-              <label>Names</label>
-            <dl tal:replace="structure context/@@names-listing"></dl>
-            <a tal:condition="not:portal_state/anonymous"
-              class="createObjectButton"
-              href="createObject?type_name=Name"
-              title="Create a new Name"
-              >Add Name</a>
-            </div>
-
-            <h3 style="margin-top:2em">In the baseline place</h3>
-            <div id="locationsField" class="field baseline">
-              <label>Locations</label>
-              <dl tal:replace="structure baseline/@@locations-listing"></dl>
-            </div>
-            <div id="namesField" class="field">
-              <label>Names</label>
-              <dl tal:replace="structure baseline/@@names-listing"></dl>
-            </div>
-            </div>
-
-            <div><p>
-              <a href="folder_contents">Folder listing of locations and names</a>
-            </p></div>
-            </div>
-
-          </td> <!-- fields -->
-
-        </tr>
-      </table>
-
-      <div id="fields-continued">
-
-        <tal:repeat
-          repeat="field python:here.Schema().filterFields(isMetadata=0)">
-          <tal:if_visible
-            define="mode string:view; visState python:field.widget.isVisible(here, mode); visCondition python:field.widget.testCondition(here, portal, template);"
-            condition="python:visState == 'visible' and visCondition">
-            <metal:use_field use-macro="field_macro"/>
-          </tal:if_visible>
-        </tal:repeat>
+        <div id="map-block" title="Locations of this particular place are shown in blue.">
+          <div id="map"></div>
+          <div id="below-map">
+            <p>Show area in 
+              <a href=""
+                tal:attributes="href string:http://awmc.unc.edu/awmc/applications/alacarte/?pid=${here/getId}"
+                >Antiquity &Agrave;-la-carte</a><span 
+                  tal:condition="where"
+                  tal:define="mlon python:where['reprPt'][0]; mlat python:where['reprPt'][1]"
+                  >, <a 
+                      tal:attributes="href string:http://maps.google.com/?q=$mlat,$mlon" href=""
+                      >Google Maps</a>
+                    or <a 
+                      tal:attributes="href string:http://openstreetmap.org/?mlat=$mlat&mlon=$mlon&zoom=12&layers=M" href=""
+                      >OpenStreetMap</a></span>.</p>
+          </div>
+          
+        </div>
 
         <div class="field">
           <label>Canonical URI for this page:</label>
@@ -208,6 +102,124 @@
           <code tal:content="context/absolute_url"></code>
         </div>
 
+        <p tal:condition="not:portal_state/anonymous">Red titles indicate drafting-state items. Yellow titles indicate pending-state.</p>
+
+        <div tal:condition="not:context/@@iterate/baseline|nothing">
+          <div id="locationsField" class="field">
+            <label>Locations:</label>
+            <dl tal:replace="structure context/@@locations-listing"></dl>
+                      
+            <div tal:condition="not:portal_state/anonymous">
+
+              <div><span class="createObjectButton"><a href="createObject?type_name=Location" title="Create a new Location">Add Location</a> <span class="formButton" title="Create a new Location based on an OpenStreetMap Node">&#9660;</span></div>
+            
+              <div class="createLocationForm" style="display:none;">
+                <form method="POST" action="@@create-location-osm">
+                  <h4>Add OpenStreetMap Point Location</h4>
+                  <div>
+                    <p>
+                      <input id="type" name="type" 
+                        type="radio" value="node" checked="1"/> Node 
+                      <input id="type" name="type" 
+                        type="radio" value="way"/> Way 
+                      <label for="type">Object type (required)</label></p>
+                    <p><input id="obj" name="obj" 
+                      type="text" placeholder="486605843"/>
+                      <label for="node">Object ID (required)</label></p>
+                    <p><input id="title" name="title" 
+                      type="text" placeholder="Foo"/>
+                      <label for="title">Title (optional)</label></p>
+                  </div>
+                  <div>
+                    <input type="Submit" name="submit" value="Add"/>
+                    <span><a href="http://pleiades.stoa.org/help/content/linking-pleiades-to-openstreetmap">What's this?</a></span>
+                  </div>
+                </form>
+              </div>
+
+            </div>
+        
+          </div> <!-- locationsField -->
+        
+          <div id="namesField" class="field">
+            <label>Names:</label>
+            <dl tal:replace="structure context/@@names-listing"></dl>
+            <a tal:condition="not:portal_state/anonymous"
+              class="createObjectButton"
+              href="createObject?type_name=Name"
+              title="Create a new Name"
+              >Add Name</a>
+          </div> <!-- namesField -->
+
+          <div tal:condition="not:portal_state/anonymous">
+            <p>
+              <a href="folder_contents">Folder listing of locations and names</a>
+            </p>
+          </div>
+        
+        </div>
+
+        <div tal:condition="context/@@iterate/baseline|nothing"
+          tal:define="baseline context/@@iterate/baseline" >
+
+          <div tal:condition="context/@@iterate/baseline|nothing">
+            <h3 style="margin-top:0px;">In this working copy</h3>
+            <p>These will be copied to the baseline place when a reviewer checks the working copy in.</p>
+            <div id="locationsField" class="field">
+              <label>Locations</label>
+              <dl tal:replace="structure context/@@locations-listing"></dl>
+              <a tal:condition="not:portal_state/anonymous"
+                class="createObjectButton"
+                href="createObject?type_name=Location" 
+                title="Create a new Location"
+                >Add Location</a>
+            </div>
+            <div id="namesField" class="field">
+              <label>Names</label>
+              <dl tal:replace="structure context/@@names-listing"></dl>
+              <a tal:condition="not:portal_state/anonymous"
+                class="createObjectButton"
+                href="createObject?type_name=Name"
+                title="Create a new Name"
+                >Add Name</a>
+            </div>
+
+            <h3 style="margin-top:2em">In the baseline place</h3>
+            <div id="locationsField" class="field baseline">
+              <label>Locations</label>
+              <dl tal:replace="structure baseline/@@locations-listing"></dl>
+            </div>
+
+            <div id="namesField" class="field">
+              <label>Names</label>
+              <dl tal:replace="structure baseline/@@names-listing"></dl>
+            </div>
+          </div>
+
+          <div>
+            <p>
+              <a href="folder_contents">Folder listing of locations and names</a>
+            </p>
+          </div>
+        </div>
+
+        <tal:repeat
+          repeat="field python:here.Schema().filterFields(isMetadata=0)">
+          <tal:if_visible
+            define="mode string:view; visState python:field.widget.isVisible(here, mode); visCondition python:field.widget.testCondition(here, portal, template);"
+            condition="python:visState == 'visible' and visCondition">
+            <tal:if_references
+              condition="python:field.getName() == 'referenceCitations'">
+              <metal:use_field use-macro="field_macro"/>
+            </tal:if_references>
+            <tal:if_not_references
+              condition="python:field.getName() != 'referenceCitations'">
+              <metal:use_field use-macro="field_macro"/>
+            </tal:if_not_references>
+          </tal:if_visible>
+        </tal:repeat>
+
+        <div class="visualClear"></div>
         <div class="field">
           <label>Alternate representations:</label>
           <br/>
@@ -216,6 +228,8 @@
                tal:attributes="href string:${url}/atom">Atom</a>,
             <a type="application/json" rel="nofollow alternate"
                tal:attributes="href string:${url}/json">JSON</a>,
+            <a type="application/json" rel="nofollow alternate"
+               tal:attributes="href string:${url}/json2">Alternate JSON (Experimental)</a>,
             <a type="application/vnd.google-earth.kml+xml" rel="nofollow alternate"
                tal:attributes="href string:${url}/kml">KML</a>,
             <a type="application/vnd.google-earth.kml+xml" rel="nofollow alternate"
@@ -228,22 +242,21 @@
         </div>
 
         <div class="field">
-          <label><span>Suggested citation:</label>
+          <label>Suggested citation:</label>
           <br/>
-<span tal:replace="here/citationAuthors">R. Talbert</span>.
-"Places: <span tal:replace="here/getId">ID</span> (<span tal:replace="here/Title">TITLE</span>)". Pleiades.
-&lt;<span tal:replace="here/absolute_url">http://opencontext.org/subjects/HazorZooSPA0000009703</span>&gt; [Accessed: <span tal:replace="python:DateTime().fCommon() or ''">2006-05-12</span>]
+          <span tal:replace="here/citationAuthors">R. Talbert</span>.
+          "Places: <span tal:replace="here/getId">ID</span> (<span tal:replace="here/Title">TITLE</span>)". Pleiades.
+          &lt;<span tal:replace="here/absolute_url">http://opencontext.org/subjects/HazorZooSPA0000009703</span>&gt; [Accessed: <span tal:replace="python:DateTime().fCommon() or ''">2006-05-12</span>]
         </div>
 
         <div class="field">
-          <label><span>Cite this resource in Wikipedia:</label>
+          <label>Cite this resource in Wikipedia:</label>
           <br/>
-<pre>
-{{cite web |url=<span tal:replace="here/absolute_url">http://example.com/foo</span> |title=Places: <span tal:replace="here/getId">ID</span> (<span tal:replace="here/Title">TITLE</span>) |author=<span tal:replace="here/citationAuthors">R. Talbert</span> |accessdate=<span tal:replace="python:DateTime().fCommon() or ''">2006-05-12</span> |publisher=Pleiades}}
-</pre>
+          <pre>
+            {{cite web |url=<span tal:replace="here/absolute_url">http://example.com/foo</span> |title=Places: <span tal:replace="here/getId">ID</span> (<span tal:replace="here/Title">TITLE</span>) |author=<span tal:replace="here/citationAuthors">R. Talbert</span> |accessdate=<span tal:replace="python:DateTime().fCommon() or ''">2006-05-12</span> |publisher=Pleiades}}
+          </pre>
         </div>
 
-      </div>
 
 <script type="text/javascript">
 <!--
@@ -262,5 +275,3 @@
 
   </body>
 </html>
-
-

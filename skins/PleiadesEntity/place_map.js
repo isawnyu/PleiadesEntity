@@ -93,31 +93,31 @@ if (baselineWhere && baselineWhere.bbox) {
 /* If there's no spatial context at all, set large bounds. */
 if (!bounds) { bounds = L.latLngBounds([[20.0, -5.0], [50.0, 45.0]]); }
 
-var map = L.map('map', {zoomControl: false, attributionControl: false});
+var map = L.map('map', {attributionControl: false});
 map.setView(bounds.getCenter(), Math.min(map.getBoundsZoom(bounds), 11), true);
-L.control.attribution({prefix: false}).addTo(map);
+L.control.attribution({prefix: false, position: 'bottomright'}).addTo(map);
 pl_zoom({initialBounds: bounds}).addTo(map);
 
 var awmcterrain = L.tileLayer(
-    'http://api.tiles.mapbox.com/v3/isawnyu.map-knmctlkh/{z}/{x}/{y}.png', {
+    'https://api.tiles.mapbox.com/v4/isawnyu.map-knmctlkh/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiaXNhd255dSIsImEiOiJBWEh1dUZZIn0.SiiexWxHHESIegSmW8wedQ', {
         attribution: 'Powered by <a href="http://leafletjs.com/">Leaflet</a> and <a href="https://www.mapbox.com/">Mapbox</a>. Map base by <a title="Ancient World Mapping Center (UNC-CH)" href="http://awmc.unc.edu">AWMC</a>, 2014 (cc-by-nc).'
         });
 awmcterrain.addTo(map);
 
 /* Not added by default, only through user control action */
 var terrain = L.tileLayer(
-    'http://api.tiles.mapbox.com/v3/isawnyu.map-p75u7mnj/{z}/{x}/{y}.png', {
+    'https://api.tiles.mapbox.com/v4/isawnyu.map-p75u7mnj/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiaXNhd255dSIsImEiOiJBWEh1dUZZIn0.SiiexWxHHESIegSmW8wedQ', {
         attribution: 'Powered by <a href="http://leafletjs.com/">Leaflet</a> and <a href="https://www.mapbox.com/">Mapbox</a>. Map base by <a title="Institute for the Study of the Ancient World (ISAW)" href="http://isaw.nyu.edu">ISAW</a>, 2014 (cc-by).'
         });
 
 var streets = L.tileLayer(
-    'http://api.tiles.mapbox.com/v3/isawnyu.map-zr78g89o/{z}/{x}/{y}.png', {
+    'https://api.tiles.mapbox.com/v4/isawnyu.map-zr78g89o/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiaXNhd255dSIsImEiOiJBWEh1dUZZIn0.SiiexWxHHESIegSmW8wedQ', {
         attribution: 'Powered by <a href="http://leafletjs.com/">Leaflet</a> and <a href="https://www.mapbox.com/">Mapbox</a>. Map base by <a title="Institute for the Study of the Ancient World (ISAW)" href="http://isaw.nyu.edu">ISAW</a>, 2014 (cc-by).'
         });
 
 var imperium = L.tileLayer(
     'http://pelagios.dme.ait.ac.at/tilesets/imperium//{z}/{x}/{y}.png', {
-        attribution: 'Powered by <a href="http://leafletjs.com/">Leaflet</a> and <a href="https://www.mapbox.com/">Mapbox</a>. Map base: <a href="http://pelagios.dme.ait.ac.at/maps/greco-roman/about.html">Pelagios</a>, 2012; Data: NASA, OSM, Pleiades, DARMC (cc-by).',
+        attribution: 'Powered by <a href="http://leafletjs.com/">Leaflet</a>. Map base: <a href="http://pelagios.dme.ait.ac.at/maps/greco-roman/about.html">Pelagios</a>, 2012; Data: NASA, OSM, Pleiades, DARMC (cc-by).',
         maxZoom: 11
         });
 
@@ -130,8 +130,34 @@ L.control.layers({
 
 var target = null;
 
+var placeIcon = new L.Icon({
+    iconUrl: "http://atlantides.org/images/justice-blue.png",
+    iconSize:     [32, 37],
+    iconAnchor:   [16, 37],
+    popupAnchor:  [0, -37]
+  });
+
+var connectionIcon = new L.Icon({
+    iconUrl: "http://pleiades.stoa.org/place_icon.gif",
+    iconSize:     [16, 16],
+    iconAnchor:   [8, 8],
+    popupAnchor:  [0, -8]
+  });
+
+var geojsonMarkerOptions = {
+    radius: 8,
+    fillColor: "#ff7800",
+    color: "#000",
+    weight: 1,
+    opacity: 1,
+    fillOpacity: 0.8
+};
+
 if (where) {
   L.geoJson(where, {
+    pointToLayer: function (feature, latlng) {
+        return L.marker(latlng, {icon: placeIcon });
+    },
     onEachFeature: function (f, layer) {
       layer.bindPopup(
         '<dt><a href="' 
@@ -160,6 +186,9 @@ if (connections) {
     filter: function (f, layer) {
       return f.type == 'Feature';
     },
+    pointToLayer: function (feature, latlng) {
+        return L.marker(latlng, {icon: connectionIcon });
+    },    
     onEachFeature: function (f, layer) {
       layer.bindPopup(
         '<dt><a href="' 
