@@ -148,7 +148,7 @@ var geojsonMarkerOptions = {
 if (where) {
   L.geoJson(where, {
     pointToLayer: function (feature, latlng) {
-        return L.circleMarker(latlng, geojsonMarkerOptions);
+        return L.marker(latlng, {icon: placeIcon });
     },
     onEachFeature: function (f, layer) {
       layer.bindPopup(
