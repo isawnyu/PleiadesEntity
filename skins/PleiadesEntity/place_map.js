@@ -171,7 +171,7 @@ if (connections) {
     onEachFeature: function (f, layer) {
       layer.bindPopup(
         '<dt><a href="' 
-        + f.properties.link + '">' + f.properties.title + '</a></dt>'
+        + f.properties.link + '">' + "Connection: " + f.properties.title + '</a></dt>'
         + '<dd>' + f.properties.description + '</dd>' );
         if (jq("h1").text() == f.properties.title) { target = layer; }
     }
