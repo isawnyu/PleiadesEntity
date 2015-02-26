@@ -84,7 +84,7 @@
               <a href=""
                 tal:attributes="href string:http://awmc.unc.edu/awmc/applications/alacarte/?pid=${here/getId}"
                 >Antiquity &Agrave;-la-carte</a><span 
-                  tal:condition="python:len(where['reprPt']) > 0"
+                  tal:condition="not:context/@@iterate/baseline|nothing"
                   tal:define="mlon python:where['reprPt'][0]; mlat python:where['reprPt'][1]"
                   >, <a 
                       tal:attributes="href string:http://maps.google.com/?q=$mlat,$mlon" href=""
