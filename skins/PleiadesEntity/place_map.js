@@ -136,8 +136,20 @@ var placeIcon = new L.Icon({
     iconAnchor:   [16, 37]
   });
 
+var geojsonMarkerOptions = {
+    radius: 8,
+    fillColor: "#ff7800",
+    color: "#000",
+    weight: 1,
+    opacity: 1,
+    fillOpacity: 0.8
+};
+
 if (where) {
   L.geoJson(where, {
+    pointToLayer: function (feature, latlng) {
+        return L.circleMarker(latlng, geojsonMarkerOptions);
+    };
     onEachFeature: function (f, layer) {
       layer.bindPopup(
         '<dt><a href="' 
