@@ -133,7 +133,15 @@ var target = null;
 var placeIcon = new L.Icon({
     iconUrl: "http://atlantides.org/images/justice-blue.png",
     iconSize:     [32, 37],
-    iconAnchor:   [16, 37]
+    iconAnchor:   [16, 37],
+    popupAnchor:  [0, -37]
+  });
+
+var connectionIcon = new L.Icon({
+    iconUrl: "http://pleiades.stoa.org/place_icon.gif",
+    iconSize:     [16, 16],
+    iconAnchor:   [8, 8],
+    popupAnchor:  [0, -8]
   });
 
 var geojsonMarkerOptions = {
@@ -178,6 +186,9 @@ if (connections) {
     filter: function (f, layer) {
       return f.type == 'Feature';
     },
+    pointToLayer: function (feature, latlng) {
+        return L.marker(latlng, {icon: connectionIcon });
+    },    
     onEachFeature: function (f, layer) {
       layer.bindPopup(
         '<dt><a href="' 
