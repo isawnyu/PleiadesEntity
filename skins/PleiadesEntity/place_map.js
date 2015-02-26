@@ -130,12 +130,7 @@ L.control.layers({
 
 var target = null;
 
-var locationIcon = new L.Icon({
-    iconUrl: "http://pleiades.stoa.org/images/pmapi/32/location-blue.png",
-    iconSize:     [32, 37],
-    iconAnchor:   [15, 35],
-    popupAnchor:  [0, -32]
-  });
+/* set up icons for vector layers */
 
 var connectionIcon = new L.Icon({
     iconUrl: "http://pleiades.stoa.org/images/pmapi/21/connection-blue.png",
@@ -144,43 +139,27 @@ var connectionIcon = new L.Icon({
     popupAnchor:  [0, -26]
   });
 
-var geojsonMarkerOptions = {
-    radius: 8,
-    fillColor: "#ff7800",
-    color: "#000",
-    weight: 1,
-    opacity: 1,
-    fillOpacity: 0.8
-};
+var locationIcon = new L.Icon({
+    iconUrl: "http://pleiades.stoa.org/images/pmapi/32/location-blue.png",
+    iconSize:     [32, 37],
+    iconAnchor:   [15, 35],
+    popupAnchor:  [0, -32]
+  });
 
-if (where) {
-  L.geoJson(where, {
-    pointToLayer: function (feature, latlng) {
-        return L.marker(latlng, {icon: locationIcon });
-    },
-    onEachFeature: function (f, layer) {
-      layer.bindPopup(
-        '<dt><a href="' 
-        + f.properties.link + '">' + f.properties.title + '</a></dt>'
-        + '<dd>' + f.properties.description + '</dd>' );
-        if (jq("h1").text() == f.properties.title) { target = layer; }
-    }
-  }).addTo(map);
-}
+var baselineLocationIcon = new L.Icon({
+    iconUrl: "http://pleiades.stoa.org/images/pmapi/21/location-green.png",
+    iconSize:     [21, 26],
+    iconAnchor:   [12, 28],
+    popupAnchor:  [0, -26]
+  });
 
-if (baselineWhere) {
-  L.geoJson(baselineWhere, {
-    onEachFeature: function (f, layer) {
-      layer.bindPopup(
-        '<dt><a href="' 
-        + f.properties.link + '">' + f.properties.title + '</a></dt>'
-        + '<dd>' + f.properties.description + '</dd>' );
-    }
-  }).addTo(map);
-}
+
+
+/* add vector layers: stacking order is in order added, which is why we do locations last */
 
 var connections = getJSON("connections");
 
+/* connections */
 if (connections) {
   L.geoJson(connections, {
     filter: function (f, layer) {
@@ -198,6 +177,38 @@ if (connections) {
     }
   }).addTo(map);
 }
+
+/* locations in the baseline (if this is a working copy) */
+if (baselineWhere) {
+  L.geoJson(baselineWhere, {
+    pointToLayer: function (feature, latlng) {
+        return L.marker(latlng, {icon: baselineLocationIcon });
+    },
+    onEachFeature: function (f, layer) {
+      layer.bindPopup(
+        '<dt><a href="' 
+        + f.properties.link + '">' + f.properties.title + '</a></dt>'
+        + '<dd>' + f.properties.description + '</dd>' );
+    }
+  }).addTo(map);
+}
+
+/* locations in the current place object */
+if (where) {
+  L.geoJson(where, {
+    pointToLayer: function (feature, latlng) {
+        return L.marker(latlng, {icon: locationIcon });
+    },
+    onEachFeature: function (f, layer) {
+      layer.bindPopup(
+        '<dt><a href="' 
+        + f.properties.link + '">' + f.properties.title + '</a></dt>'
+        + '<dd>' + f.properties.description + '</dd>' );
+        if (jq("h1").text() == f.properties.title) { target = layer; }
+    }
+  }).addTo(map);
+}
+
 
 if (target != null) {
   target.openPopup();
