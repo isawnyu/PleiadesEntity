@@ -73,12 +73,6 @@ var bounds = null;
 var baselineBounds = null;
 var reprPoint = null;
 
-/* launch request for AWMC JSON */
-awmcJsonUrl = 'http://awmc.unc.edu/api/omnia/' + '152836' + '/json'
-jq.get(awmcJsonUrl, function(json){
-  console.info('awmcjson: ', json);
-});
-
 /* parse place spatial info from JSON URI in the place page */
 var where = getJSON("where");
 if (where && where.bbox) {
