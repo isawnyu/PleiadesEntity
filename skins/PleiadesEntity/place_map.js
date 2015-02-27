@@ -76,7 +76,7 @@ var where = getJSON("where");
 if (where && where.bbox) {
   bounds = L.latLngBounds([
     [where.bbox[1], where.bbox[0]],
-    [where.bbox[3], where.bbox[2]] ]).pad(0.10);
+    [where.bbox[3], where.bbox[2]] ]).pad(0.01);
 }
 
 var baselineWhere = getJSON("baseline-where");
