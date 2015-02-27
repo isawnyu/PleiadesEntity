@@ -136,42 +136,35 @@ var connectionIcon = new L.Icon({
     iconUrl: "http://pleiades.stoa.org/images/pmapi/21/connection-blue.png",
     iconSize:     [21, 26],
     iconAnchor:   [12, 28],
-    popupAnchor:  [0, -26]
+    popupAnchor:  [0, -23]
   });
 
 var locationIcon = new L.Icon({
     iconUrl: "http://pleiades.stoa.org/images/pmapi/32/location-blue.png",
     iconSize:     [32, 37],
-    iconAnchor:   [15, 35],
-    popupAnchor:  [0, -32]
+    iconAnchor:   [16, 35],
+    popupAnchor:  [0, -33]
   });
 
 var baselineLocationIcon = new L.Icon({
     iconUrl: "http://pleiades.stoa.org/images/pmapi/21/location-green.png",
     iconSize:     [21, 26],
     iconAnchor:   [12, 28],
-    popupAnchor:  [0, -26]
+    popupAnchor:  [0, -23]
   });
 
+/* add vector layers */
 
-
-/* add vector layers: stacking order is in order added, which is why we do locations last */
-
-var connections = getJSON("connections");
-
-/* connections */
-if (connections) {
-  L.geoJson(connections, {
-    filter: function (f, layer) {
-      return f.type == 'Feature';
-    },
+/* locations in the current place object */
+if (where) {
+  L.geoJson(where, {
     pointToLayer: function (feature, latlng) {
-        return L.marker(latlng, {icon: connectionIcon });
-    },    
+        return L.marker(latlng, {icon: locationIcon });
+    },
     onEachFeature: function (f, layer) {
       layer.bindPopup(
         '<dt><a href="' 
-        + f.properties.link + '">' + "Connection: " + f.properties.title + '</a></dt>'
+        + f.properties.link + '">' + f.properties.title + '</a></dt>'
         + '<dd>' + f.properties.description + '</dd>' );
         if (jq("h1").text() == f.properties.title) { target = layer; }
     }
@@ -193,22 +186,27 @@ if (baselineWhere) {
   }).addTo(map);
 }
 
-/* locations in the current place object */
-if (where) {
-  L.geoJson(where, {
-    pointToLayer: function (feature, latlng) {
-        return L.marker(latlng, {icon: locationIcon });
+/* connections */
+/* NB: there's only JSON for all connections, so we can't 
+  distinguish between from and to */
+var connections = getJSON("connections");
+if (connections) {
+  L.geoJson(connections, {
+    filter: function (f, layer) {
+      return f.type == 'Feature';
     },
+    pointToLayer: function (feature, latlng) {
+        return L.marker(latlng, {icon: connectionIcon });
+    },    
     onEachFeature: function (f, layer) {
       layer.bindPopup(
         '<dt><a href="' 
-        + f.properties.link + '">' + f.properties.title + '</a></dt>'
+        + f.properties.link + '">' + "Connection: " + f.properties.title + '</a></dt>'
         + '<dd>' + f.properties.description + '</dd>' );
         if (jq("h1").text() == f.properties.title) { target = layer; }
     }
   }).addTo(map);
 }
-
 
 if (target != null) {
   target.openPopup();
