@@ -82,8 +82,9 @@ if (where && where.bbox) {
 if (where && where.reprPoint) {
   console.info('reprPoint[0]: ' + where.reprPoint[0])
   console.info('reprPoint[1]: ' + where.reprPoint[1])
-  reprPoint = L.latLng(38.482289000000002, 22.501169000000001
-      )
+  reprPoint = L.latLng(where.reprPoint[1], where.reprPoint[0])
+  console.info('lat: ' + reprPoint.lat)
+  console.info('lon: ' + reprPoint.lon)
 }
 
 var baselineWhere = getJSON("baseline-where");
