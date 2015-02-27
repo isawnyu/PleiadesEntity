@@ -133,10 +133,10 @@ var target = null;
 /* set up icons for vector layers */
 
 var connectionIcon = new L.Icon({
-    iconUrl: "http://pleiades.stoa.org/images/pmapi/21/connection-blue.png",
+    iconUrl: "http://pleiades.stoa.org/images/pmapi/21/connection-green.png",
     iconSize:     [21, 26],
     iconAnchor:   [12, 28],
-    popupAnchor:  [0, -26]
+    popupAnchor:  [0, -30]
   });
 
 var locationIcon = new L.Icon({
@@ -147,10 +147,10 @@ var locationIcon = new L.Icon({
   });
 
 var baselineLocationIcon = new L.Icon({
-    iconUrl: "http://pleiades.stoa.org/images/pmapi/21/location-green.png",
-    iconSize:     [21, 26],
-    iconAnchor:   [12, 28],
-    popupAnchor:  [0, -26]
+    iconUrl: "http://pleiades.stoa.org/images/pmapi/32/location-brown.png",
+    iconSize:     [32, 37],
+    iconAnchor:   [15, 35],
+    popupAnchor:  [0, -32]
   });
 
 
