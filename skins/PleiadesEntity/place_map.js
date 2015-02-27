@@ -95,7 +95,7 @@ if (!bounds) { bounds = L.latLngBounds([[20.0, -5.0], [50.0, 45.0]]); }
 
 var map = L.map('map', {attributionControl: false});
 /* map.setView(bounds.getCenter(), Math.min(map.getBoundsZoom(bounds), 101), true); */
-map.fitBounds(bounds, {maxZoom: 6});
+map.fitBounds(bounds, {maxZoom: 8});
 L.control.attribution({prefix: false, position: 'bottomright'}).addTo(map);
 pl_zoom({initialBounds: bounds}).addTo(map);
 
