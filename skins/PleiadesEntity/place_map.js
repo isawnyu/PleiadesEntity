@@ -74,7 +74,7 @@ var baselineBounds = null;
 var reprPoint = null;
 
 /* launch request for AWMC JSON */
-awmcJsonUrl = 'http://awmc.unc.edu/api/omnia/' + 'foo' + '/json'
+awmcJsonUrl = 'http://awmc.unc.edu/api/omnia/' + '152836' + '/json'
 $.getJSON(awmcJsonUrl, function(json){
   console.info('awmcjson: ', json);
 });
