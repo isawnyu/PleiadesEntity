@@ -140,11 +140,13 @@ var baseLayers = {
 
 var reprMark = L.circleMarker(
   reprPoint, {
-    stroke: false,
+    stroke: true,
+    color: '#333',
     fill: true,
     fillColor: '#FFA500',
     fillOpacity: 1,
-    radius: 10,
+    radius: 7,
+    zIndexOffset: 10000,
     });
 
 var overlays = {
