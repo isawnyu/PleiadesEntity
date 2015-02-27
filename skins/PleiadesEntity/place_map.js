@@ -80,6 +80,8 @@ if (where && where.bbox) {
     [where.bbox[3], where.bbox[2]] ]).pad(0.10);
 }
 if (where && where.reprPoint) {
+  console.info('reprPoint[0]: ' + where.reprPoint[0])
+  console.info('reprPoint[1]: ' + where.reprPoint[1])
   reprPoint = L.latLng(38.482289000000002, 22.501169000000001
       )
 }
