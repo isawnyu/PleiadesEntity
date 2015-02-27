@@ -123,12 +123,18 @@ var imperium = L.tileLayer(
         maxZoom: 11
         });
 
-L.control.layers({
+var baseLayers = {
     "Ancient Terrain (default)": awmcterrain,
     "Modern Terrain": terrain,
     "Modern Streets": streets,
     "Roman Empire": imperium,
-    }).addTo(map);
+}
+
+var overlays = {
+    
+}
+
+L.control.layers(baseLayers, overlays).addTo(map);
 
 var target = null;
 
