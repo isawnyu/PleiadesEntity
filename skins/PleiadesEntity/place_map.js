@@ -71,12 +71,16 @@ function getJSON(rel) {
 
 var bounds = null;
 var baselineBounds = null;
+var reprPoint = null;
 
 var where = getJSON("where");
 if (where && where.bbox) {
   bounds = L.latLngBounds([
     [where.bbox[1], where.bbox[0]],
     [where.bbox[3], where.bbox[2]] ]).pad(0.10);
+}
+if (where && where.reprPoint) {
+  reprPoint = L.latLng(where.reprPoint[2], where.reprPoint[1])
 }
 
 var baselineWhere = getJSON("baseline-where");
@@ -130,8 +134,16 @@ var baseLayers = {
     "Roman Empire": imperium,
 }
 
+var reprMark = L.circleMarker(
+  reprPoint, {
+    stroke: false,
+    fill: true,
+    fillColor: '#03f',
+    fillOpacity: 1.0,
+    });
+
 var overlays = {
-    
+    "Representative point": reprMark,
 }
 
 L.control.layers(baseLayers, overlays).addTo(map);
