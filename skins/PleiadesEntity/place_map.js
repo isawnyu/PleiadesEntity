@@ -76,7 +76,7 @@ var where = getJSON("where");
 if (where && where.bbox) {
   bounds = L.latLngBounds([
     [where.bbox[1], where.bbox[0]],
-    [where.bbox[3], where.bbox[2]] ]).pad(0.01);
+    [where.bbox[3], where.bbox[2]] ]).pad(0.10);
 }
 
 var baselineWhere = getJSON("baseline-where");
@@ -94,7 +94,8 @@ if (baselineWhere && baselineWhere.bbox) {
 if (!bounds) { bounds = L.latLngBounds([[20.0, -5.0], [50.0, 45.0]]); }
 
 var map = L.map('map', {attributionControl: false});
-map.setView(bounds.getCenter(), Math.min(map.getBoundsZoom(bounds), 11), true);
+/* map.setView(bounds.getCenter(), Math.min(map.getBoundsZoom(bounds), 101), true); */
+map.fitBounds(bounds);
 L.control.attribution({prefix: false, position: 'bottomright'}).addTo(map);
 pl_zoom({initialBounds: bounds}).addTo(map);
 
