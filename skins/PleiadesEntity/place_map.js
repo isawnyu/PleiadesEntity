@@ -159,7 +159,7 @@ var baselineLocationIcon = new L.Icon({
 if (where) {
   L.geoJson(where, {
     pointToLayer: function (feature, latlng) {
-        return L.marker(latlng, {icon: locationIcon });
+        return L.marker(latlng, {icon: locationIcon, zIndexOffset: 1000 });
     },
     onEachFeature: function (f, layer) {
       layer.bindPopup(
@@ -175,7 +175,7 @@ if (where) {
 if (baselineWhere) {
   L.geoJson(baselineWhere, {
     pointToLayer: function (feature, latlng) {
-        return L.marker(latlng, {icon: baselineLocationIcon });
+        return L.marker(latlng, {icon: baselineLocationIcon, zIndexOffset: 100 });
     },
     onEachFeature: function (f, layer) {
       layer.bindPopup(
@@ -196,7 +196,7 @@ if (connections) {
       return f.type == 'Feature';
     },
     pointToLayer: function (feature, latlng) {
-        return L.marker(latlng, {icon: connectionIcon });
+        return L.marker(latlng, {icon: connectionIcon, zIndexOffset: 10 });
     },    
     onEachFeature: function (f, layer) {
       layer.bindPopup(
