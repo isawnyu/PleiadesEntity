@@ -80,7 +80,7 @@
         <div id="map-block" title="Locations of this particular place are shown in blue.">
           <div id="map"></div>
           <div id="below-map">
-            <p tal:condition="python:hasattr(where, '__getitem__')">Show area in 
+            <p tal:condition="where">Show area in 
               <a href=""
                 tal:attributes="href string:http://awmc.unc.edu/awmc/applications/alacarte/?pid=${here/getId}"
                 >Antiquity &Agrave;-la-carte</a>
