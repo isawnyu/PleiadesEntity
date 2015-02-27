@@ -138,8 +138,8 @@ var reprMark = L.circleMarker(
   reprPoint, {
     stroke: false,
     fill: true,
-    fillColor: '#03f',
-    fillOpacity: 1.0,
+    fillColor: '#FFA500',
+    radius: 20,
     });
 
 var overlays = {
