@@ -95,13 +95,14 @@ if (!bounds) { bounds = L.latLngBounds([[20.0, -5.0], [50.0, 45.0]]); }
 
 var map = L.map('map', {attributionControl: false});
 /* map.setView(bounds.getCenter(), Math.min(map.getBoundsZoom(bounds), 101), true); */
-map.fitBounds(bounds);
+map.fitBounds(bounds, {maxZoom: 6});
 L.control.attribution({prefix: false, position: 'bottomright'}).addTo(map);
 pl_zoom({initialBounds: bounds}).addTo(map);
 
 var awmcterrain = L.tileLayer(
     'https://api.tiles.mapbox.com/v4/isawnyu.map-knmctlkh/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiaXNhd255dSIsImEiOiJBWEh1dUZZIn0.SiiexWxHHESIegSmW8wedQ', {
-        attribution: 'Powered by <a href="http://leafletjs.com/">Leaflet</a> and <a href="https://www.mapbox.com/">Mapbox</a>. Map base by <a title="Ancient World Mapping Center (UNC-CH)" href="http://awmc.unc.edu">AWMC</a>, 2014 (cc-by-nc).'
+        attribution: 'Powered by <a href="http://leafletjs.com/">Leaflet</a> and <a href="https://www.mapbox.com/">Mapbox</a>. Map base by <a title="Ancient World Mapping Center (UNC-CH)" href="http://awmc.unc.edu">AWMC</a>, 2014 (cc-by-nc).',
+        maxZoom: 12
         });
 awmcterrain.addTo(map);
 
