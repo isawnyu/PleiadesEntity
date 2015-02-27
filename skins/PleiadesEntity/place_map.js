@@ -73,6 +73,13 @@ var bounds = null;
 var baselineBounds = null;
 var reprPoint = null;
 
+/* launch request for AWMC JSON */
+awmcJsonUrl = 'http://awmc.unc.edu/api/omnia/' + 'foo' + '/json'
+$.getJSON(awmcJsonUrl, function(json){
+  console.info('awmcjson: ', json);
+});
+
+/* parse place spatial info from JSON URI in the place page */
 var where = getJSON("where");
 if (where && where.bbox) {
   bounds = L.latLngBounds([
@@ -87,6 +94,7 @@ if (where && where.reprPoint) {
   console.info('lng: ' + reprPoint.lng)
 }
 
+/* parse place spatial info from JSON uri in the baseline place (if this is a working copy) */
 var baselineWhere = getJSON("baseline-where");
 if (baselineWhere && baselineWhere.bbox) {
   baselineBounds = L.latLngBounds([
@@ -146,8 +154,9 @@ var reprMark = L.circleMarker(
     fillColor: '#FFA500',
     fillOpacity: 1,
     radius: 7,
-    zIndexOffset: 10000,
     });
+
+var awmcJSON = getJSON()
 
 var overlays = {
     "Representative point": reprMark,
