@@ -84,7 +84,7 @@ if (where && where.reprPoint) {
   console.info('reprPoint[1]: ' + where.reprPoint[1])
   reprPoint = L.latLng(where.reprPoint[1], where.reprPoint[0])
   console.info('lat: ' + reprPoint.lat)
-  console.info('lon: ' + reprPoint.lon)
+  console.info('lng: ' + reprPoint.lng)
 }
 
 var baselineWhere = getJSON("baseline-where");
