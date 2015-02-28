@@ -248,6 +248,16 @@ if (connections) {
     pointToLayer: function (feature, latlng) {
         return L.marker(latlng, {icon: connectionIcon, zIndexOffset: 10 });
     },    
+    style: function(f) {
+        return {
+          color: '#55cb4f',
+          opacity: 1,
+          weight: 2,
+          fill: true,
+          fillColor: '#55cb4f',
+          fillOpacity: 0.2,
+        }
+    },
     onEachFeature: function (f, layer) {
       layer.bindPopup(
         '<dt><a href="' 
