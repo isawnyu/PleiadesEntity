@@ -219,11 +219,11 @@ if (baselineWhere) {
     },
     style: function(f) {
         return {
-          color: '#555555',
+          color: '#ce8951',
           opacity: 1,
           weight: 2,
           fill: true,
-          fillColor: '#555555',
+          fillColor: '#ce8951',
           fillOpacity: 0.2,
         }
     },
