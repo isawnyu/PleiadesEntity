@@ -191,6 +191,16 @@ if (where) {
     pointToLayer: function (feature, latlng) {
         return L.marker(latlng, {icon: locationIcon, zIndexOffset: 1000 });
     },
+    style: function(f) {
+        return {
+          color: '#5587fc',
+          opacity: 1,
+          weight: 2,
+          fill: true,
+          fillColor: '#5587fc',
+          fillOpacity: 0.2,
+        }
+    },
     onEachFeature: function (f, layer) {
       layer.bindPopup(
         '<dt><a href="' 
@@ -206,6 +216,16 @@ if (baselineWhere) {
   L.geoJson(baselineWhere, {
     pointToLayer: function (feature, latlng) {
         return L.marker(latlng, {icon: baselineLocationIcon, zIndexOffset: 100 });
+    },
+    style: function(f) {
+        return {
+          color: '#555555',
+          opacity: 1,
+          weight: 2,
+          fill: true,
+          fillColor: '#555555',
+          fillOpacity: 0.2,
+        }
     },
     onEachFeature: function (f, layer) {
       layer.bindPopup(
