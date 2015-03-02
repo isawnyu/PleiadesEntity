@@ -177,7 +177,7 @@ var locationIcon = new L.Icon({
   });
 
 var baselineLocationIcon = new L.Icon({
-    iconUrl: "http://pleiades.stoa.org/images/pmapi/21/location-brown.png",
+    iconUrl: "http://pleiades.stoa.org/images/pmapi/21/location-gray.png",
     iconSize:     [21, 26],
     iconAnchor:   [12, 28],
     popupAnchor:  [0, -23]
@@ -212,6 +212,7 @@ if (where) {
 }
 
 /* locations in the baseline (if this is a working copy) */
+/* color: gray (555555) */
 if (baselineWhere) {
   L.geoJson(baselineWhere, {
     pointToLayer: function (feature, latlng) {
@@ -219,11 +220,11 @@ if (baselineWhere) {
     },
     style: function(f) {
         return {
-          color: '#ce8951',
+          color: '#555555',
           opacity: 1,
           weight: 2,
           fill: true,
-          fillColor: '#ce8951',
+          fillColor: '#555555',
           fillOpacity: 0.2,
         }
     },
