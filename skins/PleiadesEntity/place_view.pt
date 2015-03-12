@@ -57,7 +57,7 @@
           Title or id
         </h1>
         <div class="info">This is a <i>Pleiades</i> place resource.
-          <img src="/docs/images/information/image" alt="light bulb icon" />
+          <img tal:attributes="src string:${context/@@plone_portal_state/portal_url}/docs/images/information/image" alt="[ light bulb icon ]" />
           <div class="info-detail">blah</div>
         </div>
         <div tal:replace="structure provider:plone.belowcontenttitle" />
