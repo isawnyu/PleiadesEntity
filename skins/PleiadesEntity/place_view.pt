@@ -56,6 +56,10 @@
         <h1 itemprop="name" tal:content="here/title_or_id">
           Title or id
         </h1>
+        <div class="info">This is a <i>Pleiades</i> place resource.
+          <img src="/docs/images/information/image" alt="light bulb icon" />
+          <div class="info-detail">blah</div>
+        </div>
         <div tal:replace="structure provider:plone.belowcontenttitle" />
         <p itemprop="description" 
           class="documentDescription"
