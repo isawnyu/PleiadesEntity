@@ -96,8 +96,9 @@ if (baselineWhere && baselineWhere.bbox) {
 /* If there's no spatial context at all, set large bounds. */
 if (!bounds) { bounds = L.latLngBounds([[20.0, -5.0], [50.0, 45.0]]); }
 
-var map = L.map('map', {zoomControl: false, attributionControl: false});
-map.setView(bounds.getCenter(), Math.min(map.getBoundsZoom(bounds), 11), true);
+var map = L.map('map', {attributionControl: false});
+/* map.setView(bounds.getCenter(), Math.min(map.getBoundsZoom(bounds), 11), true); */
+map.fitBounds(bounds, {maxZoom: 10});
 L.control.attribution({prefix: false, position: 'bottomright'}).addTo(map);
 pl_zoom({initialBounds: bounds}).addTo(map);
 
