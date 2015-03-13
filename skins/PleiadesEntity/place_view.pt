@@ -85,7 +85,7 @@
               <a href=""
                 tal:attributes="href string:http://awmc.unc.edu/awmc/applications/alacarte/?pid=${here/getId}"
                 >Antiquity &Agrave;-la-carte</a><span
-                  tal:define="mlon python:where['reprPt'][0]; mlat python:where['reprPt'][1]"
+                  tal:define="mlon python:where['reprPt'][0]; mlat python:where['reprPt'][1]; underscore string:_"
                   >, <a tal:attributes="href string:http://www.geonames.org/maps/google_$mlat$underscore$mlon.html" href=""
                   >GeoNames</a>, 
                     <a 
