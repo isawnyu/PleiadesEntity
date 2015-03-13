@@ -21,7 +21,6 @@
         tal:attributes="href baseline/@@json/data_uri|nothing" />
       <link rel="nofollow alternate" type="application/atom+xml" tal:attributes="href string:${url}/atom"/>
       <link rel="nofollow alternate" type="application/json" tal:attributes="href string:${url}/@@json?sm=1"/>
-      <link rel="nofollow alternate" type="application/vnd.google-earth.kml+xml" tal:attributes="href string:${url}/kml"/>
       <link rel="canonical" tal:attributes="href url"/>
       <link 
         rel="stylesheet" 
