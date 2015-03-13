@@ -71,14 +71,24 @@ function getJSON(rel) {
 
 var bounds = null;
 var baselineBounds = null;
+var reprPoint = null;
 
+/* parse place spatial info from JSON URI in the place page */
 var where = getJSON("where");
 if (where && where.bbox) {
   bounds = L.latLngBounds([
     [where.bbox[1], where.bbox[0]],
     [where.bbox[3], where.bbox[2]] ]).pad(0.10);
 }
+if (where && where.reprPoint) {
+  console.info('reprPoint[0]: ' + where.reprPoint[0])
+  console.info('reprPoint[1]: ' + where.reprPoint[1])
+  reprPoint = L.latLng(where.reprPoint[1], where.reprPoint[0])
+  console.info('lat: ' + reprPoint.lat)
+  console.info('lng: ' + reprPoint.lng)
+}
 
+/* parse place spatial info from JSON uri in the baseline place (if this is a working copy) */
 var baselineWhere = getJSON("baseline-where");
 if (baselineWhere && baselineWhere.bbox) {
   baselineBounds = L.latLngBounds([
@@ -94,13 +104,15 @@ if (baselineWhere && baselineWhere.bbox) {
 if (!bounds) { bounds = L.latLngBounds([[20.0, -5.0], [50.0, 45.0]]); }
 
 var map = L.map('map', {attributionControl: false});
-map.setView(bounds.getCenter(), Math.min(map.getBoundsZoom(bounds), 11), true);
+/* map.setView(bounds.getCenter(), Math.min(map.getBoundsZoom(bounds), 101), true); */
+map.fitBounds(bounds, {maxZoom: 7});
 L.control.attribution({prefix: false, position: 'bottomright'}).addTo(map);
 pl_zoom({initialBounds: bounds}).addTo(map);
 
 var awmcterrain = L.tileLayer(
     'https://api.tiles.mapbox.com/v4/isawnyu.map-knmctlkh/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiaXNhd255dSIsImEiOiJBWEh1dUZZIn0.SiiexWxHHESIegSmW8wedQ', {
-        attribution: 'Powered by <a href="http://leafletjs.com/">Leaflet</a> and <a href="https://www.mapbox.com/">Mapbox</a>. Map base by <a title="Ancient World Mapping Center (UNC-CH)" href="http://awmc.unc.edu">AWMC</a>, 2014 (cc-by-nc).'
+        attribution: 'Powered by <a href="http://leafletjs.com/">Leaflet</a> and <a href="https://www.mapbox.com/">Mapbox</a>. Map base by <a title="Ancient World Mapping Center (UNC-CH)" href="http://awmc.unc.edu">AWMC</a>, 2014 (cc-by-nc).',
+        maxZoom: 12
         });
 awmcterrain.addTo(map);
 
@@ -121,42 +133,73 @@ var imperium = L.tileLayer(
         maxZoom: 11
         });
 
-L.control.layers({
+var baseLayers = {
     "Ancient Terrain (default)": awmcterrain,
     "Modern Terrain": terrain,
     "Modern Streets": streets,
     "Roman Empire": imperium,
-    }).addTo(map);
+}
+
+var reprMark = L.circleMarker(
+  reprPoint, {
+    stroke: true,
+    color: '#333',
+    fill: true,
+    fillColor: '#FFA500',
+    fillOpacity: 1,
+    radius: 7,
+    });
+
+var awmcJSON = getJSON()
+
+var overlays = {
+    "Representative point": reprMark,
+}
+
+L.control.layers(baseLayers, overlays).addTo(map);
 
 var target = null;
 
-var placeIcon = new L.Icon({
-    iconUrl: "http://atlantides.org/images/justice-blue.png",
-    iconSize:     [32, 37],
-    iconAnchor:   [16, 37],
-    popupAnchor:  [0, -37]
-  });
+/* set up icons for vector layers */
 
 var connectionIcon = new L.Icon({
-    iconUrl: "http://pleiades.stoa.org/place_icon.gif",
-    iconSize:     [16, 16],
-    iconAnchor:   [8, 8],
-    popupAnchor:  [0, -8]
+    iconUrl: "http://pleiades.stoa.org/images/pmapi/21/connection-green.png",
+    iconSize:     [21, 26],
+    iconAnchor:   [12, 28],
+    popupAnchor:  [0, -23]
   });
 
-var geojsonMarkerOptions = {
-    radius: 8,
-    fillColor: "#ff7800",
-    color: "#000",
-    weight: 1,
-    opacity: 1,
-    fillOpacity: 0.8
-};
+var locationIcon = new L.Icon({
+    iconUrl: "http://pleiades.stoa.org/images/pmapi/32/location-blue.png",
+    iconSize:     [32, 37],
+    iconAnchor:   [16, 35],
+    popupAnchor:  [0, -33]
+  });
 
+var baselineLocationIcon = new L.Icon({
+    iconUrl: "http://pleiades.stoa.org/images/pmapi/21/location-brown.png",
+    iconSize:     [21, 26],
+    iconAnchor:   [12, 28],
+    popupAnchor:  [0, -23]
+  });
+
+/* add vector layers */
+
+/* locations in the current place object */
 if (where) {
   L.geoJson(where, {
     pointToLayer: function (feature, latlng) {
-        return L.marker(latlng, {icon: placeIcon });
+        return L.marker(latlng, {icon: locationIcon, zIndexOffset: 1000 });
+    },
+    style: function(f) {
+        return {
+          color: '#5587fc',
+          opacity: 1,
+          weight: 2,
+          fill: true,
+          fillColor: '#5587fc',
+          fillOpacity: 0.2,
+        }
     },
     onEachFeature: function (f, layer) {
       layer.bindPopup(
@@ -168,8 +211,22 @@ if (where) {
   }).addTo(map);
 }
 
+/* locations in the baseline (if this is a working copy) */
 if (baselineWhere) {
   L.geoJson(baselineWhere, {
+    pointToLayer: function (feature, latlng) {
+        return L.marker(latlng, {icon: baselineLocationIcon, zIndexOffset: 100 });
+    },
+    style: function(f) {
+        return {
+          color: '#ce8951',
+          opacity: 1,
+          weight: 2,
+          fill: true,
+          fillColor: '#ce8951',
+          fillOpacity: 0.2,
+        }
+    },
     onEachFeature: function (f, layer) {
       layer.bindPopup(
         '<dt><a href="' 
@@ -179,20 +236,32 @@ if (baselineWhere) {
   }).addTo(map);
 }
 
+/* connections */
+/* NB: there's only JSON for all connections, so we can't 
+  distinguish between from and to */
 var connections = getJSON("connections");
-
 if (connections) {
   L.geoJson(connections, {
     filter: function (f, layer) {
       return f.type == 'Feature';
     },
     pointToLayer: function (feature, latlng) {
-        return L.marker(latlng, {icon: connectionIcon });
+        return L.marker(latlng, {icon: connectionIcon, zIndexOffset: 10 });
     },    
+    style: function(f) {
+        return {
+          color: '#55cb4f',
+          opacity: 1,
+          weight: 2,
+          fill: true,
+          fillColor: '#55cb4f',
+          fillOpacity: 0.2,
+        }
+    },
     onEachFeature: function (f, layer) {
       layer.bindPopup(
         '<dt><a href="' 
-        + f.properties.link + '">' + f.properties.title + '</a></dt>'
+        + f.properties.link + '">' + "Connection: " + f.properties.title + '</a></dt>'
         + '<dd>' + f.properties.description + '</dd>' );
         if (jq("h1").text() == f.properties.title) { target = layer; }
     }
