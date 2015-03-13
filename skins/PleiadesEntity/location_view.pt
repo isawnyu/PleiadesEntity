@@ -74,7 +74,8 @@
         templateId template/getId;
         portal_state context/@@plone_portal_state;
         where context/@@where;
-        place context/@@place" >
+        place context/@@place;
+        placeurl place/absolute_url" >
 
         <div id="map-block" title="Locations of this particular place are shown in blue.">
           <div id="map"></div>
@@ -86,6 +87,9 @@
                   tal:define="mlon python:where['reprPt'][0]; mlat python:where['reprPt'][1]; underscore string:_"
                   >, <a tal:attributes="href string:http://www.geonames.org/maps/google_$mlat$underscore$mlon.html" href=""
                   >GeoNames</a>, 
+                    <a 
+                      tal:attributes="href string:$placeurl/kml" href=""
+                      >Google Earth</a>,
                     <a 
                       tal:attributes="href string:http://maps.google.com/?q=$mlat,$mlon" href=""
                       >Google Maps</a>,
