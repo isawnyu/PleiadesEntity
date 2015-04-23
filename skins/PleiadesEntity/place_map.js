@@ -136,9 +136,8 @@ var imperium = L.tileLayer(
 var bluemarble = L.GIBSLayer(
     'BlueMarble_NextGeneration', {
       transparent: false,
+      attribution: 'Powered by <a href="http://leafletjs.com/">Leaflet</a>, <a href="https://github.com/aparshin/leaflet-GIBS">Leaflet-GIBS</a>, and <a href="https://earthdata.nasa.gov/gibs" title="We acknowledge the use of imagery provided by services from the Global Imagery Browse Services (GIBS), operated by the NASA/GSFC/Earth Science Data and Information System (ESDIS, https://earthdata.nasa.gov) with funding provided by NASA/HQ.">NASA EOSDIS GIBS</a>, 2008-present.',
       });
-
-bluemarble.attribution = 'Powered by <a href="http://leafletjs.com/">Leaflet</a>, <a href="https://github.com/aparshin/leaflet-GIBS">Leaflet-GIBS</a>, and <a href="https://earthdata.nasa.gov/gibs" title="We acknowledge the use of imagery provided by services from the Global Imagery Browse Services (GIBS), operated by the NASA/GSFC/Earth Science Data and Information System (ESDIS, https://earthdata.nasa.gov) with funding provided by NASA/HQ.">NASA EOSDIS GIBS</a>, 2008-present.';
 
 var baseLayers = {
     "Ancient Terrain (default)": awmcterrain,

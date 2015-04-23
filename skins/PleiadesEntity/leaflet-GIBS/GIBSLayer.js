@@ -19,7 +19,7 @@
             this._layerInfo = L.GIBS_LAYERS[gibsID];
             options = options || {};
             options.maxZoom = this._layerInfo.zoom;
-            options.attribution = gibsAttribution;
+            options.attribution = options.attribution || gibsAttribution;
             this._date = options.date || null;
             
             L.Util.setOptions(this, options);
