@@ -93,7 +93,7 @@ class ChildrenTable(BrowserView):
             rows = ['<span class="emptyChildItem"><em>None</em></span>']
         else:
             rows = self.rows(children)
-        return u'<p class="placeChildren">' + ''.join(rows) + '</p>'
+        return u'<ul class="placeChildren">' + u'\n'.join(rows) + '</ul>'
 
 class LocationsTable(ChildrenTable):
     def accessor(self):
@@ -106,6 +106,17 @@ class LocationsTable(ChildrenTable):
             parts.append("unlocated")
         parts.append(TimeSpanWrapper(ob).snippet)
         return "; ".join(parts)
+    def postfix(self, ob):
+        timespan = TimeSpanWrapper(ob).snippet
+        if timespan.strip() == '':
+            timespan = None
+        elif timespan.strip() == 'AD 1700 - Present':
+            timespan = 'modern'
+        if timespan:
+            annotation = u'(%s)' % timespan 
+        else:
+            annotation = None
+        return [u'', u' %s' % annotation][annotation is not None]
     def rows(self, locations):
         output = []
         where_tag = "where"
@@ -117,15 +128,16 @@ class LocationsTable(ChildrenTable):
                     ob.getId(),
                     where_tag,
                     self.snippet(ob) + "; " + unicode(ob.Description(), "utf-8") ),
-                u'<a class="state-%s" href="%s">%s</a>' % (
+                u'<a class="state-%s" href="%s">%s</a>%s' % (
                      self.wftool.getInfoFor(ob, 'review_state'), 
                      ob.absolute_url(), 
                      unicode(
                         ob.Title(), 'utf-8') + u" (copy)" * (
-                            "copy" in ob.getId())),
+                            "copy" in ob.getId()),
+                     self.postfix(ob)),
                 u'</li>' ]
-            output.append(u"".join(innerHTML))
-        return u'<ul class="placeChildren">' + '\n'.join(output) + '</ul>'
+            output.append(u"\n".join(innerHTML))
+        return output
 
 
 class NamesTable(ChildrenTable):
@@ -185,7 +197,7 @@ class NamesTable(ChildrenTable):
             labelLang = ob.getNameLanguage() or "und"
             innerHTML = [
                 u'<li id="%s" class="placeChildItem" title="%s">' % (ob.getId(), self.snippet(ob)),
-                u'<a class="state-%s %s" href="%s"><span lang="%s">%s</span>%s</a>' % (
+                u'<a class="state-%s %s" href="%s"><span lang="%s">%s</span></a>%s' % (
                      self.wftool.getInfoFor(ob, 'review_state'), 
                      label_class,
                      ob.absolute_url(),
@@ -193,6 +205,6 @@ class NamesTable(ChildrenTable):
                      label + u" (copy)" * ("copy" in ob.getId()),
                      self.postfix(ob)),
                 u'</li>' ]
-            output.append(u"".join(innerHTML))
-        return u'<ul class="placeChildren">' + u'\n'.join(output) + u'</ul>'
+            output.append(u"\n".join(innerHTML))
+        return output
 
