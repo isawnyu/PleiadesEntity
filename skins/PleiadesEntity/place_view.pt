@@ -252,6 +252,8 @@
   -->
 </script>
 
+<script src="leaflet-GIBS/GIBSMetadata.js"></script>
+<script src="leaflet-GIBS/GIBSLayer.js"></script>
 <script src="place_map.js"></script>
 
     </metal:body_macro>
