@@ -133,11 +133,18 @@ var imperium = L.tileLayer(
         maxZoom: 11
         });
 
+var bluemarble = L.GIBSLayer(
+    'BlueMarble_NextGeneration', {
+      transparent: true,
+      attribution: 'Powered by <a href="http://leafletjs.com/">Leaflet</a> and <a href="https://github.com/aparshin/leaflet-GIBS">Leaflet-GIBS</a>. Map base: <a href="https://earthdata.nasa.gov/about-eosdis/science-system-description/eosdis-components/global-imagery-browse-services-gibs" title="We acknowledge the use of imagery provided by services from the Global Imagery Browse Services (GIBS), operated by the NASA/GSFC/Earth Science Data and Information System (ESDIS, https://earthdata.nasa.gov) with funding provided by NASA/HQ.">NASA EOSDIS GIBS</a>, 2008-present.',    
+      });
+
 var baseLayers = {
     "Ancient Terrain (default)": awmcterrain,
     "Modern Terrain": terrain,
     "Modern Streets": streets,
     "Roman Empire": imperium,
+    "NASA Blue Marble": bluemarble,
 }
 
 var reprMark = L.circleMarker(
