@@ -51,7 +51,7 @@ Location
     
 Georeferencing, location
 
-    >>> from zgeo.geographer.interfaces import IGeoreferenced
+    >>> from collective.geo.geographer.interfaces import IGeoreferenced
     >>> geo = IGeoreferenced(x)
     >>> geo.type
     'Polygon'

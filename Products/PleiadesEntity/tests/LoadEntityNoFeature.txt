@@ -120,7 +120,7 @@ Check metadata reference
     
 Georeferencing
 
-    >>> from zgeo.geographer.interfaces import IGeoreferenced
+    >>> from collective.geo.geographer.interfaces import IGeoreferenced
     >>> g = IGeoreferenced(p)
     >>> gi = g.__geo_interface__
     >>> gi['type']

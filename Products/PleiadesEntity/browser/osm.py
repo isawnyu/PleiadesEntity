@@ -1,33 +1,25 @@
-import datetime
-import logging
-import httplib2
-from lxml import etree
-
-from Acquisition import aq_inner, aq_parent
 from DateTime import DateTime
-from Products.Five.browser import BrowserView
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from lxml import etree
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone import PloneMessageFactory as _
-from contentratings.interfaces import IUserRating
-from plone.memoize import view
-from zope.component import getAdapters, getMultiAdapter
+from Products.Five.browser import BrowserView
+import datetime
+import httplib2
+import logging
 
-from zgeo.geographer.interfaces import IGeoreferenced
-from pleiades.geographer.geo import NotLocatedError
-from Products.PleiadesEntity.time import to_ad
 
 MESSAGE = (
     "Location from OSM created by "
-    "Products.PleiadesEntity.browser.osm.OSMLocationFactory" )
+    "Products.PleiadesEntity.browser.osm.OSMLocationFactory"
+)
 
 log = logging.getLogger("Pleiades OSM Client")
 
 OSM_API_ENDPOINT = "http://www.openstreetmap.org/api/0.6"
 OSM_BROWSE = "http://www.openstreetmap.org/browse"
 
-class OSMLocationFactory(BrowserView):
 
+class OSMLocationFactory(BrowserView):
     # Makes a location using only an OSM node id.
     # Terribly raw at the moment. A mere glance reveals so many places
     # this can fail ungracefully.
@@ -35,17 +27,17 @@ class OSMLocationFactory(BrowserView):
     def _fall_back(self, msg):
         # Redirects back to context with a message
         getToolByName(
-            self.context, 'plone_utils' ).addPortalMessage(
-                _("Location not created. " + msg.rstrip('.') + ".") )
+            self.context, 'plone_utils').addPortalMessage(
+                _("Location not created. " + msg.rstrip('.') + "."))
         self.request.response.redirect(self.context.absolute_url())
         return
 
     def __call__(self):
-        
+
         try:
             objid = str(int(self.request.get('obj')))
             objtype = str(self.request.get('type'))
-        except (TypeError, ValueError), e:
+        except (TypeError, ValueError) as e:
             self._fall_back(str(e))
             return
 
@@ -54,7 +46,7 @@ class OSMLocationFactory(BrowserView):
 
         h = httplib2.Http()
         resp, content = h.request(url, "GET")
-        
+
         if not resp['status'] == "200":
             self._fall_back("OSM API response: " + resp['status'])
             return
@@ -67,7 +59,7 @@ class OSMLocationFactory(BrowserView):
         changeset = elem.attrib.get("changeset")
         timestamp = elem.attrib.get("timestamp")
         tag_name = getattr(
-            elem.find("tag[@k='name']"), "attrib", {} ).get("v", None)
+            elem.find("tag[@k='name']"), "attrib", {}).get("v", None)
 
         if objtype == "node":
             lon = elem.attrib.get("lon")
@@ -78,7 +70,6 @@ class OSMLocationFactory(BrowserView):
             lat = node.attrib.get("lat")
 
         ptool = getToolByName(self.context, 'plone_utils')
-        mtool = getToolByName(self.context, 'portal_membership')
         repo = getToolByName(self.context, 'portal_repository')
         site = getToolByName(self.context, 'portal_url').getPortalObject()
 
@@ -93,11 +84,11 @@ class OSMLocationFactory(BrowserView):
             locn.setDescription(u"Location based on OpenStreetMap")
             locn.setGeometry("Point:[%s,%s]" % (lon, lat))
             locn.setInitialProvenance(
-                    u"OpenStreetMap (%s %s, version %s, "
-                    u"osm:changeset=%s, %s)" % (
-                        objtype.capitalize(), objid, 
-                        version, changeset, timestamp) )
-        except Exception, e:
+                u"OpenStreetMap (%s %s, version %s, "
+                u"osm:changeset=%s, %s)" % (
+                    objtype.capitalize(), objid,
+                    version, changeset, timestamp))
+        except Exception as e:
             self._fall_back(str(e))
             return
 
@@ -106,10 +97,11 @@ class OSMLocationFactory(BrowserView):
         locn.addReference(metadataDoc, 'location_accuracy')
 
         browse_url = "/".join([OSM_BROWSE, objtype, objid])
-        citations= [dict(
+        citations = [dict(
             identifier=browse_url,
             range="osm:%s=%s" % (objtype, objid),
-            type="citesAsDataSource" )] 
+            type="citesAsDataSource",
+        )]
 
         field = locn.getField('referenceCitations')
         field.resize(len(citations), locn)
@@ -120,6 +112,4 @@ class OSMLocationFactory(BrowserView):
         repo.save(locn, MESSAGE)
         locn.reindexObject()
 
-        self.request.response.redirect(
-            "%s/edit" % locn.absolute_url() )
-
+        self.request.response.redirect("%s/edit" % locn.absolute_url())

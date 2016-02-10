@@ -22,7 +22,9 @@ setup(
     namespace_packages=['Products'],
     include_package_data=True,
     zip_safe=False,
-    install_requires=[],
+    install_requires=[
+        'collective.geo.geographer',
+    ],
     extras_require={
         'test': ['Products.PloneTestCase'],
     },

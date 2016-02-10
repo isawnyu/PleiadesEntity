@@ -1,24 +1,16 @@
-
-import logging
-
-from Acquisition import aq_inner, aq_parent
-from operator import itemgetter
-from Products.Five.browser import BrowserView
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from Products.CMFCore.utils import getToolByName
-from contentratings.interfaces import IUserRating
-from plone.memoize import view
-from zope.component import getAdapters, getMultiAdapter
-
-from zgeo.geographer.interfaces import IGeoreferenced
+from collective.geo.geographer.interfaces import IGeoreferenced
 from pleiades.geographer.geo import NotLocatedError
+from plone.memoize import view
+from Products.CMFCore.utils import getToolByName
+from Products.Five.browser import BrowserView
 from Products.PleiadesEntity.time import to_ad
+import logging
 
 log = logging.getLogger('Products.PleiadesEntity')
 
 
 class TimeSpanWrapper(object):
-    
+
     def __init__(self, context):
         self.context = context
 
@@ -46,7 +38,8 @@ class TimeSpanWrapper(object):
         timespan = self.timeSpanAD
         if timespan and timespan['end'] == "AD 2100":
             timespan['end'] = "Present"
-        return (timespan and "%(start)s - %(end)s" % timespan
+        return (
+            timespan and "%(start)s - %(end)s" % timespan
             ) or "Attested dates needed"
 
 
@@ -67,6 +60,7 @@ class PlacefulAttestations(BrowserView):
         for ob in self.context.getLocations():
             results.append((ob, TimeSpanWrapper(ob).snippet))
         return results
+
 
 class ChildrenTable(BrowserView):
     """table of locations or names
@@ -95,9 +89,12 @@ class ChildrenTable(BrowserView):
             rows = self.rows(children)
         return u'<ul class="placeChildren">' + u'\n'.join(rows) + '</ul>'
 
+
 class LocationsTable(ChildrenTable):
+
     def accessor(self):
         return self.context.getLocations()
+
     def snippet(self, ob):
         parts = []
         try:
@@ -106,6 +103,7 @@ class LocationsTable(ChildrenTable):
             parts.append("unlocated")
         parts.append(TimeSpanWrapper(ob).snippet)
         return "; ".join(parts)
+
     def postfix(self, ob):
         timespan = TimeSpanWrapper(ob).snippet
         if timespan.strip() == '':
@@ -113,10 +111,11 @@ class LocationsTable(ChildrenTable):
         elif timespan.strip() == 'AD 1700 - Present':
             timespan = 'modern'
         if timespan:
-            annotation = u'(%s)' % timespan 
+            annotation = u'(%s)' % timespan
         else:
             annotation = None
         return [u'', u' %s' % annotation][annotation is not None]
+
     def rows(self, locations):
         output = []
         where_tag = "where"
@@ -127,15 +126,16 @@ class LocationsTable(ChildrenTable):
                 u'<li id="%s_%s" class="placeChildItem Location" title="%s">' % (
                     ob.getId(),
                     where_tag,
-                    self.snippet(ob) + "; " + unicode(ob.Description(), "utf-8") ),
+                    self.snippet(ob) + "; " + unicode(ob.Description(), "utf-8")),
                 u'<a class="state-%s" href="%s">%s</a>%s' % (
-                     self.wftool.getInfoFor(ob, 'review_state'), 
-                     ob.absolute_url(), 
-                     unicode(
+                    self.wftool.getInfoFor(ob, 'review_state'),
+                    ob.absolute_url(), 
+                    unicode(
                         ob.Title(), 'utf-8') + u" (copy)" * (
                             "copy" in ob.getId()),
-                     self.postfix(ob)),
-                u'</li>' ]
+                    self.postfix(ob)),
+                u'</li>',
+            ]
             output.append(u"\n".join(innerHTML))
         return output
 
@@ -143,17 +143,19 @@ class LocationsTable(ChildrenTable):
 class NamesTable(ChildrenTable):
     """table of names and associated information for plone views, sorted by transliterated title
     """
+
     def accessor(self):
         return self.context.getNames()
+
     def snippet(self, ob):
-        parts = []
         desc = unicode(ob.Description(), "utf-8")
         if len(desc.strip()) == 0:
             return unicode(ob.Title(), "utf-8")
         else:
             return unicode(ob.Title(), "utf-8") + u': ' + desc.strip()
+
     def postfix(self, ob):
-        acert = ob.getAssociationCertainty();
+        acert = ob.getAssociationCertainty()
         nameAttested = ob.getNameAttested() or None
         if nameAttested is not None:
             nameAttested = unicode(nameAttested, "utf-8")
@@ -174,7 +176,7 @@ class NamesTable(ChildrenTable):
         elif nameTransliterated:
             annotation = u'(%s)' % nameTransliterated
         elif timespan:
-            annotation = u'(%s)' % timespan 
+            annotation = u'(%s)' % timespan
         else:
             annotation = None
         if acert == 'less-certain':
@@ -183,6 +185,7 @@ class NamesTable(ChildrenTable):
             return [u'??', u' %s??' % annotation][annotation is not None]
         else:
             return [u'', u' %s' % annotation][annotation is not None]
+
     def rows(self, names):
         output = []
         for score, ob, nrefs in sorted(names, key=lambda k: k[1].Title() or ''):
@@ -198,13 +201,13 @@ class NamesTable(ChildrenTable):
             innerHTML = [
                 u'<li id="%s" class="placeChildItem" title="%s">' % (ob.getId(), self.snippet(ob)),
                 u'<a class="state-%s %s" href="%s"><span lang="%s">%s</span></a>%s' % (
-                     self.wftool.getInfoFor(ob, 'review_state'), 
-                     label_class,
-                     ob.absolute_url(),
-                     labelLang,
-                     label + u" (copy)" * ("copy" in ob.getId()),
-                     self.postfix(ob)),
-                u'</li>' ]
+                    self.wftool.getInfoFor(ob, 'review_state'),
+                    label_class,
+                    ob.absolute_url(),
+                    labelLang,
+                    label + u" (copy)" * ("copy" in ob.getId()),
+                    self.postfix(ob)),
+                u'</li>',
+            ]
             output.append(u"\n".join(innerHTML))
         return output
-
