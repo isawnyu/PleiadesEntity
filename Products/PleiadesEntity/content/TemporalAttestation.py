@@ -13,39 +13,15 @@
 __author__ = """Sean Gillies <unknown>, Tom Elliott <unknown>"""
 __docformat__ = 'plaintext'
 
-#TemporalAttestation
-
 from AccessControl import ClassSecurityInfo
-from Acquisition import aq_base
-
-from Products.CMFCore.utils import getToolByName
-
-from Products.Archetypes.Field import ObjectField,encode,decode
+from Products.Archetypes.Field import *
 from Products.Archetypes.Registry import registerField
-from Products.Archetypes.utils import DisplayList
-from Products.Archetypes import config as atconfig
-from Products.Archetypes.Widget import *
-from Products.Archetypes.Field  import *
 from Products.Archetypes.Schema import Schema
-try:
-    from Products.generator import i18n
-except ImportError:
-    from Products.Archetypes.generator import i18n
+from Products.Archetypes.Widget import *
 from Products.ATVocabularyManager.namedvocabulary import NamedVocabulary
-
-from Products.PleiadesEntity import config
-
-##code-section module-header #fill in your manual code here
-##/code-section module-header
-
-from zope.interface import implements
-
-from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
-
-
-
 from Products.CompoundField.CompoundField import CompoundField
-######CompoundField
+
+
 schema = Schema((
 
     StringField(
@@ -77,35 +53,20 @@ schema = Schema((
         enforceVocabulary=1,
     ),
 
-),
-)
-
-
+))
 
 
 class TemporalAttestation(CompoundField):
-    """
-    """
-    ##code-section class-header #fill in your manual code here
-    ##/code-section class-header
-
-
-
     _properties = CompoundField._properties.copy()
     _properties.update({
         'type': 'temporalattestation',
-        ##code-section field-properties #fill in your manual code here
-        ##/code-section field-properties
-
         })
 
-    security  = ClassSecurityInfo()
+    schema = schema
 
-    schema=schema
-
+    security = ClassSecurityInfo()
     security.declarePrivate('set')
     security.declarePrivate('get')
-
 
     def getRaw(self, instance, **kwargs):
         return CompoundField.getRaw(self, instance, **kwargs)
@@ -117,12 +78,4 @@ class TemporalAttestation(CompoundField):
         return CompoundField.get(self, instance, **kwargs)
 
 
-registerField(TemporalAttestation,
-              title='TemporalAttestation',
-              description='')
-
-##code-section module-footer #fill in your manual code here
-##/code-section module-footer
-
-
-
+registerField(TemporalAttestation, title='TemporalAttestation', description='')
