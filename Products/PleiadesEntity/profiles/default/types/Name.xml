@@ -6,7 +6,7 @@
    
  <property name="title" i18n:translate="">Name</property>
  <property name="description" i18n:translate="">A Name object describes an appellation of a Place along with the sources that attest to its use in time. Its primary attributes include romanized forms, association certainty, time periods, and references. Pleiades also seeks to collect transcriptions of ancient forms of these names so that places can be connected to ancient documents and inscriptions.</property>
- <property name="content_icon">document_icon.gif</property>
+ <property name="content_icon">document_icon.png</property>
  <property name="content_meta_type">Name</property>
  <property name="product">PleiadesEntity</property>
  <property name="factory">addName</property>
