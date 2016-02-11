@@ -15,29 +15,22 @@ __docformat__ = 'plaintext'
 
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
-from zope.interface import implements
-import interfaces
-
 from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
-
 from Products.CompoundField.ArrayField import ArrayField
-from Products.CompoundField.ArrayWidget import ArrayWidget
-from Products.CompoundField.EnhancedArrayWidget import EnhancedArrayWidget
-from Products.validation.interfaces.IValidator import IValidator
-
-from Products.PleiadesEntity.config import *
-
-# additional imports from tagged value 'import'
 from Products.CompoundField.CompoundWidget import CompoundWidget
-from Products.CMFCore import permissions
+from Products.CompoundField.EnhancedArrayWidget import EnhancedArrayWidget
+from Products.PleiadesEntity.config import *
 from Products.PleiadesEntity.content.ReferenceCitation import ReferenceCitation
+from Products.validation.interfaces.IValidator import IValidator
+from zope.interface import implementer
+from .interfaces import IWork
 
 ##code-section module-header #fill in your manual code here
 ##/code-section module-header
 
+@implementer(IValidator)
 class ReferencesValidator(object):
 
-    __implements__ = (IValidator,)
     name = 'referencesvalidator'
 
     def __call__(self, value, instance, *args, **kwargs):
@@ -99,12 +92,11 @@ Work_schema = schema.copy()
 ##code-section after-schema #fill in your manual code here
 ##/code-section after-schema
 
+@implementer(IWork)
 class Work(BrowserDefaultMixin):
     """
     """
     security = ClassSecurityInfo()
-
-    implements(interfaces.IWork)
 
     _at_rename_after_creation = True
 

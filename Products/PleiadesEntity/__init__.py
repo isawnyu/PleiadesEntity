@@ -39,6 +39,7 @@ __docformat__ = 'plaintext'
 
 from AccessControl import allow_class, allow_module
 from config import *
+from Products.Archetypes.atapi import process_types
 from Products.Archetypes import listTypes
 from Products.CMFCore import DirectoryView
 from Products.CMFCore import utils as cmfutils

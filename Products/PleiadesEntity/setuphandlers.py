@@ -16,16 +16,13 @@ __docformat__ = 'plaintext'
 
 import logging
 logger = logging.getLogger('PleiadesEntity: setuphandlers')
-from Products.PleiadesEntity.config import PROJECTNAME
-from Products.PleiadesEntity.config import DEPENDENCIES
 import os
 from config import product_globals
 from Globals import package_home
 from Products.ATVocabularyManager.config import TOOL_NAME as ATVOCABULARYTOOL
 from Products.CMFCore.utils import getToolByName
-import transaction
 ##code-section HEAD
-from Products.CMFEditions.setuphandlers import DEFAULT_POLICIES
+
 TYPES_TO_VERSION = (
     'Feature',
     'Location',
@@ -35,6 +32,9 @@ TYPES_TO_VERSION = (
     'PrimaryReference',
     'SecondaryReference'
     )
+
+DEFAULT_POLICIES = ('at_edit_autoversion', 'version_on_revert')
+
 ##/code-section HEAD
 
 def isNotPleiadesEntityProfile(context):
