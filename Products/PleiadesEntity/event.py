@@ -1,23 +1,16 @@
-import logging
-
 from Acquisition import aq_inner, aq_parent
 from plone.app.iterate.interfaces import IAfterCheckinEvent
 from Products.CMFCore.interfaces import IActionSucceededEvent, IContentish
 from Products.CMFCore.utils import getToolByName
+from Products.PleiadesEntity.content.interfaces import IFeature, IPlace
+from Products.PleiadesEntity.content.interfaces import ILocation, IName
+from Products.PleiadesEntity.time import temporal_overlap
 from zope.component import adapter
 from zope.lifecycleevent.interfaces import IObjectModifiedEvent
-
-from Products.PleiadesEntity.content.interfaces import ILocation, IName
-from Products.PleiadesEntity.content.interfaces import IFeature, IPlace
-from Products.PleiadesEntity.time import temporal_overlap
-from pleiades.transliteration import transliterate_name
+import logging
 
 log = logging.getLogger('PleiadesEntity')
 
-def reindexWhole(obj, event):
-    for p in obj.getBRefs('hasPart'):
-        log.debug("Reindexing whole %s", p)
-        p.reindexObject()
 
 def reindexContainer(obj, event):
     x = aq_inner(obj)
@@ -25,7 +18,7 @@ def reindexContainer(obj, event):
     if IPlace.providedBy(f):
         log.debug("Reindexing container %s", f)
         f.reindexObject()
-        reindexWhole(f, event)
+
 
 @adapter(IName, IObjectModifiedEvent)
 def nameChangeSubscriber(obj, event):
@@ -47,9 +40,6 @@ def locationChangeSubscriber(obj, event):
 
     reindexContainer(obj, event)
 
-@adapter(IFeature, IObjectModifiedEvent)
-def featureChangeSubscriber(obj, event):
-    reindexWhole(obj, event)
 
 @adapter(IContentish, IObjectModifiedEvent)
 def contributorsSubscriber(obj, event):

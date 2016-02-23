@@ -36,7 +36,7 @@ Invalid script
 --------------
 
     >>> validate_name('en', 'Ryland')
-    'Unsupported writing system (en) in PleiadesEntity/Extensions/ws_validation.py'
+    ''
 
 Editorial characters that should be permitted
 ---------------------------------------------

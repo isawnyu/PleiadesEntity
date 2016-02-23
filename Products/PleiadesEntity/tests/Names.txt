@@ -9,9 +9,8 @@ Setup
 Load one fiendish entity
 ------------------------
 
-    >>> TEST_DATA = self.test_params.TEST_DATA
     >>> from Products.PleiadesEntity.Extensions.loader import load_place
-    >>> r = load_place(folder, "%s/nametwister.xml" % TEST_DATA)
+    >>> r = load_place(folder, "%s/nametwister.xml" % self.TEST_DATA)
     Traceback (most recent call last):
       ...
     EntityLoadError: 1 invalid character(s) in name \u1f08\u03c6r\u03bf\u03b4\u03b9\u03c3\u03b9\u1f71\u03c2: (position 3 = codepoint 72)

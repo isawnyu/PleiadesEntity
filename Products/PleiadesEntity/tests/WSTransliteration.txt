@@ -35,8 +35,8 @@ Test valid name/script combinations, one for each expected script
 Invalid script
 --------------
 
-    >>> transliterate_name('en', 'Ryland')
-    'Unsupported writing system (en) in PleiadesEntity/Extensions/ws_transliteration.py'
+    >>> transliterate_name('xx', 'Ryland')
+    u'Ryland'
 
 Editorial characters that should be permitted
 ---------------------------------------------

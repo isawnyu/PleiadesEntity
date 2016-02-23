@@ -32,7 +32,6 @@
 
   <subscriber handler=".event.nameChangeSubscriber"/>
   <subscriber handler=".event.locationChangeSubscriber"/>
-  <subscriber handler=".event.featureChangeSubscriber"/>
   <subscriber handler=".event.locationActionSucceededSubscriber"/>
   <subscriber handler=".event.nameActionSucceededSubscriber"/>
   <subscriber handler=".event.placeAfterCheckinSubscriber"/>

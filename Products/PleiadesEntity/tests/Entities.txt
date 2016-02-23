@@ -1,15 +1,15 @@
 
-Tests of Places and "part of" relationships
-===========================================
+Tests of Places
+===============
     
     >>> folder = self.folder
     >>> places = folder['places']
 
-Add first place
+Add place
     
-    >>> pid1 = places.invokeFactory('Place', '1', title='Ninoe', placeType=['settlement'])
-    >>> p1 = places[pid1]
     >>> nameAttested = u'\u039d\u03b9\u03bd\u1f79\u03b7'.encode('utf-8')
+    >>> pid1 = places.invokeFactory('Place', '1', title='Ninoe', modernLocation=nameAttested, placeType=['settlement'])
+    >>> p1 = places[pid1]
     >>> nid = p1.invokeFactory('Name', 'ninoe', nameAttested=nameAttested, nameLanguage='grc', nameType='geographic', accuracy='accurate', completeness='complete')
     >>> attestations = p1[nid].Schema()['attestations']
     >>> attestations.resize(1)
@@ -21,47 +21,23 @@ Test computed attributes
     'Ninoe'
     >>> p1[nid].getAttestations()
     [{'timePeriod': 'roman', 'confidence': 'certain'}]
-
-Add second place
-    
-    >>> pid2 = places.invokeFactory('Place', '2', title='Ninoe', modernLocation=nameAttested, placeType=['valley'])
-    >>> p2 = places[pid2]
-    >>> nid = p2.invokeFactory('Name', 'ninoe', nameAttested=nameAttested, nameLanguage='grc', nameType='geographic', accuracy='accurate', completeness='complete')
-    >>> attestations = p2[nid].Schema()['attestations']
-    >>> attestations.resize(1)
-    >>> p2[nid].update(attestations=[dict(confidence='certain', timePeriod='roman')])
-
-And references
-    
-    >>> _ = p2.addReference(p1, 'hasPart')
-
-Test computed attributes
-    
-    >>> p2.Title()
-    'Ninoe'
-    >>> p2[nid].getAttestations()
-    [{'timePeriod': 'roman', 'confidence': 'certain'}]
-    >>> list(p2.getParts())
-    [<Place at /plone/Members/test_user_1_/places/1>]
-    >>> list(p2.getParts())
-    [<Place at /plone/Members/test_user_1_/places/1>]
-    >>> p2.getTimePeriods()
+    >>> p1.getTimePeriods()
     ['roman']
-    >>> p2[nid].getTimePeriods()
+    >>> p1[nid].getTimePeriods()
     ['roman']
-    >>> p2.getFeatureType()
-    ['valley']
-    >>> p2.SearchableText()
-    '2  Ninoe \xce\x9d\xce\xb9\xce\xbd\xe1\xbd\xb9\xce\xb7 '
+    >>> p1.getFeatureType()
+    ['settlement']
+    >>> p1.SearchableText()
+    '1  Ninoe  Pleiades \xce\x9d\xce\xb9\xce\xbd\xe1\xbd\xb9\xce\xb7 '
 
 Test geometry accessors and mutator
 
     >>> lid = p1.invokeFactory('Location', 'x', title='Point 1', geometry='Point:[-86.4808333333333, 34.769722222222]')
     >>> loc = p1[lid]
     >>> loc.getGeometry()
-    'Point:[-86.480833333333294, 34.769722222222001]'
+    '{\n  "type": "Point",\n  "coordinates": [\n    -86.4808333333333,\n    34.769722222222\n  ]\n}'
     >>> loc.getGeometryJSON()
-    '{"type": "Point", "coordinates": [-86.480833333333294, 34.769722222222001]}'
+    '{"type": "Point", "coordinates": [-86.4808333333333, 34.769722222222]}'
     >>> loc.setGeometry('{"type": "Point", "coordinates": [0.0, 0.0]}')
     >>> loc.getGeometryWKT()
     'POINT (0.0000000000000000 0.0000000000000000)'

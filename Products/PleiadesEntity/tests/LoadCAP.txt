@@ -9,10 +9,9 @@ Setup
     
 Load one unlabeled place
 
-    >>> TEST_DATA = self.test_params.TEST_DATA
     >>> from Products.PleiadesEntity.Extensions.loader import load_cap
     >>> from lxml import etree
-    >>> doc = etree.parse('%s/map35.xml' % TEST_DATA)
+    >>> doc = etree.parse('%s/map35.xml' % self.TEST_DATA)
     >>> x = doc.findall('{http://atlantides.org/batlas/}place')[0]
     >>> r = load_cap(folder, x, '35')
         

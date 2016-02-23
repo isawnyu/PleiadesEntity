@@ -9,9 +9,8 @@ Setup
     
 Load one entity
 
-    >>> TEST_DATA = self.test_params.TEST_DATA
     >>> from Products.PleiadesEntity.Extensions.loader import load_place
-    >>> r = load_place(folder, "%s/batlas-65-2-24-frank.xml" % TEST_DATA, metadataId='cap-map65')
+    >>> r = load_place(folder, "%s/batlas-65-2-24-frank.xml" % self.TEST_DATA, metadataId='cap-map65')
     
 Feature
 -------
@@ -32,7 +31,7 @@ references above.
     >>> list(f.getNames())
     [<Name at /plone/Members/test_user_1_/features/.../aphrodisias>, <Name at /plone/Members/test_user_1_/features/.../ninoe>]    
     >>> [ref for ref in f.getReferenceCitations()]
-    [{'range': 'BAtlas 65 A2 Aphrodisias/Ninoe', 'identifier': 'http://www.unc.edu/awmc/pleiades/bibliography/batlas.html'}, {'range': 'RE Aphrodisias 2', 'identifier': 'http://www.unc.edu/awmc/pleiades/bibliography/re.html'}, {'range': 'NPauly Aphrodisias 1', 'identifier': 'http://www.unc.edu/awmc/pleiades/bibliography/npauly.html'}, {'range': 'RE Ninoe', 'identifier': 'http://www.unc.edu/awmc/pleiades/bibliography/re.html'}]
+    [{'range': 'BAtlas 65 A2 Aphrodisias/Ninoe', 'identifier': 'http://www.unc.edu/awmc/pleiades/bibliography/batlas.html', 'type': 'seeFurther'}, {'range': 'RE Aphrodisias 2', 'identifier': 'http://www.unc.edu/awmc/pleiades/bibliography/re.html', 'type': 'seeFurther'}, {'range': 'NPauly Aphrodisias 1', 'identifier': 'http://www.unc.edu/awmc/pleiades/bibliography/npauly.html', 'type': 'seeFurther'}, {'range': 'RE Ninoe', 'identifier': 'http://www.unc.edu/awmc/pleiades/bibliography/re.html', 'type': 'seeFurther'}]
     
 Feature Location
 ----------------
@@ -41,14 +40,14 @@ Feature Location
     >>> x.id
     'position'
     >>> x.getGeometry()
-    'Point:[28.728899999999999, 37.714500000000001]'
+    '{\n  "type": "Point",\n  "coordinates": [\n    28.7289,\n    37.7145\n  ]\n}'
     >>> x.Title()
     'Position'
     
 Test credits and rights
 
     >>> x.Creators()
-    ('C. Foss', 'S. Mitchell')
+    ('C. Foss', 'S. Mitchell', 'test_user_1_')
     >>> x.Contributors()
     ('R. Talbert', 'T. Elliott', 'S. Gillies')
     >>> x.Rights()

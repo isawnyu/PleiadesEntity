@@ -13,34 +13,27 @@
 __author__ = """Sean Gillies <unknown>, Tom Elliott <unknown>"""
 __docformat__ = 'plaintext'
 
-from decimal import Decimal
-
 from AccessControl import ClassSecurityInfo
-from Products.Archetypes.atapi import *
-from zope.interface import implements
-import interfaces
-from Products.ATVocabularyManager.namedvocabulary import NamedVocabulary
-from Products.CompoundField.ArrayField import ArrayField
-from Products.CompoundField.ArrayWidget import ArrayWidget
-from Products.CompoundField.EnhancedArrayWidget import EnhancedArrayWidget
-from Products.CompoundField.EnhancedArrayWidget import EnhancedArrayWidget
-from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
-from Products.OrderableReferenceField import OrderableReferenceField, OrderableReferenceWidget
-from Products.PleiadesEntity.config import *
-from Products.PleiadesEntity.content.Work import Work
-from Products.PleiadesEntity.content.Temporal import Temporal
-
-# additional imports from tagged value 'import'
-from Products.CMFCore import permissions
 from archetypes.referencebrowserwidget import ReferenceBrowserWidget
-##code-section module-header #fill in your manual code here
-from Products.ATContentTypes.content.document import ATDocumentBase, ATDocumentSchema
+from decimal import Decimal
+from Products.Archetypes import atapi
 from Products.ATContentTypes.content import schemata
-
-import re
-from shapely.geometry import asShape
+from Products.ATContentTypes.content.document import ATDocumentBase, ATDocumentSchema
+from Products.ATVocabularyManager.namedvocabulary import NamedVocabulary
+from Products.CMFCore import permissions
+from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
+from Products.OrderableReferenceField import OrderableReferenceField
+from Products.PleiadesEntity.content.Temporal import Temporal
+from Products.PleiadesEntity.content.Work import Work
 from shapely import wkt
+from shapely.geometry import asShape
+from shapely.geometry import mapping
+from zope.interface import implements
+from ..config import PROJECTNAME
+import interfaces
+import re
 import simplejson
+
 
 def decimalize(value):
     try:
@@ -50,11 +43,11 @@ def decimalize(value):
 
 ##/code-section module-header
 
-schema = Schema((
+schema = atapi.Schema((
 
-    StringField(
+    atapi.StringField(
         name='featureType',
-        widget=InAndOutWidget(
+        widget=atapi.InAndOutWidget(
             label="Feature type",
             description="Feature type categories",
             label_msgid='PleiadesEntity_label_featureType',
@@ -68,10 +61,10 @@ schema = Schema((
         multiValued=1,
     ),
 
-    TextField(
+    atapi.TextField(
         name='geometry',
         schemata="Coordinates",
-        widget=TextAreaWidget(
+        widget=atapi.TextAreaWidget(
             label="Geometry and coordinates (long, lat order)",
             description="""<p>Enter the coordinates of this location in one of 2 forms:<ol><li>Decimal latitude, longitude pair separated by whitespace or comma for point locations (example: <code>41.9, 12.5</code>)</li><li>GeoJSON (example: <code>{"type": "Point", "coordinates": [12.5,41.9]}</code>)</li></ol><p>Note that coordinate order in GeoJSON is longitude, latitude. Change focus to another form field and the map will update.</p>""",
             rows=4,
@@ -85,9 +78,9 @@ schema = Schema((
         mutator='setGeometry',
     ),
 
-    StringField(
+    atapi.StringField(
         name='associationCertainty',
-        widget=SelectionWidget(
+        widget=atapi.SelectionWidget(
             label="Association Certainty",
             description="Select level of certainty in association between location and place",
             label_msgid='PleiadesEntity_label_associationCertainty',
@@ -100,7 +93,7 @@ schema = Schema((
         enforceVocabulary=1,
     ),
 
-    ReferenceField(
+    atapi.ReferenceField(
         name='accuracy',
         schemata="Coordinates",
         widget=ReferenceBrowserWidget(
@@ -131,28 +124,15 @@ schema = Schema((
         allow_browse="True",
     ),
 
+))
 
-),
-)
-
-##code-section after-local-schema #fill in your manual code here
-##/code-section after-local-schema
-
-#Location_schema = BaseSchema.copy() + \
-#    getattr(Temporal, 'schema', Schema(())).copy() + \
-#    getattr(Work, 'schema', Schema(())).copy() + \
-#    schema.copy()
-
-##code-section after-schema #fill in your manual code here
 Location_schema = ATDocumentSchema.copy() + \
     schema.copy() + \
-    getattr(Temporal, 'schema', Schema(())).copy() + \
-    getattr(Work, 'schema', Schema(())).copy()
-##/code-section after-schema
+    getattr(Temporal, 'schema', atapi.Schema(())).copy() + \
+    getattr(Work, 'schema', atapi.Schema(())).copy()
+schema = Location_schema
 
 off = {"edit": "invisible", "view": "invisible"}
-
-schema = Location_schema
 
 schema["effectiveDate"].widget.visible = off
 schema["expirationDate"].widget.visible = off
@@ -171,9 +151,8 @@ schemata.finalizeATCTSchema(
     moveDiscussion=False
 )
 
+
 class Location(ATDocumentBase, Work, Temporal, BrowserDefaultMixin):
-    """
-    """
     security = ClassSecurityInfo()
 
     implements(interfaces.ILocation)
@@ -182,10 +161,6 @@ class Location(ATDocumentBase, Work, Temporal, BrowserDefaultMixin):
     _at_rename_after_creation = True
 
     schema = Location_schema
-
-    ##code-section class-header #fill in your manual code here
-
-    ##/code-section class-header
 
     # Methods
 
@@ -214,8 +189,9 @@ class Location(ATDocumentBase, Work, Temporal, BrowserDefaultMixin):
         return simplejson.dumps(
             simplejson.loads(data, use_decimal=True),
             use_decimal=True,
-            sort_keys=False, 
-            indent=indent )
+            sort_keys=False,
+            indent=indent
+        )
 
     security.declareProtected(permissions.View, 'getGeometryWKT')
     def getGeometryWKT(self):
@@ -282,11 +258,4 @@ class Location(ATDocumentBase, Work, Temporal, BrowserDefaultMixin):
                     simplejson.dumps(g['coordinates'], use_decimal=True) )
         field.set(self, v)
 
-registerType(Location, PROJECTNAME)
-# end of class Location
-
-##code-section module-footer #fill in your manual code here
-##/code-section module-footer
-
-
-
+atapi.registerType(Location, PROJECTNAME)
