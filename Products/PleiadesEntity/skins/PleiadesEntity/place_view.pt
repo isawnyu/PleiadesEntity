@@ -270,10 +270,7 @@
 
 
 <script type="text/javascript">
-<!--
-
-  jq("span.formButton").click(function(){jq("div.createLocationForm").toggle();});
-  -->
+  jQuery("span.formButton").click(function(){jQuery("div.createLocationForm").toggle();});
 </script>
 
 <script src="leaflet-GIBS/GIBSMetadata.js"></script>

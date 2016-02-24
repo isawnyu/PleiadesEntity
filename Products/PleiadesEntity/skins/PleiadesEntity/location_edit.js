@@ -1,4 +1,5 @@
 
+var $ = jQuery;
 var editing = null;
 
 function toGeoJSON(val) {
@@ -52,7 +53,7 @@ function truncateCoords(value, map) {
   return value.toFixed(precisionDecimalPlaces(map));
 }
 
-var geom_field = jq("textarea#geometry");
+var geom_field = $("textarea#geometry");
 
 function updateFieldFromDrag(e) {
   var coords = e.target.getLatLng();
@@ -61,7 +62,7 @@ function updateFieldFromDrag(e) {
   var json = toGeoJSON(geom_val);
   var f = { type: 'Feature', id: 'editing', 
     description: 'Location currently being edited',
-    geometry: jq.parseJSON(json) };
+    geometry: $.parseJSON(json) };
   
   var test_layer = L.GeoJSON.geometryToLayer(f);
   editing = showLocation(map, editing, f, null);
@@ -96,13 +97,13 @@ function showLocation(map, layer, data, bounds) {
 }
 
 /* On change of the geometry form field, update the editing layer and map. */
-jq("textarea#geometry").change(function() {
-  var geom_val = jq("textarea#geometry").val().trim();
+$("textarea#geometry").change(function() {
+  var geom_val = $("textarea#geometry").val().trim();
   var json = toGeoJSON(geom_val);
-  jq("textarea#geometry").val(geom_val);
+  $("textarea#geometry").val(geom_val);
   var f = { type: 'Feature', id: 'editing', 
     description: 'Location currently being edited',
-    geometry: jq.parseJSON(json) };
+    geometry: $.parseJSON(json) };
   
   var test_layer = L.GeoJSON.geometryToLayer(f);
 
@@ -125,20 +126,20 @@ jq("textarea#geometry").change(function() {
 });
 
 /* Initialize the location edit map based on current or suggested coords. */
-var geom_val = jq("textarea#geometry").val().trim();
+var geom_val = $("textarea#geometry").val().trim();
 
 if (!geom_val || geom_val == "{}" && bounds) {
   var center = L.latLngBounds(bounds).getCenter();
-  jq("textarea#geometry").val(truncateCoords(center.lat, map) + ", " + truncateCoords(center.lng, map));
+  $("textarea#geometry").val(truncateCoords(center.lat, map) + ", " + truncateCoords(center.lng, map));
   editing = showLocation(map, editing, {type: 'Feature', id: 'editing', 
       description: 'Suggested location, please change in the form field',
       geometry: {type: "Point", coordinates: [center.lng, center.lat]} } );
 }
 else if (geom_val && geom_val != "{}") {
   json = toGeoJSON(geom_val);
-  jq("textarea#geometry").val(json);
+  $("textarea#geometry").val(json);
   editing = showLocation(map, editing, {type: 'Feature', id: 'editing', 
      description: 'Location currently being edited',
-     geometry: jq.parseJSON(json) } );
+     geometry: $.parseJSON(json) } );
 }
 

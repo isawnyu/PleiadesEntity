@@ -1,5 +1,6 @@
 /* context_map.js */
 
+var $ = jQuery;
 var MTID = 'aw';
 var infoWindow = new google.maps.InfoWindow();
 var map = null;
@@ -47,7 +48,7 @@ function getJSON(rel) {
   if (linkNode != null) {
     var uri = linkNode.getAttribute("href");
     var json = unescape(uri.split(',').pop());
-    return jq.parseJSON(json);
+    return JSON.parse(json);
   }
   else {
     return null;
@@ -135,12 +136,12 @@ function popupKMLNeighbor(evt) {
   var descr = document.createElement("p");
   var link = document.createElement("a");
   link.setAttribute("href", evt.featureData.author.uri);
-  jq(link).text(evt.featureData.snippet);
-  jq(head).text(evt.featureData.name);
-  jq(descr).html(unescape(unescape(evt.featureData.description)));
-  jq(msg).append(head);
-  jq(msg).append(link);
-  jq(msg).append(descr);
+  $(link).text(evt.featureData.snippet);
+  $(head).text(evt.featureData.name);
+  $(descr).html(unescape(unescape(evt.featureData.description)));
+  $(msg).append(head);
+  $(msg).append(link);
+  $(msg).append(descr);
   infoWindow.close();
   infoWindow.setOptions({position: evt.latLng, content: msg});
   infoWindow.open(map);
@@ -154,12 +155,12 @@ function popupContext(context) {
   var descr = document.createElement("p");
   var link = document.createElement("a");
   link.setAttribute("href", context.link);
-  jq(link).text(context.snippet);
-  jq(head).text(context.title);
-  jq(descr).html(unescape(unescape(context.description)));
-  jq(msg).append(head);
-  jq(msg).append(link);
-  jq(msg).append(descr);
+  $(link).text(context.snippet);
+  $(head).text(context.title);
+  $(descr).html(unescape(unescape(context.description)));
+  $(msg).append(head);
+  $(msg).append(link);
+  $(msg).append(descr);
   infoWindow.close();
   infoWindow.setOptions({position: context.position, content: msg});
   infoWindow.open(map);

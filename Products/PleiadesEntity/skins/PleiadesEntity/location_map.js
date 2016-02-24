@@ -62,7 +62,7 @@ function getJSON(rel) {
   if (linkNode != null) {
     var uri = linkNode.getAttribute("href");
     var json = unescape(uri.split(',').pop());
-    return jq.parseJSON(json);
+    return JSON.parse(json);
   }
   else {
     return null;
@@ -185,7 +185,7 @@ if (where) {
         '<dt><a href="' 
         + f.properties.link + '">' + f.properties.title + '</a></dt>'
         + '<dd>' + f.properties.description + '</dd>' );
-        if (jq("h1").text() == f.properties.title) { target = layer; }
+        if (jQuery("h1").text() == f.properties.title) { target = layer; }
     }
   }).addTo(map);
 }
