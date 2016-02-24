@@ -20,7 +20,7 @@
         <tal:listing condition="topicContents">
             <a style='text-align: right' href="#"
                tal:condition="nocall: here/asPDF|nothing"
-               tal:attributes="href string:${here_url}/asPDF/atct_topic_pdf_template/atct_topic_pdf"
+               tal:attributes="href string:${context/absolute_url}/asPDF/atct_topic_pdf_template/atct_topic_pdf"
                i18n:translate="label_download_as_pdf"
                i18n:domain="atcontenttypes">
                 Download PDF
@@ -28,7 +28,7 @@
 
             <a style='text-align: right; margin-right: 1em;' href="#"
                tal:condition="nocall: here/kml|nothing"
-               tal:attributes="href string:${here_url}.kml"
+               tal:attributes="href string:${context/absolute_url}.kml"
                i18n:translate="label_download_as_kml"
                i18n:domain="atcontenttypes">
                  <img src="google_earth_link_14.png" alt="KML"/> Download KML
@@ -36,7 +36,7 @@
 
             <a style='text-align: right; margin-right: 1em;' href="#"
                tal:condition="nocall: here/atom|nothing"
-               tal:attributes="href string:${here_url}.atom"
+               tal:attributes="href string:${context/absolute_url}.atom"
                i18n:translate="label_download_as_kml"
                i18n:domain="atcontenttypes">
                  <img src="feed-icon-14x14.png" alt="GeoRSS"/> Download Atom + GeoRSS
