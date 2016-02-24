@@ -12,13 +12,13 @@
       tal:define="url context/absolute_url;
                   baseline context/@@iterate/baseline|nothing;" >
       <link rel="foaf:primaryTopic" tal:attributes="href string:${url}#this"/>
-      <link rel="where" type="application/json" tal:attributes="href context/@@json/data_uri"/>
-      <link tal:condition="baseline"
-        rel="baseline-where" 
-        type="application/json" 
-        tal:attributes="href baseline/@@json/data_uri" />
-      <link rel="connections" type="application/json" tal:attributes="href context/@@connections-json/data_uri"/>
-      <link rel="r-where" type="application/json" tal:attributes="href context/@@r-neighbors-json/data_uri"/>
+      <link rel="where" type="application/json" tal:attributes="href string:${context/absolute_url}/@@json"/>
+      <link tal:condition="nocall:baseline"
+            rel="baseline-where"
+            type="application/json"
+            tal:attributes="href string:${baseline/absolute_url}/@@json">
+      <link rel="connections" type="application/json" tal:attributes="href string:${context/absolute_url}/@@connections-json" />
+      <link rel="r-where" type="application/json" tal:attributes="href string:${context/absolute_url}/@@r-neighbors-json" />
       <link rel="nofollow alternate" type="application/atom+xml" tal:attributes="href string:${url}/atom"/>
       <link rel="nofollow alternate" type="application/json" tal:attributes="href string:${url}/@@json?sm=1"/>
       <link rel="nofollow alternate" type="application/vnd.google-earth.kml+xml" tal:attributes="href string:${url}/kml"/>
@@ -115,7 +115,7 @@
 
         <p tal:condition="not:portal_state/anonymous">Red titles indicate drafting-state items. Yellow titles indicate pending-state.</p>
 
-        <div tal:condition="not:context/@@iterate/baseline|nothing">
+        <div tal:condition="not:nocall:context/@@iterate/baseline|nothing">
           <div id="locationsField" class="field">
             <label>Locations:</label>
             <dl tal:replace="structure context/@@locations-listing"></dl>
@@ -170,10 +170,10 @@
         
         </div>
 
-        <div tal:condition="context/@@iterate/baseline|nothing"
-          tal:define="baseline context/@@iterate/baseline" >
+        <div tal:condition="nocall:baseline"
+             tal:define="baseline context/@@iterate/baseline" >
 
-          <div tal:condition="context/@@iterate/baseline|nothing">
+          <div tal:condition="nocall:baseline">
             <h3 style="margin-top:0px;">In this working copy</h3>
             <p>These will be copied to the baseline place when a reviewer checks the working copy in.</p>
             <div id="locationsField" class="field">

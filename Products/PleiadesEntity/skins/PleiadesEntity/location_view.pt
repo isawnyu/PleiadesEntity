@@ -14,11 +14,11 @@
       <link 
         rel="where" 
         type="application/json" 
-        tal:attributes="href place/@@json/data_uri" />
-      <link tal:condition="baseline"
+        tal:attributes="href string:${place/absolute_url}/@@json" />
+      <link tal:condition="nocall:baseline"
         rel="baseline-where" 
         type="application/json" 
-        tal:attributes="href baseline/@@json/data_uri|nothing" />
+        tal:attributes="href string:${baseline/absolute_url}/@@json" />
       <link rel="nofollow alternate" type="application/atom+xml" tal:attributes="href string:${url}/atom"/>
       <link rel="nofollow alternate" type="application/json" tal:attributes="href string:${url}/@@json?sm=1"/>
       <link rel="canonical" tal:attributes="href url"/>
@@ -80,7 +80,7 @@
         <div id="map-block" title="Locations of this particular place are shown in blue.">
           <div id="map"></div>
           <div id="below-map">
-            <p tal:condition="where">Show place in 
+            <p tal:condition="nocall:where">Show place in
               <a href=""
                 tal:attributes="href string:http://awmc.unc.edu/awmc/applications/alacarte/?pid=${place/getId}">
                 AWMC's Antiquity &Agrave;-la-carte</a>,
@@ -90,7 +90,7 @@
               <a href=""
                 tal:attributes="href string:http://pelagios.org/peripleo/map#places=http%3A%2F%2Fpleiades.stoa.org%2Fplaces%2F${place/getId}">Pelagios' Peripleo</a>.
             </p>
-            <p tal:condition="where"
+            <p tal:condition="nocall:where"
                tal:define="mlon python:where['reprPt'][0]; mlat python:where['reprPt'][1]; underscore string:_">Show area in
               <a href=""
                  tal:attributes="href string:http://www.geonames.org/maps/google_$mlat$underscore$mlon.html">
