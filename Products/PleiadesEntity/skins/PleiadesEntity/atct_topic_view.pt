@@ -1,41 +1,20 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
       lang="en"
       metal:use-macro="here/main_template/macros/master"
-      xmlns:tal="http://xml.zope.org/namespaces/tal"
-      xmlns:metal="http://xml.zope.org/namespaces/metal"
-      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       i18n:domain="plone">
 
 <body>
 
-<div metal:fill-slot="main">
-<metal:main_macro define-macro="main">
+<metal:content-core fill-slot="content-core">
+  <metal:block define-macro="content-core">
     <metal:body define-macro="body_macro"
                 tal:define="kssClassesView context/@@kss_field_decorator_view;
                             getKssClasses nocall:kssClassesView/getKssClassesInlineEditable;
                             templateId template/getId">
 
-
-        <div tal:replace="structure provider:plone.abovecontenttitle" />
-
-        <h1 class="documentFirstHeading"> 
-            <metal:field use-macro="python:here.widget('title', mode='view')">
-            Title
-            </metal:field>
-        </h1>
-
-        <div tal:replace="structure provider:plone.belowcontenttitle" />
-
-        <p class="documentDescription">
-            <metal:field use-macro="python:here.widget('description', mode='view')">
-            Description
-            </metal:field>
-        </p>
-
-        <div tal:replace="structure provider:plone.abovecontentbody" />
-
         <metal:listingmacro define-macro="listing">
-        <tal:topiccontents define="topicContents python:here.limitedQueryCatalog();
+        <tal:topiccontents define="topicContents python:here.queryCatalog(batch=True);
+                                   use_view_action site_properties/typesUseViewActionInListings|python:();
                                    batch topicContents;">
 
         <tal:listing condition="topicContents">
@@ -46,9 +25,7 @@
                i18n:domain="atcontenttypes">
                 Download PDF
             </a>
-        </tal:listing>
 
-        <tal:listing condition="topicContents">
             <a style='text-align: right; margin-right: 1em;' href="#"
                tal:condition="nocall: here/kml|nothing"
                tal:attributes="href string:${here_url}.kml"
@@ -56,9 +33,7 @@
                i18n:domain="atcontenttypes">
                  <img src="google_earth_link_14.png" alt="KML"/> Download KML
             </a>
-        </tal:listing>
 
-        <tal:listing condition="topicContents">
             <a style='text-align: right; margin-right: 1em;' href="#"
                tal:condition="nocall: here/atom|nothing"
                tal:attributes="href string:${here_url}.atom"
@@ -106,42 +81,43 @@
                         <tr tal:define="oddrow repeat/obj/odd;"
                             tal:attributes="class python:test(oddrow, 'even', 'odd')">
                             <tal:fields repeat="field here/getCustomViewFields"
-                                        define="url obj/getURL;
+                                        define="normalizeString nocall:context/@@plone/normalizeString;
+                                                url obj/getURL;
                                                 obj_type obj/portal_type;
+                                                obj_description obj/Description;
                                                 obj_typeinfo python: here.portal_types.getTypeInfo(obj_type);
-                                                icon python:portal_url+'/'+ obj_typeinfo.getIcon();
+                                                obj_icon python:plone_view.getIcon(obj);
                                                 obj_wf_state obj/review_state|python: wtool.getInfoFor(obj, 'review_state', '');
                                                 obj_wf_state_class python:'state-' + normalizeString(obj_wf_state);
+                                                obj_ct_class python:'contenttype-' + normalizeString(obj_type);
+                                                obj_url python:test(obj_type in use_view_action, url+'/view', url);
                                                 title_or_id obj/pretty_title_or_id">
                             <tal:block define="value python: getattr(obj, field, None)">
                                 <td tal:condition="python: field != 'Title'"
                                     tal:content="python:here.formatCatalogMetadata(value)"
                                     i18n:translate=""/>
                                 <td tal:condition="python: field == 'Title'">
-                                    <a href="#" tal:attributes="href url">
-                                        <img src="#"
-                                             height="16"
-                                             width="16"
-                                             tal:attributes="src icon;
-                                                             alt obj/Type|obj_type"/>
+                                    <a href="#" tal:attributes="href obj_url;
+                                                                title obj_description;">
+                                        <img tal:replace="structure obj_icon/html_tag|nothing" />
                                     </a>
-
-                                    <a href="#" tal:condition="python: obj.portal_type not in ['Link', 'Image']"
-                                                tal:attributes="href url;
-                                                                class obj_wf_state_class"
-                                                tal:content="title_or_id" />
-
-                                    <a href="#" tal:condition="python: obj.portal_type == 'Image'"
-                                                tal:attributes="href string:${url}/view;
-                                                                class obj_wf_state_class"
-                                                tal:content="title_or_id" />
+                                    <a href="#"
+                                       tal:condition="python: obj.portal_type != 'Link'"
+                                       tal:attributes="href obj_url;
+                                                       class string:${obj_wf_state_class} ${obj_ct_class};
+                                                       title obj_description;"
+                                       tal:content="title_or_id">
+                                        Item Title
+                                    </a>
 
                                     <a href="#"
                                        tal:condition="python: obj.portal_type == 'Link'"
                                        tal:attributes="href obj/getRemoteUrl;
-                                                       class obj_wf_state_class"
+                                                       class string:${obj_wf_state_class} ${obj_ct_class} link-plain;
+                                                       title obj_description;"
                                        class="link-plain"
                                        tal:content="title_or_id" />
+
                                 </td>
                             </tal:block>
                             </tal:fields>
@@ -149,6 +125,7 @@
                         </tal:brain>
                      </tbody>
                 </table>
+                <div metal:use-macro="context/batch_macros/macros/navigation" />
             </tal:custom>
 
             </tal:listing>
@@ -168,30 +145,23 @@
                 Please add them using the 'criteria' tab.
             </p>
 
-            <!-- Navigation -->
-            <div metal:use-macro="here/batch_macros/macros/navigation" />
-
         </tal:topiccontents>
         </metal:listingmacro>
     </metal:body>
 
     <metal:body define-macro="folderlisting_macro">
         <tal:subtopics condition="here/hasSubtopics|nothing"
-                       define="folderContents here/getFolderContents">
+                       define="folderContents here/listSubtopics|nothing">
             <h2 i18n:domain="atcontenttypes"
-                i18n:translate="heading_contained_collections">
+                i18n:translate="heading_contained_collections"
+                id="atct_subtopics_header">
                 Also in this section
             </h2>
             <metal:list metal:use-macro="here/base/macros/folderlisting"/>
         </tal:subtopics>
     </metal:body>
-
-    <div tal:replace="structure provider:plone.belowcontentbody" />
-
-</metal:main_macro>
-
-</div>
+  </metal:block>
+</metal:content-core>
 
 </body>
 </html>
-

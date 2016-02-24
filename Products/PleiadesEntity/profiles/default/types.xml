@@ -15,6 +15,8 @@
          meta_type="Factory-based Type Information with dynamic views"/>
  <object name="PositionalAccuracy"
          meta_type="Factory-based Type Information with dynamic views"/>
+ <object name="Topic"
+         meta_type="Factory-based Type Information with dynamic views"/>
  <!-- ##code-section TYPES -->
  <!-- ##/code-section TYPES -->
 </object>

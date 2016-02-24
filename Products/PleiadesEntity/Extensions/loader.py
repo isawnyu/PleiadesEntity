@@ -97,10 +97,6 @@ def format_listofstrings(list):
 
 def initialize(self):
     """Setup the places, names, and locations containers."""
-    lpf = self.portal_types['Large Plone Folder']
-    lpf_allow = lpf.global_allow
-    lpf.global_allow = True
-    
     n = self.portal_types['Name']
     n_allow = n.global_allow
     n.global_allow = True
