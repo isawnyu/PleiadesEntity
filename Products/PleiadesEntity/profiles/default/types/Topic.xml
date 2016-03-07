@@ -10,6 +10,6 @@
  </property>
  <action action_id="metadata" category="object" remove="true" />
  <action action_id="folderlisting" category="object" remove="true" />
- <action action_id="sharing" category="object" remove="true" />
+ <action action_id="local_roles" category="object" remove="true" />
  <action action_id="folderContents" category="object" remove="true" />
 </object>
