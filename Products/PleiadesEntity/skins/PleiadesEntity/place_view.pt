@@ -75,6 +75,7 @@
         getKssClasses nocall:kssClassesView/getKssClassesInlineEditable;
         templateId template/getId;
         portal_state context/@@plone_portal_state;
+        portal portal_state/portal;
         where context/@@where;
         url context/absolute_url;">
 
