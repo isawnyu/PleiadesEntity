@@ -8,7 +8,7 @@
   
   <head>
     
-    <metal:links_macro metal:define-macro="links"
+    <metal:head_macro metal:define-macro="js"
       tal:define="url context/absolute_url;
                   baseline context/@@iterate/baseline|nothing;" >
       <link rel="foaf:primaryTopic" tal:attributes="href string:${url}#this"/>
@@ -38,11 +38,9 @@
           background-image: url(zoom-reset.png);
           margin-bottom: 5px; }
       </style>
-    </metal:links_macro>
 
-    <metal:js_macro metal:define-macro="js">
       <script src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js"></script>
-    </metal:js_macro>
+    </metal:head_macro>
 
   </head>
   

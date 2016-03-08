@@ -6,15 +6,13 @@
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       i18n:domain="plone">
 
-  <head>
-  <metal:head define-macro="topslot">
-  </metal:head>
+<head>
 
   <metal:head define-macro="javascript_head">
-  <script src="http://cdn.leafletjs.com/leaflet-0.4.4/leaflet.js"></script>
+    <script src="http://cdn.leafletjs.com/leaflet-0.4.4/leaflet.js"></script>
   </metal:head>
 
-    <metal:links_macro metal:define-macro="css">
+  <metal:head_macro metal:define-macro="css">
     <tal:block tal:define="place context/@@place; baseline place/@@iterate/baseline">
       <link rel="where" type="application/json" tal:attributes="href place/@@json/data_uri"/>
       <link tal:condition="baseline"
@@ -31,8 +29,8 @@
           margin-bottom: 5px; }
         td.fields { padding-right: 1em; }
       </style>
-    </metal:links_macro>
-  </head>
+  </metal:head_macro>
+</head>
 
   <body>
         <!-- header, h1 of Edit <Type>, schemata links and webdav lock message -->

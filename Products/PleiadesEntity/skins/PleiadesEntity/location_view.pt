@@ -7,7 +7,7 @@
       i18n:domain="plone">
   
   <head>
-    <metal:links_macro metal:define-macro="links"
+    <metal:head_macro metal:define-macro="js"
       tal:define="url context/absolute_url;
         place context/@@place;
         baseline place/@@iterate/baseline">
@@ -34,19 +34,15 @@
           margin-bottom: 5px; }
         #fields-continued { padding-right: 1em; }
       </style>
-</metal:links_macro>
 
-    <metal:js_macro metal:define-macro="js">
       <script src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js"></script>
-    </metal:js_macro>
+    </metal:head_macro>
 
   </head>
   
   <body>
 
-    <metal:header_macro define-macro="header"
-      tal:define="kssClassesView context/@@kss_field_decorator_view;
-                  getKssClasses nocall:kssClassesView/getKssClassesInlineEditable">
+    <metal:header_macro define-macro="header">
 
       <div itemscope itemtype="http://schema.org/Place">
       <div tal:replace="structure provider:plone.abovecontenttitle" />
@@ -69,8 +65,6 @@
     <metal:body_macro
       metal:define-macro="body"
       tal:define="field_macro field_macro | here/widgets/field/macros/view;
-        kssClassesView context/@@kss_field_decorator_view;
-        getKssClasses nocall:kssClassesView/getKssClassesInlineEditable;
         templateId template/getId;
         portal_state context/@@plone_portal_state;
         where context/@@where;
