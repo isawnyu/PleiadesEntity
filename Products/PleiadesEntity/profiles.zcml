@@ -1,22 +1,33 @@
 <configure
-    xmlns="http://namespaces.zope.org/zope"
-    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    xmlns="http://namespaces.zope.org/genericsetup"
     i18n_domain="PleiadesEntity">
 
-  <include package="Products.GenericSetup" file="meta.zcml" />
-
-  <!-- ##code-section profiles.zcml-top #fill in your manual code here -->
-  <!-- ##/code-section profiles.zcml-top -->
-
-  <genericsetup:registerProfile
+  <registerProfile
       name="default"
       title="PleiadesEntity"
       directory="profiles/default"
       description="Extension profile for PleiadesEntity."
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
-  
-  <!-- ##code-section profiles.zcml-bottom #fill in your manual code here -->
-  <!-- ##/code-section profiles.zcml-bottom -->
+
+  <!-- custom upgrade steps when upgrading to Plone 4.3.7 -->
+  <upgradeSteps
+      profile="Products.CMFPlone:plone"
+      source="4310"
+      destination="4311">
+
+    <upgradeDepends
+      title="Re-apply typeinfo, actions, and viewlets configuration"
+      description=""
+      import_steps="typeinfo actions viewlets"
+      />
+
+    <upgradeStep
+      title="Update getIcon in catalog metadata"
+      description=""
+      handler=".setuphandlers.update_getIcon"
+      />
+
+  </upgradeSteps>
 
 </configure>

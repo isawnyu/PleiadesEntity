@@ -21,7 +21,8 @@ from config import product_globals
 from Globals import package_home
 from Products.ATVocabularyManager.config import TOOL_NAME as ATVOCABULARYTOOL
 from Products.CMFCore.utils import getToolByName
-##code-section HEAD
+from Products.ZCatalog.ProgressHandler import ZLogHandler
+
 
 TYPES_TO_VERSION = (
     'Feature',
@@ -35,7 +36,6 @@ TYPES_TO_VERSION = (
 
 DEFAULT_POLICIES = ('at_edit_autoversion', 'version_on_revert')
 
-##/code-section HEAD
 
 def isNotPleiadesEntityProfile(context):
     return context.readDataFile("PleiadesEntity_marker.txt") is None
@@ -89,6 +89,7 @@ def updateRoleMappings(context):
     wft = getToolByName(context.getSite(), 'portal_workflow')
     wft.updateRoleMappings()
 
+
 def postInstall(context):
     """Called as at the end of the setup process. """
     # the right place for your custom code
@@ -99,8 +100,6 @@ def postInstall(context):
     site = context.getSite()
 
 
-
-##code-section FOOT
 def setVersionedTypes(context):
     portal_repository = getToolByName(context.getSite(), 'portal_repository')
     versionable_types = list(portal_repository.getVersionableContentTypes())
@@ -113,4 +112,40 @@ def setVersionedTypes(context):
             for policy_id in DEFAULT_POLICIES:
                 portal_repository.addPolicyForContentType(type_id, policy_id)
     portal_repository.setVersionableContentTypes(versionable_types)
-##/code-section FOOT
+
+
+def update_getIcon(context):
+    typesToUpdate = {
+        'Location': ('link_icon.gif', 'link_icon.png'),
+        'Name': ('document_icon.gif', 'document_icon.png'),
+        'PleiadesVocabulary': ('folder_icon.gif', 'folder_icon.png'),
+        'PleiadesVocabularyTerm': ('document_icon.gif', 'document_icon.png'),
+    }
+
+    catalog = getToolByName(context, 'portal_catalog')
+    logger.info('Updating `getIcon` metadata.')
+    search = catalog.unrestrictedSearchResults
+    _catalog = getattr(catalog, '_catalog', None)
+    getIconPos = None
+    if _catalog is not None:
+        metadata = _catalog.data
+        getIconPos = _catalog.schema.get('getIcon')
+
+    brains = search(portal_type=typesToUpdate.keys(), sort_on="path")
+    num_objects = len(brains)
+    pghandler = ZLogHandler(1000)
+    pghandler.init('Updating getIcon metadata', num_objects)
+    i = 0
+    for brain in brains:
+        pghandler.report(i)
+        brain_icon = brain.getIcon
+        old_icon, new_icon = typesToUpdate[brain.portal_type]
+        if brain_icon != new_icon:
+            rid = brain.getRID()
+            record = metadata[rid]
+            new_record = list(record)
+            new_record[getIconPos] = new_icon
+            metadata[rid] = tuple(new_record)
+        i += 1
+    pghandler.finish()
+    logger.info('Updated `getIcon` metadata.')
