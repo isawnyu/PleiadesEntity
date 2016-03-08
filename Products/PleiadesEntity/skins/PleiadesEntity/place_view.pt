@@ -115,7 +115,7 @@
 
         <p tal:condition="not:portal_state/anonymous">Red titles indicate drafting-state items. Yellow titles indicate pending-state.</p>
 
-        <div tal:condition="not:nocall:context/@@iterate/baseline|nothing">
+        <div tal:condition="not:context/@@iterate/baseline|nothing">
           <div id="locationsField" class="field">
             <label>Locations:</label>
             <dl tal:replace="structure context/@@locations-listing"></dl>
