@@ -17,7 +17,7 @@
    <element value="Name"/>
    <element value="Location"/>
  </property>
- <property name="allow_discussion">False</property>
+ <property name="allow_discussion">True</property>
  <property name="default_view">base_view</property>
  <property name="view_methods">
   <element value="folder_summary_view"/>

@@ -15,7 +15,7 @@
  <property name="filter_content_types">False</property>
  <property name="allowed_content_types">
  </property>
- <property name="allow_discussion">False</property>
+ <property name="allow_discussion">True</property>
  <property name="default_view">base_view</property>
  <property name="view_methods">
   <element value="base_view"/>
