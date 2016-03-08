@@ -14,11 +14,11 @@
 
   <metal:head_macro metal:define-macro="css">
     <tal:block tal:define="place context/@@place; baseline place/@@iterate/baseline">
-      <link rel="where" type="application/json" tal:attributes="href place/@@json/data_uri"/>
-      <link tal:condition="baseline"
+      <link rel="where" type="application/json" tal:attributes="href string:${place/absolute_url}/@@json"/>
+      <link tal:condition="nocall:baseline"
         rel="baseline-where" 
         type="application/json" 
-        tal:attributes="href baseline/@@json/data_uri|nothing" />
+        tal:attributes="href string:${baseline/absolute_url}/@@json" />
       <link rel="stylesheet" 
         href="http://cdn.leafletjs.com/leaflet-0.4.4/leaflet.css" />
     </tal:block>
