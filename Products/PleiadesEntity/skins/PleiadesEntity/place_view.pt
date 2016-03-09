@@ -74,6 +74,7 @@
         templateId template/getId;
         portal_state context/@@plone_portal_state;
         portal portal_state/portal;
+        portal_url portal/absolute_url;
         where context/@@where;
         url context/absolute_url;">
 
@@ -272,9 +273,9 @@
   jQuery("span.formButton").click(function(){jQuery("div.createLocationForm").toggle();});
 </script>
 
-<script src="leaflet-GIBS/GIBSMetadata.js"></script>
-<script src="leaflet-GIBS/GIBSLayer.js"></script>
-<script src="place_map.js"></script>
+<script tal:attributes="src string:${portal_url}/leaflet-GIBS/GIBSMetadata.js"></script>
+<script tal:attributes="src string:${portal_url}/leaflet-GIBS/GIBSLayer.js"></script>
+<script tal:attributes="src string:${portal_url}/place_map.js"></script>
 
     </metal:body_macro>
    
