@@ -12,31 +12,21 @@
 
 __author__ = """Sean Gillies <unknown>, Tom Elliott <unknown>"""
 __docformat__ = 'plaintext'
+
 from AccessControl import ClassSecurityInfo
-from Products.Archetypes.atapi import *
+from Products.Archetypes import atapi
+from Products.CMFCore import permissions
+from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
+from Products.CompoundField.ArrayField import ArrayField
+from Products.CompoundField.CompoundWidget import CompoundWidget
+from Products.CompoundField.EnhancedArrayWidget import EnhancedArrayWidget
+from Products.PleiadesEntity.content.TemporalAttestation import TemporalAttestation
+from Products.PleiadesEntity.time import periodRanges, TimePeriodCmp
+from zope.globalrequest import getRequest
 from zope.interface import implements
 import interfaces
-from Products.PleiadesEntity.content.TemporalAttestation import TemporalAttestation
-from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
 
-from Products.CompoundField.ArrayField import ArrayField
-from Products.CompoundField.ArrayWidget import ArrayWidget
-from Products.CompoundField.EnhancedArrayWidget import EnhancedArrayWidget
-from Products.CompoundField.EnhancedArrayWidget import EnhancedArrayWidget
-
-from Products.PleiadesEntity.config import *
-
-# additional imports from tagged value 'import'
-from Products.CompoundField.CompoundWidget import CompoundWidget
-
-##code-section module-header #fill in your manual code here
-from Products.CMFCore import permissions
-from Products.PleiadesEntity.time import periodRanges, TimePeriodCmp
-from Products.CompoundField.CompoundWidget import CompoundWidget
-from Products.CMFCore.utils import getToolByName
-##/code-section module-header
-
-schema = Schema((
+schema = atapi.Schema((
 
     ArrayField(
         TemporalAttestation(
@@ -61,16 +51,11 @@ schema = Schema((
         size=0,
     ),
 
-),
-)
+))
 
-##code-section after-local-schema #fill in your manual code here
-##/code-section after-local-schema
 
 Temporal_schema = schema.copy()
 
-##code-section after-schema #fill in your manual code here
-##/code-section after-schema
 
 class Temporal(BrowserDefaultMixin):
     """
@@ -82,9 +67,6 @@ class Temporal(BrowserDefaultMixin):
     _at_rename_after_creation = True
 
     schema = Temporal_schema
-
-    ##code-section class-header #fill in your manual code here
-    ##/code-section class-header
 
     # Methods
 
@@ -123,30 +105,30 @@ class Temporal(BrowserDefaultMixin):
     def period_vocab(self):
         return TemporalAttestation.schema[
             'timePeriod'].vocabulary.getVocabulary(self).getTarget()
+
     def confidence_vocab(self):
         return TemporalAttestation.schema[
             'confidence'].vocabulary.getVocabulary(self).getTarget()
 
     security.declareProtected(permissions.View, 'temporalRange')
-    def temporalRange(self, period_vocab=None):
+    def temporalRange(self, period_ranges=None):
         """Nominal temporal range, not accounting for level of confidence"""
-        vocab = period_vocab or self.period_vocab()
-        ranges = periodRanges(vocab)
+        # cache period ranges on request
+        if period_ranges is None:
+            request = getRequest()
+            if request is not None and hasattr(request, '_period_ranges'):
+                period_ranges = request._period_ranges
+            else:
+                period_ranges = periodRanges(self.period_vocab())
+                if request is not None:
+                    request._period_ranges = period_ranges
+
         years = []
-        check = self.getAttestations()
         for a in self.getAttestations():
             tp = a['timePeriod']
             if tp:
-                years.extend(list(ranges[a['timePeriod']]))
+                years.extend(list(period_ranges[a['timePeriod']]))
         if len(years) >= 2:
             return min(years), max(years)
         else:
             return None
-
-# end of class Temporal
-
-##code-section module-footer #fill in your manual code here
-##/code-section module-footer
-
-
-

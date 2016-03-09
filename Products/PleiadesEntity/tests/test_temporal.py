@@ -104,7 +104,8 @@ class TemporalMixinTestCase(unittest.TestCase):
                     {'timePeriod': 'roman', 'confidence': 'confident'}]
 
         mock = MockTemporalContent()
-        self.failUnlessEqual(mock.temporalRange(VOCAB), (-330.0, 300.0))
+        ranges = periodRanges(VOCAB)
+        self.failUnlessEqual(mock.temporalRange(ranges), (-330.0, 300.0))
 
 
 class TemporalOverlapTestCase(unittest.TestCase):
@@ -112,9 +113,11 @@ class TemporalOverlapTestCase(unittest.TestCase):
     def test_nonoverlap(self):
         p = MockTemporalContent([{'timePeriod': 'hellenistic-republican'}])
         q = MockTemporalContent([{'timePeriod': 'roman'}])
-        self.failIf(temporal_overlap(p, q, VOCAB))
+        ranges = periodRanges(VOCAB)
+        self.failIf(temporal_overlap(p, q, ranges))
 
     def test_overlap(self):
         p = MockTemporalContent([{'timePeriod': 'roman'}])
         q = MockTemporalContent([{'timePeriod': 'roman'}])
-        self.failUnless(temporal_overlap(p, q, VOCAB))
+        ranges = periodRanges(VOCAB)
+        self.failUnless(temporal_overlap(p, q, ranges))

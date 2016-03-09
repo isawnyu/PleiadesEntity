@@ -22,13 +22,14 @@ class TimePeriodCmp(object):
             return -1
         return ai - bi
 
+
 def periodRanges(vocab):
     """Compute a dict of ranges from the Pleiades time period vocabulary"""
     ranges = {}
     for key, term in vocab.items():
         descr = term.Description()
         m = re.search(
-            r"\[\[(-{0,1}\d*\.{0,1}\d*)\s*,\s*(-{0,1}\d*\.{0,1}\d*)\]\]", 
+            r"\[\[(-{0,1}\d*\.{0,1}\d*)\s*,\s*(-{0,1}\d*\.{0,1}\d*)\]\]",
             descr)
         if m is not None:
             min = float(m.group(1))
@@ -36,10 +37,11 @@ def periodRanges(vocab):
             ranges[term.getTermKey()] = min, max
     return ranges
 
-def temporal_overlap(a, b, period_vocab=None):
+
+def temporal_overlap(a, b, period_ranges=None):
     """Compare two Temporal objects"""
-    ra = a.temporalRange(period_vocab)
-    rb = b.temporalRange(period_vocab)
+    ra = a.temporalRange(period_ranges)
+    rb = b.temporalRange(period_ranges)
     if not ra or not rb:
         return False
     else:
@@ -47,10 +49,10 @@ def temporal_overlap(a, b, period_vocab=None):
         bmin, bmax = rb
         return amin < bmax and amax > bmin or amin == bmin and amax == bmax
 
+
 def to_ad(year):
-    sign = (year>0)*2-1
+    sign = (year > 0) * 2 - 1
     if sign >= 0:
         return "AD %d" % year
     else:
-        return "%d BC" % (sign*year)
-
+        return "%d BC" % (sign * year)
