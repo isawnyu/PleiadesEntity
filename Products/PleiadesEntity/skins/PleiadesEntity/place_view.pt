@@ -239,8 +239,6 @@
                tal:attributes="href string:${url}/atom">Atom</a>,
             <a type="application/json" rel="nofollow alternate"
                tal:attributes="href string:${url}/json">JSON</a>,
-            <a type="application/json" rel="nofollow alternate"
-               tal:attributes="href string:${url}/json2">Alternate JSON (Experimental)</a>,
             <a type="application/vnd.google-earth.kml+xml" rel="nofollow alternate"
                tal:attributes="href string:${url}/kml">KML</a>,
             <a type="application/vnd.google-earth.kml+xml" rel="nofollow alternate"
