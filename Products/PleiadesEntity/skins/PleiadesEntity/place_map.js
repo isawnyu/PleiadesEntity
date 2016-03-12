@@ -77,6 +77,7 @@ $(function () {
   var bounds = null;
   var baselineBounds = null;
   var reprPoint = null;
+  var overlays = {};
   var map = L.map('map', {attributionControl: false});
   L.control.attribution({prefix: false, position: 'bottomright'}).addTo(map);
 
@@ -117,21 +118,6 @@ $(function () {
       "Roman Empire": imperium,
       "NASA Blue Marble": bluemarble,
   };
-
-  var reprMark = L.circleMarker(
-    reprPoint, {
-      stroke: true,
-      color: '#333',
-      fill: true,
-      fillColor: '#FFA500',
-      fillOpacity: 1,
-      radius: 7,
-      });
-
-  var overlays = {
-      "Representative point": reprMark,
-  };
-  L.control.layers(baseLayers, overlays).addTo(map);
 
   /* set up icons for vector layers */
   var connectionIcon = new L.Icon({
@@ -177,7 +163,21 @@ $(function () {
         reprPoint = L.latLng(where.reprPoint[1], where.reprPoint[0]);
         console.info('lat: ' + reprPoint.lat);
         console.info('lng: ' + reprPoint.lng);
+        var reprMark = L.circleMarker(
+          reprPoint, {
+            stroke: true,
+            color: '#333',
+            fill: true,
+            fillColor: '#FFA500',
+            fillOpacity: 1,
+            radius: 7,
+            });
+
+        overlays = {
+            "Representative point": reprMark,
+        };
       }
+      L.control.layers(baseLayers, overlays).addTo(map);
       if (where) {
         /* add vector layers */
         L.geoJson(where, {
