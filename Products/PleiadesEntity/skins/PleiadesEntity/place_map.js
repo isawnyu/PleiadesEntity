@@ -213,43 +213,46 @@ $(function () {
   );
 
   /* parse place spatial info from JSON uri in the baseline place (if this is a working copy) */
-  $.getJSON($('link[rel="baseline-where"][type="application/json"]').attr('href'),
-    function (baselineWhere) {
-      if (baselineWhere && baselineWhere.bbox) {
-        baselineBounds = L.latLngBounds([
-          [baselineWhere.bbox[1], baselineWhere.bbox[0]],
-          [baselineWhere.bbox[3], baselineWhere.bbox[2]] ]).pad(0.10);
-        if (bounds) {
-          bounds.extend(baselineBounds);
-        }
-        else { bounds = baselineBounds; }
-      }
-      if (baselineWhere){
-        /* add vector layers */
-        L.geoJson(baselineWhere, {
-          pointToLayer: function (feature, latlng) {
-              return L.marker(latlng, {icon: baselineLocationIcon, zIndexOffset: 100 });
-          },
-          style: function(f) {
-              return {
-                color: '#555555',
-                opacity: 1,
-                weight: 2,
-                fill: true,
-                fillColor: '#555555',
-                fillOpacity: 0.2,
-              };
-          },
-          onEachFeature: function (f, layer) {
-            layer.bindPopup(
-              '<dt><a href="' + f.properties.link + '">' + f.properties.title + '</a></dt>' + '<dd>' + f.properties.description + '</dd>'
-            );
+  var $baselineWhereLink = $('link[rel="baseline-where"][type="application/json"]');
+  if ($baselineWhereLink.length) {
+    $.getJSON($baselineWhereLink.attr('href'),
+      function (baselineWhere) {
+        if (baselineWhere && baselineWhere.bbox) {
+          baselineBounds = L.latLngBounds([
+            [baselineWhere.bbox[1], baselineWhere.bbox[0]],
+            [baselineWhere.bbox[3], baselineWhere.bbox[2]] ]).pad(0.10);
+          if (bounds) {
+            bounds.extend(baselineBounds);
           }
-        }).addTo(map);
+          else { bounds = baselineBounds; }
+        }
+        if (baselineWhere){
+          /* add vector layers */
+          L.geoJson(baselineWhere, {
+            pointToLayer: function (feature, latlng) {
+                return L.marker(latlng, {icon: baselineLocationIcon, zIndexOffset: 100 });
+            },
+            style: function(f) {
+                return {
+                  color: '#555555',
+                  opacity: 1,
+                  weight: 2,
+                  fill: true,
+                  fillColor: '#555555',
+                  fillOpacity: 0.2,
+                };
+            },
+            onEachFeature: function (f, layer) {
+              layer.bindPopup(
+                '<dt><a href="' + f.properties.link + '">' + f.properties.title + '</a></dt>' + '<dd>' + f.properties.description + '</dd>'
+              );
+            }
+          }).addTo(map);
+        }
+        rebound();
       }
-      rebound();
-    }
-  );
+    );
+  }
 
   /* connections */
   /* NB: there's only JSON for all connections, so we can't

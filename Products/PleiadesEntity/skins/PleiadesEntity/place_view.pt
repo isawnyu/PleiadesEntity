@@ -10,7 +10,8 @@
     
     <metal:head_macro metal:define-macro="js"
       tal:define="url context/absolute_url;
-                  baseline context/@@iterate/baseline|nothing;" >
+                  baseline context/@@iterate/baseline|nothing;
+                  dummy python:request.response.setHeader('Vary', 'Accept')" >
       <link rel="foaf:primaryTopic" tal:attributes="href string:${url}#this"/>
       <link rel="where" type="application/json" tal:attributes="href string:${context/absolute_url}/@@json"/>
       <link tal:condition="nocall:baseline"
