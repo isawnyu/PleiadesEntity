@@ -34,7 +34,7 @@ import transaction
 
 schema = atapi.Schema((
 
-    atapi.StringField(
+    atapi.LinesField(
         name='placeType',
         widget=atapi.InAndOutWidget(
             label="Place type",
