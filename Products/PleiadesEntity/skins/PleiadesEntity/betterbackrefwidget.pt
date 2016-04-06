@@ -17,15 +17,11 @@
             <!-- Navigation -->
             <div metal:use-macro="here/batch_macros/macros/navigation" />
 
-                <metal:listing metal:use-macro="here/folder_listing/macros/listing">
+            <metal:listing metal:use-macro="here/folder_listing/macros/listing">
 
-                    <metal:empty metal:fill-slot="no_items_in_listing"></metal:empty>
+                <metal:empty metal:fill-slot="no_items_in_listing"></metal:empty>
 
-
-                </metal:listing>
-
-            <!-- Navigation -->
-            <div metal:use-macro="here/batch_macros/macros/navigation" />
+            </metal:listing>
 
       </tal:define>
     </metal:view_macro>
