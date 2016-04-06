@@ -236,7 +236,7 @@ $(function () {
     );
   } else {
     gettingBaselineWhere = $.Deferred();
-    gettingBaselineWhere.resolve();
+    gettingBaselineWhere.resolve([]);
   }
 
   // set bounds once both requests have loaded
