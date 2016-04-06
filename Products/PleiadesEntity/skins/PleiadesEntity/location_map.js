@@ -115,14 +115,14 @@ $(function () {
 
   /* set up icons for vector layers */
   var locationIcon = new L.Icon({
-      iconUrl: "http://pleiades.stoa.org/images/pmapi/32/location-blue.png",
+      iconUrl: portal_url + '/map_icons/location-blue.png',
       iconSize:     [32, 37],
       iconAnchor:   [16, 35],
       popupAnchor:  [0, -33]
     });
 
   var baselineLocationIcon = new L.Icon({
-      iconUrl: "http://pleiades.stoa.org/images/pmapi/21/location-gray.png",
+      iconUrl: portal_url + '/map_icons/location-gray.png',
       iconSize:     [21, 26],
       iconAnchor:   [12, 28],
       popupAnchor:  [0, -23]
