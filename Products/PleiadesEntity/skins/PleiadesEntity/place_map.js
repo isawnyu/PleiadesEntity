@@ -150,13 +150,8 @@ $(function () {
   }
 
   /* parse place spatial info from JSON URI in the place page */
-  $.getJSON($('link[rel="where"][type="application/json"]').attr('href'),
+  var gettingWhere = $.getJSON($('link[rel="where"][type="application/json"]').attr('href'),
     function (where) {
-      if (where && where.bbox) {
-        bounds = L.latLngBounds([
-          [where.bbox[1], where.bbox[0]],
-          [where.bbox[3], where.bbox[2]] ]).pad(0.10);
-      }
       if (where && where.reprPoint) {
         console.info('reprPoint[0]: ' + where.reprPoint[0]);
         console.info('reprPoint[1]: ' + where.reprPoint[1]);
@@ -202,30 +197,18 @@ $(function () {
           }
         }).addTo(map);
       }
-      if (bounds && baselineBounds) {
-          bounds.extend(baselineBounds);
-      }
       if (target !== null) {
         target.openPopup();
       }
-      rebound();
     }
   );
 
   /* parse place spatial info from JSON uri in the baseline place (if this is a working copy) */
   var $baselineWhereLink = $('link[rel="baseline-where"][type="application/json"]');
+  var gettingBaselineWhere;
   if ($baselineWhereLink.length) {
-    $.getJSON($baselineWhereLink.attr('href'),
+    gettingBaselineWhere = $.getJSON($baselineWhereLink.attr('href'),
       function (baselineWhere) {
-        if (baselineWhere && baselineWhere.bbox) {
-          baselineBounds = L.latLngBounds([
-            [baselineWhere.bbox[1], baselineWhere.bbox[0]],
-            [baselineWhere.bbox[3], baselineWhere.bbox[2]] ]).pad(0.10);
-          if (bounds) {
-            bounds.extend(baselineBounds);
-          }
-          else { bounds = baselineBounds; }
-        }
         if (baselineWhere){
           /* add vector layers */
           L.geoJson(baselineWhere, {
@@ -249,10 +232,34 @@ $(function () {
             }
           }).addTo(map);
         }
-        rebound();
       }
     );
+  } else {
+    gettingBaselineWhere = $.Deferred();
+    gettingBaselineWhere.resolve();
   }
+
+  // set bounds once both requests have loaded
+  $.when(gettingWhere, gettingBaselineWhere).done(function (ret1, ret2) {
+    var where = ret1[0];
+    if (where && where.bbox) {
+      bounds = L.latLngBounds([
+        [where.bbox[1], where.bbox[0]],
+        [where.bbox[3], where.bbox[2]] ]).pad(0.10);
+    }
+    var baselineWhere = ret2[0];
+    if (baselineWhere && baselineWhere.bbox) {
+      baselineBounds = L.latLngBounds([
+        [baselineWhere.bbox[1], baselineWhere.bbox[0]],
+        [baselineWhere.bbox[3], baselineWhere.bbox[2]] ]).pad(0.10);
+      if (bounds) {
+        bounds.extend(baselineBounds);
+      } else {
+        bounds = baselineBounds;
+      }
+    }
+    rebound();
+  });
 
   /* connections */
   /* NB: there's only JSON for all connections, so we can't
