@@ -1,0 +1,14 @@
+<configure
+  xmlns="http://namespaces.zope.org/zope"
+  xmlns:browser="http://namespaces.zope.org/browser"
+  i18n_domain="Products.PleiadesEntity"
+  >
+
+  <browser:page
+    for="*"
+    name="json"
+    class=".as_json.JSONView"
+    permission="zope2.View"
+    />
+
+</configure>

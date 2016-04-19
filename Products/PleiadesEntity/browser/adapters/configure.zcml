@@ -1,0 +1,15 @@
+<configure
+  xmlns="http://namespaces.zope.org/zope"
+  xmlns:browser="http://namespaces.zope.org/browser"
+  i18n_domain="Products.PleiadesEntity"
+  >
+
+  <adapter
+    for="Products.CMFCore.interfaces.IContentish"
+    factory=".ContentExportAdapter" />
+
+  <adapter
+    for="Products.PleiadesEntity.content.interfaces.IPlace"
+    factory=".place.PlaceExportAdapter" />
+
+</configure>

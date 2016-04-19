@@ -4,6 +4,9 @@
   i18n_domain="Products.PleiadesEntity"
   >
 
+  <include package=".adapters" />
+  <include package=".formatters" />
+
   <browser:view
     for="Products.PleiadesEntity.content.interfaces.IPlace"
     name="attestations"
