@@ -10,6 +10,7 @@
 
   <!-- ##code-section configure.zcml -->
 
+  <include package="pleiades.geographer" />
   <include package="pleiades.vocabularies"/>
   <include package=".browser" />
   

@@ -12,4 +12,12 @@
     for="Products.PleiadesEntity.content.interfaces.IPlace"
     factory=".place.PlaceExportAdapter" />
 
+  <adapter
+    for="Products.PleiadesEntity.content.interfaces.ILocation"
+    factory=".location.LocationExportAdapter" />
+
+  <adapter
+    for="Products.PleiadesEntity.content.interfaces.IName"
+    factory=".name.NameExportAdapter" />
+
 </configure>

@@ -1,10 +1,27 @@
 from ..interfaces import IExportAdapter
+from DateTime import DateTime
+from plone.memoize import instance
+from Products.CMFCore.utils import getToolByName
 from zope.component import queryAdapter
 from zope.interface import implementer
 
 
 def get_export_adapter(ob):
     return queryAdapter(ob, IExportAdapter)
+
+
+def collect_export_data(adapter):
+    # collect all data from adapter
+    data = {}
+    for k in dir(adapter):
+        if k == 'context' or k.startswith('_'):
+            continue
+        try:
+            value = getattr(adapter, k)()
+        except NotImplementedError:
+            continue
+        data[k] = value
+    return data
 
 
 @implementer(IExportAdapter)
@@ -27,3 +44,97 @@ class ContentExportAdapter(ExportAdapter):
 
     def description(self):
         return self.context.Description().decode('utf8')
+
+    @instance.memoize
+    def _mtool(self):
+        return getToolByName(self.context, 'portal_membership')
+
+    def creators(self):
+        result = []
+        mtool = self._mtool()
+        for creator in self.context.Creators():
+            member = mtool.getMemberById(creator)
+            if member is not None:
+                result.append(MemberExportAdapter(member))
+        return result
+
+    def contributors(self):
+        result = []
+        mtool = self._mtool()
+        for contributor in self.context.Contributors():
+            member = mtool.getMemberById(contributor)
+            if member is not None:
+                result.append(MemberExportAdapter(member))
+        return result
+
+    def created(self):
+        return self.context.created().ISO()
+
+    def review_state(self):
+        wtool = getToolByName(self.context, 'portal_workflow')
+        return wtool.getInfoFor(self.context, 'review_state')
+
+
+def dict_getter(key):
+    def get(self):
+        __traceback_info__ = key
+        return self.context[key]
+    return get
+
+
+def archetypes_getter(fname):
+    def get(self):
+        __traceback_info__ = fname
+        inst = self.context
+        value = inst.getField(fname).get(inst)
+        if isinstance(value, DateTime):
+            value = value.ISO()
+        return value
+    return get
+
+
+def export_children(meta_type):
+    def get(self):
+        __traceback_info__ = meta_type
+        result = []
+        for child in self.context.objectValues(meta_type):
+            result.append(get_export_adapter(child))
+        return result
+    return get
+
+
+class ReferenceExportAdapter(ExportAdapter):
+    uri = dict_getter('identifier')
+    shortCitation = dict_getter('range')
+    type = dict_getter('type')
+
+
+class WorkExportAdapter(ExportAdapter):
+    provenance = archetypes_getter('initialProvenance')
+    _references = archetypes_getter('referenceCitations')
+
+    def references(self):
+        result = []
+        for ref in self._references():
+            result.append(ReferenceExportAdapter(ref))
+        return result
+
+
+class TemporalExportAdapter(ExportAdapter):
+    attestations = archetypes_getter('attestations')
+
+
+class MemberExportAdapter(ExportAdapter):
+
+    def uri(self):
+        portal_url = getToolByName(self.context, 'portal_url')()
+        return portal_url + '/author/' + self.context.getId()
+
+    def username(self):
+        return self.context.getId()
+
+    def name(self):
+        return self.context.getProperty('fullname', None)
+
+    def homepage(self):
+        return self.context.getProperty('homepage', None)
