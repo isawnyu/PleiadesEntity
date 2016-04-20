@@ -115,11 +115,12 @@ def archetypes_getter(fname):
     return get
 
 
-def export_children(meta_type):
+def export_children(portal_type):
     def get(self):
-        __traceback_info__ = meta_type
+        __traceback_info__ = portal_type
         result = []
-        for child in self.context.objectValues(meta_type):
+        filter = {'portal_type': portal_type}
+        for child in self.context.listFolderContents(filter):
             result.append(get_export_adapter(child))
         return result
     return get
