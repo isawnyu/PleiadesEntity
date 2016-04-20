@@ -74,6 +74,28 @@ class ContentExportAdapter(ExportAdapter):
         wtool = getToolByName(self.context, 'portal_workflow')
         return wtool.getInfoFor(self.context, 'review_state')
 
+    def history(self):
+        rt = getToolByName(self.context, "portal_repository")
+        if rt is None or not rt.isVersionable(self.context):
+            return []
+        history = rt.getHistoryMetadata(self.context)
+        if not history:
+            return []
+        result = []
+        # Count backwards from most recent to least recent
+        for i in xrange(history.getLength(countPurged=False) - 1, -1, -1):
+            revision = history.retrieve(i, countPurged=False)
+            meta = revision['metadata']['sys_metadata']
+            userid = meta['principal']
+            modified = DateTime(meta['timestamp'], 'UTC')
+            modified._timezone_naive = True
+            result.append({
+                'comment': meta['comment'],
+                'modified': modified.ISO(),
+                'modifiedBy': userid,
+            })
+        return result
+
 
 def dict_getter(key):
     def get(self):

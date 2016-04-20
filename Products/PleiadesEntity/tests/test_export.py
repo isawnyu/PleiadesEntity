@@ -7,6 +7,7 @@ class TestExport(PleiadesEntityTestCase):
     maxDiff = None
 
     def afterSetUp(self):
+        fake_date = DateTime('2016-01-01')
         self.setRoles(['Manager'])
         self.portal.invokeFactory('PlaceContainer', 'places')
         places = self.portal.places
@@ -15,9 +16,16 @@ class TestExport(PleiadesEntityTestCase):
             id='1',
             title='Ninoe',
             description='This is a test.',
-            creation_date=DateTime('2016-01-01'),
+            creation_date=fake_date,
         )
         place = self.place = self.portal.places['1']
+
+        # Create revision (with fake timestamp)
+        import time
+        _time = time.time
+        time.time = lambda: int(fake_date)
+        self.portal.portal_repository.save(place, comment='Initial Revision')
+        time.time = _time
 
         nameAttested = u'\u039d\u03b9\u03bd\u1f79\u03b7'.encode('utf-8')
         nid = place.invokeFactory(
@@ -29,7 +37,7 @@ class TestExport(PleiadesEntityTestCase):
             nameTransliterated='Ninoe',
             accuracy='accurate',
             completeness='complete',
-            creation_date=DateTime('2016-01-01'),
+            creation_date=fake_date,
         )
         attestations = place[nid].Schema()['attestations']
         attestations.resize(1)
@@ -121,6 +129,7 @@ class TestExport(PleiadesEntityTestCase):
                 'description': '',
                 'created': '2016-01-01T00:00:00',
                 'review_state': 'published',
+                'history': [],
                 'creators': [{
                     u'uri': u'http://nohost/plone/author/test_user_1_',
                     u'username': u'test_user_1_',
@@ -146,6 +155,7 @@ class TestExport(PleiadesEntityTestCase):
                 'description': '',
                 'created': '2016-01-01T00:00:00',
                 'review_state': 'private',
+                'history': [],
                 'creators': [{
                     u'uri': u'http://nohost/plone/author/test_user_1_',
                     u'username': u'test_user_1_',
@@ -171,6 +181,12 @@ class TestExport(PleiadesEntityTestCase):
                     'type': 'citesAsEvidence',
                 }],
                 'provenance': 'Pleiades',
+                'history': [],
             }],
+            'history': [{
+                'comment': 'Initial Revision',
+                'modified': '2016-01-01T00:00:00',
+                'modifiedBy': 'test_user_1_',
+            }]
         }
         self.assertEqual(json.loads(response), json.loads(json.dumps(expected)))
