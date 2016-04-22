@@ -83,6 +83,7 @@ class TestExport(PleiadesEntityTestCase):
         view = self.place.unrestrictedTraverse('@@newjson')
         response = view()
         expected = {
+            '@type': 'Place',
             'uri': 'http://nohost/plone/places/1',
             'id': '1',
             'title': 'Ninoe',
@@ -123,6 +124,7 @@ class TestExport(PleiadesEntityTestCase):
             'rights': '',
             'subject': [],
             'locations': [{
+                '@type': 'Location',
                 'uri': 'http://nohost/plone/places/1/position',
                 'id': 'position',
                 'title': 'Point 1',
@@ -150,6 +152,7 @@ class TestExport(PleiadesEntityTestCase):
                 'details': '',
             }],
             'names': [{
+                '@type': 'Name',
                 'uri': 'http://nohost/plone/places/1/ninoe',
                 'id': 'ninoe',
                 'description': '',
@@ -189,4 +192,6 @@ class TestExport(PleiadesEntityTestCase):
                 'modifiedBy': 'test_user_1_',
             }]
         }
-        self.assertEqual(json.loads(response), json.loads(json.dumps(expected)))
+        actual = json.loads(response)
+        del actual['@context']
+        self.assertEqual(actual, json.loads(json.dumps(expected)))

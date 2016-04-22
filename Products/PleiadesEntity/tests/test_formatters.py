@@ -12,4 +12,4 @@ class TestJsonFormatter(unittest.TestCase):
         from Products.PleiadesEntity.browser.formatters.as_json import format_json
         adapter = MockExportAdapter()
         json = format_json(adapter)
-        self.assertEqual(json, '{"id": "foo"}')
+        self.assertEqual(json, '{\n    "id": "foo"\n}')

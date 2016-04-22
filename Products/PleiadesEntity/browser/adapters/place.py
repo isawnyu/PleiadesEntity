@@ -56,4 +56,6 @@ class PlaceExportAdapter(ContentExportAdapter):
         res = extent(self.context)
         if not res:
             return
+        if res['extent'] is None:
+            return
         return shape(res['extent']).bounds

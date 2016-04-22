@@ -96,6 +96,11 @@ class ContentExportAdapter(ExportAdapter):
             })
         return result
 
+def portal_type(self):
+    return self.context.Type()
+
+setattr(ContentExportAdapter, '@type', portal_type)
+
 
 def dict_getter(key):
     def get(self):
