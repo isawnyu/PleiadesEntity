@@ -4,11 +4,12 @@ from shapely.geometry import shape
 from . import archetypes_getter
 from . import export_children
 from . import ContentExportAdapter
+from . import WorkExportAdapter
 from . import get_export_adapter
 import geojson
 
 
-class PlaceExportAdapter(ContentExportAdapter):
+class PlaceExportAdapter(WorkExportAdapter, ContentExportAdapter):
 
     def connectsWith(self):
         return [o.absolute_url() for o in self.context.getRefs(
@@ -24,8 +25,6 @@ class PlaceExportAdapter(ContentExportAdapter):
     names = export_children('Name')
 
     placeTypes = archetypes_getter('placeType')
-    provenance = archetypes_getter('initialProvenance')
-    references = archetypes_getter('referenceCitations')
     rights = archetypes_getter('rights')
     subject = archetypes_getter('subject')
     details = archetypes_getter('text')
