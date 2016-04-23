@@ -151,6 +151,22 @@ class WorkExportAdapter(ExportAdapter):
 class TemporalExportAdapter(ExportAdapter):
     attestations = archetypes_getter('attestations')
 
+    @instance.memoize
+    def _temporalRange(self):
+        return self.context.temporalRange()
+
+    def start(self):
+        trange = self._temporalRange()
+        if trange is None:
+            return
+        return trange[0]
+
+    def end(self):
+        trange = self._temporalRange()
+        if trange is None:
+            return
+        return trange[1]
+
 
 class MemberExportAdapter(ExportAdapter):
 

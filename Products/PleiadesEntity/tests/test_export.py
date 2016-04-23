@@ -9,6 +9,9 @@ class TestExport(PleiadesEntityTestCase):
     def afterSetUp(self):
         fake_date = DateTime('2016-01-01')
         self.setRoles(['Manager'])
+
+        self.portal.REQUEST._period_ranges = {'roman': [-30, 300]}
+
         self.portal.invokeFactory('PlaceContainer', 'places')
         places = self.portal.places
         places.invokeFactory(
@@ -150,6 +153,8 @@ class TestExport(PleiadesEntityTestCase):
                 'attestations': [],
                 'provenance': 'Pleiades',
                 'details': '',
+                'start': None,
+                'end': None,
             }],
             'names': [{
                 '@type': 'Name',
@@ -185,6 +190,8 @@ class TestExport(PleiadesEntityTestCase):
                 }],
                 'provenance': 'Pleiades',
                 'history': [],
+                'start': -30.0,
+                'end': 300.0,
             }],
             'history': [{
                 'comment': 'Initial Revision',
