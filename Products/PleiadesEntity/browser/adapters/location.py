@@ -42,7 +42,7 @@ class LocationExportAdapter(
     associationCertainty = archetypes_getter('associationCertainty')
     details = archetypes_getter('text')
 
-    _accuracy = archetypes_getter('accuracy')
+    _accuracy = archetypes_getter('accuracy', raw=False)
     def accuracy(self):
         accuracy = self._accuracy()
         if accuracy is not None:

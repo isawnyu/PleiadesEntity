@@ -22,6 +22,8 @@ def iterate_places(site):
         i += 1
         if not i % BATCH_SIZE:
             p_jar.cacheMinimize()
+#        if i > 1000:
+#            return
 
 
 def dump(app, outfolder):
@@ -37,7 +39,9 @@ def dump(app, outfolder):
         formatter.start()
 
     for place in iterate_places(site):
-        __traceback_info__ = '/'.join(place.getPhysicalPath())
+        path = '/'.join(place.getPhysicalPath())
+        __traceback_info__ = path
+        print 'Exporting {}'.format(path)
         adapter = get_export_adapter(place)
         for formatter in formatters:
             formatter.dump_one(adapter)
@@ -50,4 +54,6 @@ def dump(app, outfolder):
 # bin/instance -Oplone run dump.py [outfolder]
 if __name__ == '__main__':
     outfolder = sys.argv[-1]
+#    import cProfile
+#    cProfile.run('dump(app, outfolder)', 'profile')
     dump(app, outfolder)

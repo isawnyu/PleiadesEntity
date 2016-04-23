@@ -14,7 +14,7 @@ def collect_export_data(adapter):
     # collect all data from adapter
     data = {}
     for k in dir(adapter):
-        if k == 'context' or k.startswith('_'):
+        if k == 'context' or k == 'for_json' or k.startswith('_'):
             continue
         try:
             value = getattr(adapter, k)()
@@ -29,6 +29,9 @@ class ExportAdapter(object):
 
     def __init__(self, context):
         self.context = context
+    
+    def for_json(self):
+        return collect_export_data(self)
 
 
 class ContentExportAdapter(ExportAdapter):
@@ -109,11 +112,14 @@ def dict_getter(key):
     return get
 
 
-def archetypes_getter(fname):
+def archetypes_getter(fname, raw=True):
     def get(self):
         __traceback_info__ = fname
         inst = self.context
-        value = inst.getField(fname).get(inst)
+        if raw:
+            value = inst.getField(fname).getRaw(inst)
+        else:
+            value = inst.getField(fname).get(inst)
         if isinstance(value, DateTime):
             value = value.ISO()
         return value
@@ -139,7 +145,7 @@ class ReferenceExportAdapter(ExportAdapter):
 
 class WorkExportAdapter(ExportAdapter):
     provenance = archetypes_getter('initialProvenance')
-    _references = archetypes_getter('referenceCitations')
+    _references = archetypes_getter('referenceCitations', raw=False)
 
     def references(self):
         result = []
@@ -149,7 +155,7 @@ class WorkExportAdapter(ExportAdapter):
 
 
 class TemporalExportAdapter(ExportAdapter):
-    attestations = archetypes_getter('attestations')
+    attestations = archetypes_getter('attestations', raw=False)
 
     @instance.memoize
     def _temporalRange(self):
