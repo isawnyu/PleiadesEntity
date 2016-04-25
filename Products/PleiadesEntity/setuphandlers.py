@@ -46,21 +46,21 @@ def installVocabularies(context):
     site = context.getSite()
     # Create vocabularies in vocabulary lib
     atvm = getToolByName(site, ATVOCABULARYTOOL)
-    vocabmap = {'name-accuracy': ('VdexVocabulary', 'VdexTerm'),
-         'association-certainty': ('VdexVocabulary', 'VdexTerm'),
+    vocabmap = {'name-accuracy': ('VdexFileVocabulary', 'VdexTerm'),
+         'association-certainty': ('VdexFileVocabulary', 'VdexTerm'),
          'place-types': ('SimpleVocabulary', 'SimpleVocabularyTerm'),
-         'attestation-confidence': ('VdexVocabulary', 'VdexTerm'),
-         'time-periods': ('VdexVocabulary', 'VdexTerm'),
-         'name-completeness': ('VdexVocabulary', 'VdexTerm'),
-         'ancient-name-languages': ('VdexVocabulary', 'VdexTerm'),
-         'name-types': ('VdexVocabulary', 'VdexTerm'),
+         'attestation-confidence': ('VdexFileVocabulary', 'VdexTerm'),
+         'time-periods': ('VdexFileVocabulary', 'VdexTerm'),
+         'name-completeness': ('VdexFileVocabulary', 'VdexTerm'),
+         'ancient-name-languages': ('VdexFileVocabulary', 'VdexTerm'),
+         'name-types': ('VdexFileVocabulary', 'VdexTerm'),
         }
     for vocabname in vocabmap.keys():
         if not vocabname in atvm.contentIds():
             atvm.invokeFactory(vocabmap[vocabname][0], vocabname)
 
         if len(atvm[vocabname].contentIds()) < 1:
-            if vocabmap[vocabname][0] == "VdexVocabulary":
+            if vocabmap[vocabname][0] == "VdexFileVocabulary":
                 vdexpath = os.path.join(
                     package_home(product_globals), 'data', '%s.vdex' % vocabname)
                 if not (os.path.exists(vdexpath) and os.path.isfile(vdexpath)):
