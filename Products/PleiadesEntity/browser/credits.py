@@ -6,8 +6,8 @@ from plone.memoize import view
 FAKE_USERS = ('auser', 'juser')
 REMOVE_USERS = frozenset(['sgilles', 'admin', 'rtalbert', 'thomase'])
 NAME_MAP = {
-    'sgilles': 'S. Gillies',
-    'thomase': 'T. Elliot'
+    'S. Gillies': 'sgilles',
+    'T. Elliot': 'thomase',
 }
 
 
