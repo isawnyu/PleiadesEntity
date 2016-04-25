@@ -65,7 +65,10 @@ class CreditTools(BrowserView):
         mtool = self.mtool
         catalog = self.catalog
 
-        contributors = set(catalog.uniqueValuesFor('Contributors'))
+        try:
+            contributors = set(catalog.uniqueValuesFor('Contributors'))
+        except KeyError:
+            contributors = set()
         creators = set(catalog.uniqueValuesFor('Creator'))
         contributors = contributors.union(creators) - REMOVE_USERS
 
