@@ -1,5 +1,6 @@
 from ..interfaces import IExportAdapter
 from DateTime import DateTime
+from AccessControl import Unauthorized
 from plone.memoize import instance
 from Products.CMFCore.utils import getToolByName
 from zope.component import queryAdapter
@@ -78,7 +79,10 @@ class ContentExportAdapter(ExportAdapter):
         rt = getToolByName(self.context, "portal_repository")
         if rt is None or not rt.isVersionable(self.context):
             return []
-        history = rt.getHistoryMetadata(self.context)
+        try:
+            history = rt.getHistoryMetadata(self.context)
+        except Unauthorized:
+            history = None
         if not history:
             return []
         result = []

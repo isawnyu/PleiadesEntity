@@ -53,4 +53,11 @@
     permission="pleiades.addLocation"
     />
 
+  <browser:view
+    for="Products.PleiadesEntity.content.interfaces.IPlace"
+    name="auto_view"
+    class=".negotiation.ContentNegotiationView"
+    permission="zope2.View"
+    />
+
 </configure>
