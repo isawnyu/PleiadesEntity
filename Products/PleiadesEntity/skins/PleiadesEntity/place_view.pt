@@ -77,7 +77,8 @@
         portal portal_state/portal;
         portal_url portal/absolute_url;
         where context/@@where;
-        url context/absolute_url;">
+        url context/absolute_url;
+        citation_authors context/@@credit_utils/citation_authors;">
 
         <div id="map-block" title="Locations of this particular place are shown in blue.">
           <div id="map"></div>
@@ -254,7 +255,7 @@
         <div class="field">
           <label>Suggested citation:</label>
           <br/>
-          <span tal:replace="here/citationAuthors">R. Talbert</span>.
+          <span tal:replace="citation_authors">R. Talbert</span>.
           "Places: <span tal:replace="here/getId">ID</span> (<span tal:replace="here/Title">TITLE</span>)". Pleiades.
           &lt;<span tal:replace="here/absolute_url">http://opencontext.org/subjects/HazorZooSPA0000009703</span>&gt; [Accessed: <span tal:replace="python:DateTime().fCommon() or ''">2006-05-12</span>]
         </div>
@@ -263,7 +264,7 @@
           <label>Cite this resource in Wikipedia:</label>
           <br/>
           <pre>
-            {{cite web |url=<span tal:replace="here/absolute_url">http://example.com/foo</span> |title=Places: <span tal:replace="here/getId">ID</span> (<span tal:replace="here/Title">TITLE</span>) |author=<span tal:replace="here/citationAuthors">R. Talbert</span> |accessdate=<span tal:replace="python:DateTime().fCommon() or ''">2006-05-12</span> |publisher=Pleiades}}
+            {{cite web |url=<span tal:replace="here/absolute_url">http://example.com/foo</span> |title=Places: <span tal:replace="here/getId">ID</span> (<span tal:replace="here/Title">TITLE</span>) |author=<span tal:replace="citation_authors">R. Talbert</span> |accessdate=<span tal:replace="python:DateTime().fCommon() or ''">2006-05-12</span> |publisher=Pleiades}}
           </pre>
         </div>
 

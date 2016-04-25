@@ -60,4 +60,12 @@
     permission="zope2.View"
     />
 
+  <browser:view
+    for="*"
+    name="credit_utils"
+    class=".credits.CreditTools"
+    allowed_attributes="user_in_byline citation_authors get_credits fixed_creators"
+    permission="zope2.View"
+    />
+
 </configure>
