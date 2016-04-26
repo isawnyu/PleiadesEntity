@@ -64,6 +64,7 @@ class CreditTools(BrowserView):
     def get_credits(self):
         mtool = self.mtool
         catalog = self.catalog
+        getMemberById = mtool.getMemberById
 
         try:
             contributors = set(catalog.uniqueValuesFor('Contributors'))
@@ -73,7 +74,7 @@ class CreditTools(BrowserView):
         contributors = contributors.union(creators) - REMOVE_USERS
 
         data = {}
-        for user in filter(lambda x: x is not None, map(mtool.getMemberById,
+        for user in filter(lambda x: x is not None, map(getMemberById,
                                                         contributors)):
             username = user.getUserName()
             if username in FAKE_USERS:
