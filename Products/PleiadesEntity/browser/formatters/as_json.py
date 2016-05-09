@@ -4,19 +4,11 @@ from zExceptions import NotFound
 from ..adapters import get_export_adapter
 from ..adapters import collect_export_data
 from ..interfaces import IExportAdapter
-import json
+import simplejson as json
 import os
 
 
 PRETTY_PRINT = True
-
-
-class PleiadesJSONEncoder(json.JSONEncoder):
-
-    def default(self, obj):
-        if IExportAdapter.providedBy(obj):
-            return collect_export_data(obj)
-        return super(PleiadesJSONEncoder, self).default(obj)
 
 
 def make_ld_context(context_items=None):
@@ -43,7 +35,7 @@ def format_json(adapter, with_context=False):
     if with_context:
         data['@context'] = make_ld_context()
     return json.dumps(
-        data, cls=PleiadesJSONEncoder, indent=4 if PRETTY_PRINT else None)
+        data, for_json=True, indent=4 if PRETTY_PRINT else None)
 
 
 class JSONFormatter(object):
