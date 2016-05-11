@@ -22,6 +22,7 @@ class TestExport(PleiadesEntityTestCase):
             creation_date=fake_date,
         )
         place = self.place = self.portal.places['1']
+        self.portal.portal_workflow.doActionFor(place, 'publish')
 
         # Create revision (with fake timestamp)
         import time
@@ -57,12 +58,13 @@ class TestExport(PleiadesEntityTestCase):
                 'type': 'citesAsEvidence',
             }],
         )
+        self.portal.portal_workflow.doActionFor(place[nid], 'publish')
 
         place.invokeFactory(
             'Location', 'position',
             title='Point 1',
             geometry='Point:[-86.4808333333333, 34.769722222222]',
-            creation_date=DateTime('2016-01-01'),
+            creation_date=fake_date,
         )
         self.portal.portal_workflow.doActionFor(place.position, 'publish')
 
@@ -71,6 +73,10 @@ class TestExport(PleiadesEntityTestCase):
             id='2',
         )
         place.addReference(places['2'], "connectsWith")
+        self.portal.portal_workflow.doActionFor(places['2'], 'publish')
+
+        place.setModificationDate(fake_date)
+        self.portal.portal_catalog.catalog_object(place)
 
     def test_export_place(self):
         from ..browser.adapters.place import PlaceExportAdapter
@@ -201,4 +207,79 @@ class TestExport(PleiadesEntityTestCase):
         }
         actual = json.loads(response)
         del actual['@context']
-        self.assertEqual(actual, json.loads(json.dumps(expected)))
+        self.assertEqual(json.loads(json.dumps(expected)), actual)
+
+    def test_dump_places_as_csv(self):
+        from pleiades.dump import dump_catalog
+        from pleiades.dump.places import places_schema
+        import csv
+        import sys
+        from StringIO import StringIO
+        _stdout = sys.stdout
+        sys.stdout = result = StringIO()
+        dump_catalog(self.portal, 'Place', places_schema)
+        sys.stdout = _stdout
+        result.seek(0)
+        reader = csv.reader(result)
+        columns = reader.next()
+        row = reader.next()
+
+        expectedColumns = [
+            'authors',
+            'bbox',
+            'connectsWith',
+            'created',
+            'creators',
+            'currentVersion',
+            'description',
+            'extent',
+            'featureTypes',
+            'geoContext',
+            'hasConnectionsWith',
+            'id',
+            'locationPrecision',
+            'maxDate',
+            'minDate',
+            'modified',
+            'path',
+            'reprLat',
+            'reprLatLong',
+            'reprLong',
+            'tags',
+            'timePeriods',
+            'timePeriodsKeys',
+            'timePeriodsRange',
+            'title',
+            'uid',
+        ]
+        self.assertEqual(expectedColumns, columns)
+
+        expected = [
+            "",
+            "-86.4808333333, 34.7697222222, -86.4808333333, 34.7697222222",
+            "2",
+            "2016-01-01T00:00:00Z",
+            "test_user_1_",
+            "",
+            "This is a test.",
+            '{"type": "Point", "coordinates": [-86.4808333333333, 34.769722222222]}',
+            "unknown",
+            "",
+            "",
+            "1",
+            "precise",
+            "300.0",
+            "-30.0",
+            "2016-01-01T00:00:00Z",
+            "/places/1",
+            "34.7697222222",
+            "34.769722,-86.480833",
+            "-86.4808333333",
+            "",
+            "R",
+            "roman",
+            "-30.0,300.0",
+            "Ninoe",
+        ]
+        row.pop()  # remove uid, which is randomly generated
+        self.assertEqual(expected, row)

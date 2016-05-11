@@ -39,6 +39,7 @@
   <column value="getFeatureType"/>
   <column value="getConfidence"/>
   <column value="getModernLocation"/>
+  <column value="getTimePeriods"/>
 <!-- ##code-section FOOT -->
 <!-- ##/code-section FOOT -->
 </object>

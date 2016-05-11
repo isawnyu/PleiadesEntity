@@ -36,6 +36,10 @@
     <extra name="index_type" value="Okapi BM25 Rank"/>
     <extra name="lexicon_id" value="plone_lexicon"/>
   </index>
+  <index name="Contributors"
+         meta_type="KeywordIndex">
+    <indexed_attr value="Contributors"/>
+  </index>
   <column value="getNameAttested"/>
   <column value="getNameLanguage"/>
   <column value="getAccuracy"/>
@@ -44,6 +48,9 @@
   <column value="getConfidence"/>
   <column value="getModernLocation"/>
   <column value="currentVersion"/>
+  <column value="connectsWith"/>
+  <column value="hasConnectionsWith"/>
+  <column value="getTimePeriods"/>
 <!-- ##code-section FOOT -->
 <!-- ##/code-section FOOT -->
 </object>
