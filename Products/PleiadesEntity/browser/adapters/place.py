@@ -6,20 +6,38 @@ from . import export_children
 from . import ContentExportAdapter
 from . import WorkExportAdapter
 from . import get_export_adapter
+from . import export_config
 import geojson
+import re
 
 
 class PlaceExportAdapter(WorkExportAdapter, ContentExportAdapter):
 
+    def _connectsWith(self):
+        return self.context.getRefs("connectsWith")
+
+    def _hasConnectionsWith(self):
+        return self.context.getBRefs("connectsWith")
+
     def connectsWith(self):
-        return [o.absolute_url() for o in self.context.getRefs(
-            "connectsWith") + self.context.getBRefs("connectsWith")]
+        return [place.absolute_url() for place
+                in (self._connectsWith() + self._hasConnectionsWith())]
+
+    def _reprPoint(self):
+        return representative_point(self.context)
 
     def reprPoint(self):
-        res = representative_point(self.context)
-        if not res:
+        reprPoint = self._reprPoint()
+        if reprPoint is None:
             return
-        return res['coords']
+        return reprPoint['coords']
+
+    @export_config(json=False)
+    def locationPrecision(self):
+        reprPoint = self._reprPoint()
+        if reprPoint is None:
+            return
+        return reprPoint['precision']
 
     locations = export_children('Location')
     names = export_children('Name')
@@ -28,6 +46,28 @@ class PlaceExportAdapter(WorkExportAdapter, ContentExportAdapter):
     rights = archetypes_getter('rights')
     subject = archetypes_getter('subject')
     details = archetypes_getter('text')
+
+    @export_config(json=False)
+    def timePeriods(self):
+        return self.context.getTimePeriods()
+
+    @export_config(json=False)
+    def temporalRange(self):
+        return self.context.temporalRange()
+
+    @export_config(json=False)
+    def start(self):
+        trange = self.temporalRange()
+        if trange is None:
+            return
+        return trange[0]
+
+    @export_config(json=False)
+    def end(self):
+        trange = self.temporalRange()
+        if trange is None:
+            return
+        return trange[1]
 
     # GeoJSON
 
@@ -52,9 +92,29 @@ class PlaceExportAdapter(WorkExportAdapter, ContentExportAdapter):
         return features
 
     def bbox(self):
+        extent = self.extent()
+        if extent is None:
+            return
+        return shape(extent).bounds
+
+    @export_config(json=False)
+    def extent(self):
         res = extent(self.context)
-        if not res:
+        if not res or res['extent'] is None:
             return
-        if res['extent'] is None:
-            return
-        return shape(res['extent']).bounds
+        return res['extent']
+
+    @export_config(json=False)
+    def geoContext(self):
+        note = self.context.getModernLocation()
+        if not note:
+            note = self.description() or ""
+            match = re.search(r"cited: BAtlas (\d+) (\w+)", note)
+            if match:
+                note = "Barrington Atlas grid %s %s" % (
+                    match.group(1), match.group(2).capitalize())
+            else:
+                note = ""
+            note = unicode(note.replace(unichr(174), unichr(0x2194)))
+            note = note.replace(unichr(0x2192), unichr(0x2194))
+        return note

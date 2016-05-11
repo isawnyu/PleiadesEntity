@@ -1,5 +1,6 @@
 from Products.CMFCore.utils import getToolByName
 from Products.PleiadesEntity.browser.adapters import get_export_adapter
+from Products.PleiadesEntity.browser.formatters.as_csv import CSVFormatter
 from Products.PleiadesEntity.browser.formatters.as_json import JSONFormatter
 from Testing.makerequest import makerequest
 import sys
@@ -8,6 +9,7 @@ import sys
 BATCH_SIZE = 100
 FORMATTERS = (
     JSONFormatter,
+    CSVFormatter,
 )
 
 
@@ -26,14 +28,14 @@ def iterate_places(site):
 #            return
 
 
-def dump(app, outfolder):
+def dump(app, outfolder, formatter_classes=FORMATTERS):
     app = makerequest(app)
     site = app.plone
     app.REQUEST.setServerURL('http', 'pleiades.stoa.org')
     app.REQUEST.other['VirtualRootPhysicalPath'] = site.getPhysicalPath()
 
     formatters = []
-    for formatter_cls in FORMATTERS:
+    for formatter_cls in formatter_classes:
         formatter = formatter_cls(outfolder)
         formatters.append(formatter)
         formatter.start()

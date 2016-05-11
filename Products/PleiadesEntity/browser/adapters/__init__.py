@@ -5,6 +5,7 @@ from plone.memoize import instance
 from Products.CMFCore.utils import getToolByName
 from zope.component import queryAdapter
 from zope.interface import implementer
+import itertools
 
 
 def get_export_adapter(ob):
@@ -17,12 +18,23 @@ def collect_export_data(adapter):
     for k in dir(adapter):
         if k == 'context' or k == 'for_json' or k.startswith('_'):
             continue
+        getter = getattr(adapter, k)
+        export_config = getattr(getter, 'export_config', {})
+        if not export_config.get('json', True):
+            continue
         try:
-            value = getattr(adapter, k)()
+            value = getter()
         except NotImplementedError:
             continue
         data[k] = value
     return data
+
+
+def export_config(**kw):
+    def decorator(f):
+        f.export_config = kw
+        return f
+    return decorator
 
 
 @implementer(IExportAdapter)
@@ -30,12 +42,32 @@ class ExportAdapter(object):
 
     def __init__(self, context):
         self.context = context
-    
+
     def for_json(self):
         return collect_export_data(self)
 
 
+def get_member_adapter(mtool, userid):
+    if userid == 'T. Elliot':
+        userid = 'thomase'
+    if userid == 'S. Gillies':
+        userid = 'sgillies'
+    member = mtool.getMemberById(userid)
+    if member is None:
+        return NameOnlyMemberExportAdapter(userid)
+    else:
+        return MemberExportAdapter(member)
+
+
 class ContentExportAdapter(ExportAdapter):
+
+    @export_config(json=False)
+    def uid(self):
+        return self.context.UID()
+
+    @export_config(json=False)
+    def path(self):
+        return '/'.join(self.context.getPhysicalPath()).replace('/plone', '')
 
     def uri(self):
         return self.context.absolute_url()
@@ -57,22 +89,30 @@ class ContentExportAdapter(ExportAdapter):
         result = []
         mtool = self._mtool()
         for creator in self.context.Creators():
-            member = mtool.getMemberById(creator)
-            if member is not None:
-                result.append(MemberExportAdapter(member))
+            result.append(get_member_adapter(mtool, creator))
         return result
 
     def contributors(self):
         result = []
         mtool = self._mtool()
         for contributor in self.context.Contributors():
-            member = mtool.getMemberById(contributor)
-            if member is not None:
-                result.append(MemberExportAdapter(member))
+            result.append(get_member_adapter(mtool, contributor))
         return result
 
+    @export_config(json=False)
+    def author_names(self):
+        names = []
+        for adapter in itertools.chain(self.creators(), self.contributors()):
+            reverse = len(names) == 0  # first name reversed
+            names.append(abbreviate_name(adapter.name(), reverse=reverse))
+        return ', '.join(names)
+
     def created(self):
-        return self.context.created().ISO()
+        return self.context.created().HTML4()
+
+    @export_config(json=False)
+    def modified(self):
+        return self.context.modified().HTML4()
 
     def review_state(self):
         wtool = getToolByName(self.context, 'portal_workflow')
@@ -98,10 +138,21 @@ class ContentExportAdapter(ExportAdapter):
             modified._timezone_naive = True
             result.append({
                 'comment': meta['comment'],
-                'modified': modified.ISO(),
+                'modified': modified.HTML4(),
                 'modifiedBy': userid,
             })
         return result
+
+    @export_config(json=False)
+    def current_version(self):
+        rt = getToolByName(self.context, 'portal_repository')
+        if rt is None or not rt.isVersionable(self.context):
+            return None
+        history = rt.getHistoryMetadata(self.context)
+        if not history:
+            return None
+        return history.getVersionId(None, False)
+
 
 def portal_type(self):
     return self.context.Type()
@@ -125,7 +176,7 @@ def archetypes_getter(fname, raw=True):
         else:
             value = inst.getField(fname).get(inst)
         if isinstance(value, DateTime):
-            value = value.ISO()
+            value = value.HTML4()
         return value
     return get
 
@@ -192,3 +243,31 @@ class MemberExportAdapter(ExportAdapter):
 
     def homepage(self):
         return self.context.getProperty('homepage', None)
+
+
+class NameOnlyMemberExportAdapter(ExportAdapter):
+
+    def username(self):
+        return None
+
+    def name(self):
+        return self.context
+
+
+def abbreviate_name(name, reverse=False):
+    """Replace first name with initial.
+
+    e.g. Tom Elliott -> T. Elliott
+
+    Or if reverse is True, put the last name first.
+
+    e.g. Tom Elliott -> Elliott, T.
+    """
+    separator = ' '
+    parts = [p.strip() for p in name.split(" ", 1)]
+    if len(parts) == 2 and len(parts[0]) > 2:
+        parts[0] = parts[0][0] + "."
+    if reverse and len(parts) == 2:
+        parts = parts[::-1]
+        separator = ', '
+    return separator.join(parts)

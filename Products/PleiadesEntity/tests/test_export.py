@@ -1,6 +1,11 @@
 from DateTime import DateTime
+from datetime import datetime
 from Products.PleiadesEntity.tests.base import PleiadesEntityTestCase
+import csv
 import json
+import os
+import shutil
+import tempfile
 
 
 class TestExport(PleiadesEntityTestCase):
@@ -97,8 +102,8 @@ class TestExport(PleiadesEntityTestCase):
             'id': '1',
             'title': 'Ninoe',
             'description': 'This is a test.',
-            'created': '2016-01-01T00:00:00',
-            'review_state': 'private',
+            'created': '2016-01-01T00:00:00Z',
+            'review_state': 'published',
             'creators': [{
                 u'uri': u'http://nohost/plone/author/test_user_1_',
                 u'username': u'test_user_1_',
@@ -138,7 +143,7 @@ class TestExport(PleiadesEntityTestCase):
                 'id': 'position',
                 'title': 'Point 1',
                 'description': '',
-                'created': '2016-01-01T00:00:00',
+                'created': '2016-01-01T00:00:00Z',
                 'review_state': 'published',
                 'history': [],
                 'creators': [{
@@ -167,8 +172,8 @@ class TestExport(PleiadesEntityTestCase):
                 'uri': 'http://nohost/plone/places/1/ninoe',
                 'id': 'ninoe',
                 'description': '',
-                'created': '2016-01-01T00:00:00',
-                'review_state': 'private',
+                'created': '2016-01-01T00:00:00Z',
+                'review_state': 'published',
                 'history': [],
                 'creators': [{
                     u'uri': u'http://nohost/plone/author/test_user_1_',
@@ -201,7 +206,7 @@ class TestExport(PleiadesEntityTestCase):
             }],
             'history': [{
                 'comment': 'Initial Revision',
-                'modified': '2016-01-01T00:00:00',
+                'modified': '2016-01-01T00:00:00Z',
                 'modifiedBy': 'test_user_1_',
             }]
         }
@@ -209,20 +214,22 @@ class TestExport(PleiadesEntityTestCase):
         del actual['@context']
         self.assertEqual(json.loads(json.dumps(expected)), actual)
 
-    def test_dump_places_as_csv(self):
-        from pleiades.dump import dump_catalog
-        from pleiades.dump.places import places_schema
-        import csv
-        import sys
-        from StringIO import StringIO
-        _stdout = sys.stdout
-        sys.stdout = result = StringIO()
-        dump_catalog(self.portal, 'Place', places_schema)
-        sys.stdout = _stdout
-        result.seek(0)
-        reader = csv.reader(result)
-        columns = reader.next()
-        row = reader.next()
+    def test_csv_dump(self):
+        from Products.PleiadesEntity.browser.formatters.as_csv import CSVFormatter
+        from Products.PleiadesEntity.commands.dump import dump
+
+        tmpdir = tempfile.mkdtemp()
+        try:
+            dump(self.app, tmpdir, [CSVFormatter])
+            filename = 'pleiades-places-{:%Y%m%d}.json'.format(datetime.now())
+            filepath = os.path.join(tmpdir, filename)
+            f = open(filepath, 'r')
+            reader = csv.reader(f)
+            columns = reader.next()
+            row = reader.next()
+            f.close()
+        finally:
+            shutil.rmtree(tmpdir)
 
         expectedColumns = [
             'authors',
@@ -260,7 +267,7 @@ class TestExport(PleiadesEntityTestCase):
             "2",
             "2016-01-01T00:00:00Z",
             "test_user_1_",
-            "",
+            "0",
             "This is a test.",
             '{"type": "Point", "coordinates": [-86.4808333333333, 34.769722222222]}',
             "unknown",

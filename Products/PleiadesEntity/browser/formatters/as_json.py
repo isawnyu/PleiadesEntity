@@ -3,7 +3,6 @@ from Products.Five import BrowserView
 from zExceptions import NotFound
 from ..adapters import get_export_adapter
 from ..adapters import collect_export_data
-from ..interfaces import IExportAdapter
 import simplejson as json
 import os
 
