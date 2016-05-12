@@ -220,9 +220,9 @@ class TestExport(PleiadesEntityTestCase):
 
         tmpdir = tempfile.mkdtemp()
         try:
-            dump(self.app, tmpdir, [CSVFormatter])
-            filename = 'pleiades-places-{:%Y%m%d}.json'.format(datetime.now())
-            filepath = os.path.join(tmpdir, filename)
+            dump(self.app, tmpdir, [('dumps', CSVFormatter)])
+            filename = 'pleiades-places.csv'.format(datetime.now())
+            filepath = os.path.join(tmpdir, 'dumps', filename)
             f = open(filepath, 'r')
             reader = csv.reader(f)
             columns = reader.next()
@@ -280,7 +280,7 @@ class TestExport(PleiadesEntityTestCase):
             "2016-01-01T00:00:00Z",
             "/places/1",
             "34.7697222222",
-            "34.769722,-86.480833",
+            "34.7697222222,-86.4808333333",
             "-86.4808333333",
             "",
             "R",

@@ -57,7 +57,7 @@ PLACE_COLUMNS = (
     Column('modified'),
     Column('path'),
     Column('reprLat', 'reprPoint', convert=lambda v: str(v[1])),
-    Column('reprLatLong', 'reprPoint', convert=lambda v: '{:f},{:f}'.format(v[1], v[0])),
+    Column('reprLatLong', 'reprPoint', convert=lambda v: '{},{}'.format(str(v[1]), str(v[0]))),
     Column('reprLong', 'reprPoint', convert=lambda v: str(v[0])),
     Column('tags', 'subject', convert=join_with(', ')),
     Column('timePeriods', convert=join_initials),

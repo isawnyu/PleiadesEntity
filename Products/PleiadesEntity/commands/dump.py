@@ -5,6 +5,7 @@ from Products.PleiadesEntity.browser.formatters.as_json import JSONFormatter
 from Testing.makerequest import makerequest
 import os
 import sys
+import time
 
 
 BATCH_SIZE = 100
@@ -31,6 +32,7 @@ def iterate_places(site):
 
 
 def dump(app, outfolder, formatter_classes=FORMATTERS):
+    t0 = time.time()
     app = makerequest(app)
     site = app.plone
     app.REQUEST.setServerURL('http', 'pleiades.stoa.org')
@@ -56,6 +58,8 @@ def dump(app, outfolder, formatter_classes=FORMATTERS):
 
     for formatter in formatters:
         formatter.finish()
+
+    print 'Elapsed: {}s'.format(time.time() - t0)
 
 
 # This script is meant to be run using zopectl, e.g.
