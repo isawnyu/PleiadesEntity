@@ -3,13 +3,15 @@ from Products.PleiadesEntity.browser.adapters import get_export_adapter
 from Products.PleiadesEntity.browser.formatters.as_csv import CSVFormatter
 from Products.PleiadesEntity.browser.formatters.as_json import JSONFormatter
 from Testing.makerequest import makerequest
+import os
 import sys
 
 
 BATCH_SIZE = 100
+# (destination subpath, formatter class)
 FORMATTERS = (
-    JSONFormatter,
-    CSVFormatter,
+    ('json', JSONFormatter),
+    ('dumps', CSVFormatter),
 )
 
 
@@ -35,15 +37,19 @@ def dump(app, outfolder, formatter_classes=FORMATTERS):
     app.REQUEST.other['VirtualRootPhysicalPath'] = site.getPhysicalPath()
 
     formatters = []
-    for formatter_cls in formatter_classes:
-        formatter = formatter_cls(outfolder)
+    for subpath, formatter_cls in formatter_classes:
+        path = os.path.join(outfolder, subpath)
+        if not os.path.exists(path):
+            os.makedirs(path)
+
+        formatter = formatter_cls(path)
         formatters.append(formatter)
         formatter.start()
 
     for place in iterate_places(site):
         path = '/'.join(place.getPhysicalPath())
         __traceback_info__ = path
-        print 'Exporting {}'.format(path)
+        print('Exporting {}'.format(path))
         adapter = get_export_adapter(place)
         for formatter in formatters:
             formatter.dump_one(adapter)

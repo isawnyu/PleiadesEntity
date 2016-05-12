@@ -1,4 +1,3 @@
-from datetime import datetime
 import csv
 import json
 import os
@@ -83,8 +82,7 @@ def format_csv(adapter):
 class CSVFormatter(object):
 
     def __init__(self, path):
-        filename = 'pleiades-places-{:%Y%m%d}.json'.format(datetime.now())
-        self.filepath = os.path.join(path, filename)
+        self.filepath = os.path.join(path, 'pleiades-places.csv')
 
     def start(self):
         self.f = open(self.filepath, 'w')

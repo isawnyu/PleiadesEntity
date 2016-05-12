@@ -1,4 +1,3 @@
-from datetime import datetime
 from Products.Five import BrowserView
 from zExceptions import NotFound
 from ..adapters import get_export_adapter
@@ -40,8 +39,7 @@ def format_json(adapter, with_context=False):
 class JSONFormatter(object):
 
     def __init__(self, path):
-        filename = 'pleiades-{:%Y-%m-%d}.json'.format(datetime.now())
-        self.filepath = os.path.join(path, filename)
+        self.filepath = os.path.join(path, 'pleiades.json')
 
     def start(self):
         ld_context = json.dumps(
