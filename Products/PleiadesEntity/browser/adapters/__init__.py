@@ -1,10 +1,11 @@
-from ..interfaces import IExportAdapter
-from DateTime import DateTime
 from AccessControl import Unauthorized
+from DateTime import DateTime
 from plone.memoize import instance
 from Products.CMFCore.utils import getToolByName
 from zope.component import queryAdapter
 from zope.interface import implementer
+from ..interfaces import IExportAdapter
+import inspect
 import itertools
 
 
@@ -37,6 +38,17 @@ def export_config(**kw):
     return decorator
 
 
+def memoize_all_methods(cls):
+    for k in cls.__dict__:
+        member = getattr(cls, k)
+        if inspect.ismethod(member):
+            wrapper = instance.memoize(member)
+            if hasattr(member, 'export_config'):
+                wrapper.export_config = member.export_config
+            setattr(cls, k, wrapper)
+    return cls
+
+
 @implementer(IExportAdapter)
 class ExportAdapter(object):
 
@@ -59,6 +71,7 @@ def get_member_adapter(mtool, userid):
         return MemberExportAdapter(member)
 
 
+@memoize_all_methods
 class ContentExportAdapter(ExportAdapter):
 
     @export_config(json=False)
@@ -81,7 +94,6 @@ class ContentExportAdapter(ExportAdapter):
     def description(self):
         return self.context.Description().decode('utf8')
 
-    @instance.memoize
     def _mtool(self):
         return getToolByName(self.context, 'portal_membership')
 
@@ -164,6 +176,7 @@ def dict_getter(key):
     def get(self):
         __traceback_info__ = key
         return self.context[key]
+    get.__name__ = '__get__{}'.format(key)
     return get
 
 
@@ -178,6 +191,7 @@ def archetypes_getter(fname, raw=True):
         if isinstance(value, DateTime):
             value = value.HTML4()
         return value
+    get.__name__ = 'get_field_{}'.format(fname)
     return get
 
 
@@ -189,15 +203,18 @@ def export_children(portal_type):
         for child in self.context.listFolderContents(filter):
             result.append(get_export_adapter(child))
         return result
+    get.__name__ = 'get_children_{}'.format(portal_type)
     return get
 
 
+@memoize_all_methods
 class ReferenceExportAdapter(ExportAdapter):
     uri = dict_getter('identifier')
     shortCitation = dict_getter('range')
     type = dict_getter('type')
 
 
+@memoize_all_methods
 class WorkExportAdapter(ExportAdapter):
     provenance = archetypes_getter('initialProvenance')
     _references = archetypes_getter('referenceCitations', raw=False)
@@ -209,10 +226,10 @@ class WorkExportAdapter(ExportAdapter):
         return result
 
 
+@memoize_all_methods
 class TemporalExportAdapter(ExportAdapter):
     attestations = archetypes_getter('attestations', raw=False)
 
-    @instance.memoize
     def _temporalRange(self):
         return self.context.temporalRange()
 
@@ -229,6 +246,7 @@ class TemporalExportAdapter(ExportAdapter):
         return trange[1]
 
 
+@memoize_all_methods
 class MemberExportAdapter(ExportAdapter):
 
     def uri(self):
@@ -245,6 +263,7 @@ class MemberExportAdapter(ExportAdapter):
         return self.context.getProperty('homepage', None)
 
 
+@memoize_all_methods
 class NameOnlyMemberExportAdapter(ExportAdapter):
 
     def username(self):

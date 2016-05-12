@@ -7,10 +7,12 @@ from . import ContentExportAdapter
 from . import WorkExportAdapter
 from . import get_export_adapter
 from . import export_config
+from . import memoize_all_methods
 import geojson
 import re
 
 
+@memoize_all_methods
 class PlaceExportAdapter(WorkExportAdapter, ContentExportAdapter):
 
     def _connectsWith(self):

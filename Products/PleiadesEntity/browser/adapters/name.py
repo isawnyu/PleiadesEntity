@@ -2,8 +2,10 @@ from . import ContentExportAdapter
 from . import TemporalExportAdapter
 from . import WorkExportAdapter
 from . import archetypes_getter
+from . import memoize_all_methods
 
 
+@memoize_all_methods
 class NameExportAdapter(
         WorkExportAdapter, TemporalExportAdapter, ContentExportAdapter):
 
