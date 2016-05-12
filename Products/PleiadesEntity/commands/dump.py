@@ -48,7 +48,9 @@ def dump(app, outfolder, formatter_classes=FORMATTERS):
         formatters.append(formatter)
         formatter.start()
 
+    i = 0
     for place in iterate_places(site):
+        i += 1
         path = '/'.join(place.getPhysicalPath())
         __traceback_info__ = path
         print('Exporting {}'.format(path))
@@ -59,7 +61,10 @@ def dump(app, outfolder, formatter_classes=FORMATTERS):
     for formatter in formatters:
         formatter.finish()
 
-    print 'Elapsed: {}s'.format(time.time() - t0)
+    t1 = time.time() - t0
+    print('Exported {} places'.format(i))
+    print('Elapsed: {}s'.format(t1))
+    print('Per place: {}s'.format(t1 / float(i)))
 
 
 # This script is meant to be run using zopectl, e.g.
