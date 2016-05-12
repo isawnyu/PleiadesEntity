@@ -75,6 +75,8 @@ def format_csv(adapter):
     row = []
     for column in PLACE_COLUMNS:
         value = column.get(adapter)
+        if isinstance(value, unicode):
+            value = value.encode('utf8')
         row.append(value)
     return row
 
