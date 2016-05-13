@@ -20,7 +20,7 @@ def collect_export_data(adapter):
     # collect all data from adapter
     data = {}
     for k in dir(adapter):
-        if k == 'context' or k == 'for_json' or k.startswith('_'):
+        if k in ('context', 'for_json', 'brain') or k.startswith('_'):
             continue
         getter = getattr(adapter, k)
         export_config = getattr(getter, 'export_config', {})
@@ -77,25 +77,31 @@ def get_member_adapter(mtool, userid):
 @memoize_all_methods
 class ContentExportAdapter(ExportAdapter):
 
+    def __init__(self, context):
+        self.context = context
+        catalog = getToolByName(context, 'portal_catalog')
+        rid = catalog.getrid('/'.join(context.getPhysicalPath()))
+        self.brain = catalog._catalog[rid]
+
     @export_config(json=False)
     def uid(self):
-        return self.context.UID()
+        return self.brain.UID
 
     @export_config(json=False)
     def path(self):
-        return '/'.join(self.context.getPhysicalPath()).replace('/plone', '')
+        return self.brain.getPath().replace('/plone', '')
 
     def uri(self):
-        return self.context.absolute_url()
+        return self.brain.getURL()
 
     def id(self):
-        return self.context.getId()
+        return self.brain.getId
 
     def title(self):
-        return self.context.Title().decode('utf8')
+        return self.brain.Title.decode('utf8')
 
     def description(self):
-        return self.context.Description().decode('utf8')
+        return self.brain.Description.decode('utf8')
 
     def _mtool(self):
         return getToolByName(self.context, 'portal_membership')
@@ -103,7 +109,7 @@ class ContentExportAdapter(ExportAdapter):
     def creators(self):
         result = []
         mtool = self._mtool()
-        for creator in self.context.Creators():
+        for creator in self.brain.listCreators:
             result.append(get_member_adapter(mtool, creator))
         return result
 
@@ -123,15 +129,14 @@ class ContentExportAdapter(ExportAdapter):
         return ', '.join(names)
 
     def created(self):
-        return self.context.created().HTML4()
+        return self.brain.created.HTML4()
 
     @export_config(json=False)
     def modified(self):
-        return self.context.modified().HTML4()
+        return self.brain.modified.HTML4()
 
     def review_state(self):
-        wtool = getToolByName(self.context, 'portal_workflow')
-        return wtool.getInfoFor(self.context, 'review_state')
+        return self.brain.review_state
 
     def history(self):
         rt = getToolByName(self.context, "portal_repository")
@@ -160,17 +165,11 @@ class ContentExportAdapter(ExportAdapter):
 
     @export_config(json=False)
     def current_version(self):
-        rt = getToolByName(self.context, 'portal_repository')
-        if rt is None or not rt.isVersionable(self.context):
-            return None
-        history = rt.getHistoryMetadata(self.context)
-        if not history:
-            return None
-        return history.getVersionId(None, False)
+        return self.brain.currentVersion
 
 
 def portal_type(self):
-    return self.context.Type()
+    return self.brain.Type
 
 setattr(ContentExportAdapter, '@type', portal_type)
 
