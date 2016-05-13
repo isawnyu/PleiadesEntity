@@ -118,7 +118,7 @@ class PlaceExportAdapter(WorkExportAdapter, ContentExportAdapter):
         return features
 
     def bbox(self):
-        return self.brain.bbox
+        return self.brain.bbox or None
 
     @export_config(json=False)
     def extent(self):
