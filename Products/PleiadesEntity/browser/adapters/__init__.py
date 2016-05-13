@@ -7,6 +7,7 @@ from zope.interface import implementer
 from ..interfaces import IExportAdapter
 import inspect
 import itertools
+import Missing
 
 
 def get_export_adapter(ob):
@@ -27,6 +28,8 @@ def collect_export_data(adapter):
             value = getter()
         except NotImplementedError:
             continue
+        if value is Missing.Value:
+            value = None
         data[k] = value
     return data
 
