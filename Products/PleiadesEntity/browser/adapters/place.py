@@ -1,6 +1,6 @@
-from pleiades.geographer.geo import extent
-from pleiades.geographer.geo import representative_point
-from shapely.geometry import shape
+from Products.CMFCore.utils import getToolByName
+from Products.PleiadesEntity.time import periodRanges
+from zope.globalrequest import getRequest
 from . import archetypes_getter
 from . import export_children
 from . import ContentExportAdapter
@@ -16,46 +16,69 @@ import re
 class PlaceExportAdapter(WorkExportAdapter, ContentExportAdapter):
 
     def _connectsWith(self):
-        return self.context.getRefs("connectsWith")
+        return self.brain.connectsWith or []
 
     def _hasConnectionsWith(self):
-        return self.context.getBRefs("connectsWith")
+        return self.brain.hasConnectionsWith or []
 
     def connectsWith(self):
-        return [place.absolute_url() for place
-                in (self._connectsWith() + self._hasConnectionsWith())]
-
-    def _reprPoint(self):
-        return representative_point(self.context)
+        return [
+            'http://pleiades.stoa.org/places/{}'.format(id)
+            for id in (self._connectsWith() + self._hasConnectionsWith())
+        ]
 
     def reprPoint(self):
-        reprPoint = self._reprPoint()
-        if reprPoint is None:
+        value = self.brain.reprPt
+        if not value:
             return
-        return reprPoint['coords']
+        coords, precision = value
+        return coords
 
     @export_config(json=False)
     def locationPrecision(self):
-        reprPoint = self._reprPoint()
-        if reprPoint is None:
+        value = self.brain.reprPt
+        if not value:
             return
-        return reprPoint['precision']
+        coords, precision = value
+        return precision
 
     locations = export_children('Location')
     names = export_children('Name')
 
-    placeTypes = archetypes_getter('placeType')
     rights = archetypes_getter('rights')
-    subject = archetypes_getter('subject')
     details = archetypes_getter('text')
+
+    def placeTypes(self):
+        return self.brain.getFeatureType
+
+    def subject(self):
+        return self.brain.Subject
 
     @export_config(json=False)
     def timePeriods(self):
-        return self.context.getTimePeriods()
+        return self.brain.getTimePeriods
 
     @export_config(json=False)
     def temporalRange(self):
-        return self.context.temporalRange()
+        # @@@ move to util function
+        request = getRequest()
+        if request is not None and hasattr(request, '_period_ranges'):
+            period_ranges = request._period_ranges
+        else:
+            vocabs = getToolByName(self.context, 'portal_vocabularies')
+            tp_vocab = vocabs.getVocabularyByName('time-periods').getTarget()
+            period_ranges = periodRanges(tp_vocab)
+            if request is not None:
+                request._period_ranges = period_ranges
+
+        timePeriods = self.brain.getTimePeriods
+        years = []
+        for period in timePeriods:
+            years.extend(list(period_ranges[period]))
+        if len(years) >= 2:
+            return min(years), max(years)
+        else:
+            return None
 
     @export_config(json=False)
     def start(self):
@@ -78,7 +101,8 @@ class PlaceExportAdapter(WorkExportAdapter, ContentExportAdapter):
 
     def features(self):
         features = []
-        for child in self.context.objectValues('Location'):
+        filter = {'portal_type': 'Location'}
+        for child in self.context.listFolderContents(filter):
             adapter = get_export_adapter(child)
             features.append(geojson.Feature(
                 id=adapter.id(),
@@ -94,23 +118,17 @@ class PlaceExportAdapter(WorkExportAdapter, ContentExportAdapter):
         return features
 
     def bbox(self):
-        extent = self.extent()
-        if extent is None:
-            return
-        return shape(extent).bounds
+        return self.brain.bbox
 
     @export_config(json=False)
     def extent(self):
-        res = extent(self.context)
-        if not res or res['extent'] is None:
-            return
-        return res['extent']
+        return self.brain.zgeo_geometry
 
     @export_config(json=False)
     def geoContext(self):
-        note = self.context.getModernLocation()
+        note = self.brain.getModernLocation
         if not note:
-            note = self.description() or ""
+            note = self.brain.Description
             match = re.search(r"cited: BAtlas (\d+) (\w+)", note)
             if match:
                 note = "Barrington Atlas grid %s %s" % (

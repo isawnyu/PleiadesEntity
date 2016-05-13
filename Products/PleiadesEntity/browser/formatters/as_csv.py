@@ -1,5 +1,5 @@
 import csv
-import json
+import simplejson
 import os
 
 
@@ -24,10 +24,6 @@ class Column(object):
         return value
 
 
-def join_ids_with_comma(v):
-    return ','.join(item.getId() for item in v)
-
-
 def join_with(separator):
     def join(v):
         return separator.join(v)
@@ -41,15 +37,15 @@ def join_initials(values):
 PLACE_COLUMNS = (
     Column('authors', 'author_names'),
     Column('bbox', convert=lambda v: ', '.join(map(str, v))),
-    Column('connectsWith', '_connectsWith', convert=join_ids_with_comma),
+    Column('connectsWith', '_connectsWith', convert=join_with(',')),
     Column('created'),
     Column('creators', convert=lambda v: ', '.join(member.username() or member.name() for member in v)),
     Column('currentVersion', 'current_version'),
     Column('description'),
-    Column('extent', convert=json.dumps),
+    Column('extent', convert=simplejson.dumps),
     Column('featureTypes', 'placeTypes', convert=join_with(', ')),
     Column('geoContext'),
-    Column('hasConnectionsWith', '_hasConnectionsWith', convert=join_ids_with_comma),
+    Column('hasConnectionsWith', '_hasConnectionsWith', convert=join_with(',')),
     Column('id'),
     Column('locationPrecision'),
     Column('maxDate', 'end'),
