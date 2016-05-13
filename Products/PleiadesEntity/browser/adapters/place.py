@@ -122,7 +122,7 @@ class PlaceExportAdapter(WorkExportAdapter, ContentExportAdapter):
 
     @export_config(json=False)
     def extent(self):
-        return self.brain.zgeo_geometry
+        return self.brain.zgeo_geometry or None
 
     @export_config(json=False)
     def geoContext(self):
