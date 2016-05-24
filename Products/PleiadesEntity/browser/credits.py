@@ -92,9 +92,10 @@ class CreditTools(BrowserView):
                     "; " * bool(len(roles) - 1) + roles[-1]
                 )
                 try:
-                    creation_date = self.context.unrestrictedTraverse(
-                        "/plone/Members/" + username).CreationDate()
-                    start = DateTime.DateTime(creation_date)
+                    member_folder = self.context.unrestrictedTraverse(
+                        "Members/" + username)
+                    creation_date = member_folder.CreationDate()
+                    start = member_folder.created()
                     start_date = "%s %s %s" % (start.day(), start.Month(),
                                                start.year())
                 except:
