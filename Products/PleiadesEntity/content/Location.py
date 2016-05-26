@@ -25,10 +25,12 @@ from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
 from Products.OrderableReferenceField import OrderableReferenceField
 from Products.PleiadesEntity.content.Temporal import Temporal
 from Products.PleiadesEntity.content.Work import Work
+from Products.validation.interfaces.IValidator import IValidator
 from shapely import wkt
 from shapely.geometry import asShape
 from shapely.geometry import mapping
 from zope.interface import implements
+#from zope.interface import implementer
 from ..config import PROJECTNAME
 import interfaces
 import re
@@ -42,6 +44,27 @@ def decimalize(value):
         return Decimal("%s" % value)
 
 ##/code-section module-header
+
+#@implementer(IValidator)
+class CoordinatesValidator(object):
+
+    implements(IValidator)
+
+    name = 'coordinatesvalidator'
+
+    def __call__(self, value, instance, *args, **kwargs):
+        # ensure that the coordinates were entered according to specified forms
+
+        value = value.strip()
+        # Have we been given a latitude, longitude pair?
+        m = re.match(r"(\-?\d+(\.\d+)?)\s*,*\s*(\-?\d+(\.\d+)?)", value)
+        if m:
+            return True
+        if value == '{}':
+            return "Coordinates format incorrect"
+        
+        # XXX add validation for GeoJSON here?
+        return True
 
 schema = atapi.Schema((
 
@@ -76,6 +99,9 @@ schema = atapi.Schema((
         accessor='getGeometry',
         edit_accessor='getGeometryRaw',
         mutator='setGeometry',
+        required=1,
+        validators=(
+            CoordinatesValidator(),)
     ),
 
     atapi.StringField(
@@ -182,7 +208,7 @@ class Location(ATDocumentBase, Work, Temporal, BrowserDefaultMixin):
         """Return GeoJSON geometry"""
         raw = self._getGeometryRaw()
         if not raw:
-            return "{}"
+            return 
         parts = raw.split(':')
         data = '{"type": "%s", "coordinates": %s}' % (
             parts[0].strip(), parts[1].strip())
@@ -239,13 +265,16 @@ class Location(ATDocumentBase, Work, Temporal, BrowserDefaultMixin):
                 value = re.sub(coords_pat, "coordinates", value)
                 text = value.strip()
                 if text[0] == '{':
+                    print "-1-"
                     # geojson
                     g = simplejson.loads(text, use_decimal=True)
                 elif re.match(r'[a-zA-Z]+\s*\(', text):
+                    print "-2-"
                     # WKT
                     g = mapping(wkt.loads(text))
                     g['coordinates'] = decimalize(g['coordinates'])
                 else:
+                    print "-3-"
                     # format X
                     parts = text.split(':')
                     coords = parts[1].replace('(', '[')
@@ -253,9 +282,11 @@ class Location(ATDocumentBase, Work, Temporal, BrowserDefaultMixin):
                     j = '{"type": "%s", "coordinates": %s}' % (
                         parts[0].strip(), coords.strip())
                     g = simplejson.loads(j, use_decimal=True)
+
                 v = "%s:%s" % (
                     g['type'], 
                     simplejson.dumps(g['coordinates'], use_decimal=True) )
+
         field.set(self, v)
 
 atapi.registerType(Location, PROJECTNAME)
