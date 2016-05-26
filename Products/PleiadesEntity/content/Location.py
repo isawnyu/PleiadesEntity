@@ -30,7 +30,6 @@ from shapely import wkt
 from shapely.geometry import asShape
 from shapely.geometry import mapping
 from zope.interface import implements
-#from zope.interface import implementer
 from ..config import PROJECTNAME
 import interfaces
 import re
@@ -45,25 +44,73 @@ def decimalize(value):
 
 ##/code-section module-header
 
-#@implementer(IValidator)
-class CoordinatesValidator(object):
 
+class LocationMixin:
+    """ Used by both CoordinatesValidator and Location classes
+    """
+
+    def processCoordinatesGeometryValue(self, value):
+        if not value:
+            v = ""
+        else:
+            value = value.strip()
+            # Have we been given a latitude, longitude pair?
+            m = re.match(r"(\-?\d+(\.\d+)?)\s*,*\s*(\-?\d+(\.\d+)?)", value)
+            if m:
+                lat, lon = Decimal(m.group(1)), Decimal(m.group(3))
+                v = "Point:[%s,%s]" % (lon, lat)
+            # Determine whether we've been given GeoJSON or WKT
+            else:
+                # Correct common errors with input
+                point_pat = re.compile("point", re.I)
+                line_pat = re.compile("linestring", re.I)
+                polygon_pat = re.compile("polygon", re.I)
+                mpoint_pat = re.compile("multipoint", re.I)
+                mline_pat = re.compile("multilinestring", re.I)
+                mpolygon_pat = re.compile("multipolygon", re.I)
+                type_pat = re.compile("type", re.I)
+                coords_pat = re.compile("coordinates", re.I)
+                value = re.sub(point_pat, "Point", value)
+                value = re.sub(line_pat, "LineString", value)
+                value = re.sub(polygon_pat, "Polygon", value)
+                value = re.sub(mpoint_pat, "MultiPoint", value)
+                value = re.sub(mline_pat, "MultiLineString", value)
+                value = re.sub(mpolygon_pat, "MultiPolygon", value)
+                value = re.sub(type_pat, "type", value)
+                value = re.sub(coords_pat, "coordinates", value)
+                text = value.strip()
+                if text[0] == '{':
+                    # geojson
+                    g = simplejson.loads(text, use_decimal=True)
+                elif re.match(r'[a-zA-Z]+\s*\(', text):
+                    # WKT
+                    g = mapping(wkt.loads(text))
+                    g['coordinates'] = decimalize(g['coordinates'])
+                else:
+                    # format X
+                    parts = text.split(':')
+                    coords = parts[1].replace('(', '[')
+                    coords = coords.replace(')', ']')
+                    j = '{"type": "%s", "coordinates": %s}' % (
+                        parts[0].strip(), coords.strip())
+                    g = simplejson.loads(j, use_decimal=True)
+
+                v = "%s:%s" % (
+                    g['type'], 
+                    simplejson.dumps(g['coordinates'], use_decimal=True) )
+        return v
+
+class CoordinatesValidator(object, LocationMixin):
     implements(IValidator)
 
     name = 'coordinatesvalidator'
 
     def __call__(self, value, instance, *args, **kwargs):
         # ensure that the coordinates were entered according to specified forms
-
-        value = value.strip()
-        # Have we been given a latitude, longitude pair?
-        m = re.match(r"(\-?\d+(\.\d+)?)\s*,*\s*(\-?\d+(\.\d+)?)", value)
-        if m:
-            return True
-        if value == '{}':
-            return "Coordinates format incorrect"
-        
-        # XXX add validation for GeoJSON here?
+        try:
+            self.processCoordinatesGeometryValue(value)
+        except: 
+            return "Coordinates form incorrect"
         return True
 
 schema = atapi.Schema((
@@ -178,7 +225,8 @@ schemata.finalizeATCTSchema(
 )
 
 
-class Location(ATDocumentBase, Work, Temporal, BrowserDefaultMixin):
+class Location(ATDocumentBase, Work, Temporal, BrowserDefaultMixin, 
+        LocationMixin):
     security = ClassSecurityInfo()
 
     implements(interfaces.ILocation)
@@ -235,58 +283,7 @@ class Location(ATDocumentBase, Work, Temporal, BrowserDefaultMixin):
     security.declareProtected(permissions.ModifyPortalContent, 'setGeometry')
     def setGeometry(self, value):
         field = self.Schema()["geometry"]
-        if not value:
-            v = ""
-        else:
-            value = value.strip()
-            # Have we been given a latitude, longitude pair?
-            m = re.match(r"(\-?\d+(\.\d+)?)\s*,*\s*(\-?\d+(\.\d+)?)", value)
-            if m:
-                lat, lon = Decimal(m.group(1)), Decimal(m.group(3))
-                v = "Point:[%s,%s]" % (lon, lat)
-            # Determine whether we've been given GeoJSON or WKT
-            else:
-                # Correct common errors with input
-                point_pat = re.compile("point", re.I)
-                line_pat = re.compile("linestring", re.I)
-                polygon_pat = re.compile("polygon", re.I)
-                mpoint_pat = re.compile("multipoint", re.I)
-                mline_pat = re.compile("multilinestring", re.I)
-                mpolygon_pat = re.compile("multipolygon", re.I)
-                type_pat = re.compile("type", re.I)
-                coords_pat = re.compile("coordinates", re.I)
-                value = re.sub(point_pat, "Point", value)
-                value = re.sub(line_pat, "LineString", value)
-                value = re.sub(polygon_pat, "Polygon", value)
-                value = re.sub(mpoint_pat, "MultiPoint", value)
-                value = re.sub(mline_pat, "MultiLineString", value)
-                value = re.sub(mpolygon_pat, "MultiPolygon", value)
-                value = re.sub(type_pat, "type", value)
-                value = re.sub(coords_pat, "coordinates", value)
-                text = value.strip()
-                if text[0] == '{':
-                    print "-1-"
-                    # geojson
-                    g = simplejson.loads(text, use_decimal=True)
-                elif re.match(r'[a-zA-Z]+\s*\(', text):
-                    print "-2-"
-                    # WKT
-                    g = mapping(wkt.loads(text))
-                    g['coordinates'] = decimalize(g['coordinates'])
-                else:
-                    print "-3-"
-                    # format X
-                    parts = text.split(':')
-                    coords = parts[1].replace('(', '[')
-                    coords = coords.replace(')', ']')
-                    j = '{"type": "%s", "coordinates": %s}' % (
-                        parts[0].strip(), coords.strip())
-                    g = simplejson.loads(j, use_decimal=True)
-
-                v = "%s:%s" % (
-                    g['type'], 
-                    simplejson.dumps(g['coordinates'], use_decimal=True) )
-
+        v = self.processCoordinatesGeometryValue(value)
         field.set(self, v)
 
 atapi.registerType(Location, PROJECTNAME)
