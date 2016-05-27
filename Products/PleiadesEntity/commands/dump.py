@@ -35,7 +35,8 @@ def iterate_content(site, ptypes=('Place',)):
 #            return
 
 
-def dump(app, outfolder, formatter_paths=('json', 'csv-places')):
+def dump(app, outfolder, formatter_paths=('json', 'csv-places',
+                                          'csv-locations', 'csv-names')):
     t0 = time.time()
     app = makerequest(app)
     site = app.plone
