@@ -31,7 +31,10 @@ def join_with(separator):
 
 
 def join_initials(values):
-    return ''.join(value[0].upper() for value in values)
+    if values:
+        return ''.join(value[0].upper() for value in values)
+    else:
+        return ''
 
 
 def sort_columns(columns):
