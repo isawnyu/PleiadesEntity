@@ -1,5 +1,5 @@
 import csv
-import json
+import simplejson as json
 import os
 
 
@@ -24,10 +24,6 @@ class Column(object):
         return value
 
 
-def join_ids_with_comma(v):
-    return ','.join(item.getId() for item in v)
-
-
 def join_with(separator):
     def join(v):
         return separator.join(v)
@@ -35,7 +31,7 @@ def join_with(separator):
 
 
 def join_initials(values):
-    return ''.join(value[0].upper() for value in values)
+    return ''.join(value[0].upper() for value in values if value)
 
 
 def sort_columns(columns):
@@ -70,12 +66,12 @@ COMMON_COLUMNS = (
 )
 
 PLACE_COLUMNS = COMMON_COLUMNS + (
-    Column('connectsWith', '_connectsWith', convert=join_ids_with_comma),
+    Column('connectsWith', '_connectsWith', convert=join_with(',')),
     Column('extent', convert=json.dumps),
     Column('featureTypes', 'placeTypes', convert=join_with(', ')),
     Column('geoContext'),
     Column('hasConnectionsWith', '_hasConnectionsWith',
-           convert=join_ids_with_comma),
+           convert=join_with(',')),
 )
 PLACE_COLUMNS = sort_columns(PLACE_COLUMNS)
 
