@@ -2,6 +2,9 @@ from AccessControl import Unauthorized
 from DateTime import DateTime
 from plone.memoize import instance
 from Products.CMFCore.utils import getToolByName
+from pleiades.geographer.geo import extent
+from pleiades.geographer.geo import representative_point
+from shapely.geometry import shape
 from zope.component import queryAdapter
 from zope.interface import implementer
 from ..interfaces import IExportAdapter
@@ -271,6 +274,81 @@ class NameOnlyMemberExportAdapter(ExportAdapter):
 
     def name(self):
         return self.context
+
+
+@memoize_all_methods
+class PlaceSubObjectExportAdapter(ExportAdapter):
+
+    @export_config(json=False)
+    def subject(self):
+        return self.context.Subject()
+
+    @export_config(json=False)
+    def pid(self):
+        return '/'.join(self.context.getPhysicalPath()[:-1]).replace(
+            '/plone', '')
+
+    def _reprPoint(self):
+        pt = representative_point(self.context)
+        if pt is None or pt['coords'] is None:
+            pt = representative_point(self.context.aq_parent)
+        return pt
+
+    @export_config(json=False)
+    def reprPoint(self):
+        reprPoint = self._reprPoint()
+        if reprPoint is None:
+            return
+        return reprPoint['coords']
+
+    @export_config(json=False)
+    def locationPrecision(self):
+        reprPoint = self._reprPoint()
+        if reprPoint is None:
+            return
+        return reprPoint['precision']
+
+    @export_config(json=False)
+    def timePeriods(self):
+        return self.context.getTimePeriods()
+
+    @export_config(json=False)
+    def temporalRange(self):
+        return self.context.temporalRange()
+
+    @export_config(json=False)
+    def start(self):
+        trange = self.temporalRange()
+        if trange is None:
+            return
+        return trange[0]
+
+    @export_config(json=False)
+    def end(self):
+        trange = self.temporalRange()
+        if trange is None:
+            return
+        return trange[1]
+
+    def _extent(self):
+        res = extent(self.context)
+        if not res or res['extent'] is None:
+            res = extent(self.context.aq_parent)
+        return res
+
+    @export_config(json=False)
+    def extent(self):
+        res = self._extent()
+        if not res:
+            return
+        return res['extent']
+
+    @export_config(json=False)
+    def bbox(self):
+        extent = self.extent()
+        if extent is None:
+            return
+        return shape(extent).bounds
 
 
 def abbreviate_name(name, reverse=False):

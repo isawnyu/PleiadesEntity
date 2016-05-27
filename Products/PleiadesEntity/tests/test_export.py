@@ -13,6 +13,7 @@ class TestExport(PleiadesEntityTestCase):
 
     def afterSetUp(self):
         fake_date = DateTime('2016-01-01')
+        self.portal.portal_catalog.manage_catalogClear()
         self.setRoles(['Manager'])
 
         self.portal.REQUEST._period_ranges = {'roman': [-30, 300]}
@@ -28,6 +29,8 @@ class TestExport(PleiadesEntityTestCase):
         )
         place = self.place = self.portal.places['1']
         self.portal.portal_workflow.doActionFor(place, 'publish')
+        references = place.Schema()['referenceCitations']
+        references.resize(0)
 
         # Create revision (with fake timestamp)
         import time
@@ -82,6 +85,10 @@ class TestExport(PleiadesEntityTestCase):
 
         place.setModificationDate(fake_date)
         self.portal.portal_catalog.catalog_object(place)
+        place[nid].setModificationDate(fake_date)
+        self.portal.portal_catalog.catalog_object(place[nid])
+        place.position.setModificationDate(fake_date)
+        self.portal.portal_catalog.catalog_object(place.position)
 
     def test_export_place(self):
         from ..browser.adapters.place import PlaceExportAdapter
@@ -215,12 +222,11 @@ class TestExport(PleiadesEntityTestCase):
         self.assertEqual(json.loads(json.dumps(expected)), actual)
 
     def test_csv_dump(self):
-        from Products.PleiadesEntity.browser.formatters.as_csv import CSVFormatter
         from Products.PleiadesEntity.commands.dump import dump
 
         tmpdir = tempfile.mkdtemp()
         try:
-            dump(self.app, tmpdir, [('dumps', CSVFormatter)])
+            dump(self.app, tmpdir, ('csv-places',))
             filename = 'pleiades-places.csv'.format(datetime.now())
             filepath = os.path.join(tmpdir, 'dumps', filename)
             f = open(filepath, 'r')
@@ -287,6 +293,154 @@ class TestExport(PleiadesEntityTestCase):
             "roman",
             "-30.0,300.0",
             "Ninoe",
+        ]
+        row.pop()  # remove uid, which is randomly generated
+        self.assertEqual(expected, row)
+
+    def test_csv_name_dump(self):
+        from Products.PleiadesEntity.commands.dump import dump
+
+        tmpdir = tempfile.mkdtemp()
+        try:
+            dump(self.app, tmpdir, ('csv-names',))
+            filename = 'pleiades-names.csv'.format(datetime.now())
+            filepath = os.path.join(tmpdir, 'dumps', filename)
+            f = open(filepath, 'r')
+            reader = csv.reader(f)
+            columns = reader.next()
+            row = reader.next()
+            f.close()
+        finally:
+            shutil.rmtree(tmpdir)
+
+        expectedColumns = [
+            'authors',
+            'bbox',
+            'created',
+            'creators',
+            'currentVersion',
+            'description',
+            'extent',
+            'id',
+            'locationPrecision',
+            'maxDate',
+            'minDate',
+            'modified',
+            'nameAttested',
+            'nameLanguage',
+            'nameTransliterated',
+            'path',
+            'pid',
+            'reprLat',
+            'reprLatLong',
+            'reprLong',
+            'tags',
+            'timePeriods',
+            'timePeriodsKeys',
+            'timePeriodsRange',
+            'title',
+            'uid',
+        ]
+        self.assertEqual(expectedColumns, columns)
+
+        expected = [
+            "",
+            "-86.4808333333, 34.7697222222, -86.4808333333, 34.7697222222",
+            "2016-01-01T00:00:00Z",
+            "test_user_1_",
+            "",
+            "",
+            '{"type": "Point", "coordinates": [-86.4808333333333, 34.769722222222]}',
+            "ninoe",
+            "precise",
+            "300.0",
+            "-30.0",
+            "2016-01-01T00:00:00Z",
+            u"\u039d\u03b9\u03bd\u1f79\u03b7".encode('utf-8'),
+            "grc",
+            "Ninoe",
+            "/places/1/ninoe",
+            "/places/1",
+            "34.7697222222",
+            "34.7697222222,-86.4808333333",
+            "-86.4808333333",
+            "",
+            "R",
+            "roman",
+            "-30.0,300.0",
+            "Ninoe",
+        ]
+        row.pop()  # remove uid, which is randomly generated
+        self.assertEqual(expected, row)
+
+    def test_csv_location_dump(self):
+        from Products.PleiadesEntity.commands.dump import dump
+
+        tmpdir = tempfile.mkdtemp()
+        try:
+            dump(self.app, tmpdir, ('csv-locations',))
+            filename = 'pleiades-locations.csv'.format(datetime.now())
+            filepath = os.path.join(tmpdir, 'dumps', filename)
+            f = open(filepath, 'r')
+            reader = csv.reader(f)
+            columns = reader.next()
+            row = reader.next()
+            f.close()
+        finally:
+            shutil.rmtree(tmpdir)
+
+        expectedColumns = [
+            'authors',
+            'bbox',
+            'created',
+            'creators',
+            'currentVersion',
+            'description',
+            'featureType',
+            'geometry',
+            'id',
+            'locationPrecision',
+            'maxDate',
+            'minDate',
+            'modified',
+            'path',
+            'pid',
+            'reprLat',
+            'reprLatLong',
+            'reprLong',
+            'tags',
+            'timePeriods',
+            'timePeriodsKeys',
+            'timePeriodsRange',
+            'title',
+            'uid',
+        ]
+        self.assertEqual(expectedColumns, columns)
+
+        expected = [
+            "",
+            "-86.4808333333, 34.7697222222, -86.4808333333, 34.7697222222",
+            "2016-01-01T00:00:00Z",
+            "test_user_1_",
+            "",
+            "",
+            "unknown",
+            '{"type": "Point", "coordinates": [-86.4808333333333, 34.769722222222]}',
+            "position",
+            "precise",
+            "",
+            "",
+            "2016-01-01T00:00:00Z",
+            "/places/1/position",
+            "/places/1",
+            "34.7697222222",
+            "34.7697222222,-86.4808333333",
+            "-86.4808333333",
+            "",
+            "",
+            "",
+            "",
+            "Point 1",
         ]
         row.pop()  # remove uid, which is randomly generated
         self.assertEqual(expected, row)
