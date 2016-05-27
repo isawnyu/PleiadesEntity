@@ -1,5 +1,5 @@
 import csv
-import simplejson
+import simplejson as json
 import os
 
 
@@ -34,18 +34,17 @@ def join_initials(values):
     return ''.join(value[0].upper() for value in values)
 
 
-PLACE_COLUMNS = (
+def sort_columns(columns):
+    return tuple(sorted(columns, key=lambda col: col.name))
+
+
+COMMON_COLUMNS = (
     Column('authors', 'author_names'),
     Column('bbox', convert=lambda v: ', '.join(map(str, v))),
-    Column('connectsWith', '_connectsWith', convert=join_with(',')),
     Column('created'),
     Column('creators', convert=lambda v: ', '.join(member.username() or member.name() for member in v)),
     Column('currentVersion', 'current_version'),
     Column('description'),
-    Column('extent', convert=simplejson.dumps),
-    Column('featureTypes', 'placeTypes', convert=join_with(', ')),
-    Column('geoContext'),
-    Column('hasConnectionsWith', '_hasConnectionsWith', convert=join_with(',')),
     Column('id'),
     Column('locationPrecision'),
     Column('maxDate', 'end'),
@@ -66,10 +65,38 @@ PLACE_COLUMNS = (
     Column('uid'),
 )
 
+PLACE_COLUMNS = COMMON_COLUMNS + (
+    Column('connectsWith', '_connectsWith', convert=join_with(',')),
+    Column('extent', convert=json.dumps),
+    Column('featureTypes', 'placeTypes', convert=join_with(', ')),
+    Column('geoContext'),
+    Column('hasConnectionsWith', '_hasConnectionsWith',
+           convert=join_with(',')),
+)
+PLACE_COLUMNS = sort_columns(PLACE_COLUMNS)
 
-def format_csv(adapter):
+
+NAME_COLUMNS = COMMON_COLUMNS + (
+    Column('pid'),
+    Column('nameAttested', 'attested'),
+    Column('nameLanguage', 'language'),
+    Column('nameTransliterated', 'romanized'),
+    Column('extent', convert=json.dumps),
+)
+NAME_COLUMNS = sort_columns(NAME_COLUMNS)
+
+
+LOCATION_COLUMNS = COMMON_COLUMNS + (
+    Column('pid'),
+    Column('geometry', convert=json.dumps),
+    Column('featureType', 'featureType', convert=join_with(',')),
+)
+LOCATION_COLUMNS = sort_columns(LOCATION_COLUMNS)
+
+
+def format_csv(adapter, columns=PLACE_COLUMNS):
     row = []
-    for column in PLACE_COLUMNS:
+    for column in columns:
         value = column.get(adapter)
         if isinstance(value, unicode):
             value = value.encode('utf8')
@@ -79,18 +106,31 @@ def format_csv(adapter):
 
 class CSVFormatter(object):
 
+    filename = 'pleiades-places.csv'
+    columns = PLACE_COLUMNS
+
     def __init__(self, path):
-        self.filepath = os.path.join(path, 'pleiades-places.csv')
+        self.filepath = os.path.join(path, self.filename)
 
     def start(self):
         self.f = open(self.filepath, 'w')
         self.writer = csv.writer(self.f)
-        columns = [column.name for column in PLACE_COLUMNS]
+        columns = [column.name for column in self.columns]
         self.writer.writerow(columns)
 
     def dump_one(self, adapter):
-        row = format_csv(adapter)
+        row = format_csv(adapter, self.columns)
         self.writer.writerow(row)
 
     def finish(self):
         self.f.close()
+
+
+class CSVNameFormatter(CSVFormatter):
+    filename = 'pleiades-names.csv'
+    columns = NAME_COLUMNS
+
+
+class CSVLocationFormatter(CSVFormatter):
+    filename = 'pleiades-locations.csv'
+    columns = LOCATION_COLUMNS

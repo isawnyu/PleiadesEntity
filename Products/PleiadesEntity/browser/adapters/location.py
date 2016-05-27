@@ -1,6 +1,6 @@
-from pleiades.geographer.geo import extent
 from Products.PleiadesEntity.time import to_ad
 from . import ContentExportAdapter
+from . import PlaceSubObjectExportAdapter
 from . import TemporalExportAdapter
 from . import WorkExportAdapter
 from . import archetypes_getter
@@ -9,16 +9,11 @@ from . import memoize_all_methods
 
 @memoize_all_methods
 class LocationExportAdapter(
-        WorkExportAdapter, TemporalExportAdapter, ContentExportAdapter):
-
-    def _extent(self):
-        return extent(self.context)
+        WorkExportAdapter, TemporalExportAdapter, ContentExportAdapter,
+        PlaceSubObjectExportAdapter):
 
     def geometry(self):
-        res = self._extent()
-        if not res:
-            return
-        return res['extent']
+        return self.extent()
 
     def _precision(self):
         res = self._extent()

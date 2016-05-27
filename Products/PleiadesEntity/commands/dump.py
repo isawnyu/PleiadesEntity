@@ -1,6 +1,8 @@
 from Products.CMFCore.utils import getToolByName
 from Products.PleiadesEntity.browser.adapters import get_export_adapter
 from Products.PleiadesEntity.browser.formatters.as_csv import CSVFormatter
+from Products.PleiadesEntity.browser.formatters.as_csv import CSVNameFormatter
+from Products.PleiadesEntity.browser.formatters.as_csv import CSVLocationFormatter
 from Products.PleiadesEntity.browser.formatters.as_json import JSONFormatter
 from Testing.makerequest import makerequest
 import os
@@ -10,17 +12,19 @@ import time
 
 BATCH_SIZE = 100
 # (destination subpath, formatter class)
-FORMATTERS = (
-    ('json', JSONFormatter),
-    ('dumps', CSVFormatter),
-)
+FORMATTERS = {
+    'json': ('json', JSONFormatter, ('Place',)),
+    'csv-places': ('dumps', CSVFormatter, ('Place',)),
+    'csv-names': ('dumps', CSVNameFormatter, ('Name',)),
+    'csv-locations': ('dumps', CSVLocationFormatter, ('Location',)),
+}
 
 
-def iterate_places(site):
+def iterate_content(site, ptypes=('Place',)):
     p_jar = site._p_jar
     catalog = getToolByName(site, 'portal_catalog')
     i = 0
-    for brain in catalog.unrestrictedSearchResults(portal_type='Place'):
+    for brain in catalog.unrestrictedSearchResults(portal_type=ptypes):
         yield brain.getObject()
 
         # minimize ZODB cache periodically
@@ -31,7 +35,7 @@ def iterate_places(site):
 #            return
 
 
-def dump(app, outfolder, formatter_classes=FORMATTERS):
+def dump(app, outfolder, formatter_paths=('json', 'csv-places')):
     t0 = time.time()
     app = makerequest(app)
     site = app.plone
@@ -39,32 +43,40 @@ def dump(app, outfolder, formatter_classes=FORMATTERS):
     app.REQUEST.other['VirtualRootPhysicalPath'] = site.getPhysicalPath()
 
     formatters = []
-    for subpath, formatter_cls in formatter_classes:
+    portal_types = set()
+    for name in formatter_paths:
+        if name not in FORMATTERS:
+            print("Invalid Formatter Id {}".format(name))
+            continue
+        subpath, formatter_cls, ptypes = FORMATTERS.get(name)
         path = os.path.join(outfolder, subpath)
         if not os.path.exists(path):
             os.makedirs(path)
 
         formatter = formatter_cls(path)
-        formatters.append(formatter)
+        formatters.append((formatter, set(ptypes)))
+        portal_types.update(ptypes)
         formatter.start()
 
     i = 0
-    for place in iterate_places(site):
+    for item in iterate_content(site, tuple(portal_types)):
         i += 1
-        path = '/'.join(place.getPhysicalPath())
+        path = '/'.join(item.getPhysicalPath())
         __traceback_info__ = path
         print('Exporting {}'.format(path))
-        adapter = get_export_adapter(place)
-        for formatter in formatters:
-            formatter.dump_one(adapter)
+        adapter = get_export_adapter(item)
+        for formatter, ptypes in formatters:
+            if item.portal_type in ptypes:
+                formatter.dump_one(adapter)
 
-    for formatter in formatters:
+    for formatter, ptypes in formatters:
         formatter.finish()
 
     t1 = time.time() - t0
-    print('Exported {} places'.format(i))
+    print('Exported {} items'.format(i))
     print('Elapsed: {}s'.format(t1))
-    print('Per place: {}s'.format(t1 / float(i)))
+    if i > 0:
+        print('Per item: {}s'.format(t1 / float(i)))
 
 
 # This script is meant to be run using zopectl, e.g.
