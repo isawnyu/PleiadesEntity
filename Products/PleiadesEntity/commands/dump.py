@@ -1,8 +1,6 @@
 from Products.CMFCore.utils import getToolByName
 from Products.PleiadesEntity.browser.adapters import get_export_adapter
 from Products.PleiadesEntity.browser.formatters.as_csv import CSVFormatter
-from Products.PleiadesEntity.browser.formatters.as_csv import CSVNameFormatter
-from Products.PleiadesEntity.browser.formatters.as_csv import CSVLocationFormatter
 from Products.PleiadesEntity.browser.formatters.as_json import JSONFormatter
 from Testing.makerequest import makerequest
 import os
@@ -15,8 +13,6 @@ BATCH_SIZE = 100
 FORMATTERS = {
     'json': ('json', JSONFormatter, ('Place',)),
     'csv-places': ('dumps', CSVFormatter, ('Place',)),
-    'csv-names': ('dumps', CSVNameFormatter, ('Name',)),
-    'csv-locations': ('dumps', CSVLocationFormatter, ('Location',)),
 }
 
 

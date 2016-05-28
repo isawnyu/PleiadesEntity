@@ -15,12 +15,6 @@ class LocationExportAdapter(
     def geometry(self):
         return self.extent()
 
-    def _precision(self):
-        res = self._extent()
-        if not res:
-            return
-        return res['precision']
-
     def _snippet(self):
         featureTypes = self.context.getFeatureType() or ['unknown']
         s = ', '.join(x.capitalize() for x in featureTypes)

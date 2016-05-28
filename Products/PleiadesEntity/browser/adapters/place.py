@@ -111,7 +111,7 @@ class PlaceExportAdapter(WorkExportAdapter, ContentExportAdapter):
                     snippet=adapter._snippet(),
                     description=adapter.description(),
                     link=adapter.uri(),
-                    location_precision=adapter._precision(),
+                    location_precision=adapter.locationPrecision(),
                 ),
                 geometry=adapter.geometry(),
             ))
