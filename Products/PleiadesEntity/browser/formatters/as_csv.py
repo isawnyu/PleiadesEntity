@@ -45,7 +45,7 @@ COMMON_COLUMNS = (
     Column('creators', convert=lambda v: ', '.join(member.username() or member.name() for member in v)),
     Column('currentVersion', 'current_version'),
     Column('description'),
-    Column('extent', convert=simplejson.dumps),
+    Column('extent', convert=json.dumps),
     Column('featureTypes', 'placeTypes', convert=join_with(', ')),
     Column('geoContext'),
     Column('id'),
