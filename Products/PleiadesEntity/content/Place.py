@@ -32,6 +32,23 @@ import interfaces
 import transaction
 
 
+VIEW_MAP = {
+    'text/html': 'base_view',
+    'application/xhtml+xml': 'base_view',
+    'application/json': u'json',
+    'application/javascript': u'json',
+    'application/x-javascript': u'json',
+    'text/javascript': u'json',
+    'aplication/ld+json': u'json',
+    'application/vnd.geo+json': u'json',
+    'application/rdf+xml': u'rdf',
+    'text/turtle': 'turtle',
+    'application/x-turtle': u'turtle',
+    'application/turtle': u'turtle',
+    'application/vnd.google-earth.kml+xml': u'kml',
+    'application/vnd.google-earth.kmz': u'kml',
+}
+
 schema = atapi.Schema((
 
     atapi.LinesField(
@@ -191,5 +208,36 @@ class Place(atapi.BaseFolder, ATDocumentBase, Named, Work, BrowserDefaultMixin):
             self.getModernLocation(),
             self.rangesText(),
         )
+
+    security.declareProtected(permissions.View, 'getLayout')
+    def getLayout(self, **kw):
+        """Check ACCEPT header for known formats/views and render."""
+        request = getattr(self, 'REQUEST', None)
+        default = super(Place, self).getLayout(**kw)
+        if request is None:
+            return default
+        res = request.response
+        res.setHeader('Vary', 'Accept')
+        accept = request.environ.get('HTTP_ACCEPT', '').split(',')
+        user_preferences = []
+        for value in accept:
+            parts = value.split(";")
+            weight = 1.0
+            if len(parts) == 2:
+                try:
+                    weight = float(parts[1].split("=")[1])
+                except:
+                    weight = 0.3
+            user_preferences.append((weight, parts[0].strip()))
+        user_preferences.sort(reverse=True)
+
+        for weight, preferred in user_preferences:
+            if preferred in VIEW_MAP:
+                return VIEW_MAP[preferred]
+            if 'html' in preferred:
+                return 'base_view'
+
+        request.form['pid'] = self.getId()
+        return "conneg_406_message"
 
 atapi.registerType(Place, PROJECTNAME)
