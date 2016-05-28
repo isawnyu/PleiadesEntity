@@ -39,4 +39,13 @@
       import_steps="typeinfo"
       />
 
+  <upgradeDepends
+      profile="Products.PleiadesEntity:default"
+      source="1001"
+      destination="1002"
+      title="Update typeinfo to reset place default view"
+      description=""
+      import_steps="typeinfo"
+      />
+
 </configure>
