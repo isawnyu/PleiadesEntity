@@ -107,30 +107,40 @@ def format_csv(adapter, columns=PLACE_COLUMNS):
 class CSVFormatter(object):
 
     filename = 'pleiades-places.csv'
-    columns = PLACE_COLUMNS
+    names_filename = 'pleiades-names.csv'
+    locations_filename = 'pleiades-locations.csv'
 
     def __init__(self, path):
         self.filepath = os.path.join(path, self.filename)
+        self.names_path = os.path.join(path, self.names_filename)
+        self.locations_path = os.path.join(path, self.locations_filename)
 
     def start(self):
+        # Buffer writes in 5MB chunks
         self.f = open(self.filepath, 'w')
+        self.nf = open(self.names_path, 'w')
+        self.lf = open(self.locations_path, 'w')
         self.writer = csv.writer(self.f)
-        columns = [column.name for column in self.columns]
+        self.names_writer = csv.writer(self.nf)
+        self.locations_writer = csv.writer(self.lf)
+        columns = [column.name for column in PLACE_COLUMNS]
         self.writer.writerow(columns)
+        name_columns = [column.name for column in NAME_COLUMNS]
+        self.names_writer.writerow(name_columns)
+        location_columns = [column.name for column in LOCATION_COLUMNS]
+        self.locations_writer.writerow(location_columns)
 
     def dump_one(self, adapter):
-        row = format_csv(adapter, self.columns)
+        row = format_csv(adapter, PLACE_COLUMNS)
         self.writer.writerow(row)
+        name_rows = [format_csv(name, NAME_COLUMNS)
+                     for name in adapter.names()]
+        self.names_writer.writerows(name_rows)
+        location_rows = [format_csv(loc, LOCATION_COLUMNS)
+                         for loc in adapter.locations()]
+        self.locations_writer.writerows(location_rows)
 
     def finish(self):
         self.f.close()
-
-
-class CSVNameFormatter(CSVFormatter):
-    filename = 'pleiades-names.csv'
-    columns = NAME_COLUMNS
-
-
-class CSVLocationFormatter(CSVFormatter):
-    filename = 'pleiades-locations.csv'
-    columns = LOCATION_COLUMNS
+        self.nf.close()
+        self.lf.close()

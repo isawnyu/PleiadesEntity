@@ -55,6 +55,7 @@ class TestExport(PleiadesEntityTestCase):
         attestations.resize(1)
         references = place[nid].Schema()['referenceCitations']
         references.resize(1)
+
         place[nid].update(
             attestations=[{
                 'confidence': 'certain',
@@ -73,6 +74,13 @@ class TestExport(PleiadesEntityTestCase):
             title='Point 1',
             geometry='Point:[-86.4808333333333, 34.769722222222]',
             creation_date=fake_date,
+        )
+        attestations = place.position.Schema()['attestations']
+        attestations.resize(1)
+        place.position.setAttestations([{
+                'confidence': 'certain',
+                'timePeriod': 'roman'
+            }]
         )
         self.portal.portal_workflow.doActionFor(place.position, 'publish')
 
@@ -126,7 +134,7 @@ class TestExport(PleiadesEntityTestCase):
                     'title': 'Point 1',
                     'description': '',
                     'link': 'http://nohost/plone/places/1/position',
-                    'snippet': 'Unknown',
+                    'snippet': 'Unknown; 30 BC - AD 300',
                     'location_precision': 'precise',
                 },
                 'geometry': {
@@ -161,6 +169,10 @@ class TestExport(PleiadesEntityTestCase):
                 }],
                 'contributors': [],
                 'associationCertainty': 'certain',
+                'attestations': [{
+                    'confidence': 'certain',
+                    'timePeriod': 'roman',
+                }],
                 'accuracy': None,
                 'featureType': ['unknown'],
                 'geometry': {
@@ -168,11 +180,10 @@ class TestExport(PleiadesEntityTestCase):
                     'type': 'Point',
                 },
                 'references': [],
-                'attestations': [],
                 'provenance': 'Pleiades',
                 'details': '',
-                'start': None,
-                'end': None,
+                'start': -30.0,
+                'end': 300.0,
             }],
             'names': [{
                 '@type': 'Name',
@@ -227,13 +238,27 @@ class TestExport(PleiadesEntityTestCase):
         tmpdir = tempfile.mkdtemp()
         try:
             dump(self.app, tmpdir, ('csv-places',))
-            filename = 'pleiades-places.csv'.format(datetime.now())
+            filename = 'pleiades-places.csv'
             filepath = os.path.join(tmpdir, 'dumps', filename)
             f = open(filepath, 'r')
             reader = csv.reader(f)
             columns = reader.next()
             row = reader.next()
             f.close()
+            names_filename = 'pleiades-names.csv'
+            names_filepath = os.path.join(tmpdir, 'dumps', names_filename)
+            nf = open(names_filepath, 'r')
+            names_reader = csv.reader(nf)
+            names_columns = names_reader.next()
+            names_row = names_reader.next()
+            nf.close()
+            locations_filename = 'pleiades-locations.csv'
+            locations_filepath = os.path.join(tmpdir, 'dumps', locations_filename)
+            lf = open(locations_filepath, 'r')
+            locations_reader = csv.reader(lf)
+            locations_columns = locations_reader.next()
+            locations_row = locations_reader.next()
+            lf.close()
         finally:
             shutil.rmtree(tmpdir)
 
@@ -297,22 +322,6 @@ class TestExport(PleiadesEntityTestCase):
         row.pop()  # remove uid, which is randomly generated
         self.assertEqual(expected, row)
 
-    def test_csv_name_dump(self):
-        from Products.PleiadesEntity.commands.dump import dump
-
-        tmpdir = tempfile.mkdtemp()
-        try:
-            dump(self.app, tmpdir, ('csv-names',))
-            filename = 'pleiades-names.csv'.format(datetime.now())
-            filepath = os.path.join(tmpdir, 'dumps', filename)
-            f = open(filepath, 'r')
-            reader = csv.reader(f)
-            columns = reader.next()
-            row = reader.next()
-            f.close()
-        finally:
-            shutil.rmtree(tmpdir)
-
         expectedColumns = [
             'authors',
             'bbox',
@@ -341,7 +350,7 @@ class TestExport(PleiadesEntityTestCase):
             'title',
             'uid',
         ]
-        self.assertEqual(expectedColumns, columns)
+        self.assertEqual(expectedColumns, names_columns)
 
         expected = [
             "",
@@ -370,24 +379,8 @@ class TestExport(PleiadesEntityTestCase):
             "-30.0,300.0",
             "Ninoe",
         ]
-        row.pop()  # remove uid, which is randomly generated
-        self.assertEqual(expected, row)
-
-    def test_csv_location_dump(self):
-        from Products.PleiadesEntity.commands.dump import dump
-
-        tmpdir = tempfile.mkdtemp()
-        try:
-            dump(self.app, tmpdir, ('csv-locations',))
-            filename = 'pleiades-locations.csv'.format(datetime.now())
-            filepath = os.path.join(tmpdir, 'dumps', filename)
-            f = open(filepath, 'r')
-            reader = csv.reader(f)
-            columns = reader.next()
-            row = reader.next()
-            f.close()
-        finally:
-            shutil.rmtree(tmpdir)
+        names_row.pop()  # remove uid, which is randomly generated
+        self.assertEqual(expected, names_row)
 
         expectedColumns = [
             'authors',
@@ -415,7 +408,7 @@ class TestExport(PleiadesEntityTestCase):
             'title',
             'uid',
         ]
-        self.assertEqual(expectedColumns, columns)
+        self.assertEqual(expectedColumns, locations_columns)
 
         expected = [
             "",
@@ -428,8 +421,8 @@ class TestExport(PleiadesEntityTestCase):
             '{"type": "Point", "coordinates": [-86.4808333333333, 34.769722222222]}',
             "position",
             "precise",
-            "",
-            "",
+            "300.0",
+            "-30.0",
             "2016-01-01T00:00:00Z",
             "/places/1/position",
             "/places/1",
@@ -437,10 +430,10 @@ class TestExport(PleiadesEntityTestCase):
             "34.7697222222,-86.4808333333",
             "-86.4808333333",
             "",
-            "",
-            "",
-            "",
+            "R",
+            "roman",
+            "-30.0,300.0",
             "Point 1",
         ]
-        row.pop()  # remove uid, which is randomly generated
-        self.assertEqual(expected, row)
+        locations_row.pop()  # remove uid, which is randomly generated
+        self.assertEqual(expected, locations_row)

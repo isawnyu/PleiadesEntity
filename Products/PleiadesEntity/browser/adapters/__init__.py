@@ -2,9 +2,6 @@ from AccessControl import Unauthorized
 from DateTime import DateTime
 from plone.memoize import instance
 from Products.CMFCore.utils import getToolByName
-from pleiades.geographer.geo import extent
-from pleiades.geographer.geo import representative_point
-from shapely.geometry import shape
 from zope.component import queryAdapter
 from zope.interface import implementer
 from ..interfaces import IExportAdapter
@@ -290,25 +287,21 @@ class PlaceSubObjectExportAdapter(ExportAdapter):
         return '/'.join(self.context.getPhysicalPath()[:-1]).replace(
             '/plone', '')
 
-    def _reprPoint(self):
-        pt = representative_point(self.context)
-        if pt is None or pt['coords'] is None:
-            pt = representative_point(self.context.aq_parent)
-        return pt
-
     @export_config(json=False)
     def reprPoint(self):
-        reprPoint = self._reprPoint()
-        if reprPoint is None:
+        value = self.brain.reprPt
+        if not value:
             return
-        return reprPoint['coords']
+        coords, precision = value
+        return coords
 
     @export_config(json=False)
     def locationPrecision(self):
-        reprPoint = self._reprPoint()
-        if reprPoint is None:
+        value = self.brain.reprPt
+        if not value:
             return
-        return reprPoint['precision']
+        coords, precision = value
+        return precision
 
     @export_config(json=False)
     def timePeriods(self):
@@ -332,25 +325,13 @@ class PlaceSubObjectExportAdapter(ExportAdapter):
             return
         return trange[1]
 
-    def _extent(self):
-        res = extent(self.context)
-        if not res or res['extent'] is None:
-            res = extent(self.context.aq_parent)
-        return res
-
     @export_config(json=False)
     def extent(self):
-        res = self._extent()
-        if not res:
-            return
-        return res['extent']
+        return self.brain.zgeo_geometry or None
 
     @export_config(json=False)
     def bbox(self):
-        extent = self.extent()
-        if extent is None:
-            return
-        return shape(extent).bounds
+        return self.brain.bbox or None
 
 
 def abbreviate_name(name, reverse=False):
