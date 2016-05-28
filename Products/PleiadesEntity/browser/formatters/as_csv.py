@@ -117,9 +117,9 @@ class CSVFormatter(object):
 
     def start(self):
         # Buffer writes in 5MB chunks
-        self.f = open(self.filepath, 'w', 5242880)
-        self.nf = open(self.names_path, 'w', 5242880)
-        self.lf = open(self.locations_path, 'w', 5242880)
+        self.f = open(self.filepath, 'w')
+        self.nf = open(self.names_path, 'w')
+        self.lf = open(self.locations_path, 'w')
         self.writer = csv.writer(self.f)
         self.names_writer = csv.writer(self.nf)
         self.locations_writer = csv.writer(self.lf)
