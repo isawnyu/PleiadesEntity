@@ -33,7 +33,8 @@ def format_json(adapter, with_context=False):
     if with_context:
         data['@context'] = make_ld_context()
     return json.dumps(
-        data, for_json=True, indent=4 if PRETTY_PRINT else None)
+        data, for_json=True, indent=4 if PRETTY_PRINT else None,
+        ensure_ascii=False)
 
 
 class JSONFormatter(object):
@@ -43,7 +44,8 @@ class JSONFormatter(object):
 
     def start(self):
         ld_context = json.dumps(
-            make_ld_context(), indent=4 if PRETTY_PRINT else None)
+            make_ld_context(), indent=4 if PRETTY_PRINT else None,
+            ensure_ascii=False)
         self.f = open(self.filepath, 'w')
         self.f.write('''{{
 "@context": {},
