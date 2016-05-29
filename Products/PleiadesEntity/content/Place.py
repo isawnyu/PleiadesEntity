@@ -234,7 +234,7 @@ class Place(atapi.BaseFolder, ATDocumentBase, Named, Work, BrowserDefaultMixin):
         for weight, preferred in user_preferences:
             if preferred in VIEW_MAP:
                 return VIEW_MAP[preferred]
-            if 'html' in preferred:
+            if 'html' in preferred or '*' in preferred:
                 return 'base_view'
 
         request.form['pid'] = self.getId()
