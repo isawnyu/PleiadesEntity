@@ -2,17 +2,18 @@ request = container.REQUEST
 RESPONSE =  request.RESPONSE
 
 indexes = {
-    "Language": 'getNameLanguage', 
-    "Completeness": 'getCompleteness', 
+    "Language": 'getNameLanguage',
+    "Completeness": 'getCompleteness',
     "Time Periods": 'getTimePeriods'
     }
 vocabs = {
-    "Language": 'ancient-name-languages', 
-    "Completeness": 'name-completeness', 
+    "Language": 'ancient-name-languages',
+    "Completeness": 'name-completeness',
     "Time Periods": 'time-periods'
     }
 
 portalurl = context.portal_url()
+portal = context.portal_url.getPortalObject()
 vtool = context.portal_vocabularies
 wftool = context.portal_workflow
 catalog = context.portal_catalog
@@ -27,24 +28,32 @@ data['sortedLabels'] = sortedlabels[:]
 for label, index in indexes.items():
 
     vname = vocabs[label]
-    vocab = vtool[vname].getTarget()
     values = catalog.uniqueValuesFor(index)
+    if vname == 'time-periods':
+        vocab = {}
+        periods = context.restrictedTraverse('@@time-periods').periods
+        for period in periods:
+            vocab[period['id']] = period['title']
+    else:
+        vocab = vtool[vname].getTarget()
 
     data[label] = []
-    
+
     for v in values:
         query = basequery.copy()
         query[index] = v
         term = vocab.get(v, None)
-        if term:
+        if term and vname != 'time-periods':
             if wftool.getInfoFor(term, 'review_state') != 'published':
                 continue
             tval = term.getTermValue()
+        elif term and vname == 'time-periods':
+            tval = term
         else:
             tval = "Undefined"
 
         results = catalog(query)
-        
+
         item = dict(
                     value=tval,
                     count=len(results),
@@ -60,7 +69,7 @@ for label, index in indexes.items():
                 chars = [char for char in group]
                 query['titleStarts'] = chars
                 results = catalog(query, sort_on='sortable_title')
-                
+
                 tqs = '&'.join(["titleStarts:list=%s" % char for char in chars])
 
                 item['groups'].append(

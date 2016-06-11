@@ -22,7 +22,7 @@ from Products.CompoundField.ArrayField import ArrayField
 from Products.CompoundField.CompoundWidget import CompoundWidget
 from Products.CompoundField.EnhancedArrayWidget import EnhancedArrayWidget
 from Products.PleiadesEntity.content.TemporalAttestation import TemporalAttestation
-from Products.PleiadesEntity.time import periodRanges, TimePeriodCmp
+from Products.PleiadesEntity.time import periodRanges
 from zope.globalrequest import getRequest
 from zope.interface import implements
 import interfaces
@@ -73,32 +73,31 @@ class Temporal(BrowserDefaultMixin):
 
     security.declareProtected(permissions.View, 'getSortedTemporalAttestations')
     def getSortedTemporalAttestations(self):
-        """
-        """
-        def _cmp(a, b):
-            return TimePeriodCmp(self)(a['timePeriod'], b['timePeriod'])
-        return sorted(self.getAttestations(), cmp=_cmp)
+        time_periods = get_vocabulary('time_periods')
+        time_periods_list = [p['id'] for p in time_periods]
+        def timeperiod_index(attestation):
+            if attestation['timePeriod'] in time_periods_list:
+                index = time_periods_list.index(attestation['timePeriod'])
+            else:
+                index = -1
+            return index
+        return sorted(self.getAttestations(), key=timeperiod_index)
 
     security.declareProtected(permissions.View, 'getTimePeriods')
     def getTimePeriods(self):
-        """
-        """
         return [a['timePeriod'] for a in self.getSortedTemporalAttestations()]
-
-    # Manually created methods
 
     security.declareProtected(permissions.View, 'displaySortedTemporalAttestations')
     def displaySortedTemporalAttestations(self):
-        """
-        """
-        def _cmp(a, b):
-            return TimePeriodCmp(self)(a['timePeriod'], b['timePeriod'])
-        attestations = sorted(self.getAttestations(), cmp=_cmp)
-        vocab_t = get_vocabulary('time_periods')
+        time_periods = get_vocabulary('time_periods')
+        time_periods_dict = {p['id']:p['title'] for p in time_periods}
+        attestations = self.getSortedTemporalAttestations()
         vocab_c = TemporalAttestation.schema[
             'confidence'].vocabulary.getVocabularyDict(self)
         try:
-            return [dict(timePeriod=vocab_t[a['timePeriod']], confidence=vocab_c[a['confidence']]) for a in attestations]
+            return [dict(timePeriod=time_periods_dict[a['timePeriod']],
+                         confidence=vocab_c[a['confidence']])
+                    for a in attestations]
         except KeyError:
             return []
 
@@ -115,7 +114,8 @@ class Temporal(BrowserDefaultMixin):
             if request is not None and hasattr(request, '_period_ranges'):
                 period_ranges = request._period_ranges
             else:
-                period_ranges = periodRanges(self.period_vocab())
+                vocab = get_vocabulary('time_periods')
+                period_ranges = periodRanges(vocab)
                 if request is not None:
                     request._period_ranges = period_ranges
 
