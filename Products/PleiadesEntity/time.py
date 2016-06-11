@@ -1,5 +1,5 @@
 def periodRanges(vocab):
-    return [{v['id']:(v['lower_bound'], v['upper_bound'])} for v in vocab]
+    return {v['id']:(v['lower_bound'], v['upper_bound']) for v in vocab}
 
 
 def temporal_overlap(a, b, period_ranges=None):
