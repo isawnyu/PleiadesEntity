@@ -14,6 +14,7 @@ __author__ = """Sean Gillies <unknown>, Tom Elliott <unknown>"""
 __docformat__ = 'plaintext'
 
 from AccessControl import ClassSecurityInfo
+from pleiades.vocabularies.vocabularies import get_vocabulary
 from Products.Archetypes import atapi
 from Products.CMFCore import permissions
 from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
@@ -93,18 +94,13 @@ class Temporal(BrowserDefaultMixin):
         def _cmp(a, b):
             return TimePeriodCmp(self)(a['timePeriod'], b['timePeriod'])
         attestations = sorted(self.getAttestations(), cmp=_cmp)
-        vocab_t = TemporalAttestation.schema[
-            'timePeriod'].vocabulary.getVocabularyDict(self)
+        vocab_t = get_vocabulary('time_periods')
         vocab_c = TemporalAttestation.schema[
             'confidence'].vocabulary.getVocabularyDict(self)
         try:
             return [dict(timePeriod=vocab_t[a['timePeriod']], confidence=vocab_c[a['confidence']]) for a in attestations]
         except KeyError:
             return []
-
-    def period_vocab(self):
-        return TemporalAttestation.schema[
-            'timePeriod'].vocabulary.getVocabulary(self).getTarget()
 
     def confidence_vocab(self):
         return TemporalAttestation.schema[
