@@ -40,28 +40,44 @@ def format_json(adapter, with_context=False):
 class JSONFormatter(object):
 
     def __init__(self, path):
-        self.filepath = os.path.join(path, 'pleiades.json')
+        self.filepath = os.path.join(path, 'pleiades-places.json')
+        self.errata_filepath = os.path.join(path, 'pleiades-errata.json')
 
     def start(self):
         ld_context = json.dumps(
             make_ld_context(), indent=4 if PRETTY_PRINT else None,
             ensure_ascii=False).encode('utf-8')
-        self.f = open(self.filepath, 'w')
-        self.f.write('''{{
+        header = '''{{
 "@context": {},
-"@graph": ['''.format(ld_context))
-        self.first = True
+"@graph": ['''.format(ld_context)
+
+        self.f = open(self.filepath, 'w')
+        self.f.write(header)
+        self.first_normal = True
+
+        self.errata_f = open(self.errata_filepath, 'w')
+        self.errata_f.write(header)
+        self.first_errata = True
 
     def dump_one(self, adapter):
-        if self.first:
-            self.first = False
+        if adapter.path().startswith('/errata/'):
+            if self.first_errata:
+                self.first_errata = False
+            else:
+                self.errata_f.write(',\n')
+            self.errata_f.write(format_json(adapter))
         else:
-            self.f.write(',\n')
-        self.f.write(format_json(adapter))
+            if self.first_normal:
+                self.first_normal = False
+            else:
+                self.f.write(',\n')
+            self.f.write(format_json(adapter))
 
     def finish(self):
         self.f.write(']}')
         self.f.close()
+        self.errata_f.write(']}')
+        self.errata_f.close()
 
 
 class JSONView(BrowserView):
