@@ -20,7 +20,8 @@ def iterate_content(site, ptypes=('Place',)):
     p_jar = site._p_jar
     catalog = getToolByName(site, 'portal_catalog')
     i = 0
-    for brain in catalog.unrestrictedSearchResults(portal_type=ptypes):
+    for brain in catalog.unrestrictedSearchResults(
+            portal_type=ptypes, review_state='published'):
         yield brain.getObject()
 
         # minimize ZODB cache periodically
