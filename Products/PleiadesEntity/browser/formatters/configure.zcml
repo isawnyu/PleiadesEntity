@@ -6,7 +6,7 @@
 
   <browser:page
     for="*"
-    name="newjson"
+    name="json"
     class=".as_json.JSONView"
     permission="zope2.View"
     />
