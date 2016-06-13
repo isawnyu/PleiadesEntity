@@ -1,10 +1,13 @@
-from ..interfaces import IExportAdapter
-from DateTime import DateTime
 from AccessControl import Unauthorized
+from DateTime import DateTime
 from plone.memoize import instance
 from Products.CMFCore.utils import getToolByName
 from zope.component import queryAdapter
 from zope.interface import implementer
+from ..interfaces import IExportAdapter
+import inspect
+import itertools
+import Missing
 
 
 def get_export_adapter(ob):
@@ -15,14 +18,38 @@ def collect_export_data(adapter):
     # collect all data from adapter
     data = {}
     for k in dir(adapter):
-        if k == 'context' or k == 'for_json' or k.startswith('_'):
+        if k in ('context', 'for_json', 'brain') or k.startswith('_'):
+            continue
+        getter = getattr(adapter, k)
+        export_config = getattr(getter, 'export_config', {})
+        if not export_config.get('json', True):
             continue
         try:
-            value = getattr(adapter, k)()
+            value = getter()
         except NotImplementedError:
             continue
+        if value is Missing.Value:
+            value = None
         data[k] = value
     return data
+
+
+def export_config(**kw):
+    def decorator(f):
+        f.export_config = kw
+        return f
+    return decorator
+
+
+def memoize_all_methods(cls):
+    for k in cls.__dict__:
+        member = getattr(cls, k)
+        if inspect.ismethod(member):
+            wrapper = instance.memoize(member)
+            if hasattr(member, 'export_config'):
+                wrapper.export_config = member.export_config
+            setattr(cls, k, wrapper)
+    return cls
 
 
 @implementer(IExportAdapter)
@@ -30,53 +57,86 @@ class ExportAdapter(object):
 
     def __init__(self, context):
         self.context = context
-    
+
     def for_json(self):
         return collect_export_data(self)
 
 
+def get_member_adapter(mtool, userid):
+    if userid == 'T. Elliot':
+        userid = 'thomase'
+    if userid == 'S. Gillies':
+        userid = 'sgillies'
+    member = mtool.getMemberById(userid)
+    if member is None:
+        return NameOnlyMemberExportAdapter(userid)
+    else:
+        return MemberExportAdapter(member)
+
+
+@memoize_all_methods
 class ContentExportAdapter(ExportAdapter):
 
+    def __init__(self, context):
+        self.context = context
+        catalog = getToolByName(context, 'portal_catalog')
+        rid = catalog.getrid('/'.join(context.getPhysicalPath()))
+        self.brain = catalog._catalog[rid]
+
+    @export_config(json=False)
+    def uid(self):
+        return self.brain.UID
+
+    @export_config(json=False)
+    def path(self):
+        return self.brain.getPath().replace('/plone', '')
+
     def uri(self):
-        return self.context.absolute_url()
+        return self.brain.getURL()
 
     def id(self):
-        return self.context.getId()
+        return self.brain.getId
 
     def title(self):
-        return self.context.Title().decode('utf8')
+        return self.brain.Title.decode('utf8')
 
     def description(self):
-        return self.context.Description().decode('utf8')
+        return self.brain.Description.decode('utf8')
 
-    @instance.memoize
     def _mtool(self):
         return getToolByName(self.context, 'portal_membership')
 
     def creators(self):
         result = []
         mtool = self._mtool()
-        for creator in self.context.Creators():
-            member = mtool.getMemberById(creator)
-            if member is not None:
-                result.append(MemberExportAdapter(member))
+        for creator in self.brain.listCreators:
+            result.append(get_member_adapter(mtool, creator))
         return result
 
     def contributors(self):
         result = []
         mtool = self._mtool()
         for contributor in self.context.Contributors():
-            member = mtool.getMemberById(contributor)
-            if member is not None:
-                result.append(MemberExportAdapter(member))
+            result.append(get_member_adapter(mtool, contributor))
         return result
 
+    @export_config(json=False)
+    def author_names(self):
+        names = []
+        for adapter in itertools.chain(self.creators(), self.contributors()):
+            reverse = len(names) == 0  # first name reversed
+            names.append(abbreviate_name(adapter.name(), reverse=reverse))
+        return ', '.join(names)
+
     def created(self):
-        return self.context.created().ISO()
+        return self.brain.created.HTML4()
+
+    @export_config(json=False)
+    def modified(self):
+        return self.brain.modified.HTML4()
 
     def review_state(self):
-        wtool = getToolByName(self.context, 'portal_workflow')
-        return wtool.getInfoFor(self.context, 'review_state')
+        return self.brain.review_state
 
     def history(self):
         rt = getToolByName(self.context, "portal_repository")
@@ -98,13 +158,18 @@ class ContentExportAdapter(ExportAdapter):
             modified._timezone_naive = True
             result.append({
                 'comment': meta['comment'],
-                'modified': modified.ISO(),
+                'modified': modified.HTML4(),
                 'modifiedBy': userid,
             })
         return result
 
+    @export_config(json=False)
+    def current_version(self):
+        return self.brain.currentVersion
+
+
 def portal_type(self):
-    return self.context.Type()
+    return self.brain.Type
 
 setattr(ContentExportAdapter, '@type', portal_type)
 
@@ -113,6 +178,7 @@ def dict_getter(key):
     def get(self):
         __traceback_info__ = key
         return self.context[key]
+    get.__name__ = '__get__{}'.format(key)
     return get
 
 
@@ -125,8 +191,9 @@ def archetypes_getter(fname, raw=True):
         else:
             value = inst.getField(fname).get(inst)
         if isinstance(value, DateTime):
-            value = value.ISO()
+            value = value.HTML4()
         return value
+    get.__name__ = 'get_field_{}'.format(fname)
     return get
 
 
@@ -138,15 +205,18 @@ def export_children(portal_type):
         for child in self.context.listFolderContents(filter):
             result.append(get_export_adapter(child))
         return result
+    get.__name__ = 'get_children_{}'.format(portal_type)
     return get
 
 
+@memoize_all_methods
 class ReferenceExportAdapter(ExportAdapter):
     uri = dict_getter('identifier')
     shortCitation = dict_getter('range')
     type = dict_getter('type')
 
 
+@memoize_all_methods
 class WorkExportAdapter(ExportAdapter):
     provenance = archetypes_getter('initialProvenance')
     _references = archetypes_getter('referenceCitations', raw=False)
@@ -158,10 +228,10 @@ class WorkExportAdapter(ExportAdapter):
         return result
 
 
+@memoize_all_methods
 class TemporalExportAdapter(ExportAdapter):
     attestations = archetypes_getter('attestations', raw=False)
 
-    @instance.memoize
     def _temporalRange(self):
         return self.context.temporalRange()
 
@@ -178,6 +248,7 @@ class TemporalExportAdapter(ExportAdapter):
         return trange[1]
 
 
+@memoize_all_methods
 class MemberExportAdapter(ExportAdapter):
 
     def uri(self):
@@ -192,3 +263,91 @@ class MemberExportAdapter(ExportAdapter):
 
     def homepage(self):
         return self.context.getProperty('homepage', None)
+
+
+@memoize_all_methods
+class NameOnlyMemberExportAdapter(ExportAdapter):
+
+    def username(self):
+        return None
+
+    def name(self):
+        return self.context
+
+
+@memoize_all_methods
+class PlaceSubObjectExportAdapter(ExportAdapter):
+
+    @export_config(json=False)
+    def subject(self):
+        return self.context.Subject()
+
+    @export_config(json=False)
+    def pid(self):
+        return '/'.join(self.context.getPhysicalPath()[:-1]).replace(
+            '/plone', '')
+
+    @export_config(json=False)
+    def reprPoint(self):
+        value = self.brain.reprPt
+        if not value:
+            return
+        coords, precision = value
+        return coords
+
+    @export_config(json=False)
+    def locationPrecision(self):
+        value = self.brain.reprPt
+        if not value:
+            return
+        coords, precision = value
+        return precision
+
+    @export_config(json=False)
+    def timePeriods(self):
+        return self.context.getTimePeriods()
+
+    @export_config(json=False)
+    def temporalRange(self):
+        return self.context.temporalRange()
+
+    @export_config(json=False)
+    def start(self):
+        trange = self.temporalRange()
+        if trange is None:
+            return
+        return trange[0]
+
+    @export_config(json=False)
+    def end(self):
+        trange = self.temporalRange()
+        if trange is None:
+            return
+        return trange[1]
+
+    @export_config(json=False)
+    def extent(self):
+        return self.brain.zgeo_geometry or None
+
+    @export_config(json=False)
+    def bbox(self):
+        return self.brain.bbox or None
+
+
+def abbreviate_name(name, reverse=False):
+    """Replace first name with initial.
+
+    e.g. Tom Elliott -> T. Elliott
+
+    Or if reverse is True, put the last name first.
+
+    e.g. Tom Elliott -> Elliott, T.
+    """
+    separator = ' '
+    parts = [p.strip() for p in name.split(" ", 1)]
+    if len(parts) == 2 and len(parts[0]) > 2:
+        parts[0] = parts[0][0] + "."
+    if reverse and len(parts) == 2:
+        parts = parts[::-1]
+        separator = ', '
+    return separator.join(parts)

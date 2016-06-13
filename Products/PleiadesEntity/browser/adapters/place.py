@@ -1,33 +1,98 @@
-from pleiades.geographer.geo import extent
-from pleiades.geographer.geo import representative_point
-from shapely.geometry import shape
+from Products.CMFCore.utils import getToolByName
+from Products.PleiadesEntity.time import periodRanges
+from zope.globalrequest import getRequest
 from . import archetypes_getter
 from . import export_children
 from . import ContentExportAdapter
 from . import WorkExportAdapter
 from . import get_export_adapter
+from . import export_config
+from . import memoize_all_methods
 import geojson
+import re
 
 
+@memoize_all_methods
 class PlaceExportAdapter(WorkExportAdapter, ContentExportAdapter):
 
+    def _connectsWith(self):
+        return self.brain.connectsWith or []
+
+    def _hasConnectionsWith(self):
+        return self.brain.hasConnectionsWith or []
+
     def connectsWith(self):
-        return [o.absolute_url() for o in self.context.getRefs(
-            "connectsWith") + self.context.getBRefs("connectsWith")]
+        return [
+            'http://pleiades.stoa.org/places/{}'.format(id)
+            for id in (self._connectsWith() + self._hasConnectionsWith())
+        ]
 
     def reprPoint(self):
-        res = representative_point(self.context)
-        if not res:
+        value = self.brain.reprPt
+        if not value:
             return
-        return res['coords']
+        coords, precision = value
+        return coords
+
+    @export_config(json=False)
+    def locationPrecision(self):
+        value = self.brain.reprPt
+        if not value:
+            return
+        coords, precision = value
+        return precision
 
     locations = export_children('Location')
     names = export_children('Name')
 
-    placeTypes = archetypes_getter('placeType')
     rights = archetypes_getter('rights')
-    subject = archetypes_getter('subject')
     details = archetypes_getter('text')
+
+    def placeTypes(self):
+        return self.brain.getFeatureType
+
+    def subject(self):
+        return self.brain.Subject
+
+    @export_config(json=False)
+    def timePeriods(self):
+        return self.brain.getTimePeriods
+
+    @export_config(json=False)
+    def temporalRange(self):
+        # @@@ move to util function
+        request = getRequest()
+        if request is not None and hasattr(request, '_period_ranges'):
+            period_ranges = request._period_ranges
+        else:
+            vocabs = getToolByName(self.context, 'portal_vocabularies')
+            tp_vocab = vocabs.getVocabularyByName('time-periods').getTarget()
+            period_ranges = periodRanges(tp_vocab)
+            if request is not None:
+                request._period_ranges = period_ranges
+
+        timePeriods = self.brain.getTimePeriods
+        years = []
+        for period in timePeriods:
+            years.extend(list(period_ranges[period]))
+        if len(years) >= 2:
+            return min(years), max(years)
+        else:
+            return None
+
+    @export_config(json=False)
+    def start(self):
+        trange = self.temporalRange()
+        if trange is None:
+            return
+        return trange[0]
+
+    @export_config(json=False)
+    def end(self):
+        trange = self.temporalRange()
+        if trange is None:
+            return
+        return trange[1]
 
     # GeoJSON
 
@@ -36,7 +101,8 @@ class PlaceExportAdapter(WorkExportAdapter, ContentExportAdapter):
 
     def features(self):
         features = []
-        for child in self.context.objectValues('Location'):
+        filter = {'portal_type': 'Location'}
+        for child in self.context.listFolderContents(filter):
             adapter = get_export_adapter(child)
             features.append(geojson.Feature(
                 id=adapter.id(),
@@ -45,16 +111,30 @@ class PlaceExportAdapter(WorkExportAdapter, ContentExportAdapter):
                     snippet=adapter._snippet(),
                     description=adapter.description(),
                     link=adapter.uri(),
-                    location_precision=adapter._precision(),
+                    location_precision=adapter.locationPrecision(),
                 ),
                 geometry=adapter.geometry(),
             ))
         return features
 
     def bbox(self):
-        res = extent(self.context)
-        if not res:
-            return
-        if res['extent'] is None:
-            return
-        return shape(res['extent']).bounds
+        return self.brain.bbox or None
+
+    @export_config(json=False)
+    def extent(self):
+        return self.brain.zgeo_geometry or None
+
+    @export_config(json=False)
+    def geoContext(self):
+        note = self.brain.getModernLocation
+        if not note:
+            note = self.brain.Description
+            match = re.search(r"cited: BAtlas (\d+) (\w+)", note)
+            if match:
+                note = "Barrington Atlas grid %s %s" % (
+                    match.group(1), match.group(2).capitalize())
+            else:
+                note = ""
+            note = unicode(note.replace(unichr(174), unichr(0x2194)))
+            note = note.replace(unichr(0x2192), unichr(0x2194))
+        return note

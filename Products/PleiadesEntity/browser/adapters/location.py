@@ -1,30 +1,19 @@
-from pleiades.geographer.geo import extent
-from plone.memoize import instance
 from Products.PleiadesEntity.time import to_ad
 from . import ContentExportAdapter
+from . import PlaceSubObjectExportAdapter
 from . import TemporalExportAdapter
 from . import WorkExportAdapter
 from . import archetypes_getter
+from . import memoize_all_methods
 
 
+@memoize_all_methods
 class LocationExportAdapter(
-        WorkExportAdapter, TemporalExportAdapter, ContentExportAdapter):
-
-    @instance.memoize
-    def _extent(self):
-        return extent(self.context)
+        WorkExportAdapter, TemporalExportAdapter, ContentExportAdapter,
+        PlaceSubObjectExportAdapter):
 
     def geometry(self):
-        res = self._extent()
-        if not res:
-            return
-        return res['extent']
-
-    def _precision(self):
-        res = self._extent()
-        if not res:
-            return
-        return res['precision']
+        return self.extent()
 
     def _snippet(self):
         featureTypes = self.context.getFeatureType() or ['unknown']
