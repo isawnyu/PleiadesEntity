@@ -1,6 +1,7 @@
 from Products.CMFCore.utils import getToolByName
 from Products.PleiadesEntity.time import periodRanges
 from zope.globalrequest import getRequest
+from pleiades.vocabularies.vocabularies import get_vocabulary
 from . import archetypes_getter
 from . import export_children
 from . import ContentExportAdapter
@@ -66,7 +67,7 @@ class PlaceExportAdapter(WorkExportAdapter, ContentExportAdapter):
             period_ranges = request._period_ranges
         else:
             vocabs = getToolByName(self.context, 'portal_vocabularies')
-            tp_vocab = vocabs.getVocabularyByName('time-periods').getTarget()
+            tp_vocab = get_vocabulary('time_periods')
             period_ranges = periodRanges(tp_vocab)
             if request is not None:
                 request._period_ranges = period_ranges

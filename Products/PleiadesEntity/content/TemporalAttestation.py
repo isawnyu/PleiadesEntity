@@ -14,6 +14,7 @@ __author__ = """Sean Gillies <unknown>, Tom Elliott <unknown>"""
 __docformat__ = 'plaintext'
 
 from AccessControl import ClassSecurityInfo
+from pleiades.vocabularies.widget import TimePeriodSelectionWidget
 from Products.Archetypes.Field import *
 from Products.Archetypes.Registry import registerField
 from Products.Archetypes.Schema import Schema
@@ -26,7 +27,7 @@ schema = Schema((
 
     StringField(
         name='timePeriod',
-        widget=SelectionWidget(
+        widget=TimePeriodSelectionWidget(
             label="Time period",
             description="Select time period for which this name is attested",
             label_msgid='PleiadesEntity_label_timePeriod',
@@ -34,7 +35,7 @@ schema = Schema((
             i18n_domain='PleiadesEntity',
         ),
         description="Time period for which this name is attested",
-        vocabulary=NamedVocabulary("""time-periods"""),
+        vocabulary_factory="pleiades.vocabularies.time_periods",
         enforceVocabulary=1,
         required=1,
     ),
