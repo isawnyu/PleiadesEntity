@@ -61,33 +61,47 @@
                       //parentElement.innerHTML += content
                       jQuery(parentElement).append(content);
                   }
-                  function removeArrayElement${fieldnamePostfix}() {
-                      var nextIndex = 0;
-                      var nextIndexString = '';
-                      var elemIdRemove = 'archetypes-fieldname-${subFieldNamePart}';
+                  function zeroPad(i, n) {
+                    var s = '';
+                    for (var j = 1; j <= 3 - i.toString().length; j++) {
+                        s += '0';
+                    }
+                    s += i;
+                    return s;
+                  }
+                  function removeArrayElement${fieldnamePostfix}(el) {
+                      // update size field
                       arraySizeElem = document.getElementById('${sizeFieldName}');
-                      nextIndex = arraySizeElem.value - 1;
-                      arraySizeElem.value = nextIndex;
-                      for (count = 1; count <= 3 - nextIndex.toString().length; count++)
-                        {nextIndexString += '0'}
-                      nextIndexString += nextIndex;
-                      elemIdRemove += '${fieldSeparator}' + nextIndexString
-                      parentElement = document.getElementById('${targetElemId}');
-                      childElement = document.getElementById(elemIdRemove);
-                      parentElement.removeChild(childElement);
+                      arraySizeElem.value = arraySizeElem.value - 1;
+
+                      // remove button and fieldset
+                      var item = jQuery(el).next('.field');
+                      var i = parseInt(item.attr('id').substr(-3));
+                      jQuery(el).remove();
+                      item.remove();
+
+                      // re-number subsequent items
+                      for (var j = i + 1; i < arraySizeElem.value; i++) {
+                        var oldIndex = zeroPad(j), newIndex = zeroPad(j - 1);
+                        for (var attr of ['id', 'name', 'for', 'data-fieldname']) {
+                          jQuery('[' + attr + '*=&quot;' + '${subFieldNamePart}${fieldSeparator}' + oldIndex + '&quot;]').each(function() {
+                            jQuery(this).attr(attr, jQuery(this).attr(attr).replace(oldIndex, newIndex));
+                          });
+                        }
+                      }
                   }
             ">
               dummy
             </script>         
             <fieldset tal:attributes="id targetElemId">
               <tal:block tal:repeat="f python:fields[1:fsize]">
+                <script type="text/javascript" 
+                        tal:content="structure string: document.write('<input class=\'context\' type=\'button\' onclick=\'removeArrayElement${fieldnamePostfix}(this)\' value=\'x\' style=\'float: right;; position: relative;; top: 34px;;\'/>');">dummy</script>
                 <input metal:use-macro="python:here.widget(f.getName(), field=f, mode='edit')" />
               </tal:block>
             </fieldset>
             <script type="text/javascript" 
-                    tal:content="structure string: document.write('<input class=\'context\' type=\'button\' onclick=\'addArrayElement${fieldnamePostfix}()\' value=\'+\'/>');">dummy</script>
-            <script type="text/javascript" 
-                    tal:content="structure string: document.write('<input class=\'context\' type=\'button\' onclick=\'removeArrayElement${fieldnamePostfix}()\' value=\'-\'/>');">dummy</script>
+                    tal:content="structure string: document.write('<input class=\'context\' type=\'button\' onclick=\'addArrayElement${fieldnamePostfix}()\' value=\'Add reference\'/>');">dummy</script>
             <input type=hidden id='' value='0' name=''
                 tal:attributes="id sizeFieldName;
                                 name sizeFieldName;
