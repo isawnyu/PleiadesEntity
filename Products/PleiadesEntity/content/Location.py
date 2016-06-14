@@ -152,6 +152,21 @@ schema = atapi.Schema((
     ),
 
     atapi.StringField(
+        name='archaeologicalRemains',
+        widget=atapi.SelectionWidget(
+            label="Archaeological Remains",
+            description="Select level of archaeological remains associated with this location",
+            label_msgid='PleiadesEntity_label_archaeologicalRemains',
+            description_msgid='PleiadesEntity_help_archaeologicalRemains',
+            i18n_domain='PleiadesEntity',
+        ),
+        description="Level of archaeological remains associated with this location",
+        vocabulary_factory='pleiades.vocabularies.arch_remains',
+        #default="",
+        enforceVocabulary=1,
+    ),
+
+    atapi.StringField(
         name='associationCertainty',
         widget=atapi.SelectionWidget(
             label="Association Certainty",
