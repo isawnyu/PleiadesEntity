@@ -34,6 +34,7 @@ from ..config import PROJECTNAME
 import interfaces
 import re
 import simplejson
+from Products.Archetypes.Widget import TypesWidget
 
 
 def decimalize(value):
@@ -154,6 +155,7 @@ schema = atapi.Schema((
     atapi.StringField(
         name='archaeologicalRemains',
         widget=atapi.SelectionWidget(
+            format="select",
             label="Archaeological Remains",
             description="Select level of archaeological remains associated with this location",
             label_msgid='PleiadesEntity_label_archaeologicalRemains',
@@ -162,7 +164,7 @@ schema = atapi.Schema((
         ),
         description="Level of archaeological remains associated with this location",
         vocabulary_factory='pleiades.vocabularies.arch_remains',
-        #default="",
+        default="unknown",
         enforceVocabulary=1,
     ),
 
