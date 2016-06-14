@@ -109,7 +109,7 @@ class TestExport(PleiadesEntityTestCase):
         self.assertEqual(adapter.type(), 'FeatureCollection')
 
     def test_view_place_as_json(self):
-        view = self.place.unrestrictedTraverse('@@newjson')
+        view = self.place.unrestrictedTraverse('@@json')
         response = view()
         expected = {
             '@type': 'Place',
