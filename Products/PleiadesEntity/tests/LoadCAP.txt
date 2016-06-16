@@ -26,13 +26,13 @@ Test attributes of the place
     >>> p.getFeatureType()
     ['wall']
     >>> p.getModernLocation()
-    'clausura, NE Bezereos at Tebaga'
+    ''
     >>> p.getText()
     '<p>None</p>'
     >>> p.Creators()
-    ('D.J. Mattingly',)
+    ('test_user_1_', 'D.J. Mattingly')
     >>> p.Contributors()
-    ('R. Talbert', 'T. Elliott', 'S. Gillies')
+    ('R. Talbert', 'sgillies', 'thomase')
     >>> p.Description()
     'An ancient place, cited: BAtlas 35 B1 unnamed wall (NE Bezereos at Tebaga)'
 
@@ -40,7 +40,7 @@ Location
 
     >>> x = p.getLocations()[0]
     >>> x.Creators()
-    ('D.J. Mattingly',)
+    ('D.J. Mattingly', 'test_user_1_')
     >>> x.Contributors()
     ('R. Talbert', 'T. Elliott', 'S. Gillies')
     >>> x.getAttestations()
@@ -80,18 +80,18 @@ Verify attributes
     >>> p.getPlaceType()
     ['unknown']
     >>> p.getModernLocation()
-    'Sabrata, Zuaga'
+    ''
     >>> p.getText()
     '<p>None</p>'
     >>> p.Creators()
-    ('D.J. Mattingly',)
+    ('test_user_1_', 'D.J. Mattingly')
     >>> p.Contributors()
-    ('R. Talbert', 'T. Elliott', 'S. Gillies')
+    ('R. Talbert', 'sgillies', 'thomase')
     >>> p.Description()
     'An ancient place, cited: BAtlas 35 E2 Abrotonum/Sabratha'
     
     >>> [ref for ref in p.getReferenceCitations()]
-    [{'range': 'BAtlas 35 E2 Abrotonum/Sabratha', 'identifier': ''}, {'range': 'Desanges 1978, 100-101', 'identifier': ''}, {'range': 'Mattingly 1994, 125-27', 'identifier': ''}]
+    [{'range': 'BAtlas 35 E2 Abrotonum/Sabratha', 'identifier': 'http://atlantides.org/bibliography/', 'type': 'seeFurther'}, {'range': 'Desanges1978,100-101', 'identifier': 'http://atlantides.org/bibliography/', 'type': 'seeFurther'}, {'range': 'Mattingly1994,125-27', 'identifier': 'http://atlantides.org/bibliography/', 'type': 'seeFurther'}]
     
 Names
 
@@ -112,9 +112,9 @@ Names
     >>> n.getCompleteness()
     'complete'
     >>> p.Creators()
-    ('D.J. Mattingly',)
+    ('test_user_1_', 'D.J. Mattingly')
     >>> p.Contributors()
-    ('R. Talbert', 'T. Elliott', 'S. Gillies')
+    ('R. Talbert', 'sgillies', 'thomase')
 
     >>> n.getAttestations()
     [{'timePeriod': 'classical', 'confidence': 'confident'}, {'timePeriod': 'hellenistic-republican', 'confidence': 'confident'}]

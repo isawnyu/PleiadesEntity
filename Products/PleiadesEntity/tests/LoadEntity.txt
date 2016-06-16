@@ -58,7 +58,7 @@ Test temporal attestations
     >>> x.getAttestations()
     [{'timePeriod': 'classical', 'confidence': 'confident'}, {'timePeriod': 'roman', 'confidence': 'confident'}, {'timePeriod': 'late-antique', 'confidence': 'confident'}]
     >>> x.getSortedTemporalAttestations()
-    [{'timePeriod': 'classical', 'confidence': 'confident'}, {'timePeriod': 'late-antique', 'confidence': 'confident'}, {'timePeriod': 'roman', 'confidence': 'confident'}]
+    [{'timePeriod': 'classical', 'confidence': 'confident'}, {'timePeriod': 'roman', 'confidence': 'confident'}, {'timePeriod': 'late-antique', 'confidence': 'confident'}]
     
 Check metadata reference
 
@@ -91,7 +91,7 @@ Feature Names
     >>> n.getCompleteness()
     'complete'
     >>> n.Creators()
-    ('C. Foss', 'S. Mitchell')
+    ('C. Foss', 'S. Mitchell', 'test_user_1_')
     >>> n.Contributors()
     ('R. Talbert', 'T. Elliott', 'S. Gillies')
     >>> n.Rights()
@@ -101,7 +101,7 @@ Feature Names
     [{'timePeriod': 'classical', 'confidence': 'confident'}, {'timePeriod': 'roman', 'confidence': 'confident'}, {'timePeriod': 'late-antique', 'confidence': 'confident'}]
     
     >>> [ref for ref in n.getReferenceCitations()]
-    [{'range': 'RE Aphrodisias 2', 'identifier': 'http://www.unc.edu/awmc/pleiades/bibliography/re.html'}, {'range': 'NPauly Aphrodisias 1', 'identifier': 'http://www.unc.edu/awmc/pleiades/bibliography/npauly.html'}]
+    [{'range': 'RE Aphrodisias 2', 'identifier': 'http://www.unc.edu/awmc/pleiades/bibliography/re.html', 'type': 'seeFurther'}, {'range': 'NPauly Aphrodisias 1', 'identifier': 'http://www.unc.edu/awmc/pleiades/bibliography/npauly.html', 'type': 'seeFurther'}]
 
 
 Place
@@ -122,9 +122,9 @@ By default, we create a place for every feature.
     >>> p.modernLocation
     u'Geyre'
     >>> p.Creators()
-    ('C. Foss', 'S. Mitchell')
+    ('C. Foss', 'test_user_1_', 'S. Mitchell')
     >>> p.Contributors()
-    ('R. Talbert', 'T. Elliott', 'S. Gillies')
+    ('R. Talbert', 'sgillies', 'thomase')
     >>> p.Rights()
     'Copyright \xc2\xa9 2007 Ancient World Mapping Center. All rights reserved.'
     >>> p.Description()
@@ -136,7 +136,7 @@ By default, we create a place for every feature.
 Load one nameless entity
 ========================
 
-    >>> r = load_place(folder, "%s/batlas-65-2-101.xml" % TEST_DATA, metadataId='cap-map65')
+    >>> r = load_place(folder, "%s/batlas-65-2-101.xml" % self.TEST_DATA, metadataId='cap-map65')
     >>> pid = r['place_id']
     >>> r['name_ids']
     []
@@ -153,7 +153,7 @@ Check feature
 Load one unlocated entity
 =========================
 
-    >>> r = load_place(folder, "%s/batlas-65-7-21.xml" % TEST_DATA, metadataId='cap-map65')
+    >>> r = load_place(folder, "%s/batlas-65-7-21.xml" % self.TEST_DATA, metadataId='cap-map65')
     >>> pid = r['place_id']
     >>> len(r['name_ids'])
     1
