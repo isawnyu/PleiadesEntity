@@ -74,6 +74,7 @@ class TestExport(PleiadesEntityTestCase):
             title='Point 1',
             geometry='Point:[-86.4808333333333, 34.769722222222]',
             creation_date=fake_date,
+            archaeologicalRemains='present',
         )
         attestations = place.position.Schema()['attestations']
         attestations.resize(1)
@@ -161,6 +162,7 @@ class TestExport(PleiadesEntityTestCase):
                 'created': '2016-01-01T00:00:00Z',
                 'review_state': 'published',
                 'history': [],
+                'archaeologicalRemains': 'present',
                 'creators': [{
                     u'uri': u'http://nohost/plone/author/test_user_1_',
                     u'username': u'test_user_1_',
