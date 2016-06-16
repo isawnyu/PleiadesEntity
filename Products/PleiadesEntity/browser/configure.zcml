@@ -61,4 +61,11 @@
     permission="zope2.View"
     />
 
+  <browser:page
+    for="Products.PleiadesEntity.content.interfaces.ILocation"
+    name="promote-to-place"
+    class=".location.PromoteLocationToPlace"
+    permission="cmf.ManagePortal"
+    />
+
 </configure>
