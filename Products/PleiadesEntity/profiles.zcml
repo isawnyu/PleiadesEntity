@@ -48,4 +48,13 @@
       import_steps="typeinfo"
       />
 
+  <upgradeDepends
+      profile="Products.PleiadesEntity:default"
+      source="1002"
+      destination="1003"
+      title="Add 'promote to place' action for locations"
+      description=""
+      import_steps="typeinfo"
+      />
+
 </configure>
