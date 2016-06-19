@@ -1,3 +1,4 @@
+from AccessControl import getSecurityManager
 from collective.geo.geographer.interfaces import IGeoreferenced
 from pleiades.geographer.geo import NotLocatedError
 from plone.memoize import view
@@ -111,29 +112,36 @@ class LocationsTable(ChildrenTable):
         elif timespan.strip() == 'AD 1700 - Present':
             timespan = 'modern'
         if timespan:
-            annotation = u'(%s)' % timespan
+            return u' (%s)' % timespan
         else:
-            annotation = None
-        return [u'', u' %s' % annotation][annotation is not None]
+            return u''
 
     def rows(self, locations):
         output = []
         where_tag = "where"
         if self.iterate and self.iterate()['working_copy'] is not None:
             where_tag = "baseline-where"
+        wftool = self.wftool
+        checkPermission = getSecurityManager().checkPermission
         for score, ob, nrefs in sorted(locations, reverse=False):
+            review_state = wftool.getInfoFor(ob, 'review_state')
+            item = ob.Title().decode('utf-8')
+            if 'copy' in ob.getId():
+                item += u" (copy)"
+            if checkPermission('View', ob):
+                link = u'<a class="state-%s" href="%s">%s</a>' % (
+                    review_state, ob.absolute_url(), item)
+            else:
+                link = u'<span class="state-%s">%s</span>' % (
+                    review_state, item)
             innerHTML = [
                 u'<li id="%s_%s" class="placeChildItem Location" title="%s">' % (
                     ob.getId(),
                     where_tag,
-                    self.snippet(ob) + "; " + unicode(ob.Description(), "utf-8")),
-                u'<a class="state-%s" href="%s">%s</a>%s' % (
-                    self.wftool.getInfoFor(ob, 'review_state'),
-                    ob.absolute_url(), 
-                    unicode(
-                        ob.Title(), 'utf-8') + u" (copy)" * (
-                            "copy" in ob.getId()),
-                    self.postfix(ob)),
+                    self.snippet(ob) + "; " + ob.Description().decode("utf-8"),
+                ),
+                link,
+                u' (%s)' % review_state if review_state != 'published' else u'',
                 u'</li>',
             ]
             output.append(u"\n".join(innerHTML))
@@ -188,6 +196,8 @@ class NamesTable(ChildrenTable):
 
     def rows(self, names):
         output = []
+        wftool = self.wftool
+        checkPermission = getSecurityManager().checkPermission
         for score, ob, nrefs in sorted(names, key=lambda k: k[1].Title() or ''):
             nameAttested = ob.getNameAttested() or None
             title = ob.Title() or "Untitled"
@@ -198,15 +208,23 @@ class NamesTable(ChildrenTable):
                 label, label_class = unicode(
                     title, "utf-8"), "nameUnattested"
             labelLang = ob.getNameLanguage() or "und"
+            review_state = wftool.getInfoFor(ob, 'review_state')
+            item = u'<span lang="%s">%s</span>' % (
+                labelLang,
+                label + u" (copy)" * ("copy" in ob.getId()),
+            )
+            if checkPermission('View', ob):
+                link = '<a class="state-%s %s" href="%s">%s</a>' % (
+                    review_state, label_class, ob.absolute_url(), item)
+            else:
+                link = '<span class="state-%s %s">%s</span>' % (
+                    review_state, label_class, item)
             innerHTML = [
-                u'<li id="%s" class="placeChildItem" title="%s">' % (ob.getId(), self.snippet(ob)),
-                u'<a class="state-%s %s" href="%s"><span lang="%s">%s</span></a>%s' % (
-                    self.wftool.getInfoFor(ob, 'review_state'),
-                    label_class,
-                    ob.absolute_url(),
-                    labelLang,
-                    label + u" (copy)" * ("copy" in ob.getId()),
-                    self.postfix(ob)),
+                u'<li id="%s" class="placeChildItem" title="%s">' % (
+                    ob.getId(), self.snippet(ob)),
+                link,
+                self.postfix(ob),
+                u' (%s)' % review_state if review_state != 'published' else u'',
                 u'</li>',
             ]
             output.append(u"\n".join(innerHTML))
