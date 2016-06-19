@@ -64,10 +64,14 @@ class OSMLocationFactory(BrowserView):
         if objtype == "node":
             lon = elem.attrib.get("lon")
             lat = elem.attrib.get("lat")
+            geometry = "Point:[%s,%s]" % (lon, lat)
         elif objtype == "way":
-            node = osm.find("node")
-            lon = node.attrib.get("lon")
-            lat = node.attrib.get("lat")
+            coords = []
+            for node in osm.findall('node'):
+                lon = node.attrib.get("lon")
+                lat = node.attrib.get("lat")
+                coords.append("[%s,%s]" % (lon, lat))
+            geometry = 'LineString:[' + ','.join(coords) + ']'
 
         ptool = getToolByName(self.context, 'plone_utils')
         repo = getToolByName(self.context, 'portal_repository')
@@ -82,7 +86,7 @@ class OSMLocationFactory(BrowserView):
             locn = self.context[locid]
             locn.setTitle(title)
             locn.setDescription(u"Location based on OpenStreetMap")
-            locn.setGeometry("Point:[%s,%s]" % (lon, lat))
+            locn.setGeometry(geometry)
             locn.setInitialProvenance(
                 u"OpenStreetMap (%s %s, version %s, "
                 u"osm:changeset=%s, %s)" % (
@@ -92,9 +96,13 @@ class OSMLocationFactory(BrowserView):
             self._fall_back(str(e))
             return
 
-        metadataDoc = site['features']['metadata'][
-            'generic-osm-accuracy-assessment']
-        locn.addReference(metadataDoc, 'location_accuracy')
+        try:
+            metadataDoc = site['features']['metadata'][
+                'generic-osm-accuracy-assessment']
+        except KeyError:
+            pass
+        else:
+            locn.addReference(metadataDoc, 'location_accuracy')
 
         browse_url = "/".join([OSM_BROWSE, objtype, objid])
         citations = [dict(
