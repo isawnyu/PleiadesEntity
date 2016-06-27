@@ -99,15 +99,25 @@ class Named(BrowserDefaultMixin):
     def getNames(self):
         """
         """
-        sm = getSecurityManager()
-        return [o for o in self.values() if interfaces.IName.providedBy(o) and sm.checkPermission(permissions.View, o)]
+        checkPermission = getSecurityManager().checkPermission
+        return [
+            o for o in self.values()
+            if interfaces.IName.providedBy(o)
+            and (checkPermission('View', o)
+                 or checkPermission('Pleiades: View link to draft', o))
+        ]
 
     security.declareProtected(permissions.View, 'getLocations')
     def getLocations(self):
         """
         """
-        sm = getSecurityManager()
-        return [o for o in self.values() if interfaces.ILocation.providedBy(o) and sm.checkPermission(permissions.View, o)]
+        checkPermission = getSecurityManager().checkPermission
+        return [
+            o for o in self.values()
+            if interfaces.ILocation.providedBy(o)
+            and (checkPermission(permissions.View, o)
+                 or checkPermission('Pleiades: View link to draft', o))
+        ]
 
     security.declareProtected(permissions.View, 'getTimePeriods')
     def getTimePeriods(self):
