@@ -44,6 +44,12 @@
   <adapter name="connectsWith" factory=".indexers.connectsWith"/>
   <adapter name="hasConnectionsWith" factory=".indexers.hasConnectionsWith"/>
 
+  <permission
+    id="pleiades.ViewLinkToDraft"
+    title="Pleiades: View link to draft">
+    <role name="Authenticated" />
+  </permission>
+
   <!-- ##/code-section configure.zcml -->
 
 </configure>
