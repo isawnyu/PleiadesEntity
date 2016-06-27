@@ -123,6 +123,7 @@ class LocationsTable(ChildrenTable):
             where_tag = "baseline-where"
         wftool = self.wftool
         checkPermission = getSecurityManager().checkPermission
+        credit_utils = self.context.unrestrictedTraverse('@@credit_utils')
         for score, ob, nrefs in sorted(locations, reverse=False):
             review_state = wftool.getInfoFor(ob, 'review_state')
             item = ob.Title().decode('utf-8')
@@ -134,6 +135,11 @@ class LocationsTable(ChildrenTable):
             else:
                 link = u'<span class="state-%s">%s</span>' % (
                     review_state, item)
+            if review_state != 'published':
+                user = credit_utils.user_in_byline(ob.Creator())
+                status = u' [%s by %s]' % (review_state, user['fullname'])
+            else:
+                status = u''
             innerHTML = [
                 u'<li id="%s_%s" class="placeChildItem Location" title="%s">' % (
                     ob.getId(),
@@ -141,7 +147,8 @@ class LocationsTable(ChildrenTable):
                     self.snippet(ob) + "; " + ob.Description().decode("utf-8"),
                 ),
                 link,
-                u' (%s)' % review_state if review_state != 'published' else u'',
+                self.postfix(ob),
+                status,
                 u'</li>',
             ]
             output.append(u"\n".join(innerHTML))
@@ -198,6 +205,7 @@ class NamesTable(ChildrenTable):
         output = []
         wftool = self.wftool
         checkPermission = getSecurityManager().checkPermission
+        credit_utils = self.context.unrestrictedTraverse('@@credit_utils')
         for score, ob, nrefs in sorted(names, key=lambda k: k[1].Title() or ''):
             nameAttested = ob.getNameAttested() or None
             title = ob.Title() or "Untitled"
@@ -219,12 +227,17 @@ class NamesTable(ChildrenTable):
             else:
                 link = '<span class="state-%s %s">%s</span>' % (
                     review_state, label_class, item)
+            if review_state != 'published':
+                user = credit_utils.user_in_byline(ob.Creator())
+                status = u' [%s by %s]' % (review_state, user['fullname'])
+            else:
+                status = u''
             innerHTML = [
                 u'<li id="%s" class="placeChildItem" title="%s">' % (
                     ob.getId(), self.snippet(ob)),
                 link,
                 self.postfix(ob),
-                u' (%s)' % review_state if review_state != 'published' else u'',
+                status,
                 u'</li>',
             ]
             output.append(u"\n".join(innerHTML))
