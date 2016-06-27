@@ -28,22 +28,22 @@ class Term:
         return self.value
 
 
-VOCAB = {
-    'hellenistic-republican': Term(
-        'hellenistic-republican',
-        "Hellenistic Greek, Roman Republic (330 BC-30 BC)",
-        "The Hellenistic period in Greek history and the middle-to-late Republican period in Roman history. For the purposes of Pleiades, this period is said to begin in the year 330 and end in the year 30 before the birth of Christ. [[-330, -30]]",
-    ),
-    'roman': Term(
-        'roman',
-        "Roman, early Empire (30 BC-AD 300)",
-        "The Roman period (i.e., the early Roman Empire) in Greek and Roman history. For the purposes of Pleiades, this period is said to begin in the year 30 before the birth of Christ and to end in the year 300 after the birth of Christ. [[-30, 300]]",
-    ),
-    'late-antique': Term(
-        'late-antique',
-        "Late Antique (AD 300-AD 640)",
-        "The Late Antique period in Greek and Roman history. For the purposes of Pleiades, this period is said to begin in the year 300 and to end in the year 640 after the birth of Christ. [[300, 640]]",
-    )}
+VOCAB = [{'id': 'hellenistic-republican',
+          'title': "Hellenistic Greek, Roman Republic (330 BC-30 BC)",
+          "description": "The Hellenistic period in Greek history and the middle-to-late Republican period in Roman history. For the purposes of Pleiades, this period is said to begin in the year 330 and end in the year 30 before the birth of Christ. [[-330, -30]]",
+          "lower_bound": -330,
+          "upper_bound": -30},
+         {"id": 'roman',
+          "title": "Roman, early Empire (30 BC-AD 300)",
+          "description": "The Roman period (i.e., the early Roman Empire) in Greek and Roman history. For the purposes of Pleiades, this period is said to begin in the year 30 before the birth of Christ and to end in the year 300 after the birth of Christ. [[-30, 300]]",
+          "lower_bound": -30,
+          "upper_bound": 300},
+         {"id": 'late-antique',
+          "title": "Late Antique (AD 300-AD 640)",
+          "description": "The Late Antique period in Greek and Roman history. For the purposes of Pleiades, this period is said to begin in the year 300 and to end in the year 640 after the birth of Christ. [[300, 640]]",
+          "lower_bound": 300,
+          "upper_bound": 640},
+         ]
 
 
 class MockTemporalContent(Temporal.Temporal):

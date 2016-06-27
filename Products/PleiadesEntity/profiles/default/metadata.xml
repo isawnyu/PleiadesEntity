@@ -3,5 +3,6 @@
   <version>1003</version>
   <dependencies>
   	<dependency>profile-pleiades.geographer:default</dependency>
+  	<dependency>profile-pleiades.vocabularies:default</dependency>
   </dependencies>
 </metadata>

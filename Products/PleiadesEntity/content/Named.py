@@ -26,8 +26,8 @@ from Products.PleiadesEntity.config import *
 from Products.CMFCore import permissions
 
 ##code-section module-header #fill in your manual code here
-from Products.PleiadesEntity.time import TimePeriodCmp
 from AccessControl import getSecurityManager
+from pleiades.vocabularies.vocabularies import get_vocabulary
 ##/code-section module-header
 
 schema = Schema((
@@ -108,11 +108,19 @@ class Named(BrowserDefaultMixin):
         """
         sm = getSecurityManager()
         return [o for o in self.values() if interfaces.ILocation.providedBy(o) and sm.checkPermission(permissions.View, o)]
-        
+
     security.declareProtected(permissions.View, 'getTimePeriods')
     def getTimePeriods(self):
         """
         """
+        time_periods = get_vocabulary('time_periods')
+        time_periods_list = [p['id'] for p in time_periods]
+        def timeperiod_index(period):
+            if period in time_periods_list:
+                index = time_periods_list.index(period)
+            else:
+                index = -1
+            return index
         periods = []
         for name in self.getNames():
             for a in name.getAttestations():
@@ -128,7 +136,7 @@ class Named(BrowserDefaultMixin):
                 for p in f.getTimePeriods():
                     if p not in periods:
                         periods.append(p)
-        return sorted([p for p in periods if p], cmp=TimePeriodCmp(self))
+        return sorted([p for p in periods if p], key=timeperiod_index)
 
     security.declareProtected(permissions.View, 'temporalRange')
     def temporalRange(self, period_ranges=None):
