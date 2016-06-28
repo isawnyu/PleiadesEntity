@@ -13,6 +13,10 @@ class ILocation(Interface):
     """Marker interface for .Location.Location
     """
 
+class IConnection(Interface):
+    """Marker interface for .Location.Location
+    """
+
 class IFeature(Interface):
     """Marker interface for .Feature.Feature
     """

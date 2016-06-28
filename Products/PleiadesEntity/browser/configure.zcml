@@ -36,6 +36,20 @@
     />
 
   <browser:view
+    for="Products.PleiadesEntity.content.interfaces.IPlace"
+    name="connections-listing"
+    class=".attestations.ConnectionsTable"
+    permission="zope2.View"
+    />
+
+  <browser:view
+    for="Products.PleiadesEntity.content.interfaces.IPlace"
+    name="reverse-connections-listing"
+    class=".attestations.ReverseConnectionsTable"
+    permission="zope2.View"
+    />
+
+  <browser:view
     for="*"
     name="place"
     class=".PlaceFinder"

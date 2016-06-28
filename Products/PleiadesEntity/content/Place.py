@@ -72,7 +72,7 @@ schema = atapi.Schema((
     atapi.ReferenceField(
         name='connections',
         widget=ReferenceBrowserWidget(
-            label="Makes a connection with",
+            label="Makes a connection with (old)",
             description="Establishes a connection to another place.",
             startup_directory="/places",
             allow_browse=0,
@@ -92,7 +92,7 @@ schema = atapi.Schema((
         name='connections_from',
         widget=BackReferenceWidget(
             visible="{'view': 'visible', 'edit': 'invisible'}",
-            label="Has a connection with",
+            label="Has a connection with (old)",
             macro="betterbackrefwidget",
             label_msgid='PleiadesEntity_label_connectsWith',
             i18n_domain='PleiadesEntity',

@@ -1,4 +1,5 @@
 from AccessControl import getSecurityManager
+from Acquisition import aq_parent
 from collective.geo.geographer.interfaces import IGeoreferenced
 from pleiades.geographer.geo import NotLocatedError
 from plone.memoize import view
@@ -59,6 +60,15 @@ class PlacefulAttestations(BrowserView):
     def locations(self):
         results = []
         for ob in self.context.getLocations():
+            results.append((ob, TimeSpanWrapper(ob).snippet))
+        return results
+        return results
+
+    @property
+    @view.memoize
+    def connections(self):
+        results = []
+        for ob in self.context.getSubConnections():
             results.append((ob, TimeSpanWrapper(ob).snippet))
         return results
 
@@ -242,3 +252,78 @@ class NamesTable(ChildrenTable):
             ]
             output.append(u"\n".join(innerHTML))
         return output
+
+
+class ConnectionsTable(ChildrenTable):
+    """table of connections and associated information for plone views
+    """
+
+    def accessor(self):
+        return self.context.getSubConnections()
+
+    def snippet(self, ob):
+        return unicode(self.referenced(ob).Title(), "utf-8")
+
+    @view.memoize
+    def referenced(self, ob):
+        return ob.getConnection()
+
+    def postfix(self, ob):
+        acert = ob.getAssociationCertainty()
+        timespan = TimeSpanWrapper(ob).snippet
+        if timespan.strip() == '':
+            timespan = None
+        elif timespan.strip() == 'AD 1700 - Present':
+            timespan = 'modern'
+        if timespan:
+            annotation = u'(%s)' % timespan
+        else:
+            annotation = None
+        if acert == 'less-certain':
+            return [u'?', u' %s?' % annotation][annotation is not None]
+        elif acert == 'uncertain':
+            return [u'??', u' %s??' % annotation][annotation is not None]
+        else:
+            return [u'', u' %s' % annotation][annotation is not None]
+
+    def rows(self, connections):
+        output = []
+        wftool = self.wftool
+        checkPermission = getSecurityManager().checkPermission
+        credit_utils = self.context.unrestrictedTraverse('@@credit_utils')
+        for score, ob, nrefs in sorted(connections, key=lambda k: k[1].Title() or ''):
+            referenced = self.referenced(ob)
+            label, label_class = self.snippet(ob), "connection"
+            review_state = wftool.getInfoFor(ob, 'review_state')
+            item = label + u" (copy)" * ("copy" in ob.getId())
+            if checkPermission('View', ob):
+                link = '<a class="state-%s %s" href="%s">%s</a>' % (
+                    review_state, label_class, referenced.absolute_url(), item)
+            else:
+                link = '<span class="state-%s %s">%s</span>' % (
+                    review_state, label_class, item)
+            if review_state != 'published':
+                user = credit_utils.user_in_byline(ob.Creator())
+                status = u' [%s by %s]' % (review_state, user['fullname'])
+            else:
+                status = u''
+            innerHTML = [
+                u'<li id="%s" class="placeChildItem" title="%s">' % (
+                    ob.getId(), self.snippet(ob)),
+                link,
+                self.postfix(ob),
+                status,
+                u'</li>',
+            ]
+            output.append(u"\n".join(innerHTML))
+        return output
+
+
+class ReverseConnectionsTable(ConnectionsTable):
+
+    def accessor(self):
+        return self.context.getReverseConnections()
+
+    @view.memoize
+    def referenced(self, ob):
+        return aq_parent(ob)

@@ -28,6 +28,7 @@ TYPES_TO_VERSION = (
     'Feature',
     'Location',
     'Name',
+    'Connection',
     'Place',
     'PositionalAccuracy',
     'PrimaryReference',
@@ -101,7 +102,9 @@ def postInstall(context):
 
 
 def setVersionedTypes(context):
-    portal_repository = getToolByName(context.getSite(), 'portal_repository')
+    if hasattr(context, 'getSite'):
+        context = context.getSite()
+    portal_repository = getToolByName(context, 'portal_repository')
     versionable_types = list(portal_repository.getVersionableContentTypes())
     for type_id in TYPES_TO_VERSION:
         if type_id not in versionable_types:

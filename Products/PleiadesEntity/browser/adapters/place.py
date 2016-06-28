@@ -17,10 +17,10 @@ import re
 class PlaceExportAdapter(WorkExportAdapter, ContentExportAdapter):
 
     def _connectsWith(self):
-        return self.brain.connectsWith or []
+        return getattr(self.brain, 'connectsWith', None) or []
 
     def _hasConnectionsWith(self):
-        return self.brain.hasConnectionsWith or []
+        return getattr(self.brain, 'hasConnectionsWith', None) or []
 
     def connectsWith(self):
         return [
