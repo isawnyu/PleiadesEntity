@@ -101,7 +101,7 @@ class Connection(atapi.BaseContent, Work, Temporal, BrowserDefaultMixin):
         connection = self.getConnection()
         if connection is not None:
             return connection.Title()
-        return ''
+        return '[place not found]'
 
     security.declareProtected(permissions.View, 'SearchableText')
     def SearchableText(self):

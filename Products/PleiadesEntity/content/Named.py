@@ -120,7 +120,7 @@ class Named(BrowserDefaultMixin):
                  or checkPermission('Pleiades: View link to draft', o))
         ]
 
-    security.declareProtected(permissions.View, 'getLocations')
+    security.declareProtected(permissions.View, 'getSubConnections')
     def getSubConnections(self):
         """
         """
@@ -132,7 +132,7 @@ class Named(BrowserDefaultMixin):
                  or checkPermission('Pleiades: View link to draft', o))
         ]
 
-    security.declareProtected(permissions.View, 'getLocations')
+    security.declareProtected(permissions.View, 'getReverseConnections')
     def getReverseConnections(self):
         """
         """
