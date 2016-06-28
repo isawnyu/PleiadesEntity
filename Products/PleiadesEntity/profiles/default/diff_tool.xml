@@ -10,6 +10,9 @@
     <type portal_type="Name">
       <field name="any" difftype="Compound Diff for AT types"/>
     </type>
+    <type portal_type="Connection">
+      <field name="any" difftype="Compound Diff for AT types"/>
+    </type>
     <type portal_type="Place">
       <field name="any" difftype="Compound Diff for AT types"/>
     </type>

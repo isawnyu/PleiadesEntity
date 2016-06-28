@@ -40,6 +40,7 @@ __docformat__ = 'plaintext'
 import Name
 import Location
 import Feature
+import Connection
 import PlaceContainer
 import Place
 import FeatureContainer
