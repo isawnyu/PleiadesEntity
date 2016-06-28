@@ -57,4 +57,20 @@
       import_steps="typeinfo"
       />
 
+  <upgradeSteps
+      profile="Products.PleiadesEntity:default"
+      source="1003"
+      destination="1004">
+    <upgradeDepends
+      title="Add Connection content type"
+      description=""
+      import_steps="typeinfo factorytool difftool"
+      />
+    <upgradeStep
+      title="Update versioned types"
+      description=""
+      handler=".setuphandlers.setVersionedTypes"
+      />
+  </upgradeSteps>
+
 </configure>
