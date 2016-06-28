@@ -44,6 +44,22 @@ schema = atapi.Schema((
     ),
 
     atapi.StringField(
+        name='relationshipType',
+        widget=atapi.SelectionWidget(
+            format="select",
+            label="Connection type",
+            description="Select type of connection being established",
+            label_msgid='PleiadesEntity_label_relationshipType',
+            description_msgid='PleiadesEntity_help_relationshipType',
+            i18n_domain='PleiadesEntity',
+        ),
+        description="Type of connection established",
+        vocabulary_factory='pleiades.vocabularies.relationship_types',
+        default="connection",
+        enforceVocabulary=1,
+    ),
+
+    atapi.StringField(
         name='associationCertainty',
         widget=atapi.SelectionWidget(
             label="Association Certainty",
