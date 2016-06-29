@@ -137,7 +137,7 @@ class LocationsTable(ChildrenTable):
                     review_state, item)
             if review_state != 'published':
                 user = credit_utils.user_in_byline(ob.Creator())
-                status = u' [%s by %s]' % (review_state, user['fullname'])
+                status = u' [%s by %s]' % (review_state, user['fullname'].decode('utf-8'))
             else:
                 status = u''
             innerHTML = [
@@ -229,7 +229,7 @@ class NamesTable(ChildrenTable):
                     review_state, label_class, item)
             if review_state != 'published':
                 user = credit_utils.user_in_byline(ob.Creator())
-                status = u' [%s by %s]' % (review_state, user['fullname'])
+                status = u' [%s by %s]' % (review_state, user['fullname'].decode('utf-8'))
             else:
                 status = u''
             innerHTML = [
