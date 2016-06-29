@@ -126,7 +126,7 @@ schema = atapi.Schema((
             i18n_domain='PleiadesEntity',
         ),
         description="Feature type categories",
-        vocabulary=NamedVocabulary("""place-types"""),
+        vocabulary='pleiades.vocabularies.place_types',
         default=["unknown"],
         enforceVocabulary=1,
         multiValued=1,

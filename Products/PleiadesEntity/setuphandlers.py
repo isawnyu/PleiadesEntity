@@ -46,15 +46,14 @@ def installVocabularies(context):
     site = context.getSite()
     # Create vocabularies in vocabulary lib
     atvm = getToolByName(site, ATVOCABULARYTOOL)
-    vocabmap = {'name-accuracy': ('VdexFileVocabulary', 'VdexTerm'),
-         'association-certainty': ('VdexFileVocabulary', 'VdexTerm'),
-         'place-types': ('SimpleVocabulary', 'SimpleVocabularyTerm'),
-         'attestation-confidence': ('VdexFileVocabulary', 'VdexTerm'),
-         'time-periods': ('VdexFileVocabulary', 'VdexTerm'),
-         'name-completeness': ('VdexFileVocabulary', 'VdexTerm'),
-         'ancient-name-languages': ('VdexFileVocabulary', 'VdexTerm'),
-         'name-types': ('VdexFileVocabulary', 'VdexTerm'),
-        }
+    vocabmap = {
+        'name-accuracy': ('VdexFileVocabulary', 'VdexTerm'),
+        'association-certainty': ('VdexFileVocabulary', 'VdexTerm'),
+        'attestation-confidence': ('VdexFileVocabulary', 'VdexTerm'),
+        'name-completeness': ('VdexFileVocabulary', 'VdexTerm'),
+        'ancient-name-languages': ('VdexFileVocabulary', 'VdexTerm'),
+        'name-types': ('VdexFileVocabulary', 'VdexTerm'),
+    }
     for vocabname in vocabmap.keys():
         if not vocabname in atvm.contentIds():
             atvm.invokeFactory(vocabmap[vocabname][0], vocabname)
