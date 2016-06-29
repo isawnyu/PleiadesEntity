@@ -118,6 +118,15 @@
         <p tal:condition="not:portal_state/anonymous">Red titles indicate drafting-state items. Yellow titles indicate pending-state.</p>
 
         <div tal:condition="not:context/@@iterate/baseline|nothing">
+
+          <div id="representativePointField" class="field">
+            <label>Representative Point:</label>
+            <dl tal:replace="structure context/@@representative-point"></dl>
+            <div tal:condition="not:portal_state/anonymous">
+            </div>
+
+          </div> <!-- representativePointField -->
+
           <div id="locationsField" class="field">
             <label>Locations:</label>
             <dl tal:replace="structure context/@@locations-listing"></dl>
@@ -164,9 +173,19 @@
               >Add Name</a>
           </div> <!-- namesField -->
 
+          <div id="connectionsField" class="field">
+            <label>Makes a connection with:</label>
+            <dl tal:replace="structure context/@@connections-listing|nothing"></dl>
+            <a tal:condition="not:portal_state/anonymous"
+              class="createObjectButton"
+              href="createObject?type_name=Connection"
+              title="Create a new Connection"
+              >Add Connection</a>
+          </div> <!-- connectionField -->
+
           <div tal:condition="not:portal_state/anonymous">
             <p>
-              <a href="folder_contents">Folder listing of locations and names</a>
+              <a href="folder_contents">Folder listing of locations, names, and connections</a>
             </p>
           </div>
         
@@ -197,23 +216,43 @@
                 >Add Name</a>
             </div>
 
+            <div id="connectionsField" class="field">
+              <label>Makes a connection with:</label>
+              <dl tal:replace="structure context/@@connections-listing|nothing"></dl>
+              <a tal:condition="not:portal_state/anonymous"
+                class="createObjectButton"
+                href="createObject?type_name=Connection"
+                title="Create a new Connection"
+                >Add Connection</a>
+            </div>
+
             <h3 style="margin-top:2em">In the baseline place</h3>
-            <div id="locationsField" class="field baseline">
+            <div id="locationsField-baseline" class="field baseline">
               <label>Locations</label>
               <dl tal:replace="structure baseline/@@locations-listing"></dl>
             </div>
 
-            <div id="namesField" class="field">
+            <div id="namesField-baseline" class="field baseline">
               <label>Names</label>
               <dl tal:replace="structure baseline/@@names-listing"></dl>
+            </div>
+
+            <div id="connectionsField-baseline" class="field baseline">
+              <label>Makes a connection with:</label>
+              <dl tal:replace="structure baseline/@@connections-listing|nothing"></dl>
             </div>
           </div>
 
           <div>
             <p>
-              <a href="folder_contents">Folder listing of locations and names</a>
+              <a href="folder_contents">Folder listing of locations, names, and connections</a>
             </p>
           </div>
+        </div>
+
+        <div id="connectionsField-reverse" class="field">
+          <label>Has a connection with:</label>
+          <dl tal:replace="structure context/@@reverse-connections-listing|nothing"></dl>
         </div>
 
         <tal:repeat

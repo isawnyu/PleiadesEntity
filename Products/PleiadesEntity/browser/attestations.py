@@ -91,6 +91,14 @@ class ChildrenTable(BrowserView):
         return u'<ul class="placeChildren">' + u'\n'.join(rows) + '</ul>'
 
 
+class RepresentativePoint(BrowserView):
+    """return representative point data
+    """
+    def __call__(self):
+        # XXX add logic
+        return u'<ul>R POINT INFO</ul>'
+
+
 class LocationsTable(ChildrenTable):
 
     def accessor(self):
