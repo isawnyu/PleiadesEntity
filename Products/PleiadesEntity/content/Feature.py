@@ -33,7 +33,6 @@ from Products.ATReferenceBrowserWidget.ATReferenceBrowserWidget import Reference
 ##code-section module-header #fill in your manual code here
 import transaction
 from Products.ATContentTypes.content.document import ATDocumentBase, ATDocumentSchema
-from AccessControl import getSecurityManager
 ##/code-section module-header
 
 schema = Schema((
@@ -48,7 +47,7 @@ schema = Schema((
             i18n_domain='PleiadesEntity',
         ),
         description="Type of feature",
-        vocabulary=NamedVocabulary("""place-types"""),
+        vocabulary='pleiades.vocabulary.place_types',
         default=["unknown"],
         enforceVocabulary=1,
         multiValued=1,
