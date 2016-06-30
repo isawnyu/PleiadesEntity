@@ -1,7 +1,7 @@
 from AccessControl import getSecurityManager
 from Acquisition import aq_parent
 from collective.geo.geographer.interfaces import IGeoreferenced
-from pleiades.geographer.geo import NotLocatedError
+from pleiades.geographer.geo import NotLocatedError, representative_point
 from plone.memoize import view
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import BrowserView
@@ -99,6 +99,14 @@ class ChildrenTable(BrowserView):
         else:
             rows = self.rows(children)
         return u'<ul class="placeChildren">' + u'\n'.join(rows) + '</ul>'
+
+
+class RepresentativePoint(BrowserView):
+    """representative point data
+    """
+
+    def __call__(self):
+        return '<br/>' + str(representative_point(self.context))
 
 
 class LocationsTable(ChildrenTable):
