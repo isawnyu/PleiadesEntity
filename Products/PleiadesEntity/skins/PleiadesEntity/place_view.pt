@@ -121,10 +121,7 @@
 
           <div id="representativePointField" class="field">
             <label>Representative Point:</label>
-            <dl tal:replace="structure context/@@representative-point"></dl>
-            <div tal:condition="not:portal_state/anonymous">
-            </div>
-
+            <div tal:replace="structure context/@@representative-point"></div>
           </div> <!-- representativePointField -->
 
           <div id="locationsField" class="field">
@@ -197,6 +194,12 @@
           <div tal:condition="nocall:baseline">
             <h3 style="margin-top:0px;">In this working copy</h3>
             <p>These will be copied to the baseline place when a reviewer checks the working copy in.</p>
+
+            <div id="representativePointField" class="field">
+              <label>Representative Point:</label>
+              <div tal:replace="structure context/@@representative-point"></div>
+            </div> <!-- representativePointField -->
+
             <div id="locationsField" class="field">
               <label>Locations</label>
               <dl tal:replace="structure context/@@locations-listing"></dl>
