@@ -1,5 +1,7 @@
 import logging
 
+from Acquisition import aq_parent
+
 from plone.indexer.decorator import indexer
 from Products.CMFCore.interfaces import IContentish
 from Products.CMFCore.utils import getToolByName
@@ -36,9 +38,9 @@ def currentVersion(obj, **kw):
 
 @indexer(IPlace)
 def connectsWith(obj, **kw):
-    return [o.getId() for o in obj.getRefs("connectsWith")] or None
+    return [o.getConnection().UID() for o in obj.getSubConnections()] or None
 
 @indexer(IPlace)
 def hasConnectionsWith(obj, **kw):
-    return [o.getId() for o in obj.getBRefs("connectsWith")] or None
+    return [aq_parent(o).UID() for o in obj.getReverseConnections()] or None
 
