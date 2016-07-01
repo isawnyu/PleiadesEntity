@@ -2,6 +2,7 @@ from AccessControl import getSecurityManager
 from Acquisition import aq_parent
 from collective.geo.geographer.interfaces import IGeoreferenced
 from pleiades.geographer.geo import NotLocatedError, representative_point
+from plone.batching import Batch
 from plone.memoize import view
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import BrowserView
@@ -335,3 +336,24 @@ class ReverseConnectionsTable(ConnectionsTable):
     @view.memoize
     def referenced(self, ob):
         return aq_parent(ob)
+
+    def batched_rows(self):
+        self.wftool = getToolByName(self.context, "portal_workflow")
+        self.vtool = getToolByName(self.context, 'portal_vocabularies')
+        self.iterate = self.context.restrictedTraverse("@@iterate")
+        portal_state = self.context.restrictedTraverse("@@plone_portal_state")
+        children = []
+        for ob in self.accessor():
+            nrefs = len(ob.getReferenceCitations())
+            span = TimeSpanWrapper(ob).timeSpan
+            if span:
+                score = span['start']
+            else:
+                score = 2112
+            children.append((score, ob, nrefs))
+        if len(children) == 0 and portal_state.anonymous():
+            rows = ['<span class="emptyChildItem"><em>None</em></span>']
+        else:
+            rows = self.rows(children)
+        batch = Batch(rows, size=50, orphan=5)
+        return batch

@@ -255,7 +255,14 @@
 
         <div id="connectionsField-reverse" class="field">
           <label>Has a connection with:</label>
-          <dl tal:replace="structure context/@@reverse-connections-listing|nothing"></dl>
+          <tal:connection_batch define="batch context/@@reverse-connections-listing/batched_rows">
+            <ul class="placeChildren">
+              <li tal:repeat="row batch"
+                  tal:replace="structure row"></li>
+            </ul>
+            <tal:batchnavigation define="batchnavigation nocall:context/@@batchnavigation"
+                                 replace="structure python:batchnavigation(batch)" />
+          </tal:connection_batch>
         </div>
 
         <tal:repeat
