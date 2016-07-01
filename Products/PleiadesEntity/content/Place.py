@@ -121,6 +121,8 @@ schema["text"].widget.label = 'Details'
 schema["presentation"].widget.visible = off
 schema["tableContents"].widget.visible = off
 schema["text"].schemata = "Details"
+schema["connections"].widget.visible = off
+schema["connections_from"].widget.visible = off
 
 schemata.finalizeATCTSchema(
     Place_schema,
