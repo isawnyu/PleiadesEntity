@@ -355,5 +355,6 @@ class ReverseConnectionsTable(ConnectionsTable):
             rows = ['<span class="emptyChildItem"><em>None</em></span>']
         else:
             rows = self.rows(children)
-        batch = Batch(rows, size=50, orphan=5)
+        b_start = self.request.form.get('b_start', '0')
+        batch = Batch(rows, 50, int(b_start), orphan=5)
         return batch
