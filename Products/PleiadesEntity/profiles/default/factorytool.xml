@@ -4,6 +4,7 @@
   <type portal_type="Name"/>
   <type portal_type="Location"/>
   <type portal_type="Feature"/>
+  <type portal_type="Connection"/>
   <type portal_type="PlaceContainer"/>
   <type portal_type="Place"/>
   <type portal_type="FeatureContainer"/>

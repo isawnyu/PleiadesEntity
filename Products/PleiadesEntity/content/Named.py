@@ -14,6 +14,7 @@ __author__ = """Sean Gillies <unknown>, Tom Elliott <unknown>"""
 __docformat__ = 'plaintext'
 
 from AccessControl import ClassSecurityInfo
+from Acquisition import aq_parent
 from Products.Archetypes.atapi import *
 from zope.interface import implements
 import interfaces
@@ -115,6 +116,30 @@ class Named(BrowserDefaultMixin):
         return [
             o for o in self.values()
             if interfaces.ILocation.providedBy(o)
+            and (checkPermission(permissions.View, o)
+                 or checkPermission('Pleiades: View link to draft', o))
+        ]
+
+    security.declareProtected(permissions.View, 'getSubConnections')
+    def getSubConnections(self):
+        """
+        """
+        checkPermission = getSecurityManager().checkPermission
+        return [
+            o for o in self.values()
+            if interfaces.IConnection.providedBy(o)
+            and (checkPermission(permissions.View, o)
+                 or checkPermission('Pleiades: View link to draft', o))
+        ]
+
+    security.declareProtected(permissions.View, 'getReverseConnections')
+    def getReverseConnections(self):
+        """
+        """
+        checkPermission = getSecurityManager().checkPermission
+        return [
+            o for o in self.getBRefs('connection')
+            if interfaces.IConnection.providedBy(o)
             and (checkPermission(permissions.View, o)
                  or checkPermission('Pleiades: View link to draft', o))
         ]

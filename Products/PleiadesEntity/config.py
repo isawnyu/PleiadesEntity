@@ -39,6 +39,7 @@ ADD_CONTENT_PERMISSIONS = {
     'Feature': 'PleiadesEntity: Add Feature',
     'PlaceContainer': 'PleiadesEntity: Add PlaceContainer',
     'Place': 'PleiadesEntity: Add Place',
+    'Connection': 'PleiadesEntity: Add Connection',
     'FeatureContainer': 'PleiadesEntity: Add FeatureContainer',
     'PositionalAccuracy': 'PleiadesEntity: Add PositionalAccuracy',
 }
@@ -50,6 +51,7 @@ setDefaultRoles('PleiadesEntity: Add PlaceContainer', ('Manager','Owner'))
 setDefaultRoles('PleiadesEntity: Add Place', ('Manager','Owner'))
 setDefaultRoles('PleiadesEntity: Add FeatureContainer', ('Manager','Owner'))
 setDefaultRoles('PleiadesEntity: Add PositionalAccuracy', ('Manager','Owner'))
+setDefaultRoles('PleiadesEntity: Add Connection', ('Manager','Owner'))
 
 product_globals = globals()
 
