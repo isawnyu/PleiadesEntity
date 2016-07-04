@@ -47,6 +47,7 @@
     name="reverse-connections-listing"
     class=".attestations.ReverseConnectionsTable"
     permission="zope2.View"
+    allowed_attributes="batched_rows"
     />
 
   <browser:view
