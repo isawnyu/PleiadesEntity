@@ -120,7 +120,7 @@
         <div tal:condition="not:context/@@iterate/baseline|nothing">
 
           <div id="representativePointField" class="field">
-            <label>Representative Point:</label>
+            <label> Representative Point (Latitude, Longitude):</label>
             <div tal:replace="structure context/@@representative-point"></div>
           </div> <!-- representativePointField -->
 
@@ -196,7 +196,7 @@
             <p>These will be copied to the baseline place when a reviewer checks the working copy in.</p>
 
             <div id="representativePointField" class="field">
-              <label>Representative Point:</label>
+              <label> Representative Point (Latitude, Longitude): </label>
               <div tal:replace="structure context/@@representative-point"></div>
             </div> <!-- representativePointField -->
 
