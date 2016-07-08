@@ -20,7 +20,6 @@ from Products.Archetypes import atapi
 from Products.ATBackRef.backref import BackReferenceField, BackReferenceWidget
 from Products.ATContentTypes.content import schemata
 from Products.ATContentTypes.content.document import ATDocumentBase, ATDocumentSchema
-from Products.ATVocabularyManager.namedvocabulary import NamedVocabulary
 from Products.CMFCore import permissions
 from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
 from Products.PleiadesEntity.content.Named import Named
@@ -61,7 +60,7 @@ schema = atapi.Schema((
             i18n_domain='PleiadesEntity',
         ),
         description="Type of place",
-        vocabulary='pleiades.vocabularies.place_types',
+        vocabulary_factory='pleiades.vocabularies.place_types',
         default=["unknown"],
         enforceVocabulary=1,
         multiValued=1,
