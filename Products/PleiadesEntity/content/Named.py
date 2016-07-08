@@ -122,7 +122,7 @@ class Named(BrowserDefaultMixin):
 
     security.declareProtected(permissions.View, 'getSubConnections')
     def getSubConnections(self):
-        """
+        """ List outbound Connection items contained inside this Named item.
         """
         checkPermission = getSecurityManager().checkPermission
         return [
@@ -134,7 +134,7 @@ class Named(BrowserDefaultMixin):
 
     security.declareProtected(permissions.View, 'getReverseConnections')
     def getReverseConnections(self):
-        """
+        """ List inbound Connection items that are connected to this Named item.
         """
         checkPermission = getSecurityManager().checkPermission
         return [
@@ -143,6 +143,24 @@ class Named(BrowserDefaultMixin):
             and (checkPermission(permissions.View, o)
                  or checkPermission('Pleiades: View link to draft', o))
         ]
+
+    security.declareProtected(permissions.View, 'getConnectedPlaces')
+    def getConnectedPlaces(self):
+        """ List Places connected via either inbound or outbound Connection objects.
+        """
+        found = set()
+        places = []
+        for connection in self.getSubConnections():
+            place = connection.getConnection()
+            if place.UID() not in found:
+                places.append(place)
+                found.add(place.UID())
+        for connection in self.getReverseConnections():
+            place = aq_parent(connection)
+            if place.UID() not in found:
+                places.append(place)
+                found.add(place.UID())
+        return places
 
     security.declareProtected(permissions.View, 'getTimePeriods')
     def getTimePeriods(self):
