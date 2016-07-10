@@ -96,11 +96,12 @@ class RepresentativePoint(BrowserView):
     """
 
     def __call__(self):
+        repr_pt = representative_point(self.context)
+        if repr_pt is None:
+            return ''
         # GeoJson stores longitude first, followed by latitude
         # This view returns latitude, longitude
-        point = str(representative_point(self.context)['coords'][1]) + ', ' +\
-            str(representative_point(self.context)['coords'][0])
-        return '<br/>' + point
+        return '%s, %s' % (repr_pt['coords'][1], repr_pt['coords'][0])
 
 
 class LocationsTable(ChildrenTable):
