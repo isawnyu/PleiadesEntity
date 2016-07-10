@@ -1,6 +1,6 @@
 from AccessControl import getSecurityManager
 from collective.geo.geographer.interfaces import IGeoreferenced
-from pleiades.geographer.geo import NotLocatedError
+from pleiades.geographer.geo import NotLocatedError, representative_point
 from plone.memoize import view
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import BrowserView
@@ -89,6 +89,19 @@ class ChildrenTable(BrowserView):
         else:
             rows = self.rows(children)
         return u'<ul class="placeChildren">' + u'\n'.join(rows) + '</ul>'
+
+
+class RepresentativePoint(BrowserView):
+    """representative point data
+    """
+
+    def __call__(self):
+        repr_pt = representative_point(self.context)
+        if repr_pt is None:
+            return ''
+        # GeoJson stores longitude first, followed by latitude
+        # This view returns latitude, longitude
+        return '%s, %s' % (repr_pt['coords'][1], repr_pt['coords'][0])
 
 
 class LocationsTable(ChildrenTable):

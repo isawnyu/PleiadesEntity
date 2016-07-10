@@ -118,6 +118,14 @@
         <p tal:condition="not:portal_state/anonymous">Red titles indicate drafting-state items. Yellow titles indicate pending-state.</p>
 
         <div tal:condition="not:context/@@iterate/baseline|nothing">
+
+          <div id="representativePointField" class="field"
+               tal:define="repr_pt context/@@representative-point"
+               tal:condition="repr_pt">
+            <label>Representative Point (Latitude, Longitude):</label>
+            <div tal:content="repr_pt" />
+          </div> <!-- representativePointField -->
+
           <div id="locationsField" class="field">
             <label>Locations:</label>
             <dl tal:replace="structure context/@@locations-listing"></dl>
@@ -178,6 +186,14 @@
           <div tal:condition="nocall:baseline">
             <h3 style="margin-top:0px;">In this working copy</h3>
             <p>These will be copied to the baseline place when a reviewer checks the working copy in.</p>
+
+            <div id="representativePointField" class="field"
+                 tal:define="repr_pt context/@@representative-point"
+                 tal:condition="repr_pt">
+              <label>Representative Point (Latitude, Longitude):</label>
+              <div tal:content="repr_pt" />
+            </div> <!-- representativePointField -->
+
             <div id="locationsField" class="field">
               <label>Locations</label>
               <dl tal:replace="structure context/@@locations-listing"></dl>
@@ -198,12 +214,12 @@
             </div>
 
             <h3 style="margin-top:2em">In the baseline place</h3>
-            <div id="locationsField" class="field baseline">
+            <div id="locationsField-baseline" class="field baseline">
               <label>Locations</label>
               <dl tal:replace="structure baseline/@@locations-listing"></dl>
             </div>
 
-            <div id="namesField" class="field">
+            <div id="namesField-baseline" class="field baseline">
               <label>Names</label>
               <dl tal:replace="structure baseline/@@names-listing"></dl>
             </div>
