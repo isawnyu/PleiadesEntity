@@ -22,8 +22,10 @@ from Products.ATContentTypes.content import schemata
 from Products.ATContentTypes.content.document import ATDocumentBase, ATDocumentSchema
 from Products.CMFCore import permissions
 from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
+from Products.Five.browser import BrowserView
 from Products.PleiadesEntity.content.Named import Named
 from Products.PleiadesEntity.content.Work import Work
+from plone.memoize import view
 from zope.interface import implements
 from ..AppConfig import BA_ID_MAX
 from ..config import PROJECTNAME
@@ -217,6 +219,16 @@ class Place(atapi.BaseFolder, ATDocumentBase, Named, Work, BrowserDefaultMixin):
         default = super(Place, self).getLayout(**kw)
         if request is None:
             return default
+        return PlaceNegotiation(self, request).get_layout(default)
+
+atapi.registerType(Place, PROJECTNAME)
+
+
+class PlaceNegotiation(BrowserView):
+
+    @view.memoize
+    def get_layout(self, default=None):
+        request = self.request
         res = request.response
         res.setHeader('Vary', 'Accept')
         accept = request.environ.get('HTTP_ACCEPT', '').split(',')
@@ -236,9 +248,7 @@ class Place(atapi.BaseFolder, ATDocumentBase, Named, Work, BrowserDefaultMixin):
             if preferred in VIEW_MAP:
                 return VIEW_MAP[preferred]
             if 'html' in preferred or '*' in preferred:
-                return 'base_view'
+                return default
 
         request.form['pid'] = self.getId()
         return "conneg_406_message"
-
-atapi.registerType(Place, PROJECTNAME)
