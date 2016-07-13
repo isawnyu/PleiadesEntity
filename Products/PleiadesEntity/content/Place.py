@@ -30,8 +30,10 @@ from zope.interface import implements
 from ..AppConfig import BA_ID_MAX
 from ..config import PROJECTNAME
 import interfaces
+import logging
 import transaction
 
+log = logging.getLogger('Products.PleiadesEntity')
 
 VIEW_MAP = {
     'text/html': 'base_view',
@@ -216,6 +218,8 @@ class Place(atapi.BaseFolder, ATDocumentBase, Named, Work, BrowserDefaultMixin):
     def getLayout(self, **kw):
         """Check ACCEPT header for known formats/views and render."""
         request = getattr(self, 'REQUEST', None)
+        res = request.response
+        res.setHeader('Vary', 'Accept')
         default = super(Place, self).getLayout(**kw)
         if request is None:
             return default
@@ -229,8 +233,6 @@ class PlaceNegotiation(BrowserView):
     @view.memoize
     def get_layout(self, default=None):
         request = self.request
-        res = request.response
-        res.setHeader('Vary', 'Accept')
         accept = request.environ.get('HTTP_ACCEPT', '').split(',')
         user_preferences = []
         for value in accept:
@@ -250,5 +252,10 @@ class PlaceNegotiation(BrowserView):
             if 'html' in preferred or '*' in preferred:
                 return default
 
-        request.form['pid'] = self.getId()
+        log.warn('Could not determine format returning 406 - '
+                 'preferences: {}; accept: {}; url: {}; pid {}'.format(
+                     user_preferences, accept, request.get('ACTUAL_URL'),
+                     self.context.getId()))
+
+        request.form['pid'] = self.context.getId()
         return "conneg_406_message"
