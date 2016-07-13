@@ -23,6 +23,13 @@
 
   <browser:view
     for="Products.PleiadesEntity.content.interfaces.IPlace"
+    name="representative-point"
+    class=".attestations.RepresentativePoint"
+    permission="zope2.View"
+    />
+
+  <browser:view
+    for="Products.PleiadesEntity.content.interfaces.IPlace"
     name="locations-listing"
     class=".attestations.LocationsTable"
     permission="zope2.View"

@@ -102,6 +102,19 @@ class ChildrenTable(BrowserView):
         return u'<ul class="placeChildren">' + u'\n'.join(rows) + '</ul>'
 
 
+class RepresentativePoint(BrowserView):
+    """representative point data
+    """
+
+    def __call__(self):
+        repr_pt = representative_point(self.context)
+        if repr_pt is None:
+            return ''
+        # GeoJson stores longitude first, followed by latitude
+        # This view returns latitude, longitude
+        return '%s, %s' % (repr_pt['coords'][1], repr_pt['coords'][0])
+
+
 class LocationsTable(ChildrenTable):
 
     def accessor(self):
