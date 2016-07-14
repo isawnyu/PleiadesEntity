@@ -228,6 +228,7 @@ schema = atapi.Schema((
         default=["representative"],
         enforceVocabulary=1,
         multiValued=1,
+        accessor='getLocationType',
     ),
 
 ))
@@ -318,5 +319,12 @@ class Location(ATDocumentBase, Work, Temporal, BrowserDefaultMixin,
         field = self.Schema()["geometry"]
         v = self.processCoordinatesGeometryValue(value)
         field.set(self, v)
+
+    security.declareProtected(permissions.View, 'getLocationType')
+    def getLocationType(self):
+        """Return [] if no location type is set initially"""
+        if not hasattr(self,'locationType'):
+            return []
+        return self.locationType
 
 atapi.registerType(Location, PROJECTNAME)
