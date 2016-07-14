@@ -16,20 +16,25 @@ __docformat__ = 'plaintext'
 from AccessControl import ClassSecurityInfo
 from AccessControl import getSecurityManager
 from archetypes.referencebrowserwidget import ReferenceBrowserWidget
+from pleiades.vocabularies.widget import FilteredInAndOutWidget
 from Products.Archetypes import atapi
 from Products.ATBackRef.backref import BackReferenceField, BackReferenceWidget
 from Products.ATContentTypes.content import schemata
 from Products.ATContentTypes.content.document import ATDocumentBase, ATDocumentSchema
 from Products.CMFCore import permissions
 from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
+from Products.Five.browser import BrowserView
 from Products.PleiadesEntity.content.Named import Named
 from Products.PleiadesEntity.content.Work import Work
+from plone.memoize import view
 from zope.interface import implements
 from ..AppConfig import BA_ID_MAX
 from ..config import PROJECTNAME
 import interfaces
+import logging
 import transaction
 
+log = logging.getLogger('Products.PleiadesEntity')
 
 VIEW_MAP = {
     'text/html': 'base_view',
@@ -52,7 +57,7 @@ schema = atapi.Schema((
 
     atapi.LinesField(
         name='placeType',
-        widget=atapi.InAndOutWidget(
+        widget=FilteredInAndOutWidget(
             label="Place type",
             description="Select type of place",
             label_msgid='PleiadesEntity_label_placeType',
@@ -214,11 +219,21 @@ class Place(atapi.BaseFolder, ATDocumentBase, Named, Work, BrowserDefaultMixin):
     def getLayout(self, **kw):
         """Check ACCEPT header for known formats/views and render."""
         request = getattr(self, 'REQUEST', None)
+        res = request.response
+        res.setHeader('Vary', 'Accept')
         default = super(Place, self).getLayout(**kw)
         if request is None:
             return default
-        res = request.response
-        res.setHeader('Vary', 'Accept')
+        return PlaceNegotiation(self, request).get_layout(default)
+
+atapi.registerType(Place, PROJECTNAME)
+
+
+class PlaceNegotiation(BrowserView):
+
+    @view.memoize
+    def get_layout(self, default=None):
+        request = self.request
         accept = request.environ.get('HTTP_ACCEPT', '').split(',')
         user_preferences = []
         for value in accept:
@@ -236,9 +251,12 @@ class Place(atapi.BaseFolder, ATDocumentBase, Named, Work, BrowserDefaultMixin):
             if preferred in VIEW_MAP:
                 return VIEW_MAP[preferred]
             if 'html' in preferred or '*' in preferred:
-                return 'base_view'
+                return default
 
-        request.form['pid'] = self.getId()
+        log.warn('Could not determine format returning 406 - '
+                 'preferences: {}; accept: {}; url: {}; pid {}'.format(
+                     user_preferences, accept, request.get('ACTUAL_URL'),
+                     self.context.getId()))
+
+        request.form['pid'] = self.context.getId()
         return "conneg_406_message"
-
-atapi.registerType(Place, PROJECTNAME)
