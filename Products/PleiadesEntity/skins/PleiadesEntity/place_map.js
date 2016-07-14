@@ -167,10 +167,13 @@ $(function () {
             fillOpacity: 1,
             radius: 7,
             });
+        reprMark.bindPopup('<dt>Representative point</dt>');
 
         overlays = {
-            "Representative point": reprMark,
+            "Representative Point": reprMark,
         };
+
+        map.addLayer(reprMark);
       }
       L.control.layers(baseLayers, overlays).addTo(map);
       if (where) {
