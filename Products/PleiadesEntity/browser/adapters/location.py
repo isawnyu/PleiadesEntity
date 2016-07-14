@@ -31,6 +31,7 @@ class LocationExportAdapter(
     associationCertainty = archetypes_getter('associationCertainty')
     details = archetypes_getter('text')
     archaeologicalRemains = archetypes_getter('archaeologicalRemains')
+    locationType = archetypes_getter('locationType')
 
     _accuracy = archetypes_getter('accuracy', raw=False)
     def accuracy(self):

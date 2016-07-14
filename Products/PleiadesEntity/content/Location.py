@@ -156,7 +156,7 @@ schema = atapi.Schema((
         name='archaeologicalRemains',
         widget=atapi.SelectionWidget(
             format="select",
-            label="Archaeological Remains",
+            label="Archaeological remains",
             description="Select level of archaeological remains associated with this location",
             label_msgid='PleiadesEntity_label_archaeologicalRemains',
             description_msgid='PleiadesEntity_help_archaeologicalRemains',
@@ -171,7 +171,7 @@ schema = atapi.Schema((
     atapi.StringField(
         name='associationCertainty',
         widget=atapi.SelectionWidget(
-            label="Association Certainty",
+            label="Association certainty",
             description="Select level of certainty in association between location and place",
             label_msgid='PleiadesEntity_label_associationCertainty',
             description_msgid='PleiadesEntity_help_associationCertainty',
@@ -212,6 +212,23 @@ schema = atapi.Schema((
         relationship='location_node',
         allowed_types=('Place', 'Location'),
         allow_browse="True",
+    ),
+
+    atapi.StringField(
+        name='locationType',
+        widget=atapi.InAndOutWidget(
+            label="Location type",
+            description="Location type categories",
+            label_msgid='PleiadesEntity_label_locationType',
+            description_msgid='PleiadesEntity_help_locationType',
+            i18n_domain='PleiadesEntity',
+        ),
+        description="Location type categories",
+        vocabulary_factory='pleiades.vocabularies.location_types',
+        default=["representative"],
+        enforceVocabulary=1,
+        multiValued=1,
+        accessor='getLocationType',
     ),
 
 ))
@@ -302,5 +319,12 @@ class Location(ATDocumentBase, Work, Temporal, BrowserDefaultMixin,
         field = self.Schema()["geometry"]
         v = self.processCoordinatesGeometryValue(value)
         field.set(self, v)
+
+    security.declareProtected(permissions.View, 'getLocationType')
+    def getLocationType(self):
+        """Return [] if no location type is set initially"""
+        if not hasattr(self,'locationType'):
+            return []
+        return self.locationType
 
 atapi.registerType(Location, PROJECTNAME)

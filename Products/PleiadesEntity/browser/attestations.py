@@ -107,11 +107,12 @@ class RepresentativePoint(BrowserView):
     """
 
     def __call__(self):
+        repr_pt = representative_point(self.context)
+        if repr_pt is None:
+            return ''
         # GeoJson stores longitude first, followed by latitude
         # This view returns latitude, longitude
-        point = str(representative_point(self.context)['coords'][1]) + ', ' +\
-            str(representative_point(self.context)['coords'][0])
-        return '<br/>' + point
+        return '%s, %s' % (repr_pt['coords'][1], repr_pt['coords'][0])
 
 
 class LocationsTable(ChildrenTable):
@@ -160,7 +161,7 @@ class LocationsTable(ChildrenTable):
                     review_state, item)
             if review_state != 'published':
                 user = credit_utils.user_in_byline(ob.Creator())
-                status = u' [%s by %s]' % (review_state, user['fullname'])
+                status = u' [%s by %s]' % (review_state, user['fullname'].decode('utf-8'))
             else:
                 status = u''
             innerHTML = [
@@ -252,7 +253,7 @@ class NamesTable(ChildrenTable):
                     review_state, label_class, item)
             if review_state != 'published':
                 user = credit_utils.user_in_byline(ob.Creator())
-                status = u' [%s by %s]' % (review_state, user['fullname'])
+                status = u' [%s by %s]' % (review_state, user['fullname'].decode('utf-8'))
             else:
                 status = u''
             innerHTML = [

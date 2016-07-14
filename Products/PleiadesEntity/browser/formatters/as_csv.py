@@ -90,6 +90,7 @@ LOCATION_COLUMNS = COMMON_COLUMNS + (
     Column('pid'),
     Column('geometry', convert=json.dumps),
     Column('featureType', 'featureType', convert=join_with(',')),
+    Column('locationType', 'locationType', convert=join_with(',')),
 )
 LOCATION_COLUMNS = sort_columns(LOCATION_COLUMNS)
 
