@@ -16,6 +16,7 @@ __docformat__ = 'plaintext'
 from AccessControl import ClassSecurityInfo
 from AccessControl import getSecurityManager
 from archetypes.referencebrowserwidget import ReferenceBrowserWidget
+from pleiades.vocabularies.widget import FilteredInAndOutWidget
 from Products.Archetypes import atapi
 from Products.ATBackRef.backref import BackReferenceField, BackReferenceWidget
 from Products.ATContentTypes.content import schemata
@@ -56,7 +57,7 @@ schema = atapi.Schema((
 
     atapi.LinesField(
         name='placeType',
-        widget=atapi.InAndOutWidget(
+        widget=FilteredInAndOutWidget(
             label="Place type",
             description="Select type of place",
             label_msgid='PleiadesEntity_label_placeType',

@@ -11,6 +11,7 @@
 #
 from AccessControl import ClassSecurityInfo
 from archetypes.referencebrowserwidget import ReferenceBrowserWidget
+from pleiades.vocabularies.widget import FilteredSelectionWidget
 from Products.Archetypes import atapi
 from Products.ATContentTypes.content import schemata
 from Products.ATContentTypes.content.document import ATDocumentSchema
@@ -45,7 +46,7 @@ schema = atapi.Schema((
 
     atapi.StringField(
         name='relationshipType',
-        widget=atapi.SelectionWidget(
+        widget=FilteredSelectionWidget(
             format="select",
             label="Connection type",
             description="Select type of connection being established",

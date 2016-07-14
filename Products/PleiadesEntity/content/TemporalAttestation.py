@@ -14,20 +14,19 @@ __author__ = """Sean Gillies <unknown>, Tom Elliott <unknown>"""
 __docformat__ = 'plaintext'
 
 from AccessControl import ClassSecurityInfo
-from pleiades.vocabularies.widget import TimePeriodSelectionWidget
-from Products.Archetypes.Field import *
+from pleiades.vocabularies.widget import FilteredSelectionWidget
+from Products.Archetypes import atapi
 from Products.Archetypes.Registry import registerField
 from Products.Archetypes.Schema import Schema
-from Products.Archetypes.Widget import *
 from Products.ATVocabularyManager.namedvocabulary import NamedVocabulary
 from Products.CompoundField.CompoundField import CompoundField
 
 
 schema = Schema((
 
-    StringField(
+    atapi.StringField(
         name='timePeriod',
-        widget=TimePeriodSelectionWidget(
+        widget=FilteredSelectionWidget(
             label="Time period",
             description="Select time period for which this name is attested",
             label_msgid='PleiadesEntity_label_timePeriod',
@@ -39,9 +38,9 @@ schema = Schema((
         enforceVocabulary=1,
         required=1,
     ),
-    StringField(
+    atapi.StringField(
         name='confidence',
-        widget=SelectionWidget(
+        widget=atapi.SelectionWidget(
             label="Level of confidence",
             description="Select level of confidence in attestation",
             label_msgid='PleiadesEntity_label_confidence',

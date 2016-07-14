@@ -16,6 +16,7 @@ __docformat__ = 'plaintext'
 from AccessControl import ClassSecurityInfo
 from archetypes.referencebrowserwidget import ReferenceBrowserWidget
 from decimal import Decimal
+from pleiades.vocabularies.widget import FilteredInAndOutWidget
 from Products.Archetypes import atapi
 from Products.ATContentTypes.content import schemata
 from Products.ATContentTypes.content.document import ATDocumentBase, ATDocumentSchema
@@ -34,7 +35,6 @@ from ..config import PROJECTNAME
 import interfaces
 import re
 import simplejson
-from Products.Archetypes.Widget import TypesWidget
 
 
 def decimalize(value):
@@ -118,7 +118,7 @@ schema = atapi.Schema((
 
     atapi.StringField(
         name='featureType',
-        widget=atapi.InAndOutWidget(
+        widget=FilteredInAndOutWidget(
             label="Feature type",
             description="Feature type categories",
             label_msgid='PleiadesEntity_label_featureType',
