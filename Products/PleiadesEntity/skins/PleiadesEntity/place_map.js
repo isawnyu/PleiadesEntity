@@ -166,6 +166,7 @@ $(function () {
             fillColor: '#FFA500',
             fillOpacity: 1,
             radius: 7,
+            zIndexOffset: 1000
             });
         reprMark.bindPopup('<dt>Representative point</dt>');
 
