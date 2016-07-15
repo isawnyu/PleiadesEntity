@@ -81,7 +81,7 @@
                       item.remove();
 
                       // re-number subsequent items
-                      for (var j = i + 1; i < arraySizeElem.value; i++) {
+                      for (var j = i + 1; j < parseInt(arraySizeElem.value) + 1; j++) {
                         var oldIndex = zeroPad(j), newIndex = zeroPad(j - 1);
                         for (var attr of ['id', 'name', 'for', 'data-fieldname']) {
                           jQuery('[' + attr + '*=&quot;' + '${subFieldNamePart}${fieldSeparator}' + oldIndex + '&quot;]').each(function() {
