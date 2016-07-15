@@ -236,7 +236,6 @@ class TestExport(PleiadesEntityTestCase):
         }
         actual = json.loads(response)
         del actual['@context']
-        import pdb; pdb.set_trace()
         self.assertEqual(json.loads(json.dumps(expected)), actual)
 
     def test_csv_dump(self):
