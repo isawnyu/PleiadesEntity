@@ -444,3 +444,4 @@ class TestExport(PleiadesEntityTestCase):
             "Point 1",
         ]
         locations_row.pop()  # remove uid, which is randomly generated
+        self.assertEqual(expected, locations_row)
