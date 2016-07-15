@@ -84,9 +84,9 @@ class OSMLocationFactory(BrowserView):
                 self._fall_back(
                     "Only relations of type 'multipolygon' can be imported.")
             ways = []
-            for member in elem.findall("member[@type='way'"):
+            for member in elem.findall("member[@type='way']"):
                 way_id = member.attrib.get('ref')
-                way = osm.find("node[@id='%s']" % way_id)
+                way = osm.find("way[@id='%s']" % way_id)
                 ways.append(read_way_as_linestring(osm, way))
             geometry = 'MultiLineString:[' + ','.join(ways) + ']'
 
