@@ -19,8 +19,19 @@ OSM_API_ENDPOINT = "http://www.openstreetmap.org/api/0.6"
 OSM_BROWSE = "http://www.openstreetmap.org/browse"
 
 
+def read_way_as_linestring(root, way):
+    coords = []
+    for nd in way.findall('nd'):
+        node_id = nd.attrib.get('ref')
+        node = root.find("node[@id='%s']" % node_id)
+        lon = node.attrib.get("lon")
+        lat = node.attrib.get("lat")
+        coords.append("[%s,%s]" % (lon, lat))
+    return '[' + ','.join(coords) + ']'
+
+
 class OSMLocationFactory(BrowserView):
-    # Makes a location using only an OSM node id.
+    # Makes a location using only an OSM node/way/relation id.
     # Terribly raw at the moment. A mere glance reveals so many places
     # this can fail ungracefully.
 
@@ -42,7 +53,7 @@ class OSMLocationFactory(BrowserView):
             return
 
         url = "/".join([OSM_API_ENDPOINT, objtype, objid] + (
-            objtype == "way" and ['full'] or []))
+            [] if objtype == 'node' else ['full']))
 
         h = httplib2.Http()
         resp, content = h.request(url, "GET")
@@ -66,12 +77,18 @@ class OSMLocationFactory(BrowserView):
             lat = elem.attrib.get("lat")
             geometry = "Point:[%s,%s]" % (lon, lat)
         elif objtype == "way":
-            coords = []
-            for node in osm.findall('node'):
-                lon = node.attrib.get("lon")
-                lat = node.attrib.get("lat")
-                coords.append("[%s,%s]" % (lon, lat))
-            geometry = 'LineString:[' + ','.join(coords) + ']'
+            geometry = 'LineString:' + read_way_as_linestring(osm, elem)
+        elif objtype == 'relation':
+            relation_type = elem.find("tag[@k='type']").attrib.get('v')
+            if relation_type != 'multipolygon':
+                self._fall_back(
+                    "Only relations of type 'multipolygon' can be imported.")
+            ways = []
+            for member in elem.findall("member[@type='way'"):
+                way_id = member.attrib.get('ref')
+                way = osm.find("node[@id='%s']" % way_id)
+                ways.append(read_way_as_linestring(osm, way))
+            geometry = 'MultiLineString:[' + ','.join(ways) + ']'
 
         ptool = getToolByName(self.context, 'plone_utils')
         repo = getToolByName(self.context, 'portal_repository')
