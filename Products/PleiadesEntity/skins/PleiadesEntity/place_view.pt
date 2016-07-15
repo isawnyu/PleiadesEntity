@@ -109,10 +109,11 @@
           
         </div>
 
-        <div class="field">
+        <div id="canonicalUrlField" class="field">
           <label>Canonical URI for this page:</label>
           <br/>
-          <code tal:content="context/absolute_url"></code>
+          <code id="canonical-url" tal:content="context/absolute_url"></code>
+          <button class="copy-button" data-clipboard-target="#canonical-url"><svg class="octicon octicon-clippy" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path d="M2 13h4v1H2v-1zm5-6H2v1h5V7zm2 3V8l-3 3 3 3v-2h5v-2H9zM4.5 9H2v1h2.5V9zM2 12h2.5v-1H2v1zm9 1h1v2c-.02.28-.11.52-.3.7-.19.18-.42.28-.7.3H1c-.55 0-1-.45-1-1V4c0-.55.45-1 1-1h3c0-1.11.89-2 2-2 1.11 0 2 .89 2 2h3c.55 0 1 .45 1 1v5h-1V6H1v9h10v-2zM2 5h8c0-.55-.45-1-1-1H8c-.55 0-1-.45-1-1s-.45-1-1-1-1 .45-1 1-.45 1-1 1H3c-.55 0-1 .45-1 1z"></path></svg></button>
         </div>
 
         <p tal:condition="not:portal_state/anonymous">Red titles indicate drafting-state items. Yellow titles indicate pending-state.</p>
@@ -122,8 +123,10 @@
           <div id="representativePointField" class="field"
                tal:define="repr_pt context/@@representative-point"
                tal:condition="repr_pt">
-            <label>Representative Point (Latitude, Longitude):</label>
-            <div tal:content="repr_pt" />
+            <label>Representative Point (Latitude, Longitude):</label><br />
+            <span id="representative-point" tal:content="repr_pt" />
+            <button class="copy-button" data-clipboard-target="#representative-point"><svg class="octicon octicon-clippy" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path d="M2 13h4v1H2v-1zm5-6H2v1h5V7zm2 3V8l-3 3 3 3v-2h5v-2H9zM4.5 9H2v1h2.5V9zM2 12h2.5v-1H2v1zm9 1h1v2c-.02.28-.11.52-.3.7-.19.18-.42.28-.7.3H1c-.55 0-1-.45-1-1V4c0-.55.45-1 1-1h3c0-1.11.89-2 2-2 1.11 0 2 .89 2 2h3c.55 0 1 .45 1 1v5h-1V6H1v9h10v-2zM2 5h8c0-.55-.45-1-1-1H8c-.55 0-1-.45-1-1s-.45-1-1-1-1 .45-1 1-.45 1-1 1H3c-.55 0-1 .45-1 1z"></path></svg></button>
+
           </div> <!-- representativePointField -->
 
           <div id="locationsField" class="field">
@@ -305,20 +308,23 @@
           </span>
         </div>
 
-        <div class="field">
+        <div id="suggestedCitationField" class="field">
           <label>Suggested citation:</label>
           <br/>
+          <span id="suggested-citation">
           <span tal:replace="citation_authors">R. Talbert</span>.
           "Places: <span tal:replace="here/getId">ID</span> (<span tal:replace="here/Title">TITLE</span>)". Pleiades.
-          &lt;<span tal:replace="here/absolute_url">http://opencontext.org/subjects/HazorZooSPA0000009703</span>&gt; [Accessed: <span tal:replace="python:DateTime().fCommon() or ''">2006-05-12</span>]
+          &lt;<span tal:replace="here/absolute_url">http://opencontext.org/subjects/HazorZooSPA0000009703</span>&gt; [Accessed: <span tal:replace="python:DateTime().fCommon() or ''">2006-05-12</span>]</span>
+          <button class="copy-button" data-clipboard-target="#suggested-citation"><svg class="octicon octicon-clippy" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path d="M2 13h4v1H2v-1zm5-6H2v1h5V7zm2 3V8l-3 3 3 3v-2h5v-2H9zM4.5 9H2v1h2.5V9zM2 12h2.5v-1H2v1zm9 1h1v2c-.02.28-.11.52-.3.7-.19.18-.42.28-.7.3H1c-.55 0-1-.45-1-1V4c0-.55.45-1 1-1h3c0-1.11.89-2 2-2 1.11 0 2 .89 2 2h3c.55 0 1 .45 1 1v5h-1V6H1v9h10v-2zM2 5h8c0-.55-.45-1-1-1H8c-.55 0-1-.45-1-1s-.45-1-1-1-1 .45-1 1-.45 1-1 1H3c-.55 0-1 .45-1 1z"></path></svg></button>
         </div>
 
-        <div class="field">
+        <div id="wikiCitationField" class="field">
           <label>Cite this resource in Wikipedia:</label>
           <br/>
-          <pre>
+          <pre id="wiki-citation">
             {{cite web |url=<span tal:replace="here/absolute_url">http://example.com/foo</span> |title=Places: <span tal:replace="here/getId">ID</span> (<span tal:replace="here/Title">TITLE</span>) |author=<span tal:replace="citation_authors">R. Talbert</span> |accessdate=<span tal:replace="python:DateTime().fCommon() or ''">2006-05-12</span> |publisher=Pleiades}}
           </pre>
+          <button class="copy-button" data-clipboard-target="#wiki-citation"><svg class="octicon octicon-clippy" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path d="M2 13h4v1H2v-1zm5-6H2v1h5V7zm2 3V8l-3 3 3 3v-2h5v-2H9zM4.5 9H2v1h2.5V9zM2 12h2.5v-1H2v1zm9 1h1v2c-.02.28-.11.52-.3.7-.19.18-.42.28-.7.3H1c-.55 0-1-.45-1-1V4c0-.55.45-1 1-1h3c0-1.11.89-2 2-2 1.11 0 2 .89 2 2h3c.55 0 1 .45 1 1v5h-1V6H1v9h10v-2zM2 5h8c0-.55-.45-1-1-1H8c-.55 0-1-.45-1-1s-.45-1-1-1-1 .45-1 1-.45 1-1 1H3c-.55 0-1 .45-1 1z"></path></svg></button>
         </div>
 
 
@@ -329,6 +335,31 @@
 <script tal:attributes="src string:${portal_url}/leaflet-GIBS/GIBSMetadata.js"></script>
 <script tal:attributes="src string:${portal_url}/leaflet-GIBS/GIBSLayer.js"></script>
 <script tal:attributes="src string:${portal_url}/place_map.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.12/clipboard.min.js"></script>
+<script>
+  $(function () {
+    var clipboard = new Clipboard('.copy-button');
+
+    function show_tooltip(e, msg, timeout) {
+      var $tip = jQuery('<span></span').addClass('tooltip').html(msg);
+      var $el = $(e.trigger);
+      $el.prepend($tip);
+      setTimeout(function () {
+        $tip.remove();
+        e.clearSelection();
+      }, timeout);
+    }
+
+    clipboard.on('success', function (e) {
+      show_tooltip(e, 'Copied!', 1000);
+      e.clearSelection();
+    });
+
+    clipboard.on('error', function (e) {
+      show_tooltip(e, 'Press &#x2318;-C to '+e.action, 3000);
+    });
+  });
+</script>
 
     </metal:body_macro>
    
