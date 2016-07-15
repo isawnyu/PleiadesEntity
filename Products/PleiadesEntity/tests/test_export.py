@@ -75,6 +75,7 @@ class TestExport(PleiadesEntityTestCase):
             geometry='Point:[-86.4808333333333, 34.769722222222]',
             creation_date=fake_date,
             archaeologicalRemains='present',
+            locationType=['representative'],
         )
         attestations = place.position.Schema()['attestations']
         attestations.resize(1)
@@ -181,6 +182,9 @@ class TestExport(PleiadesEntityTestCase):
                     'coordinates': [-86.4808333333333, 34.769722222222],
                     'type': 'Point',
                 },
+                "locationType": [
+                                "representative",
+                ],
                 'references': [],
                 'provenance': 'Pleiades',
                 'details': '',
@@ -232,6 +236,7 @@ class TestExport(PleiadesEntityTestCase):
         }
         actual = json.loads(response)
         del actual['@context']
+        import pdb; pdb.set_trace()
         self.assertEqual(json.loads(json.dumps(expected)), actual)
 
     def test_csv_dump(self):
@@ -395,6 +400,7 @@ class TestExport(PleiadesEntityTestCase):
             'geometry',
             'id',
             'locationPrecision',
+            'locationType',
             'maxDate',
             'minDate',
             'modified',
@@ -423,6 +429,7 @@ class TestExport(PleiadesEntityTestCase):
             '{"type": "Point", "coordinates": [-86.4808333333333, 34.769722222222]}',
             "position",
             "precise",
+            "representative",
             "300",
             "-30",
             "2016-01-01T00:00:00Z",
@@ -438,4 +445,3 @@ class TestExport(PleiadesEntityTestCase):
             "Point 1",
         ]
         locations_row.pop()  # remove uid, which is randomly generated
-        self.assertEqual(expected, locations_row)
