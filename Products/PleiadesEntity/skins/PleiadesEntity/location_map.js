@@ -137,7 +137,7 @@ $(function () {
   }
 
   /* parse spatial info from JSON URI in the location page */
-  $.getJSON($('link[rel="where"][type="application/json"]').attr('href'),
+  var gettingWhere = $.getJSON($('link[rel="where"][type="application/json"]').attr('href'),
     function (where) {
       if (where && where.bbox) {
         bounds = L.latLngBounds([
@@ -173,45 +173,73 @@ $(function () {
       if (target !== null) {
         target.openPopup();
       }
-      rebound();
     }
   );
 
   /* parse spatial info from JSON uri in the baseline location (if this is a working copy) */
-  $.getJSON($('link[rel="baseline-where"][type="application/json"]').attr('href'),
-    function (baselineWhere) {
-      if (baselineWhere && baselineWhere.bbox) {
-        baselineBounds = L.latLngBounds([
-          [baselineWhere.bbox[1], baselineWhere.bbox[0]],
-          [baselineWhere.bbox[3], baselineWhere.bbox[2]] ]).pad(0.10);
-        if (bounds) {
-          bounds.extend(baselineBounds);
-        }
-        else { bounds = baselineBounds; }
-      }
-      if (baselineWhere) {
-        L.geoJson(baselineWhere, {
-          pointToLayer: function (feature, latlng) {
-              return L.marker(latlng, {icon: baselineLocationIcon, zIndexOffset: 100 });
-          },
-          style: function(f) {
-              return {
-                color: '#555555',
-                opacity: 1,
-                weight: 2,
-                fill: true,
-                fillColor: '#555555',
-                fillOpacity: 0.2,
-              };
-          },
-          onEachFeature: function (f, layer) {
-            layer.bindPopup(
-              '<dt><a href="' + f.properties.link + '">' + f.properties.title + '</a></dt>' + '<dd>' + f.properties.description + '</dd>'
-            );
+  var $baselineWhereLink = $('link[rel="baseline-where"][type="application/json"]');
+  var gettingBaselineWhere;
+  if ($baselineWhereLink.length) {
+    gettingBaselineWhere = $.getJSON($baselineWhereLink.attr('href'),
+      function (baselineWhere) {
+        if (baselineWhere && baselineWhere.bbox) {
+          baselineBounds = L.latLngBounds([
+            [baselineWhere.bbox[1], baselineWhere.bbox[0]],
+            [baselineWhere.bbox[3], baselineWhere.bbox[2]] ]).pad(0.10);
+          if (bounds) {
+            bounds.extend(baselineBounds);
           }
-        }).addTo(map);
+          else { bounds = baselineBounds; }
+        }
+        if (baselineWhere) {
+          L.geoJson(baselineWhere, {
+            pointToLayer: function (feature, latlng) {
+                return L.marker(latlng, {icon: baselineLocationIcon, zIndexOffset: 100 });
+            },
+            style: function(f) {
+                return {
+                  color: '#555555',
+                  opacity: 1,
+                  weight: 2,
+                  fill: true,
+                  fillColor: '#555555',
+                  fillOpacity: 0.2,
+                };
+            },
+            onEachFeature: function (f, layer) {
+              layer.bindPopup(
+                '<dt><a href="' + f.properties.link + '">' + f.properties.title + '</a></dt>' + '<dd>' + f.properties.description + '</dd>'
+              );
+            }
+          }).addTo(map);
+        }
       }
-      rebound();
+    );
+  } else {
+    gettingBaselineWhere = $.Deferred();
+    gettingBaselineWhere.resolve([]);
+  }
+
+  // set bounds once both requests have loaded
+  $.when(gettingWhere, gettingBaselineWhere).done(function (ret1, ret2) {
+    var where = ret1[0];
+    if (where && where.bbox) {
+      bounds = L.latLngBounds([
+        [where.bbox[1], where.bbox[0]],
+        [where.bbox[3], where.bbox[2]] ]).pad(0.10);
     }
-  );
+    var baselineWhere = ret2[0];
+    if (baselineWhere && baselineWhere.bbox) {
+      baselineBounds = L.latLngBounds([
+        [baselineWhere.bbox[1], baselineWhere.bbox[0]],
+        [baselineWhere.bbox[3], baselineWhere.bbox[2]] ]).pad(0.10);
+      if (bounds) {
+        bounds.extend(baselineBounds);
+      } else {
+        bounds = baselineBounds;
+      }
+    }
+    rebound();
+  });
+
 });

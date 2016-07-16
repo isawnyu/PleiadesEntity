@@ -146,6 +146,8 @@
                         type="radio" value="node" checked="1"/> Node 
                       <input id="type" name="type" 
                         type="radio" value="way"/> Way 
+                      <input id="type" name="type"
+                        type="radio" value="relation"/> Relation
                       <label for="type">Object type (required)</label></p>
                     <p><input id="obj" name="obj" 
                       type="text" placeholder="486605843"/>
