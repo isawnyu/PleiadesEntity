@@ -119,7 +119,8 @@ $(function () {
       "NASA Blue Marble": bluemarble,
   };
 
-  /* set up icons for vector layers */
+  var reprPtIcon = L.divIcon({className: 'repr-pt-marker'});
+
   var connectionIcon = new L.Icon({
       iconUrl: portal_url + '/map_icons/connection-green.png',
       iconSize:     [21, 26],
@@ -158,26 +159,19 @@ $(function () {
         reprPoint = L.latLng(where.reprPoint[1], where.reprPoint[0]);
         console.info('lat: ' + reprPoint.lat);
         console.info('lng: ' + reprPoint.lng);
-        var reprMark = L.circleMarker(
-          reprPoint, {
-            stroke: true,
-            color: '#333',
-            fill: true,
-            fillColor: '#FFA500',
-            fillOpacity: 1,
-            radius: 7,
-            });
-
+        var reprMark = L.marker(reprPoint, {icon: reprPtIcon, zIndexOffset: 10000 });
         overlays = {
-            "Representative point": reprMark,
+            "Representative Point": reprMark,
         };
+
+        map.addLayer(reprMark);
       }
       L.control.layers(baseLayers, overlays).addTo(map);
       if (where) {
         /* add vector layers */
         L.geoJson(where, {
           pointToLayer: function (feature, latlng) {
-              return L.marker(latlng, {icon: locationIcon, zIndexOffset: 1000 });
+              return L.marker(latlng, {icon: locationIcon, zIndexOffset: 1000, title: 'Representative point' });
           },
           style: function(f) {
               return {
