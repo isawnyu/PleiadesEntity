@@ -319,9 +319,7 @@
           <br/>
           <span id="suggested-citation">
             <tal:authors tal:repeat="author authors">
-              <tal:and_before_last_author tal:condition="repeat/author/end">
-                <span tal:condition="python: len(authors) > 1"> and </span>
-              </tal:and_before_last_author>
+              <span tal:condition="python:len(authors) > 1 and repeat['author'].end"> and </span>
               <span tal:content="author"></span>,
             </tal:authors>
             &#39;<span tal:replace="formatted_title">TITLE</span>&#39;,
