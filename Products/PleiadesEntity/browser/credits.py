@@ -61,6 +61,42 @@ class CreditTools(BrowserView):
         return ", ".join(authors)
 
     @view.memoize
+    def formatted_title(self):
+        title = self.context.Title()
+        ct = self.context.Type()
+        return unicode(title, 'utf-8') + ': a Pleiades '+ ct + ' resource'
+
+    @view.memoize
+    def creators(self):
+        """ return list of creator's fullnames
+        """
+        creators = []
+        mt = getToolByName(self.context, 'portal_membership')
+        creators_tuple = self.context.listCreators()
+        for username in creators_tuple:
+            member = mt.getMemberById(username)
+            if member is not None:
+                creators.append(member.getProperty("fullname"))
+            else:
+                creators.append(username)
+        return creators
+
+    @view.memoize
+    def contributors(self):
+        """ return list of contributor's fullnames            
+        """
+        contributors = []
+        mt = getToolByName(self.context, 'portal_membership')
+        contributors_tuple = self.context.listContributors()
+        for username in contributors_tuple:
+            member = mt.getMemberById(username)
+            if member is not None:
+                contributors.append(member.getProperty("fullname"))
+            else:
+                contributors.append(username)
+        return contributors
+
+    @view.memoize
     def get_credits(self):
         mtool = self.mtool
         catalog = self.catalog
