@@ -108,7 +108,7 @@ class RepresentativePoint(BrowserView):
 
     def __call__(self):
         repr_pt = representative_point(self.context)
-        if repr_pt is None:
+        if repr_pt is None or repr_pt['coords'] is None:
             return ''
         # GeoJson stores longitude first, followed by latitude
         # This view returns latitude, longitude
