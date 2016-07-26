@@ -79,7 +79,7 @@
     for="*"
     name="credit_utils"
     class=".credits.CreditTools"
-    allowed_attributes="user_in_byline citation_authors get_credits fixed_creators"
+    allowed_attributes="user_in_byline citation_authors formatted_title creators contributors get_credits fixed_creators"
     permission="zope2.View"
     />
 

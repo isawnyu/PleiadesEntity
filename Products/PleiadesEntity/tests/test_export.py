@@ -75,6 +75,7 @@ class TestExport(PleiadesEntityTestCase):
             geometry='Point:[-86.4808333333333, 34.769722222222]',
             creation_date=fake_date,
             archaeologicalRemains='present',
+            locationType=['representative'],
         )
         attestations = place.position.Schema()['attestations']
         attestations.resize(1)
@@ -181,6 +182,9 @@ class TestExport(PleiadesEntityTestCase):
                     'coordinates': [-86.4808333333333, 34.769722222222],
                     'type': 'Point',
                 },
+                "locationType": [
+                                "representative",
+                ],
                 'references': [],
                 'provenance': 'Pleiades',
                 'details': '',
@@ -395,6 +399,7 @@ class TestExport(PleiadesEntityTestCase):
             'geometry',
             'id',
             'locationPrecision',
+            'locationType',
             'maxDate',
             'minDate',
             'modified',
@@ -423,6 +428,7 @@ class TestExport(PleiadesEntityTestCase):
             '{"type": "Point", "coordinates": [-86.4808333333333, 34.769722222222]}',
             "position",
             "precise",
+            "representative",
             "300",
             "-30",
             "2016-01-01T00:00:00Z",
