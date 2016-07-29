@@ -80,18 +80,21 @@ class TestExport(PleiadesEntityTestCase):
         attestations = place.position.Schema()['attestations']
         attestations.resize(1)
         place.position.setAttestations([{
-                'confidence': 'certain',
-                'timePeriod': 'roman'
-            }]
-        )
+            'confidence': 'certain',
+            'timePeriod': 'roman'
+        }])
         self.portal.portal_workflow.doActionFor(place.position, 'publish')
 
         places.invokeFactory(
             'Place',
             id='2',
         )
-        place.addReference(places['2'], "connectsWith")
+        cid = place.invokeFactory(
+            'Connection', '2',
+        )
+        place[cid].setConnection(places['2'])
         self.portal.portal_workflow.doActionFor(places['2'], 'publish')
+        self.portal.portal_workflow.doActionFor(place[cid], 'publish')
 
         place.setModificationDate(fake_date)
         self.portal.portal_catalog.catalog_object(place)
