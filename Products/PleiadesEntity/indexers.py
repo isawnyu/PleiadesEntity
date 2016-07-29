@@ -38,9 +38,8 @@ def currentVersion(obj, **kw):
 
 @indexer(IPlace)
 def connectsWith(obj, **kw):
-    return [o.getConnection().UID() for o in obj.getSubConnections()] or None
+    return [o.getConnection().getId() for o in obj.getSubConnections()] or None
 
 @indexer(IPlace)
 def hasConnectionsWith(obj, **kw):
-    return [aq_parent(o).UID() for o in obj.getReverseConnections()] or None
-
+    return [aq_parent(o).getId() for o in obj.getReverseConnections()] or None

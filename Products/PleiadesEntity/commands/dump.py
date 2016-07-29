@@ -1,8 +1,13 @@
+from AccessControl import getSecurityManager
+from AccessControl.SecurityManagement import newSecurityManager
+from AccessControl.SecurityManagement import setSecurityManager
+from AccessControl.User import nobody
 from Products.CMFCore.utils import getToolByName
 from Products.PleiadesEntity.browser.adapters import get_export_adapter
 from Products.PleiadesEntity.browser.formatters.as_csv import CSVFormatter
 from Products.PleiadesEntity.browser.formatters.as_json import JSONFormatter
 from Testing.makerequest import makerequest
+import contextlib
 import os
 import sys
 import time
@@ -28,47 +33,58 @@ def iterate_content(site, ptypes=('Place',)):
         i += 1
         if not i % BATCH_SIZE:
             p_jar.cacheMinimize()
-#        if i > 1000:
-#            return
+        # if i > 1000:
+        #     return
+
+
+@contextlib.contextmanager
+def anonymous_user(site):
+    sm = getSecurityManager()
+    newSecurityManager(None, nobody.__of__(site.acl_users))
+    yield
+    setSecurityManager(sm)
 
 
 def dump(app, outfolder, formatter_paths=('json', 'csv-places',
                                           'csv-locations', 'csv-names')):
+
     t0 = time.time()
     app = makerequest(app)
     site = app.plone
-    app.REQUEST.setServerURL('http', 'pleiades.stoa.org')
-    app.REQUEST.other['VirtualRootPhysicalPath'] = site.getPhysicalPath()
 
-    formatters = []
-    portal_types = set()
-    for name in formatter_paths:
-        if name not in FORMATTERS:
-            print("Invalid Formatter Id {}".format(name))
-            continue
-        subpath, formatter_cls, ptypes = FORMATTERS.get(name)
-        path = os.path.join(outfolder, subpath)
-        if not os.path.exists(path):
-            os.makedirs(path)
+    with anonymous_user(site):
+        app.REQUEST.setServerURL('http', 'pleiades.stoa.org')
+        app.REQUEST.other['VirtualRootPhysicalPath'] = site.getPhysicalPath()
 
-        formatter = formatter_cls(path)
-        formatters.append((formatter, set(ptypes)))
-        portal_types.update(ptypes)
-        formatter.start()
+        formatters = []
+        portal_types = set()
+        for name in formatter_paths:
+            if name not in FORMATTERS:
+                print("Invalid Formatter Id {}".format(name))
+                continue
+            subpath, formatter_cls, ptypes = FORMATTERS.get(name)
+            path = os.path.join(outfolder, subpath)
+            if not os.path.exists(path):
+                os.makedirs(path)
 
-    i = 0
-    for item in iterate_content(site, tuple(portal_types)):
-        i += 1
-        path = '/'.join(item.getPhysicalPath())
-        __traceback_info__ = path
-        print('Exporting {}'.format(path))
-        adapter = get_export_adapter(item)
+            formatter = formatter_cls(path)
+            formatters.append((formatter, set(ptypes)))
+            portal_types.update(ptypes)
+            formatter.start()
+
+        i = 0
+        for item in iterate_content(site, tuple(portal_types)):
+            i += 1
+            path = '/'.join(item.getPhysicalPath())
+            __traceback_info__ = path
+            print('Exporting {}'.format(path))
+            adapter = get_export_adapter(item)
+            for formatter, ptypes in formatters:
+                if item.portal_type in ptypes:
+                    formatter.dump_one(adapter)
+
         for formatter, ptypes in formatters:
-            if item.portal_type in ptypes:
-                formatter.dump_one(adapter)
-
-    for formatter, ptypes in formatters:
-        formatter.finish()
+            formatter.finish()
 
     t1 = time.time() - t0
     print('Exported {} items'.format(i))
