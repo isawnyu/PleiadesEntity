@@ -162,6 +162,27 @@ class Named(BrowserDefaultMixin):
                 found.add(place.UID())
         return places
 
+    security.declareProtected(permissions.View, 'getConnectedPlaceUIDs')
+    def getConnectedPlaceUIDs(self):
+        """ List Places connected via either inbound or outbound Connection objects.
+        """
+        found = set()
+        uids = []
+        for connection in self.getSubConnections():
+            refs = connection.getReferenceImpl('connection')
+            if len(refs):
+                uid = refs[0].targetUID
+            if uid not in found:
+                uids.append(uid)
+                found.add(uid)
+        for connection in self.getReverseConnections():
+            place = aq_parent(connection)
+            uid = place.UID()
+            if uid not in found:
+                uids.append(uid)
+                found.add(uid)
+        return uids
+
     security.declareProtected(permissions.View, 'getTimePeriods')
     def getTimePeriods(self):
         """
