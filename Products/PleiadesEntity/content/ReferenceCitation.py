@@ -71,6 +71,84 @@ schema = Schema((
         ),
     ),
 
+    StringField(
+        name='short_title',
+        required=False,
+        widget=StringField._properties['widget'](
+            label="Short Title",
+            description="The short title of the bibliographic reference.",
+            label_msgid='PleiadesEntity_label_short_title',
+            description_msgid='PleiadesEntity_help_short_title',
+            i18n_domain='PleiadesEntity',
+        ),
+    ),
+
+    StringField(
+        name='citation_detail',
+        required=False,
+        widget=StringField._properties['widget'](
+            label="Citation Detail",
+            description="",
+            label_msgid='PleiadesEntity_label_citation_detail',
+            description_msgid='PleiadesEntity_help_citation_detail',
+            i18n_domain='PleiadesEntity',
+        ),
+    ),
+
+    StringField(
+        name='formatted_citation',
+        required=False,
+        widget=StringField._properties['widget'](
+            label="Formatted Citation",
+            description="",
+            label_msgid='PleiadesEntity_label_formatted_citation',
+            description_msgid='PleiadesEntity_help_formatted_citation',
+            i18n_domain='PleiadesEntity',
+        ),
+    ),
+
+    StringField(
+        name='bibliographic_uri',
+        required=False,
+        validators=('isURL',),
+        widget=StringField._properties['widget'](
+            macro="url_widget",
+            label="Bibliographic URI",
+            description="This is a URI to an online bibliographic reference (e.g. zotero, worldcat, openlibrary, ...).",
+            label_msgid='PleiadesEntity_label_bibliographic_uri',
+            description_msgid='PleiadesEntity_help_bibliographic_uri',
+            i18n_domain='PleiadesEntity',
+        ),
+    ),
+
+    StringField(
+        name='access_uri',
+        required=False,
+        validators=('isURL',),
+        widget=StringField._properties['widget'](
+            macro="url_widget",
+            label="Access URI",
+            description="This is a URI to access the identified resource.",
+            label_msgid='PleiadesEntity_label_access_uri',
+            description_msgid='PleiadesEntity_help_access_uri',
+            i18n_domain='PleiadesEntity',
+        ),
+    ),
+
+    StringField(
+        name='alternate_uri',
+        required=False,
+        validators=('isURL',),
+        widget=StringField._properties['widget'](
+            macro="url_widget",
+            label="Alternate URI",
+            description="This is an alternate URL for the identified resource",
+            label_msgid='PleiadesEntity_label_alternate_uri',
+            description_msgid='PleiadesEntity_help_alternate_uri',
+            i18n_domain='PleiadesEntity',
+        ),
+    ),
+
 ))
 
 
@@ -110,8 +188,9 @@ class ReferenceCitation(CompoundField):
                 value['identifier'] = default
         return value
 
-    def SearchableText(self,):
-        return 'foobar'
+    def SearchableText(self):
+        value = CompoundField.get(self, instance, **kwargs)
+        return value.get('formatted_citation', '')
 
     def set(self, instance, value, **kwargs):
         return CompoundField.set(self, instance, value, **kwargs)
