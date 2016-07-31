@@ -14,8 +14,13 @@
             <em tal:content="python:batch[0]">See Further</em>:
             <tal:block 
               tal:define="range python:unicode(citation['range'], 'utf-8'); 
-                identifier python:citation['identifier']">
-              <a href="#" tal:attributes="href identifier"><span tal:content="range">Range</span></a>
+                identifier python:citation['identifier'];
+                access python:citation.get('access_uri');
+                short_title python:unicode(citation.get('short_title', ''), 'utf-8');
+                detail python:unicode(citation.get('citation_detail', ''), 'utf-8');
+                text python:((short_title and short_title or range) + ' ' + (detail and detail or '')).strip();
+                formatted python:unicode(citation.get('formatted_citation', ''), 'utf-8') or None;">
+              <a href="#" tal:attributes="href access; title formatted;" tal:omit-tag="not:access"><span tal:content="text">text</span></a>
             </tal:block>
             <!--tal:block tal:condition="not:citation/identifier">
               <span tal:content="citation/range">Range</span>
