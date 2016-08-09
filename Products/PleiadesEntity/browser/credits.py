@@ -60,10 +60,13 @@ class CreditTools(BrowserView):
 
         return ", ".join(authors)
 
-    @view.memoize
     def formatted_title(self):
         title = self.context.Title()
         ct = self.context.Type()
+        # check for credits page where we only display the title
+        test_credits = self.context.absolute_url().split('/')[-1]
+        if test_credits is not None and test_credits == 'credits':
+            return unicode(title, 'utf-8')
         return unicode(title, 'utf-8') + ': a Pleiades '+ ct + ' resource'
 
     @view.memoize
