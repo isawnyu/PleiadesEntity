@@ -60,11 +60,13 @@ class CreditTools(BrowserView):
 
         return ", ".join(authors)
 
-    @view.memoize
     def formatted_title(self):
         title = self.context.Title()
         ct = self.context.Type()
-        return unicode(title, 'utf-8') + ': a Pleiades '+ ct + ' resource'
+        if ct in ['Place', 'Location', 'Connection', 'Name']:
+            return unicode(title, 'utf-8') + ': a Pleiades '+ ct + ' resource'
+        else:
+            return unicode(title, 'utf-8')
 
     @view.memoize
     def creators(self):
