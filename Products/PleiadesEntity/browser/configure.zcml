@@ -1,6 +1,7 @@
 <configure
   xmlns="http://namespaces.zope.org/zope"
   xmlns:browser="http://namespaces.zope.org/browser"
+  xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
   i18n_domain="Products.PleiadesEntity"
   >
 
@@ -89,5 +90,21 @@
     class=".location.PromoteLocationToPlace"
     permission="cmf.ManagePortal"
     />
+
+  <genericsetup:upgradeSteps
+      profile="Products.PleiadesEntity:default"
+      source="1004"
+      destination="1005">
+    <genericsetup:upgradeDepends
+      title="Update icon data in content type FTI"
+      description=""
+      import_steps="typeinfo"
+    />
+    <genericsetup:upgradeStep
+      title="update getIcon metadata column for content types"
+      description=""
+      handler="Products.PleiadesEntity.setuphandlers.update_getIcon2"
+    />
+  </genericsetup:upgradeSteps>
 
 </configure>
