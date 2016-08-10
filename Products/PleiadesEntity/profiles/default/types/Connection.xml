@@ -6,7 +6,7 @@
    
  <property name="title" i18n:translate="">Connection</property>
  <property name="description" i18n:translate="">Establishes a connection to another place.</property>
- <property name="content_icon">map_icons/connection-green.png</property>
+ <property name="content_icon">resource_type_icons/connection-blue.png</property>
  <property name="content_meta_type">Connection</property>
  <property name="product">PleiadesEntity</property>
  <property name="factory">addConnection</property>

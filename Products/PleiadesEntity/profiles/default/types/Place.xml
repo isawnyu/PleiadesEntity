@@ -6,7 +6,7 @@
    
  <property name="title" i18n:translate="">Place</property>
  <property name="description" i18n:translate=""></property>
- <property name="content_icon">place_icon.gif</property>
+ <property name="content_icon">resource_type_icons/place-blue.png</property>
  <property name="content_meta_type">Place</property>
  <property name="product">PleiadesEntity</property>
  <property name="factory">addPlace</property>

@@ -151,3 +151,41 @@ def update_getIcon(context):
         i += 1
     pghandler.finish()
     logger.info('Updated `getIcon` metadata.')
+
+
+def update_getIcon2(context):
+    typesToUpdate = {
+        'Connection': ('map_icons/connection-green.png',
+             'resource_type_icons/connection-blue.png'),
+        'Location': ('link_icon.png', 'resource_type_icons/location-blue.png'),
+        'Name': ('document_icon.png', 'resource_type_icons/name-blue.png'),
+        'Place': ('place_icon.gif', 'resource_type_icons/place-blue.png'),
+    }
+
+    catalog = getToolByName(context, 'portal_catalog')
+    logger.info('Updating `getIcon` metadata.')
+    search = catalog.unrestrictedSearchResults
+    _catalog = getattr(catalog, '_catalog', None)
+    getIconPos = None
+    if _catalog is not None:
+        metadata = _catalog.data
+        getIconPos = _catalog.schema.get('getIcon')
+
+    brains = search(portal_type=typesToUpdate.keys(), sort_on="path")
+    num_objects = len(brains)
+    pghandler = ZLogHandler(1000)
+    pghandler.init('Updating getIcon metadata', num_objects)
+    i = 0
+    for brain in brains:
+        pghandler.report(i)
+        brain_icon = brain.getIcon
+        old_icon, new_icon = typesToUpdate[brain.portal_type]
+        if brain_icon != new_icon:
+            rid = brain.getRID()
+            record = metadata[rid]
+            new_record = list(record)
+            new_record[getIconPos] = new_icon
+            metadata[rid] = tuple(new_record)
+        i += 1
+    pghandler.finish()
+    logger.info('Updated `getIcon` metadata.')
