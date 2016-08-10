@@ -62,8 +62,8 @@ class CreditTools(BrowserView):
 
     def formatted_title(self):
         title = self.context.Title()
-        ct = self.context.Type()
-        if ct in ['Place', 'Location', 'Connection', 'Name']:
+        ct = self.context.Type().lower()
+        if ct in ['place', 'location', 'connection', 'name']:
             return unicode(title, 'utf-8') + ': a Pleiades '+ ct + ' resource'
         else:
             return unicode(title, 'utf-8')
