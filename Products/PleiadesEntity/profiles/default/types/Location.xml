@@ -6,7 +6,7 @@
    
  <property name="title" i18n:translate="">Location</property>
  <property name="description" i18n:translate="">A spatial object with geometry and sources that attest to its existence in time.</property>
- <property name="content_icon">link_icon.png</property>
+ <property name="content_icon">resource_type_icons/location-blue.png</property>
  <property name="content_meta_type">Location</property>
  <property name="product">PleiadesEntity</property>
  <property name="factory">addLocation</property>
