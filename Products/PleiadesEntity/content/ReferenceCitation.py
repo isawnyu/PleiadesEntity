@@ -27,31 +27,6 @@ log = logging.getLogger("PleiadesEntity")
 schema = Schema((
 
     StringField(
-        name='identifier',
-        default="http://atlantides.org/bibliography/",
-        required=1,
-        widget=StringField._properties['widget'](
-            macro="url_widget",
-            label="Reference identifier",
-            description="This is a link (URL preferred) or other electronic information system identifier (DOI, ISSN, Handle, etc).",
-            label_msgid='PleiadesEntity_label_identifier',
-            description_msgid='PleiadesEntity_help_identifier',
-            i18n_domain='PleiadesEntity',
-        ),
-    ),
-    StringField(
-        name='range',
-        required=1,
-        widget=StringField._properties['widget'](
-            label="Specific citation",
-            description="A plain-text AJA style citation (see http://www.ajaonline.org/submissions#4) is preferred for entities with no identifier. A short form is acceptable for those with an identifier.",
-            label_msgid='PleiadesEntity_label_range',
-            description_msgid='PleiadesEntity_help_range',
-            i18n_domain='PleiadesEntity',
-        ),
-    ),
-
-    StringField(
         name='type',
         vocabulary=[
             ("seeFurther", "See Further"),
@@ -149,6 +124,19 @@ schema = Schema((
         ),
     ),
 
+    StringField(
+        name='identifier',
+        default="http://atlantides.org/bibliography/",
+        required=False,
+        widget=StringField._properties['widget'](
+            macro="url_widget",
+            label="Other identifier",
+            description="This is an optional non-URL identifier (e.g. DOI, ISSN, Handle, etc).",
+            label_msgid='PleiadesEntity_label_other_identifier',
+            description_msgid='PleiadesEntity_help_other_identifier',
+            i18n_domain='PleiadesEntity',
+        ),
+    ),
 ))
 
 

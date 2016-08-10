@@ -8,19 +8,19 @@
 
     <metal:view_macro define-macro="view">
       
-        <ul>
+        <ul tal:define="transform nocall:context/portal_transforms/convertTo">
           <tal:block tal:repeat="batch here/getSortedReferenceCitations">
           <li tal:repeat="citation python:[dict(x) for x in batch[1]]">
             <em tal:content="python:batch[0]">See Further</em>:
             <tal:block 
-              tal:define="range python:unicode(citation['range'], 'utf-8'); 
-                identifier python:citation['identifier'];
-                access python:citation.get('access_uri');
+              tal:define="
+                uri python:citation.get('access_uri') or citation.get('alternate_uri') or citation.get('bibliographic_uri');
                 short_title python:unicode(citation.get('short_title', ''), 'utf-8');
                 detail python:unicode(citation.get('citation_detail', ''), 'utf-8');
-                text python:((short_title and short_title or range) + ' ' + (detail and detail or '')).strip();
-                formatted python:unicode(citation.get('formatted_citation', ''), 'utf-8') or None;">
-              <a href="#" tal:attributes="href access; title formatted;" tal:omit-tag="not:access"><span tal:content="text">text</span></a>
+                formatted python: citation.get('formatted_citation', '');
+                plain python:unicode(str(transform('text/plain', formatted, mimetype='text/html')), 'utf-8');
+                text python:(short_title + (short_title and ' ' or '') + detail).strip() or plain;">
+              <a class="ReferenceLink" href="#" tal:attributes="href uri; title plain;" tal:omit-tag="not:uri"><span  class="ReferenceLink" tal:content="text" tal:omit-tag="uri">text</span></a>
             </tal:block>
             <!--tal:block tal:condition="not:citation/identifier">
               <span tal:content="citation/range">Range</span>
