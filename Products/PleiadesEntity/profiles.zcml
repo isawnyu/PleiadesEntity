@@ -73,4 +73,13 @@
       />
   </upgradeSteps>
 
+  <upgradeDepends
+      profile="Products.PleiadesEntity:default"
+      source="1004"
+      destination="1005"
+      title="Add js for zotero bib"
+      description=""
+      import_steps="jsregistry"
+      />
+
 </configure>
