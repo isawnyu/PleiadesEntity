@@ -31,7 +31,7 @@ references above.
     >>> list(f.getNames())
     [<Name at /plone/Members/test_user_1_/features/.../aphrodisias>, <Name at /plone/Members/test_user_1_/features/.../ninoe>]    
     >>> [ref for ref in f.getReferenceCitations()]
-    [{'range': 'BAtlas 65 A2 Aphrodisias/Ninoe', 'identifier': 'http://www.unc.edu/awmc/pleiades/bibliography/batlas.html', 'type': 'seeFurther'}, {'range': 'RE Aphrodisias 2', 'identifier': 'http://www.unc.edu/awmc/pleiades/bibliography/re.html', 'type': 'seeFurther'}, {'range': 'NPauly Aphrodisias 1', 'identifier': 'http://www.unc.edu/awmc/pleiades/bibliography/npauly.html', 'type': 'seeFurther'}, {'range': 'RE Ninoe', 'identifier': 'http://www.unc.edu/awmc/pleiades/bibliography/re.html', 'type': 'seeFurther'}]
+    [{'title': 'BAtlas 65 A2 Aphrodisias/Ninoe', 'identifier': 'http://www.unc.edu/awmc/pleiades/bibliography/batlas.html', 'type': 'seeFurther'}, {'title': 'RE Aphrodisias 2', 'identifier': 'http://www.unc.edu/awmc/pleiades/bibliography/re.html', 'type': 'seeFurther'}, {'title': 'NPauly Aphrodisias 1', 'identifier': 'http://www.unc.edu/awmc/pleiades/bibliography/npauly.html', 'type': 'seeFurther'}, {'title': 'RE Ninoe', 'identifier': 'http://www.unc.edu/awmc/pleiades/bibliography/re.html', 'type': 'seeFurther'}]
     
 Feature Location
 ----------------
@@ -101,7 +101,7 @@ Feature Names
     [{'timePeriod': 'classical', 'confidence': 'confident'}, {'timePeriod': 'roman', 'confidence': 'confident'}, {'timePeriod': 'late-antique', 'confidence': 'confident'}]
     
     >>> [ref for ref in n.getReferenceCitations()]
-    [{'range': 'RE Aphrodisias 2', 'identifier': 'http://www.unc.edu/awmc/pleiades/bibliography/re.html', 'type': 'seeFurther'}, {'range': 'NPauly Aphrodisias 1', 'identifier': 'http://www.unc.edu/awmc/pleiades/bibliography/npauly.html', 'type': 'seeFurther'}]
+    [{'title': 'RE Aphrodisias 2', 'identifier': 'http://www.unc.edu/awmc/pleiades/bibliography/re.html', 'type': 'seeFurther'}, {'title': 'NPauly Aphrodisias 1', 'identifier': 'http://www.unc.edu/awmc/pleiades/bibliography/npauly.html', 'type': 'seeFurther'}]
 
 
 Place

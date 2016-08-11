@@ -212,8 +212,12 @@ def export_children(portal_type):
 @memoize_all_methods
 class ReferenceExportAdapter(ExportAdapter):
     uri = dict_getter('identifier')
-    shortCitation = dict_getter('range')
     type = dict_getter('type')
+
+    def shortCitation(self):
+        title = self.context.get('title', '')
+        detail = self.context.get('citation_detail', '')
+        return title + (title and ' ' or '') + detail
 
 
 @memoize_all_methods
