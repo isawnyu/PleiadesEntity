@@ -35,7 +35,7 @@ class ReferencesValidator(object):
 
     def __call__(self, value, instance, *args, **kwargs):
         # Check that ranges of all attestations are not empty
-        if not value.get('title', '')[0]:
+        if not len(value.get('short_title', '')):
             return "Reference is missing title"
         return True
 
@@ -109,7 +109,7 @@ class Work(BrowserDefaultMixin):
 
     security.declarePublic('rangesText')
     def rangesText(self):
-        return  "; ".join([c.get('title', '') + ' ' +
+        return  "; ".join([c.get('short_title', '') + ' ' +
                            c.get('citation_detail', '') for c in self.getReferenceCitations()])
 
     security.declarePublic('Cites')

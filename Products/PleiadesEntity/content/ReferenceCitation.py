@@ -154,7 +154,7 @@ class ReferenceCitation(CompoundField):
 
     def _defaultBibliography(self, instance, value):
         ptool = getToolByName(instance, 'plone_utils')
-        r = value.get('title')
+        r = value.get('short_title')
         if r:
             try:
                 return "".join([
@@ -178,7 +178,7 @@ class ReferenceCitation(CompoundField):
 
     def SearchableText(self):
         value = CompoundField.get(self, instance, **kwargs)
-        return value.get('title', '') + ' ' + value.get('citation_detail', '')
+        return value.get('short_title', '') + ' ' + value.get('citation_detail', '')
 
     def set(self, instance, value, **kwargs):
         return CompoundField.set(self, instance, value, **kwargs)

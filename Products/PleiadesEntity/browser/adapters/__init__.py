@@ -215,7 +215,7 @@ class ReferenceExportAdapter(ExportAdapter):
     type = dict_getter('type')
 
     def shortCitation(self):
-        title = self.context.get('title', '')
+        title = self.context.get('short_title', '')
         detail = self.context.get('citation_detail', '')
         return title + (title and ' ' or '') + detail
 

@@ -79,7 +79,7 @@ Names
     >>> n.Rights()
     'Copyright \xc2\xa9 2007 Ancient World Mapping Center. All rights reserved.'
     >>> [ref for ref in n.getReferenceCitations()]
-    [{'title': 'RE Aphrodisias 2', 'identifier': 'http://www.unc.edu/awmc/pleiades/bibliography/re.html'}, {'title': 'NPauly Aphrodisias 1', 'identifier': 'http://www.unc.edu/awmc/pleiades/bibliography/npauly.html'}]
+    [{'short_title': 'RE Aphrodisias 2', 'identifier': 'http://www.unc.edu/awmc/pleiades/bibliography/re.html'}, {'short_title': 'NPauly Aphrodisias 1', 'identifier': 'http://www.unc.edu/awmc/pleiades/bibliography/npauly.html'}]
 
 Locations
 ---------
