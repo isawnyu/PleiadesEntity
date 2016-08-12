@@ -127,17 +127,20 @@ class Work(BrowserDefaultMixin):
     security.declarePublic('getSortedReferenceCitations')
     def getSortedReferenceCitations(self):
         vocab = self.getCitationTypes()
-        refs = {}
-        # Access once to prime it. TODO: WTF?
-        self.getReferenceCitations()
+
+        refs = []
         for c in self.getReferenceCitations():
+            ref = c.copy()
             label = vocab[c.get('type', "seeFurther")]
-            if label not in refs.keys():
-                refs[label] = []
-            cite = c.copy()
-            del cite['type']
-            refs[label].append(cite.items())
-        return sorted(refs.items())
+            ref['label'] = label
+            refs.append(ref)
+
+        def sort_key(ref):
+            return (ref.get('label', ''), ref.get('short_tile', ''),
+                    ref.get('citation_detail', ''))
+
+        refs.sort(key=sort_key)
+        return refs
 
 # end of class Work
 

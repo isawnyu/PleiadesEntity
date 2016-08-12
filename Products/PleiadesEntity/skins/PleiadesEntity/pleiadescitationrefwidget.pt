@@ -9,9 +9,8 @@
     <metal:view_macro define-macro="view">
       
         <ul tal:define="transform nocall:context/portal_transforms/convertTo">
-          <tal:block tal:repeat="batch here/getSortedReferenceCitations">
-          <li tal:repeat="citation python:[dict(x) for x in batch[1]]">
-            <em tal:content="python:batch[0]">See Further</em>:
+          <li tal:repeat="citation here/getSortedReferenceCitations">
+            <em tal:content="citation/label">See Further</em>:
             <tal:block 
               tal:define="
                 uri python:citation.get('access_uri') or citation.get('alternate_uri') or citation.get('bibliographic_uri');
@@ -26,7 +25,6 @@
               <span tal:content="citation/range">Range</span>
             </tal:block-->
           </li>
-          </tal:block>
         </ul>
     </metal:view_macro>
 
