@@ -25,21 +25,21 @@ jQuery(function () {
                 alert(data.error);
                 return;
               }
-              var prefix = '\\:'+count+'\\|'
+              var prefix = '\\:'+count+'\\|';
               var $title = $bib_uri_input.parents().find('input[id$="' + prefix + 'short_title"]');
               var $detail = $bib_uri_input.parents().find('input[id$="' + prefix + 'citation_detail"]');
               var $formatted = $bib_uri_input.parents().find('input[id$="' + prefix + 'formatted_citation"]');
               var $access_uri = $bib_uri_input.parents().find('input[id$="' + prefix + 'access_uri"]');
               if (!$title.val()) {
-                $title.val(data.title);
+                $title.val(data.short_title || data.title | '');
               }
-              if (!$detail.val()) {
+              if (!$detail.val() && data.citation_detail) {
                 $detail.val(data.citation_detail);
               }
-              if (!$formatted.val()) {
+              if (!$formatted.val() && data.formatted_citation) {
                 $formatted.val(data.formatted_citation);
               }
-              if (!$access_uri.val()) {
+              if (!$access_uri.val() && data.access_uri) {
                 $access_uri.val(data.access_uri);
               }
             }
