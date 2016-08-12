@@ -128,19 +128,21 @@ class Work(BrowserDefaultMixin):
     def getSortedReferenceCitations(self):
         vocab = self.getCitationTypes()
 
-        refs = []
-        for c in self.getReferenceCitations():
-            ref = c.copy()
-            label = vocab[c.get('type', "seeFurther")]
-            ref['label'] = label
-            refs.append(ref)
+        refs = self.getReferenceCitations()[:]
 
         def sort_key(ref):
             return (ref.get('label', ''), ref.get('short_tile', ''),
                     ref.get('citation_detail', ''))
 
         refs.sort(key=sort_key)
-        return refs
+
+        groups = []
+        for key in vocab.keys():
+            partial = [r for r in refs if r.get('type', 'seeFurther') == key]
+            if partial:
+                groups.append((vocab[key], partial))
+
+        return groups
 
 # end of class Work
 

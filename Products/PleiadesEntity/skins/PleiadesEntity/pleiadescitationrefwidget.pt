@@ -7,10 +7,12 @@
   <body>
 
     <metal:view_macro define-macro="view">
-      
+      <dl class="ReferenceList">
+      <tal:citations repeat="group here/getSortedReferenceCitations">
+        <dt tal:content="python:group[0] + ':'">See Further</dt>
+        <dd>
         <ul tal:define="transform nocall:context/portal_transforms/convertTo">
-          <li tal:repeat="citation here/getSortedReferenceCitations">
-            <em tal:content="citation/label">See Further</em>:
+          <li tal:repeat="citation python:group[1]">
             <tal:block 
               tal:define="
                 uri python:citation.get('access_uri') or citation.get('alternate_uri') or citation.get('bibliographic_uri');
@@ -26,6 +28,9 @@
             </tal:block-->
           </li>
         </ul>
+        </dd>
+      </tal:citations>
+      </dl>
     </metal:view_macro>
 
     <metal:edit_macro define-macro="edit">
