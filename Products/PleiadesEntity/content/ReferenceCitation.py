@@ -126,7 +126,6 @@ schema = Schema((
 
     StringField(
         name='identifier',
-        default="http://atlantides.org/bibliography/",
         required=False,
         widget=StringField._properties['widget'](
             macro="url_widget",
