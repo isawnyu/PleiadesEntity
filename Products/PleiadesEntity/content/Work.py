@@ -15,6 +15,7 @@ __docformat__ = 'plaintext'
 
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
+from Products.CMFCore.utils import getToolByName
 from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
 from Products.CompoundField.ArrayField import ArrayField
 from Products.CompoundField.CompoundWidget import CompoundWidget
@@ -128,18 +129,32 @@ class Work(BrowserDefaultMixin):
     def getSortedReferenceCitations(self):
         vocab = self.getCitationTypes()
 
-        refs = self.getReferenceCitations()[:]
+        refs = []
+        transformer = getToolByName(self, 'portal_transforms').convertTo
+        for r in self.getReferenceCitations():
+            ref = r.copy()
+            ref['gloss'] = unicode(str(
+                transformer('text/plain',
+                            ref.get('formatted_citation', ''),
+                            mimetype='text/html')), 'utf-8')
+            title = unicode(ref.get('short_tile', ''), 'utf-8')
+            text = unicode(ref.get('citation_detail', ''), 'utf-8')
+            if title:
+                text = title + ' ' + detail
+            if not text:
+                text = ref['gloss']
+            ref['text'] = text
+            refs.append(ref)
 
-        def sort_key(ref):
-            return (ref.get('label', ''), ref.get('short_tile', ''),
-                    ref.get('citation_detail', ''))
-
-        refs.sort(key=sort_key)
+        refs.sort(key=lambda r: r.get('text', ''))
 
         groups = []
         for key in vocab.keys():
             partial = [r for r in refs if r.get('type', 'seeFurther') == key]
             if partial:
+                label = vocab[key]
+                if isinstance(label, unicode):
+                    label = label.encode('utf-8')
                 groups.append((vocab[key], partial))
 
         return groups

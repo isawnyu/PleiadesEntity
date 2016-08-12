@@ -15,13 +15,8 @@
           <li tal:repeat="citation python:group[1]">
             <tal:block 
               tal:define="
-                uri python:citation.get('access_uri') or citation.get('alternate_uri') or citation.get('bibliographic_uri');
-                short_title python:unicode(citation.get('short_title', ''), 'utf-8');
-                detail python:unicode(citation.get('citation_detail', ''), 'utf-8');
-                formatted python: citation.get('formatted_citation', '');
-                plain python:unicode(str(transform('text/plain', formatted, mimetype='text/html')), 'utf-8');
-                text python:(short_title + (short_title and ' ' or '') + detail).strip() or plain;">
-              <a class="ReferenceLink" href="#" tal:attributes="href uri; title plain;" tal:omit-tag="not:uri"><span  class="ReferenceLink" tal:content="text" tal:omit-tag="uri">text</span></a>
+                uri python:citation.get('access_uri') or citation.get('alternate_uri') or citation.get('bibliographic_uri');">
+              <a class="ReferenceLink" href="#" tal:attributes="href uri; title citation/gloss;" tal:omit-tag="not:uri"><span  class="ReferenceLink" tal:content="citation/text" tal:omit-tag="uri">text</span></a>
             </tal:block>
             <!--tal:block tal:condition="not:citation/identifier">
               <span tal:content="citation/range">Range</span>
