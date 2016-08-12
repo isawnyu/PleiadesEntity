@@ -1,6 +1,7 @@
 from AccessControl import getSecurityManager
 from AccessControl.SecurityManagement import newSecurityManager
 from AccessControl.SecurityManagement import setSecurityManager
+from AccessControl.unauthorized import Unauthorized
 from AccessControl.User import nobody
 from Products.CMFCore.utils import getToolByName
 from Products.PleiadesEntity.browser.adapters import get_export_adapter
@@ -27,7 +28,12 @@ def iterate_content(site, ptypes=('Place',)):
     i = 0
     for brain in catalog.unrestrictedSearchResults(
             portal_type=ptypes, review_state='published'):
-        yield brain.getObject()
+        try:
+            yield brain.getObject()
+        except Unauthorized:
+            print("Inaccessible published object {}".format(brain.getPath()))
+            continue
+
 
         # minimize ZODB cache periodically
         i += 1
