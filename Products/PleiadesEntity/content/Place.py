@@ -206,13 +206,23 @@ class Place(atapi.BaseFolder, ATDocumentBase, Named, Work, BrowserDefaultMixin):
             ftypes.remove('unknown')
         return list(ftypes)
 
+    security.declarePublic('namesText')
+    def namesText(self):
+        text = ''
+        places = self.objectValues('Name')
+        for place in places:
+            text = text + "%s %s " % (place.getNameTransliterated(),
+                                      place.getNameAttested())
+        return text
+
     security.declarePublic('SearchableText')
     def SearchableText(self):
         text = super(Place, self).SearchableText().strip()
-        return "%s %s %s" % (
+        return "%s %s %s %s" % (
             text,
             self.getModernLocation(),
             self.rangesText(),
+            self.namesText(),
         )
 
     security.declareProtected(permissions.View, 'getLayout')
