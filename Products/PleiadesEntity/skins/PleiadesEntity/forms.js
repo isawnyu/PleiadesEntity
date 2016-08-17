@@ -30,16 +30,16 @@ jQuery(function () {
               var $detail = $bib_uri_input.parents().find('input[id$="' + prefix + 'citation_detail"]');
               var $formatted = $bib_uri_input.parents().find('input[id$="' + prefix + 'formatted_citation"]');
               var $access_uri = $bib_uri_input.parents().find('input[id$="' + prefix + 'access_uri"]');
-              if (!$title.val()) {
+              if (data.short_title || data.title) {
                 $title.val(data.short_title || data.title | '');
               }
-              if (!$detail.val() && data.citation_detail) {
+              if (data.citation_detail) {
                 $detail.val(data.citation_detail);
               }
-              if (!$formatted.val() && data.formatted_citation) {
+              if (data.formatted_citation) {
                 $formatted.val(data.formatted_citation);
               }
-              if (!$access_uri.val() && data.access_uri) {
+              if (data.access_uri) {
                 $access_uri.val(data.access_uri);
               }
             }
