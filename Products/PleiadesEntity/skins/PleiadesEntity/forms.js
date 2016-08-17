@@ -30,8 +30,9 @@ jQuery(function () {
               var $detail = $bib_uri_input.parents().find('input[id$="' + prefix + 'citation_detail"]');
               var $formatted = $bib_uri_input.parents().find('input[id$="' + prefix + 'formatted_citation"]');
               var $access_uri = $bib_uri_input.parents().find('input[id$="' + prefix + 'access_uri"]');
-              if (data.short_title || data.title) {
-                $title.val(data.short_title || data.title | '');
+              var title = data.short_title || data.title;
+              if (title) {
+                $title.val(title);
               }
               if (data.citation_detail) {
                 $detail.val(data.citation_detail);
