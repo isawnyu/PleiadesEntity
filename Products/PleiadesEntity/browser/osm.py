@@ -63,8 +63,9 @@ class OSMLocationFactory(BrowserView):
             return
 
         osm = etree.fromstring(content)
-        elem = osm.find(objtype)
-        assert elem.attrib.get('id') == objid
+        elem = osm.find('{}[@id="{}"]'.format(objtype, objid))
+        if elem is None:
+            raise Exception('{} {} not found'.format(objtype, objid))
 
         version = elem.attrib.get("version")
         changeset = elem.attrib.get("changeset")
@@ -80,11 +81,14 @@ class OSMLocationFactory(BrowserView):
             geometry = 'LineString:' + read_way_as_linestring(osm, elem)
         elif objtype == 'relation':
             relation_type = elem.find("tag[@k='type']").attrib.get('v')
-            if relation_type != 'multipolygon':
+            if relation_type not in ('multipolygon', 'waterway'):
                 self._fall_back(
-                    "Only relations of type 'multipolygon' can be imported.")
+                    "Only relations of type 'multipolygon' and 'waterway' can be imported.")
             ways = []
-            for member in elem.findall("member[@type='way']"):
+            way_xpath = "member[@type='way']"
+            if relation_type == 'waterway':
+                way_xpath += "[@role='main_stream']"
+            for member in elem.findall(way_xpath):
                 way_id = member.attrib.get('ref')
                 way = osm.find("way[@id='%s']" % way_id)
                 ways.append(read_way_as_linestring(osm, way))

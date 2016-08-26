@@ -38,7 +38,20 @@ class PromoteLocationToPlace(BrowserView):
             'Added new place {}'.format('/'.join(place.getPhysicalPath())))
 
         # Connect place to old place
-        place.addReference(oldPlace, "connectsWith")
+        unique_id = place.generateUniqueId("Connection")
+        new_id = unique_id.split('.')[2]
+        while place.has_key(new_id):
+            unique_id = place.generateUniqueId("Connection")
+            new_id = unique_id.split('.')[2]
+
+        place.invokeFactory('Connection', new_id)
+        place[new_id].setConnection([oldPlace.UID()])
+        place[new_id].setRelationshipType(['at'])
+        
+        workflow = getToolByName(self.context, "portal_workflow")
+        workflow.doActionFor(place[new_id], 'submit')
+        workflow.doActionFor(place[new_id], 'publish')
+        place[new_id].reindexObject()
 
         # Move location to new place
         location = api.content.move(location, place)
