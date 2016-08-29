@@ -208,7 +208,7 @@ def parse_secondary_references(xmlcontext, site, portalcontext, ptool, cb=lambda
                 continue
             url = title_elem[0].attrib.get('{http://www.w3.org/1999/xlink}href', '')
             bibstr = getalltext(bibl)
-            citations.append(dict(identifier=url, range=bibstr))
+            citations.append(dict(identifier=url, short_title=bibstr))
 
         refCitations = portalcontext.getField('referenceCitations')
         refCitations.resize(len(citations), portalcontext)
@@ -227,7 +227,7 @@ def parse_primary_references(xmlcontext, site, portalcontext, ptool, cb=lambda x
                     continue
                 url = title_elem[0].attrib.get('{http://www.w3.org/1999/xlink}href', '')
                 bibstr = getalltext(bibl)
-                citations.append(dict(identifier=url, range=bibstr))
+                citations.append(dict(identifier=url, short_title=bibstr))
 
         refCitations = portalcontext.getField('primaryReferenceCitations')
         refCitations.resize(len(citations), portalcontext)

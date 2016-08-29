@@ -7,22 +7,25 @@
   <body>
 
     <metal:view_macro define-macro="view">
-      
-        <ul>
-          <tal:block tal:repeat="batch here/getSortedReferenceCitations">
-          <li tal:repeat="citation python:[dict(x) for x in batch[1]]">
-            <em tal:content="python:batch[0]">See Further</em>:
+      <dl class="ReferenceList">
+      <tal:citations repeat="group here/getSortedReferenceCitations">
+        <dt tal:content="python:group[0] + ':'">See Further</dt>
+        <dd>
+        <ul tal:define="transform nocall:context/portal_transforms/convertTo">
+          <li tal:repeat="citation python:group[1]">
             <tal:block 
-              tal:define="range python:unicode(citation['range'], 'utf-8'); 
-                identifier python:citation['identifier']">
-              <a href="#" tal:attributes="href identifier"><span tal:content="range">Range</span></a>
+              tal:define="
+                uri python:citation.get('access_uri') or citation.get('alternate_uri') or citation.get('bibliographic_uri');">
+              <a class="ReferenceLink" href="#" tal:attributes="href uri; title citation/gloss;" tal:omit-tag="not:uri"><span  class="ReferenceLink" tal:content="citation/text" tal:omit-tag="uri">text</span></a>
             </tal:block>
             <!--tal:block tal:condition="not:citation/identifier">
               <span tal:content="citation/range">Range</span>
             </tal:block-->
           </li>
-          </tal:block>
         </ul>
+        </dd>
+      </tal:citations>
+      </dl>
     </metal:view_macro>
 
     <metal:edit_macro define-macro="edit">

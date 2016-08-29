@@ -63,7 +63,7 @@ class TestExport(PleiadesEntityTestCase):
             }],
             referenceCitations=[{
                 'identifier': 'http://books.google.com/books?id=Y10GAAAAQAAJ&pg=PA476',
-                'range': 'StByz Ninoe',
+                'short_title': 'StByz Ninoe',
                 'type': 'citesAsEvidence',
             }],
         )

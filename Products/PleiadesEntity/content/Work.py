@@ -15,6 +15,7 @@ __docformat__ = 'plaintext'
 
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
+from Products.CMFCore.utils import getToolByName
 from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
 from Products.CompoundField.ArrayField import ArrayField
 from Products.CompoundField.CompoundWidget import CompoundWidget
@@ -35,8 +36,8 @@ class ReferencesValidator(object):
 
     def __call__(self, value, instance, *args, **kwargs):
         # Check that ranges of all attestations are not empty
-        if not value.get('range')[0]:
-            return "Reference is missing specific citation"
+        if not len(value.get('short_title', '')):
+            return "Reference is missing title"
         return True
 
 schema = Schema((
@@ -109,7 +110,8 @@ class Work(BrowserDefaultMixin):
 
     security.declarePublic('rangesText')
     def rangesText(self):
-        return  "; ".join([c['range'] for c in self.getReferenceCitations()])
+        return  "; ".join([c.get('short_title', '') + ' ' +
+                           c.get('citation_detail', '') for c in self.getReferenceCitations()])
 
     security.declarePublic('Cites')
     def Cites(self):
@@ -126,17 +128,36 @@ class Work(BrowserDefaultMixin):
     security.declarePublic('getSortedReferenceCitations')
     def getSortedReferenceCitations(self):
         vocab = self.getCitationTypes()
-        refs = {}
-        # Access once to prime it. TODO: WTF?
-        self.getReferenceCitations()
-        for c in self.getReferenceCitations():
-            label = vocab[c.get('type', "seeFurther")]
-            if label not in refs.keys():
-                refs[label] = []
-            cite = c.copy()
-            del cite['type']
-            refs[label].append(cite.items())
-        return sorted(refs.items())
+
+        refs = []
+        transformer = getToolByName(self, 'portal_transforms').convertTo
+        for r in self.getReferenceCitations():
+            ref = r.copy()
+            ref['gloss'] = unicode(str(
+                transformer('text/plain',
+                            ref.get('formatted_citation', ''),
+                            mimetype='text/html')), 'utf-8')
+            title = unicode(ref.get('short_tile', ''), 'utf-8')
+            text = unicode(ref.get('citation_detail', ''), 'utf-8')
+            if title:
+                text = title + ' ' + detail
+            if not text:
+                text = ref['gloss']
+            ref['text'] = text
+            refs.append(ref)
+
+        refs.sort(key=lambda r: r.get('text', ''))
+
+        groups = []
+        for key in vocab.keys():
+            partial = [r for r in refs if r.get('type', 'seeFurther') == key]
+            if partial:
+                label = vocab[key]
+                if isinstance(label, unicode):
+                    label = label.encode('utf-8')
+                groups.append((vocab[key], partial))
+
+        return groups
 
 # end of class Work
 

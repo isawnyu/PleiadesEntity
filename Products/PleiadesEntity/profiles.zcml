@@ -73,4 +73,29 @@
       />
   </upgradeSteps>
 
+  <upgradeSteps
+      profile="Products.PleiadesEntity:default"
+      source="1004"
+      destination="1005">
+    <upgradeDepends
+      title="Update icon data in content type FTI"
+      description=""
+      import_steps="typeinfo"
+    />
+    <upgradeStep
+      title="update getIcon metadata column for content types"
+      description=""
+      handler="Products.PleiadesEntity.setuphandlers.update_getIcon2"
+    />
+  </upgradeSteps>
+
+  <upgradeDepends
+      profile="Products.PleiadesEntity:default"
+      source="1005"
+      destination="1006"
+      title="Add js for zotero bib"
+      description=""
+      import_steps="jsregistry"
+      />
+
 </configure>

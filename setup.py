@@ -25,6 +25,7 @@ setup(
     install_requires=[
         'setuptools',
         'collective.geo.geographer',
+        'isaw.bibitems',
     ],
     extras_require={
         'test': ['Products.PloneTestCase'],
