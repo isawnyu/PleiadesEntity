@@ -153,8 +153,8 @@ class ReferenceCitation(CompoundField):
 
     def _defaultBibliography(self, instance, value):
         ptool = getToolByName(instance, 'plone_utils')
-        r = (value.get('short_title', '') or value.get('formatted-citation', '') or
-             value.get('range', ''))
+        r = (value.get('short_title', '') or
+             value.get('formatted_citation', '') or value.get('range', ''))
         if r.strip():
             try:
                 return "".join([
