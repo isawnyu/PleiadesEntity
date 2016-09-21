@@ -10,4 +10,4 @@
 pid = container.getBaIdent(q)
 response = container.REQUEST.RESPONSE
 response.setStatus(301)
-response.redirect("http://pleiades.stoa.org/places/%s/kml" % pid)
+response.redirect("https://pleiades.stoa.org/places/%s/kml" % pid)

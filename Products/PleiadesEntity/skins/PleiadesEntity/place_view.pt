@@ -161,7 +161,7 @@
                   </div>
                   <div>
                     <input type="Submit" name="submit" value="Add"/>
-                    <span><a href="http://pleiades.stoa.org/help/content/linking-pleiades-to-openstreetmap">What's this?</a></span>
+                    <span><a href="https://pleiades.stoa.org/help/content/linking-pleiades-to-openstreetmap">What's this?</a></span>
                   </div>
                 </form>
               </div>

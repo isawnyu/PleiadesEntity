@@ -150,7 +150,7 @@ class TestExport(PleiadesEntityTestCase):
             'reprPoint': [-86.4808333333333, 34.769722222222],
             'bbox': [-86.4808333333333, 34.769722222222,
                      -86.4808333333333, 34.769722222222],
-            'connectsWith': ['http://pleiades.stoa.org/places/2'],
+            'connectsWith': ['https://pleiades.stoa.org/places/2'],
             'details': '',
             'placeTypes': ['unknown'],
             'provenance': 'Pleiades',
