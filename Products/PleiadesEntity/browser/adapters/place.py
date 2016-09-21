@@ -23,7 +23,7 @@ class PlaceExportAdapter(WorkExportAdapter, ContentExportAdapter):
 
     def connectsWith(self):
         return [
-            'http://pleiades.stoa.org/places/{}'.format(id)
+            'https://pleiades.stoa.org/places/{}'.format(id)
             for id in (self._connectsWith() + self._hasConnectionsWith())
         ]
 

@@ -153,8 +153,9 @@ class ReferenceCitation(CompoundField):
 
     def _defaultBibliography(self, instance, value):
         ptool = getToolByName(instance, 'plone_utils')
-        r = value.get('short_title')
-        if r:
+        r = (value.get('short_title', '') or
+             value.get('formatted_citation', '') or value.get('range', ''))
+        if r.strip():
             try:
                 return "".join([
                     "http://atlantides.org/bibliography/",
@@ -169,10 +170,11 @@ class ReferenceCitation(CompoundField):
 
     def getRaw(self, instance, **kwargs):
         value = CompoundField.getRaw(self, instance, **kwargs)
-        if not value.get('identifier'):
+        if (not value.get('bibliographic_uri') and not value.get('access_uri')
+                and not value.get('identifier')):
             default = self._defaultBibliography(instance, value)
             if default:
-                value['identifier'] = default
+                value['bibliographic_uri'] = default
         return value
 
     def SearchableText(self):
@@ -184,10 +186,11 @@ class ReferenceCitation(CompoundField):
 
     def get(self, instance, **kwargs):
         value = CompoundField.get(self, instance, **kwargs)
-        if not value.get('identifier'):
+        if (not value.get('bibliographic_uri') and not value.get('access_uri')
+                and not value.get('identifier')):
             default = self._defaultBibliography(instance, value)
             if default:
-                value['identifier'] = default
+                value['bibliographic_uri'] = default
         return value
 
 registerField(ReferenceCitation, title='ReferenceCitation', description='')
