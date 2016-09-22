@@ -59,7 +59,7 @@ def dump(app, outfolder, formatter_paths=('json', 'csv-places',
     site = app.plone
 
     with anonymous_user(site):
-        app.REQUEST.setServerURL('http', 'pleiades.stoa.org')
+        app.REQUEST.setServerURL('https', 'pleiades.stoa.org')
         app.REQUEST.other['VirtualRootPhysicalPath'] = site.getPhysicalPath()
 
         formatters = []
