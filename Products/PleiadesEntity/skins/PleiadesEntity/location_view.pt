@@ -24,7 +24,7 @@
       <link rel="canonical" tal:attributes="href url"/>
       <link 
         rel="stylesheet" 
-        href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" />
+        href="//cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" />
       <style>
         #map { height: 480px; float: right; }
         #below-map { width: 480px;}
@@ -35,7 +35,7 @@
         #fields-continued { padding-right: 1em; }
       </style>
 
-      <script src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js"></script>
+      <script src="//cdn.leafletjs.com/leaflet-0.7.2/leaflet.js"></script>
     </metal:head_macro>
 
   </head>
