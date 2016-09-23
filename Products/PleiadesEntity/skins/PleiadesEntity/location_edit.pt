@@ -9,7 +9,7 @@
 <head>
 
   <metal:head define-macro="javascript_head">
-    <script src="//cdn.leafletjs.com/leaflet-0.4.4/leaflet.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.js"></script>
   </metal:head>
 
   <metal:head_macro metal:define-macro="css">
@@ -20,7 +20,7 @@
         type="application/json" 
         tal:attributes="href string:${baseline/absolute_url}/@@json" />
       <link rel="stylesheet" 
-        href="//cdn.leafletjs.com/leaflet-0.4.4/leaflet.css" />
+        href="//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.css" />
     </tal:block>
       <style>
         #map { height: 480px; float: right; }

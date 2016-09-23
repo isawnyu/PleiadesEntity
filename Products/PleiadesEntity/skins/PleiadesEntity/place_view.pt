@@ -29,7 +29,7 @@
       <span tal:replace="structure context/@@neighborhood/r_link">R LINK</span>
       <link 
         rel="stylesheet" 
-        href="//cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" />
+        href="//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.css" />
         
       <style>
         #map { height: 480px; }
@@ -40,7 +40,7 @@
           margin-bottom: 5px; }
       </style>
 
-      <script src="//cdn.leafletjs.com/leaflet-0.7.2/leaflet.js"></script>
+      <script src="//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.js"></script>
     </metal:head_macro>
 
   </head>
