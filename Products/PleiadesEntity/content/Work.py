@@ -140,7 +140,7 @@ class Work(BrowserDefaultMixin):
             title = unicode(ref.get('short_title', ''), 'utf-8')
             text = unicode(ref.get('citation_detail', ''), 'utf-8')
             if title:
-                text = title + ' ' + detail
+                text = title + ' ' + text
             if not text:
                 text = ref['gloss']
             ref['text'] = text
