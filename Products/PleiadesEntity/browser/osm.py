@@ -127,9 +127,11 @@ class OSMLocationFactory(BrowserView):
 
         browse_url = "/".join([OSM_BROWSE, objtype, objid])
         citations = [dict(
-            identifier=browse_url,
-            range="osm:%s=%s" % (objtype, objid),
             type="citesAsDataSource",
+            short_title='OSM',
+            citation_detail='{} {}'.format(objtype.title(), objid),
+            formatted_citation="osm:%s=%s" % (objtype, objid),
+            access_uri=browse_url,
         )]
 
         field = locn.getField('referenceCitations')

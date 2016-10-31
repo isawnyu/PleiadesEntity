@@ -137,10 +137,10 @@ class Work(BrowserDefaultMixin):
                 transformer('text/plain',
                             ref.get('formatted_citation', ''),
                             mimetype='text/html')), 'utf-8')
-            title = unicode(ref.get('short_tile', ''), 'utf-8')
+            title = unicode(ref.get('short_title', ''), 'utf-8')
             text = unicode(ref.get('citation_detail', ''), 'utf-8')
             if title:
-                text = title + ' ' + detail
+                text = title + ' ' + text
             if not text:
                 text = ref['gloss']
             ref['text'] = text

@@ -215,11 +215,34 @@
             <div id="locationsField" class="field">
               <label>Locations</label>
               <dl tal:replace="structure context/@@locations-listing"></dl>
-              <a tal:condition="not:portal_state/anonymous"
-                class="createObjectButton"
-                href="createObject?type_name=Location" 
-                title="Create a new Location"
-                >Add Location</a>
+              <div tal:condition="not:portal_state/anonymous">
+                <div><span class="createObjectButton"><a href="createObject?type_name=Location" title="Create a new Location">Add Location</a> <span class="formButton" title="Create a new Location based on an OpenStreetMap Node">&#9660;</span></div>
+                <div class="createLocationForm" style="display:none;">
+                  <form method="POST" action="@@create-location-osm">
+                    <h4>Add OpenStreetMap Point Location</h4>
+                    <div>
+                      <p>
+                        <input id="type" name="type" 
+                          type="radio" value="node" checked="1"/> Node 
+                        <input id="type" name="type" 
+                          type="radio" value="way"/> Way 
+                        <input id="type" name="type"
+                          type="radio" value="relation"/> Relation
+                        <label for="type">Object type (required)</label></p>
+                      <p><input id="obj" name="obj" 
+                        type="text" placeholder="486605843"/>
+                        <label for="node">Object ID (required)</label></p>
+                      <p><input id="title" name="title" 
+                        type="text" placeholder="Foo"/>
+                        <label for="title">Title (optional)</label></p>
+                    </div>
+                    <div>
+                      <input type="Submit" name="submit" value="Add"/>
+                      <span><a href="https://pleiades.stoa.org/help/content/linking-pleiades-to-openstreetmap">What's this?</a></span>
+                    </div>
+                  </form>
+                </div>
+              </div>
             </div>
             <div id="namesField" class="field">
               <label>Names</label>
