@@ -40,7 +40,7 @@ schema = atapi.Schema((
         multiValued=False,
         relationship='connection',
         allowed_types=('Place',),
-        allow_browse=True,
+        allow_browse=False,
         required=True,
     ),
 
