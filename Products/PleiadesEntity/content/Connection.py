@@ -35,12 +35,12 @@ schema = atapi.Schema((
             description=u'Establishes a connection to another place.',
             label_msgid='PleiadesEntity_label_connections',
             i18n_domain='PleiadesEntity',
+            allow_browse=False,
         ),
         description="Connection to another place",
         multiValued=False,
         relationship='connection',
         allowed_types=('Place',),
-        allow_browse=False,
         required=True,
     ),
 
