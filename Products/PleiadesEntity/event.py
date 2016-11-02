@@ -65,7 +65,7 @@ def contributorsSubscriber(obj, event):
         lambda x: x not in creators,
         repairPrincipals(obj.Contributors())))
     credited = creators.union(contributors)
-    wt = getToolByName(self.context, "portal_workflow")
+    wt = getToolByName(obj, "portal_workflow")
 
     def getPrincipals(ob):
         principals = set()
