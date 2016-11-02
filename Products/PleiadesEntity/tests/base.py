@@ -46,3 +46,6 @@ class PleiadesEntityTestCase(ptc.PloneTestCase):
                 "That's right, 1 cm!")
         except:
             pass
+
+    def runTest(self):
+        return

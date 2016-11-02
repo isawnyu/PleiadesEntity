@@ -27,8 +27,8 @@ Test computed attributes
     ['roman']
     >>> p1.getFeatureType()
     ['settlement']
-    >>> p1.SearchableText()
-    '1  Ninoe  Pleiades \xce\x9d\xce\xb9\xce\xbd\xe1\xbd\xb9\xce\xb7 '
+    >>> p1.SearchableText().strip()
+    '1  Ninoe  Pleiades \xce\x9d\xce\xb9\xce\xbd\xe1\xbd\xb9\xce\xb7 \xce\x9d\xce\xb9\xce\xbd\xe1\xbd\xb9\xce\xb7'
 
 Test geometry accessors and mutator
 

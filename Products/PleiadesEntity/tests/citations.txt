@@ -13,6 +13,6 @@ Add place
     >>> citations.resize(1)
     >>> p.update(referenceCitations=[dict(identifier='http://example.com', short_title='FooBar 42')])
     >>> p.getReferenceCitations()
-    [{'short_title': 'FooBar 42', 'identifier': 'http://example.com', 'type': 'seeFurther'}]
-    >>> p.SearchableText()
+    [{'bibliographic_uri': '', 'alternate_uri': '', 'formatted_citation': '', 'short_title': 'FooBar 42', 'identifier': 'http://example.com', 'type': 'seeFurther', 'citation_detail': '', 'access_uri': ''}]
+    >>> p.SearchableText().strip()
     'ninoe  Ninoe  Place known as Ninoe  Pleiades  <p>This place was known in ancient times as Ninoe</p> FooBar 42'

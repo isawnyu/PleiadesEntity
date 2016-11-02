@@ -2,6 +2,7 @@ from AccessControl import Unauthorized
 from DateTime import DateTime
 from plone.memoize import instance
 from Products.CMFCore.utils import getToolByName
+from Products.PleiadesEntity.content.ReferenceCitation import schema as ReferenceSchema
 from zope.component import queryAdapter
 from zope.interface import implementer
 from ..interfaces import IExportAdapter
@@ -208,16 +209,21 @@ def export_children(portal_type):
     get.__name__ = 'get_children_{}'.format(portal_type)
     return get
 
+CITATION_TYPE_VOCAB = {k: v for k, v in ReferenceSchema['type'].vocabulary}
+
 
 @memoize_all_methods
 class ReferenceExportAdapter(ExportAdapter):
-    uri = dict_getter('identifier')
+    shortTitle = dict_getter('short_title')
+    citationDetail = dict_getter('citation_detail')
+    formattedCitation = dict_getter('formatted_citation')
     type = dict_getter('type')
+    bibliographicURI = dict_getter('bibliographic_uri')
+    accessURI = dict_getter('access_uri')
 
-    def shortCitation(self):
-        title = self.context.get('short_title', '')
-        detail = self.context.get('citation_detail', '')
-        return title + (title and ' ' or '') + detail
+    def otherIdentifier(self):
+        identifier = self.context.get('identifier')
+        return identifier if identifier != self.bibliographicURI() else ""
 
 
 @memoize_all_methods
