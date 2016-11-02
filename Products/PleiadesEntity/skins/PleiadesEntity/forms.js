@@ -44,7 +44,14 @@ jQuery(function () {
                 $access_uri.val(data.access_uri);
               }
             }
-          ).error(function (resp) {var data = JSON.parse(resp.responseText); alert(data.error);});
+          ).error(function (resp) {
+            try {
+              var data = JSON.parse(resp.responseText);
+              window.alert(data.error);
+            } catch(err) {
+              window.alert('Error code: ' + resp.status + ' while retrieving Zotero response');
+            }
+          });
         }
         return false;
       });
