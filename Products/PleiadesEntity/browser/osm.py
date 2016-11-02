@@ -41,7 +41,6 @@ class OSMLocationFactory(BrowserView):
             self.context, 'plone_utils').addPortalMessage(
                 _("Location not created. " + msg.rstrip('.') + "."))
         self.request.response.redirect(self.context.absolute_url())
-        return
 
     def __call__(self):
 
@@ -49,8 +48,7 @@ class OSMLocationFactory(BrowserView):
             objid = str(int(self.request.get('obj')))
             objtype = str(self.request.get('type'))
         except (TypeError, ValueError) as e:
-            self._fall_back(str(e))
-            return
+            return self._fall_back(str(e))
 
         url = "/".join([OSM_API_ENDPOINT, objtype, objid] + (
             [] if objtype == 'node' else ['full']))
@@ -59,8 +57,7 @@ class OSMLocationFactory(BrowserView):
         resp, content = h.request(url, "GET")
 
         if not resp['status'] == "200":
-            self._fall_back("OSM API response: " + resp['status'])
-            return
+            return self._fall_back("OSM API response: " + resp['status'])
 
         osm = etree.fromstring(content)
         elem = osm.find('{}[@id="{}"]'.format(objtype, objid))
@@ -82,7 +79,7 @@ class OSMLocationFactory(BrowserView):
         elif objtype == 'relation':
             relation_type = elem.find("tag[@k='type']").attrib.get('v')
             if relation_type not in ('multipolygon', 'waterway'):
-                self._fall_back(
+                return self._fall_back(
                     "Only relations of type 'multipolygon' and 'waterway' can be imported.")
             ways = []
             way_xpath = "member[@type='way']"
@@ -114,8 +111,7 @@ class OSMLocationFactory(BrowserView):
                     objtype.capitalize(), objid,
                     version, changeset, timestamp))
         except Exception as e:
-            self._fall_back(str(e))
-            return
+            return self._fall_back(str(e))
 
         try:
             metadataDoc = site['features']['metadata'][
