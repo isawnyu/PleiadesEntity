@@ -106,15 +106,24 @@ def contributorsSubscriber(obj, event):
             "Failed to sync Contributors with revision history" )
 
 # We want to reindex containers when locations, names change state
+# Also, we need to make sure the parent has its contributors updated
 #
 @adapter(ILocation, IActionSucceededEvent)
 def locationActionSucceededSubscriber(obj, event):
     log.debug("Event handled: %s, %s", obj, event)
     reindexContainer(obj, event)
+    context = aq_inner(obj)
+    parent = aq_parent(context)
+    if IPlace.providedBy(parent):
+        contributorsSubscriber(parent, event)
 
 @adapter(IName, IActionSucceededEvent)
 def nameActionSucceededSubscriber(obj, event):
     reindexContainer(obj, event)
+    context = aq_inner(obj)
+    parent = aq_parent(context)
+    if IPlace.providedBy(parent):
+        contributorsSubscriber(parent, event)
 
 @adapter(IPlace, IAfterCheckinEvent)
 def placeAfterCheckinSubscriber(obj, event):
