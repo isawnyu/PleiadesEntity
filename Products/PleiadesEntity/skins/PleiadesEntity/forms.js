@@ -43,6 +43,9 @@ jQuery(function () {
               if (data.access_uri) {
                 $access_uri.val(data.access_uri);
               }
+              if (data.bibliographic_uri) {
+                $bib_uri_input.val(data.bibliographic_uri);
+              }
             }
           ).error(function (resp) {
             try {
