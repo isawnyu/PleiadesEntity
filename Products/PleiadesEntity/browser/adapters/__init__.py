@@ -220,6 +220,7 @@ class ReferenceExportAdapter(ExportAdapter):
     type = dict_getter('type')
     bibliographicURI = dict_getter('bibliographic_uri')
     accessURI = dict_getter('access_uri')
+    alternateURI = dict_getter('alternate_uri')
 
     def otherIdentifier(self):
         identifier = self.context.get('identifier')
