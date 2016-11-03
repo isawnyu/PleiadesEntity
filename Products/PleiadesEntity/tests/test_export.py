@@ -222,6 +222,7 @@ class TestExport(PleiadesEntityTestCase):
                 'transcriptionAccuracy': 'accurate',
                 'transcriptionCompleteness': 'complete',
                 'references': [{u'accessURI': u'',
+                                u'alternateURI': u'',
                                 u'bibliographicURI': u'',
                                 u'citationDetail': u'',
                                 u'formattedCitation': u'',
