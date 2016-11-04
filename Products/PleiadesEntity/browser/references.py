@@ -16,6 +16,5 @@ class ReferenceUtils(BrowserView):
         catalog = getToolByName(self.context, 'portal_catalog')
         results = catalog.searchResults(UID=uids)
 
-        b_size = int(self.request.form.get('b_size') or 50)
-        b_start = int(self.request.form.get('b_start') or 0)
-        return Batch(results, b_size, b_start, orphan=5)
+        b_start = self.request.form.get('b_start') or 0
+        return Batch(results, 50, int(b_start), orphan=5)
