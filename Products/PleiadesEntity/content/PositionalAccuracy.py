@@ -10,28 +10,20 @@
 # GNU General Public License (GPL)
 #
 
-__author__ = """Sean Gillies <unknown>, Tom Elliott <unknown>"""
-__docformat__ = 'plaintext'
-
 from AccessControl import ClassSecurityInfo
-from Products.Archetypes.atapi import *
+from Products.Archetypes import atapi
+from Products.ATBackRef.backref import BackReferenceField, BackReferenceWidget
+from Products.ATContentTypes.content.document import ATDocument
+from Products.ATContentTypes.content.document import ATDocumentSchema
+from Products.PleiadesEntity.config import PROJECTNAME
 from zope.interface import implements
 import interfaces
 
-from Products.CMFCore.utils import getToolByName
+schema = atapi.Schema((
 
-from Products.ATContentTypes.content.document import ATDocument
-from Products.ATContentTypes.content.document import ATDocumentSchema
-from Products.PleiadesEntity.config import *
-
-##code-section module-header #fill in your manual code here
-##/code-section module-header
-
-schema = Schema((
-
-    FloatField(
+    atapi.FloatField(
         name='value',
-        widget=FloatField._properties['widget'](
+        widget=atapi.FloatField._properties['widget'](
             label="Positional accuracy",
             description="Enter the accuracy, in meters, of location or position",
             label_msgid='PleiadesEntity_label_value',
@@ -40,41 +32,37 @@ schema = Schema((
         ),
         description="Positional accuracy value in meters",
     ),
-    FileField(
+    atapi.FileField(
         name='source',
-        widget=FileField._properties['widget'](
+        widget=atapi.FileField._properties['widget'](
             description="Attach feature source file",
             label="Feature source file",
             label_msgid='PleiadesEntity_label_source',
             description_msgid='PleiadesEntity_help_source',
             i18n_domain='PleiadesEntity',
         ),
-        storage=AttributeStorage(),
+        storage=atapi.AttributeStorage(),
         description="XML source of features",
     ),
-    ComputedField(
-        name='refCount',
-        expression='context.countReferences()',
-        read_permission='Manage portal',
-        widget=ComputedWidget(
-            label='Reference count',
-            modes=('view',),
+    BackReferenceField(
+        name='backrefs',
+        widget=BackReferenceWidget(
+            visible="{'view': 'visible', 'edit': 'invisible'}",
+            macro="betterbackrefwidget",
+            label=u'Referenced By',
+            hide_inaccessible=True,
         ),
-    )
-),
-)
-
-##code-section after-local-schema #fill in your manual code here
-##/code-section after-local-schema
+        multiValued=True,
+        relationship='location_accuracy',
+    ),
+))
 
 PositionalAccuracy_schema = ATDocumentSchema.copy() + \
     schema.copy()
 
-##code-section after-schema #fill in your manual code here
-##/code-section after-schema
 
 class PositionalAccuracy(ATDocument):
-    """
+    """A description of positional accuracy of a geographic data source.
     """
     security = ClassSecurityInfo()
 
@@ -85,25 +73,10 @@ class PositionalAccuracy(ATDocument):
 
     schema = PositionalAccuracy_schema
 
-    ##code-section class-header #fill in your manual code here
-    schema["presentation"].widget.visible = {"edit": "invisible", "view": "invisible"}
-    schema["tableContents"].widget.visible = {"edit": "invisible", "view": "invisible"}
-    ##/code-section class-header
-
-    # Methods
-
-    def countReferences(self):
-        tool = getToolByName(self, 'reference_catalog')
-        brains = tool.getBackReferences(
-            self, 'location_accuracy', objects=False)
-        return len(brains)
+    schema["presentation"].widget.visible = {
+        "edit": "invisible", "view": "invisible"}
+    schema["tableContents"].widget.visible = {
+        "edit": "invisible", "view": "invisible"}
 
 
-registerType(PositionalAccuracy, PROJECTNAME)
-# end of class PositionalAccuracy
-
-##code-section module-footer #fill in your manual code here
-##/code-section module-footer
-
-
-
+atapi.registerType(PositionalAccuracy, PROJECTNAME)
