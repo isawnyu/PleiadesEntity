@@ -18,14 +18,11 @@ from Products.Archetypes.atapi import *
 from zope.interface import implements
 import interfaces
 
-from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
+from Products.CMFCore.utils import getToolByName
 
 from Products.ATContentTypes.content.document import ATDocument
 from Products.ATContentTypes.content.document import ATDocumentSchema
 from Products.PleiadesEntity.config import *
-
-# additional imports from tagged value 'import'
-from Products.ATBackRef.backref import BackReferenceField, BackReferenceWidget
 
 ##code-section module-header #fill in your manual code here
 ##/code-section module-header
@@ -96,7 +93,10 @@ class PositionalAccuracy(ATDocument):
     # Methods
 
     def countReferences(self):
-        return len(self.getBackReferenceImpl(self, 'location_accuracy'))
+        tool = getToolByName(self, 'reference_catalog')
+        brains = tool.getBackReferences(
+            self, 'location_accuracy', objects=False)
+        return len(brains)
 
 
 registerType(PositionalAccuracy, PROJECTNAME)
