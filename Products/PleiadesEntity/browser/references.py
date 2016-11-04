@@ -1,4 +1,3 @@
-from plone.batching import Batch
 from Products.CMFCore.utils import getToolByName
 from Products.Five import BrowserView
 
@@ -14,7 +13,4 @@ class ReferenceUtils(BrowserView):
 
         # Now get the corresponding portal_catalog brains...
         catalog = getToolByName(self.context, 'portal_catalog')
-        results = catalog.searchResults(UID=uids)
-
-        b_start = self.request.form.get('b_start') or 0
-        return Batch(results, 50, int(b_start), orphan=5)
+        return catalog.searchResults(UID=uids)
