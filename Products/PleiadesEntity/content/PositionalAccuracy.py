@@ -50,7 +50,6 @@ schema = atapi.Schema((
             visible="{'view': 'visible', 'edit': 'invisible'}",
             macro="betterbackrefwidget",
             label=u'Referenced By',
-            hide_inaccessible=True,
         ),
         multiValued=True,
         relationship='location_accuracy',
