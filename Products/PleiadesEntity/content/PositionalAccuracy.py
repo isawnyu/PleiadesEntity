@@ -55,6 +55,15 @@ schema = Schema((
         storage=AttributeStorage(),
         description="XML source of features",
     ),
+    ComputedField(
+        name='refCount',
+        expression='context.countReferences()',
+        read_permission='Manage portal',
+        widget=ComputedWidget(
+            label='Reference count',
+            modes=('view',),
+        ),
+    )
 ),
 )
 
@@ -85,6 +94,9 @@ class PositionalAccuracy(ATDocument):
     ##/code-section class-header
 
     # Methods
+
+    def countReferences(self):
+        return len(self.getBackReferenceImpl(self, 'location_accuracy'))
 
 
 registerType(PositionalAccuracy, PROJECTNAME)
