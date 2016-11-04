@@ -18,7 +18,6 @@ from AccessControl import getSecurityManager
 from archetypes.referencebrowserwidget import ReferenceBrowserWidget
 from pleiades.vocabularies.widget import FilteredInAndOutWidget
 from Products.Archetypes import atapi
-from Products.ATBackRef.backref import BackReferenceField, BackReferenceWidget
 from Products.ATContentTypes.content import schemata
 from Products.ATContentTypes.content.document import ATDocumentBase, ATDocumentSchema
 from Products.CMFCore import permissions
@@ -92,20 +91,6 @@ schema = atapi.Schema((
         allowed_types="('Place',)",
     ),
 
-    BackReferenceField(
-        name='connections_from',
-        widget=BackReferenceWidget(
-            visible="{'view': 'visible', 'edit': 'invisible'}",
-            label="Has a connection with (old)",
-            macro="betterbackrefwidget",
-            label_msgid='PleiadesEntity_label_connectsWith',
-            i18n_domain='PleiadesEntity',
-            hide_inaccessible=True,
-        ),
-        multiValued=True,
-        relationship="connectsWith",
-    ),
-
 ))
 
 
@@ -126,7 +111,6 @@ schema["presentation"].widget.visible = off
 schema["tableContents"].widget.visible = off
 schema["text"].schemata = "Details"
 schema["connections"].widget.visible = off
-schema["connections_from"].widget.visible = off
 
 schemata.finalizeATCTSchema(
     Place_schema,

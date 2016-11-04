@@ -10,7 +10,7 @@
 
     <metal:view_macro define-macro="view">
       <tal:define 
-        define="ref_utils context/@@ref_utils;
+        define="ref_utils nocall:context/@@ref_utils;
                 folderContents python:ref_utils.getBackrefBrains(field.relationship);"
         condition="folderContents">
 
