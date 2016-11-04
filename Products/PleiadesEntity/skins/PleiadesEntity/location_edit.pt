@@ -24,6 +24,9 @@
     </tal:block>
       <style>
         #map { height: 480px; float: right; }
+        .leaflet-container {
+          z-index: 1;
+        }
         .leaflet-control-zoom-reset {
           background-image: url(zoom-reset.png);
           margin-bottom: 5px; }
