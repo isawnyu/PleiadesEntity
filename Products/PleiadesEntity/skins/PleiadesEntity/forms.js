@@ -43,8 +43,18 @@ jQuery(function () {
               if (data.access_uri) {
                 $access_uri.val(data.access_uri);
               }
+              if (data.bibliographic_uri) {
+                $bib_uri_input.val(data.bibliographic_uri);
+              }
             }
-          ).error(function (resp) {var data = JSON.parse(resp.responseText); alert(data.error);});
+          ).error(function (resp) {
+            try {
+              var data = JSON.parse(resp.responseText);
+              window.alert(data.error);
+            } catch(err) {
+              window.alert('Error code: ' + resp.status + ' while retrieving Zotero response');
+            }
+          });
         }
         return false;
       });
