@@ -91,7 +91,7 @@ Verify attributes
     'An ancient place, cited: BAtlas 35 E2 Abrotonum/Sabratha'
     
     >>> [ref for ref in p.getReferenceCitations()]
-    [{'range': 'BAtlas 35 E2 Abrotonum/Sabratha', 'identifier': 'http://atlantides.org/bibliography/', 'type': 'seeFurther'}, {'range': 'Desanges1978,100-101', 'identifier': 'http://atlantides.org/bibliography/', 'type': 'seeFurther'}, {'range': 'Mattingly1994,125-27', 'identifier': 'http://atlantides.org/bibliography/', 'type': 'seeFurther'}]
+    [{'bibliographic_uri': 'http://atlantides.org/bibliography/b.html#BAtlas-35-E2-Abrotonum/Sabratha', 'alternate_uri': '', 'formatted_citation': '', 'short_title': 'BAtlas 35 E2 Abrotonum/Sabratha', 'identifier': '', 'type': 'seeFurther', 'citation_detail': '', 'access_uri': ''}, {'bibliographic_uri': 'http://atlantides.org/bibliography/d.html#Desanges1978', 'alternate_uri': '', 'formatted_citation': '', 'short_title': 'Desanges1978,100-101', 'identifier': '', 'type': 'seeFurther', 'citation_detail': '', 'access_uri': ''}, {'bibliographic_uri': 'http://atlantides.org/bibliography/m.html#Mattingly1994', 'alternate_uri': '', 'formatted_citation': '', 'short_title': 'Mattingly1994,125-27', 'identifier': '', 'type': 'seeFurther', 'citation_detail': '', 'access_uri': ''}]
     
 Names
 
