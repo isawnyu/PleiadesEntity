@@ -192,10 +192,11 @@ schema = atapi.Schema((
             description="Select document describing the postional accuracy of this location",
             label_msgid='PleiadesEntity_label_accuracy',
             i18n_domain='PleiadesEntity',
+            base_query={'review_state': 'published'}
         ),
         multiValued=False,
         relationship='location_accuracy',
-        allow_browse="True",
+        allowed_types=('PositionalAccuracy',),
     ),
 
     OrderableReferenceField(

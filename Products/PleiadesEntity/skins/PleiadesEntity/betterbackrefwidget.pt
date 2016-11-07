@@ -10,9 +10,9 @@
 
     <metal:view_macro define-macro="view">
       <tal:define 
-        define="refs python:here.getBackReferenceImpl(field.relationship); folderContents python:here.getBackRefContents(refs); batch folderContents"
-        condition="refs"
-        >
+        define="ref_utils nocall:context/@@ref_utils;
+                folderContents python:ref_utils.getBackrefBrains(field.relationship);"
+        condition="folderContents">
 
             <!-- Navigation -->
             <div metal:use-macro="here/batch_macros/macros/navigation" />

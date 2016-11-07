@@ -84,6 +84,14 @@
     permission="zope2.View"
     />
 
+  <browser:view
+    for="*"
+    name="ref_utils"
+    class=".references.ReferenceUtils"
+    allowed_attributes="getBackrefBrains"
+    permission="zope2.View"
+    />
+
   <browser:page
     for="Products.PleiadesEntity.content.interfaces.ILocation"
     name="promote-to-place"
