@@ -186,11 +186,10 @@ class ReferenceCitation(CompoundField):
 
     def get(self, instance, **kwargs):
         value = CompoundField.get(self, instance, **kwargs)
-        if (not value.get('bibliographic_uri') and not value.get('access_uri')
-                and not value.get('identifier')):
-            default = self._defaultBibliography(instance, value)
-            if default:
-                value['bibliographic_uri'] = default
+        # Don't ever return default value
+        default = self._defaultBibliography(instance, value)
+        if value.get('bibliographic_uri') == default:
+            value['bibliographic_uri'] = None
         return value
 
 registerField(ReferenceCitation, title='ReferenceCitation', description='')
