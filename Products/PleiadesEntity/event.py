@@ -25,7 +25,7 @@ def nameChangeSubscriber(obj, event):
     obj.getField('title').set(
         obj, obj.getNameTransliterated().split(',')[0].strip() or "Untitled")
     reindexContainer(obj, event)
-    
+
 @adapter(ILocation, IObjectModifiedEvent)
 def locationChangeSubscriber(obj, event):
     log.debug("Event handled: %s, %s", obj, event)
@@ -45,7 +45,7 @@ def locationChangeSubscriber(obj, event):
 def contributorsSubscriber(obj, event):
     # Ensure that principals from the obj's version history are represented
     # in the Contributors field.
-    
+
     def fixSeanTom(p):
         if p in ("T. Elliott", "Tom Elliott"):
             return "thomase"
@@ -56,16 +56,17 @@ def contributorsSubscriber(obj, event):
 
     def repairPrincipal(p):
         return [fixSeanTom(v.strip()) for v in p.split(",")]
-    
+
     def repairPrincipals(seq):
         return reduce(lambda x, y: x+y, map(repairPrincipal, seq), [])
 
     creators = set(repairPrincipals(obj.Creators()))
     contributors = set(filter(
-        lambda x: x not in creators, 
+        lambda x: x not in creators,
         repairPrincipals(obj.Contributors())))
     credited = creators.union(contributors)
-    
+    wt = getToolByName(obj, "portal_workflow")
+
     def getPrincipals(ob):
         principals = set()
         context = aq_inner(ob)
@@ -82,16 +83,19 @@ def contributorsSubscriber(obj, event):
         principals = getPrincipals(obj)
         if IPlace.providedBy(obj):
             for sub in (obj.getNames() + obj.getLocations()):
+                review_state = wt.getInfoFor(sub, 'review_state')
+                if review_state != 'published':
+                    continue
                 sub_principals = set(
                     repairPrincipals(sub.Creators()) \
                     + repairPrincipals(sub.Contributors()))
                 principals = principals.union(sub_principals)
         uncredited = principals - credited
-        
+
         obj.setCreators(list(creators))
         obj.setContributors(list(contributors.union(uncredited)))
         obj.reindexObject(idxs=['Creator', 'Contributors'])
-        
+
         context = aq_inner(obj)
         parent = aq_parent(context)
         if IPlace.providedBy(parent):
@@ -102,15 +106,24 @@ def contributorsSubscriber(obj, event):
             "Failed to sync Contributors with revision history" )
 
 # We want to reindex containers when locations, names change state
+# Also, we need to make sure the parent has its contributors updated
 #
 @adapter(ILocation, IActionSucceededEvent)
 def locationActionSucceededSubscriber(obj, event):
     log.debug("Event handled: %s, %s", obj, event)
     reindexContainer(obj, event)
+    context = aq_inner(obj)
+    parent = aq_parent(context)
+    if IPlace.providedBy(parent):
+        contributorsSubscriber(parent, event)
 
 @adapter(IName, IActionSucceededEvent)
 def nameActionSucceededSubscriber(obj, event):
     reindexContainer(obj, event)
+    context = aq_inner(obj)
+    parent = aq_parent(context)
+    if IPlace.providedBy(parent):
+        contributorsSubscriber(parent, event)
 
 @adapter(IPlace, IAfterCheckinEvent)
 def placeAfterCheckinSubscriber(obj, event):
