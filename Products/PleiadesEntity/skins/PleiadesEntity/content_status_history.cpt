@@ -37,7 +37,9 @@
                      review_state context/@@plone_context_state/workflow_state;
                      paths request/form/paths|nothing;
                      came_from_folder_contents python:bool(paths);
-                     paths python:['/'.join(context.getPhysicalPath())] + ['/'.join(o.getPhysicalPath()) for o in context.listFolderContents()];
+                     is_folderish context/isPrincipiaFolderish|nothing;
+                     contained_items python:context.listFolderContents() if is_folderish else [];
+                     paths python:['/'.join(context.getPhysicalPath())] + ['/'.join(o.getPhysicalPath()) for o in contained_items];
                      batch python:context.getObjectsFromPathList(paths, batch=False);
                      folders_in_publishing python:[o.getId for o in batch if o.isPrincipiaFolderish and o.portal_type != 'Place'];
                      came_from python:request.get('HTTP_REFERER', context.absolute_url()).split('?')[0];
