@@ -172,12 +172,6 @@
                          rel="nofollow"
                          tal:attributes="href linkedin">LinkedIn Profile</a>
                     </p>
-                    <p tal:define="linkedin link_info/linkedin_link"
-                       tal:condition="linkedin">
-                      <a href="#"
-                         rel="nofollow"
-                         tal:attributes="href linkedin">LinkedIn Profile</a>
-                    </p>
                     <p tal:condition="authorinfo/home_page">
                       <a href="#"
                          rel="nofollow"
