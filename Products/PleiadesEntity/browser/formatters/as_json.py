@@ -83,7 +83,7 @@ class JSONFormatter(object):
 class JSONView(BrowserView):
 
     def __call__(self):
-        self.request.response.setHeader('Content-Type', 'application/json')
+        self.request.response.setHeader('Content-Type', 'application/json; charset=utf-8')
         self.request.response.setHeader('Access-Control-Allow-Origin', '*')
 
         # BBB
