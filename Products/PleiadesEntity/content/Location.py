@@ -215,7 +215,7 @@ schema = atapi.Schema((
         allow_browse="True",
     ),
 
-    atapi.StringField(
+    atapi.LinesField(
         name='locationType',
         widget=atapi.InAndOutWidget(
             label="Location type",
