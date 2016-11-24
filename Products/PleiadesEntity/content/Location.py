@@ -116,7 +116,7 @@ class CoordinatesValidator(object, LocationMixin):
 
 schema = atapi.Schema((
 
-    atapi.StringField(
+    atapi.LinesField(
         name='featureType',
         widget=FilteredInAndOutWidget(
             label="Feature type",
