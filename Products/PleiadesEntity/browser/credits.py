@@ -7,7 +7,7 @@ FAKE_USERS = ('auser', 'juser', 'buser', 'euser')
 REMOVE_USERS = frozenset(
     ['sgilles', 'admin', 'rtalbert', 'thomase', 'sgillies', 'admin2'])
 NAME_MAP = {
-    'S. Gillies': 'sgilles',
+    'S. Gillies': 'sgillies',
     'T. Elliot': 'thomase',
 }
 
