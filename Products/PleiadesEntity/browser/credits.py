@@ -3,7 +3,7 @@ from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import BrowserView
 from plone.memoize import view
 
-FAKE_USERS = ('auser', 'juser')
+FAKE_USERS = ('auser', 'juser', 'buser', 'euser')
 REMOVE_USERS = frozenset(['sgilles', 'admin', 'rtalbert', 'thomase'])
 NAME_MAP = {
     'S. Gillies': 'sgilles',
@@ -85,7 +85,7 @@ class CreditTools(BrowserView):
 
     @view.memoize
     def contributors(self):
-        """ return list of contributor's fullnames            
+        """ return list of contributor's fullnames
         """
         contributors = []
         mt = getToolByName(self.context, 'portal_membership')
