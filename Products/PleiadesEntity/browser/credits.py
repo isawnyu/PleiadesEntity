@@ -4,7 +4,8 @@ from Products.Five.browser import BrowserView
 from plone.memoize import view
 
 FAKE_USERS = ('auser', 'juser', 'buser', 'euser')
-REMOVE_USERS = frozenset(['sgilles', 'admin', 'rtalbert', 'thomase'])
+REMOVE_USERS = frozenset(
+    ['sgilles', 'admin', 'rtalbert', 'thomase', 'sgillies', 'admin2'])
 NAME_MAP = {
     'S. Gillies': 'sgilles',
     'T. Elliot': 'thomase',
