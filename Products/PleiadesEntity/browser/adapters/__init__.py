@@ -273,7 +273,13 @@ class MemberExportAdapter(ExportAdapter):
         return self.context.getProperty('fullname', None)
 
     def homepage(self):
-        return self.context.getProperty('homepage', None)
+        return self.context.getProperty('home_page', '')
+
+    def viaf(self):
+        return self.context.getProperty('viaf_link', '')
+
+    def orcid(self):
+        return self.context.getProperty('orcid_link', '')
 
 
 @memoize_all_methods
