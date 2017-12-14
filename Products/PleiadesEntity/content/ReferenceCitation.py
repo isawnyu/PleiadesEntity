@@ -56,7 +56,11 @@ schema = Schema((
         required=False,
         widget=StringField._properties['widget'](
             label="Short Title",
-            description="The short title of the bibliographic reference.",
+            description='Enter an "author year" short title or standard '
+                'abbreviation for the work being cited. This short title '
+                'must match what is found in the <a '
+                'href="https://www.zotero.org/groups/2533/pleiades">Pleiades '
+                'Zotero Library</a> for the work in question.',
             label_msgid='PleiadesEntity_label_short_title',
             description_msgid='PleiadesEntity_help_short_title',
             i18n_domain='PleiadesEntity',
@@ -68,7 +72,10 @@ schema = Schema((
         required=False,
         widget=StringField._properties['widget'](
             label="Citation Detail",
-            description="",
+            description='Enter appropriate additional information when a '
+                'subsection of the work is being cited (e.g., page range, '
+                'section title, item number, headword, or web page title in '
+                'a larger site).',
             label_msgid='PleiadesEntity_label_citation_detail',
             description_msgid='PleiadesEntity_help_citation_detail',
             i18n_domain='PleiadesEntity',
@@ -80,7 +87,13 @@ schema = Schema((
         required=False,
         widget=StringField._properties['widget'](
             label="Formatted Citation",
-            description="",
+            description='Enter a clear, complete, and human-readable '
+                'bibliographic citation for the work and section cited as '
+                'one might expect to find in a traditional, printed '
+                'scholarly bibliography. See further the <a '
+                'href="https://pleiades.stoa.org/help/citation-guide/'
+                'citation-guide#general_rules_for_references">Pleiades '
+                'Citation Guide, sub "General Rules for References."</a>',
             label_msgid='PleiadesEntity_label_formatted_citation',
             description_msgid='PleiadesEntity_help_formatted_citation',
             i18n_domain='PleiadesEntity',
