@@ -39,7 +39,12 @@ schema = Schema((
         default="seeFurther",
         widget=SelectionWidget(
             label="Citation Type",
-            description='Places need "See Further" and "See Also" citations. Locations and Names should cite ancient texts or objects as evidence and records in external databases or specific articles as confirmation.',
+            description='Pick a keyword/phrase from the list to '
+                'indicate the purpose and function of this reference. '
+                'See <a '
+                'href="https://pleiades.stoa.org/help/citation-types">'
+                'Citation Types documentation</a> for definitions of these '
+                'terms.',
             label_msgid='PleiadesEntity_label_citationType',
             description_msgid='PleiadesEntity_help_citationType',
             i18n_domain='PleiadesEntity',
