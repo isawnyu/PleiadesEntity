@@ -110,7 +110,10 @@ schema = Schema((
         widget=StringField._properties['widget'](
             macro="url_widget",
             label="Bibliographic URI",
-            description="This is a URI to an online bibliographic reference (e.g. zotero, worldcat, openlibrary, ...).",
+            description='Enter a link to a record in the <a '
+                'href="https://www.zotero.org/groups/2533/pleiades">Pleiades '
+                'Zotero Library</a> that provides information for the work '
+                'being cited.',
             size=79,
             label_msgid='PleiadesEntity_label_bibliographic_uri',
             description_msgid='PleiadesEntity_help_bibliographic_uri',
@@ -126,7 +129,13 @@ schema = Schema((
             macro="url_widget",
             label="Access URI",
             size=79,
-            description="This is a URI to access the identified resource.",
+            description='If the work being cited is available online, enter '
+                'a link to it here. If the work is only available in print, '
+                'but there is an accurate record for it in <a '
+                'href="https://www.worldcat.org/">WorldCat union catalog, '
+                'enter <a '
+                'href="http://www.worldcat.org/links/#oclc-number">the '
+                'WorldCat "permalink"</a> here.',
             label_msgid='PleiadesEntity_label_access_uri',
             description_msgid='PleiadesEntity_help_access_uri',
             i18n_domain='PleiadesEntity',
@@ -141,7 +150,10 @@ schema = Schema((
             macro="url_widget",
             label="Alternate URI",
             size=79,
-            description="This is an alternate URL for the identified resource",
+            description='If you are aware of a digital mirror or archival '
+                'copy of the item being cited (especially, in the <a '
+                'href="https://archive.org/">Internet Archive</a>), enter '
+                'its address here.',
             label_msgid='PleiadesEntity_label_alternate_uri',
             description_msgid='PleiadesEntity_help_alternate_uri',
             i18n_domain='PleiadesEntity',
@@ -154,7 +166,11 @@ schema = Schema((
         widget=StringField._properties['widget'](
             macro="url_widget",
             label="Other identifier",
-            description="This is an optional non-URL identifier (e.g. DOI, ISSN, Handle, etc).",
+            description='If you are aware of any non-URL identifiers for '
+                'this work (e.g. DOI or ISBN), please enter it here. Prefix '
+                'the identifier with the corresponding acronym (e.g., '
+                'ISSN: 2049-3630). Separate multiple acronym-identifier '
+                'pairs with semicolons (;).',
             size=40,
             label_msgid='PleiadesEntity_label_other_identifier',
             description_msgid='PleiadesEntity_help_other_identifier',
