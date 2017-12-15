@@ -39,7 +39,12 @@ schema = Schema((
         default="seeFurther",
         widget=SelectionWidget(
             label="Citation Type",
-            description='Places need "See Further" and "See Also" citations. Locations and Names should cite ancient texts or objects as evidence and records in external databases or specific articles as confirmation.',
+            description='Pick a keyword/phrase from the list to '
+                'indicate the purpose and function of this reference. '
+                'See <a '
+                'href="https://pleiades.stoa.org/help/citation-types">'
+                'Citation Types documentation</a> for definitions of these '
+                'terms.',
             label_msgid='PleiadesEntity_label_citationType',
             description_msgid='PleiadesEntity_help_citationType',
             i18n_domain='PleiadesEntity',
@@ -51,7 +56,12 @@ schema = Schema((
         required=False,
         widget=StringField._properties['widget'](
             label="Short Title",
-            description="The short title of the bibliographic reference.",
+            description='Enter an "author year" short title or standard '
+                'abbreviation for the work being cited. This short title '
+                'must match what is found in the <a '
+                'href="https://www.zotero.org/groups/2533/pleiades">Pleiades '
+                'Zotero Library</a> for the work in question.',
+            size=40,
             label_msgid='PleiadesEntity_label_short_title',
             description_msgid='PleiadesEntity_help_short_title',
             i18n_domain='PleiadesEntity',
@@ -63,7 +73,11 @@ schema = Schema((
         required=False,
         widget=StringField._properties['widget'](
             label="Citation Detail",
-            description="",
+            description='Enter appropriate additional information when a '
+                'subsection of the work is being cited (e.g., page range, '
+                'section title, item number, headword, or web page title in '
+                'a larger site).',
+            size=40,
             label_msgid='PleiadesEntity_label_citation_detail',
             description_msgid='PleiadesEntity_help_citation_detail',
             i18n_domain='PleiadesEntity',
@@ -75,7 +89,14 @@ schema = Schema((
         required=False,
         widget=StringField._properties['widget'](
             label="Formatted Citation",
-            description="",
+            description='Enter a clear, complete, and human-readable '
+                'bibliographic citation for the work and section cited as '
+                'one might expect to find in a traditional, printed '
+                'scholarly bibliography. See further the <a '
+                'href="https://pleiades.stoa.org/help/citation-guide/'
+                'citation-guide#general_rules_for_references">Pleiades '
+                'Citation Guide, sub "General Rules for References."</a>',
+            size=79,
             label_msgid='PleiadesEntity_label_formatted_citation',
             description_msgid='PleiadesEntity_help_formatted_citation',
             i18n_domain='PleiadesEntity',
@@ -89,7 +110,11 @@ schema = Schema((
         widget=StringField._properties['widget'](
             macro="url_widget",
             label="Bibliographic URI",
-            description="This is a URI to an online bibliographic reference (e.g. zotero, worldcat, openlibrary, ...).",
+            description='Enter a link to a record in the <a '
+                'href="https://www.zotero.org/groups/2533/pleiades">Pleiades '
+                'Zotero Library</a> that provides information for the work '
+                'being cited.',
+            size=79,
             label_msgid='PleiadesEntity_label_bibliographic_uri',
             description_msgid='PleiadesEntity_help_bibliographic_uri',
             i18n_domain='PleiadesEntity',
@@ -103,7 +128,14 @@ schema = Schema((
         widget=StringField._properties['widget'](
             macro="url_widget",
             label="Access URI",
-            description="This is a URI to access the identified resource.",
+            size=79,
+            description='If the work being cited is available online, enter '
+                'a link to it here. If the work is only available in print, '
+                'but there is an accurate record for it in <a '
+                'href="https://www.worldcat.org/">WorldCat union catalog, '
+                'enter <a '
+                'href="http://www.worldcat.org/links/#oclc-number">the '
+                'WorldCat "permalink"</a> here.',
             label_msgid='PleiadesEntity_label_access_uri',
             description_msgid='PleiadesEntity_help_access_uri',
             i18n_domain='PleiadesEntity',
@@ -117,7 +149,11 @@ schema = Schema((
         widget=StringField._properties['widget'](
             macro="url_widget",
             label="Alternate URI",
-            description="This is an alternate URL for the identified resource",
+            size=79,
+            description='If you are aware of a digital mirror or archival '
+                'copy of the item being cited (especially, in the <a '
+                'href="https://archive.org/">Internet Archive</a>), enter '
+                'its address here.',
             label_msgid='PleiadesEntity_label_alternate_uri',
             description_msgid='PleiadesEntity_help_alternate_uri',
             i18n_domain='PleiadesEntity',
@@ -130,7 +166,12 @@ schema = Schema((
         widget=StringField._properties['widget'](
             macro="url_widget",
             label="Other identifier",
-            description="This is an optional non-URL identifier (e.g. DOI, ISSN, Handle, etc).",
+            description='If you are aware of any non-URL identifiers for '
+                'this work (e.g. DOI or ISBN), please enter it here. Prefix '
+                'the identifier with the corresponding acronym (e.g., '
+                'ISSN: 2049-3630). Separate multiple acronym-identifier '
+                'pairs with semicolons (;).',
+            size=40,
             label_msgid='PleiadesEntity_label_other_identifier',
             description_msgid='PleiadesEntity_help_other_identifier',
             i18n_domain='PleiadesEntity',

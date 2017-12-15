@@ -46,7 +46,7 @@ schema = Schema((
         ReferenceCitation(
             name='referenceCitations',
             widget=CompoundWidget(
-                label="Reference identifier and citation",
+                label="Reference (Citation)",
                 label_msgid='PleiadesEntity_label_referenceCitations',
                 i18n_domain='PleiadesEntity',
             ),
@@ -58,7 +58,11 @@ schema = Schema((
 
         widget=EnhancedArrayWidget(
             label="References",
-            description="Add or remove references cited by this entity",
+            description='Add or remove citations of other works. Follow the '
+                'instructions in the <a '
+                'href="/help/editorial-guidelines">Editorial Guidelines</a> '
+                'and the <a '
+                'href="/help/citation-guide">Citation Guide.</a>',
             macro="pleiadescitationrefwidget",
             label_msgid='PleiadesEntity_label_array:referenceCitations',
             description_msgid='PleiadesEntity_help_array:referenceCitations',
