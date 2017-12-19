@@ -140,6 +140,16 @@ class LocationsTable(ChildrenTable):
         else:
             return u''
 
+    def prefix(self, ob):
+        acert = ob.getAssociationCertainty()
+        if acert == 'certain':
+            return u''
+        acert_title = (u'Association between the place and this location is '
+            u'{}.'.format(
+                [u'uncertain', u'less than certain'][acert == 'less-certain']))
+        acert_marker = [u'??', u'?'][acert == 'less-certain]']
+        return u'<span title="{}">{}</span>'.format(acert_title, acert_marker)
+
     def rows(self, locations):
         output = []
         where_tag = "where"
@@ -170,6 +180,7 @@ class LocationsTable(ChildrenTable):
                     where_tag,
                     self.snippet(ob) + "; " + ob.Description().decode("utf-8"),
                 ),
+                self.prefix(ob),
                 link,
                 self.postfix(ob),
                 status,
