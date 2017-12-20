@@ -4,6 +4,7 @@ from collective.geo.geographer.interfaces import IGeoreferenced
 from pleiades.geographer.geo import NotLocatedError, representative_point
 from plone.batching import Batch
 from plone.memoize import view
+from Products.ATVocabularyManager import NamedVocabulary
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import BrowserView
 from Products.PleiadesEntity.time import to_ad
@@ -147,7 +148,7 @@ class LocationsTable(ChildrenTable):
         acert_title = (u'Association between the place and this location is '
             u'{}.'.format(
                 [u'uncertain', u'less than certain'][acert == 'less-certain']))
-        acert_marker = [u'??', u'?'][acert == 'less-certain]']
+        acert_marker = [u'??', u'?'][acert == 'less-certain']
         return u'<span title="{}">{}</span>'.format(acert_title, acert_marker)
 
     def rows(self, locations):
@@ -205,7 +206,6 @@ class NamesTable(ChildrenTable):
             return unicode(ob.Title(), "utf-8") + u': ' + desc.strip()
 
     def postfix(self, ob):
-        acert = ob.getAssociationCertainty()
         nameAttested = ob.getNameAttested() or None
         if nameAttested is not None:
             nameAttested = unicode(nameAttested, "utf-8")
@@ -221,20 +221,33 @@ class NamesTable(ChildrenTable):
             timespan = None
         elif timespan.strip() == 'AD 1700 - Present':
             timespan = 'modern'
+        lang = ob.getNameLanguage() or "und"
+        lang_note = ''
+        if lang != "und":
+            lang_vocab = NamedVocabulary('ancient-name-languages')
+            lang_note = u'{}: '.format(lang_vocab[lang])
+
         if timespan and nameTransliterated:
-            annotation = u'(%s; %s)' % (nameTransliterated, timespan)
+            annotation = u'(%s%s; %s)' % (lang_note, nameTransliterated, timespan)
         elif nameTransliterated:
-            annotation = u'(%s)' % nameTransliterated
+            annotation = u'(%s%s)' % (lang_note, nameTransliterated)
         elif timespan:
-            annotation = u'(%s)' % timespan
+            annotation = u'(%s%s)' % (lang_note, timespan)
         else:
             annotation = None
-        if acert == 'less-certain':
-            return [u'?', u' %s?' % annotation][annotation is not None]
-        elif acert == 'uncertain':
-            return [u'??', u' %s??' % annotation][annotation is not None]
-        else:
-            return [u'', u' %s' % annotation][annotation is not None]
+        return [u'', u' %s' % annotation][annotation is not None]
+
+
+    def prefix(self, ob):
+        acert = ob.getAssociationCertainty()
+        if acert == 'certain':
+            return u''
+        acert_title = (u'Association between the place and this location is '
+            u'{}.'.format(
+                [u'uncertain', u'less than certain'][acert == 'less-certain']))
+        acert_marker = [u'??', u'?'][acert == 'less-certain']
+        return u'<span title="{}">{}</span>'.format(acert_title, acert_marker)
+
 
     def rows(self, names):
         output = []
@@ -270,6 +283,7 @@ class NamesTable(ChildrenTable):
             innerHTML = [
                 u'<li id="%s" class="placeChildItem" title="%s">' % (
                     ob.getId(), self.snippet(ob)),
+                self.prefix(ob),
                 link,
                 self.postfix(ob),
                 status,
