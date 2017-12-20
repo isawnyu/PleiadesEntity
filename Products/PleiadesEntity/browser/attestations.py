@@ -2,6 +2,7 @@ from AccessControl import getSecurityManager
 from Acquisition import aq_parent
 from collective.geo.geographer.interfaces import IGeoreferenced
 from pleiades.geographer.geo import NotLocatedError, representative_point
+from plone import api
 from plone.batching import Batch
 from plone.memoize import view
 from Products.ATVocabularyManager import NamedVocabulary
@@ -224,7 +225,9 @@ class NamesTable(ChildrenTable):
         lang = ob.getNameLanguage() or "und"
         lang_note = ''
         if lang != "und":
-            lang_vocab = NamedVocabulary('ancient-name-languages')
+            atvm = api.portal.get_tool(name='portal_vocabularies')
+            nv = NamedVocabulary('ancient-name-languages')
+            lang_vocab = nv.getVocabularyDict(atvm)
             lang_note = u'{}: '.format(lang_vocab[lang])
 
         if timespan and nameTransliterated:
