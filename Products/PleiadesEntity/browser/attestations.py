@@ -149,7 +149,7 @@ class LocationsTable(ChildrenTable):
         acert_title = (u'Association between the place and this location is '
             u'{}.'.format(
                 [u'uncertain', u'less than certain'][acert == 'less-certain']))
-        acert_marker = [u'??', u'?'][acert == 'less-certain']
+        acert_marker = [u'Uncertain: ', u'Less than certain: '][acert == 'less-certain']
         return u'<span title="{}">{}</span>'.format(acert_title, acert_marker)
 
     def rows(self, locations):
@@ -206,7 +206,7 @@ class NamesTable(ChildrenTable):
         else:
             return unicode(ob.Title(), "utf-8") + u': ' + desc.strip()
 
-    def postfix(self, ob):
+    def postfix(self, ob, lang_note):
         nameAttested = ob.getNameAttested() or None
         if nameAttested is not None:
             nameAttested = unicode(nameAttested, "utf-8")
@@ -222,20 +222,29 @@ class NamesTable(ChildrenTable):
             timespan = None
         elif timespan.strip() == 'AD 1700 - Present':
             timespan = 'modern'
-        lang = ob.getNameLanguage() or "und"
-        lang_note = ''
-        if lang != "und":
-            atvm = api.portal.get_tool(name='portal_vocabularies')
-            nv = NamedVocabulary('ancient-name-languages')
-            lang_vocab = nv.getVocabularyDict(atvm)
-            lang_note = u'{}: '.format(lang_vocab[lang])
 
-        if timespan and nameTransliterated:
-            annotation = u'(%s%s; %s)' % (lang_note, nameTransliterated, timespan)
-        elif nameTransliterated:
-            annotation = u'(%s%s)' % (lang_note, nameTransliterated)
-        elif timespan:
-            annotation = u'(%s%s)' % (lang_note, timespan)
+        if not lang_note:
+            ln = None
+        elif '(' in lang_note:
+            parts = lang_note.split('(')
+            parts[1] = parts[1].replace(')', '').strip()
+            parts[1] = parts[1][0].upper() + parts[1][1:]
+            ln = ' '.join((parts[1], parts[0].strip()))
+        else:
+            ln = lang_note
+        if nameTransliterated or ln or timespan:
+            annotation = u'('
+            if nameTransliterated:
+                annotation += nameTransliterated
+                if timespan or ln:
+                    annotation += u': '
+            if ln:
+                annotation += ln
+                if timespan:
+                    annotation += u', '
+            if timespan:
+                annotation += timespan
+            annotation += u')'
         else:
             annotation = None
         return [u'', u' %s' % annotation][annotation is not None]
@@ -245,10 +254,10 @@ class NamesTable(ChildrenTable):
         acert = ob.getAssociationCertainty()
         if acert == 'certain':
             return u''
-        acert_title = (u'Association between the place and this location is '
+        acert_title = (u'Association between the place and this name is '
             u'{}.'.format(
                 [u'uncertain', u'less than certain'][acert == 'less-certain']))
-        acert_marker = [u'??', u'?'][acert == 'less-certain']
+        acert_marker = [u'Uncertain: ', u'Less than certain: '][acert == 'less-certain']
         return u'<span title="{}">{}</span>'.format(acert_title, acert_marker)
 
 
@@ -257,6 +266,9 @@ class NamesTable(ChildrenTable):
         wftool = self.wftool
         checkPermission = getSecurityManager().checkPermission
         credit_utils = self.context.unrestrictedTraverse('@@credit_utils')
+        atvm = api.portal.get_tool(name='portal_vocabularies')
+        nv = NamedVocabulary('ancient-name-languages')
+        lang_vocab = nv.getVocabularyDict(atvm)
         for score, ob, nrefs in sorted(names, key=lambda k: k[1].Title() or ''):
             nameAttested = ob.getNameAttested() or None
             title = ob.Title() or "Untitled"
@@ -283,12 +295,16 @@ class NamesTable(ChildrenTable):
                 status = u' [%s by %s]' % (review_state, user['fullname'].decode('utf-8'))
             else:
                 status = u''
+            if labelLang != "und":
+                lang_title = lang_vocab[labelLang]
+            else:
+                lang_title = None
             innerHTML = [
                 u'<li id="%s" class="placeChildItem" title="%s">' % (
                     ob.getId(), self.snippet(ob)),
                 self.prefix(ob),
                 link,
-                self.postfix(ob),
+                self.postfix(ob, lang_title),
                 status,
                 u'</li>',
             ]
