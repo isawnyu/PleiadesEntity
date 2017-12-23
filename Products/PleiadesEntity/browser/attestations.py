@@ -217,6 +217,7 @@ class NamesTable(ChildrenTable):
                     nameTransliterated = None
         else:
             nameTransliterated = None
+
         timespan = TimeSpanWrapper(ob).snippet
         if timespan.strip() == '':
             timespan = None
@@ -225,13 +226,18 @@ class NamesTable(ChildrenTable):
 
         if not lang_note:
             ln = None
-        elif '(' in lang_note:
-            parts = lang_note.split('(')
-            parts[1] = parts[1].replace(')', '').strip()
-            parts[1] = parts[1][0].upper() + parts[1][1:]
-            ln = ' '.join((parts[1], parts[0].strip()))
         else:
-            ln = lang_note
+            if 'Modern' in lang_note and timespan:
+                if timespan == 'modern':
+                    timespan = None
+            if '(' in lang_note:
+                parts = lang_note.split('(')
+                parts[1] = parts[1].replace(')', '').strip()
+                parts[1] = parts[1][0].upper() + parts[1][1:]
+                ln = ' '.join((parts[1], parts[0].strip()))
+            else:
+                ln = lang_note
+
         if nameTransliterated or ln or timespan:
             annotation = u'('
             if nameTransliterated:
