@@ -227,8 +227,8 @@ class NamesTable(ChildrenTable):
         if not lang_note:
             ln = None
         else:
-            if 'Modern' in lang_note and timespan:
-                if timespan == 'modern':
+            if timespan == 'modern':
+                if 'modern' in lang_note.lower():
                     timespan = None
             if '(' in lang_note:
                 parts = lang_note.split('(')
