@@ -2,8 +2,10 @@ from AccessControl import getSecurityManager
 from Acquisition import aq_parent
 from collective.geo.geographer.interfaces import IGeoreferenced
 from pleiades.geographer.geo import NotLocatedError, representative_point
+from plone import api
 from plone.batching import Batch
 from plone.memoize import view
+from Products.ATVocabularyManager import NamedVocabulary
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import BrowserView
 from Products.PleiadesEntity.time import to_ad
@@ -140,6 +142,16 @@ class LocationsTable(ChildrenTable):
         else:
             return u''
 
+    def prefix(self, ob):
+        acert = ob.getAssociationCertainty()
+        if acert == 'certain':
+            return u''
+        acert_title = (u'Association between the place and this location is '
+            u'{}.'.format(
+                [u'uncertain', u'less than certain'][acert == 'less-certain']))
+        acert_marker = [u'Uncertain: ', u'Less than certain: '][acert == 'less-certain']
+        return u'<span title="{}">{}</span>'.format(acert_title, acert_marker)
+
     def rows(self, locations):
         output = []
         where_tag = "where"
@@ -170,6 +182,7 @@ class LocationsTable(ChildrenTable):
                     where_tag,
                     self.snippet(ob) + "; " + ob.Description().decode("utf-8"),
                 ),
+                self.prefix(ob),
                 link,
                 self.postfix(ob),
                 status,
@@ -193,8 +206,7 @@ class NamesTable(ChildrenTable):
         else:
             return unicode(ob.Title(), "utf-8") + u': ' + desc.strip()
 
-    def postfix(self, ob):
-        acert = ob.getAssociationCertainty()
+    def postfix(self, ob, lang_note):
         nameAttested = ob.getNameAttested() or None
         if nameAttested is not None:
             nameAttested = unicode(nameAttested, "utf-8")
@@ -205,31 +217,64 @@ class NamesTable(ChildrenTable):
                     nameTransliterated = None
         else:
             nameTransliterated = None
+
         timespan = TimeSpanWrapper(ob).snippet
         if timespan.strip() == '':
             timespan = None
         elif timespan.strip() == 'AD 1700 - Present':
             timespan = 'modern'
-        if timespan and nameTransliterated:
-            annotation = u'(%s; %s)' % (nameTransliterated, timespan)
-        elif nameTransliterated:
-            annotation = u'(%s)' % nameTransliterated
-        elif timespan:
-            annotation = u'(%s)' % timespan
+
+        if not lang_note:
+            ln = None
+        else:
+            if timespan == 'modern':
+                if 'modern' in lang_note.lower():
+                    timespan = None
+            if '(' in lang_note:
+                parts = lang_note.split('(')
+                parts[1] = parts[1].replace(')', '').strip()
+                parts[1] = parts[1][0].upper() + parts[1][1:]
+                ln = ' '.join((parts[1], parts[0].strip()))
+            else:
+                ln = lang_note
+
+        if nameTransliterated or ln or timespan:
+            annotation = u'('
+            if nameTransliterated:
+                annotation += nameTransliterated
+                if timespan or ln:
+                    annotation += u': '
+            if ln:
+                annotation += ln
+                if timespan:
+                    annotation += u', '
+            if timespan:
+                annotation += timespan
+            annotation += u')'
         else:
             annotation = None
-        if acert == 'less-certain':
-            return [u'?', u' %s?' % annotation][annotation is not None]
-        elif acert == 'uncertain':
-            return [u'??', u' %s??' % annotation][annotation is not None]
-        else:
-            return [u'', u' %s' % annotation][annotation is not None]
+        return [u'', u' %s' % annotation][annotation is not None]
+
+
+    def prefix(self, ob):
+        acert = ob.getAssociationCertainty()
+        if acert == 'certain':
+            return u''
+        acert_title = (u'Association between the place and this name is '
+            u'{}.'.format(
+                [u'uncertain', u'less than certain'][acert == 'less-certain']))
+        acert_marker = [u'Uncertain: ', u'Less than certain: '][acert == 'less-certain']
+        return u'<span title="{}">{}</span>'.format(acert_title, acert_marker)
+
 
     def rows(self, names):
         output = []
         wftool = self.wftool
         checkPermission = getSecurityManager().checkPermission
         credit_utils = self.context.unrestrictedTraverse('@@credit_utils')
+        atvm = api.portal.get_tool(name='portal_vocabularies')
+        nv = NamedVocabulary('ancient-name-languages')
+        lang_vocab = nv.getVocabularyDict(atvm)
         for score, ob, nrefs in sorted(names, key=lambda k: k[1].Title() or ''):
             nameAttested = ob.getNameAttested() or None
             title = ob.Title() or "Untitled"
@@ -256,11 +301,16 @@ class NamesTable(ChildrenTable):
                 status = u' [%s by %s]' % (review_state, user['fullname'].decode('utf-8'))
             else:
                 status = u''
+            if labelLang != "und":
+                lang_title = lang_vocab[labelLang]
+            else:
+                lang_title = None
             innerHTML = [
                 u'<li id="%s" class="placeChildItem" title="%s">' % (
                     ob.getId(), self.snippet(ob)),
+                self.prefix(ob),
                 link,
-                self.postfix(ob),
+                self.postfix(ob, lang_title),
                 status,
                 u'</li>',
             ]
