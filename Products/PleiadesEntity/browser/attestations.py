@@ -332,8 +332,18 @@ class ConnectionsTable(ChildrenTable):
     def referenced(self, ob):
         return ob.getConnection()
 
-    def postfix(self, ob):
+    def prefix(self, ob):
         acert = ob.getAssociationCertainty()
+        if acert == 'certain':
+            return u''
+        acert_title = (u'Association between the place and this name is '
+            u'{}.'.format(
+                [u'uncertain', u'less than certain'][acert == 'less-certain']))
+        acert_marker = [u'Uncertain: ', u'Less than certain: '][acert == 'less-certain']
+        return u'<span title="{}">{}</span>'.format(acert_title, acert_marker)
+
+
+    def postfix(self, ob):
         timespan = TimeSpanWrapper(ob).snippet
         if timespan.strip() == '':
             timespan = None
@@ -343,12 +353,11 @@ class ConnectionsTable(ChildrenTable):
             annotation = u'(%s)' % timespan
         else:
             annotation = None
-        if acert == 'less-certain':
-            return [u'?', u' %s?' % annotation][annotation is not None]
-        elif acert == 'uncertain':
-            return [u'??', u' %s??' % annotation][annotation is not None]
+        if annotation:
+            return u' {}'.format(annotation)
         else:
-            return [u'', u' %s' % annotation][annotation is not None]
+            return u''
+
 
     def rows(self, connections):
         output = []
@@ -374,6 +383,7 @@ class ConnectionsTable(ChildrenTable):
             innerHTML = [
                 u'<li id="%s" class="placeChildItem" title="%s">' % (
                     ob.getId(), self.snippet(ob)),
+                self.prefix(ob),
                 link,
                 self.postfix(ob),
                 status,
