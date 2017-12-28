@@ -13,6 +13,26 @@ import logging
 
 log = logging.getLogger('Products.PleiadesEntity')
 
+class AssociationCertaintyWrapper(object):
+
+    def __init__(self, context):
+        self.context = context
+
+    @property
+    def snippet(self):
+        acert = self.context.getAssociationCertainty()
+        if acert == 'certain':
+            return u''
+        acert_title = (
+            u'Association between this {} and the place is '
+            u''.format(
+                self.context.Type()) +
+            u'{}.'.format(
+                [u'uncertain', u'less than certain'][acert == 'less-certain']))
+        acert_marker = [
+            u'Uncertain: ', u'Less than certain: '][acert == 'less-certain']
+        return u'<span title="{}">{}</span>'.format(acert_title, acert_marker)
+
 
 class TimeSpanWrapper(object):
 
@@ -333,15 +353,7 @@ class ConnectionsTable(ChildrenTable):
         return ob.getConnection()
 
     def prefix(self, ob):
-        acert = ob.getAssociationCertainty()
-        if acert == 'certain':
-            return u''
-        acert_title = (u'Association between the place and this name is '
-            u'{}.'.format(
-                [u'uncertain', u'less than certain'][acert == 'less-certain']))
-        acert_marker = [u'Uncertain: ', u'Less than certain: '][acert == 'less-certain']
-        return u'<span title="{}">{}</span>'.format(acert_title, acert_marker)
-
+        return AssociationCertaintyWrapper(ob).snippet()
 
     def postfix(self, ob):
         timespan = TimeSpanWrapper(ob).snippet
