@@ -353,7 +353,7 @@ class ConnectionsTable(ChildrenTable):
         return ob.getConnection()
 
     def prefix(self, ob):
-        return AssociationCertaintyWrapper(ob).snippet()
+        return AssociationCertaintyWrapper(ob).snippet
 
     def postfix(self, ob):
         timespan = TimeSpanWrapper(ob).snippet
