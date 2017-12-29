@@ -26,7 +26,7 @@ class AssociationCertaintyWrapper(object):
         acert_title = (
             u'Association between this {} and the place is '
             u''.format(
-                self.context.Type()) +
+                self.context.Type().lower()) +
             u'{}.'.format(
                 [u'uncertain', u'less than certain'][acert == 'less-certain']))
         acert_marker = [
