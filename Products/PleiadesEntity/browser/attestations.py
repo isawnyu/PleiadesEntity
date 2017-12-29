@@ -382,6 +382,7 @@ class ConnectionsTable(ChildrenTable):
                 u'<li id="%s" class="placeChildItem" title="%s">' % (
                     ob.getId(), self.snippet(ob)),
                 self.prefix(ob),
+                ob.getRelationshipType(),
                 link,
                 self.postfix(ob),
                 status,
