@@ -339,7 +339,11 @@ class ConnectionsTable(ChildrenTable):
         return ob.getConnection()
 
     def prefix(self, ob):
-        return AssociationCertaintyWrapper(ob).snippet
+        ctype = ob.getRelationshipType()
+        if ctype == 'connection':
+            ctype = '(unspecified connection type) '
+        acert = AssociationCertaintyWrapper(ob).snippet
+        return "{}{}".format(acert, ctype)
 
     def postfix(self, ob):
         timespan = TimeSpanWrapper(ob).snippet
@@ -382,7 +386,6 @@ class ConnectionsTable(ChildrenTable):
                 u'<li id="%s" class="placeChildItem" title="%s">' % (
                     ob.getId(), self.snippet(ob)),
                 self.prefix(ob),
-                ob.getRelationshipType(),
                 link,
                 self.postfix(ob),
                 status,
