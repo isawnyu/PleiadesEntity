@@ -67,7 +67,7 @@ class TimeSpanWrapper(object):
             timespan['end'] = "Present"
         return (
             timespan and "%(start)s - %(end)s" % timespan
-            ) or "Attested dates needed"
+            ) or "unspecified date range"
 
 
 class PlacefulAttestations(BrowserView):
