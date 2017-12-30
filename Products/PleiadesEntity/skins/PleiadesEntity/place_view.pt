@@ -276,7 +276,7 @@
             </div>
 
             <div id="connectionsField-baseline" class="field baseline">
-              <label><span tal:replace="formatted_title">TITLE</span> makes a connection to:</label>
+              <label><span tal:replace="here/Title">TITLE</span> makes a connection to:</label>
               <dl tal:replace="structure baseline/@@connections-listing|nothing"></dl>
             </div>
           </div>
@@ -289,7 +289,7 @@
         </div>
 
         <div id="connectionsField-reverse" class="field">
-          <label><span tal:replace="formatted_title">TITLE</span> receives a connection from:</label>
+          <label><span tal:replace="here/Title">TITLE</span> receives a connection from:</label>
 
           <tal:connection_batch define="batch context/@@reverse-connections-listing/batched_rows">
             <ul class="placeChildren">
