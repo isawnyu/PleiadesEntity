@@ -347,7 +347,7 @@ class ConnectionsTable(ChildrenTable):
         else:
             vocabulary = get_vocabulary('relationship_types')
             ctype_dict = {t['id']:t['title'] for t in vocabulary}
-            ctype = '{} '.format(ctype_dict[ctype])
+            ctype = '{} was {} '.format(ob.Title, ctype_dict[ctype])
         acert = AssociationCertaintyWrapper(ob).snippet
         return "{}{}".format(acert, ctype)
 
