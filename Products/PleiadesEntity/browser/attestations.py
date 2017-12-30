@@ -2,6 +2,7 @@ from AccessControl import getSecurityManager
 from Acquisition import aq_parent
 from collective.geo.geographer.interfaces import IGeoreferenced
 from pleiades.geographer.geo import NotLocatedError, representative_point
+from pleiades.vocabularies import get_vocabulary
 from plone import api
 from plone.batching import Batch
 from plone.memoize import view
@@ -10,6 +11,7 @@ from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import BrowserView
 from Products.PleiadesEntity.time import to_ad
 import logging
+
 
 log = logging.getLogger('Products.PleiadesEntity')
 
@@ -342,6 +344,9 @@ class ConnectionsTable(ChildrenTable):
         ctype = ob.getRelationshipType()
         if ctype == 'connection':
             ctype = '(unspecified connection type) '
+        else:
+            vocabulary = get_vocabulary('relationship_types')
+            ctype = '{} '.format(vocabulary[ctype]['title'])
         acert = AssociationCertaintyWrapper(ob).snippet
         return "{}{}".format(acert, ctype)
 
