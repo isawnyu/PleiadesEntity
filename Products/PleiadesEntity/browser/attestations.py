@@ -2,7 +2,7 @@ from AccessControl import getSecurityManager
 from Acquisition import aq_parent
 from collective.geo.geographer.interfaces import IGeoreferenced
 from pleiades.geographer.geo import NotLocatedError, representative_point
-from pleiades.vocabularies import get_vocabulary
+from pleiades.vocabularies.vocabularies import get_vocabulary
 from plone import api
 from plone.batching import Batch
 from plone.memoize import view
