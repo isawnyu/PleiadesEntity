@@ -181,7 +181,7 @@
           </div> <!-- namesField -->
 
           <div id="connectionsField" class="field">
-            <label><span tal:replace="here/Title">TITLE</span> makes a connection with:</label>
+            <label><span tal:replace="here/Title">TITLE</span> makes connections with:</label>
             <dl tal:replace="structure context/@@connections-listing|nothing"></dl>
             <a tal:condition="not:portal_state/anonymous"
               class="createObjectButton"
@@ -255,7 +255,7 @@
             </div>
 
             <div id="connectionsField" class="field">
-              <label><span tal:replace="here/Title">TITLE</span> makes a connection with:</label>
+              <label><span tal:replace="here/Title">TITLE</span> makes connections with:</label>
               <dl tal:replace="structure context/@@connections-listing|nothing"></dl>
               <a tal:condition="not:portal_state/anonymous"
                 class="createObjectButton"
@@ -289,7 +289,7 @@
         </div>
 
         <div id="connectionsField-reverse" class="field">
-          <label><span tal:replace="here/Title">TITLE</span> receives a connection from:</label>
+          <label><span tal:replace="here/Title">TITLE</span> receives connections from:</label>
 
           <tal:connection_batch define="batch context/@@reverse-connections-listing/batched_rows">
             <ul class="placeChildren">
