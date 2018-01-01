@@ -379,8 +379,8 @@ class ConnectionsTable(ChildrenTable):
             review_state = wftool.getInfoFor(ob, 'review_state')
             item = label + u" (copy)" * ("copy" in ob.getId())
             if checkPermission('View', ob):
-                log.info('portal anon: {}'.format(portal_state.anonymous))
-                if portal_state.anonymous:
+                log.info('portal anon: {}'.format(portal_state.anonymous()))
+                if portal_state.anonymous():
                     url = referenced.absolute_url()
                 else:
                     url = ob.absolute_url()
