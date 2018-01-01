@@ -5,9 +5,9 @@
       xmlns:metal="http://xml.zope.org/namespaces/metal"
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       i18n:domain="plone">
-  
+
   <head>
-    
+
     <metal:head_macro metal:define-macro="js"
       tal:define="url context/absolute_url;
                   baseline context/@@iterate/baseline|nothing;
@@ -27,10 +27,10 @@
 
       <span tal:replace="structure context/@@neighborhood/p_link">P LINK</span>
       <span tal:replace="structure context/@@neighborhood/r_link">R LINK</span>
-      <link 
-        rel="stylesheet" 
+      <link
+        rel="stylesheet"
         href="//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.css" />
-        
+
       <style>
         #map { height: 480px; }
         #below-map { width: 480px;}
@@ -44,7 +44,7 @@
     </metal:head_macro>
 
   </head>
-  
+
   <body>
 
     <metal:header_macro define-macro="header"
@@ -56,7 +56,7 @@
           Title or id
         </h1>
         <div tal:replace="structure provider:plone.belowcontenttitle" />
-        <p itemprop="description" 
+        <p itemprop="description"
           class="documentDescription"
           tal:content="here/Description">
           Description</p>
@@ -87,13 +87,13 @@
         <div id="map-block" title="Locations of this particular place are shown in blue.">
           <div id="map"></div>
           <div id="below-map">
-            <p>Show place in 
+            <p>Show place in
               <a href=""
                 tal:attributes="href string:http://awmc.unc.edu/awmc/applications/alacarte/?pid=${here/getId}">
                 AWMC's Antiquity &Agrave;-la-carte</a><span tal:condition="url">,
               <a href=""
                  tal:attributes="href string:$url/kml">
-                 Google Earth</a>,</span> or 
+                 Google Earth</a>,</span> or
               <a href=""
                 tal:attributes="href string:http://pelagios.org/peripleo/map#places=http%3A%2F%2Fpleiades.stoa.org%2Fplaces%2F${here/getId}">Pelagios' Peripleo</a>.
             </p>
@@ -101,16 +101,16 @@
                <span tal:define="mlon python:where['reprPt'][0]; mlat python:where['reprPt'][1]; underscore string:_">Show area in
               <a href=""
                  tal:attributes="href string:http://www.geonames.org/maps/google_$mlat$underscore$mlon.html">
-                GeoNames</a>, 
-              <a href="" 
+                GeoNames</a>,
+              <a href=""
                  tal:attributes="href string:http://maps.google.com/?q=$mlat,$mlon">
-                Google Maps</a>, or 
+                Google Maps</a>, or
               <a href=""
                  tal:attributes="href string:http://openstreetmap.org/?mlat=$mlat&mlon=$mlon&zoom=12&layers=M">
                  OpenStreetMap</a>.</span>
             </p>
           </div>
-          
+
         </div>
 
         <div id="canonicalUrlField" class="field">
@@ -120,7 +120,7 @@
           <button class="copy-button" data-clipboard-target="#canonical-url" title="copy to clipboard"><svg class="octicon octicon-clippy" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path d="M2 13h4v1H2v-1zm5-6H2v1h5V7zm2 3V8l-3 3 3 3v-2h5v-2H9zM4.5 9H2v1h2.5V9zM2 12h2.5v-1H2v1zm9 1h1v2c-.02.28-.11.52-.3.7-.19.18-.42.28-.7.3H1c-.55 0-1-.45-1-1V4c0-.55.45-1 1-1h3c0-1.11.89-2 2-2 1.11 0 2 .89 2 2h3c.55 0 1 .45 1 1v5h-1V6H1v9h10v-2zM2 5h8c0-.55-.45-1-1-1H8c-.55 0-1-.45-1-1s-.45-1-1-1-1 .45-1 1-.45 1-1 1H3c-.55 0-1 .45-1 1z"></path></svg></button>
         </div>
 
-        <p tal:condition="not:portal_state/anonymous">Red titles indicate drafting-state items. Yellow titles indicate pending-state.</p>
+        <p tal:condition="not:portal_state/anonymous">Red titles indicate drafting-state items. Orange titles indicate pending-state.</p>
 
         <div tal:condition="not:context/@@iterate/baseline|nothing">
 
@@ -135,27 +135,27 @@
           <div id="locationsField" class="field">
             <label>Locations:</label>
             <dl tal:replace="structure context/@@locations-listing"></dl>
-                      
+
             <div tal:condition="not:portal_state/anonymous">
 
               <div><span class="createObjectButton"><a href="createObject?type_name=Location" title="Create a new Location">Add Location</a> <span class="formButton" title="Create a new Location based on an OpenStreetMap Node">&#9660;</span></div>
-            
+
               <div class="createLocationForm" style="display:none;">
                 <form method="POST" action="@@create-location-osm">
                   <h4>Add OpenStreetMap Point Location</h4>
                   <div>
                     <p>
-                      <input id="type" name="type" 
-                        type="radio" value="node" checked="1"/> Node 
-                      <input id="type" name="type" 
-                        type="radio" value="way"/> Way 
+                      <input id="type" name="type"
+                        type="radio" value="node" checked="1"/> Node
+                      <input id="type" name="type"
+                        type="radio" value="way"/> Way
                       <input id="type" name="type"
                         type="radio" value="relation"/> Relation
                       <label for="type">Object type (required)</label></p>
-                    <p><input id="obj" name="obj" 
+                    <p><input id="obj" name="obj"
                       type="text" placeholder="486605843"/>
                       <label for="node">Object ID (required)</label></p>
-                    <p><input id="title" name="title" 
+                    <p><input id="title" name="title"
                       type="text" placeholder="Foo"/>
                       <label for="title">Title (optional)</label></p>
                   </div>
@@ -167,9 +167,9 @@
               </div>
 
             </div>
-        
+
           </div> <!-- locationsField -->
-        
+
           <div id="namesField" class="field">
             <label>Names:</label>
             <dl tal:replace="structure context/@@names-listing"></dl>
@@ -181,7 +181,7 @@
           </div> <!-- namesField -->
 
           <div id="connectionsField" class="field">
-            <label>Makes a connection with:</label>
+            <label><span tal:replace="here/Title">TITLE</span> makes connections with:</label>
             <dl tal:replace="structure context/@@connections-listing|nothing"></dl>
             <a tal:condition="not:portal_state/anonymous"
               class="createObjectButton"
@@ -195,7 +195,7 @@
               <a href="folder_contents">Folder listing of locations, names, and connections</a>
             </p>
           </div>
-        
+
         </div>
 
         <div tal:condition="nocall:baseline"
@@ -222,17 +222,17 @@
                     <h4>Add OpenStreetMap Point Location</h4>
                     <div>
                       <p>
-                        <input id="type" name="type" 
-                          type="radio" value="node" checked="1"/> Node 
-                        <input id="type" name="type" 
-                          type="radio" value="way"/> Way 
+                        <input id="type" name="type"
+                          type="radio" value="node" checked="1"/> Node
+                        <input id="type" name="type"
+                          type="radio" value="way"/> Way
                         <input id="type" name="type"
                           type="radio" value="relation"/> Relation
                         <label for="type">Object type (required)</label></p>
-                      <p><input id="obj" name="obj" 
+                      <p><input id="obj" name="obj"
                         type="text" placeholder="486605843"/>
                         <label for="node">Object ID (required)</label></p>
-                      <p><input id="title" name="title" 
+                      <p><input id="title" name="title"
                         type="text" placeholder="Foo"/>
                         <label for="title">Title (optional)</label></p>
                     </div>
@@ -255,7 +255,7 @@
             </div>
 
             <div id="connectionsField" class="field">
-              <label>Makes a connection with:</label>
+              <label><span tal:replace="here/Title">TITLE</span> makes connections with:</label>
               <dl tal:replace="structure context/@@connections-listing|nothing"></dl>
               <a tal:condition="not:portal_state/anonymous"
                 class="createObjectButton"
@@ -276,7 +276,7 @@
             </div>
 
             <div id="connectionsField-baseline" class="field baseline">
-              <label>Makes a connection with:</label>
+              <label><span tal:replace="here/Title">TITLE</span> makes a connection to:</label>
               <dl tal:replace="structure baseline/@@connections-listing|nothing"></dl>
             </div>
           </div>
@@ -289,7 +289,7 @@
         </div>
 
         <div id="connectionsField-reverse" class="field">
-          <label>Has a connection with:</label>
+          <label><span tal:replace="here/Title">TITLE</span> receives connections from:</label>
 
           <tal:connection_batch define="batch context/@@reverse-connections-listing/batched_rows">
             <ul class="placeChildren">
@@ -397,7 +397,7 @@
 </script>
 
     </metal:body_macro>
-   
+
     <metal:folderlisting_macro define-macro="folderlisting">
       <!-- nothing -->
     </metal:folderlisting_macro>

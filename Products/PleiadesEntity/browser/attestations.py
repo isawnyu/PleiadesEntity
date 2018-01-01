@@ -2,6 +2,7 @@ from AccessControl import getSecurityManager
 from Acquisition import aq_parent
 from collective.geo.geographer.interfaces import IGeoreferenced
 from pleiades.geographer.geo import NotLocatedError, representative_point
+from pleiades.vocabularies.vocabularies import get_vocabulary
 from plone import api
 from plone.batching import Batch
 from plone.memoize import view
@@ -11,7 +12,28 @@ from Products.Five.browser import BrowserView
 from Products.PleiadesEntity.time import to_ad
 import logging
 
+
 log = logging.getLogger('Products.PleiadesEntity')
+
+class AssociationCertaintyWrapper(object):
+
+    def __init__(self, context):
+        self.context = context
+
+    @property
+    def snippet(self):
+        acert = self.context.getAssociationCertainty()
+        if acert == 'certain':
+            return u''
+        acert_title = (
+            u'Association between this {} and the place is '
+            u''.format(
+                self.context.Type().lower()) +
+            u'{}.'.format(
+                [u'uncertain', u'less than certain'][acert == 'less-certain']))
+        acert_marker = [
+            u'Uncertain: ', u'Less than certain: '][acert == 'less-certain']
+        return u'<span title="{}">{}</span>'.format(acert_title, acert_marker)
 
 
 class TimeSpanWrapper(object):
@@ -45,7 +67,7 @@ class TimeSpanWrapper(object):
             timespan['end'] = "Present"
         return (
             timespan and "%(start)s - %(end)s" % timespan
-            ) or "Attested dates needed"
+            ) or "unspecified date range"
 
 
 class PlacefulAttestations(BrowserView):
@@ -143,14 +165,7 @@ class LocationsTable(ChildrenTable):
             return u''
 
     def prefix(self, ob):
-        acert = ob.getAssociationCertainty()
-        if acert == 'certain':
-            return u''
-        acert_title = (u'Association between the place and this location is '
-            u'{}.'.format(
-                [u'uncertain', u'less than certain'][acert == 'less-certain']))
-        acert_marker = [u'Uncertain: ', u'Less than certain: '][acert == 'less-certain']
-        return u'<span title="{}">{}</span>'.format(acert_title, acert_marker)
+        return AssociationCertaintyWrapper(ob).snippet
 
     def rows(self, locations):
         output = []
@@ -257,14 +272,7 @@ class NamesTable(ChildrenTable):
 
 
     def prefix(self, ob):
-        acert = ob.getAssociationCertainty()
-        if acert == 'certain':
-            return u''
-        acert_title = (u'Association between the place and this name is '
-            u'{}.'.format(
-                [u'uncertain', u'less than certain'][acert == 'less-certain']))
-        acert_marker = [u'Uncertain: ', u'Less than certain: '][acert == 'less-certain']
-        return u'<span title="{}">{}</span>'.format(acert_title, acert_marker)
+        return AssociationCertaintyWrapper(ob).snippet
 
 
     def rows(self, names):
@@ -332,8 +340,18 @@ class ConnectionsTable(ChildrenTable):
     def referenced(self, ob):
         return ob.getConnection()
 
+    def prefix(self, ob):
+        ctype = ob.getRelationshipType()
+        if ctype == 'connection':
+            ctype = '(unspecified connection type) '
+        else:
+            vocabulary = get_vocabulary('relationship_types')
+            ctype_dict = {t['id']:t['title'] for t in vocabulary}
+            ctype = '{} was {} '.format(aq_parent(ob).Title(), ctype_dict[ctype])
+        acert = AssociationCertaintyWrapper(ob).snippet
+        return "{}{}".format(acert, ctype)
+
     def postfix(self, ob):
-        acert = ob.getAssociationCertainty()
         timespan = TimeSpanWrapper(ob).snippet
         if timespan.strip() == '':
             timespan = None
@@ -343,14 +361,14 @@ class ConnectionsTable(ChildrenTable):
             annotation = u'(%s)' % timespan
         else:
             annotation = None
-        if acert == 'less-certain':
-            return [u'?', u' %s?' % annotation][annotation is not None]
-        elif acert == 'uncertain':
-            return [u'??', u' %s??' % annotation][annotation is not None]
+        if annotation:
+            return u' {}'.format(annotation)
         else:
-            return [u'', u' %s' % annotation][annotation is not None]
+            return u''
+
 
     def rows(self, connections):
+        portal_state = self.context.restrictedTraverse("@@plone_portal_state")
         output = []
         wftool = self.wftool
         checkPermission = getSecurityManager().checkPermission
@@ -361,8 +379,13 @@ class ConnectionsTable(ChildrenTable):
             review_state = wftool.getInfoFor(ob, 'review_state')
             item = label + u" (copy)" * ("copy" in ob.getId())
             if checkPermission('View', ob):
+                log.info('portal anon: {}'.format(portal_state.anonymous()))
+                if portal_state.anonymous():
+                    url = referenced.absolute_url()
+                else:
+                    url = ob.absolute_url()
                 link = '<a class="state-%s %s" href="%s">%s</a>' % (
-                    review_state, label_class, referenced.absolute_url(), item)
+                    review_state, label_class, url, item)
             else:
                 link = '<span class="state-%s %s">%s</span>' % (
                     review_state, label_class, item)
@@ -374,6 +397,7 @@ class ConnectionsTable(ChildrenTable):
             innerHTML = [
                 u'<li id="%s" class="placeChildItem" title="%s">' % (
                     ob.getId(), self.snippet(ob)),
+                self.prefix(ob),
                 link,
                 self.postfix(ob),
                 status,
