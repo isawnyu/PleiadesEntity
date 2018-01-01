@@ -368,6 +368,7 @@ class ConnectionsTable(ChildrenTable):
 
 
     def rows(self, connections):
+        portal_state = self.context.restrictedTraverse("@@plone_portal_state")
         output = []
         wftool = self.wftool
         checkPermission = getSecurityManager().checkPermission
