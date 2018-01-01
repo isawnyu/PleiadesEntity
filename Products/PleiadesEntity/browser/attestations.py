@@ -378,8 +378,12 @@ class ConnectionsTable(ChildrenTable):
             review_state = wftool.getInfoFor(ob, 'review_state')
             item = label + u" (copy)" * ("copy" in ob.getId())
             if checkPermission('View', ob):
+                if portal_state.anonymous:
+                    url = referenced.absolute_url()
+                else:
+                    url = ob.absolute_url()
                 link = '<a class="state-%s %s" href="%s">%s</a>' % (
-                    review_state, label_class, referenced.absolute_url(), item)
+                    review_state, label_class, url, item)
             else:
                 link = '<span class="state-%s %s">%s</span>' % (
                     review_state, label_class, item)
