@@ -359,11 +359,15 @@ class ConnectionsTable(ChildrenTable):
         if timespan:
             annotation = u'(%s)' % timespan
         else:
-            annotation = None
-        if annotation:
-            return annotation
-        else:
-            return u''
+            annotation = u''
+        review_state = self.wftool.getInfoFor(ob, 'review_state')
+        if review_state != 'published':
+            credit_utils = self.context.unrestrictedTraverse('@@credit_utils')
+            user = credit_utils.user_in_byline(ob.Creator())
+            status = u' [connection: %s by %s]' % (review_state, user['fullname'].decode('utf-8'))
+            annotation += u' {}'.format(status)
+        annotation = annotation.strip()
+        return annotation
 
     def subject(self, ob):
         return self.referer(ob)
