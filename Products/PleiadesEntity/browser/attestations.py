@@ -382,14 +382,18 @@ class ConnectionsTable(ChildrenTable):
             return u''
 
     def subject(self, ob):
-        label = unicode(self.referer(ob).Title(), 'utf-8')
+        return self.referer(ob)
+
+    def subject_phrase(self, ob):
+        subject = self.subject(ob)
+        label = unicode(subject.Title(), 'utf-8')
         attributes = {
             'class': u'connection-subject',
             'title': u'subject of this connection: {}'.format(label)
         }
-        if aq_parent(ob).getId() != self.referer(ob).getId():
+        if aq_parent(ob).getId() != subject.getId():
             tag = u'a'
-            attributes['href'] = self.referer.absolute_url()
+            attributes['href'] = subject.absolute_url()
         else:
             tag = u'span'
         attrs = [u'{} = "{}"'.format(k, v) for k, v in attributes.items()]
@@ -424,7 +428,7 @@ class ConnectionsTable(ChildrenTable):
                     id=ob.getId(),
                     title=unicode(ob.Title(), 'utf-8')))
             parts.append(AssociationCertaintyWrapper(ob).snippet)
-            parts.append(self.subject(ob))
+            parts.append(self.subject_phrase(ob))
             parts.append(self.verb(ob))
             parts.append(self.predicate(ob))
             parts.append(TimeSpanWrapper(ob).snippet)
@@ -447,7 +451,7 @@ class ReverseConnectionsTable(ConnectionsTable):
         return ob.getConnection()
 
     def subject(self, ob):
-        return unicode(self.referenced(ob).Title(), 'utf-8')
+        return self.referenced(ob)
 
     def predicate(self, ob):
         return unicode(self.referer(ob).Title(), 'utf-8')
