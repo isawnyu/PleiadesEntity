@@ -391,7 +391,7 @@ class ConnectionsTable(ChildrenTable):
             'class': u'connection-subject',
             'title': u'subject of this connection: {}'.format(label)
         }
-        if aq_parent(ob).getId() != subject.getId():
+        if self.context.getId() != subject.getId():
             tag = u'a'
             attributes['href'] = subject.absolute_url()
         else:
