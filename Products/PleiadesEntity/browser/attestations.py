@@ -415,6 +415,22 @@ class ConnectionsTable(ChildrenTable):
             ctype = ctype[0]
         return(ctype_dict[ctype])
 
+    def verb_phrase(self, ob):
+        label = self.verb(ob)
+        tag = u'a'
+        attributes = {
+            'class': u'connection-verb',
+            'href': ob.absolute_url
+        }
+        attrs = [u'{} = "{}"'.format(k, v) for k, v in attributes.items()]
+        result = (
+            u'<{tag} {attributes}>{label}</{tag}>'
+            u''.format(
+                tag=tag,
+                attributes=u' '.join(attrs),
+                label=label))
+        return result
+
     def predicate(self, ob):
         return self.referenced(ob)
 
