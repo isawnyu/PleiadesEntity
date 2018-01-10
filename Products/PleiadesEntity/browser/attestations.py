@@ -432,9 +432,6 @@ class ReverseConnectionsTable(ConnectionsTable):
     def subject(self, ob):
         return unicode(self.referenced(ob).Title(), 'utf-8')
 
-    def verb(self, ob):
-        return u'verb'
-
     def predicate(self, ob):
         return unicode(self.referer(ob).Title(), 'utf-8')
 
