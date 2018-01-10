@@ -342,7 +342,7 @@ class ConnectionsTable(ChildrenTable):
 
     def prefix(self, ob):
         ctype = ob.getRelationshipType()
-        if type(ctype) == 'list':
+        if type(ctype) is list:
             if len(ctype) == 1:
                 ctype = ctype[0]
             else:
