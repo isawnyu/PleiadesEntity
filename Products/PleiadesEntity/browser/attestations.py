@@ -347,24 +347,8 @@ class ConnectionsTable(ChildrenTable):
         return ob.getConnection()
 
     def prefix(self, ob):
-        ctype = ob.getRelationshipType()
-        if type(ctype) is list:
-            if len(ctype) == 1:
-                ctype = ctype[0]
-            else:
-                raise RuntimeError(
-                    'Unexpected ctype content while preparing connections '
-                    'listing: "{}"'.format(repr(ctype)))
-        if ctype == 'connection':
-            ctype = u'(unspecified connection type) '
-        else:
-            vocabulary = get_vocabulary('relationship_types')
-            ctype_dict = {t['id']:t['title'] for t in vocabulary}
-            val = ctype_dict[ctype]
-            log.info('type of val is {}'.format(type(val)))
-            ctype = u'{} was {} '.format(aq_parent(ob).Title(), ctype_dict[ctype])
         acert = AssociationCertaintyWrapper(ob).snippet
-        return u"{}{}".format(acert, ctype)
+        return u"{}".format(acert)
 
     def postfix(self, ob):
         timespan = TimeSpanWrapper(ob).snippet
@@ -377,7 +361,7 @@ class ConnectionsTable(ChildrenTable):
         else:
             annotation = None
         if annotation:
-            return u' {}'.format(annotation)
+            return annotation
         else:
             return u''
 
@@ -464,11 +448,11 @@ class ConnectionsTable(ChildrenTable):
                 u''.format(
                     id=ob.getId(),
                     title=unicode(ob.Title(), 'utf-8')))
-            parts.append(AssociationCertaintyWrapper(ob).snippet)
+            parts.append(self.prefix(ob))
             parts.append(self.subject_phrase(ob))
             parts.append(self.verb_phrase(ob))
             parts.append(self.predicate_phrase(ob))
-            parts.append(u'({})'.format(TimeSpanWrapper(ob).snippet))
+            parts.append(self.postfix)
             parts.append(u'</li>')
             output.append(u"\n".join(parts))
         return output
