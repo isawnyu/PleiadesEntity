@@ -385,7 +385,7 @@ class ConnectionsTable(ChildrenTable):
         label = unicode(self.referer(ob).Title(), 'utf-8')
         attributes = {
             'class': u'connection-subject',
-            'title': u'subject of this connection: {}'.format(title)
+            'title': u'subject of this connection: {}'.format(label)
         }
         if aq_parent(ob).getId() != self.referer(ob).getId():
             tag = u'a'
