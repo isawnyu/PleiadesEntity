@@ -443,10 +443,10 @@ class ConnectionsTable(ChildrenTable):
                 review_state = self.wftool.getInfoFor(ob, 'review_state')
                 if review_state != 'published':
                     continue
-                review_state = self.wftool.getInfoFor(self.referer, 'review_state')
+                review_state = self.wftool.getInfoFor(self.referer(ob), 'review_state')
                 if review_state != 'published':
                     continue
-                review_state = self.wftool.getInfoFor(self.referenced, 'review_state')
+                review_state = self.wftool.getInfoFor(self.referenced(ob), 'review_state')
                 if review_state != 'published':
                     continue
             parts = []
