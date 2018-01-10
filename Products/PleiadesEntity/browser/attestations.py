@@ -347,6 +347,7 @@ class ConnectionsTable(ChildrenTable):
         else:
             vocabulary = get_vocabulary('relationship_types')
             log.info('type of ctype is {}'.format(type(ctype)))
+            log.info('length of ctype is {}'.format(len(ctype)))
             ctype_dict = {t['id']:t['title'] for t in vocabulary}
             val = ctype_dict[ctype]
             log.info('type of val is {}'.format(type(val)))
