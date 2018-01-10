@@ -382,7 +382,7 @@ class ConnectionsTable(ChildrenTable):
         return u'verb'
 
     def predicate(self, ob):
-        return u'predicate'
+        return unicode(self.referenced(ob).Title(), 'utf-8')
 
     def rows(self, connections):
         output = []
