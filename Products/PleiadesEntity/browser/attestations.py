@@ -371,8 +371,9 @@ class ConnectionsTable(ChildrenTable):
     def subject_phrase(self, ob):
         subject = self.subject(ob)
         label = unicode(subject.Title(), 'utf-8')
+        review_state = self.wftool.getInfoFor(subject, 'review_state')
         attributes = {
-            'class': u'connection-subject',
+            'class': u'connection-subject state-{}'.format(review_state),
             'title': u'subject of this connection: {}'.format(label)
         }
         if self.context.getId() != subject.getId():
@@ -395,8 +396,9 @@ class ConnectionsTable(ChildrenTable):
     def verb_phrase(self, ob):
         label = self.verb(ob)
         tag = u'a'
+        review_state = self.wftool.getInfoFor(ob, 'review_state')
         attributes = {
-            'class': u'connection-verb',
+            'class': u'connection-verb state-{}'.format(review_state),
             'href': ob.absolute_url()
         }
         return self.taggify(tag, attributes, label)
@@ -407,8 +409,9 @@ class ConnectionsTable(ChildrenTable):
     def predicate_phrase(self, ob):
         predicate = self.predicate(ob)
         label = unicode(predicate.Title(), 'utf-8')
+        review_state = self.wftool.getInfoFor(predicate, 'review_state')
         attributes = {
-            'class': u'connection-predicate',
+            'class': u'connection-predicate state-{}'.format(review_state),
             'title': u'predicate of this connection: {}'.format(label)
         }
         if self.context.getId() != predicate.getId():
