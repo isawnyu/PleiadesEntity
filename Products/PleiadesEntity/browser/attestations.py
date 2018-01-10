@@ -416,7 +416,28 @@ class ConnectionsTable(ChildrenTable):
         return(ctype_dict[ctype])
 
     def predicate(self, ob):
-        return unicode(self.referenced(ob).Title(), 'utf-8')
+        return self.referenced(ob)
+
+    def predicate_phrase(self, ob):
+        predicate = self.predicate(ob)
+        label = unicode(predicate.Title(), 'utf-8')
+        attributes = {
+            'class': u'connection-predicate',
+            'title': u'predicate of this connection: {}'.format(label)
+        }
+        if self.context.getId() != predicate.getId():
+            tag = u'a'
+            attributes['href'] = predicate.absolute_url()
+        else:
+            tag = u'span'
+        attrs = [u'{} = "{}"'.format(k, v) for k, v in attributes.items()]
+        result = (
+            u'<{tag} {attributes}>{label}</{tag}>'
+            u''.format(
+                tag=tag,
+                attributes=u' '.join(attrs),
+                label=label))
+        return result
 
     def rows(self, connections):
         output = []
@@ -430,7 +451,7 @@ class ConnectionsTable(ChildrenTable):
             parts.append(AssociationCertaintyWrapper(ob).snippet)
             parts.append(self.subject_phrase(ob))
             parts.append(self.verb(ob))
-            parts.append(self.predicate(ob))
+            parts.append(self.predicate_phrase(ob))
             parts.append(TimeSpanWrapper(ob).snippet)
             parts.append(u'</li>')
             output.append(u"\n".join(parts))
@@ -454,7 +475,7 @@ class ReverseConnectionsTable(ConnectionsTable):
         return self.referenced(ob)
 
     def predicate(self, ob):
-        return unicode(self.referer(ob).Title(), 'utf-8')
+        self.referer(ob)
 
     def batched_rows(self):
         self.wftool = getToolByName(self.context, "portal_workflow")
