@@ -15,6 +15,8 @@ import logging
 
 log = logging.getLogger('Products.PleiadesEntity')
 
+ctype_dict = None
+
 class AssociationCertaintyWrapper(object):
 
     def __init__(self, context):
@@ -337,19 +339,16 @@ class ConnectionsTable(ChildrenTable):
         return unicode(self.referenced(ob).Title(), "utf-8")
 
     @view.memoize
+    def referer(self, ob):
+        return aq_parent(ob)
+
+    @view.memoize
     def referenced(self, ob):
         return ob.getConnection()
 
     def prefix(self, ob):
-        ctype = ob.getRelationshipType()
-        if ctype == 'connection':
-            ctype = u'(unspecified connection type) '
-        else:
-            vocabulary = get_vocabulary('relationship_types')
-            ctype_dict = {t['id']:t['title'] for t in vocabulary}
-            ctype = u'{} was {} '.format(aq_parent(ob).Title(), ctype_dict[ctype])
         acert = AssociationCertaintyWrapper(ob).snippet
-        return u"{}{}".format(acert, ctype)
+        return u"{}".format(acert)
 
     def postfix(self, ob):
         timespan = TimeSpanWrapper(ob).snippet
@@ -360,49 +359,109 @@ class ConnectionsTable(ChildrenTable):
         if timespan:
             annotation = u'(%s)' % timespan
         else:
-            annotation = None
-        if annotation:
-            return u' {}'.format(annotation)
-        else:
-            return u''
+            annotation = u''
+        review_state = self.wftool.getInfoFor(ob, 'review_state')
+        if review_state != 'published':
+            credit_utils = self.context.unrestrictedTraverse('@@credit_utils')
+            user = credit_utils.user_in_byline(ob.Creator())
+            status = u' [connection %s by %s]' % (review_state, user['fullname'].decode('utf-8'))
+            annotation += u' {}'.format(status)
+        annotation = annotation.strip()
+        return annotation
 
+    def subject(self, ob):
+        return self.referer(ob)
+
+    def subject_phrase(self, ob):
+        subject = self.subject(ob)
+        label = unicode(subject.Title(), 'utf-8')
+        review_state = self.wftool.getInfoFor(subject, 'review_state')
+        attributes = {
+            'class': u'connection-subject state-{}'.format(review_state),
+            'title': u'subject of this connection: {}'.format(label)
+        }
+        if self.context.getId() != subject.getId():
+            tag = u'a'
+            attributes['href'] = subject.absolute_url()
+        else:
+            tag = u'span'
+        return self.taggify(tag, attributes, label)
+
+    def verb(self, ob):
+        global ctype_dict
+        if ctype_dict is None:
+            vocabulary = get_vocabulary('relationship_types')
+            ctype_dict = {t['id']:t['title'] for t in vocabulary}
+        ctype = ob.getRelationshipType()
+        if type(ctype) is list:
+            ctype = ctype[0]
+        return(ctype_dict[ctype])
+
+    def verb_phrase(self, ob):
+        label = self.verb(ob)
+        tag = u'a'
+        review_state = self.wftool.getInfoFor(ob, 'review_state')
+        attributes = {
+            'class': u'connection-verb state-{}'.format(review_state),
+            'href': ob.absolute_url()
+        }
+        return self.taggify(tag, attributes, label)
+
+    def predicate(self, ob):
+        return self.referenced(ob)
+
+    def predicate_phrase(self, ob):
+        predicate = self.predicate(ob)
+        label = unicode(predicate.Title(), 'utf-8')
+        review_state = self.wftool.getInfoFor(predicate, 'review_state')
+        attributes = {
+            'class': u'connection-predicate state-{}'.format(review_state),
+            'title': u'predicate of this connection: {}'.format(label)
+        }
+        if self.context.getId() != predicate.getId():
+            tag = u'a'
+            attributes['href'] = predicate.absolute_url()
+        else:
+            tag = u'span'
+        return self.taggify(tag, attributes, label)
+
+    def taggify(self, tag, attributes, label):
+        attrs = [u'{} = "{}"'.format(k, v) for k, v in attributes.items()]
+        result = (
+            u'<{tag} {attributes}>{label}</{tag}>'
+            u''.format(
+                tag=tag,
+                attributes=u' '.join(attrs),
+                label=label))
+        return result
 
     def rows(self, connections):
-        portal_state = self.context.restrictedTraverse("@@plone_portal_state")
         output = []
-        wftool = self.wftool
-        checkPermission = getSecurityManager().checkPermission
-        credit_utils = self.context.unrestrictedTraverse('@@credit_utils')
+        portal_state = self.context.restrictedTraverse("@@plone_portal_state")
         for score, ob, nrefs in sorted(connections, key=lambda k: k[1].Title() or ''):
-            referenced = self.referenced(ob)
-            label, label_class = self.snippet(ob), "connection"
-            review_state = wftool.getInfoFor(ob, 'review_state')
-            item = label + u" (copy)" * ("copy" in ob.getId())
-            if checkPermission('View', ob):
-                if portal_state.anonymous():
-                    url = referenced.absolute_url()
-                else:
-                    url = ob.absolute_url()
-                link = '<a class="state-%s %s" href="%s">%s</a>' % (
-                    review_state, label_class, url, item)
-            else:
-                link = '<span class="state-%s %s">%s</span>' % (
-                    review_state, label_class, item)
-            if review_state != 'published':
-                user = credit_utils.user_in_byline(ob.Creator())
-                status = u' [%s by %s]' % (review_state, user['fullname'].decode('utf-8'))
-            else:
-                status = u''
-            innerHTML = [
-                u'<li id="%s" class="placeChildItem" title="%s">' % (
-                    ob.getId(), self.snippet(ob)),
-                self.prefix(ob),
-                link,
-                self.postfix(ob),
-                status,
-                u'</li>',
-            ]
-            output.append(u"\n".join(innerHTML))
+            if portal_state.anonymous():
+                review_state = self.wftool.getInfoFor(ob, 'review_state')
+                if review_state != 'published':
+                    continue
+                review_state = self.wftool.getInfoFor(self.referer(ob), 'review_state')
+                if review_state != 'published':
+                    continue
+                review_state = self.wftool.getInfoFor(self.referenced(ob), 'review_state')
+                if review_state != 'published':
+                    continue
+            parts = []
+            parts.append(
+                u'<li id="{id}" class="placeChildItem" title="{title}">'
+                u''.format(
+                    id=ob.getId(),
+                    title=unicode(ob.Title(), 'utf-8')))
+            parts.append(self.prefix(ob))
+            parts.append(self.subject_phrase(ob))
+            parts.append(self.verb_phrase(ob))
+            parts.append(self.predicate_phrase(ob))
+            parts.append(self.postfix(ob))
+            parts.append(u'</li>')
+            output.append(u"\n".join(parts))
         return output
 
 
@@ -414,6 +473,16 @@ class ReverseConnectionsTable(ConnectionsTable):
     @view.memoize
     def referenced(self, ob):
         return aq_parent(ob)
+
+    @view.memoize
+    def referer(self, ob):
+        return ob.getConnection()
+
+    def subject(self, ob):
+        return self.referenced(ob)
+
+    def predicate(self, ob):
+        return self.referer(ob)
 
     def batched_rows(self):
         self.wftool = getToolByName(self.context, "portal_workflow")
