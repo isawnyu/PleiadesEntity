@@ -343,13 +343,13 @@ class ConnectionsTable(ChildrenTable):
     def prefix(self, ob):
         ctype = ob.getRelationshipType()
         if ctype == 'connection':
-            ctype = '(unspecified connection type) '
+            ctype = u'(unspecified connection type) '
         else:
             vocabulary = get_vocabulary('relationship_types')
             ctype_dict = {t['id']:t['title'] for t in vocabulary}
-            ctype = '{} was {} '.format(aq_parent(ob).Title(), ctype_dict[ctype])
+            ctype = u'{} was {} '.format(aq_parent(ob).Title(), ctype_dict[ctype])
         acert = AssociationCertaintyWrapper(ob).snippet
-        return "{}{}".format(acert, ctype)
+        return u"{}{}".format(acert, ctype)
 
     def postfix(self, ob):
         timespan = TimeSpanWrapper(ob).snippet
