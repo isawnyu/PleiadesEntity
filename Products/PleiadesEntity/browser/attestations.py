@@ -342,13 +342,17 @@ class ConnectionsTable(ChildrenTable):
 
     def prefix(self, ob):
         ctype = ob.getRelationshipType()
+        if type(ctype) == 'list':
+            if len(ctype) == 1:
+                ctype = ctype[0]
+            else:
+                raise RuntimeError(
+                    'Unexpected ctype content while preparing connections '
+                    'listing: "{}"'.format(repr(ctype)))
         if ctype == 'connection':
             ctype = u'(unspecified connection type) '
         else:
             vocabulary = get_vocabulary('relationship_types')
-            log.info('type of ctype is {}'.format(type(ctype)))
-            log.info('length of ctype is {}'.format(len(ctype)))
-            log.info('value of ctype is {}'.format(repr(ctype)))
             ctype_dict = {t['id']:t['title'] for t in vocabulary}
             val = ctype_dict[ctype]
             log.info('type of val is {}'.format(type(val)))
