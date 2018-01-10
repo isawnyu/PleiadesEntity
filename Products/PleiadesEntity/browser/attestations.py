@@ -389,7 +389,9 @@ class ConnectionsTable(ChildrenTable):
         if ctype_dict is None:
             vocabulary = get_vocabulary('relationship_types')
             ctype_dict = {t['id']:t['title'] for t in vocabulary}
-        ctype = ob.getRelationshipType()[0]
+        ctype = ob.getRelationshipType()
+        if type(ctype) is list:
+            ctype = ctype[0]
         return(ctype_dict[ctype])
 
     def predicate(self, ob):
