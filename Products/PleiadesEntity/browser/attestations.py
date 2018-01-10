@@ -15,6 +15,8 @@ import logging
 
 log = logging.getLogger('Products.PleiadesEntity')
 
+ctype_dict = None
+
 class AssociationCertaintyWrapper(object):
 
     def __init__(self, context):
@@ -383,7 +385,12 @@ class ConnectionsTable(ChildrenTable):
         return unicode(self.referer(ob).Title(), 'utf-8')
 
     def verb(self, ob):
-        return u'verb'
+        global ctype_dict
+        if ctype_dict is None:
+            vocabulary = get_vocabulary('relationship_types')
+            ctype_dict = {t['id']:t['title'] for t in vocabulary}
+        ctype = ob.getRelationshipType()[0]
+        return(ctype_dict[ctype])
 
     def predicate(self, ob):
         return unicode(self.referenced(ob).Title(), 'utf-8')
