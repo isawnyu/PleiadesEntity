@@ -466,7 +466,7 @@ class ConnectionsTable(ChildrenTable):
                     title=unicode(ob.Title(), 'utf-8')))
             parts.append(AssociationCertaintyWrapper(ob).snippet)
             parts.append(self.subject_phrase(ob))
-            parts.append(self.verb(ob))
+            parts.append(self.verb_phrase(ob))
             parts.append(self.predicate_phrase(ob))
             parts.append(TimeSpanWrapper(ob).snippet)
             parts.append(u'</li>')
