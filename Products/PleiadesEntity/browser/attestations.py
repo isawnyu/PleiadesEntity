@@ -475,7 +475,7 @@ class ReverseConnectionsTable(ConnectionsTable):
         return self.referenced(ob)
 
     def predicate(self, ob):
-        self.referer(ob)
+        return self.referer(ob)
 
     def batched_rows(self):
         self.wftool = getToolByName(self.context, "portal_workflow")
