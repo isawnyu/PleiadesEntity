@@ -420,7 +420,7 @@ class ConnectionsTable(ChildrenTable):
         tag = u'a'
         attributes = {
             'class': u'connection-verb',
-            'href': ob.absolute_url
+            'href': ob.absolute_url()
         }
         attrs = [u'{} = "{}"'.format(k, v) for k, v in attributes.items()]
         result = (
