@@ -380,14 +380,7 @@ class ConnectionsTable(ChildrenTable):
             attributes['href'] = subject.absolute_url()
         else:
             tag = u'span'
-        attrs = [u'{} = "{}"'.format(k, v) for k, v in attributes.items()]
-        result = (
-            u'<{tag} {attributes}>{label}</{tag}>'
-            u''.format(
-                tag=tag,
-                attributes=u' '.join(attrs),
-                label=label))
-        return result
+        return self.taggify(tag, attributes, label)
 
     def verb(self, ob):
         global ctype_dict
@@ -406,14 +399,7 @@ class ConnectionsTable(ChildrenTable):
             'class': u'connection-verb',
             'href': ob.absolute_url()
         }
-        attrs = [u'{} = "{}"'.format(k, v) for k, v in attributes.items()]
-        result = (
-            u'<{tag} {attributes}>{label}</{tag}>'
-            u''.format(
-                tag=tag,
-                attributes=u' '.join(attrs),
-                label=label))
-        return result
+        return self.taggify(tag, attributes, label)
 
     def predicate(self, ob):
         return self.referenced(ob)
@@ -430,6 +416,9 @@ class ConnectionsTable(ChildrenTable):
             attributes['href'] = predicate.absolute_url()
         else:
             tag = u'span'
+        return self.taggify(tag, attributes, label)
+
+    def taggify(self, tag, attributes, label):
         attrs = [u'{} = "{}"'.format(k, v) for k, v in attributes.items()]
         result = (
             u'<{tag} {attributes}>{label}</{tag}>'
