@@ -452,7 +452,7 @@ class ConnectionsTable(ChildrenTable):
             parts.append(self.subject_phrase(ob))
             parts.append(self.verb_phrase(ob))
             parts.append(self.predicate_phrase(ob))
-            parts.append(self.postfix)
+            parts.append(self.postfix(ob))
             parts.append(u'</li>')
             output.append(u"\n".join(parts))
         return output
