@@ -337,6 +337,10 @@ class ConnectionsTable(ChildrenTable):
         return unicode(self.referenced(ob).Title(), "utf-8")
 
     @view.memoize
+    def referer(self, ob):
+        return aq_parent(ob)
+
+    @view.memoize
     def referenced(self, ob):
         return ob.getConnection()
 
@@ -376,7 +380,7 @@ class ConnectionsTable(ChildrenTable):
             return u''
 
     def subject(self, ob):
-        return u'subject'
+        return unicode(self.referer(ob).Title(), 'utf-8')
 
     def verb(self, ob):
         return u'verb'
