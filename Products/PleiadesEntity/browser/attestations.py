@@ -416,6 +416,19 @@ class ReverseConnectionsTable(ConnectionsTable):
     def referenced(self, ob):
         return aq_parent(ob)
 
+    @view.memoize
+    def referer(self, ob):
+        return ob.getConnection()
+
+    def subject(self, ob):
+        return unicode(self.referenced(ob).Title(), 'utf-8')
+
+    def verb(self, ob):
+        return u'verb'
+
+    def predicate(self, ob):
+        return unicode(self.referer(ob).Title(), 'utf-8')
+
     def batched_rows(self):
         self.wftool = getToolByName(self.context, "portal_workflow")
         self.vtool = getToolByName(self.context, 'portal_vocabularies')
