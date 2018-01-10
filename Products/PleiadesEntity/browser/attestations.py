@@ -382,7 +382,24 @@ class ConnectionsTable(ChildrenTable):
             return u''
 
     def subject(self, ob):
-        return unicode(self.referer(ob).Title(), 'utf-8')
+        label = unicode(self.referer(ob).Title(), 'utf-8')
+        attributes = {
+            'class': u'connection-subject',
+            'title': u'subject of this connection: {}'.format(title)
+        }
+        if aq_parent(ob).getId() != self.referer(ob).getId():
+            tag = u'a'
+            attributes['href'] = self.referer.absolute_url()
+        else:
+            tag = u'span'
+        attrs = [u'{} = "{}"'.format(k, v) for k, v in attributes.items()]
+        result = (
+            u'<{tag} {attributes}>{label}</{tag}>'
+            u''.format(
+                tag=tag,
+                attributes=u' '.join(attrs),
+                label=label))
+        return result
 
     def verb(self, ob):
         global ctype_dict
