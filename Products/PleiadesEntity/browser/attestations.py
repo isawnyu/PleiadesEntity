@@ -468,7 +468,7 @@ class ConnectionsTable(ChildrenTable):
             parts.append(self.subject_phrase(ob))
             parts.append(self.verb_phrase(ob))
             parts.append(self.predicate_phrase(ob))
-            parts.append(TimeSpanWrapper(ob).snippet)
+            parts.append(u'({})'.format(TimeSpanWrapper(ob).snippet))
             parts.append(u'</li>')
             output.append(u"\n".join(parts))
         return output
