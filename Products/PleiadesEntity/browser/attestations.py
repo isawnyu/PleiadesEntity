@@ -393,14 +393,6 @@ class ConnectionsTable(ChildrenTable):
                 status = u' [%s by %s]' % (review_state, user['fullname'].decode('utf-8'))
             else:
                 status = u''
-            prefix = self.prefix(ob)
-            postfix = self.postfix(ob)
-            if type(prefix) is not unicode:
-                raise RuntimeError('prefix is not unicode ({})'.format(type(prefix)))
-            if type(postfix) is not unicode:
-                raise RuntimeError('postfix is not unicode ({})'.format(type(postfix)))
-            if type(link) is not unicode:
-                raise RuntimeError('link is not unicode ({})'.format(type(link)))
             innerHTML = [
                 u'<li id="%s" class="placeChildItem" title="%s">' % (
                     ob.getId(), self.snippet(ob)),
