@@ -364,7 +364,7 @@ class ConnectionsTable(ChildrenTable):
         if review_state != 'published':
             credit_utils = self.context.unrestrictedTraverse('@@credit_utils')
             user = credit_utils.user_in_byline(ob.Creator())
-            status = u' [connection: %s by %s]' % (review_state, user['fullname'].decode('utf-8'))
+            status = u' [connection %s by %s]' % (review_state, user['fullname'].decode('utf-8'))
             annotation += u' {}'.format(status)
         annotation = annotation.strip()
         return annotation
@@ -437,7 +437,18 @@ class ConnectionsTable(ChildrenTable):
 
     def rows(self, connections):
         output = []
+        portal_state = self.context.restrictedTraverse("@@plone_portal_state")
         for score, ob, nrefs in sorted(connections, key=lambda k: k[1].Title() or ''):
+            if portal_state.anonymous():
+                review_state = self.wftool.getInfoFor(ob, 'review_state')
+                if review_state != 'published':
+                    continue
+                review_state = self.wftool.getInfoFor(self.referer, 'review_state')
+                if review_state != 'published':
+                    continue
+                review_state = self.wftool.getInfoFor(self.referenced, 'review_state')
+                if review_state != 'published':
+                    continue
             parts = []
             parts.append(
                 u'<li id="{id}" class="placeChildItem" title="{title}">'
