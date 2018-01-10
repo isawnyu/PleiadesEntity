@@ -375,43 +375,31 @@ class ConnectionsTable(ChildrenTable):
         else:
             return u''
 
+    def subject(self, ob):
+        return u'subject'
+
+    def verb(self, ob):
+        return u'verb'
+
+    def predicate(self, ob):
+        return u'predicate'
 
     def rows(self, connections):
-        portal_state = self.context.restrictedTraverse("@@plone_portal_state")
         output = []
-        wftool = self.wftool
-        checkPermission = getSecurityManager().checkPermission
-        credit_utils = self.context.unrestrictedTraverse('@@credit_utils')
         for score, ob, nrefs in sorted(connections, key=lambda k: k[1].Title() or ''):
-            referenced = self.referenced(ob)
-            label, label_class = self.snippet(ob), "connection"
-            review_state = wftool.getInfoFor(ob, 'review_state')
-            item = label + u" (copy)" * ("copy" in ob.getId())
-            if checkPermission('View', ob):
-                if portal_state.anonymous():
-                    url = referenced.absolute_url()
-                else:
-                    url = ob.absolute_url()
-                link = '<a class="state-%s %s" href="%s">%s</a>' % (
-                    review_state, label_class, url, item)
-            else:
-                link = '<span class="state-%s %s">%s</span>' % (
-                    review_state, label_class, item)
-            if review_state != 'published':
-                user = credit_utils.user_in_byline(ob.Creator())
-                status = u' [%s by %s]' % (review_state, user['fullname'].decode('utf-8'))
-            else:
-                status = u''
-            innerHTML = [
-                u'<li id="%s" class="placeChildItem" title="%s">' % (
-                    ob.getId(), self.snippet(ob)),
-                self.prefix(ob),
-                link,
-                self.postfix(ob),
-                status,
-                u'</li>',
-            ]
-            output.append(u"\n".join(innerHTML))
+            parts = []
+            parts.append(
+                u'<li id="{id}" class="placeChildItem" title="{title}">'
+                u''.format(
+                    id=ob.getId(),
+                    title=unicode(ob.Title(), 'utf-8')))
+            parts.append(AssociationCertaintyWrapper(ob).snippet)
+            parts.append(self.subject(ob))
+            parts.append(self.verb(ob))
+            parts.append(self.predicate(ob))
+            parts.append(TimeSpanWrapper(ob).snippet)
+            parts.append(u'</li>')
+            output.append(u"\n".join(parts))
         return output
 
 
