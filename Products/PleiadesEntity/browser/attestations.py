@@ -11,7 +11,6 @@ from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import BrowserView
 from Products.PleiadesEntity.time import to_ad
 import logging
-import traceback
 
 
 log = logging.getLogger('Products.PleiadesEntity')
@@ -457,14 +456,7 @@ class ConnectionsTable(ChildrenTable):
         output = []
         portal_state = self.context.restrictedTraverse("@@plone_portal_state")
         anonymous = portal_state.anonymous()
-        log.info('IN ROWS: len(connections): {}'.format(len(connections)))
-        log.info(
-            'IN ROWS: connections are: {}'
-            ''.format(
-                '\n\t'.join([c[1].absolute_url() for c in connections]))
-            )
         for score, ob, nrefs in sorted(connections, key=lambda k: k[1].Title() or ''):
-            log.info('IN ROWS: iterating on {}'.format(ob.absolute_url()))
             if anonymous:
                 review_state = self.wftool.getInfoFor(ob, 'review_state')
                 if review_state != 'published':
