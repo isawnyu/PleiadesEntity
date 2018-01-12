@@ -334,9 +334,7 @@ class ConnectionsTable(ChildrenTable):
     """
 
     def accessor(self):
-        connections = self.context.getSubConnections()
-        log.info('IN ACCESSOR: len(connections) = {}'.format(len(connections)))
-        return connections
+        return self.context.getSubConnections()
 
     def snippet(self, ob):
         return unicode(self.referenced(ob).Title(), "utf-8")
@@ -347,13 +345,7 @@ class ConnectionsTable(ChildrenTable):
 
     @view.memoize
     def referenced(self, ob):
-        log.info(
-            'IN REFERENCED: retrieving connected place for {}'
-            ''.format(ob.absolute_url()))
-        c = ob.getConnection()
-        if c is None:
-            raise RuntimeError('connected place was None')
-        return c
+        return ob.getConnection()
 
     def prefix(self, ob):
         acert = AssociationCertaintyWrapper(ob).snippet
@@ -421,7 +413,8 @@ class ConnectionsTable(ChildrenTable):
 
     def predicate_phrase(self, ob):
         predicate = self.predicate(ob)
-        label = unicode(predicate.Title(), 'utf-8')
+        title = predicate.Title()
+        label = unicode(title, 'utf-8')
         review_state = self.wftool.getInfoFor(predicate, 'review_state')
         attributes = {
             'class': u'connection-predicate state-{}'.format(review_state),
