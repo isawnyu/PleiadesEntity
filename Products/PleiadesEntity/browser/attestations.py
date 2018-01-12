@@ -334,7 +334,9 @@ class ConnectionsTable(ChildrenTable):
     """
 
     def accessor(self):
-        return self.context.getSubConnections()
+        connections = self.context.getSubConnections()
+        log.info('IN ACCESSOR: len(connections) = {}'.format(len(connections)))
+        return connections
 
     def snippet(self, ob):
         return unicode(self.referenced(ob).Title(), "utf-8")
