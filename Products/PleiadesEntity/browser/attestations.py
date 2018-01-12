@@ -447,6 +447,7 @@ class ConnectionsTable(ChildrenTable):
         portal_state = self.context.restrictedTraverse("@@plone_portal_state")
         anonymous = portal_state.anonymous()
         log.info('IN ROWS: len(connections): {}'.format(len(connections)))
+        log.info('IN ROWS: number of unique connections: {}'.format(len(list(set(connections)))))
         for score, ob, nrefs in sorted(connections, key=lambda k: k[1].Title() or ''):
             log.info('IN ROWS: iterating on {}'.format(ob.absolute_url()))
             if anonymous:
