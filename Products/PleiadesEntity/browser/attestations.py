@@ -344,6 +344,9 @@ class ConnectionsTable(ChildrenTable):
 
     @view.memoize
     def referenced(self, ob):
+        log.info(
+            '"referenced" method retrieving connected place for {}'
+            ''.format(ob.absolute_url()))
         return ob.getConnection()
 
     def prefix(self, ob):
