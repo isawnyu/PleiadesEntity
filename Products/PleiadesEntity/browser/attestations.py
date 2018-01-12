@@ -448,8 +448,10 @@ class ConnectionsTable(ChildrenTable):
         anonymous = portal_state.anonymous()
         log.info('IN ROWS: len(connections): {}'.format(len(connections)))
         log.info(
-            'IN ROWS: connections are:'
-            '\n\t'.join([c[1].absolute_url() for c in connections]))
+            'IN ROWS: connections are: {}'
+            ''.format(
+                '\n\t'.join([c[1].absolute_url() for c in connections]))
+            )
         for score, ob, nrefs in sorted(connections, key=lambda k: k[1].Title() or ''):
             log.info('IN ROWS: iterating on {}'.format(ob.absolute_url()))
             if anonymous:
