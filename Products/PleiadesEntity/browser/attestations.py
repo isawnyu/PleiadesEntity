@@ -349,7 +349,7 @@ class ConnectionsTable(ChildrenTable):
             ''.format(ob.absolute_url()))
         c = ob.getConnection()
         if c is None:
-            log.info('connected place was None')
+            raise RuntimeError('connected place was None')
         return c
 
     def prefix(self, ob):
