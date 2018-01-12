@@ -413,18 +413,34 @@ class ConnectionsTable(ChildrenTable):
 
     def predicate_phrase(self, ob):
         predicate = self.predicate(ob)
-        title = predicate.Title()
-        label = unicode(title, 'utf-8')
-        review_state = self.wftool.getInfoFor(predicate, 'review_state')
-        attributes = {
-            'class': u'connection-predicate state-{}'.format(review_state),
-            'title': u'predicate of this connection: {}'.format(label)
-        }
-        if self.context.getId() != predicate.getId():
-            tag = u'a'
-            attributes['href'] = predicate.absolute_url()
-        else:
+        try:
+            title = predicate.Title()
+        except AttributeError:
+            if predicate is None:
+                log.info(
+                    'Connection has no target place resource: {}'
+                    ''.format(ob.absolute_url()))
+            else:
+                log.info(
+                    'Unexpected lack of title for connection: {}'
+                    ''.format(ob.absolute_url()))
+            label = '(???)'
+            attributes = {
+                'class': u'connection-predicate'
+            }
             tag = u'span'
+        else:
+            label = unicode(title, 'utf-8')
+            review_state = self.wftool.getInfoFor(predicate, 'review_state')
+            attributes = {
+                'class': u'connection-predicate state-{}'.format(review_state),
+                'title': u'predicate of this connection: {}'.format(label)
+            }
+            if self.context.getId() != predicate.getId():
+                tag = u'a'
+                attributes['href'] = predicate.absolute_url()
+            else:
+                tag = u'span'
         return self.taggify(tag, attributes, label)
 
     def taggify(self, tag, attributes, label):
