@@ -347,7 +347,10 @@ class ConnectionsTable(ChildrenTable):
         log.info(
             '"referenced" method retrieving connected place for {}'
             ''.format(ob.absolute_url()))
-        return ob.getConnection()
+        c = ob.getConnection()
+        if c is None:
+            log.info('connected place was None')
+        return c
 
     def prefix(self, ob):
         acert = AssociationCertaintyWrapper(ob).snippet
