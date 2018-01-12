@@ -11,6 +11,7 @@ from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import BrowserView
 from Products.PleiadesEntity.time import to_ad
 import logging
+import traceback
 
 
 log = logging.getLogger('Products.PleiadesEntity')
@@ -347,6 +348,7 @@ class ConnectionsTable(ChildrenTable):
         log.info(
             '"referenced" method retrieving connected place for {}'
             ''.format(ob.absolute_url()))
+        traceback.print_stack(limit=7)
         c = ob.getConnection()
         if c is None:
             raise RuntimeError('connected place was None')
