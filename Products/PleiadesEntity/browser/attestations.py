@@ -346,9 +346,8 @@ class ConnectionsTable(ChildrenTable):
     @view.memoize
     def referenced(self, ob):
         log.info(
-            '"referenced" method retrieving connected place for {}'
+            'IN REFERENCED: retrieving connected place for {}'
             ''.format(ob.absolute_url()))
-        traceback.print_stack(limit=7)
         c = ob.getConnection()
         if c is None:
             raise RuntimeError('connected place was None')
@@ -447,7 +446,9 @@ class ConnectionsTable(ChildrenTable):
         output = []
         portal_state = self.context.restrictedTraverse("@@plone_portal_state")
         anonymous = portal_state.anonymous()
+        log.info('IN ROWS: len(connections): {}'.format(len(connections)))
         for score, ob, nrefs in sorted(connections, key=lambda k: k[1].Title() or ''):
+            log.info('IN ROWS: iterating on {}'.format(ob.absolute_url()))
             if anonymous:
                 review_state = self.wftool.getInfoFor(ob, 'review_state')
                 if review_state != 'published':
