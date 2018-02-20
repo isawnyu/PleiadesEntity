@@ -125,12 +125,14 @@ class Named(BrowserDefaultMixin):
         """ List outbound Connection items contained inside this Named item.
         """
         checkPermission = getSecurityManager().checkPermission
-        return [
+        subcons = [
             o for o in self.values()
             if interfaces.IConnection.providedBy(o)
             and (checkPermission(permissions.View, o)
                  or checkPermission('Pleiades: View link to draft', o))
         ]
+        print('getSubConnections got {} connections'.format(len(subcons)))
+        return subcons
 
     security.declareProtected(permissions.View, 'getReverseConnections')
     def getReverseConnections(self):
