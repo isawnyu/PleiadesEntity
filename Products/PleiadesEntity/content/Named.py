@@ -132,12 +132,26 @@ class Named(BrowserDefaultMixin):
                  or checkPermission('Pleiades: View link to draft', o))
         ]
         print('getSubConnections got {} connections'.format(len(subcons)))
-        for i, o in enumerate(subcons):
-            print('{}: {}'.format(i, type(o)))
-            fields = sorted(dir(o))
-            fields = [f for f in fields if not f.startswith('_')]
+        conpairs = {}
+        for o in subcons:
+            id = o.id
+            try:
+                pair = conpairs[id]
+            except KeyError:
+                conpairs[id] = []
+                pair = conpairs[id]
+            finally:
+                pair.append(o)
+        for id, pair in conpairs.items():
+            if len(dir(pair[0])) != len(dir(pair[1])):
+                raise RuntimeError('different pair lengths')
+            fields = [f for f in dir(pair[0]) if not f.startswith('_')]
+            fields = sorted(fields)
             for field in fields:
-                print('\t{}'.format(field))
+                if getattr(pair[0], field) != getattr(pair[1], field):
+                    print('MISMATCH')
+                    print('\t0.{}: "{}"'.format(field, getattr(pair[0], field)))
+                    print('\t1.{}: "{}"'.format(field, getattr(pair[1], field)))
         return subcons
 
     security.declareProtected(permissions.View, 'getReverseConnections')
