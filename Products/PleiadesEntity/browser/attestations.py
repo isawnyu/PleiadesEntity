@@ -111,6 +111,7 @@ class ChildrenTable(BrowserView):
         portal_state = self.context.restrictedTraverse("@@plone_portal_state")
         children = []
         for ob in self.accessor():
+            raise RuntimeError(dir(ob))
             #category = dict(
             #    getAdapters((ob,), IUserRating)).get('three_stars', 0)
             #avg_rating = float(category and category.averageRating)
