@@ -148,10 +148,15 @@ class Named(BrowserDefaultMixin):
             fields = [f for f in dir(pair[0]) if not f.startswith('_')]
             fields = sorted(fields)
             for field in fields:
-                if getattr(pair[0], field) != getattr(pair[1], field):
+                a = getattr(pair[0], field)
+                b = getattr(pair[1], field)
+                if callable(a):
+                    a = a()
+                    b = b()
+                if a != b:
                     print('MISMATCH')
-                    print('\t0.{}: "{}"'.format(field, getattr(pair[0], field)))
-                    print('\t1.{}: "{}"'.format(field, getattr(pair[1], field)))
+                    print('\t0.{}: "{}"'.format(field, a))
+                    print('\t1.{}: "{}"'.format(field, b))
         return subcons
 
     security.declareProtected(permissions.View, 'getReverseConnections')
