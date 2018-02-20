@@ -153,11 +153,11 @@ class Named(BrowserDefaultMixin):
                 if callable(a):
                     try:
                         a = a()
-                    except TypeError:
+                    except (TypeError, AttributeError):
                         continue
                     try:
                         b = b()
-                    except TypeError:
+                    except (TypeError, AttributeError):
                         continue
                 if a != b:
                     print('MISMATCH')
