@@ -457,6 +457,7 @@ class ConnectionsTable(ChildrenTable):
         output = []
         portal_state = self.context.restrictedTraverse("@@plone_portal_state")
         anonymous = portal_state.anonymous()
+        print('there are {} connections'.format(len(connections)))
         for score, ob, nrefs in sorted(connections, key=lambda k: k[1].Title() or ''):
             if anonymous:
                 review_state = self.wftool.getInfoFor(ob, 'review_state')
