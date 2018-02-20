@@ -129,6 +129,7 @@ class Named(BrowserDefaultMixin):
             o for o in self.values()
             if interfaces.IConnection.providedBy(o)
             and o.getConnection() is not None
+            and not o.id.startswith('copy_of')
             and (checkPermission(permissions.View, o)
                  or checkPermission('Pleiades: View link to draft', o))
         ]
