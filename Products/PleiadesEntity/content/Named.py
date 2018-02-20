@@ -151,8 +151,14 @@ class Named(BrowserDefaultMixin):
                 a = getattr(pair[0], field)
                 b = getattr(pair[1], field)
                 if callable(a):
-                    a = a()
-                    b = b()
+                    try:
+                        a = a()
+                    except TypeError:
+                        continue
+                    try:
+                        b = b()
+                    except TypeError:
+                        continue
                 if a != b:
                     print('MISMATCH')
                     print('\t0.{}: "{}"'.format(field, a))
