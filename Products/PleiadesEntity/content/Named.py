@@ -128,6 +128,7 @@ class Named(BrowserDefaultMixin):
         return [
             o for o in self.values()
             if interfaces.IConnection.providedBy(o)
+            and o.getConnection() is not None
             and (checkPermission(permissions.View, o)
                  or checkPermission('Pleiades: View link to draft', o))
         ]
