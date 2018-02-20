@@ -132,6 +132,8 @@ class Named(BrowserDefaultMixin):
                  or checkPermission('Pleiades: View link to draft', o))
         ]
         print('getSubConnections got {} connections'.format(len(subcons)))
+        for i, o in enumerate(subcons):
+            print('{}: {}'.format(i, type(o)))
         return subcons
 
     security.declareProtected(permissions.View, 'getReverseConnections')
