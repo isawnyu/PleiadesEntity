@@ -134,6 +134,10 @@ class Named(BrowserDefaultMixin):
         print('getSubConnections got {} connections'.format(len(subcons)))
         for i, o in enumerate(subcons):
             print('{}: {}'.format(i, type(o)))
+            fields = sorted(dir(o))
+            fields = [f for f in fields if not f.startswith('_')]
+            for field in fields:
+                print('\t{}'.format(field))
         return subcons
 
     security.declareProtected(permissions.View, 'getReverseConnections')
