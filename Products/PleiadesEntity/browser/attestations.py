@@ -8,6 +8,7 @@ from plone.batching import Batch
 from plone.memoize import view
 from Products.ATVocabularyManager import NamedVocabulary
 from Products.CMFCore.utils import getToolByName
+from Products.CMFCore.WorkflowCore import WorkflowException
 from Products.Five.browser import BrowserView
 from Products.PleiadesEntity.time import to_ad
 import logging
@@ -464,7 +465,10 @@ class ConnectionsTable(ChildrenTable):
                 review_state = self.wftool.getInfoFor(self.referer(ob), 'review_state')
                 if review_state != 'published':
                     continue
-                review_state = self.wftool.getInfoFor(self.referenced(ob), 'review_state')
+                try:
+                    review_state = self.wftool.getInfoFor(self.referenced(ob), 'review_state')
+                except WorkflowException:
+                    review_state = self.referenced(ob).review_state
                 if review_state != 'published':
                     continue
             parts = []
