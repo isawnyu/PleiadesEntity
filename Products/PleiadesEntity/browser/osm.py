@@ -4,8 +4,8 @@ from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone import PloneMessageFactory as _
 from Products.Five.browser import BrowserView
 import datetime
-import httplib2
 import logging
+import requests
 
 
 MESSAGE = (
@@ -15,8 +15,8 @@ MESSAGE = (
 
 log = logging.getLogger("Pleiades OSM Client")
 
-OSM_API_ENDPOINT = "http://www.openstreetmap.org/api/0.6"
-OSM_BROWSE = "http://www.openstreetmap.org/browse"
+OSM_API_ENDPOINT = "https://www.openstreetmap.org/api/0.6"
+OSM_BROWSE = "https://www.openstreetmap.org/browse"
 
 
 def read_way_as_linestring(root, way):
