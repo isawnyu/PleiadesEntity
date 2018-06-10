@@ -18,7 +18,7 @@ log = logging.getLogger("Pleiades OSM Client")
 
 user_agent = (
     'PleiadesEntityBot/{} (+https://pleiades.stoa.org/help/bots)'
-    ''.format(pkg_resources.get_distribution('PleiadsEntity').version))
+    ''.format(pkg_resources.get_distribution('PleiadesEntity').version))
 HEADERS = {
     'from': 'pleiades.admin@nyu.edu',
     'user-agent': user_agent
