@@ -5,6 +5,7 @@ from Products.CMFPlone import PloneMessageFactory as _
 from Products.Five.browser import BrowserView
 import datetime
 import logging
+import pkg_resources
 import requests
 
 
@@ -15,6 +16,14 @@ MESSAGE = (
 
 log = logging.getLogger("Pleiades OSM Client")
 
+user_agent = (
+    'PleiadesEntityBot/{} (+https://pleiades.stoa.org/help/bots)'
+    ''.format(pkg_resources.get_distribution('PleiadsEntity').version))
+HEADERS = {
+    'from': 'pleiades.admin@nyu.edu',
+    'user-agent': user_agent
+}
+TIMEOUT = 3.0
 OSM_API_ENDPOINT = "https://www.openstreetmap.org/api/0.6"
 OSM_BROWSE = "https://www.openstreetmap.org/browse"
 
@@ -53,13 +62,12 @@ class OSMLocationFactory(BrowserView):
         url = "/".join([OSM_API_ENDPOINT, objtype, objid] + (
             [] if objtype == 'node' else ['full']))
 
-        h = httplib2.Http()
-        resp, content = h.request(url, "GET")
+        resp = requests.get(url, headers=HEADERS, timeout=TIMEOUT)
+        if not resp.status_code == 200:
+            return self._fall_back(
+                "OSM API response: " + str(resp.status_code))
 
-        if not resp['status'] == "200":
-            return self._fall_back("OSM API response: " + resp['status'])
-
-        osm = etree.fromstring(content)
+        osm = etree.fromstring(resp.content)
         elem = osm.find('{}[@id="{}"]'.format(objtype, objid))
         if elem is None:
             raise Exception('{} {} not found'.format(objtype, objid))
@@ -80,7 +88,8 @@ class OSMLocationFactory(BrowserView):
             relation_type = elem.find("tag[@k='type']").attrib.get('v')
             if relation_type not in ('multipolygon', 'waterway'):
                 return self._fall_back(
-                    "Only relations of type 'multipolygon' and 'waterway' can be imported.")
+                    "Only relations of type 'multipolygon' and 'waterway' "
+                    "can be imported.")
             ways = []
             way_xpath = "member[@type='way']"
             if relation_type == 'waterway':
