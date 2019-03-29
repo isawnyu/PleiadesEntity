@@ -5,6 +5,10 @@
   >
 
   <adapter
+    for="Products.PleiadesEntity.content.interfaces.IConnection"
+    factory=".connection.ConnectionExportAdapter" />
+
+  <adapter
     for="Products.CMFCore.interfaces.IContentish"
     factory=".ContentExportAdapter" />
 

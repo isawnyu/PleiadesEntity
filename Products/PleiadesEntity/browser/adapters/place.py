@@ -28,6 +28,8 @@ class PlaceExportAdapter(WorkExportAdapter, ContentExportAdapter):
             for id in (self._connectsWith() + self._hasConnectionsWith())
         ]
 
+    connections = export_children('Connection')
+
     def reprPoint(self):
         value = self.brain.reprPt
         if not value:
