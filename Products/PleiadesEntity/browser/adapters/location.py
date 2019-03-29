@@ -2,15 +2,17 @@ from Products.PleiadesEntity.time import to_ad
 from . import ContentExportAdapter
 from . import PlaceSubObjectExportAdapter
 from . import TemporalExportAdapter
+from . import CertaintyExportAdapter
 from . import WorkExportAdapter
 from . import archetypes_getter
+from . import vocabulary_uri
 from . import memoize_all_methods
 
 
 @memoize_all_methods
 class LocationExportAdapter(
         WorkExportAdapter, TemporalExportAdapter, ContentExportAdapter,
-        PlaceSubObjectExportAdapter):
+        CertaintyExportAdapter, PlaceSubObjectExportAdapter):
 
     def geometry(self):
         return self.extent()
@@ -28,10 +30,11 @@ class LocationExportAdapter(
         return s
 
     featureType = archetypes_getter('featureType')
-    associationCertainty = archetypes_getter('associationCertainty')
+    featureTypeURI = vocabulary_uri('place-types', 'featureType')
     details = archetypes_getter('text')
     archaeologicalRemains = archetypes_getter('archaeologicalRemains')
     locationType = archetypes_getter('locationType')
+    locationTypeURI = vocabulary_uri('location-types', 'locationType')
 
     _accuracy = archetypes_getter('accuracy', raw=False)
     def accuracy(self):
