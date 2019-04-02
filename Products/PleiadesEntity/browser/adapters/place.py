@@ -8,6 +8,7 @@ from . import WorkExportAdapter
 from . import get_export_adapter
 from . import export_config
 from . import memoize_all_methods
+from . import vocabulary_uri
 import geojson
 import re
 
@@ -50,6 +51,17 @@ class PlaceExportAdapter(WorkExportAdapter, ContentExportAdapter):
 
     def placeTypes(self):
         return self.brain.getFeatureType
+
+    def placeTypeURIs(self):
+        uris = []
+        for feature_type in self.brain.getFeatureType:
+            uris.append(
+                vocabulary_uri(
+                    'place-types',
+                    'value'
+                )({'value': feature_type})
+            )
+        return uris
 
     def subject(self):
         return self.brain.Subject
