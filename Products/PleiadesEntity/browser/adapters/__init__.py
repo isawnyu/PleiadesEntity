@@ -1,10 +1,12 @@
 from AccessControl import Unauthorized
 from DateTime import DateTime
+import plone.api
 from plone.memoize import instance
 from Products.CMFCore.utils import getToolByName
 from Products.PleiadesEntity.content.ReferenceCitation import schema as ReferenceSchema
 from zope.component import queryAdapter
 from zope.interface import implementer
+import copy
 from ..interfaces import IExportAdapter
 import inspect
 import itertools
@@ -198,6 +200,29 @@ def archetypes_getter(fname, raw=True):
     return get
 
 
+def vocabulary_uri(vocab_name, fname):
+    def get(self):
+        if isinstance(self, dict):
+            value = self[fname]
+        else:
+            value = getattr(self, fname)()
+        portal = plone.api.portal.get()
+        if isinstance(value, tuple):
+            return [
+                "{}/{}/{}".format(
+                    portal.restrictedTraverse('vocabularies').absolute_url(),
+                    vocab_name,
+                    subvalue,
+                ) for subvalue in value
+            ]
+        return "{}/{}/{}".format(
+            portal.restrictedTraverse('vocabularies').absolute_url(),
+            vocab_name,
+            value,
+        )
+    return get
+
+
 def export_children(portal_type):
     def get(self):
         __traceback_info__ = portal_type
@@ -218,6 +243,8 @@ class ReferenceExportAdapter(ExportAdapter):
     citationDetail = dict_getter('citation_detail')
     formattedCitation = dict_getter('formatted_citation')
     type = dict_getter('type')
+    citationTypeURI = vocabulary_uri('feature-type', 'type')
+
     bibliographicURI = dict_getter('bibliographic_uri')
     accessURI = dict_getter('access_uri')
     alternateURI = dict_getter('alternate_uri')
@@ -239,9 +266,19 @@ class WorkExportAdapter(ExportAdapter):
         return result
 
 
+class CertaintyExportAdapter(ExportAdapter):
+    associationCertainty = archetypes_getter('associationCertainty')
+    associationCertaintyURI = vocabulary_uri('association-certainty', 'associationCertainty')
+
+
 @memoize_all_methods
 class TemporalExportAdapter(ExportAdapter):
-    attestations = archetypes_getter('attestations', raw=False)
+    def attestations(self):
+        attestations = copy.copy(archetypes_getter('attestations', raw=False)(self))
+        for attestation in attestations:
+            attestation['timePeriodURI'] = vocabulary_uri('time-periods', 'timePeriod')(attestation)
+            attestation['confidenceURI'] = vocabulary_uri('attestation-confidence', 'confidence')(attestation)
+        return attestations
 
     def _temporalRange(self):
         return self.context.temporalRange()
