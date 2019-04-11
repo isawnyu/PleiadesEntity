@@ -72,8 +72,8 @@ class PositionalAccuracy(ATDocument):
 
     schema = PositionalAccuracy_schema
 
-    schema["presentation"].widget.visible = {
-        "edit": "invisible", "view": "invisible"}
+    #schema["presentation"].widget.visible = {
+    #    "edit": "invisible", "view": "invisible"}
     schema["tableContents"].widget.visible = {
         "edit": "invisible", "view": "invisible"}
 

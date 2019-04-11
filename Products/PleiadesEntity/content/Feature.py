@@ -98,7 +98,7 @@ class Feature(BaseFolder, ATDocumentBase, Named, Work, BrowserDefaultMixin):
 
     ##code-section class-header #fill in your manual code here
     schema["modernLocation"].widget.visible = {"edit": "invisible", "view": "invisible"}
-    schema["presentation"].widget.visible = {"edit": "invisible", "view": "invisible"}
+    #schema["presentation"].widget.visible = {"edit": "invisible", "view": "invisible"}
     schema["tableContents"].widget.visible = {"edit": "invisible", "view": "invisible"}
     schema["text"].widget.label = 'Details'
     ##/code-section class-header

@@ -93,7 +93,7 @@ schema["effectiveDate"].widget.visible = off
 schema["expirationDate"].widget.visible = off
 schema["allowDiscussion"].widget.visible = off
 schema["excludeFromNav"].widget.visible = off
-schema["presentation"].widget.visible = off
+#schema["presentation"].widget.visible = off
 schema["tableContents"].widget.visible = off
 
 schemata.finalizeATCTSchema(

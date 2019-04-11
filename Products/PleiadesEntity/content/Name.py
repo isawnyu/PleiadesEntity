@@ -195,14 +195,14 @@ schema["expirationDate"].widget.visible = off
 schema["allowDiscussion"].widget.visible = off
 schema["excludeFromNav"].widget.visible = off
 schema["text"].widget.label = 'Details'
-schema["presentation"].widget.visible = off
+#schema["presentation"].widget.visible = off
 schema["tableContents"].widget.visible = off
 schema["primaryReferenceCitations"].widget.visible = off
 
 schema["text"].schemata = "Details"
 
 schema.moveField('nameAttested', pos='top')
-schema.moveField('nameLanguage', after='nameAttested')    
+schema.moveField('nameLanguage', after='nameAttested')
 schema.moveField('nameTransliterated', pos='top')
 schema.moveField('text', pos='bottom')
 

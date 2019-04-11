@@ -107,7 +107,7 @@ schema["expirationDate"].widget.visible = off
 schema["allowDiscussion"].widget.visible = off
 schema["excludeFromNav"].widget.visible = off
 schema["text"].widget.label = 'Details'
-schema["presentation"].widget.visible = off
+#schema["presentation"].widget.visible = off
 schema["tableContents"].widget.visible = off
 schema["text"].schemata = "Details"
 schema["connections"].widget.visible = off
@@ -130,7 +130,7 @@ class Place(atapi.BaseFolder, ATDocumentBase, Named, Work, BrowserDefaultMixin):
     _at_rename_after_creation = True
 
     schema = Place_schema
-    schema["presentation"].widget.visible = {"edit": "invisible", "view": "invisible"}
+    #schema["presentation"].widget.visible = {"edit": "invisible", "view": "invisible"}
     schema["tableContents"].widget.visible = {"edit": "invisible", "view": "invisible"}
     schema["text"].widget.label = 'Details'
     schema["permanent"].widget.visible = {"edit": "invisible", "view": "invisible"}

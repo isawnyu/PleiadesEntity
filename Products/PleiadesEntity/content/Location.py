@@ -97,7 +97,7 @@ class LocationMixin:
                     g = simplejson.loads(j, use_decimal=True)
 
                 v = "%s:%s" % (
-                    g['type'], 
+                    g['type'],
                     simplejson.dumps(g['coordinates'], use_decimal=True) )
         return v
 
@@ -110,7 +110,7 @@ class CoordinatesValidator(object, LocationMixin):
         # ensure that the coordinates were entered according to specified forms
         try:
             self.processCoordinatesGeometryValue(value)
-        except: 
+        except:
             return "Coordinates form incorrect"
         return True
 
@@ -246,7 +246,7 @@ schema["effectiveDate"].widget.visible = off
 schema["expirationDate"].widget.visible = off
 schema["allowDiscussion"].widget.visible = off
 schema["excludeFromNav"].widget.visible = off
-schema["presentation"].widget.visible = off
+#schema["presentation"].widget.visible = off
 schema["tableContents"].widget.visible = off
 schema["nodes"].widget.visible = off
 schema["text"].widget.label = 'Details'
@@ -260,7 +260,7 @@ schemata.finalizeATCTSchema(
 )
 
 
-class Location(ATDocumentBase, Work, Temporal, BrowserDefaultMixin, 
+class Location(ATDocumentBase, Work, Temporal, BrowserDefaultMixin,
         LocationMixin):
     security = ClassSecurityInfo()
 
@@ -291,7 +291,7 @@ class Location(ATDocumentBase, Work, Temporal, BrowserDefaultMixin,
         """Return GeoJSON geometry"""
         raw = self._getGeometryRaw()
         if not raw:
-            return 
+            return
         parts = raw.split(':')
         data = '{"type": "%s", "coordinates": %s}' % (
             parts[0].strip(), parts[1].strip())
