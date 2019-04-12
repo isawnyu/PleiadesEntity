@@ -6,6 +6,7 @@ from . import WorkExportAdapter
 from . import archetypes_getter
 from . import get_export_adapter
 from . import memoize_all_methods
+from . import vocabulary_uri
 
 
 @memoize_all_methods
@@ -19,12 +20,7 @@ class ConnectionExportAdapter(
     details = archetypes_getter('text')
 
     connectionType = archetypes_getter('relationshipType')
-
-    def connectionTypeURI(self):
-        return "{}/relationship-types/{}".format(
-            self.context.restrictedTraverse('vocabularies').aq_inner.absolute_url(),
-            self.context.getRelationshipType()
-        )
+    connectionTypeURI = vocabulary_uri('relationship-types', 'connectionType')
 
     def connectsTo(self):
         target = self.context.getConnection()
