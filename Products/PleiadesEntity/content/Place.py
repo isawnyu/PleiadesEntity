@@ -164,7 +164,7 @@ class Place(atapi.BaseFolder, ATDocumentBase, Named, Work, BrowserDefaultMixin):
             newid = -1
             while int(newid) <= BA_ID_MAX:
                 newid = parent.generateId(prefix='')
-            transaction.commit()
+            transaction.savepoint()
             self.setId(newid)
 
     security.declareProtected(permissions.View, 'getPlaceTypeRaw')

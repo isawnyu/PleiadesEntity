@@ -111,7 +111,7 @@ class Feature(BaseFolder, ATDocumentBase, Named, Work, BrowserDefaultMixin):
         newid = parent.generateId(prefix='')
         # Can't rename without a subtransaction commit when using
         # portal_factory!
-        transaction.commit()
+        transaction.savepoint()
         self.setId(newid)
 
     security.declarePublic('SearchableText')

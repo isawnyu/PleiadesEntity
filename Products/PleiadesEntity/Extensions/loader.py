@@ -531,7 +531,7 @@ def load_place(site, file, with_features=True, metadataId=None, cb=lambda x: Non
         savepoint.rollback()
         raise
     
-    transaction.commit()
+    transaction.savepoint()
     return dict(place_id=pid, feature_id=fid, location_ids=lids, name_ids=nids)
 
 def load_cap(site, root, mapid=None, metadataId=None, cb=lambda x: None):
