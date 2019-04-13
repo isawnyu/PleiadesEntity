@@ -25,7 +25,6 @@ from Products.CompoundField.ArrayField import ArrayField
 from Products.CompoundField.ArrayWidget import ArrayWidget
 from Products.CompoundField.EnhancedArrayWidget import EnhancedArrayWidget
 from Products.CompoundField.EnhancedArrayWidget import EnhancedArrayWidget
-from Products.ATVocabularyManager.namedvocabulary import NamedVocabulary
 from Products.PleiadesEntity.config import *
 
 # additional imports from tagged value 'import'
@@ -71,7 +70,7 @@ schema = Schema((
             i18n_domain='PleiadesEntity',
         ),
         description="The language and writing system or script of the attested name.",
-        vocabulary=NamedVocabulary("""ancient-name-languages"""),
+        vocabulary_factory='pleiades.vocabularies.ancient_name_languages',
         enforceVocabulary=1,
         required=1,
     ),
@@ -98,7 +97,7 @@ schema = Schema((
             i18n_domain='PleiadesEntity',
         ),
         description="Type of name",
-        vocabulary=NamedVocabulary("""name-types"""),
+        vocabulary_factory='pleiades.vocabularies.name_types',
         default="geographic",
         enforceVocabulary=1,
     ),
@@ -113,7 +112,7 @@ schema = Schema((
             i18n_domain='PleiadesEntity',
         ),
         description="Level of accuracy of transcription",
-        vocabulary=NamedVocabulary("""name-accuracy"""),
+        vocabulary_factory='pleiades.vocabularies.name_accuracy',
         default="accurate",
         enforceVocabulary=1,
     ),
@@ -128,7 +127,7 @@ schema = Schema((
             i18n_domain='PleiadesEntity',
         ),
         description="Level of completeness of transcription",
-        vocabulary=NamedVocabulary("""name-completeness"""),
+        vocabulary_factory='pleiades.vocabularies.name_completeness',
         default="complete",
         enforceVocabulary=1,
     ),
@@ -142,7 +141,7 @@ schema = Schema((
             i18n_domain='PleiadesEntity',
         ),
         description="Level of certainty in association between name and feature",
-        vocabulary=NamedVocabulary("""association-certainty"""),
+        vocabulary_factory='pleiades.vocabularies.association_certainty',
         default="certain",
         enforceVocabulary=1,
     ),

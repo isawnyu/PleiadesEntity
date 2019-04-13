@@ -6,7 +6,6 @@ from pleiades.vocabularies.vocabularies import get_vocabulary
 from plone import api
 from plone.batching import Batch
 from plone.memoize import view
-from Products.ATVocabularyManager import NamedVocabulary
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import BrowserView
 from Products.PleiadesEntity.time import to_ad
@@ -282,9 +281,9 @@ class NamesTable(ChildrenTable):
         wftool = self.wftool
         checkPermission = getSecurityManager().checkPermission
         credit_utils = self.context.unrestrictedTraverse('@@credit_utils')
-        atvm = api.portal.get_tool(name='portal_vocabularies')
-        nv = NamedVocabulary('ancient-name-languages')
-        lang_vocab = nv.getVocabularyDict(atvm)
+
+        vocabulary = get_vocabulary('ancient_name_languages')
+        lang_vocab = {t['id']:t['title'] for t in vocabulary}
         for score, ob, nrefs in sorted(names, key=lambda k: k[1].Title() or ''):
             nameAttested = ob.getNameAttested() or None
             title = ob.Title() or "Untitled"

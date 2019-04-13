@@ -18,7 +18,6 @@ from pleiades.vocabularies.widget import FilteredSelectionWidget
 from Products.Archetypes import atapi
 from Products.Archetypes.Registry import registerField
 from Products.Archetypes.Schema import Schema
-from Products.ATVocabularyManager.namedvocabulary import NamedVocabulary
 from Products.CompoundField.CompoundField import CompoundField
 
 
@@ -48,7 +47,7 @@ schema = Schema((
             i18n_domain='PleiadesEntity',
         ),
         description="Level of confidence in temportal attestation",
-        vocabulary=NamedVocabulary("""attestation-confidence"""),
+        vocabulary_factory="pleiades.vocabularies.attestation_confidence",
         default="confident",
         enforceVocabulary=1,
     ),

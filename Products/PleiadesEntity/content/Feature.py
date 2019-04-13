@@ -23,7 +23,6 @@ from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
 
 from Products.ATReferenceBrowserWidget.ATReferenceBrowserWidget import \
     ReferenceBrowserWidget
-from Products.ATVocabularyManager.namedvocabulary import NamedVocabulary
 from Products.PleiadesEntity.config import *
 
 # additional imports from tagged value 'import'
@@ -47,7 +46,7 @@ schema = Schema((
             i18n_domain='PleiadesEntity',
         ),
         description="Type of feature",
-        vocabulary='pleiades.vocabulary.place_types',
+        vocabulary_factory='pleiades.vocabularies.place_types',
         default=["unknown"],
         enforceVocabulary=1,
         multiValued=1,
