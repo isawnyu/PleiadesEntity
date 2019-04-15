@@ -8,7 +8,6 @@ from . import get_export_adapter
 from . import memoize_all_methods
 from . import vocabulary_uri
 
-
 log = logging.getLogger('PleiadesEntity.adapters.connection')
 
 
