@@ -29,15 +29,18 @@ class ConnectionExportAdapter(
         target = self.context.getConnection()
         if target is not None:
             adapter = get_export_adapter(target)
-            if adapter is None:
+            if adapter is not None:
                 return adapter.uri()
             else:
-                log.warning('No export adapter found for target {}'.format(
-                    target
-                ))
+                log.warning(
+                    'No export adapter found for connection '
+                    '{} to target {}'.format(
+                        '/'.join(self.context.getPhysicalPath()), target
+                    )
+                )
         else:
             log.warning('No connection target found for connection {}'.format(
                 '/'.join(self.context.getPhysicalPath())
             ))
-        # Raising NotImplementedError leaves the bad connection out of the export
+        # Raising NotImplementedError skips the bad connection
         raise NotImplementedError
