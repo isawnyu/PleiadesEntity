@@ -1,4 +1,4 @@
-from Products.PleiadesEntity.time import to_ad
+import logging
 from . import ContentExportAdapter
 from . import PlaceSubObjectExportAdapter
 from . import TemporalExportAdapter
@@ -9,12 +9,15 @@ from . import memoize_all_methods
 from . import vocabulary_uri
 
 
+log = logging.getLogger('PleiadesEntity.adapters.connection')
+
+
 @memoize_all_methods
 class ConnectionExportAdapter(
-    ContentExportAdapter,
-    WorkExportAdapter,
-    TemporalExportAdapter,
-    PlaceSubObjectExportAdapter):
+        ContentExportAdapter,
+        WorkExportAdapter,
+        TemporalExportAdapter,
+        PlaceSubObjectExportAdapter):
 
     associationCertainty = archetypes_getter('associationCertainty')
     details = archetypes_getter('text')
@@ -24,5 +27,17 @@ class ConnectionExportAdapter(
 
     def connectsTo(self):
         target = self.context.getConnection()
-        adapter = get_export_adapter(target)
-        return adapter.uri()
+        if target is not None:
+            adapter = get_export_adapter(target)
+            if adapter is None:
+                return adapter.uri()
+            else:
+                log.warning('No export adapter found for target {}'.format(
+                    target
+                ))
+        else:
+            log.warning('No connection target found for connection {}'.format(
+                '/'.join(self.context.getPhysicalPath())
+            ))
+        # Raising NotImplementedError leaves the bad connection out of the export
+        raise NotImplementedError
