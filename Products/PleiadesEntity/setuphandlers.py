@@ -19,7 +19,7 @@ logger = logging.getLogger('PleiadesEntity: setuphandlers')
 import os
 from config import product_globals
 from Globals import package_home
-from Products.ATVocabularyManager.config import TOOL_NAME as ATVOCABULARYTOOL
+# from Products.ATVocabularyManager.config import TOOL_NAME as ATVOCABULARYTOOL
 from Products.CMFCore.utils import getToolByName
 from Products.ZCatalog.ProgressHandler import ZLogHandler
 
@@ -43,42 +43,35 @@ def isNotPleiadesEntityProfile(context):
 
 def installVocabularies(context):
     """creates/imports the atvm vocabs."""
-    if isNotPleiadesEntityProfile(context): return 
-    site = context.getSite()
+    if isNotPleiadesEntityProfile(context): return
+    # site = context.getSite()
     # Create vocabularies in vocabulary lib
-    atvm = getToolByName(site, ATVOCABULARYTOOL)
-    vocabmap = {
-        'name-accuracy': ('VdexFileVocabulary', 'VdexTerm'),
-        'association-certainty': ('VdexFileVocabulary', 'VdexTerm'),
-        'attestation-confidence': ('VdexFileVocabulary', 'VdexTerm'),
-        'name-completeness': ('VdexFileVocabulary', 'VdexTerm'),
-        'ancient-name-languages': ('VdexFileVocabulary', 'VdexTerm'),
-        'name-types': ('VdexFileVocabulary', 'VdexTerm'),
-    }
-    for vocabname in vocabmap.keys():
-        if not vocabname in atvm.contentIds():
-            atvm.invokeFactory(vocabmap[vocabname][0], vocabname)
+    # atvm = getToolByName(site, ATVOCABULARYTOOL)
+    # vocabmap = {}
+    # for vocabname in vocabmap.keys():
+    #     if not vocabname in atvm.contentIds():
+    #         atvm.invokeFactory(vocabmap[vocabname][0], vocabname)
 
-        if len(atvm[vocabname].contentIds()) < 1:
-            if vocabmap[vocabname][0] == "VdexFileVocabulary":
-                vdexpath = os.path.join(
-                    package_home(product_globals), 'data', '%s.vdex' % vocabname)
-                if not (os.path.exists(vdexpath) and os.path.isfile(vdexpath)):
-                    logger.warn('No VDEX import file provided at %s.' % vdexpath)
-                    continue
-                try:
-                    #read data
-                    f = open(vdexpath, 'r')
-                    data = f.read()
-                    f.close()
-                except:
-                    logger.warn("Problems while reading VDEX import file "+\
-                                "provided at %s." % vdexpath)
-                    continue
-                # this might take some time!
-                atvm[vocabname].importXMLBinding(data)
-            else:
-                pass
+    #     if len(atvm[vocabname].contentIds()) < 1:
+    #         if vocabmap[vocabname][0] == "VdexFileVocabulary":
+    #             vdexpath = os.path.join(
+    #                 package_home(product_globals), 'data', '%s.vdex' % vocabname)
+    #             if not (os.path.exists(vdexpath) and os.path.isfile(vdexpath)):
+    #                 logger.warn('No VDEX import file provided at %s.' % vdexpath)
+    #                 continue
+    #             try:
+    #                 #read data
+    #                 f = open(vdexpath, 'r')
+    #                 data = f.read()
+    #                 f.close()
+    #             except:
+    #                 logger.warn("Problems while reading VDEX import file "+\
+    #                             "provided at %s." % vdexpath)
+    #                 continue
+    #             # this might take some time!
+    #             atvm[vocabname].importXMLBinding(data)
+    #         else:
+    #             pass
 
 
 

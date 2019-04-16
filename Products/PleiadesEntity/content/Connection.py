@@ -15,7 +15,6 @@ from pleiades.vocabularies.widget import FilteredSelectionWidget
 from Products.Archetypes import atapi
 from Products.ATContentTypes.content import schemata
 from Products.ATContentTypes.content.document import ATDocumentSchema
-from Products.ATVocabularyManager.namedvocabulary import NamedVocabulary
 from Products.CMFCore import permissions
 from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
 from Products.PleiadesEntity.content.Temporal import Temporal
@@ -70,7 +69,7 @@ schema = atapi.Schema((
             i18n_domain='PleiadesEntity',
         ),
         description="Level of certainty in association between location and place",
-        vocabulary=NamedVocabulary("""association-certainty"""),
+        vocabulary_factory='pleiades.vocabularies.association_certainty',
         default="certain",
         enforceVocabulary=1,
     ),

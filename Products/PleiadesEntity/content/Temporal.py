@@ -14,7 +14,6 @@ __author__ = """Sean Gillies <unknown>, Tom Elliott <unknown>"""
 __docformat__ = 'plaintext'
 
 from AccessControl import ClassSecurityInfo
-from pleiades.vocabularies.vocabularies import get_vocabulary
 from Products.Archetypes import atapi
 from Products.CMFCore import permissions
 from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
@@ -23,6 +22,7 @@ from Products.CompoundField.CompoundWidget import CompoundWidget
 from Products.CompoundField.EnhancedArrayWidget import EnhancedArrayWidget
 from Products.PleiadesEntity.content.TemporalAttestation import TemporalAttestation
 from Products.PleiadesEntity.time import periodRanges
+from pleiades.vocabularies.vocabularies import get_vocabulary
 from zope.globalrequest import getRequest
 from zope.interface import implements
 import interfaces
@@ -87,23 +87,20 @@ class Temporal(BrowserDefaultMixin):
     def getTimePeriods(self):
         return [a['timePeriod'] for a in self.getSortedTemporalAttestations()]
 
-    security.declareProtected(permissions.View, 'displaySortedTemporalAttestations')
+    security.declareProtected(permissions.View,
+                              'displaySortedTemporalAttestations')
     def displaySortedTemporalAttestations(self):
         time_periods = get_vocabulary('time_periods')
-        time_periods_dict = {p['id']:p['title'] for p in time_periods}
+        time_periods_dict = {p['id']: p['title'] for p in time_periods}
         attestations = self.getSortedTemporalAttestations()
-        vocab_c = TemporalAttestation.schema[
-            'confidence'].vocabulary.getVocabularyDict(self)
+        confidence_vocab = get_vocabulary('attestation_confidence')
+        confidence_dict = {t['id']: t['title'] for t in confidence_vocab}
         try:
             return [dict(timePeriod=time_periods_dict[a['timePeriod']],
-                         confidence=vocab_c[a['confidence']])
+                         confidence=confidence_dict[a['confidence']])
                     for a in attestations]
         except KeyError:
             return []
-
-    def confidence_vocab(self):
-        return TemporalAttestation.schema[
-            'confidence'].vocabulary.getVocabulary(self).getTarget()
 
     security.declareProtected(permissions.View, 'temporalRange')
     def temporalRange(self, period_ranges=None):
