@@ -5,12 +5,16 @@ from plone.memoize import instance
 from Products.CMFCore.utils import getToolByName
 from Products.PleiadesEntity.content.ReferenceCitation import schema as ReferenceSchema
 from zope.component import queryAdapter
+from zope.component.interfaces import ComponentLookupError
 from zope.interface import implementer
 import copy
 from ..interfaces import IExportAdapter
 import inspect
 import itertools
+import logging
 import Missing
+
+log = logging.getLogger('PleiadesEntity.adapters.connection')
 
 
 def get_export_adapter(ob):
@@ -84,7 +88,14 @@ class ContentExportAdapter(ExportAdapter):
         self.context = context
         catalog = getToolByName(context, 'portal_catalog')
         rid = catalog.getrid('/'.join(context.getPhysicalPath()))
-        self.brain = catalog._catalog[rid]
+        try:
+            self.brain = catalog._catalog[rid]
+        except (TypeError, KeyError):
+            log.warn('Could not find catalog brain for {}'.format(
+                '/'.join(context.getPhysicalPath())
+            ))
+            # This will cause queryAdapter to return None
+            raise ComponentLookupError
 
     @export_config(json=False)
     def uid(self):
