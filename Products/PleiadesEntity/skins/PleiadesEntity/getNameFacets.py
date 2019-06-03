@@ -29,13 +29,10 @@ for label, index in indexes.items():
 
     vname = vocabs[label]
     values = catalog.uniqueValuesFor(index)
-    if vname == 'time-periods':
-        vocab = {}
-        periods = context.restrictedTraverse('@@time-periods').periods
-        for period in periods:
-            vocab[period['id']] = period['title']
-    else:
-        vocab = vtool[vname].getTarget()
+    vocab = {}
+    values = vtool.restrictedTraverse(vname)
+    for val in values:
+        vocab[val['id']] = val['title']
 
     data[label] = []
 
@@ -43,11 +40,7 @@ for label, index in indexes.items():
         query = basequery.copy()
         query[index] = v
         term = vocab.get(v, None)
-        if term and vname != 'time-periods':
-            if wftool.getInfoFor(term, 'review_state') != 'published':
-                continue
-            tval = term.getTermValue()
-        elif term and vname == 'time-periods':
+        if term:
             tval = term
         else:
             tval = "Undefined"

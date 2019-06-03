@@ -5,7 +5,6 @@ from Products.PloneTestCase.layer import onsetup, PloneSite
 from Testing import ZopeTestCase as ztc
 import os
 
-ztc.installProduct('ATVocabularyManager')
 ztc.installProduct('Products.ATBackRef')
 ztc.installProduct('Products.CompoundField')
 ztc.installProduct('Products.OrderableReferenceField')
