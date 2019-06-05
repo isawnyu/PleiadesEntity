@@ -4,11 +4,12 @@
       xmlns:tal="http://xml.zope.org/namespaces/tal"
       xmlns:metal="http://xml.zope.org/namespaces/metal"
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      metal:use-macro="here/main_template/macros/master"
       i18n:domain="plone">
 
   <head>
 
-    <metal:head_macro metal:define-macro="js"
+    <metal:head_macro metal:fill-slot="head_slot"
       tal:define="url context/absolute_url;
                   baseline context/@@iterate/baseline|nothing;
                   dummy python:request.response.setHeader('Vary', 'Accept')" >
@@ -47,28 +48,7 @@
 
   <body>
 
-    <metal:header_macro define-macro="header"
-      tal:define="kssClassesView context/@@kss_field_decorator_view;
-                  getKssClasses nocall:kssClassesView/getKssClassesInlineEditable">
-      <div itemscope itemtype="http://schema.org/Place">
-        <div tal:replace="structure provider:plone.abovecontenttitle" />
-        <h1 itemprop="name" tal:content="here/title_or_id">
-          Title or id
-        </h1>
-        <div tal:replace="structure provider:plone.belowcontenttitle" />
-        <p itemprop="description"
-          class="documentDescription"
-          tal:content="here/Description">
-          Description</p>
-        <a itemprop="maps" href="" style="display:none"
-          tal:attributes="href string:http://maps.google.com/maps?f=q&q=${here/absolute_url}/neighborhood-kml">URL</a>
-        <div tal:replace="structure provider:plone.abovecontentbody" />
-      </div>
-
-    </metal:header_macro>
-
-    <metal:body_macro
-      metal:define-macro="body"
+    <metal:main fill-slot="main"
       tal:define="field_macro field_macro | here/widgets/field/macros/view;
         kssClassesView context/@@kss_field_decorator_view;
         getKssClasses nocall:kssClassesView/getKssClassesInlineEditable;
@@ -376,7 +356,7 @@
     var clipboard = new Clipboard('.copy-button');
 
     function show_tooltip(e, msg, timeout) {
-      var $tip = jQuery('<span></span').addClass('tooltip').html(msg);
+      var $tip = jQuery('<span></span>').addClass('tooltip').html(msg);
       var $el = $(e.trigger);
       $el.prepend($tip);
       setTimeout(function () {
@@ -396,7 +376,7 @@
   });
 </script>
 
-    </metal:body_macro>
+    </metal:main>
 
     <metal:folderlisting_macro define-macro="folderlisting">
       <!-- nothing -->
