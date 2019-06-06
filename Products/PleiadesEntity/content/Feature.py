@@ -103,15 +103,9 @@ class Feature(BaseFolder, ATDocumentBase, Named, Work, BrowserDefaultMixin):
     ##/code-section class-header
 
     # Methods
-
-    security.declareProtected(permissions.AddPortalContent, '_renameAfterCreation')
-    def _renameAfterCreation(self, check_auto_id=False):
+    def generateNewId(self):
         parent = self.aq_inner.aq_parent
-        newid = parent.generateId(prefix='')
-        # Can't rename without a subtransaction commit when using
-        # portal_factory!
-        transaction.commit()
-        self.setId(newid)
+        return parent.generateId(prefix='')
 
     security.declarePublic('SearchableText')
     def SearchableText(self):
