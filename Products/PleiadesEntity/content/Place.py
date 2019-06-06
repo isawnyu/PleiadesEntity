@@ -149,8 +149,7 @@ class Place(atapi.BaseFolder, ATDocumentBase, Named, Work, BrowserDefaultMixin):
             if interfaces.IFeature.providedBy(o) and sm.checkPermission(permissions.View, o):
                 yield o
 
-    security.declareProtected(permissions.AddPortalContent, '_renameAfterCreation')
-    def _renameAfterCreation(self, check_auto_id=False):
+    def generateNewId(self):
         try:
             oldint = int(self.getId())
             if oldint <= BA_ID_MAX:
@@ -164,8 +163,8 @@ class Place(atapi.BaseFolder, ATDocumentBase, Named, Work, BrowserDefaultMixin):
             newid = -1
             while int(newid) <= BA_ID_MAX:
                 newid = parent.generateId(prefix='')
-            transaction.savepoint()
-            self.setId(newid)
+            return newid
+        return None
 
     security.declareProtected(permissions.View, 'getPlaceTypeRaw')
     def getPlaceTypeRaw(self):
