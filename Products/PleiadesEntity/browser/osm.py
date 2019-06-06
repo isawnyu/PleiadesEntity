@@ -26,6 +26,7 @@ HEADERS = {
 TIMEOUT = 3.0
 OSM_API_ENDPOINT = "https://www.openstreetmap.org/api/0.6"
 OSM_BROWSE = "https://www.openstreetmap.org/browse"
+LOCATION_ERROR = "OSM import failed because of an error in parsing coordinate geometry: "
 
 
 def read_way_as_linestring(root, way):
@@ -48,7 +49,8 @@ class OSMLocationFactory(BrowserView):
         # Redirects back to context with a message
         getToolByName(
             self.context, 'plone_utils').addPortalMessage(
-                _("Location not created. " + msg.rstrip('.') + "."))
+                _(LOCATION_ERROR + msg.rstrip('.') + "."),
+                type='error')
         self.request.response.redirect(self.context.absolute_url())
 
     def __call__(self):
