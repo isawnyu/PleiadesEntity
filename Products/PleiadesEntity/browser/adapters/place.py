@@ -120,7 +120,7 @@ class PlaceExportAdapter(WorkExportAdapter, ContentExportAdapter):
             adapter = get_export_adapter(child)
 
             geometry = adapter.geometry()
-            if geometry['type'] in {'Polygon', }:
+            if geometry and geometry['type'] in {'Polygon', }:
                 coordinates = []
                 for coordinate_set in geometry['coordinates']:
                     if is_clockwise(coordinate_set):
