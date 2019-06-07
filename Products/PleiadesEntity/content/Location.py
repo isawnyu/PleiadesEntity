@@ -95,6 +95,10 @@ class LocationMixin:
                         parts[0].strip(), coords.strip())
                     g = simplejson.loads(j, use_decimal=True)
 
+                # make sure we have a valid shape value
+                shape_test = asShape(g)
+                shape_test.bounds
+
                 v = "%s:%s" % (
                     g['type'], 
                     simplejson.dumps(g['coordinates'], use_decimal=True) )
