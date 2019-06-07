@@ -86,7 +86,8 @@ class OSMLocationFactory(BrowserView):
             geometry = 'LineString:' + read_way_as_linestring(osm, elem)
         elif objtype == 'relation':
             relation_type = elem.find("tag[@k='type']").attrib.get('v')
-            if relation_type not in ('multipolygon', 'waterway'):
+            if relation_type not in ('multipolygon', 'waterway',
+                                     'watershed', 'boundary'):
                 return self._fall_back(
                     "Only relations of type 'multipolygon' and 'waterway' "
                     "can be imported.")
