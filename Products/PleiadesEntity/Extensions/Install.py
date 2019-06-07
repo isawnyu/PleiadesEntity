@@ -68,7 +68,7 @@ def install(self):
         except:
             import pdb; pdb.set_trace()
             raise
-        transaction.commit()
+        transaction.savepoint()
 
     classes = listTypes(PROJECTNAME)
     installTypes(self, out,
