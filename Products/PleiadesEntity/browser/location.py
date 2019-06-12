@@ -1,8 +1,11 @@
+import re
 from Acquisition import aq_parent, aq_inner
 from plone import api
 from Products.CMFCore.utils import getToolByName
 from Products.Five import BrowserView
 from Products.statusmessages.interfaces import IStatusMessage
+
+LOCATION_TITLE_RE = re.compile(r'^(OSM\s*)?Location of\s*', re.I)
 
 
 class PromoteLocationToPlace(BrowserView):
@@ -15,13 +18,15 @@ class PromoteLocationToPlace(BrowserView):
         refs = location.getReferenceCitations()
         refs = [ref for ref in refs if ref['type'] != 'citesAsDataSource']
 
+        title = LOCATION_TITLE_RE.sub('', location.Title())
+
         # Create new place from location
         portal = getToolByName(location, 'portal_url').getPortalObject()
         places = portal['places']
         pid = places.generateUniqueId("Place")
         pid = places.invokeFactory(
             'Place', pid,
-            title=location.Title(),
+            title=title,
             description=location.Description(),
             creators=location.listCreators(),
             contributors=location.Contributors(),
@@ -32,10 +37,12 @@ class PromoteLocationToPlace(BrowserView):
         )
         place = places[pid]
         place._renameAfterCreation(check_auto_id=True)
-        place.Schema()['referenceCitations'].resize(len(refs))
-        place.update(referenceCitations=refs)
+        ref_field = place.Schema()['referenceCitations']
+        ref_field.resize(len(refs), instance=place)
+        ref_field.set(place, refs)
         IStatusMessage(self.request).add(
-            'Added new place {}'.format('/'.join(place.getPhysicalPath())))
+            'Added new place {}'.format('/'.join(place.getPhysicalPath()))
+        )
 
         # Connect place to old place
         unique_id = place.generateUniqueId("Connection")
@@ -47,7 +54,7 @@ class PromoteLocationToPlace(BrowserView):
         place.invokeFactory('Connection', new_id)
         place[new_id].setConnection([oldPlace.UID()])
         place[new_id].setRelationshipType(['at'])
-        
+
         workflow = getToolByName(self.context, "portal_workflow")
         workflow.doActionFor(place[new_id], 'submit')
         workflow.doActionFor(place[new_id], 'publish')
