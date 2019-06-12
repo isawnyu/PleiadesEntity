@@ -37,10 +37,12 @@ class PromoteLocationToPlace(BrowserView):
         )
         place = places[pid]
         place._renameAfterCreation(check_auto_id=True)
-        place.Schema()['referenceCitations'].resize(len(refs))
-        place.update(referenceCitations=refs)
+        ref_field = place.Schema()['referenceCitations']
+        ref_field.resize(len(refs), instance=place)
+        ref_field.set(place, refs)
         IStatusMessage(self.request).add(
-            'Added new place {}'.format('/'.join(place.getPhysicalPath())))
+            'Added new place {}'.format('/'.join(place.getPhysicalPath()))
+        )
 
         # Connect place to old place
         unique_id = place.generateUniqueId("Connection")
