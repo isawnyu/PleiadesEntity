@@ -83,7 +83,7 @@
                  tal:attributes="href string:$placeurl/kml">
                  Google Earth</a>,</span> or 
               <a href=""
-                tal:attributes="href string:http://pelagios.org/peripleo/map#places=http%3A%2F%2Fpleiades.stoa.org%2Fplaces%2F${place/getId}">Pelagios' Peripleo</a>.
+                tal:attributes="href string:https://peripleo.pelagios.org/ui#referencing=http%3A%2F%2Fpleiades.stoa.org%2Fplaces%2F${place/getId}">Pelagios' Peripleo</a>.
             </p>
             <p tal:condition="where">
               <tal:b define="mlon python:where['reprPt'][0]; mlat python:where['reprPt'][1]; underscore string:_">Show area in
