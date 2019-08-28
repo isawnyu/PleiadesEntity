@@ -12,7 +12,7 @@ def fix_up_place(place):
         original_last_change = original.workflow_history['pleiades_entity_workflow'][-1]['time']
         copy_version = place[copy].version_id
         original_version = original.version_id
-        print place_id, copy, "%s [%d] -> %s [%d] " % (original_last_change, original_version, copy_last_change, copy_version)
+        print place[copy].id, copy, "%s [%d] -> %s [%d] " % (original_last_change, original_version, copy_last_change, copy_version)
         place[copy].id = copy
         try:
             item = place[copy]
