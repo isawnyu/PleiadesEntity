@@ -83,10 +83,7 @@ schema = Connection_schema
 
 off = {"edit": "invisible", "view": "invisible"}
 
-schema["title"].required = 0
-schema["title"].widget.visible = off
-schema["description"].widget.visible = off
-schema["text"].widget.visible = off
+schema["text"].widget.label = 'Details'
 
 schema["effectiveDate"].widget.visible = off
 schema["expirationDate"].widget.visible = off
