@@ -20,8 +20,10 @@ import os
 from config import product_globals
 from Globals import package_home
 # from Products.ATVocabularyManager.config import TOOL_NAME as ATVOCABULARYTOOL
+from Products.Archetypes.interfaces import IBaseContent
 from Products.CMFCore.utils import getToolByName
 from Products.ZCatalog.ProgressHandler import ZLogHandler
+from .event import STRIP_RE, cleanDescription
 
 
 TYPES_TO_VERSION = (
@@ -182,3 +184,31 @@ def update_getIcon2(context):
         i += 1
     pghandler.finish()
     logger.info('Updated `getIcon` metadata.')
+
+
+def clean_descriptions(context):
+    if hasattr(context, 'getSite'):
+        context = context.getSite()
+    catalog = getToolByName(context, 'portal_catalog')
+    logger.info('Cleaning descriptions.')
+    search = catalog.unrestrictedSearchResults
+    brains = search()
+    num_objects = len(brains)
+    pghandler = ZLogHandler(1000)
+    pghandler.init('Updating description text', num_objects)
+    i = 0
+    updated = 0
+    for brain in brains:
+        pghandler.report(i)
+        brain_description = brain.Description
+        transformed = STRIP_RE.sub(' ', brain_description)
+        if transformed != brain_description:
+            obj = brain.getObject()
+            if IBaseContent.providedBy(obj):
+                cleanDescription(obj, None)
+                catalog.reindexObject(obj, idxs=('Description',),
+                                      update_metadata=1)
+                updated += 1
+        i += 1
+    pghandler.finish()
+    logger.info('Updated description data for {} objects.'.format(updated))

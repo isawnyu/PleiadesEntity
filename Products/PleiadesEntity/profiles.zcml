@@ -98,4 +98,13 @@
       import_steps="jsregistry"
       />
 
+  <upgradeStep
+      profile="Products.PleiadesEntity:default"
+      source="1006"
+      destination="1007"
+      title="Update content descriptions"
+      description=""
+      handler="Products.PleiadesEntity.setuphandlers.clean_descriptions"
+      />
+
 </configure>
