@@ -1,5 +1,6 @@
 from Acquisition import aq_inner, aq_parent
 from plone.app.iterate.interfaces import IAfterCheckinEvent
+from Products.Archetypes.interfaces import IBaseContent
 from Products.CMFCore.interfaces import IActionSucceededEvent, IContentish
 from Products.CMFCore.utils import getToolByName
 from Products.PleiadesEntity.content.interfaces import IFeature, IPlace
@@ -8,8 +9,10 @@ from Products.PleiadesEntity.time import temporal_overlap
 from zope.component import adapter
 from zope.lifecycleevent.interfaces import IObjectModifiedEvent
 import logging
+import re
 
 log = logging.getLogger('PleiadesEntity')
+STRIP_RE = re.compile(r'\s+', re.MULTILINE)
 
 
 def reindexContainer(obj, event):
@@ -131,3 +134,12 @@ def placeAfterCheckinSubscriber(obj, event):
         child.reindexObject()
     reindexContainer(event.object, event)
 
+
+@adapter(IBaseContent, IObjectModifiedEvent)
+def cleanDescriptions(obj, event):
+    field = obj.getField('description')
+    if field:
+        val = field.get(obj)
+        if val:
+            transformed = STRIP_RE.sub(' ', val).strip()
+            field.set(obj, transformed)
