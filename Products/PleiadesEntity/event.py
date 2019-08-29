@@ -136,10 +136,11 @@ def placeAfterCheckinSubscriber(obj, event):
 
 
 @adapter(IBaseContent, IObjectModifiedEvent)
-def cleanDescriptions(obj, event):
+def cleanDescription(obj, event):
     field = obj.getField('description')
     if field:
         val = field.get(obj)
         if val:
             transformed = STRIP_RE.sub(' ', val).strip()
-            field.set(obj, transformed)
+            if transformed != val:
+                field.set(obj, transformed)
