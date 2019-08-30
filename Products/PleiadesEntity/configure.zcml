@@ -37,6 +37,7 @@
   <subscriber handler=".event.nameActionSucceededSubscriber"/>
   <subscriber handler=".event.placeAfterCheckinSubscriber"/>
   <subscriber handler=".event.contributorsSubscriber"/>
+  <subscriber handler=".event.cleanDescription"/>
 
   <adapter name="titleStarts" factory=".indexers.name_titleStarts"/>
   <adapter name="titleStarts" factory=".indexers.place_titleStarts"/>
