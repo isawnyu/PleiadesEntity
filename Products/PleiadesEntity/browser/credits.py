@@ -1,5 +1,7 @@
+from Acquisition import aq_base
 from DateTime import DateTime
 from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone.utils import base_hasattr
 from Products.Five.browser import BrowserView
 from plone.memoize import view
 
@@ -155,3 +157,55 @@ class CreditTools(BrowserView):
         keys = data.keys()
         keys.sort()
         return [data[k] for k in keys]
+
+    def last_publish_date(self, action="publish"):
+        context = self.context
+        time = None
+        if hasattr(aq_base(context), 'workflow_history'):
+            history = context.workflow_history
+            for wf_id in history:
+                for entry in reversed(history[wf_id]):
+                    if entry.get('action') == action:
+                        time = max(time, entry.get('time'))
+                        break
+        return time
+
+    def history_comments(self, last_only=False):
+        context = self.context
+        rt = getToolByName(context, "portal_repository")
+        history = rt.getHistoryMetadata(context)
+        comments = []
+        from_date = None
+        if not last_only:
+            from_date = self.last_publish_date()
+
+        if history:
+            for i in reversed(range(len(history))):
+                metadata = history.retrieve(i)['metadata']['sys_metadata']
+                if last_only and metadata.get('comment'):
+                    comment = metadata['comment'].strip()
+                    if comment:
+                        return comment
+                if from_date:
+                    timestamp = metadata.get('timestamp')
+                    if timestamp:
+                        timestamp = DateTime(timestamp)
+                    if timestamp <= from_date:
+                        break
+                if metadata.get('comment'):
+                    comment = metadata['comment'].strip()
+                    if comment:
+                        comments.append(comment)
+        # comments ordered last to first
+        comments.reverse()
+        updated_types = set()
+
+        if base_hasattr(context, 'contentValues'):
+            for child in context.contentValues():
+                modified = DateTime(child.ModificationDate())
+                if not from_date or from_date < modified:
+                    updated_types.add(child.Type() + 's')
+        if updated_types:
+            comments.append('updated ' + ', '.join(updated_types))
+
+        return '; '.join(comments)

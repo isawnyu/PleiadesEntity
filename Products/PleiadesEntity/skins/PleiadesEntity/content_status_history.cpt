@@ -46,6 +46,9 @@
                      dummy python:request.set('orig_template', came_from);
                      checked_paths request/paths|python:[];
                      all_checked not:checked_paths;
+                     is_submit python: request.get('workflow_action', '') == 'submit';
+                     credit_info nocall:context/@@credit_utils;
+                     comments python:all_checked and (is_submit and credit_info.history_comments()) or None;
                      ">
 
       <metal:block tal:condition="python: paths and not batch"
@@ -231,7 +234,7 @@
                           name="comment"
                           cols="60"
                           rows="5"
-                          tal:content="request/comment|nothing"
+                          tal:content="request/comment|comments|nothing"
                           ></textarea>
               </div>
 
