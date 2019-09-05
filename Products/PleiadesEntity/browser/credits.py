@@ -170,19 +170,25 @@ class CreditTools(BrowserView):
                         break
         return time
 
-    def history_comments(self, last_only=False):
+    def history_comments(self, transition="submit"):
         context = self.context
         rt = getToolByName(context, "portal_repository")
         history = rt.getHistoryMetadata(context)
         comments = []
         from_date = None
-        if not last_only:
-            from_date = self.last_publish_date()
+        prev_state = None
+        if transition == 'submit':
+            prev_state = 'publish'
+        elif transition == 'publish':
+            prev_state = 'submit'
+
+        if prev_state:
+            from_date = self.last_publish_date(action=prev_state)
 
         if history:
             for i in reversed(range(len(history))):
                 metadata = history.retrieve(i)['metadata']['sys_metadata']
-                if last_only and metadata.get('comment'):
+                if not prev_state and metadata.get('comment'):
                     comment = metadata['comment'].strip()
                     if comment:
                         return comment
@@ -196,16 +202,30 @@ class CreditTools(BrowserView):
                     comment = metadata['comment'].strip()
                     if comment:
                         comments.append(comment)
+
+        # Include submit comment for publish transition
+        if transition == 'publish' and hasattr(aq_base(context),
+                                               'workflow_history'):
+            history = context.workflow_history
+            for wf_id in history:
+                for entry in reversed(history[wf_id]):
+                    if (entry.get('action') == 'submit' and
+                            entry.get('comments')):
+                        comments.append(entry['comments'].strip())
+                        break
+
         # comments ordered last to first
         comments.reverse()
-        updated_types = set()
 
-        if base_hasattr(context, 'contentValues'):
-            for child in context.contentValues():
-                modified = DateTime(child.ModificationDate())
-                if not from_date or from_date < modified:
-                    updated_types.add(child.Type() + 's')
-        if updated_types:
-            comments.append('updated ' + ', '.join(updated_types))
+        # Submit includes info about sub-objects
+        if transition == 'submit':
+            updated_types = set()
+            if base_hasattr(context, 'contentValues'):
+                for child in context.contentValues():
+                    modified = DateTime(child.ModificationDate())
+                    if not from_date or from_date < modified:
+                        updated_types.add(child.Type() + 's')
+            if updated_types:
+                comments.append('updated ' + ', '.join(updated_types))
 
         return '; '.join(comments)
