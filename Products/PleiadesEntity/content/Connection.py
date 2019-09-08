@@ -74,6 +74,30 @@ schema = atapi.Schema((
         enforceVocabulary=1,
     ),
 
+    atapi.IntegerField(
+        name='notBefore',
+        widget=atapi.IntegerField._properties['widget'](
+            label="Not before",
+            description="Enter the year as an integer",
+            label_msgid='PleiadesEntity_label_notBefore',
+            description_msgid='PleiadesEntity_help_notBefore',
+            i18n_domain='PleiadesEntity',
+        ),
+        description="This connection cannot have been before the indicated year",
+    ),
+
+    atapi.IntegerField(
+        name='notAfter',
+        widget=atapi.IntegerField._properties['widget'](
+            label="Not after",
+            description="Enter the year as an integer",
+            label_msgid='PleiadesEntity_label_notAfter',
+            description_msgid='PleiadesEntity_help_notAfter',
+            i18n_domain='PleiadesEntity',
+        ),
+        description="This connection cannot have been after the indicated year",
+    ),
+
 ))
 
 Connection_schema = ATDocumentSchema.copy() + schema.copy() + \
@@ -120,5 +144,41 @@ class Connection(atapi.BaseContent, Work, Temporal, BrowserDefaultMixin):
     def SearchableText(self):
         text = super(Connection, self).SearchableText().strip()
         return text + ' ' + self.Title()
+
+    security.declareProtected(permissions.View, 'post_validate')
+    def post_validate(self, REQUEST=None, errors=None):
+        not_before = REQUEST.get('notBefore', None)
+        not_after = REQUEST.get('notAfter', None)
+        if not_before is not None:
+            try:
+                not_before = int(not_before)
+            except ValueError:
+                errors['notBefore'] = "Not before must be an integer"
+                not_before = None
+        if not_after is not None:
+            try:
+                not_after = int(not_after)
+            except ValueError:
+                errors['notAfter'] = "Not after must be an integer"
+                not_after = None
+        if not_before == 0:
+            errors['notBefore'] = "Not before cannot be zero"
+        if not_after == 0:
+            errors['notAfter'] = "Not after cannot be zero"
+        if not_before and not_after:
+            if not_before > not_after:
+                errors['notBefore'] = "Not before cannot be higher than Not after"
+        temporal_range = self.temporalRange()
+        if temporal_range and not_before:
+            if not_before < temporal_range[0]:
+                errors['notBefore'] = "Not before cannot be before initial year of temporal attestations"
+            if not_before > temporal_range[1]:
+                errors['notBefore'] = "Not before cannot be after ending year of temporal attestations"
+        if temporal_range and not_after:
+            if not_after < temporal_range[0]:
+                errors['notAfter'] = "Not after cannot be before initial year of temporal attestations"
+            if not_after > temporal_range[1]:
+                errors['notAfter'] = "Not after cannot be after ending year of temporal attestations"
+
 
 atapi.registerType(Connection, PROJECTNAME)
