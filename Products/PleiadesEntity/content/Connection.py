@@ -74,6 +74,14 @@ schema = atapi.Schema((
         enforceVocabulary=1,
     ),
 
+    atapi.ComputedField(
+        name='temporalConstraints',
+        expression="'<i>Proleptic Julian years prior to establishment of the Gregorian calendar</i>'",
+        widget=atapi.ComputedWidget(
+            label="Temporal Constraints",
+        ),
+    ),
+
     atapi.IntegerField(
         name='notBefore',
         widget=atapi.IntegerField._properties['widget'](
@@ -132,6 +140,9 @@ class Connection(atapi.BaseContent, Work, Temporal, BrowserDefaultMixin):
     _at_rename_after_creation = True
 
     schema = Connection_schema
+    schema.moveField('notAfter', after='attestations')
+    schema.moveField('notBefore', after='attestations')
+    schema.moveField('temporalConstraints', after='attestations')
 
     # Methods
     def Title(self):
