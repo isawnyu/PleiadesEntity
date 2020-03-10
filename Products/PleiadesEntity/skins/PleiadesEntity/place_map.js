@@ -5,7 +5,8 @@ var mapOptionsInit = {
   attributionControl: false,
   container: 'map',
   maxZoom: 12,
-  style: 'mapbox://styles/isawnyu/cjzy7tgy71wvr1cmj256f4dqf?fresh=true',
+//  style: 'mapbox://styles/isawnyu/cjzy7tgy71wvr1cmj256f4dqf?fresh=true',  // force cache bypass
+  style: 'mapbox://styles/isawnyu/cjzy7tgy71wvr1cmj256f4dqf',
   maxBounds: bounds,
   renderWorldCopies: false,
 };
@@ -121,44 +122,18 @@ function plotLocations(map, j) {
 }
 
 function plotReprPoint(map, j) {
-  map.addSource('reprPoint', {
-    'type': 'geojson',
-    'data': {
-      'type': 'FeatureCollection',
-      'features': [
-        {
-          'type': 'Feature',
-          'geometry': {
-            'type': 'Point',
-            'coordinates': j.reprPoint
-          },
-          'properties': {
-            'title': 'Representative point for ' + j.title,
-            'icon': 'repr-point'
-          }
-        }
-      ]
+  features = [
+    {
+      'type': 'Feature',
+      'geometry': {
+        'type': 'Point',
+        'coordinates': j.reprPoint
+      },
+      'properties': {
+        'title': 'Representative point for ' + j.title,
+        'icon': 'repr-point'
+      }
     }
-  });
-  map.addLayer({
-    'id': 'reprPoint',
-    'type': 'symbol',
-    'source': 'reprPoint',
-    'layout': {
-      'icon-image': 'circle-orange-15'
-    }
-  });
-  map.on('click', 'reprPoint', function(e) {
-    snippet = '<dd>Representative Point</dd>';
-    new mapboxgl.Popup()
-      .setLngLat(j.reprPoint)
-      .setHTML(snippet)
-      .addTo(map);
-  });
-  map.on('mouseenter', 'reprPoint', function() {
-    map.getCanvas().style.cursor = 'pointer';
-  });
-  map.on('mouseleave', 'reprPoint', function() {
-    map.getCanvas().style.cursor = '';
-  });                
+  ]
+  makeLayer(map, 'Representative Point', features);       
 }
