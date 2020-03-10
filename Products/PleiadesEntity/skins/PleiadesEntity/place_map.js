@@ -30,7 +30,7 @@ var layerMetadata = {
     'layout': {},
     'paint': {
       'fill-color': '#5587fc',
-      'fill-opacity': 0.2
+      'fill-opacity': 0.3
     }
   }
 }
@@ -56,8 +56,8 @@ function populateMap(map) {
     bounds = new mapboxgl.LngLatBounds(j.bbox);
     map.flyTo({'center': j.reprPoint});
     map.fitBounds(bounds);
-    plotReprPoint(map, j);
     plotLocations(map, j);
+    plotReprPoint(map, j);
     // map.fitBounds(bounds, {'padding': 20});
     // plotConnections(map, j, bounds);
   });
