@@ -51,7 +51,7 @@ function plotReprPoint(map, j) {
             'coordinates': j.reprPoint
           },
           'properties': {
-            'title': 'Represenative point for ' + j.title,
+            'title': 'Representative point for ' + j.title,
             'icon': 'repr-point'
           }
         }
@@ -66,4 +66,17 @@ function plotReprPoint(map, j) {
       'icon-image': 'circle-orange-15'
     }
   });
+  map.on('click', 'reprPoint', function(e) {
+    snippet = '<dd>Representative Point</dd>';
+    new mapboxgl.Popup()
+      .setLngLat(j.reprPoint)
+      .setHTML(snippet)
+      .addTo(map);
+  });
+  map.on('mouseenter', 'reprPoint', function() {
+    map.getCanvas().style.cursor = 'pointer';
+  });
+  map.on('mouseleave', 'reprPoint', function() {
+    map.getCanvas().style.cursor = '';
+  });                
 }
