@@ -78,6 +78,23 @@ function makeLayer(map, layerTitle, features) {
     'layout': layerMetadata[layerID]['layout'],
     'paint': layerMetadata[layerID]['paint']
   });
+  map.on('click', layerID, function(e) {
+    feature = e.features[0]
+    snippet = '<dd>' + feature.properties.title + '</dd>';
+    if (feature.properties.descripton != '') {
+      snippet += '<dt>' + feature.properties.description + '</dt>'
+    }
+    new mapboxgl.Popup()
+      .setLngLat(e.lngLat)
+      .setHTML(snippet)
+      .addTo(map);
+  });
+  map.on('mouseenter', layerID, function() {
+    map.getCanvas().style.cursor = 'pointer';
+  });
+  map.on('mouseleave', layerID, function() {
+    map.getCanvas().style.cursor = '';
+  });  
 }
 
 function plotLocations(map, j) {
