@@ -5,7 +5,7 @@ var mapOptionsInit = {
   attributionControl: false,
   container: 'map',
   maxZoom: 12,
-  style: 'mapbox://styles/isawnyu/cjzy7tgy71wvr1cmj256f4dqf',
+  style: 'mapbox://styles/isawnyu/cjzy7tgy71wvr1cmj256f4dqf?fresh=true',
   maxBounds: bounds,
   renderWorldCopies: false,
 };
@@ -31,10 +31,46 @@ function populateMap(map) {
     bounds = new mapboxgl.LngLatBounds(j.bbox);
     map.flyTo({'center': j.reprPoint});
     map.fitBounds(bounds);
-    plotReprPoint(map, j)
-    // plotLocations(map, j)
+    plotReprPoint(map, j);
+    plotLocations(map, j);
     // map.fitBounds(bounds, {'padding': 20});
     // plotConnections(map, j, bounds);
+  });
+}
+
+function plotLocations(map, j) {
+  var pointFeatures = Array();
+  var polyFeatures = Array();
+  j.locations.forEach(function(location) {
+    var geoType = location.geometry.type;
+    var feature = {
+      'type': 'Feature',
+      'geometry': location.geometry,
+      'properties': {
+        'title': location.title,
+        'description': location.description
+      }
+    }
+    if (geoType == 'Point') {
+      pointFeatures.push(feature);
+    } else if (geoType == 'Polygon') {
+      polyFeatures.push(feature);
+    }
+  });
+  map.addSource('locationPoints', {
+    'type': 'geojson',
+    'data': {
+      'type': 'FeatureCollection',
+      'features': pointFeatures
+    }
+  });
+  map.addLayer({
+    'id': 'locationPoints',
+    'type': 'symbol',
+    'source': 'locationPoints',
+    'layout': {
+      'icon-image': 'crosshairs-blue-15'
+    }
   });
 }
 
