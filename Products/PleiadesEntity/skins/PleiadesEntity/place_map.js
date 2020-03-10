@@ -72,6 +72,23 @@ function plotLocations(map, j) {
       'icon-image': 'crosshairs-blue-15'
     }
   });
+  map.addSource('locationPolygons', {
+    'type': 'geojson',
+    'data': {
+      'type': 'FeatureCollection',
+      'features': polyFeatures
+    }
+  });
+  map.addLayer({
+    'id': 'locationPolygons',
+    'type': 'fill',
+    'source': 'locationPolygons',
+    'layout': {},
+    'paint': {
+      'fill-color': '#5587fc',
+      'fill-opacity': 0.2
+    }
+  });
 }
 
 function plotReprPoint(map, j) {
