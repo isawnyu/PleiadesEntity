@@ -9,6 +9,30 @@ var mapOptionsInit = {
   maxBounds: bounds,
   renderWorldCopies: false,
 };
+var layerMetadata = {
+  'representative-point': {
+    'type': 'symbol',
+    'layout': {
+      'icon-image': 'circle-orange-15'
+    },
+    'paint': {}
+  },
+  'location-points': {
+    'type': 'symbol',
+    'layout': {
+      'icon-image': 'crosshairs-blue-15'
+    },
+    'paint': {}
+  },
+  'location-polygons': {
+    'type': 'fill',
+    'layout': {},
+    'paint': {
+      'fill-color': '#5587fc',
+      'fill-opacity': 0.2
+    }
+  }
+}
 
 var map = new mapboxgl.Map(mapOptionsInit); 
 map = map.addControl(new mapboxgl.AttributionControl({
@@ -38,6 +62,24 @@ function populateMap(map) {
   });
 }
 
+function makeLayer(map, layerTitle, features) {
+  layerID = layerTitle.toLowerCase().replace(' ', '-');
+  map.addSource(layerID, {
+    'type': 'geojson',
+    'data': {
+      'type': 'FeatureCollection',
+      'features': features
+    }
+  });
+  map.addLayer({
+    'id': layerID,
+    'type': layerMetadata[layerID]['type'],
+    'source': layerID,
+    'layout': layerMetadata[layerID]['layout'],
+    'paint': layerMetadata[layerID]['paint']
+  });
+}
+
 function plotLocations(map, j) {
   var pointFeatures = Array();
   var polyFeatures = Array();
@@ -57,38 +99,8 @@ function plotLocations(map, j) {
       polyFeatures.push(feature);
     }
   });
-  map.addSource('locationPoints', {
-    'type': 'geojson',
-    'data': {
-      'type': 'FeatureCollection',
-      'features': pointFeatures
-    }
-  });
-  map.addLayer({
-    'id': 'locationPoints',
-    'type': 'symbol',
-    'source': 'locationPoints',
-    'layout': {
-      'icon-image': 'crosshairs-blue-15'
-    }
-  });
-  map.addSource('locationPolygons', {
-    'type': 'geojson',
-    'data': {
-      'type': 'FeatureCollection',
-      'features': polyFeatures
-    }
-  });
-  map.addLayer({
-    'id': 'locationPolygons',
-    'type': 'fill',
-    'source': 'locationPolygons',
-    'layout': {},
-    'paint': {
-      'fill-color': '#5587fc',
-      'fill-opacity': 0.2
-    }
-  });
+  makeLayer(map, 'Location Polygons', polyFeatures);
+  makeLayer(map, 'Location Points', pointFeatures);
 }
 
 function plotReprPoint(map, j) {
