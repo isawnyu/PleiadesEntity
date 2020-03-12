@@ -30,7 +30,7 @@ var layerMetadata = {
     'paint': {
       'fill-color': '#5587fc',
       'fill-opacity': 0.3
-    },
+    }
   },
   'connections-inbound': {
     'type': 'symbol',
@@ -88,16 +88,22 @@ function makeLayer(map, layerTitle, features) {
   var layerID = 'layer-' + sourceID;
   var options = {
     'id': layerID,
-    'type': layerMetadata[sourceID]['type'],
-    'source': sourceID,
-    'layout': layerMetadata[sourceID]['layout']
-  }
-  if ('filter' in layerMetadata[sourceID]) {
-    options['filter'] = layerMetadata[sourceID]['filter'];
-  }
-  if ('paint' in layerMetadata[sourceID]) {
-    options['paint'] = layerMetadata[sourceID]['paint'];
-  }
+    'source': sourceID
+  };
+  Object.keys(layerMetadata[sourceID]).forEach(k => options[k] = layerMetadata[sourceID][k]);
+  console.debug(options);
+//  var options = {
+//    'id': layerID,
+//    'type': layerMetadata[sourceID]['type'],
+//    'source': sourceID,
+//    'layout': layerMetadata[sourceID]['layout']
+//  }
+//  if ('filter' in layerMetadata[sourceID]) {
+//    options['filter'] = layerMetadata[sourceID]['filter'];
+//  }
+//  if ('paint' in layerMetadata[sourceID]) {
+//    options['paint'] = layerMetadata[sourceID]['paint'];
+//  }
   map.addLayer(options);
   map.on('click', layerID, function(e) {
     feature = e.features[0]
