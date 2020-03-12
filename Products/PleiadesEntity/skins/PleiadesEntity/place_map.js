@@ -22,7 +22,8 @@ var layerMetadata = {
     'layout': {
       'icon-image': 'crosshairs-blue-15',
       'icon-allow-overlap': true
-    }
+    },
+    'minzoom': 7
   },
   'location-polygons': {
     'type': 'fill',
@@ -30,7 +31,8 @@ var layerMetadata = {
     'paint': {
       'fill-color': '#5587fc',
       'fill-opacity': 0.3
-    }
+    },
+    'minzoom': 10
   },
   'connections-inbound': {
     'type': 'symbol',
@@ -38,7 +40,8 @@ var layerMetadata = {
       'icon-image': 'interest-green-15',
       'icon-allow-overlap': true
     },
-    'filter': ['==', 'inbound', ['get', 'direction']]
+    'filter': ['==', 'inbound', ['get', 'direction']],
+    'minzoom': 5
   }
 }
 
