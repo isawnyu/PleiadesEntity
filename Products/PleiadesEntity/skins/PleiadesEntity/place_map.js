@@ -41,7 +41,7 @@ var layerMetadata = {
       'icon-allow-overlap': true
     },
     'filter': ['==', 'inbound', ['get', 'direction']],
-    'minzoom': 5
+    'minzoom': 10
   }
 }
 
@@ -53,31 +53,29 @@ map = map.addControl(new mapboxgl.NavigationControl({
   showCompass: false,
 }));
 map = map.addControl(new mapboxgl.ScaleControl());
+
 if (map.loaded()) {
   populateMap(map);
 } else {
   map.on('load', () => populateMap(map));
 }
 
+
 function populateMap(map) {
   var jurl = $('link[rel="canonical"]').attr('href') + '/json'
   $.getJSON(jurl, function(j) {
-    // mapPoint(map, j.reprPoint, 'reprPoint')
-    console.debug(bounds);
     var sw = new mapboxgl.LngLat(j.bbox[0], j.bbox[1]);
     var ne = new mapboxgl.LngLat(j.bbox[2], j.bbox[3]);
     bounds = new mapboxgl.LngLatBounds(sw, ne);
-    console.debug(bounds);
+    plotReprPoint(map, j);
     map.flyTo({'center': j.reprPoint});
     map.fitBounds(bounds, {'padding': 30});
-    // map.fitBounds(window.bounds);
     plotLocations(map, j);
     plotConnections(map, j);
-    plotReprPoint(map, j);
   });
 }
 
-function makeLayer(map, layerTitle, features) {
+function makeLayer(map, layerTitle, features, before=undefined) {
   var sourceID = layerTitle.toLowerCase().replace('(', '').replace(')', '').replace(' ', '-');
   console.debug('makeLayer "' + sourceID + '"');
   console.debug(features);
@@ -94,20 +92,11 @@ function makeLayer(map, layerTitle, features) {
     'source': sourceID
   };
   Object.keys(layerMetadata[sourceID]).forEach(k => options[k] = layerMetadata[sourceID][k]);
-  console.debug(options);
-//  var options = {
-//    'id': layerID,
-//    'type': layerMetadata[sourceID]['type'],
-//    'source': sourceID,
-//    'layout': layerMetadata[sourceID]['layout']
-//  }
-//  if ('filter' in layerMetadata[sourceID]) {
-//    options['filter'] = layerMetadata[sourceID]['filter'];
-//  }
-//  if ('paint' in layerMetadata[sourceID]) {
-//    options['paint'] = layerMetadata[sourceID]['paint'];
-//  }
-  map.addLayer(options);
+  if (typeof(before) === undefined) {
+    map.addLayer(options);
+  } else {
+    map.addLayer(options, before);
+  }
   map.on('click', layerID, function(e) {
     feature = e.features[0]
     snippet = '<dd>' + feature.properties.title + '</dd>';
@@ -125,6 +114,7 @@ function makeLayer(map, layerTitle, features) {
   map.on('mouseleave', layerID, function() {
     map.getCanvas().style.cursor = '';
   });  
+  restack(map);
 }
 
 function plotConnections(map, j) {
@@ -142,11 +132,11 @@ function plotConnections(map, j) {
         if (!bounds.contains(coords)) {
           here = new mapboxgl.LngLat(coords[0], coords[1]);
           bounds.extend(here);
+          map.fitBounds(bounds, {'padding': 30});
         }
       }
     });
     makeLayer(map, 'Connections Inbound', cnxj.features);
-    map.fitBounds(bounds, {'padding': 30});
   });
 }
 
@@ -187,6 +177,24 @@ function plotReprPoint(map, j) {
       }
     }
   ]
-  makeLayer(map, 'Representative Point', features);       
+  makeLayer(map, 'Representative Point', features);
 }
 
+function restack(map) {
+  const desired_layer_order = ['background', 'isawnyu-map-knmctlkh', 'layer-location-polygons', 'layer-connections-inbound', 'layer-location-points', 'layer-representative-point' ];
+  var current_layer_order;
+  var current_layers = map.getStyle().layers;
+  console.debug('restack!');
+  console.debug(current_layers.length);
+  for (i = current_layers.length - 1; i > 2; i--) {
+    current_layer_order = current_layers.map(({ id }) => id);
+    this_layer = current_layer_order[i];
+    console.debug(i, this_layer);
+    while (current_layer_order.indexOf(this_layer) > desired_layer_order.indexOf(this_layer)) {
+      map.moveLayer(this_layer, current_layer_order[current_layer_order.indexOf(this_layer) - 1]);
+      current_layers = map.getStyle().layers;
+      current_layer_order = current_layers.map(({ id }) => id);
+    } 
+  }
+  console.debug(map.getStyle().layers);
+}
