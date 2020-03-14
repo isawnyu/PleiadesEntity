@@ -22,17 +22,18 @@ map = map.addControl(new mapboxgl.NavigationControl({
 map = map.addControl(new mapboxgl.ScaleControl());
 
 /* Define and initialize custom controls */
-/* Idea from Stack Overflow https://stackoverflow.com/a/51683226  */
-/* Implementation from https://codepen.io/kriz/pen/jdxYXY */
+/* Original class implementation by Kristjan Tallinn via https://codepen.io/kriz/pen/jdxYXY */
 class MapboxGLButtonControl {
   constructor({
     className = "",
     title = "",
-    eventHandler = mapboxgl.eventHandler
+    eventHandler = mapboxgl.eventHandler,
+    container = undefined
   }) {
     this._className = className;
     this._title = title;
     this._eventHandler = eventHandler;
+    this._container = container;
   }
   onAdd(map) {
     this._btn = document.createElement("button");
@@ -41,9 +42,18 @@ class MapboxGLButtonControl {
     this._btn.title = this._title;
     this._btn.onclick = this._eventHandler;
 
-    this._container = document.createElement("div");
-    this._container.className = "mapboxgl-ctrl-group mapboxgl-ctrl";
-    this._container.appendChild(this._btn);
+    this._wrapper = document.createElement("span");
+    this._wrapper.className = "mapboxgl-ctrl-icon";
+    this._wrapper.setAttribute('aria-hidden', true);
+    this._wrapper.appendChild(this._btn);
+
+    if (this._container === undefined) {
+      this._container = document.createElement("div");
+      this._container.className = "mapboxgl-ctrl-group mapboxgl-ctrl";
+    } else {
+      this._container = document.getElementById(this._containerID);
+    }
+    this._container.appendChild(this._wrapper);
 
     return this._container;
   }
@@ -52,7 +62,8 @@ class MapboxGLButtonControl {
     this._map = undefined;
   }
 }
-// A control to reset the map bounds in case user has panned/zoomed away
+// Controls to reset zoom & pan
+
 function hdlResetBox() {
   console.debug('hdlResetBox');
   map.fitBounds(bounds, {'padding': boxpad});
