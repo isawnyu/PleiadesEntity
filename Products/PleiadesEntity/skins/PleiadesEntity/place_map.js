@@ -1,4 +1,7 @@
 var $ = jQuery;
+const boxpad = 50;
+
+/* Configure and initialize map and standard controls */
 mapboxgl.accessToken = 'pk.eyJ1IjoiaXNhd255dSIsImEiOiJBWEh1dUZZIn0.SiiexWxHHESIegSmW8wedQ';
 var bounds = new mapboxgl.LngLatBounds([[-32, 0], [160, 72]]);
 var mapOptionsInit = {
@@ -9,6 +12,58 @@ var mapOptionsInit = {
   maxBounds: bounds,
   renderWorldCopies: false,
 };
+var map = new mapboxgl.Map(mapOptionsInit); 
+map = map.addControl(new mapboxgl.AttributionControl({
+  compact: true, 
+}));
+map = map.addControl(new mapboxgl.NavigationControl({
+  showCompass: false,
+}), 'top-left');
+map = map.addControl(new mapboxgl.ScaleControl());
+
+/* Define and initialize custom controls */
+/* Idea from Stack Overflow https://stackoverflow.com/a/51683226  */
+/* Implementation from https://codepen.io/kriz/pen/jdxYXY */
+class MapboxGLButtonControl {
+  constructor({
+    className = "",
+    title = "",
+    eventHandler = mapboxgl.eventHandler
+  }) {
+    this._className = className;
+    this._title = title;
+    this._eventHandler = eventHandler;
+  }
+  onAdd(map) {
+    this._btn = document.createElement("button");
+    this._btn.className = "mapboxgl-ctrl-icon" + " " + this._className;
+    this._btn.type = "button";
+    this._btn.title = this._title;
+    this._btn.onclick = this._eventHandler;
+
+    this._container = document.createElement("div");
+    this._container.className = "mapboxgl-ctrl-group mapboxgl-ctrl";
+    this._container.appendChild(this._btn);
+
+    return this._container;
+  }
+  onRemove() {
+    this._container.parentNode.removeChild(this._container);
+    this._map = undefined;
+  }
+}
+// A control to reset the map bounds in case user has panned/zoomed away
+function hdlResetBox() {
+  console.debug('hdlResetBox');
+  map.fitBounds(bounds, {'padding': boxpad});
+}
+map = map.addControl(new MapboxGLButtonControl({
+  className: "mapbox-gl-reset-box",
+  title: "Reset Map View",
+  eventHandler: hdlResetBox
+}), 'top-left');
+
+/* Define styles and layouts for the layers we will use */
 var layerMetadata = {
   'representative-point': {
     'type': 'symbol',
@@ -44,22 +99,11 @@ var layerMetadata = {
     'minzoom': 10
   }
 }
-
-var map = new mapboxgl.Map(mapOptionsInit); 
-map = map.addControl(new mapboxgl.AttributionControl({
-  compact: true, 
-}));
-map = map.addControl(new mapboxgl.NavigationControl({
-  showCompass: false,
-}));
-map = map.addControl(new mapboxgl.ScaleControl());
-
 if (map.loaded()) {
   populateMap(map);
 } else {
   map.on('load', () => populateMap(map));
 }
-
 
 function populateMap(map) {
   var jurl = $('link[rel="canonical"]').attr('href') + '/json'
@@ -69,7 +113,7 @@ function populateMap(map) {
     bounds = new mapboxgl.LngLatBounds(sw, ne);
     plotReprPoint(map, j);
     map.flyTo({'center': j.reprPoint});
-    map.fitBounds(bounds, {'padding': 30});
+    map.fitBounds(bounds, {'padding': boxpad});
     plotLocations(map, j);
     plotConnections(map, j);
   });
@@ -132,7 +176,7 @@ function plotConnections(map, j) {
         if (!bounds.contains(coords)) {
           here = new mapboxgl.LngLat(coords[0], coords[1]);
           bounds.extend(here);
-          map.fitBounds(bounds, {'padding': 30});
+          map.fitBounds(bounds, {'padding': boxpad});
         }
       }
     });
@@ -198,3 +242,4 @@ function restack(map) {
   }
   console.debug(map.getStyle().layers);
 }
+
