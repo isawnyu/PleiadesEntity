@@ -1,3 +1,4 @@
+
 var $ = jQuery;
 const boxpad = 50;
 
@@ -23,6 +24,7 @@ map = map.addControl(new mapboxgl.ScaleControl());
 
 /* Define and initialize custom controls */
 /* Original class implementation by Kristjan Tallinn via https://codepen.io/kriz/pen/jdxYXY */
+
 class MapboxGLButtonControl {
   constructor({
     className = "",
@@ -185,7 +187,7 @@ function plotConnections(map, j) {
         connection.properties['direction'] = 'inbound';
         coords = connection.geometry.coordinates;
         if (!bounds.contains(coords)) {
-          here = new mapboxgl.LngLat(coords[0], coords[1]);
+          var here = new mapboxgl.LngLat(coords[0], coords[1]);
           bounds.extend(here);
           map.fitBounds(bounds, {'padding': boxpad});
         }
@@ -219,7 +221,7 @@ function plotLocations(map, j) {
 }
 
 function plotReprPoint(map, j) {
-  features = [
+  var features = [
     {
       'type': 'Feature',
       'geometry': {
@@ -237,6 +239,8 @@ function plotReprPoint(map, j) {
 
 function restack(map) {
   const desired_layer_order = ['background', 'isawnyu-map-knmctlkh', 'layer-location-polygons', 'layer-connections-inbound', 'layer-location-points', 'layer-representative-point' ];
+  var i;
+  var this_layer;
   var current_layer_order;
   var current_layers = map.getStyle().layers;
   console.debug('restack!');
