@@ -117,6 +117,26 @@ if (map.loaded()) {
 } else {
   map.on('load', () => populateMap(map));
 }
+map.on('click', function(e) {
+  var features = map.queryRenderedFeatures(
+    e.point, 
+    {layers: [
+      'layer-representative-point', 
+      'layer-location-points', 
+      'layer-connections-inbound', 
+      'layer-location-polygons']});
+  if (features.length > 0) {
+    var feature = features[0];
+    var snippet = '<dd>' + feature.properties.title + '</dd>';
+    if (feature.properties.descripton != '') {
+      snippet += '<dt>' + feature.properties.description + '</dt>'
+      new mapboxgl.Popup()
+        .setLngLat(e.lngLat)
+        .setHTML(snippet)
+        .addTo(map);
+    }
+  }
+});
 
 function populateMap(map) {
   var jurl = $('link[rel="canonical"]').attr('href') + '/json'
@@ -154,17 +174,6 @@ function makeLayer(map, layerTitle, features, before=undefined) {
   } else {
     map.addLayer(options, before);
   }
-  map.on('click', layerID, function(e) {
-    var feature = e.features[0]
-    var snippet = '<dd>' + feature.properties.title + '</dd>';
-    if (feature.properties.descripton != '') {
-      snippet += '<dt>' + feature.properties.description + '</dt>'
-    }
-    new mapboxgl.Popup()
-    .setLngLat(e.lngLat)
-    .setHTML(snippet)
-    .addTo(map);
-  });
   map.on('mouseenter', layerID, function() {
     map.getCanvas().style.cursor = 'pointer';
   });
