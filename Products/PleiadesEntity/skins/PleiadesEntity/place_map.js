@@ -155,8 +155,8 @@ function makeLayer(map, layerTitle, features, before=undefined) {
     map.addLayer(options, before);
   }
   map.on('click', layerID, function(e) {
-    feature = e.features[0]
-    snippet = '<dd>' + feature.properties.title + '</dd>';
+    var feature = e.features[0]
+    var snippet = '<dd>' + feature.properties.title + '</dd>';
     if (feature.properties.descripton != '') {
       snippet += '<dt>' + feature.properties.description + '</dt>'
     }
