@@ -142,11 +142,11 @@ map.on('click', function(e) {
         desc = feature.properties.description;
       }
       snippet += '<dt>' + desc + '</dt>'
-      new mapboxgl.Popup()
-        .setLngLat(e.lngLat)
-        .setHTML(snippet)
-        .addTo(map);
     }
+    new mapboxgl.Popup()
+      .setLngLat(e.lngLat)
+      .setHTML(snippet)
+      .addTo(map);
   }
 });
 
@@ -178,7 +178,8 @@ function makeLayer(map, layerTitle, features, before=undefined) {
   var layerID = 'layer-' + sourceID;
   var options = {
     'id': layerID,
-    'source': sourceID
+    'source': sourceID,
+    'maxzoom': 24 // over-zoom as necessary
   };
   Object.keys(layerMetadata[sourceID]).forEach(k => options[k] = layerMetadata[sourceID][k]);
   if (typeof(before) === undefined) {
