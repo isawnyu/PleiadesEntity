@@ -129,7 +129,14 @@ map.on('click', function(e) {
     var feature = features[0];
     var snippet = '<dd>' + feature.properties.title + '</dd>';
     if (feature.properties.descripton != '') {
-      snippet += '<dt>' + feature.properties.description + '</dt>'
+      var desc;
+      var words = feature.properties.description.split(' ');
+      if (words.length > 25) {
+        desc = words.slice(1, 26).join(' ') + '...'
+      } else {
+        desc = feature.properties.description;
+      }
+      snippet += '<dt>' + desc + '</dt>'
       new mapboxgl.Popup()
         .setLngLat(e.lngLat)
         .setHTML(snippet)
