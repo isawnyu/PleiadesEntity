@@ -127,8 +127,13 @@ map.on('click', function(e) {
       'layer-location-polygons']});
   if (features.length > 0) {
     var feature = features[0];
-    var snippet = '<dd>' + feature.properties.title + '</dd>';
-    if (feature.properties.descripton != '') {
+    var snippet;
+    if (feature.properties.link !== undefined) {
+      snippet = '<dd><a href="' + feature.properties.link + '">' + feature.properties.title + '</a></dd>'
+    } else {
+      snippet = '<dd>' + feature.properties.title + '</dd>'
+    }
+    if (feature.properties.description !== undefined) {
       var desc;
       var words = feature.properties.description.split(' ');
       if (words.length > 25) {
@@ -223,7 +228,8 @@ function plotLocations(map, j) {
       'geometry': location.geometry,
       'properties': {
         'title': location.title,
-        'description': location.description
+        'description': location.description,
+        'link': location.uri
       }
     }
     if (geoType == 'Point') {
@@ -246,7 +252,8 @@ function plotReprPoint(map, j) {
       },
       'properties': {
         'title': 'Representative point for ' + j.title,
-        'icon': 'repr-point'
+        'icon': 'repr-point',
+        'link': undefined
       }
     }
   ]
