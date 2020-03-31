@@ -132,7 +132,7 @@ map.on('click', function(e) {
       var desc;
       var words = feature.properties.description.split(' ');
       if (words.length > 25) {
-        desc = words.slice(1, 26).join(' ') + '...'
+        desc = words.slice(0, 26).join(' ') + '...'
       } else {
         desc = feature.properties.description;
       }
