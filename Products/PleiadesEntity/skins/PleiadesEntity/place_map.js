@@ -18,6 +18,7 @@ var mapOptionsInit = {
 var map = new mapboxgl.Map(mapOptionsInit); 
 map = map.addControl(new mapboxgl.AttributionControl({
   compact: true, 
+  customAttribution: 'Base by Ryan M. Horne (AWMC 2014)'
 }));
 map = map.addControl(new mapboxgl.NavigationControl({
   showCompass: false,
