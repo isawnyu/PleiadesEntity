@@ -1,6 +1,7 @@
 
 var $ = jQuery;
 const boxpad = 50;
+const maxzoom_awmc = 11;
 
 /* Configure and initialize map and standard controls */
 mapboxgl.accessToken = 'pk.eyJ1IjoiaXNhd255dSIsImEiOiJBWEh1dUZZIn0.SiiexWxHHESIegSmW8wedQ';
@@ -11,6 +12,7 @@ var mapOptionsInit = {
   style: 'mapbox://styles/isawnyu/cjzy7tgy71wvr1cmj256f4dqf?fresh=true',  // force cache bypass
   // style: 'mapbox://styles/isawnyu/cjzy7tgy71wvr1cmj256f4dqf',
   maxBounds: bounds,
+  maxZoom: maxzoom_awmc,
   renderWorldCopies: false,
 };
 var map = new mapboxgl.Map(mapOptionsInit); 
@@ -21,6 +23,7 @@ map = map.addControl(new mapboxgl.NavigationControl({
   showCompass: false,
 }), 'top-left');
 map = map.addControl(new mapboxgl.ScaleControl());
+map.scrollZoom.disable();
 
 /* Define and initialize custom controls */
 /* Original class implementation by Kristjan Tallinn via https://codepen.io/kriz/pen/jdxYXY */
@@ -178,8 +181,8 @@ function makeLayer(map, layerTitle, features, before=undefined) {
   var layerID = 'layer-' + sourceID;
   var options = {
     'id': layerID,
-    'source': sourceID,
-    'maxzoom': 24 // over-zoom as necessary
+    'source': sourceID
+    // 'maxzoom': maxzoom_awmc // over-zoom as necessary
   };
   Object.keys(layerMetadata[sourceID]).forEach(k => options[k] = layerMetadata[sourceID][k]);
   if (typeof(before) === undefined) {
