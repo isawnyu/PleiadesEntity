@@ -93,8 +93,7 @@ var layerMetadata = {
     'layout': {
       'icon-image': 'crosshairs-blue-15',
       'icon-allow-overlap': true
-    },
-    'minzoom': 7
+    }
   },
   'location-polygons': {
     'type': 'fill',
@@ -110,8 +109,7 @@ var layerMetadata = {
       'icon-image': 'interest-green-15',
       'icon-allow-overlap': true
     },
-    'filter': ['==', 'inbound', ['get', 'direction']],
-    'minzoom': 7
+    'filter': ['==', 'inbound', ['get', 'direction']]
   }
 }
 if (map.loaded()) {
