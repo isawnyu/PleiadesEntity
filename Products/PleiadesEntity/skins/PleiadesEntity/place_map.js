@@ -102,8 +102,7 @@ var layerMetadata = {
     'paint': {
       'fill-color': '#5587fc',
       'fill-opacity': 0.3
-    },
-    'minzoom': 10
+    }
   },
   'connections-inbound': {
     'type': 'symbol',
@@ -238,6 +237,8 @@ function plotLocations(map, j) {
       pointFeatures.push(feature);
     } else if (geoType == 'Polygon') {
       polyFeatures.push(feature);
+    } else {
+      console.error('Unsupported feature geometry', geoType);
     }
   });
   makeLayer(map, 'Location Polygons', polyFeatures);
