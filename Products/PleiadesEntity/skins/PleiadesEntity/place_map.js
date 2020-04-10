@@ -71,7 +71,6 @@ class MapboxGLButtonControl {
 // Controls to reset zoom & pan
 
 function hdlResetBox() {
-  console.debug('hdlResetBox');
   map.fitBounds(bounds, {'padding': boxpad});
 }
 map = map.addControl(new MapboxGLButtonControl({
@@ -113,7 +112,7 @@ var layerMetadata = {
       'icon-allow-overlap': true
     },
     'filter': ['==', 'inbound', ['get', 'direction']],
-    'minzoom': 10
+    'minzoom': 7
   }
 }
 if (map.loaded()) {
@@ -170,8 +169,6 @@ function populateMap(map) {
 
 function makeLayer(map, layerTitle, features, before=undefined) {
   var sourceID = layerTitle.toLowerCase().replace('(', '').replace(')', '').replace(' ', '-');
-  console.debug('makeLayer "' + sourceID + '"');
-  console.debug(features);
   map.addSource(sourceID, {
     'type': 'geojson',
     'data': {
@@ -271,18 +268,14 @@ function restack(map) {
   var this_layer;
   var current_layer_order;
   var current_layers = map.getStyle().layers;
-  console.debug('restack!');
-  console.debug(current_layers.length);
   for (i = current_layers.length - 1; i > 2; i--) {
     current_layer_order = current_layers.map(({ id }) => id);
     this_layer = current_layer_order[i];
-    console.debug(i, this_layer);
     while (current_layer_order.indexOf(this_layer) > desired_layer_order.indexOf(this_layer)) {
       map.moveLayer(this_layer, current_layer_order[current_layer_order.indexOf(this_layer) - 1]);
       current_layers = map.getStyle().layers;
       current_layer_order = current_layers.map(({ id }) => id);
     } 
   }
-  console.debug(map.getStyle().layers);
 }
 
