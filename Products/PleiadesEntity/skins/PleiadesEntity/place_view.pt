@@ -33,9 +33,17 @@
 
       <style>
         #map { height: 480px; }
-        #below-map { width: 480px;}
-        #below-map > p { font-size: 11px; color: #555; font-style: italic; margin: 0px; margin-top: 0.3em; padding-right: 0.5em; text-align: left;}
+        #below-map { 
+          width: 480px;
+          font-size: 11px; 
+          color: #555; 
+          margin: 0px; 
+          margin-top: 0.3em; 
+          padding-right: 0.5em; 
+          text-align: left;
+        }
         #map-links { border-bottom: 1px solid #888; }
+        #map-credit { font-style: italic; }
         .mapbox-gl-reset-box { 
             background-image: url('https://atlantides.org/images/reset-box.svg');
             background-repeat: no-repeat;
