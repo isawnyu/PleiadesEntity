@@ -34,7 +34,8 @@
       <style>
         #map { height: 480px; }
         #below-map { width: 480px;}
-        #below-map > p { font-size: 11px; color: #555; font-style: italic; margin: 0px; margin-top: 0.3em; padding-right: 0.5em; text-align: right;}
+        #below-map > p { font-size: 11px; color: #555; font-style: italic; margin: 0px; margin-top: 0.3em; padding-right: 0.5em; text-align: left;}
+        #map-links { border-bottom: 1px solid #888; }
         .mapbox-gl-reset-box { 
             background-image: url('https://atlantides.org/images/reset-box.svg');
             background-repeat: no-repeat;
@@ -87,13 +88,7 @@
         <div id="map-block" title="Locations of this particular place are shown in blue.">
           <div id="map"></div>
           <div id="below-map">
-            <p id="map-credit">
-              Base map by <a href="https://rmhorne.org/">Ryan M. Horne</a> for Pleiades 
-              and the <a href="http://awmc.unc.edu">Ancient World Mapping Center</a> 
-              (ancient terrain after the 
-              <a href="https://en.wikipedia.org/wiki/Barrington_Atlas_of_the_Greek_and_Roman_World">Barrington Atlas</a>).
-            </p>
-            <p>Show place in
+            <p id="map-links">Show place in
               <a href=""
                 tal:attributes="href string:http://awmc.unc.edu/awmc/applications/alacarte/?pid=${here/getId}">
                 AWMC's Antiquity &Agrave;-la-carte</a><span tal:condition="url">,
@@ -102,6 +97,12 @@
                  Google Earth</a>,</span> or
               <a href=""
                 tal:attributes="href string:https://peripleo.pelagios.org/ui#referencing=http%3A%2F%2Fpleiades.stoa.org%2Fplaces%2F${here/getId}">Pelagios' Peripleo</a>.
+            </p>
+            <p id="map-credit">
+              Base map by <a href="https://rmhorne.org/">Ryan M. Horne</a> for Pleiades 
+              and the <a href="http://awmc.unc.edu">Ancient World Mapping Center</a> 
+              (ancient terrain after the 
+              <a href="https://en.wikipedia.org/wiki/Barrington_Atlas_of_the_Greek_and_Roman_World">Barrington Atlas</a>).
             </p>
             <p tal:condition="where">
                <span tal:define="mlon python:where['reprPt'][0]; mlat python:where['reprPt'][1]; underscore string:_">Show area in
