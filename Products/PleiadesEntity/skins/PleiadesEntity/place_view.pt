@@ -49,6 +49,9 @@
           padding-bottom: 0.3em;
           border-bottom: 1px solid #888; 
         }
+        #map-links > p {
+          padding: 0px;
+        }
         #map-credit { 
           font-style: italic; 
           padding-top: 0.3em;
