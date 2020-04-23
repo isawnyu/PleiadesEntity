@@ -36,7 +36,7 @@
         #below-map { width: 480px;}
         #below-map > p { font-size: 11px; color: #555; font-style: italic; margin: 0px; margin-top: 0.3em; padding-right: 0.5em; text-align: right;}
         .mapbox-gl-reset-box { 
-            background-image: url('/map_icons/reset-box.svg');
+            background-image: url('https://atlantides.org/images/reset-box.svg');
             background-repeat: no-repeat;
             background-position: center;
             pointer-events: auto; }
@@ -87,6 +87,12 @@
         <div id="map-block" title="Locations of this particular place are shown in blue.">
           <div id="map"></div>
           <div id="below-map">
+            <p id="map-credit">
+              Base map by <a href="https://rmhorne.org/">Ryan M. Horne</a> for Pleiades 
+              and the <a href="http://awmc.unc.edu">Ancient World Mapping Center</a> 
+              (ancient terrain after the 
+              <a href="https://en.wikipedia.org/wiki/Barrington_Atlas_of_the_Greek_and_Roman_World">Barrington Atlas</a>).
+            </p>
             <p>Show place in
               <a href=""
                 tal:attributes="href string:http://awmc.unc.edu/awmc/applications/alacarte/?pid=${here/getId}">
