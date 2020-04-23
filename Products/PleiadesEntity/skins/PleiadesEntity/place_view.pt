@@ -42,6 +42,9 @@
           padding-right: 0.5em; 
           text-align: left;
         }
+        #below-map p {
+          margin-top: 0.1em;
+        }
         #map-links { border-bottom: 1px solid #888; }
         #map-credit { font-style: italic; }
         .mapbox-gl-reset-box { 
@@ -125,9 +128,13 @@
               and the <a href="http://awmc.unc.edu">Ancient World Mapping Center</a> 
               (ancient terrain after the 
               <a href="https://en.wikipedia.org/wiki/Barrington_Atlas_of_the_Greek_and_Roman_World">Barrington Atlas</a>).
+              Map interaction design and implementation by 
+              <a href="https://www.linkedin.com/in/sean-gillies-6064b4144">Sean Gillies</a>, 
+              <a href="https://github.com/davisagli">David Glick</a>, 
+              <a href="https://jazkarta.com/about/team/alec-mitchell">Alec Mitchell</a>, and 
+              <a href="https://paregorios.org/about">Tom Elliott</a> for Pleiades.
             </p>
           </div>
-
         </div>
 
         <div id="canonicalUrlField" class="field">
