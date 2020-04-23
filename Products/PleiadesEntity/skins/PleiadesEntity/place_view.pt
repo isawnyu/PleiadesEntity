@@ -33,11 +33,35 @@
 
       <style>
         #map { height: 480px; }
-        #below-map { width: 480px;}
-        #below-map > p { font-size: 11px; color: #555; font-style: italic; margin: 0px; margin-top: 0.3em; padding-right: 0.5em; text-align: right;}
-        .leaflet-control-zoom-reset {
-          background-image: url(zoom-reset.png);
-          margin-bottom: 5px; }
+        #below-map { 
+          width: 480px;
+          font-size: 11px; 
+          color: #555; 
+          margin: 0px; 
+          text-align: left;
+        }
+        #below-map p {
+          margin: 0px;
+          padding: 0px;
+        }
+        #map-links { 
+          padding-top: 0.3em;
+          padding-bottom: 0.3em;
+          border-bottom: 1px solid #888; 
+        }
+        #map-links > p {
+          padding: 0px;
+        }
+        #map-credit { 
+          font-style: italic; 
+          padding-top: 0.3em;
+          padding-bottom: 0.3em
+        }
+        .mapbox-gl-reset-box { 
+            background-image: url('https://atlantides.org/images/reset-box.svg');
+            background-repeat: no-repeat;
+            background-position: center;
+            pointer-events: auto; }
       </style>
 
       <script src="//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.js"></script>
@@ -85,30 +109,42 @@
         <div id="map-block" title="Locations of this particular place are shown in blue.">
           <div id="map"></div>
           <div id="below-map">
-            <p>Show place in
-              <a href=""
-                tal:attributes="href string:http://awmc.unc.edu/awmc/applications/alacarte/?pid=${here/getId}">
-                AWMC's Antiquity &Agrave;-la-carte</a><span tal:condition="url">,
-              <a href=""
-                 tal:attributes="href string:$url/kml">
-                 Google Earth</a>,</span> or
-              <a href=""
-                tal:attributes="href string:https://peripleo.pelagios.org/ui#referencing=http%3A%2F%2Fpleiades.stoa.org%2Fplaces%2F${here/getId}">Pelagios' Peripleo</a>.
-            </p>
-            <p tal:condition="where">
-               <span tal:define="mlon python:where['reprPt'][0]; mlat python:where['reprPt'][1]; underscore string:_">Show area in
-              <a href=""
-                 tal:attributes="href string:http://www.geonames.org/maps/google_$mlat$underscore$mlon.html">
-                GeoNames</a>,
-              <a href=""
-                 tal:attributes="href string:http://maps.google.com/?q=$mlat,$mlon">
-                Google Maps</a>, or
-              <a href=""
-                 tal:attributes="href string:http://openstreetmap.org/?mlat=$mlat&mlon=$mlon&zoom=12&layers=M">
-                 OpenStreetMap</a>.</span>
+            <div id="map-links">
+              <p>Show place in
+                <a href=""
+                  tal:attributes="href string:http://awmc.unc.edu/awmc/applications/alacarte/?pid=${here/getId}">
+                  AWMC's Antiquity &Agrave;-la-carte</a><span tal:condition="url">,
+                <a href=""
+                  tal:attributes="href string:$url/kml">
+                  Google Earth</a>,</span> or
+                <a href=""
+                  tal:attributes="href string:https://peripleo.pelagios.org/ui#referencing=http%3A%2F%2Fpleiades.stoa.org%2Fplaces%2F${here/getId}">Pelagios' Peripleo</a>.
+              </p>
+              <p tal:condition="where">
+                <span tal:define="mlon python:where['reprPt'][0]; mlat python:where['reprPt'][1]; underscore string:_">Show area in
+                <a href=""
+                  tal:attributes="href string:http://www.geonames.org/maps/google_$mlat$underscore$mlon.html">
+                  GeoNames</a>,
+                <a href=""
+                  tal:attributes="href string:http://maps.google.com/?q=$mlat,$mlon">
+                  Google Maps</a>, or
+                <a href=""
+                  tal:attributes="href string:http://openstreetmap.org/?mlat=$mlat&mlon=$mlon&zoom=12&layers=M">
+                  OpenStreetMap</a>.</span>
+              </p>
+            </div>
+            <p id="map-credit">
+              Base map by <a href="https://rmhorne.org/">Ryan M. Horne</a> for Pleiades 
+              and the <a href="http://awmc.unc.edu">Ancient World Mapping Center</a> 
+              (ancient terrain after the 
+              <a href="https://en.wikipedia.org/wiki/Barrington_Atlas_of_the_Greek_and_Roman_World">Barrington Atlas</a>).
+              Map interaction design and implementation by 
+              <a href="https://www.linkedin.com/in/sean-gillies-6064b4144">Sean Gillies</a>, 
+              <a href="https://github.com/davisagli">David Glick</a>, 
+              <a href="https://jazkarta.com/about/team/alec-mitchell">Alec Mitchell</a>, and 
+              <a href="https://paregorios.org/about">Tom Elliott</a> for Pleiades.
             </p>
           </div>
-
         </div>
 
         <div id="canonicalUrlField" class="field">
@@ -363,9 +399,9 @@
   jQuery("span.formButton").click(function(){jQuery("div.createLocationForm").toggle();});
 </script>
 
-<script tal:attributes="src string:${portal_url}/leaflet-GIBS/GIBSMetadata.js"></script>
-<script tal:attributes="src string:${portal_url}/leaflet-GIBS/GIBSLayer.js"></script>
-<script tal:attributes="src string:${portal_url}/place_map.js"></script>
+<script src='https://api.mapbox.com/mapbox-gl-js/v1.7.0/mapbox-gl.js'></script>
+<link href='https://api.mapbox.com/mapbox-gl-js/v1.7.0/mapbox-gl.css' rel='stylesheet' />
+<script tal:attributes="src string:${portal_url}/place_map.js" type="module"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.12/clipboard.min.js"></script>
 <script>
   $(function () {
