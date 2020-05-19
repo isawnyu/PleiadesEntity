@@ -1,15 +1,15 @@
 
 var $ = jQuery;
 const boxpad = 50;
-const maxzoom_awmc = 15;
+const maxzoom_awmc = 11;
 
 /* Configure and initialize map and standard controls */
-mapboxgl.accessToken = 'pk.eyJ1IjoiaXNhd255dSIsImEiOiJja2FlaWk4MG0yaHY0MnNvemRneWF0d2RnIn0.FgwFQtymPTHYPYYha5mfHw';
+mapboxgl.accessToken = 'pk.eyJ1IjoiaXNhd255dSIsImEiOiJBWEh1dUZZIn0.SiiexWxHHESIegSmW8wedQ';
 var bounds = new mapboxgl.LngLatBounds([[-32, 0], [160, 72]]);
 var mapOptionsInit = {
   attributionControl: false,
   container: 'map',
-  style: 'mapbox://styles/isawnyu/ckaehhktt1fms1imwe0mi3xv6?fresh=true',  // force cache bypass
+  style: 'mapbox://styles/isawnyu/cjzy7tgy71wvr1cmj256f4dqf?fresh=true',  // force cache bypass
   // style: 'mapbox://styles/isawnyu/cjzy7tgy71wvr1cmj256f4dqf',
   maxBounds: bounds,
   maxZoom: maxzoom_awmc,
