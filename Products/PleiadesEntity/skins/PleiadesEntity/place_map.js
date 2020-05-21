@@ -4,7 +4,8 @@ const boxpad = 50;
 const maxzoom_awmc = 11;
 
 /* Configure and initialize map and standard controls */
-mapboxgl.accessToken = 'pk.eyJ1IjoiaXNhd255dSIsImEiOiJBWEh1dUZZIn0.SiiexWxHHESIegSmW8wedQ';
+// mapboxgl.accessToken = 'pk.eyJ1IjoiaXNhd255dSIsImEiOiJBWEh1dUZZIn0.SiiexWxHHESIegSmW8wedQ';
+mapboxgl.accessToken = 'pk.eyJ1IjoiaXNhd255dSIsImEiOiJja2FlaWk4MG0yaHY0MnNvemRneWF0d2RnIn0.FgwFQtymPTHYPYYha5mfHw';
 var bounds = new mapboxgl.LngLatBounds([[-32, 0], [160, 72]]);
 var mapOptionsInit = {
   attributionControl: false,
