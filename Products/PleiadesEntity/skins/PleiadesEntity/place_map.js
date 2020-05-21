@@ -9,7 +9,7 @@ var bounds = new mapboxgl.LngLatBounds([[-32, 0], [160, 72]]);
 var mapOptionsInit = {
   attributionControl: false,
   container: 'map',
-  style: 'mapbox://styles/isawnyu/cjzy7tgy71wvr1cmj256f4dqf?fresh=true',  // force cache bypass
+  style: 'mapbox://styles/isawnyu/cjzy7tgy71wvr1cmj256f4dqf',
   maxBounds: bounds,
   maxZoom: maxzoom_awmc,
   renderWorldCopies: false,
