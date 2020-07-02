@@ -7,6 +7,7 @@ from . import WorkExportAdapter
 from . import archetypes_getter
 from . import vocabulary_uri
 from . import memoize_all_methods
+from plone import api
 
 
 @memoize_all_methods
@@ -41,5 +42,6 @@ class LocationExportAdapter(
         accuracy = self._accuracy()
         if accuracy is not None:
             accuracy_path = '/'.join(accuracy.getPhysicalPath())
+            portal = api.portal.get()
             my_accuracy = portal.restrictedTraverse(accuracy_path)
             return accuracy.absolute_url()
