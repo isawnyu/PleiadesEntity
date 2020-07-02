@@ -49,7 +49,7 @@ class LocationExportAdapter(
             accuracy_path = '/'.join(accuracy.getPhysicalPath())
             portal = api.portal.get()
             my_accuracy = portal.restrictedTraverse(accuracy_path)
-            v = my_accuracy.get('value')
+            v = my_accuracy.getField('value').get(inst)
             return v
             
 
