@@ -41,7 +41,16 @@ class LocationExportAdapter(
     def accuracy(self):
         accuracy = self._accuracy()
         if accuracy is not None:
+            return accuracy.absolute_url()
+
+    def accuracy_value(self):
+        accuracy = self._accuracy()
+        if accuracy is not None:
             accuracy_path = '/'.join(accuracy.getPhysicalPath())
             portal = api.portal.get()
             my_accuracy = portal.restrictedTraverse(accuracy_path)
-            return accuracy.absolute_url()
+            
+
+
+
+
