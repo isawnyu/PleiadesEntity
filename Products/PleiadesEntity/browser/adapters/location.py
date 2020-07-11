@@ -8,6 +8,8 @@ from . import archetypes_getter
 from . import vocabulary_uri
 from . import memoize_all_methods
 from plone import api
+import logging
+logger = logging.getLogger(__name__)
 
 
 @memoize_all_methods
@@ -49,7 +51,18 @@ class LocationExportAdapter(
             accuracy_path = '/'.join(accuracy.getPhysicalPath())
             portal = api.portal.get()
             my_accuracy = portal.restrictedTraverse(accuracy_path)
-            v = my_accuracy.getField('value').get(my_accuracy)
+            try:
+                v = my_accuracy.getField('value').get(my_accuracy)
+            except AttributeError as err:
+                msg = (
+                    'No "value" attribute on referenced accuracy object for '
+                    'location at {}. Referenced object "{}" may not be a '
+                    'valid "accuracy assessment" object.\n{}'.format(
+                        self.context.absolute_url(),
+                        accuracy.absolute_url(),
+                        err.message))
+                logger.error(msg)
+                return '-1'
             return v
             
 
