@@ -311,7 +311,13 @@ class NamesTable(ChildrenTable):
             else:
                 status = u''
             if labelLang != "und":
-                lang_title = lang_vocab[labelLang]
+                try:
+                    lang_title = lang_vocab[labelLang]
+                except KeyError as err:
+                    msg = (
+                        'Invalid identifier "{}" for language in name "{}"\n{}'
+                        ''.format(labelLang, ob.absolute_url(), err.message))
+                    raise KeyError(msg)
             else:
                 lang_title = None
             innerHTML = [
