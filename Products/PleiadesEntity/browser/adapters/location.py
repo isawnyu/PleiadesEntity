@@ -9,6 +9,7 @@ from . import vocabulary_uri
 from . import memoize_all_methods
 from plone import api
 import logging
+from AccessControl.unauthorized import Unauthorized
 logger = logging.getLogger(__name__)
 
 
@@ -50,7 +51,17 @@ class LocationExportAdapter(
         if accuracy is not None:
             accuracy_path = '/'.join(accuracy.getPhysicalPath())
             portal = api.portal.get()
-            my_accuracy = portal.restrictedTraverse(accuracy_path)
+            try:
+                my_accuracy = portal.restrictedTraverse(accuracy_path)
+            except Unauthorized as err:
+                msg = (
+                    'Access to the referenced accuracy object "{}" is not '
+                    'authorized. Context: "{}". {}'.format(
+                        accuracy.absolute_url(),
+                        self.context.absolute_url(),
+                        err.message))
+                logger.error(msg)
+                return '-1'
             try:
                 v = my_accuracy.getField('value').get(my_accuracy)
             except AttributeError as err:
