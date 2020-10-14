@@ -1,6 +1,7 @@
 var $ = jQuery;
 const boxpad = 50;
-const max_zoom = 18;
+const max_zoom = 17;
+const initial_zoom = 15;
 
 /* Configure and initialize map and standard controls */
 mapboxgl.accessToken = 'pk.eyJ1IjoiaXNhd255dSIsImEiOiJja2FlaWk4MG0yaHY0MnNvemRneWF0d2RnIn0.FgwFQtymPTHYPYYha5mfHw';
@@ -114,6 +115,9 @@ var layerMetadata = {
         'filter': ['==', 'inbound', ['get', 'direction']]
     }
 }
+map.on('zoomend', function() {
+    console.log(map.getZoom());
+});
 if (map.loaded()) {
     populateMap(map);
 } else {
@@ -162,7 +166,7 @@ function populateMap(map) {
         bounds = new mapboxgl.LngLatBounds(sw, ne);
         plotReprPoint(map, j);
         map.flyTo({ 'center': j.reprPoint });
-        map.fitBounds(bounds, { 'padding': boxpad, 'maxZoom': max_zoom });
+        map.fitBounds(bounds, { 'padding': boxpad, 'maxZoom': initial_zoom });
         plotLocations(map, j);
         plotConnections(map, j);
     });
@@ -269,7 +273,6 @@ function restack(map) {
     var this_layer;
     var current_layer_order;
     var current_layers = map.getStyle().layers;
-    console.log(current_layers);
     for (i = current_layers.length - 1; i > 2; i--) {
         current_layer_order = current_layers.map(({ id }) => id);
         this_layer = current_layer_order[i];
