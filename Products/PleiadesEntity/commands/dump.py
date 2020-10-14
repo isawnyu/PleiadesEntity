@@ -12,6 +12,9 @@ import contextlib
 import os
 import sys
 import time
+import logging
+logger = logging.getLogger(__name__)
+
 
 
 BATCH_SIZE = 100
@@ -31,7 +34,8 @@ def iterate_content(site, ptypes=('Place',)):
         try:
             yield brain.getObject()
         except Unauthorized:
-            print("Inaccessible published object {}".format(brain.getPath()))
+            logger.error(
+                "Inaccessible published object {}".format(brain.getPath()))
             continue
 
 
@@ -66,7 +70,7 @@ def dump(app, outfolder, formatter_paths=('json', 'csv-places',
         portal_types = set()
         for name in formatter_paths:
             if name not in FORMATTERS:
-                print("Invalid Formatter Id {}".format(name))
+                logger.warning("Invalid Formatter Id {}".format(name))
                 continue
             subpath, formatter_cls, ptypes = FORMATTERS.get(name)
             path = os.path.join(outfolder, subpath)
@@ -83,7 +87,8 @@ def dump(app, outfolder, formatter_paths=('json', 'csv-places',
             i += 1
             path = '/'.join(item.getPhysicalPath())
             __traceback_info__ = path
-            print('Exporting {}'.format(path))
+            if i % 100 == 0:
+                print('Exported {}th item: {}'.format(i, path))
             adapter = get_export_adapter(item)
             for formatter, ptypes in formatters:
                 if item.portal_type in ptypes:
@@ -93,10 +98,10 @@ def dump(app, outfolder, formatter_paths=('json', 'csv-places',
             formatter.finish()
 
     t1 = time.time() - t0
-    print('Exported {} items'.format(i))
-    print('Elapsed: {}s'.format(t1))
+    logger.info('Exported {} items'.format(i))
+    logger.info('Elapsed: {}s'.format(t1))
     if i > 0:
-        print('Per item: {}s'.format(t1 / float(i)))
+        logger.info('Per item: {}s'.format(t1 / float(i)))
 
 
 # This script is meant to be run using zopectl, e.g.
