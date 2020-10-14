@@ -1,19 +1,22 @@
 var $ = jQuery;
 const boxpad = 50;
-const maxzoom_awmc = 11;
 
 /* Configure and initialize map and standard controls */
 mapboxgl.accessToken = 'pk.eyJ1IjoiaXNhd255dSIsImEiOiJja2FlaWk4MG0yaHY0MnNvemRneWF0d2RnIn0.FgwFQtymPTHYPYYha5mfHw';
-var bounds = new mapboxgl.LngLatBounds([
-    [-32, 0],
-    [160, 72]
+var max_bounds = new mapboxgl.LngLatBounds([
+    [-45, -20],
+    [160, 80]
 ]);
+var bounds = new mapboxgl.LngLatBounds([
+    [-20, 0],
+    [85, 30]
+])
 var mapOptionsInit = {
     attributionControl: false,
     container: 'map',
     style: 'mapbox://styles/isawnyu/ckg9eqejk2j4a19oexu5ywrqu',
-    maxBounds: bounds,
-    maxZoom: maxzoom_awmc,
+    maxBounds: max_bounds,
+    bounds: bounds,
     renderWorldCopies: false,
 };
 var map = new mapboxgl.Map(mapOptionsInit);
@@ -259,11 +262,12 @@ function plotReprPoint(map, j) {
 }
 
 function restack(map) {
-    const desired_layer_order = ['background', 'isawnyu-map-knmctlkh', 'layer-location-polygons', 'layer-connections-inbound', 'layer-location-points', 'layer-representative-point'];
+    const desired_layer_order = ['background-sepia', 'satellite-sepia', 'admin-1-boundary-bg', 'admin-0-boundary-bg', 'admin-1-boundary', 'admin-0-boundary', 'admin-0-boundary-disputed', 'settlement-subdivision-label', 'settlement-minor-label', 'settlement-major-label', 'state-label', 'country-label', 'layer-location-polygons', 'layer-connections-inbound', 'layer-location-points', 'layer-representative-point'];
     var i;
     var this_layer;
     var current_layer_order;
     var current_layers = map.getStyle().layers;
+    console.log(current_layers);
     for (i = current_layers.length - 1; i > 2; i--) {
         current_layer_order = current_layers.map(({ id }) => id);
         this_layer = current_layer_order[i];
