@@ -5,6 +5,11 @@ const initial_zoom = 15;
 
 /* Configure and initialize map and standard controls */
 mapboxgl.accessToken = 'pk.eyJ1IjoiaXNhd255dSIsImEiOiJja2FlaWk4MG0yaHY0MnNvemRneWF0d2RnIn0.FgwFQtymPTHYPYYha5mfHw';
+mapboxgl.setRTLTextPlugin(
+    'https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-rtl-text/v0.2.3/mapbox-gl-rtl-text.js',
+    null,
+    true // Lazy load the plugin
+);
 var max_bounds = new mapboxgl.LngLatBounds([
     [-45, -20],
     [160, 80]
