@@ -115,9 +115,6 @@ var layerMetadata = {
         'filter': ['==', 'inbound', ['get', 'direction']]
     }
 }
-map.on('zoomend', function() {
-    console.log(map.getZoom());
-});
 if (map.loaded()) {
     populateMap(map);
 } else {
