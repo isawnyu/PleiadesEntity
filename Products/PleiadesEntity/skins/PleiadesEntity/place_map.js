@@ -1,5 +1,6 @@
 var $ = jQuery;
 const boxpad = 50;
+const max_zoom = 18;
 
 /* Configure and initialize map and standard controls */
 mapboxgl.accessToken = 'pk.eyJ1IjoiaXNhd255dSIsImEiOiJja2FlaWk4MG0yaHY0MnNvemRneWF0d2RnIn0.FgwFQtymPTHYPYYha5mfHw';
@@ -18,6 +19,7 @@ var mapOptionsInit = {
     maxBounds: max_bounds,
     bounds: bounds,
     renderWorldCopies: false,
+    maxZoom: max_zoom,
 };
 var map = new mapboxgl.Map(mapOptionsInit);
 map = map.addControl(new mapboxgl.NavigationControl({
@@ -160,7 +162,7 @@ function populateMap(map) {
         bounds = new mapboxgl.LngLatBounds(sw, ne);
         plotReprPoint(map, j);
         map.flyTo({ 'center': j.reprPoint });
-        map.fitBounds(bounds, { 'padding': boxpad });
+        map.fitBounds(bounds, { 'padding': boxpad, 'maxZoom': max_zoom });
         plotLocations(map, j);
         plotConnections(map, j);
     });
