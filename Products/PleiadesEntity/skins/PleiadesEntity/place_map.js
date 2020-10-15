@@ -114,7 +114,7 @@ var layerMetadata = {
     'connections-inbound': {
         'type': 'symbol',
         'layout': {
-            'icon-image': 'interest-green-15',
+            'icon-image': 'interest-green-15-halo',
             'icon-allow-overlap': true
         },
         'filter': ['==', 'inbound', ['get', 'direction']]
