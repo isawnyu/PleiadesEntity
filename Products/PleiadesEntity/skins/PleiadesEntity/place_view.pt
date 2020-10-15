@@ -134,15 +134,14 @@
               </p>
             </div>
             <p id="map-credit">
-              Base map by <a href="https://rmhorne.org/">Ryan M. Horne</a> for Pleiades 
-              and the <a href="http://awmc.unc.edu">Ancient World Mapping Center</a> 
-              (ancient terrain after the 
-              <a href="https://en.wikipedia.org/wiki/Barrington_Atlas_of_the_Greek_and_Roman_World">Barrington Atlas</a>).
+              Satellite base map and modern symbology by <a href="https://paregorios.org/about">Tom Elliott</a> and
+              <a href="https://rmhorne.org/">Ryan M. Horne</a>
+              using <a href="https://www.mapbox.com/mapbox-studio/">Mapbox Studio</a> tools and data.<br />
               Map interaction design and implementation by 
               <a href="https://www.linkedin.com/in/sean-gillies-6064b4144">Sean Gillies</a>, 
               <a href="https://github.com/davisagli">David Glick</a>, 
               <a href="https://jazkarta.com/about/team/alec-mitchell">Alec Mitchell</a>, and 
-              <a href="https://paregorios.org/about">Tom Elliott</a> for Pleiades.
+              Tom Elliott.
             </p>
           </div>
         </div>
