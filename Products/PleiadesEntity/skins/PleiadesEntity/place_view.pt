@@ -47,7 +47,6 @@
         #map-links { 
           padding-top: 0.3em;
           padding-bottom: 0.3em;
-          border-bottom: 1px solid #888; 
         }
         #map-links > p {
           padding: 0px;
