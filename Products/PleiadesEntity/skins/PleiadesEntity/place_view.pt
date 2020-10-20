@@ -106,7 +106,7 @@
         contributors context/@@credit_utils/contributors;
         authors python:creators + contributors">
 
-        <div id="map-block" title="Locations of this particular place are shown in blue.">
+        <div id="map-block">
           <div id="map"></div>
           <div id="below-map">
             <div id="map-links">
@@ -133,16 +133,6 @@
                   OpenStreetMap</a>.</span>
               </p>
             </div>
-            <p id="map-credit">
-              Satellite base map and modern symbology by <a href="https://paregorios.org/about">Tom Elliott</a> and
-              <a href="https://rmhorne.org/">Ryan M. Horne</a>
-              using <a href="https://www.mapbox.com/mapbox-studio/">Mapbox Studio</a> tools and data. 
-              Map interaction design and implementation by 
-              <a href="https://www.linkedin.com/in/sean-gillies-6064b4144">Sean Gillies</a>, 
-              <a href="https://github.com/davisagli">David Glick</a>, 
-              <a href="https://jazkarta.com/about/team/alec-mitchell">Alec Mitchell</a>, and 
-              Tom Elliott.
-            </p>
           </div>
         </div>
 
