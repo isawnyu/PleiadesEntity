@@ -21,8 +21,8 @@ var bounds = new mapboxgl.LngLatBounds([
 var mapOptionsInit = {
     attributionControl: true,
     customAttribution: [
-        "Pleiades layers and interaction design by Sean Gillies, David Glick, Alec Mitchell, Ryan M. Horne, and Tom Elliott.",
-        "Base style derived from Mapbox Satellite Streets."
+        'Base style derived from Mapbox Satellite Streets.',
+        'Pleiades layers and interaction design by Sean Gillies, David Glick, Alec Mitchell, Ryan M. Horne, and Tom Elliott.'
     ],
     container: 'map',
     style: 'mapbox://styles/isawnyu/ckg9eqejk2j4a19oexu5ywrqu',

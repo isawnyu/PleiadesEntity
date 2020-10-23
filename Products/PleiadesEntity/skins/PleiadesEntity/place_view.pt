@@ -60,7 +60,11 @@
             background-image: url('https://atlantides.org/images/reset-box.svg');
             background-repeat: no-repeat;
             background-position: center;
-            pointer-events: auto; }
+            pointer-events: auto;
+        }
+        .mapbox-improve-map {
+              display: none;
+        }
       </style>
 
       <script src="//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.js"></script>
