@@ -164,13 +164,13 @@ class Connection(atapi.BaseContent, Work, Temporal, BrowserDefaultMixin):
     def post_validate(self, REQUEST=None, errors=None):
         not_before = REQUEST.get('notBefore', None)
         not_after = REQUEST.get('notAfter', None)
-        if not_before is not None:
+        if not_before and not_before != 0:
             try:
                 not_before = int(not_before)
             except ValueError:
                 errors['notBefore'] = "Not before must be an integer"
                 not_before = None
-        if not_after is not None:
+        if not_after and not_after != 0:
             try:
                 not_after = int(not_after)
             except ValueError:
