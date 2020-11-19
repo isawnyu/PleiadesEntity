@@ -78,6 +78,7 @@ schema = atapi.Schema((
         name='temporalConstraints',
         mode="rw",
         expression="'<i>Proleptic Julian years prior to establishment of the Gregorian calendar</i>'",
+        edit_accessor='getTemporalConstraints',
         widget=atapi.ComputedWidget(
             label="Temporal Constraints",
             visible={'edit': 'visible',
