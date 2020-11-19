@@ -56,18 +56,17 @@ from Products.ATContentTypes.content.file import ATFileSchema
 from Products.ATContentTypes.content.topic import ATTopicSchema
 
 # Patch AT schemas to hide DC Location field
-BaseSchema['location'].widget.visible = {
-    'edit': 'invisible', 'view': 'invisible'
-}
-ATContentTypeSchema['location'].widget = \
-    ATFolderSchema['location'].widget = \
-    ATDocumentSchema['location'].widget = \
-    ATEventSchema['location'].widget = \
-    ATNewsItemSchema['location'].widget = \
-    ATLinkSchema['location'].widget = \
-    ATImageSchema['location'].widget = \
-    ATFileSchema['location'].widget = \
-    ATTopicSchema['location'].widget = BaseSchema['location'].widget
+off = {'edit': 'invisible', 'view': 'invisible'}
+BaseSchema['location'].widget.visible = off
+ATContentTypeSchema['location'].widget.visible = off
+ATFolderSchema['location'].widget.visible = off
+ATDocumentSchema['location'].widget.visible = off
+ATEventSchema['location'].widget.visible = off
+ATNewsItemSchema['location'].widget.visible = off
+ATLinkSchema['location'].widget.visible = off
+ATImageSchema['location'].widget.visible = off
+ATFileSchema['location'].widget.visible = off
+ATTopicSchema['location'].widget.visible = off
 
 DirectoryView.registerDirectory('skins', product_globals)
 
