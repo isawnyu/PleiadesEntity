@@ -7,6 +7,10 @@ from . import WorkExportAdapter
 from . import archetypes_getter
 from . import vocabulary_uri
 from . import memoize_all_methods
+from plone import api
+import logging
+from AccessControl.unauthorized import Unauthorized
+logger = logging.getLogger(__name__)
 
 
 @memoize_all_methods
@@ -41,3 +45,38 @@ class LocationExportAdapter(
         accuracy = self._accuracy()
         if accuracy is not None:
             return accuracy.absolute_url()
+
+    def accuracy_value(self):
+        accuracy = self._accuracy()
+        if accuracy is not None:
+            accuracy_path = '/'.join(accuracy.getPhysicalPath())
+            portal = api.portal.get()
+            try:
+                my_accuracy = portal.restrictedTraverse(accuracy_path)
+            except Unauthorized as err:
+                msg = (
+                    'Access to the referenced accuracy object "{}" is not '
+                    'authorized. Context: "{}". {}'.format(
+                        accuracy.absolute_url(),
+                        self.context.absolute_url(),
+                        err.message))
+                logger.error(msg)
+                return '-1'
+            try:
+                v = my_accuracy.getField('value').get(my_accuracy)
+            except AttributeError as err:
+                msg = (
+                    'No "value" attribute on referenced accuracy object for '
+                    'location at {}. Referenced object "{}" may not be a '
+                    'valid "accuracy assessment" object.\n{}'.format(
+                        self.context.absolute_url(),
+                        accuracy.absolute_url(),
+                        err.message))
+                logger.error(msg)
+                return '-1'
+            return v
+            
+
+
+
+

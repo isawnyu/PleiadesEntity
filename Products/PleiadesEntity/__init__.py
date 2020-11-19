@@ -43,6 +43,31 @@ from Products.Archetypes.atapi import process_types
 from Products.Archetypes import listTypes
 from Products.CMFCore import DirectoryView
 from Products.CMFCore import utils as cmfutils
+from Products.Archetypes.atapi import process_types
+from Products.Archetypes.atapi import BaseSchema
+from Products.ATContentTypes.content.schemata import ATContentTypeSchema
+from Products.ATContentTypes.content.folder import ATFolderSchema
+from Products.ATContentTypes.content.document import ATDocumentSchema
+from Products.ATContentTypes.content.event import ATEventSchema
+from Products.ATContentTypes.content.newsitem import ATNewsItemSchema
+from Products.ATContentTypes.content.link import ATLinkSchema
+from Products.ATContentTypes.content.image import ATImageSchema
+from Products.ATContentTypes.content.file import ATFileSchema
+from Products.ATContentTypes.content.topic import ATTopicSchema
+
+# Patch AT schemas to hide DC Location field
+BaseSchema['location'].widget.visible = {
+    'edit': 'invisible', 'view': 'invisible'
+}
+ATContentTypeSchema['location'].widget = \
+    ATFolderSchema['location'].widget = \
+    ATDocumentSchema['location'].widget = \
+    ATEventSchema['location'].widget = \
+    ATNewsItemSchema['location'].widget = \
+    ATLinkSchema['location'].widget = \
+    ATImageSchema['location'].widget = \
+    ATFileSchema['location'].widget = \
+    ATTopicSchema['location'].widget = BaseSchema['location'].widget
 
 DirectoryView.registerDirectory('skins', product_globals)
 

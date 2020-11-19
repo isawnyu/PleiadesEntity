@@ -22,9 +22,7 @@
       <link rel="nofollow alternate" type="application/atom+xml" tal:attributes="href string:${url}/atom"/>
       <link rel="nofollow alternate" type="application/json" tal:attributes="href string:${url}/@@json?sm=1"/>
       <link rel="canonical" tal:attributes="href url"/>
-      <link 
-        rel="stylesheet" 
-        href="//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.css" />
+      <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin="" />
       <style>
         #map { height: 480px; float: right; }
         #below-map { width: 480px;}
@@ -34,8 +32,8 @@
           margin-bottom: 5px; }
         #fields-continued { padding-right: 1em; }
       </style>
+      <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
 
-      <script src="//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.js"></script>
     </metal:head_macro>
 
   </head>
@@ -124,5 +122,3 @@
 
   </body>
 </html>
-
-
