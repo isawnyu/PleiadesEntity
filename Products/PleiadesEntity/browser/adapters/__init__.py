@@ -188,10 +188,13 @@ def portal_type(self):
 setattr(ContentExportAdapter, '@type', portal_type)
 
 
-def dict_getter(key):
+def dict_getter(key, prefix=None):
     def get(self):
         __traceback_info__ = key
-        return self.context[key]
+        value = self.context[key]
+        if prefix and isinstance(value, str):
+            value = prefix + value
+        return value
     get.__name__ = '__get__{}'.format(key)
     return get
 
@@ -245,8 +248,6 @@ def export_children(portal_type):
     get.__name__ = 'get_children_{}'.format(portal_type)
     return get
 
-CITATION_TYPE_VOCAB = {k: v for k, v in ReferenceSchema['type'].vocabulary}
-
 
 @memoize_all_methods
 class ReferenceExportAdapter(ExportAdapter):
@@ -254,7 +255,9 @@ class ReferenceExportAdapter(ExportAdapter):
     citationDetail = dict_getter('citation_detail')
     formattedCitation = dict_getter('formatted_citation')
     type = dict_getter('type')
-    citationTypeURI = vocabulary_uri('feature-type', 'type')
+    citationTypeURI = dict_getter(
+        'type', prefix='http://purl.org/spar/cito/'
+    )
 
     bibliographicURI = dict_getter('bibliographic_uri')
     accessURI = dict_getter('access_uri')
