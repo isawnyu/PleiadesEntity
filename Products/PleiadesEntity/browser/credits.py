@@ -228,4 +228,4 @@ class CreditTools(BrowserView):
             if updated_types:
                 comments.append('updated ' + ', '.join(updated_types))
 
-        return '; '.join(comments)
+        return '; '.join(['{}'.format(c) for c in comments])
