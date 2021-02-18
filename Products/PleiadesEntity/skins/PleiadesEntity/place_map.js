@@ -165,8 +165,15 @@ map.on('click', function(e) {
 });
 
 function populateMap(map) {
-    var jurl = $('link[rel="canonical"]').attr('href') + '/json'
-    $.getJSON(jurl, function(j) {
+
+    var jurl = $('link[rel="where"][').attr('href');
+    var rdata = {};
+    if ($('body').attr('class').includes('userrole-authenticated')) {
+        rdata = { _: new Date().getTime() };
+    }
+    console.log(jurl);
+    console.log(rdata);
+    $.getJSON(jurl, rdata, function(j) {
         var sw = new mapboxgl.LngLat(j.bbox[0], j.bbox[1]);
         var ne = new mapboxgl.LngLat(j.bbox[2], j.bbox[3]);
         bounds = new mapboxgl.LngLatBounds(sw, ne);
