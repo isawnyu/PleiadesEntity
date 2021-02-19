@@ -165,8 +165,13 @@ map.on('click', function(e) {
 });
 
 function populateMap(map) {
-    var jurl = $('link[rel="canonical"]').attr('href') + '/json'
-    $.getJSON(jurl, function(j) {
+
+    var jurl = $('link[rel="where"][').attr('href');
+    var rdata = {};
+    if ($('body').attr('class').includes('userrole-authenticated')) {
+        rdata = { _: new Date().getTime() };
+    }
+    $.getJSON(jurl, rdata, function(j) {
         var sw = new mapboxgl.LngLat(j.bbox[0], j.bbox[1]);
         var ne = new mapboxgl.LngLat(j.bbox[2], j.bbox[3]);
         bounds = new mapboxgl.LngLatBounds(sw, ne);
@@ -211,7 +216,12 @@ function makeLayer(map, layerTitle, features, before = undefined) {
 function plotConnections(map, j) {
     let outbound = j.connections.map(a => a.connectsTo);
     var coords;
-    $.getJSON($('link[rel="connections"][type="application/json"]').attr('href'),
+    var jurl = $('link[rel="connections"][type="application/json"]').attr('href');
+    var rdata = {};
+    if ($('body').attr('class').includes('userrole-authenticated')) {
+        rdata = { _: new Date().getTime() };
+    }
+    $.getJSON(jurl, rdata,
         function(cnxj) {
             cnxj.features.forEach(function(connection) {
                 var predicate = connection.properties.link;
