@@ -254,21 +254,22 @@ class NamesTable(ChildrenTable):
             else:
                 ln = lang_note
 
-        if nameTransliterated or ln or timespan:
-            annotation = u'('
-            if nameTransliterated:
-                annotation += nameTransliterated
-                if timespan or ln:
-                    annotation += u': '
-            if ln:
-                annotation += ln
-                if timespan:
-                    annotation += u', '
+        ntype = ob.getNameType()
+
+        annotation = u'('
+        if ntype == 'ethnic':
+            annotation += u'ethnic: '
+        if nameTransliterated:
+            annotation += nameTransliterated
+            if timespan or ln:
+                annotation += u'; '
+        if ln:
+            annotation += ln
             if timespan:
-                annotation += timespan
-            annotation += u')'
-        else:
-            annotation = None
+                annotation += u', '
+        if timespan:
+            annotation += timespan
+        annotation += u')'
         return [u'', u' %s' % annotation][annotation is not None]
 
 
