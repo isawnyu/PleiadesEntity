@@ -254,15 +254,11 @@ class NamesTable(ChildrenTable):
             else:
                 ln = lang_note
 
-        ntype = ob.getNameType()
-
         annotation = u'('
-        if ntype == 'ethnic':
-            annotation += u'ethnic: '
         if nameTransliterated:
             annotation += nameTransliterated
             if timespan or ln:
-                annotation += u'; '
+                annotation += u': '
         if ln:
             annotation += ln
             if timespan:
@@ -284,53 +280,68 @@ class NamesTable(ChildrenTable):
         credit_utils = self.context.unrestrictedTraverse('@@credit_utils')
 
         vocabulary = get_vocabulary('ancient_name_languages')
-        lang_vocab = {t['id']:t['title'] for t in vocabulary}
-        for score, ob, nrefs in sorted(names, key=lambda k: k[1].Title() or ''):
-            nameAttested = ob.getNameAttested() or None
-            title = ob.Title() or "Untitled"
-            if nameAttested:
-                label, label_class = unicode(
-                    nameAttested, "utf-8"), "nameAttested"
-            else:
-                label, label_class = unicode(
-                    title, "utf-8"), "nameUnattested"
-            labelLang = ob.getNameLanguage() or "und"
-            review_state = wftool.getInfoFor(ob, 'review_state')
-            item = u'<span lang="%s">%s</span>' % (
-                labelLang,
-                label + u" (copy)" * ("copy" in ob.getId()),
-            )
-            if checkPermission('View', ob):
-                link = '<a class="state-%s %s" href="%s">%s</a>' % (
-                    review_state, label_class, ob.absolute_url(), item)
-            else:
-                link = '<span class="state-%s %s">%s</span>' % (
-                    review_state, label_class, item)
-            if review_state != 'published':
-                user = credit_utils.user_in_byline(ob.Creator())
-                status = u' [%s by %s]' % (review_state, user['fullname'].decode('utf-8'))
-            else:
-                status = u''
-            if labelLang != "und":
-                try:
-                    lang_title = lang_vocab[labelLang]
-                except KeyError as err:
-                    msg = (
-                        'Invalid identifier "{}" for language in name "{}"\n{}'
-                        ''.format(labelLang, ob.absolute_url(), err.message))
-                    raise KeyError(msg)
-            else:
-                lang_title = None
-            innerHTML = [
-                u'<li id="%s" class="placeChildItem" title="%s">' % (
-                    ob.getId(), self.snippet(ob)),
-                self.prefix(ob),
-                link,
-                self.postfix(ob, lang_title),
-                status,
-                u'</li>',
+        lang_vocab = {t['id']: t['title'] for t in vocabulary}
+        vocabulary = get_vocabulary('name_types')
+        ntype_vocab_sorted = sorted([t['title'] for t in vocabulary if t['id'] not in ['ethnic', 'geographic']])
+        ntype_vocab_sorted.insert(0, 'ethnic')
+        ntype_vocab_sorted.insert(0, 'geographic')
+        for ntype in ntype_vocab_sorted:
+            these_names = [n for n in names if n[1].getNameType() == ntype]
+            if len(these_names) == 0:
+                continue
+            outerHTML = [
+                u'<li id="{}" class="placeChildItem">'.format(ntype),
+                u'<label>{} Names:</label>'.format(ntype.title()),
+                u'<ul>'
             ]
-            output.append(u"\n".join(innerHTML))
+            for score, ob, nrefs in sorted(these_names, key=lambda k: k[1].Title() or ''):
+                nameAttested = ob.getNameAttested() or None
+                title = ob.Title() or "Untitled"
+                if nameAttested:
+                    label, label_class = unicode(
+                        nameAttested, "utf-8"), "nameAttested"
+                else:
+                    label, label_class = unicode(
+                        title, "utf-8"), "nameUnattested"
+                labelLang = ob.getNameLanguage() or "und"
+                review_state = wftool.getInfoFor(ob, 'review_state')
+                item = u'<span lang="%s">%s</span>' % (
+                    labelLang,
+                    label + u" (copy)" * ("copy" in ob.getId()),
+                )
+                if checkPermission('View', ob):
+                    link = '<a class="state-%s %s" href="%s">%s</a>' % (
+                        review_state, label_class, ob.absolute_url(), item)
+                else:
+                    link = '<span class="state-%s %s">%s</span>' % (
+                        review_state, label_class, item)
+                if review_state != 'published':
+                    user = credit_utils.user_in_byline(ob.Creator())
+                    status = u' [%s by %s]' % (review_state, user['fullname'].decode('utf-8'))
+                else:
+                    status = u''
+                if labelLang != "und":
+                    try:
+                        lang_title = lang_vocab[labelLang]
+                    except KeyError as err:
+                        msg = (
+                            'Invalid identifier "{}" for language in name "{}"\n{}'
+                            ''.format(labelLang, ob.absolute_url(), err.message))
+                        raise KeyError(msg)
+                else:
+                    lang_title = None
+                innerHTML = [
+                    u'<li id="%s" class="placeChildItem" title="%s">' % (
+                        ob.getId(), self.snippet(ob)),
+                    self.prefix(ob),
+                    link,
+                    self.postfix(ob, lang_title),
+                    status,
+                    u'</li>',
+                ]
+                outerHTML.extend(innerHTML)
+            outerHTML.append(u'</ul></li> <!-- placeChildItem {} -->'.format(ntype))
+            output.append(u"\n".join(outerHTML))
         return output
 
 
