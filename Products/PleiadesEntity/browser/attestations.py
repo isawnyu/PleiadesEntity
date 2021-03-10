@@ -282,16 +282,30 @@ class NamesTable(ChildrenTable):
         vocabulary = get_vocabulary('ancient_name_languages')
         lang_vocab = {t['id']: t['title'] for t in vocabulary}
         vocabulary = get_vocabulary('name_types')
-        ntype_vocab_sorted = sorted([t['title'] for t in vocabulary if t['id'] not in ['ethnic', 'geographic']])
+        ntype_titles = {t['id']: t['title'] for t in vocabulary}
+        ntype_vocab_sorted = sorted([t['id'] for t in vocabulary if t['id'] not in ['ethnic', 'geographic']])
         ntype_vocab_sorted.insert(0, 'ethnic')
         ntype_vocab_sorted.insert(0, 'geographic')
+        prepend = ', '.join(ntype_vocab_sorted)
         for ntype in ntype_vocab_sorted:
             these_names = [n for n in names if n[1].getNameType() == ntype]
             if len(these_names) == 0:
                 continue
+            nlabel = ntype_titles[ntype]
+            if nlabel.endswith('name'):
+                nlabel += 's'
+            elif nlabel.startswith('name '):
+                nlabel = nlabel.replace('name ', 'names ')
+            elif nlabel.startswith('label '):
+                nlabel = nlabel.replace('label ', 'labels ')
+            if '(' in nlabel:
+                nlabel = nlabel.split('(')
+                nlabel = '('.join([nlabel[0].title(), nlabel[1]])
+            else:
+                nlabel = nlabel.title()
             outerHTML = [
                 u'<li id="{}" class="placeChildItem">'.format(ntype),
-                u'<label>{} Names:</label>'.format(ntype.title()),
+                u'<label>{}:</label>'.format(nlabel),
                 u'<ul>'
             ]
             for score, ob, nrefs in sorted(these_names, key=lambda k: k[1].Title() or ''):
@@ -342,6 +356,7 @@ class NamesTable(ChildrenTable):
                 outerHTML.extend(innerHTML)
             outerHTML.append(u'</ul></li> <!-- placeChildItem {} -->'.format(ntype))
             output.append(u"\n".join(outerHTML))
+            output.append(u"<!-- {} --->".format(prepend))
         return output
 
 
