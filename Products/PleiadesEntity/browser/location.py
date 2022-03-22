@@ -53,7 +53,7 @@ class PromoteLocationToPlace(BrowserView):
 
         place.invokeFactory('Connection', new_id)
         place[new_id].setConnection([oldPlace.UID()])
-        place[new_id].setRelationshipType(['at'])
+        place[new_id].setRelationshipType('at')
 
         workflow = getToolByName(self.context, "portal_workflow")
         workflow.doActionFor(place[new_id], 'submit')

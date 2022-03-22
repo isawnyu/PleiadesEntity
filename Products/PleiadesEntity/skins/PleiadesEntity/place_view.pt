@@ -13,24 +13,20 @@
                   baseline context/@@iterate/baseline|nothing;
                   dummy python:request.response.setHeader('Vary', 'Accept')" >
       <link rel="foaf:primaryTopic" tal:attributes="href string:${url}#this"/>
-      <link rel="where" type="application/json" tal:attributes="href string:${context/absolute_url}/@@json"/>
+      <link rel="where" type="application/json" tal:attributes="href string:${url}/json"/>
       <link tal:condition="nocall:baseline"
             rel="baseline-where"
             type="application/json"
-            tal:attributes="href string:${baseline/absolute_url}/@@json">
-      <link rel="connections" type="application/json" tal:attributes="href string:${context/absolute_url}/@@connections-json" />
-      <link rel="r-where" type="application/json" tal:attributes="href string:${context/absolute_url}/@@r-neighbors-json" />
+            tal:attributes="href string:${baseline/absolute_url}/json" />
+      <link rel="connections" type="application/json" tal:attributes="href string:${url}/@@connections-json" />
+      <link rel="r-where" type="application/json" tal:attributes="href string:${url}/@@r-neighbors-json" />
       <link rel="nofollow alternate" type="application/atom+xml" tal:attributes="href string:${url}/atom"/>
-      <link rel="nofollow alternate" type="application/json" tal:attributes="href string:${url}/@@json?sm=1"/>
+      <link rel="nofollow alternate" type="application/json" tal:attributes="href string:${url}/json"/>
       <link rel="nofollow alternate" type="application/vnd.google-earth.kml+xml" tal:attributes="href string:${url}/kml"/>
       <link rel="canonical" tal:attributes="href url"/>
 
       <span tal:replace="structure context/@@neighborhood/p_link">P LINK</span>
       <span tal:replace="structure context/@@neighborhood/r_link">R LINK</span>
-      <link
-        rel="stylesheet"
-        href="//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.css" />
-
       <style>
         #map { height: 480px; }
         #below-map { 
@@ -66,8 +62,6 @@
               display: none;
         }
       </style>
-
-      <script src="//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.js"></script>
     </metal:head_macro>
 
   </head>

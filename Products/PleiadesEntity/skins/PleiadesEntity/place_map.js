@@ -165,15 +165,38 @@ map.on('click', function(e) {
 });
 
 function populateMap(map) {
-    var jurl = $('link[rel="canonical"]').attr('href') + '/json'
-    $.getJSON(jurl, function(j) {
-        var sw = new mapboxgl.LngLat(j.bbox[0], j.bbox[1]);
-        var ne = new mapboxgl.LngLat(j.bbox[2], j.bbox[3]);
-        bounds = new mapboxgl.LngLatBounds(sw, ne);
+
+    var jurl = $('link[rel="where"][').attr('href');
+    var rdata = {};
+    if ($('body').attr('class').includes('userrole-authenticated')) {
+        rdata = { _: new Date().getTime() };
+    }
+    $.getJSON(jurl, rdata, function(j) {
+        var bounds = new mapboxgl.LngLatBounds();
+        var sw, ne, features;
+        // Set an initial zoom level/boundary based on JSON
+        if (j.bbox !== null) {
+            sw = new mapboxgl.LngLat(j.bbox[0], j.bbox[1]);
+            ne = new mapboxgl.LngLat(j.bbox[2], j.bbox[3]);
+            bounds.extend(sw);
+            bounds.extend(ne);
+            map.fitBounds(bounds, { 'padding': boxpad, 'maxZoom': initial_zoom });
+        }
         plotReprPoint(map, j);
         map.flyTo({ 'center': j.reprPoint });
-        map.fitBounds(bounds, { 'padding': boxpad, 'maxZoom': initial_zoom });
-        plotLocations(map, j);
+        features = plotLocations(map, j);
+        features.forEach(function (feature) {
+            if (!feature.geometry || !feature.geometry.coordinates) {
+                return;
+            }
+            feature.geometry.coordinates.forEach(function (coordinate) {
+                bounds.extend(coordinate);
+            });
+        });
+        // // Re-zoom
+        if (features.length && bounds.getNorthEast()) {
+            map.fitBounds(bounds, { 'padding': boxpad, 'maxZoom': initial_zoom });
+        }
         plotConnections(map, j);
     });
 }
@@ -211,7 +234,12 @@ function makeLayer(map, layerTitle, features, before = undefined) {
 function plotConnections(map, j) {
     let outbound = j.connections.map(a => a.connectsTo);
     var coords;
-    $.getJSON($('link[rel="connections"][type="application/json"]').attr('href'),
+    var jurl = $('link[rel="connections"][type="application/json"]').attr('href');
+    var rdata = {};
+    if ($('body').attr('class').includes('userrole-authenticated')) {
+        rdata = { _: new Date().getTime() };
+    }
+    $.getJSON(jurl, rdata,
         function(cnxj) {
             cnxj.features.forEach(function(connection) {
                 var predicate = connection.properties.link;
@@ -255,6 +283,7 @@ function plotLocations(map, j) {
     });
     makeLayer(map, 'Location Polygons', polyFeatures);
     makeLayer(map, 'Location Points', pointFeatures);
+    return pointFeatures.concat(polyFeatures);
 }
 
 function plotReprPoint(map, j) {
