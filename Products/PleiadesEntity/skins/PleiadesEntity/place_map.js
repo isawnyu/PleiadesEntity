@@ -189,9 +189,13 @@ function populateMap(map) {
             if (!feature.geometry || !feature.geometry.coordinates) {
                 return;
             }
-            feature.geometry.coordinates.forEach(function (coordinate) {
-                bounds.extend(coordinate);
-            });
+            if (feature.geometry.coordinates.length && Number.isFinite(feature.geometry.coordinates[0])) {
+                bounds.extend(feature.geometry.coordinates)
+            } else {
+                feature.geometry.coordinates.forEach(function (coordinate) {
+                    bounds.extend(coordinate);
+                });
+            }
         });
         // // Re-zoom
         if (features.length && bounds.getNorthEast()) {
