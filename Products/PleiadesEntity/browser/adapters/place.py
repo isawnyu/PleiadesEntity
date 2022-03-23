@@ -1,6 +1,7 @@
 from Products.PleiadesEntity.time import periodRanges
 from zope.globalrequest import getRequest
 from pleiades.vocabularies.vocabularies import get_vocabulary
+from pleiades.geographer.geo import is_clockwise
 from . import archetypes_getter
 from . import export_children
 from . import ContentExportAdapter
@@ -117,6 +118,16 @@ class PlaceExportAdapter(WorkExportAdapter, ContentExportAdapter):
         filter = {'portal_type': 'Location'}
         for child in self.context.listFolderContents(filter):
             adapter = get_export_adapter(child)
+
+            geometry = adapter.geometry()
+            if geometry and geometry['type'] in {'Polygon', }:
+                coordinates = []
+                for coordinate_set in geometry['coordinates']:
+                    if is_clockwise(coordinate_set):
+                        coordinate_set = tuple(reversed(coordinate_set))
+                    coordinates.append(coordinate_set)
+                geometry['coordinates'] = coordinates
+
             features.append(geojson.Feature(
                 id=adapter.id(),
                 properties=dict(
@@ -126,7 +137,7 @@ class PlaceExportAdapter(WorkExportAdapter, ContentExportAdapter):
                     link=adapter.uri(),
                     location_precision=adapter.locationPrecision(),
                 ),
-                geometry=adapter.geometry(),
+                geometry=geometry,
             ))
         return features
 
