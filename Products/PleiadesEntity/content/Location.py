@@ -180,6 +180,7 @@ schema = atapi.Schema((
             label_msgid='PleiadesEntity_label_associationCertainty',
             description_msgid='PleiadesEntity_help_associationCertainty',
             i18n_domain='PleiadesEntity',
+            format='radio',
         ),
         description="Level of certainty in association between location and place",
         vocabulary_factory='pleiades.vocabularies.association_certainty',

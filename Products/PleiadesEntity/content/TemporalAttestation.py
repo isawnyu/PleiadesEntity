@@ -45,6 +45,7 @@ schema = Schema((
             label_msgid='PleiadesEntity_label_confidence',
             description_msgid='PleiadesEntity_help_confidence',
             i18n_domain='PleiadesEntity',
+            format='radio',
         ),
         description="Level of confidence in temportal attestation",
         vocabulary_factory="pleiades.vocabularies.attestation_confidence",
