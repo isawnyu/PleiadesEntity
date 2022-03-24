@@ -17,6 +17,7 @@ from AccessControl import ClassSecurityInfo
 from archetypes.referencebrowserwidget import ReferenceBrowserWidget
 from decimal import Decimal
 from pleiades.vocabularies.widget import FilteredInAndOutWidget
+from pleiades.vocabularies.widget import FilteredSelectionWidget
 from Products.Archetypes import atapi
 from Products.ATContentTypes.content import schemata
 from Products.ATContentTypes.content.document import ATDocumentBase, ATDocumentSchema
@@ -173,7 +174,7 @@ schema = atapi.Schema((
 
     atapi.StringField(
         name='associationCertainty',
-        widget=atapi.SelectionWidget(
+        widget=FilteredSelectionWidget(
             label="Association certainty",
             description="Select level of certainty in association between location and place",
             label_msgid='PleiadesEntity_label_associationCertainty',

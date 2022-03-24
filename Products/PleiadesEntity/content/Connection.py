@@ -61,7 +61,7 @@ schema = atapi.Schema((
 
     atapi.StringField(
         name='associationCertainty',
-        widget=atapi.SelectionWidget(
+        widget=FilteredSelectionWidget(
             label="Association Certainty",
             description="Select level of certainty in association between location and place",
             label_msgid='PleiadesEntity_label_associationCertainty',
