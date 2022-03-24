@@ -40,7 +40,7 @@ jQuery(function () {
               if (data.formatted_citation) {
                 $formatted.val(data.formatted_citation);
               }
-              if (data.access_uri) {
+              if (data.access_uri && ! $access_uri.val()) {
                 $access_uri.val(data.access_uri);
               }
               if (data.bibliographic_uri) {
