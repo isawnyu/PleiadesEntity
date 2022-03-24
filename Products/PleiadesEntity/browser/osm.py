@@ -3,6 +3,7 @@ from lxml import etree
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone import PloneMessageFactory as _
 from Products.Five.browser import BrowserView
+from zExceptions import BadRequest
 import datetime
 import logging
 import pkg_resources
@@ -111,8 +112,16 @@ class OSMLocationFactory(BrowserView):
             objtype.capitalize(), objid)
         name = ptool.normalizeString(title)
 
+        locid = None
+        i = 1
+        final_name = name
+        while locid is None:
+            try:
+                locid = self.context.invokeFactory('Location', final_name)
+            except BadRequest:
+                final_name = name + '-' + str(i)
+                i += 1
         try:
-            locid = self.context.invokeFactory('Location', name)
             locn = self.context[locid]
             locn.setTitle(title)
             locn.setDescription(u"Location based on OpenStreetMap")
