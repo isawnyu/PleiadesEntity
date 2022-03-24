@@ -172,13 +172,35 @@ function populateMap(map) {
         rdata = { _: new Date().getTime() };
     }
     $.getJSON(jurl, rdata, function(j) {
-        var sw = new mapboxgl.LngLat(j.bbox[0], j.bbox[1]);
-        var ne = new mapboxgl.LngLat(j.bbox[2], j.bbox[3]);
-        bounds = new mapboxgl.LngLatBounds(sw, ne);
+        var bounds = new mapboxgl.LngLatBounds();
+        var sw, ne, features;
+        // Set an initial zoom level/boundary based on JSON
+        if (j.bbox !== null) {
+            sw = new mapboxgl.LngLat(j.bbox[0], j.bbox[1]);
+            ne = new mapboxgl.LngLat(j.bbox[2], j.bbox[3]);
+            bounds.extend(sw);
+            bounds.extend(ne);
+            map.fitBounds(bounds, { 'padding': boxpad, 'maxZoom': initial_zoom });
+        }
         plotReprPoint(map, j);
         map.flyTo({ 'center': j.reprPoint });
-        map.fitBounds(bounds, { 'padding': boxpad, 'maxZoom': initial_zoom });
-        plotLocations(map, j);
+        features = plotLocations(map, j);
+        features.forEach(function (feature) {
+            if (!feature.geometry || !feature.geometry.coordinates) {
+                return;
+            }
+            if (feature.geometry.coordinates.length && Number.isFinite(feature.geometry.coordinates[0])) {
+                bounds.extend(feature.geometry.coordinates)
+            } else {
+                feature.geometry.coordinates.forEach(function (coordinate) {
+                    bounds.extend(coordinate);
+                });
+            }
+        });
+        // // Re-zoom
+        if (features.length && bounds.getNorthEast()) {
+            map.fitBounds(bounds, { 'padding': boxpad, 'maxZoom': initial_zoom });
+        }
         plotConnections(map, j);
     });
 }
@@ -265,6 +287,7 @@ function plotLocations(map, j) {
     });
     makeLayer(map, 'Location Polygons', polyFeatures);
     makeLayer(map, 'Location Points', pointFeatures);
+    return pointFeatures.concat(polyFeatures);
 }
 
 function plotReprPoint(map, j) {
