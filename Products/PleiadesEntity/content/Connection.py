@@ -46,7 +46,6 @@ schema = atapi.Schema((
     atapi.StringField(
         name='relationshipType',
         widget=FilteredSelectionWidget(
-            format="select",
             label="Connection type",
             description="Select type of connection being established",
             label_msgid='PleiadesEntity_label_relationshipType',
