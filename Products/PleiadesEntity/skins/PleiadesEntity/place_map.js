@@ -172,8 +172,8 @@ function populateMap(map) {
         rdata = { _: new Date().getTime() };
     }
     $.getJSON(jurl, rdata, function(j) {
-        var bounds = new mapboxgl.LngLatBounds();
         var sw, ne, features;
+        bounds = new mapboxgl.LngLatBounds();
         // Set an initial zoom level/boundary based on JSON
         if (j.bbox !== null) {
             sw = new mapboxgl.LngLat(j.bbox[0], j.bbox[1]);
