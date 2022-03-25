@@ -255,11 +255,11 @@ function plotConnections(map, j) {
                     if (!bounds.contains(coords)) {
                         var here = new mapboxgl.LngLat(coords[0], coords[1]);
                         bounds.extend(here);
-                        map.fitBounds(bounds, { 'padding': boxpad });
                     }
                 }
             });
             makeLayer(map, 'Connections Inbound', cnxj.features);
+            map.fitBounds(bounds, { 'padding': boxpad });
         });
 }
 
