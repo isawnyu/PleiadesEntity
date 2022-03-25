@@ -1,3 +1,4 @@
+from collections import defaultdict
 from AccessControl import getSecurityManager
 from Acquisition import aq_parent
 from collective.geo.geographer.interfaces import IGeoreferenced
@@ -176,35 +177,60 @@ class LocationsTable(ChildrenTable):
         wftool = self.wftool
         checkPermission = getSecurityManager().checkPermission
         credit_utils = self.context.unrestrictedTraverse('@@credit_utils')
-        for score, ob, nrefs in sorted(locations, reverse=False):
-            review_state = wftool.getInfoFor(ob, 'review_state')
-            item = ob.Title().decode('utf-8')
-            if 'copy' in ob.getId():
-                item += u" (copy)"
-            if checkPermission('View', ob):
-                link = u'<a class="state-%s" href="%s">%s</a>' % (
-                    review_state, ob.absolute_url(), item)
-            else:
-                link = u'<span class="state-%s">%s</span>' % (
-                    review_state, item)
-            if review_state != 'published':
-                user = credit_utils.user_in_byline(ob.Creator())
-                status = u' [%s by %s]' % (review_state, user['fullname'].decode('utf-8'))
-            else:
-                status = u''
-            innerHTML = [
-                u'<li id="%s_%s" class="placeChildItem Location" title="%s">' % (
-                    ob.getId(),
-                    where_tag,
-                    self.snippet(ob) + "; " + ob.Description().decode("utf-8"),
-                ),
-                self.prefix(ob),
-                link,
-                self.postfix(ob),
-                status,
-                u'</li>',
-            ]
-            output.append(u"\n".join(innerHTML))
+        location_types = [
+            "associated_modern",
+            "relocated_modern",
+            "central_point",
+            "legacy",
+            "representative",
+        ]
+        labeled_locations = defaultdict(set)
+        for _, ob, _ in sorted(locations, reverse=False):
+            current_location_types = ob.getLocationType()
+            found = False
+            for location_type in location_types:
+                if location_type in current_location_types:
+                    labeled_locations[location_type].add(ob)
+                    found = True
+                    break
+            if not found:
+                labeled_locations['representative'].add(ob)
+        for location_type in location_types:
+            if not labeled_locations[location_type]:
+                continue
+            output.append(u"<li><b>%s:</b>\n<ul>" % location_type.replace('_', ' ').title())
+            for ob in labeled_locations[location_type]:
+                review_state = wftool.getInfoFor(ob, 'review_state')
+                item = ob.Title().decode('utf-8')
+                if 'copy' in ob.getId():
+                    item += u" (copy)"
+                if checkPermission('View', ob):
+                    link = u'<a class="state-%s" href="%s">%s</a>' % (
+                        review_state, ob.absolute_url(), item)
+                else:
+                    link = u'<span class="state-%s">%s</span>' % (
+                        review_state, item)
+                if review_state != 'published':
+                    user = credit_utils.user_in_byline(ob.Creator())
+                    status = u' [%s by %s]' % (review_state, user['fullname'].decode('utf-8'))
+                else:
+                    status = u''
+                innerHTML = [
+                    u'<li id="%s_%s" class="placeChildItem Location" title="%s">' % (
+                        ob.getId(),
+                        where_tag,
+                        self.snippet(ob) + "; " + ob.Description().decode("utf-8"),
+                    ),
+                    self.prefix(ob),
+                    link,
+                    self.postfix(ob),
+                    status,
+                    u'</li>',
+                ]
+                output.append(u"\n".join(innerHTML))
+            output.append(u"</li>")
+        if any(labeled_locations.items()):
+            output.append(u"</ul>")
         return output
 
 
