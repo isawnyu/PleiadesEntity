@@ -159,7 +159,6 @@ schema = atapi.Schema((
     atapi.StringField(
         name='archaeologicalRemains',
         widget=atapi.SelectionWidget(
-            format="select",
             label="Archaeological remains",
             description="Select level of archaeological remains associated with this location",
             label_msgid='PleiadesEntity_label_archaeologicalRemains',
