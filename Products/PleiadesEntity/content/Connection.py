@@ -46,6 +46,7 @@ schema = atapi.Schema((
     atapi.StringField(
         name='relationshipType',
         widget=FilteredSelectionWidget(
+            format="select",
             label="Connection type",
             description="Select type of connection being established",
             label_msgid='PleiadesEntity_label_relationshipType',
@@ -54,7 +55,7 @@ schema = atapi.Schema((
         ),
         description="Type of connection established",
         vocabulary_factory='pleiades.vocabularies.relationship_types',
-        default="connection",
+        default="at",
         enforceVocabulary=1,
     ),
 
