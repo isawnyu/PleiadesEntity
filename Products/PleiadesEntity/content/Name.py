@@ -18,6 +18,7 @@ from Products.Archetypes.atapi import *
 from zope.component import queryUtility
 from zope.interface import implements
 import interfaces
+from pleiades.vocabularies.widget import FilteredSelectionWidget
 from Products.PleiadesEntity.content.Work import Work
 from Products.PleiadesEntity.content.Temporal import Temporal
 from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
@@ -61,7 +62,7 @@ schema = Schema((
     StringField(
         name='nameLanguage',
         schemata="Transcription",
-        widget=SelectionWidget(
+        widget=FilteredSelectionWidget(
             label="Language",
             description="Select the language and writing system or script of the attested name above.",
             label_msgid='PleiadesEntity_label_nameLanguage',
@@ -88,7 +89,7 @@ schema = Schema((
     ),
     StringField(
         name='nameType',
-        widget=SelectionWidget(
+        widget=FilteredSelectionWidget(
             label="Name type",
             description="Select type of name",
             label_msgid='PleiadesEntity_label_nameType',
@@ -103,12 +104,13 @@ schema = Schema((
     StringField(
         name='accuracy',
         schemata="Transcription",
-        widget=SelectionWidget(
+        widget=FilteredSelectionWidget(
             label="Accuracy of transcription",
             description="Select level of transcription accuracy",
             label_msgid='PleiadesEntity_label_accuracy',
             description_msgid='PleiadesEntity_help_accuracy',
             i18n_domain='PleiadesEntity',
+            format='radio',
         ),
         description="Level of accuracy of transcription",
         vocabulary_factory='pleiades.vocabularies.name_accuracy',
@@ -118,12 +120,13 @@ schema = Schema((
     StringField(
         name='completeness',
         schemata="Transcription",
-        widget=SelectionWidget(
+        widget=FilteredSelectionWidget(
             label="Level of transcription completeness",
             description="Select level of transcription completeness",
             label_msgid='PleiadesEntity_label_completeness',
             description_msgid='PleiadesEntity_help_completeness',
             i18n_domain='PleiadesEntity',
+            format='radio',
         ),
         description="Level of completeness of transcription",
         vocabulary_factory='pleiades.vocabularies.name_completeness',
@@ -132,12 +135,13 @@ schema = Schema((
     ),
     StringField(
         name='associationCertainty',
-        widget=SelectionWidget(
+        widget=FilteredSelectionWidget(
             label="Level of certainty in association between name and the place",
             description="Select level of certainty in association between name and feature",
             label_msgid='PleiadesEntity_label_associationCertainty',
             description_msgid='PleiadesEntity_help_associationCertainty',
             i18n_domain='PleiadesEntity',
+            format='radio',
         ),
         description="Level of certainty in association between name and feature",
         vocabulary_factory='pleiades.vocabularies.association_certainty',

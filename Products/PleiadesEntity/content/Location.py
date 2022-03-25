@@ -17,6 +17,7 @@ from AccessControl import ClassSecurityInfo
 from archetypes.referencebrowserwidget import ReferenceBrowserWidget
 from decimal import Decimal
 from pleiades.vocabularies.widget import FilteredInAndOutWidget
+from pleiades.vocabularies.widget import FilteredSelectionWidget
 from Products.Archetypes import atapi
 from Products.ATContentTypes.content import schemata
 from Products.ATContentTypes.content.document import ATDocumentBase, ATDocumentSchema
@@ -158,7 +159,6 @@ schema = atapi.Schema((
     atapi.StringField(
         name='archaeologicalRemains',
         widget=atapi.SelectionWidget(
-            format="select",
             label="Archaeological remains",
             description="Select level of archaeological remains associated with this location",
             label_msgid='PleiadesEntity_label_archaeologicalRemains',
@@ -173,12 +173,13 @@ schema = atapi.Schema((
 
     atapi.StringField(
         name='associationCertainty',
-        widget=atapi.SelectionWidget(
+        widget=FilteredSelectionWidget(
             label="Association certainty",
             description="Select level of certainty in association between location and place",
             label_msgid='PleiadesEntity_label_associationCertainty',
             description_msgid='PleiadesEntity_help_associationCertainty',
             i18n_domain='PleiadesEntity',
+            format='radio',
         ),
         description="Level of certainty in association between location and place",
         vocabulary_factory='pleiades.vocabularies.association_certainty',

@@ -55,18 +55,19 @@ schema = atapi.Schema((
         ),
         description="Type of connection established",
         vocabulary_factory='pleiades.vocabularies.relationship_types',
-        default="connection",
+        default="at",
         enforceVocabulary=1,
     ),
 
     atapi.StringField(
         name='associationCertainty',
-        widget=atapi.SelectionWidget(
+        widget=FilteredSelectionWidget(
             label="Association Certainty",
             description="Select level of certainty in association between location and place",
             label_msgid='PleiadesEntity_label_associationCertainty',
             description_msgid='PleiadesEntity_help_associationCertainty',
             i18n_domain='PleiadesEntity',
+            format='radio',
         ),
         description="Level of certainty in association between location and place",
         vocabulary_factory='pleiades.vocabularies.association_certainty',
