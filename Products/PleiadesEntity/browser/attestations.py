@@ -198,7 +198,11 @@ class LocationsTable(ChildrenTable):
         for location_type in location_types:
             if not labeled_locations[location_type]:
                 continue
-            output.append(u"<li><b>%s:</b>\n<ul>" % location_type.replace('_', ' ').title())
+            if location_type == "central_point":
+                location_title = "Central Point"
+            else:
+                location_title = location_type.replace('_', ' ').title() + " Locations"
+            output.append(u"<li><b>%s:</b>\n<ul>" % location_title)
             for ob in labeled_locations[location_type]:
                 review_state = wftool.getInfoFor(ob, 'review_state')
                 item = ob.Title().decode('utf-8')
