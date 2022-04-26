@@ -11,6 +11,7 @@ import copy
 from ..interfaces import IExportAdapter
 import inspect
 import itertools
+import json
 import logging
 import Missing
 
@@ -389,6 +390,10 @@ class PlaceSubObjectExportAdapter(ExportAdapter):
 
     @export_config(json=False)
     def extent(self):
+        fullGeometry = self.context.getGeometryJSON()
+        if fullGeometry is not None:
+            return json.loads(fullGeometry)
+
         return self.brain.zgeo_geometry or None
 
     @export_config(json=False)
