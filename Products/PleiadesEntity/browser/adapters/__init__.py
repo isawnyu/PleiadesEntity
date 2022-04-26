@@ -1,19 +1,21 @@
-from AccessControl import Unauthorized
-from DateTime import DateTime
-import plone.api
-from plone.memoize import instance
-from Products.CMFCore.utils import getToolByName
-from Products.PleiadesEntity.content.ReferenceCitation import schema as ReferenceSchema
-from zope.component import queryAdapter
-from zope.component.interfaces import ComponentLookupError
-from zope.interface import implementer
 import copy
-from ..interfaces import IExportAdapter
 import inspect
 import itertools
 import json
 import logging
 import Missing
+import plone.api
+
+from AccessControl import Unauthorized
+from DateTime import DateTime
+from plone.memoize import instance
+from Products.CMFCore.utils import getToolByName
+from zope.component import queryAdapter
+from zope.component.interfaces import ComponentLookupError
+from zope.interface import implementer
+
+from ..interfaces import IExportAdapter
+
 
 log = logging.getLogger('PleiadesEntity.adapters.connection')
 
