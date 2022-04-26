@@ -115,6 +115,14 @@ var layerMetadata = {
             'fill-opacity': 0.3
         }
     },
+    'location-geometries': {
+        'type': 'line',
+        'layout': {},
+        'paint': {
+            'line-width': 3,
+            'line-color': '#5587fc'
+        }
+    },
     'connections-inbound': {
         'type': 'symbol',
         'layout': {
@@ -136,7 +144,8 @@ map.on('click', function(e) {
                 'layer-representative-point',
                 'layer-location-points',
                 'layer-connections-inbound',
-                'layer-location-polygons'
+                'layer-location-polygons',
+                'layer-location-geometries'
             ]
         });
     if (features.length > 0) {
@@ -185,17 +194,21 @@ function populateMap(map) {
         plotReprPoint(map, j);
         map.flyTo({ 'center': j.reprPoint });
         features = plotLocations(map, j);
+        var extend_coords = function (coords_structure) {
+            if (!coords_structure.length) {
+                return;
+            }
+            if (Number.isFinite(coords_structure[0])) {
+                bounds.extend(coords_structure);
+            } else {
+                coords_structure.forEach(extend_coords);
+            }
+        }
         features.forEach(function (feature) {
             if (!feature.geometry || !feature.geometry.coordinates) {
                 return;
             }
-            if (feature.geometry.coordinates.length && Number.isFinite(feature.geometry.coordinates[0])) {
-                bounds.extend(feature.geometry.coordinates)
-            } else {
-                feature.geometry.coordinates.forEach(function (coordinate) {
-                    bounds.extend(coordinate);
-                });
-            }
+            extend_coords(feature.geometry.coordinates);
         });
         // // Re-zoom
         if (features.length && bounds.getNorthEast()) {
@@ -207,6 +220,9 @@ function populateMap(map) {
 
 function makeLayer(map, layerTitle, features, before = undefined) {
     var sourceID = layerTitle.toLowerCase().replace('(', '').replace(')', '').replace(' ', '-');
+    if (!layerMetadata[sourceID]) {
+        return;
+    }
     map.addSource(sourceID, {
         'type': 'geojson',
         'data': {
@@ -266,6 +282,7 @@ function plotConnections(map, j) {
 function plotLocations(map, j) {
     var pointFeatures = Array();
     var polyFeatures = Array();
+    var otherFeatures = Array();
     j.locations.forEach(function(location) {
         var geoType = location.geometry.type;
         var feature = {
@@ -282,12 +299,13 @@ function plotLocations(map, j) {
         } else if (geoType == 'Polygon') {
             polyFeatures.push(feature);
         } else {
-            console.error('Unsupported feature geometry', geoType);
+            otherFeatures.push(feature);
         }
     });
     makeLayer(map, 'Location Polygons', polyFeatures);
     makeLayer(map, 'Location Points', pointFeatures);
-    return pointFeatures.concat(polyFeatures);
+    makeLayer(map, 'Location Geometries', otherFeatures);
+    return pointFeatures.concat(polyFeatures).concat(otherFeatures);
 }
 
 function plotReprPoint(map, j) {
@@ -307,7 +325,7 @@ function plotReprPoint(map, j) {
 }
 
 function restack(map) {
-    const desired_layer_order = ['background-sepia', 'satellite-sepia', 'admin-1-boundary-bg', 'admin-0-boundary-bg', 'admin-1-boundary', 'admin-0-boundary', 'admin-0-boundary-disputed', 'settlement-subdivision-label', 'settlement-minor-label', 'settlement-major-label', 'state-label', 'country-label', 'layer-location-polygons', 'layer-connections-inbound', 'layer-location-points', 'layer-representative-point'];
+    const desired_layer_order = ['background-sepia', 'satellite-sepia', 'admin-1-boundary-bg', 'admin-0-boundary-bg', 'admin-1-boundary', 'admin-0-boundary', 'admin-0-boundary-disputed', 'settlement-subdivision-label', 'settlement-minor-label', 'settlement-major-label', 'state-label', 'country-label', 'layer-location-polygons', 'layer-location-geometries', 'layer-connections-inbound', 'layer-location-points', 'layer-representative-point'];
     var i;
     var this_layer;
     var current_layer_order;
