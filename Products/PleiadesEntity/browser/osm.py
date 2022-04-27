@@ -98,10 +98,13 @@ class OSMLocationFactory(BrowserView):
             # First we check if there are main_stream <member>s
             nodes = elem.findall("member[@type='way'][@role='main_stream']")
             if not nodes:
-                # If not we check if there's a river waterway tag on this <relation>
+                # If not we check if there's a valid waterway tag on this <relation>
+                # VALID_WATERWAYS holds a list of waterways we consider valid.
                 # If we find one, all <way>s in the <relation> are considered
-                if elem.find("tag[@k='waterway'][@v='river']") is not None:
-                    nodes = elem.findall("member[@type='way']")
+                for waterway in VALID_WATERWAYS:
+                    if elem.find("tag[@k='waterway'][@v='{waterway}']" .format(waterway=waterway)) is not None:
+                        nodes = elem.findall("member[@type='way']")
+                        break
                 else:
                     # In case we found no main_stream <member>s or a river waterway tag,
                     # we bail out and let the user know
@@ -176,3 +179,12 @@ class OSMLocationFactory(BrowserView):
         locn.reindexObject()
 
         self.request.response.redirect("%s/edit" % locn.absolute_url())
+
+VALID_WATERWAYS = [
+    'river',
+    'stream',
+    'tidal_channel',
+    'canal',
+    'waterfall',
+    'rapids',
+]
