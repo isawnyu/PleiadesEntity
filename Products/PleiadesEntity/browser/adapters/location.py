@@ -8,8 +8,11 @@ from . import archetypes_getter
 from . import vocabulary_uri
 from . import memoize_all_methods
 from plone import api
+import json
 import logging
 from AccessControl.unauthorized import Unauthorized
+
+
 logger = logging.getLogger(__name__)
 
 
@@ -19,6 +22,10 @@ class LocationExportAdapter(
         CertaintyExportAdapter, PlaceSubObjectExportAdapter):
 
     def geometry(self):
+        fullGeometry = self.context.getGeometryJSON()
+        if fullGeometry is not None:
+            return json.loads(fullGeometry)
+
         return self.extent()
 
     def _snippet(self):
