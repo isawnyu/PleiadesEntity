@@ -155,6 +155,13 @@ $(function() {
                         return L.marker(latlng, { icon: locationIcon, zIndexOffset: 1000 });
                     },
                     style: function(f) {
+                        if (["LineString", "MultiLineString"].includes(f.geometry.type)) {
+                            return {
+                                color: '#5587fc',
+                                opacity: 1,
+                                weight: 2,
+                            }
+                        }
                         return {
                             color: '#5587fc',
                             opacity: 1,
