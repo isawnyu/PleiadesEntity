@@ -95,13 +95,33 @@ class OSMLocationFactory(BrowserView):
                     "Only relations of type 'multipolygon' and 'waterway' "
                     "can be imported.")
             ways = []
-            way_xpath = "member[@type='way']"
-            if relation_type == 'waterway':
-                way_xpath += "[@role='main_stream']"
-            for member in elem.findall(way_xpath):
+            # First we check if there are main_stream <member>s
+            nodes = elem.findall("member[@type='way'][@role='main_stream']")
+            if not nodes:
+                # If not we look up the `<way>` corresponding to each `<member>`
+                # to see if it includes a tag with `k='waterway'` and an element of
+                # VALID_WATERWAYS as value.
+                for member in elem.findall("member[@type='way']"):
+                    way = osm.find("way[@id='%s']" % member.get("ref"))
+                    for waterway in VALID_WATERWAYS:
+                        if way.find("tag[@k='waterway'][@v='{waterway}']" .format(waterway=waterway)) is not None:
+                            nodes.append(member)
+                            break
+                if not nodes:
+                    # In case we found no main_stream <member>s nor any valid waterway tags,
+                    # we bail out and let the user know
+                    return self._fall_back(
+                        "cannot import OSM relation: unexpected encoding lacks "
+                        "role=main_stream or tag k=waterway v=river")
+            for member in nodes:
                 way_id = member.attrib.get('ref')
                 way = osm.find("way[@id='%s']" % way_id)
                 ways.append(read_way_as_linestring(osm, way))
+            if not ways:
+                # Something went wrong. We don't know what, but we don't want
+                # to go on with an empty geometry.
+                return self._fall_back(
+                    "cannot import OSM relation: no <way>s found")
             geometry = 'MultiLineString:[' + ','.join(ways) + ']'
 
         ptool = getToolByName(self.context, 'plone_utils')
@@ -161,3 +181,12 @@ class OSMLocationFactory(BrowserView):
         locn.reindexObject()
 
         self.request.response.redirect("%s/edit" % locn.absolute_url())
+
+VALID_WATERWAYS = [
+    'river',
+    'stream',
+    'tidal_channel',
+    'canal',
+    'waterfall',
+    'rapids',
+]
