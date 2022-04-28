@@ -95,8 +95,12 @@ class OSMLocationFactory(BrowserView):
                     "Only relations of type 'multipolygon' and 'waterway' "
                     "can be imported.")
             ways = []
-            # First we check if there are main_stream <member>s
-            nodes = elem.findall("member[@type='way'][@role='main_stream']")
+            # Only filter on waterway types when the relation is a waterway
+            # of some sort:
+            if relation_type in ('waterway', 'watershed'):
+                nodes = elem.findall("member[@type='way'][@role='main_stream']")
+            else:
+                nodes = elem.findall("member[@type='way']")
             if not nodes:
                 # If not we look up the `<way>` corresponding to each `<member>`
                 # to see if it includes a tag with `k='waterway'` and an element of
