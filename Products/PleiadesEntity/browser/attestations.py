@@ -15,7 +15,6 @@ import logging
 
 log = logging.getLogger('Products.PleiadesEntity')
 
-ctype_dict = None
 
 class AssociationCertaintyWrapper(object):
 
@@ -450,14 +449,12 @@ class ConnectionsTable(ChildrenTable):
         return self.taggify(tag, attributes, label)
 
     def verb(self, ob):
-        global ctype_dict
-        if ctype_dict is None:
-            vocabulary = get_vocabulary('relationship_types')
-            ctype_dict = {t['id']:t['title'] for t in vocabulary}
+        vocabulary = get_vocabulary('relationship_types')
+        ctype_dict = {t['id']: t['title'] for t in vocabulary}
         ctype = ob.getRelationshipType()
         if type(ctype) is list:
             ctype = ctype[0]
-        return(ctype_dict[ctype])
+        return ctype_dict.get(ctype)
 
     def verb_phrase(self, ob):
         label = self.verb(ob)
