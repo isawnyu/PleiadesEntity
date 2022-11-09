@@ -16,7 +16,7 @@ from zope.interface import implementer
 from ..interfaces import IExportAdapter
 
 
-log = logging.getLogger('PleiadesEntity.adapters.connection')
+log = logging.getLogger(__name__)
 
 
 def get_export_adapter(ob):
@@ -59,6 +59,67 @@ def memoize_all_methods(cls):
                 wrapper.export_config = member.export_config
             setattr(cls, k, wrapper)
     return cls
+
+
+def revision_history(obj):
+    """Return revision history for an object.
+
+    Return value includes a `_sort_key` on each item in the returned data
+    so it can later be merged with output of workflow_history().
+    """
+    rt = getToolByName(obj, "portal_repository")
+    if rt is None or not rt.isVersionable(obj):
+        return []
+    try:
+        history = rt.getHistoryMetadata(obj)
+    except Unauthorized:
+        history = None
+    if not history:
+        return []
+    result = []
+    # Count backwards from most recent to least recent
+    for i in xrange(history.getLength(countPurged=False) - 1, -1, -1):
+        revision = history.retrieve(i, countPurged=False)
+        meta = revision['metadata']['sys_metadata']
+        userid = meta['principal']
+        modified = DateTime(meta['timestamp'], 'UTC')
+        modified._timezone_naive = True
+        result.append({
+            '_sort_key': modified,
+            'comment': meta['comment'],
+            'modified': modified.HTML4(),
+            'modifiedBy': userid,
+        })
+    return result
+
+
+def workflow_history(obj):
+    """Return workflow history for an object.
+
+    Return value includes a `_sort_key` on each item in the returned data
+    so it can later be merged with output of revision_history().
+    """
+    wf = getToolByName(obj, 'portal_workflow')
+    wf_name = wf.getDefaultChain()[0]
+
+    def _wf_transition_data(event):
+        return {
+            "_sort_key": event["time"],
+            "action": wf.getTitleForTransitionOnType(
+                event['action'], obj.portal_type
+            )
+            or "Create",
+            "modified": event["time"].HTML4(),
+            "modifiedBy": event.get("actor", "Anonymous User"),
+        }
+
+    # Calling getInfoFor() on the wf object is security checked (and we fail),
+    # but the history is already directly available in an attribute
+    # on the content object, so we can just use that:
+    return [
+        _wf_transition_data(event)
+        for event in obj.workflow_history.get(wf_name, tuple())
+    ]
 
 
 @implementer(IExportAdapter)
@@ -155,29 +216,17 @@ class ContentExportAdapter(ExportAdapter):
         return self.brain.review_state
 
     def history(self):
-        rt = getToolByName(self.context, "portal_repository")
-        if rt is None or not rt.isVersionable(self.context):
-            return []
-        try:
-            history = rt.getHistoryMetadata(self.context)
-        except Unauthorized:
-            history = None
-        if not history:
-            return []
-        result = []
-        # Count backwards from most recent to least recent
-        for i in xrange(history.getLength(countPurged=False) - 1, -1, -1):
-            revision = history.retrieve(i, countPurged=False)
-            meta = revision['metadata']['sys_metadata']
-            userid = meta['principal']
-            modified = DateTime(meta['timestamp'], 'UTC')
-            modified._timezone_naive = True
-            result.append({
-                'comment': meta['comment'],
-                'modified': modified.HTML4(),
-                'modifiedBy': userid,
-            })
-        return result
+        wf_history = workflow_history(self.context)
+        rev_history = revision_history(self.context)
+        history = wf_history + rev_history
+
+        history.sort(key=lambda x: x["_sort_key"], reverse=True)
+
+        # Remove key used just for sorting:
+        for item in history:
+            del item["_sort_key"]
+
+        return history
 
     @export_config(json=False)
     def current_version(self):
