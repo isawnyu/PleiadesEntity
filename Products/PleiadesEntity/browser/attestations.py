@@ -296,10 +296,8 @@ class NamesTable(ChildrenTable):
         annotation += u')'
         return [u'', u' %s' % annotation][annotation is not None]
 
-
     def prefix(self, ob):
         return AssociationCertaintyWrapper(ob).snippet
-
 
     def rows(self, names):
         output = []
@@ -511,10 +509,16 @@ class ConnectionsTable(ChildrenTable):
         return result
 
     def rows(self, connections):
+        sorted_by_title = sorted(connections, key=lambda k: k[1].Title() or '')
+        output = self.build_rows(sorted_by_title)
+
+        return output
+
+    def build_rows(self, connections):
         output = []
         portal_state = self.context.restrictedTraverse("@@plone_portal_state")
         anonymous = portal_state.anonymous()
-        for score, ob, nrefs in sorted(connections, key=lambda k: k[1].Title() or ''):
+        for score, ob, nrefs in connections:
             if anonymous:
                 review_state = self.wftool.getInfoFor(ob, 'review_state')
                 if review_state != 'published':
@@ -577,7 +581,10 @@ class ReverseConnectionsTable(ConnectionsTable):
         if len(children) == 0 and portal_state.anonymous():
             rows = ['<span class="emptyChildItem"><em>None</em></span>']
         else:
-            rows = self.rows(children)
+            sorted_by_subject_title = sorted(
+                children, key=lambda c: self.subject(c[1]).Title() or ''
+            )
+            rows = self.build_rows(sorted_by_subject_title)
         b_start = self.request.form.get('b_start', '0')
         batch = Batch(rows, 50, int(b_start), orphan=5)
         return batch
