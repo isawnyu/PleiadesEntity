@@ -27,6 +27,7 @@ HEADERS = {
 TIMEOUT = 3.0
 OSM_API_ENDPOINT = "https://www.openstreetmap.org/api/0.6"
 OSM_BROWSE = "https://www.openstreetmap.org/browse"
+SUPPORTED_RELATION_TYPES = {'multipolygon', 'waterway', 'watershed', 'boundary'}
 LOCATION_ERROR = "OSM import failed because of an error in parsing coordinate geometry: "
 
 
@@ -89,11 +90,15 @@ class OSMLocationFactory(BrowserView):
             geometry = 'LineString:' + read_way_as_linestring(osm, elem)
         elif objtype == 'relation':
             relation_type = elem.find("tag[@k='type']").attrib.get('v')
-            if relation_type not in ('multipolygon', 'waterway',
-                                     'watershed', 'boundary'):
+            if relation_type not in SUPPORTED_RELATION_TYPES:
                 return self._fall_back(
-                    "Only relations of type 'multipolygon' and 'waterway' "
-                    "can be imported.")
+                    'the OSM resource you have tried to import is of type "{}", '
+                    "which is not supported. Supported relation types are:\n"
+                    "{}".format(
+                        relation_type, ", ".join(sorted(SUPPORTED_RELATION_TYPES))
+                    )
+                )
+
             ways = []
             # Only filter on waterway types when the relation is a waterway
             # of some sort:
