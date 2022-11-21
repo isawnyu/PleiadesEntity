@@ -27,7 +27,13 @@ HEADERS = {
 TIMEOUT = 3.0
 OSM_API_ENDPOINT = "https://www.openstreetmap.org/api/0.6"
 OSM_BROWSE = "https://www.openstreetmap.org/browse"
-SUPPORTED_RELATION_TYPES = {'multipolygon', 'waterway', 'watershed', 'boundary'}
+SUPPORTED_RELATION_TYPES = {
+    "boundary",
+    "multipolygon",
+    "site",
+    "watershed",
+    "waterway",
+}
 LOCATION_ERROR = "OSM import failed because of an error in parsing coordinate geometry: "
 
 
@@ -69,7 +75,11 @@ class OSMLocationFactory(BrowserView):
         resp = requests.get(url, headers=HEADERS, timeout=TIMEOUT)
         if not resp.status_code == 200:
             return self._fall_back(
-                "OSM API response: " + str(resp.status_code))
+                'Error retrieving "{}" resource with ID {}. '
+                'Is "{}" the correct type? (OSM API response: {})'.format(
+                    objtype, objid, objtype, resp.status_code
+                )
+            )
 
         osm = etree.fromstring(resp.content)
         elem = osm.find('{}[@id="{}"]'.format(objtype, objid))
