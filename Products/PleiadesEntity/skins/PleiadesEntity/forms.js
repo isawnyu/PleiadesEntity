@@ -66,4 +66,37 @@ jQuery(function () {
       'input.context[value="Add reference"]',
       enable_zotero
   );
+  console.log($('.copy-zotero-uri').prev().find("input"));
+  $('.copy-zotero-uri').prev().find("input").on('keyup', function (ev) {
+    var $this = $(this);
+    var currentValue = $this.val();
+    $button = $this.parent().next();
+    if (currentValue == "") {
+      $button.css("opacity", "0.5");
+    } else {
+      $button.css("opacity", "1");
+    }
+  });
+
+  $('.copy-zotero-uri').on('click', function (ev) {
+    // The field we're interested in is the previous sibling of the button
+    var $inputField = $(this).prev().find("input");
+    var $bibliographicURIField = $('input[id$="bibliographic_uri"]')
+    var currentValue = $inputField.val();
+    if (currentValue) {
+      var url = window.portal_url + '/query-bibliographic-data?q=' + encodeURIComponent(currentValue);
+      // Send a request to the backend using the fetch api, and log the result to the console
+      fetch(url).then(function(response) {
+        return response.json();
+      }).then(function(data) {
+        if (data.length == 1) {
+          $inputField.val(data[0].data.shortTitle);
+          $bibliographicURIField.val(data[0].links.alternate.href);
+        }
+      }).catch(function(err) {
+        console.log('Fetch Error :-S', err);
+      });
+    }
+    return false;
+  });
 });
