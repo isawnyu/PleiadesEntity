@@ -1,5 +1,6 @@
 from Products.CMFCore.utils import getToolByName
 from Products.Five import BrowserView
+import requests
 
 
 class ReferenceUtils(BrowserView):
@@ -14,3 +15,9 @@ class ReferenceUtils(BrowserView):
         # Now get the corresponding portal_catalog brains...
         catalog = getToolByName(self.context, 'portal_catalog')
         return catalog.searchResults(UID=uids)
+
+
+class QueryBibliographicData(BrowserView):
+    def __call__(self):
+        response =  requests.get("https://api.zotero.org/groups/2533/items", params={"q": self.request.get('q')})
+        return response.text

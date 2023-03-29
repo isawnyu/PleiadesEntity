@@ -99,4 +99,11 @@
     permission="cmf.ManagePortal"
     />
 
+  <browser:page
+    name="query-bibliographic-data"
+    for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+    class=".references.QueryBibliographicData"
+    permission="zope2.View"
+    />
+
 </configure>
