@@ -66,8 +66,7 @@ jQuery(function () {
       'input.context[value="Add reference"]',
       enable_zotero
   );
-  console.log($('.copy-zotero-uri').prev().find("input"));
-  $('.copy-zotero-uri').prev().find("input").on('keyup', function (ev) {
+  $('.short-title-wrapper input').live('keyup', function (ev) {
     var $this = $(this);
     var currentValue = $this.val();
     $button = $this.parent().next();
@@ -78,20 +77,37 @@ jQuery(function () {
     }
   });
 
-  $('.copy-zotero-uri').on('click', function (ev) {
-    // The field we're interested in is the previous sibling of the button
-    var $inputField = $(this).prev().find("input");
+  const setIcon = (button, icon) => {
+    button.text(button.text().trim().replace(/^[^ ]* /, icon + ' '));
+  }
+
+  $('.short-title-wrapper .copy-zotero-uri').live('click', function (ev) {
+    ev.preventDefault();
+    $this = $(this);
+    var $inputField = $this.parent("div.short-title-wrapper").find("input");
+    var $resultDiv = $this.parent("div.short-title-wrapper").find(".zotero-api-result");
     var $bibliographicURIField = $('input[id$="bibliographic_uri"]')
     var currentValue = $inputField.val();
-    if (currentValue) {
+    if (currentValue && ! $this.attr("data-fetching")) {
       var url = window.portal_url + '/query-bibliographic-data?q=' + encodeURIComponent(currentValue);
       // Send a request to the backend using the fetch api, and log the result to the console
+      setIcon($this, "⏳");
+      $this.css("opacity", "0.5");
+      $this.attr("data-fetching", "true")
       fetch(url).then(function(response) {
         return response.json();
       }).then(function(data) {
+        $this.attr("data-fetching", "")
+        $this.css("opacity", "1");
+        setIcon($this, "🔽");
         if (data.length == 1) {
           $inputField.val(data[0].data.shortTitle);
           $bibliographicURIField.val(data[0].links.alternate.href);
+          $resultDiv.css("background-color", "white");
+          $resultDiv.text("");
+        } else if (data.length == 0) {
+          $resultDiv.text("No results found searching for " + currentValue);
+          $resultDiv.css("background-color", "lightpink");
         }
       }).catch(function(err) {
         console.log('Fetch Error :-S', err);
