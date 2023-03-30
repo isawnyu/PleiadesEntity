@@ -266,6 +266,7 @@ class OSMDateRefresh(BrowserView):
             osm_data = fetch_osm_by_type_and_id(objtype, objid)
         except OSMRetrievalError as e:
             show_osm_error(locn, self.request, str(e))
+            return
 
         # Update the context Location
         locn.setGeometry(osm_data["geometry"])
