@@ -14,7 +14,7 @@
     class=".attestations.PlacefulAttestations"
     permission="zope2.View"
     />
-    
+
   <browser:view
     for="Products.PleiadesEntity.content.interfaces.IFeature"
     name="attestations"
@@ -73,6 +73,13 @@
     for="Products.PleiadesEntity.content.interfaces.IPlace"
     name="create-location-osm"
     class=".osm.OSMLocationFactory"
+    permission="pleiades.addLocation"
+    />
+
+  <browser:view
+    for="Products.PleiadesEntity.content.interfaces.ILocation"
+    name="refresh-osm-data"
+    class=".osm.OSMDateRefresh"
     permission="pleiades.addLocation"
     />
 

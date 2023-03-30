@@ -10,13 +10,13 @@ Add entities
 
     >>> fid = features.invokeFactory('Feature', '0', title='Test')
     >>> f = features[fid]
-    >>> nameAttested = u'\u039d\u03b9\u03bd\u1f79\u03b7'.encode('utf-8')    
+    >>> nameAttested = u'\u039d\u03b9\u03bd\u1f79\u03b7'.encode('utf-8')
     >>> nid = f.invokeFactory('Name', 'ninoe', nameAttested=nameAttested, nameLanguage='grc', nameType='geographic', accuracy='accurate', completeness='complete')
     >>> lid = f.invokeFactory('Location', 'p1', title='Point 1', geometry='Point:[-86.4808333333333, 34.769722222222]')
     >>> pid = places.invokeFactory('Place', '0', title='Test')
     >>> p = places[pid]
     >>> nid = p.invokeFactory('Name', 'ninoe', nameAttested=nameAttested, nameLanguage='grc', nameType='geographic', accuracy='accurate', completeness='complete')
-    
+
 And references
 
     >>> _ = f.addReference(p, 'feature_place')
@@ -31,7 +31,6 @@ Test @@attestations view
 
     >>> atts = f.restrictedTraverse('@@attestations')
     >>> atts.names
-    [(<Name at /plone/Members/test_user_1_/features/0/ninoe>, 'Attested dates needed')]
+    [(<Name at /plone/Members/test_user_1_/features/0/ninoe>, 'unspecified date range')]
     >>> atts.locations
-    [(<Location at /plone/Members/test_user_1_/features/0/p1>, 'Attested dates needed')]
-    
+    [(<Location at /plone/Members/test_user_1_/features/0/p1>, 'unspecified date range')]
