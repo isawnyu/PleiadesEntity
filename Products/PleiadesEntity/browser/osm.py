@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from DateTime import DateTime
 from lxml import etree
 from Products.CMFCore.utils import getToolByName
@@ -56,6 +57,102 @@ def read_way_as_linestring(root, way):
     return '[' + ','.join(coords) + ']'
 
 
+class OSMRetrievalError(Exception):
+    """OSM data could not be retrieved or was invalid."""
+    pass
+
+
+def fetch_osm_by_type_and_id(objtype, objid):
+    """Fetch data from OSM API for a type + ID combintation.
+
+    @return dict  OSM data:
+    {
+        'changeset': '128834901',
+        'geometry': 'Point:[103.8669282,13.4114999]',
+        'tag_name': u'ច្រកទ្វារខាងត្បូង',
+        'timestamp': '2022-11-13T07:03:06Z',
+        'version': '22'
+    }
+    """
+    result = {}
+    url = "/".join(
+        [OSM_API_ENDPOINT, objtype, objid] +
+        ([] if objtype == 'node' else ['full'])
+    )
+    resp = requests.get(url, headers=HEADERS, timeout=TIMEOUT)
+    if not resp.status_code == 200:
+        raise OSMRetrievalError(
+            'Error retrieving "{type}" resource with ID {id} (URL: {url}). '
+            'Is "{type}" the correct type? (OSM API response: {status})'.format(
+                type=objtype, id=objid, url=url, status=resp.status_code
+            )
+        )
+
+    osm = etree.fromstring(resp.content)
+    elem = osm.find('{}[@id="{}"]'.format(objtype, objid))
+    if elem is None:
+        raise OSMRetrievalError('{} {} not found'.format(objtype, objid))
+
+    result["version"] = elem.attrib.get("version")
+    result["changeset"] = elem.attrib.get("changeset")
+    result["timestamp"] = elem.attrib.get("timestamp")
+    result["tag_name"] = getattr(
+        elem.find("tag[@k='name']"), "attrib", {}).get("v", None)
+
+    if objtype == "node":
+        lon = elem.attrib.get("lon")
+        lat = elem.attrib.get("lat")
+        result["geometry"] = "Point:[%s,%s]" % (lon, lat)
+    elif objtype == "way":
+        result["geometry"] = 'LineString:' + read_way_as_linestring(osm, elem)
+    elif objtype == 'relation':
+        relation_type = elem.find("tag[@k='type']").attrib.get('v')
+        if relation_type not in SUPPORTED_RELATION_TYPES:
+            raise OSMRetrievalError(
+                'the OSM resource you have tried to import is of type "{}", '
+                "which is not supported. Supported relation types are:\n"
+                "{}".format(
+                    relation_type, ", ".join(sorted(SUPPORTED_RELATION_TYPES))
+                )
+            )
+
+        ways = []
+        # Only filter on waterway types when the relation is a waterway
+        # of some sort:
+        if relation_type in ('waterway', 'watershed'):
+            nodes = elem.findall("member[@type='way'][@role='main_stream']")
+        else:
+            nodes = elem.findall("member[@type='way']")
+        if not nodes:
+            # If not we look up the `<way>` corresponding to each `<member>`
+            # to see if it includes a tag with `k='waterway'` and an element of
+            # VALID_WATERWAYS as value.
+            for member in elem.findall("member[@type='way']"):
+                way = osm.find("way[@id='%s']" % member.get("ref"))
+                for waterway in VALID_WATERWAYS:
+                    if way.find("tag[@k='waterway'][@v='{waterway}']" .format(waterway=waterway)) is not None:
+                        nodes.append(member)
+                        break
+            if not nodes:
+                # In case we found no main_stream <member>s nor any valid waterway tags,
+                # we bail out and let the user know
+                raise OSMRetrievalError(
+                    "cannot import OSM relation: unexpected encoding lacks "
+                    "role=main_stream or tag k=waterway v=river")
+        for member in nodes:
+            way_id = member.attrib.get('ref')
+            way = osm.find("way[@id='%s']" % way_id)
+            ways.append(read_way_as_linestring(osm, way))
+        if not ways:
+            # Something went wrong. We don't know what, but we don't want
+            # to go on with an empty geometry.
+            raise OSMRetrievalError(
+                "cannot import OSM relation: no <way>s found")
+        result["geometry"] = 'MultiLineString:[' + ','.join(ways) + ']'
+
+    return result
+
+
 class OSMLocationFactory(BrowserView):
     # Makes a location using only an OSM node/way/relation id.
     # Terribly raw at the moment. A mere glance reveals so many places
@@ -70,92 +167,22 @@ class OSMLocationFactory(BrowserView):
         self.request.response.redirect(self.context.absolute_url())
 
     def __call__(self):
-
         try:
             objid = str(int(self.request.get('obj')))
             objtype = str(self.request.get('type'))
         except (TypeError, ValueError) as e:
             return self._fall_back(str(e))
 
-        url = "/".join([OSM_API_ENDPOINT, objtype, objid] + (
-            [] if objtype == 'node' else ['full']))
-
-        resp = requests.get(url, headers=HEADERS, timeout=TIMEOUT)
-        if not resp.status_code == 200:
-            return self._fall_back(
-                'Error retrieving "{}" resource with ID {}. '
-                'Is "{}" the correct type? (OSM API response: {})'.format(
-                    objtype, objid, objtype, resp.status_code
-                )
-            )
-
-        osm = etree.fromstring(resp.content)
-        elem = osm.find('{}[@id="{}"]'.format(objtype, objid))
-        if elem is None:
-            raise Exception('{} {} not found'.format(objtype, objid))
-
-        version = elem.attrib.get("version")
-        changeset = elem.attrib.get("changeset")
-        timestamp = elem.attrib.get("timestamp")
-        tag_name = getattr(
-            elem.find("tag[@k='name']"), "attrib", {}).get("v", None)
-
-        if objtype == "node":
-            lon = elem.attrib.get("lon")
-            lat = elem.attrib.get("lat")
-            geometry = "Point:[%s,%s]" % (lon, lat)
-        elif objtype == "way":
-            geometry = 'LineString:' + read_way_as_linestring(osm, elem)
-        elif objtype == 'relation':
-            relation_type = elem.find("tag[@k='type']").attrib.get('v')
-            if relation_type not in SUPPORTED_RELATION_TYPES:
-                return self._fall_back(
-                    'the OSM resource you have tried to import is of type "{}", '
-                    "which is not supported. Supported relation types are:\n"
-                    "{}".format(
-                        relation_type, ", ".join(sorted(SUPPORTED_RELATION_TYPES))
-                    )
-                )
-
-            ways = []
-            # Only filter on waterway types when the relation is a waterway
-            # of some sort:
-            if relation_type in ('waterway', 'watershed'):
-                nodes = elem.findall("member[@type='way'][@role='main_stream']")
-            else:
-                nodes = elem.findall("member[@type='way']")
-            if not nodes:
-                # If not we look up the `<way>` corresponding to each `<member>`
-                # to see if it includes a tag with `k='waterway'` and an element of
-                # VALID_WATERWAYS as value.
-                for member in elem.findall("member[@type='way']"):
-                    way = osm.find("way[@id='%s']" % member.get("ref"))
-                    for waterway in VALID_WATERWAYS:
-                        if way.find("tag[@k='waterway'][@v='{waterway}']" .format(waterway=waterway)) is not None:
-                            nodes.append(member)
-                            break
-                if not nodes:
-                    # In case we found no main_stream <member>s nor any valid waterway tags,
-                    # we bail out and let the user know
-                    return self._fall_back(
-                        "cannot import OSM relation: unexpected encoding lacks "
-                        "role=main_stream or tag k=waterway v=river")
-            for member in nodes:
-                way_id = member.attrib.get('ref')
-                way = osm.find("way[@id='%s']" % way_id)
-                ways.append(read_way_as_linestring(osm, way))
-            if not ways:
-                # Something went wrong. We don't know what, but we don't want
-                # to go on with an empty geometry.
-                return self._fall_back(
-                    "cannot import OSM relation: no <way>s found")
-            geometry = 'MultiLineString:[' + ','.join(ways) + ']'
+        try:
+            osm_data = fetch_osm_by_type_and_id(objtype, objid)
+        except OSMRetrievalError as e:
+            return self._fall_back(str(e))
 
         ptool = getToolByName(self.context, 'plone_utils')
         repo = getToolByName(self.context, 'portal_repository')
         site = getToolByName(self.context, 'portal_url').getPortalObject()
 
-        title = self.request.get('title') or tag_name or "OSM %s %s" % (
+        title = self.request.get('title') or osm_data.get("tag_name") or "OSM %s %s" % (
             objtype.capitalize(), objid)
         name = ptool.normalizeString(title)
 
@@ -172,12 +199,17 @@ class OSMLocationFactory(BrowserView):
             locn = self.context[locid]
             locn.setTitle(title)
             locn.setDescription(u"Location based on OpenStreetMap")
-            locn.setGeometry(geometry)
+            locn.setGeometry(osm_data["geometry"])
             locn.setInitialProvenance(
                 u"OpenStreetMap (%s %s, version %s, "
                 u"osm:changeset=%s, %s)" % (
-                    objtype.capitalize(), objid,
-                    version, changeset, timestamp))
+                    objtype.capitalize(),
+                    objid,
+                    osm_data["version"],
+                    osm_data["changeset"],
+                    osm_data["timestamp"]
+                )
+            )
         except Exception as e:
             return self._fall_back(str(e))
 
