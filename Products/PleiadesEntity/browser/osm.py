@@ -25,6 +25,7 @@ HEADERS = {
     'user-agent': user_agent
 }
 TIMEOUT = 3.0
+LOCATION_ERROR = "OSM import failed because of an error in parsing coordinate geometry: "
 OSM_API_ENDPOINT = "https://www.openstreetmap.org/api/0.6"
 OSM_BROWSE = "https://www.openstreetmap.org/browse"
 SUPPORTED_RELATION_TYPES = {
@@ -34,7 +35,14 @@ SUPPORTED_RELATION_TYPES = {
     "watershed",
     "waterway",
 }
-LOCATION_ERROR = "OSM import failed because of an error in parsing coordinate geometry: "
+VALID_WATERWAYS = [
+    'river',
+    'stream',
+    'tidal_channel',
+    'canal',
+    'waterfall',
+    'rapids',
+]
 
 
 def read_way_as_linestring(root, way):
@@ -200,12 +208,3 @@ class OSMLocationFactory(BrowserView):
         locn.reindexObject()
 
         self.request.response.redirect("%s/edit" % locn.absolute_url())
-
-VALID_WATERWAYS = [
-    'river',
-    'stream',
-    'tidal_channel',
-    'canal',
-    'waterfall',
-    'rapids',
-]
