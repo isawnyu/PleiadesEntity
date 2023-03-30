@@ -86,7 +86,7 @@ jQuery(function () {
     $this = $(this);
     var $inputField = $this.parent("div.short-title-wrapper").find("input");
     var $resultDiv = $this.parent("div.short-title-wrapper").find(".zotero-api-result");
-    var $bibliographicURIField = $('input[id$="bibliographic_uri"]')
+    var $bibliographicURIField = $this.closest("fieldset").find('input[id$="bibliographic_uri"]');
     var currentValue = $inputField.val();
     if (currentValue && ! $this.attr("data-fetching")) {
       var url = window.portal_url + '/query-bibliographic-data?q=' + encodeURIComponent(currentValue);
