@@ -3,7 +3,7 @@
         meta_type="Factory-based Type Information with dynamic views"
         xmlns:i18n="http://xml.zope.org/namespaces/i18n"
         i18n:domain="plone">
-   
+
  <property name="title" i18n:translate="">Location</property>
  <property name="description" i18n:translate="">A spatial object with geometry and sources that attest to its existence in time.</property>
  <property name="content_icon">resource_type_icons/location-blue.png</property>
@@ -25,20 +25,20 @@
  <alias from="index.html" to="(dynamic view)"/>
  <alias from="view" to="(selected layout)"/>
  <alias from="edit" to="base_edit"/>
- <action title="Edit" 
+ <action title="Edit"
          action_id="edit"
-         category="object" 
+         category="object"
          condition_expr="not:object/@@plone_lock_info/is_locked_for_current_user"
-         url_expr="string:${object_url}/edit" 
+         url_expr="string:${object_url}/edit"
          visible="True">
   <permission value="Modify portal content"/>
  </action>
- <action title="view" 
+ <action title="view"
          i18n:attributes="title"
          action_id="view"
-         category="object" 
+         category="object"
          condition_expr="python:1"
-         url_expr="string:${object_url}/base_view" 
+         url_expr="string:${object_url}/base_view"
          visible="True">
   <permission value="View"/>
  </action>
@@ -48,5 +48,12 @@
          url_expr="string:${object_url}/promote-to-place"
          visible="True">
   <permission value="Manage portal" />
+ </action>
+ <action title="Refresh OSM Data"
+         action_id="refresh-osm-data"
+         category="object_buttons"
+         url_expr="string:${object_url}/@@refresh-osm-data"
+         visible="True">
+  <permission value="pleiades.addLocation" />
  </action>
 </object>
