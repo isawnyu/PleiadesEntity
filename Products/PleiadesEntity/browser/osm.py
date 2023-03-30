@@ -1,14 +1,16 @@
 # -*- coding: utf-8 -*-
+import datetime
+import logging
+import pkg_resources
+import re
+import requests
 from DateTime import DateTime
 from lxml import etree
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone import PloneMessageFactory as _
 from Products.Five.browser import BrowserView
+from Products.statusmessages.interfaces import IStatusMessage
 from zExceptions import BadRequest
-import datetime
-import logging
-import pkg_resources
-import requests
 
 
 MESSAGE = (
@@ -57,6 +59,16 @@ def read_way_as_linestring(root, way):
     return '[' + ','.join(coords) + ']'
 
 
+def show_osm_error(context, request, msg):
+    """Display a status message error and redirect to
+    the view of the context.
+    """
+    IStatusMessage(request).addStatusMessage(
+        _(LOCATION_ERROR + msg.rstrip('.') + "."),
+        type="error"
+    )
+    request.response.redirect(context.absolute_url())
+
 class OSMRetrievalError(Exception):
     """OSM data could not be retrieved or was invalid."""
     pass
@@ -67,17 +79,18 @@ def fetch_osm_by_type_and_id(objtype, objid):
 
     @return dict  OSM data:
     {
-        'changeset': '128834901',
-        'geometry': 'Point:[103.8669282,13.4114999]',
-        'tag_name': u'ច្រកទ្វារខាងត្បូង',
-        'timestamp': '2022-11-13T07:03:06Z',
-        'version': '22'
+        "changeset": "128834901",
+        "geometry": "Point:[103.8669282,13.4114999]",
+        "tag_name": u"ច្រកទ្វារខាងត្បូង",
+        "timestamp": "2022-11-13T07:03:06Z",
+        "version": "22"
     }
     """
     result = {}
+    objtype = objtype.lower()
     url = "/".join(
         [OSM_API_ENDPOINT, objtype, objid] +
-        ([] if objtype == 'node' else ['full'])
+        ([] if objtype == "node" else ["full"])
     )
     resp = requests.get(url, headers=HEADERS, timeout=TIMEOUT)
     if not resp.status_code == 200:
@@ -119,7 +132,7 @@ def fetch_osm_by_type_and_id(objtype, objid):
         ways = []
         # Only filter on waterway types when the relation is a waterway
         # of some sort:
-        if relation_type in ('waterway', 'watershed'):
+        if relation_type in ("waterway", "watershed"):
             nodes = elem.findall("member[@type='way'][@role='main_stream']")
         else:
             nodes = elem.findall("member[@type='way']")
@@ -140,7 +153,7 @@ def fetch_osm_by_type_and_id(objtype, objid):
                     "cannot import OSM relation: unexpected encoding lacks "
                     "role=main_stream or tag k=waterway v=river")
         for member in nodes:
-            way_id = member.attrib.get('ref')
+            way_id = member.attrib.get("ref")
             way = osm.find("way[@id='%s']" % way_id)
             ways.append(read_way_as_linestring(osm, way))
         if not ways:
@@ -148,7 +161,7 @@ def fetch_osm_by_type_and_id(objtype, objid):
             # to go on with an empty geometry.
             raise OSMRetrievalError(
                 "cannot import OSM relation: no <way>s found")
-        result["geometry"] = 'MultiLineString:[' + ','.join(ways) + ']'
+        result["geometry"] = "MultiLineString:[" + ",".join(ways) + "]"
 
     return result
 
@@ -159,12 +172,7 @@ class OSMLocationFactory(BrowserView):
     # this can fail ungracefully.
 
     def _fall_back(self, msg):
-        # Redirects back to context with a message
-        getToolByName(
-            self.context, 'plone_utils').addPortalMessage(
-                _(LOCATION_ERROR + msg.rstrip('.') + "."),
-                type='error')
-        self.request.response.redirect(self.context.absolute_url())
+        show_osm_error(self.context, self.request, msg)
 
     def __call__(self):
         try:
@@ -240,3 +248,41 @@ class OSMLocationFactory(BrowserView):
         locn.reindexObject()
 
         self.request.response.redirect("%s/edit" % locn.absolute_url())
+
+
+class OSMDateRefresh(BrowserView):
+    """Re-fetch the latest OSM data and update the context Location."""
+
+    def __call__(self):
+        locn = self.context
+        repo = getToolByName(locn, "portal_repository")
+        type_and_id_regex = r"^OpenStreetMap \((\w+) (\d+), version"
+        provenance_str = locn.getInitialProvenance()
+        match = re.match(type_and_id_regex, provenance_str)
+        objtype, objid = match.groups()
+
+        # Get the latest data from the OSM API
+        try:
+            osm_data = fetch_osm_by_type_and_id(objtype, objid)
+        except OSMRetrievalError as e:
+            show_osm_error(locn, self.request, str(e))
+
+        # Update the context Location
+        locn.setGeometry(osm_data["geometry"])
+        locn.setInitialProvenance(
+            u"OpenStreetMap (%s %s, version %s, "
+            u"osm:changeset=%s, %s)" % (
+                objtype.capitalize(),
+                objid,
+                osm_data["version"],
+                osm_data["changeset"],
+                osm_data["timestamp"]
+            )
+        )
+        locn.setModificationDate(DateTime(datetime.datetime.now().isoformat()))
+        msg = "Reimported full {} geometry and updated provenance".format(objtype)
+        repo.save(locn, msg)
+        locn.reindexObject()
+
+        IStatusMessage(self.request).addStatusMessage(msg, type="info")
+        self.request.response.redirect(locn.absolute_url())
