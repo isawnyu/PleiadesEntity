@@ -255,18 +255,19 @@ class OSMDateRefresh(BrowserView):
     def __call__(self):
         locn = self.context
         repo = getToolByName(locn, "portal_repository")
-        # get first data source, or None:
+        # get first data source referencing OSM, or None:
         data_source = next(
             iter(
                 s for s in locn.getReferenceCitations()
                 if s.get("type") == "citesAsDataSource"
+                and "//www.openstreetmap.org/browse/" in s.get("access_uri", "")
             ),
             None
         )
         if data_source is None:
             IStatusMessage(self.request).addStatusMessage(
                 _(
-                    "Location has no existing Data Source citation, "
+                    "Location has no existing OSM Data Source citation, "
                     "so OSM data cannot be refreshed."
                 ),
                 type="error"
