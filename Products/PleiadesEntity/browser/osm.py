@@ -260,7 +260,7 @@ class OSMDateRefresh(BrowserView):
             iter(
                 s for s in locn.getReferenceCitations()
                 if s.get("type") == "citesAsDataSource"
-                and "//www.openstreetmap.org/browse/" in s.get("access_uri", "")
+                and "//www.openstreetmap.org/" in s.get("access_uri", "")
             ),
             None
         )
