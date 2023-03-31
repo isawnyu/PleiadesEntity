@@ -67,6 +67,8 @@ jQuery(function () {
       'input.context[value="Add reference"]',
       enable_zotero
   );
+  const default_works = pleiades_default_works.map(function(el) {return el.short_title})
+  // $('.short-title-wrapper input').autocomplete({source: [default_works]})
   $('.short-title-wrapper input').live('keyup', function (ev) {
     var $this = $(this);
     var currentValue = $this.val();
