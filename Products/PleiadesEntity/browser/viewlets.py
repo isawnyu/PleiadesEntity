@@ -9,4 +9,7 @@ class DefaultWorksViewlet(common.ViewletBase):
     def index(self):
         registry = getUtility(IRegistry)
         settings = registry.forInterface(IPleiadesSettings)
-        return "<script>pleiades_default_works = {}</script>".format(json.dumps(settings.default_works))
+        pleiades_default_works = {}
+        for work in settings.default_works:
+            pleiades_default_works[work['short_title']] = work['zotero_uri']
+        return "<script>pleiades_default_works = {}</script>".format(json.dumps(pleiades_default_works))

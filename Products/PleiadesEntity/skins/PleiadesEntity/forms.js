@@ -152,6 +152,14 @@ jQuery(function () {
     $shortTitleField.val($this.attr("data-short-title"));
     return false;
   });
-  const default_works = pleiades_default_works.map(function(el) {return el.short_title})
-  //$('.short-title-wrapper input').autocomplete({source: [default_works]});
+  const default_works = Object.keys(pleiades_default_works);
+  $('.short-title-wrapper input').each(function(i, el) {
+    var $bibliographicURIField = $(el).closest("fieldset").find('input[id$="bibliographic_uri"]');
+    $(el).autocomplete({
+      source: [default_works],
+      afterSelected: function () {
+        $bibliographicURIField.val(pleiades_default_works[$(el).val()]);
+      }
+    });
+  });
 });
