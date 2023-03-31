@@ -2,7 +2,6 @@
 import datetime
 import logging
 import pkg_resources
-import re
 import requests
 from DateTime import DateTime
 from lxml import etree
@@ -256,10 +255,27 @@ class OSMDateRefresh(BrowserView):
     def __call__(self):
         locn = self.context
         repo = getToolByName(locn, "portal_repository")
-        type_and_id_regex = r"^OpenStreetMap \((\w+) (\d+), version"
-        provenance_str = locn.getInitialProvenance()
-        match = re.match(type_and_id_regex, provenance_str)
-        objtype, objid = match.groups()
+        # get first data source referencing OSM, or None:
+        data_source = next(
+            iter(
+                s for s in locn.getReferenceCitations()
+                if s.get("type") == "citesAsDataSource"
+                and "//www.openstreetmap.org/browse/" in s.get("access_uri", "")
+            ),
+            None
+        )
+        if data_source is None:
+            IStatusMessage(self.request).addStatusMessage(
+                _(
+                    "Location has no existing OSM Data Source citation, "
+                    "so OSM data cannot be refreshed."
+                ),
+                type="error"
+            )
+            self.request.response.redirect(locn.absolute_url())
+            return
+
+        objtype, objid = data_source["access_uri"].split("/")[-2:]
 
         # Get the latest data from the OSM API
         try:
