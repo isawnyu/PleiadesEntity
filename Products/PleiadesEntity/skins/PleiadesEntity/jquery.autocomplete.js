@@ -1068,16 +1068,15 @@
 					return;
 				}
 
+				$dropdown.html("");
 				$(out).each(function(){
 					this.css($.extend(true,{
 						paddingLeft:$input.css('paddingLeft'),
 						paddingRight:$input.css('paddingRight')
 					},options.itemStyle));
+					$dropdown.append(this);
 				});
 
-				$dropdown
-					.html(out);
-					
 				if (options.visibleHeight){
 					hght = options.visibleHeight;
 				} else {
