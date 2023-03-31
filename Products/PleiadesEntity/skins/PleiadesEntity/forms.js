@@ -67,8 +67,6 @@ jQuery(function () {
       'input.context[value="Add reference"]',
       enable_zotero
   );
-  const default_works = pleiades_default_works.map(function(el) {return el.short_title})
-  // $('.short-title-wrapper input').autocomplete({source: [default_works]})
   $('.short-title-wrapper input').live('keyup', function (ev) {
     var $this = $(this);
     var currentValue = $this.val();
@@ -92,11 +90,12 @@ jQuery(function () {
     var $bibliographicURIField = $this.closest("fieldset").find('input[id$="bibliographic_uri"]');
     var currentValue = $inputField.val();
     if (currentValue && ! $this.attr("data-fetching")) {
-      var url = 'https://api.zotero.org/groups/2533/items?q=' + encodeURIComponent(currentValue);
+      var url = 'https://api.zotero.org/groups/2533/items?limit=10&q=' + encodeURIComponent(currentValue);
       // Send a request to the backend using the fetch api, and log the result to the console
       setIcon($this, "⏳");
       $this.css("opacity", "0.5");
       $this.attr("data-fetching", "true")
+      $this.attr("data-fetching", "")
       fetch(url).then(function(response) {
         return response.json();
       }).then(function(data) {
@@ -125,7 +124,6 @@ jQuery(function () {
               { "url": item_url },
               function (data) {
                 if (data.error) { $(".zotero-item-" + item.key).css("color", "red").attr("data-invalid", "true"); return }
-                console.log(data);
                 $(".zotero-item-" + item.key).html(data.formatted_citation);
               }).fail(function () {
                 markError($(".zotero-item-" + item.key))
@@ -155,4 +153,6 @@ jQuery(function () {
     $shortTitleField.val($this.attr("data-short-title"));
     return false;
   });
+  const default_works = pleiades_default_works.map(function(el) {return el.short_title})
+  //$('.short-title-wrapper input').autocomplete({source: [default_works]});
 });
