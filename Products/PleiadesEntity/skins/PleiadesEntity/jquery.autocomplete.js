@@ -647,7 +647,6 @@
 		$box
 			.css({
 				'display':$input.css('display'),
-				'width':$input.css('width')
 			});
 		
 		if( options.style )
