@@ -94,8 +94,8 @@ jQuery(function () {
       // Send a request to the backend using the fetch api, and log the result to the console
       setIcon($this, "⏳");
       $this.css("opacity", "0.5");
-      $this.attr("data-fetching", "true")
-      $this.attr("data-fetching", "")
+      $this.attr("data-fetching", "true");
+      $resultDiv.text("");
       fetch(url).then(function(response) {
         return response.json();
       }).then(function(data) {
@@ -106,7 +106,6 @@ jQuery(function () {
           $inputField.val(data[0].data.shortTitle);
           $bibliographicURIField.val(data[0].links.alternate.href);
           $resultDiv.css("background-color", "white");
-          $resultDiv.text("");
         } else if (data.length == 0) {
           $resultDiv.text("No results found searching for " + currentValue);
           $resultDiv.css("background-color", "lightpink");
