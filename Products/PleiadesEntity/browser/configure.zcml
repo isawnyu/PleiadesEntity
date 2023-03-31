@@ -113,4 +113,12 @@
     permission="zope2.View"
     />
 
+  <browser:viewlet
+    name="Products.PleiadesEntity.default-works"
+    for="Products.PleiadesEntity.content.interfaces.IName"
+    manager="plone.app.layout.viewlets.interfaces.IPortalTop"
+    class=".viewlets.DefaultWorksViewlet"
+    permission="zope.Public"
+    />
+
 </configure>

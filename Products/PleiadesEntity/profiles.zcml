@@ -107,4 +107,13 @@
       handler="Products.PleiadesEntity.setuphandlers.clean_descriptions"
       />
 
+  <upgradeDepends
+      profile="Products.PleiadesEntity:default"
+      source="1007"
+      destination="1008"
+      title="Include autocomplete js and css"
+      description=""
+      import_steps="jsregistry cssregistry"
+      />
+
 </configure>

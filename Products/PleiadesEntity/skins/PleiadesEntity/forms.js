@@ -1,5 +1,8 @@
 
 jQuery(function () {
+  var p_url = portal_url[portal_url.length - 1] != '/' ? portal_url : portal_url.substring(0, portal_url.length - 1)
+  var fetch_url = p_url + '/@@fetch-bibliographic-data';
+
   function enable_zotero() {
     var $bib_uri_inputs = $('#archetypes-fieldname-array-fieldset-referenceCitations input[id$="\\|bibliographic_uri"]');
     $bib_uri_inputs.each(function (i, el) {
@@ -15,8 +18,6 @@ jQuery(function () {
         var uri = $bib_uri_input.val();
         ev.preventDefault();
         if (uri) {
-          var p_url = portal_url[portal_url.length - 1] != '/' ? portal_url : portal_url.substring(0, portal_url.length - 1)
-          var fetch_url = p_url + '/@@fetch-bibliographic-data';
           $.getJSON(
             fetch_url,
             {"url": uri},
@@ -89,11 +90,12 @@ jQuery(function () {
     var $bibliographicURIField = $this.closest("fieldset").find('input[id$="bibliographic_uri"]');
     var currentValue = $inputField.val();
     if (currentValue && ! $this.attr("data-fetching")) {
-      var url = window.portal_url + '/query-bibliographic-data?q=' + encodeURIComponent(currentValue);
+      var url = 'https://api.zotero.org/groups/2533/items?limit=10&q=' + encodeURIComponent(currentValue);
       // Send a request to the backend using the fetch api, and log the result to the console
       setIcon($this, "⏳");
       $this.css("opacity", "0.5");
       $this.attr("data-fetching", "true")
+      $this.attr("data-fetching", "")
       fetch(url).then(function(response) {
         return response.json();
       }).then(function(data) {
@@ -108,11 +110,49 @@ jQuery(function () {
         } else if (data.length == 0) {
           $resultDiv.text("No results found searching for " + currentValue);
           $resultDiv.css("background-color", "lightpink");
-        }
-      }).catch(function(err) {
+        } else {
+          $resultDiv.html("Results found for <i>" + currentValue + "</i>:");
+          $resultDiv.css("background-color", "lightgrey");
+          // Loop over data
+          data.forEach(function(item) {
+            var item_url = 'https://www.zotero.org/groups/pleiades/items/' + item.key;
+            var link_text = '<a data-short-title="' + item.data.shortTitle + '" class="zotero-choice zotero-item-' + item.key;
+            link_text += '" href="' + item_url + '">⏳'+ (item.data.shortTitle || item.data.title) + '</a>'
+            $resultDiv[0].innerHTML += '<br />' + link_text;
+            $.getJSON(
+              fetch_url,
+              { "url": item_url },
+              function (data) {
+                if (data.error) { $(".zotero-item-" + item.key).css("color", "red").attr("data-invalid", "true"); return }
+                $(".zotero-item-" + item.key).html(data.formatted_citation);
+              }).fail(function () {
+                markError($(".zotero-item-" + item.key))
+            });
+        });
+      }
+    }).catch(function(err) {
         console.log('Fetch Error :-S', err);
       });
     }
     return false;
   });
+  function markError($link) {
+    $link.css("color", "red").attr("data-invalid", "true");
+    var body = $link.html();
+    $link.html(body.replace(/⏳/g, "⚠️"));
+  }
+  $("a.zotero-choice").live("click", function (ev) {
+    ev.preventDefault();
+    var $this = $(this);
+    if ($this.attr("data-invalid")) { return false; }
+    var $bibliographicURIField = $this.closest("fieldset").find('input[id$="bibliographic_uri"]');
+    $bibliographicURIField.val($this.attr("href"));
+    var $formattedCitationField = $this.closest("fieldset").find('input[id$="formatted_citation"]');
+    $formattedCitationField.val($this.html());
+    var $shortTitleField = $this.closest("div.short-title-wrapper").find("input");
+    $shortTitleField.val($this.attr("data-short-title"));
+    return false;
+  });
+  const default_works = pleiades_default_works.map(function(el) {return el.short_title})
+  //$('.short-title-wrapper input').autocomplete({source: [default_works]});
 });
