@@ -54,6 +54,6 @@
          category="object_buttons"
          url_expr="string:${object_url}/@@refresh-osm-data"
          visible="True">
-  <permission value="pleiades.addLocation" />
+  <permission value="cmf.ModifyPortalContent" />
  </action>
 </object>

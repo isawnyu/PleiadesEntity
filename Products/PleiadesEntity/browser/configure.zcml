@@ -80,7 +80,7 @@
     for="Products.PleiadesEntity.content.interfaces.ILocation"
     name="refresh-osm-data"
     class=".osm.OSMDateRefresh"
-    permission="pleiades.addLocation"
+    permission="cmf.ModifyPortalContent"
     />
 
   <browser:view
