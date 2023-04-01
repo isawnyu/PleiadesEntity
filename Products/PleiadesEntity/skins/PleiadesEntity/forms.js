@@ -90,7 +90,7 @@ jQuery(function () {
     var $bibliographicURIField = $this.closest("fieldset").find('input[id$="bibliographic_uri"]');
     var currentValue = $inputField.val();
     if (currentValue && ! $this.attr("data-fetching")) {
-      var url = 'https://api.zotero.org/groups/2533/items?limit=10&itemType=-attachment&q=' + encodeURIComponent(currentValue);
+      var url = 'https://api.zotero.org/groups/2533/items/top?limit=10&itemType=-attachment&q=' + encodeURIComponent(currentValue);
       // Send a request to the backend using the fetch api, and log the result to the console
       setIcon($this, "⏳");
       $this.css("opacity", "0.5");
