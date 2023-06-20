@@ -1,4 +1,5 @@
 import copy
+import hashlib
 import inspect
 import itertools
 import logging
@@ -246,7 +247,13 @@ def dict_getter(key, prefix=None):
         if prefix and isinstance(value, str):
             value = prefix + value
         return value
-    get.__name__ = '__get__{}'.format(key)
+
+    # We may need to add more than one method for the same key if
+    # in one case there is no prefix specified, and in another there is
+    # (see `type` and `citationTypeURI` on `ReferenceExportAdapter`, below)
+    attr_suffix = hashlib.md5(prefix).hexdigest()[:8] if prefix else ""
+    get.__name__ = '__get__{}'.format(key + attr_suffix)
+
     return get
 
 
@@ -318,6 +325,8 @@ class ReferenceExportAdapter(ExportAdapter):
         identifier = self.context.get('identifier')
         return identifier if identifier != self.bibliographicURI() else ""
 
+
+import pdb; pdb.set_trace()
 
 @memoize_all_methods
 class WorkExportAdapter(ExportAdapter):
