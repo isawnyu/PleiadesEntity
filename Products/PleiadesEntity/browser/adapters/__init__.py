@@ -240,21 +240,40 @@ def portal_type(self):
 setattr(ContentExportAdapter, '@type', portal_type)
 
 
-def dict_getter(key, prefix=None):
-    def get(self):
-        __traceback_info__ = key
-        value = self.context[key]
-        if prefix and isinstance(value, str):
-            value = prefix + value
-        return value
+class WrapDictKeyWithMethod(object):
+    """Descriptor which allows retrieval of values from the host object's
+    wrapped `context` attribute (a dictionary) via methods matching the
+    dict key names.
 
-    # We may need to add more than one method for the same key if
-    # in one case there is no prefix specified, and in another there is
-    # (see `type` and `citationTypeURI` on `ReferenceExportAdapter`, below)
-    getter_name_suffix = hashlib.md5(prefix).hexdigest()[:8] if prefix else ""
-    get.__name__ = '__get__{}'.format(key + getter_name_suffix)
+    For example, if the context dict includes the key "color", the corresponding
+    value will be accessible via a "color" method:
 
-    return get
+    >>> my_obj.context["color"] = "Yellow"
+    >>> my_obj.color()
+    "Yellow"
+
+    If a @prefix is given, it will be prepended to the value.
+    """
+
+    def __init__(self, key, prefix=None):
+        self.key = key
+        self.prefix = prefix
+
+    def __get__(self, obj, objtype=None):
+        __traceback_info__ = self.key
+        if obj is None:
+            return
+
+        value = obj.context[self.key]
+        if self.prefix and isinstance(value, str):
+            value = self.prefix + value
+
+        return lambda: value
+
+    def __set__(self, obj, value):
+        # Included mainly to force data-descriptor precedence behavior
+        # See https://docs.python.org/2.7/howto/descriptor.html#descriptor-protocol
+        raise AttributeError("Read-only attribute!")
 
 
 def archetypes_getter(fname, raw=True):
@@ -309,17 +328,16 @@ def export_children(portal_type):
 
 @memoize_all_methods
 class ReferenceExportAdapter(ExportAdapter):
-    shortTitle = dict_getter('short_title')
-    citationDetail = dict_getter('citation_detail')
-    formattedCitation = dict_getter('formatted_citation')
-    type = dict_getter('type')
-    citationTypeURI = dict_getter(
-        'type', prefix='http://purl.org/spar/cito/'
+    shortTitle = WrapDictKeyWithMethod(key='short_title')
+    citationDetail = WrapDictKeyWithMethod(key='citation_detail')
+    formattedCitation = WrapDictKeyWithMethod(key='formatted_citation')
+    type = WrapDictKeyWithMethod(key='type')
+    citationTypeURI = WrapDictKeyWithMethod(
+        key='type', prefix='http://purl.org/spar/cito/'
     )
-
-    bibliographicURI = dict_getter('bibliographic_uri')
-    accessURI = dict_getter('access_uri')
-    alternateURI = dict_getter('alternate_uri')
+    bibliographicURI = WrapDictKeyWithMethod(key='bibliographic_uri')
+    accessURI = WrapDictKeyWithMethod(key='access_uri')
+    alternateURI = WrapDictKeyWithMethod(key='alternate_uri')
 
     def otherIdentifier(self):
         identifier = self.context.get('identifier')
