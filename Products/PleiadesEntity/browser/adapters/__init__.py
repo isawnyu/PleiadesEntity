@@ -242,17 +242,25 @@ setattr(ContentExportAdapter, '@type', portal_type)
 
 class WrapDictKeyWithMethod(object):
     """Descriptor which allows retrieval of values from the host object's
-    wrapped `context` attribute (a dictionary) via methods matching the
-    dict key names.
+    wrapped `context` attribute (a dictionary) via methods on the host object.
 
-    For example, if the context dict includes the key "color", the corresponding
-    value will be accessible via a "color" method:
+    class Example(object):
 
-    >>> my_obj.context["color"] = "Yellow"
+        color = WrapDictKeyWithMethod(key="the_color")
+        size = WrapDictKeyWithMethod(key="the_color", prefix="Size: ")
+
+        def __init__(self, context):
+            self.context = context  # a dict
+
+
+    >>> my_obj = Example({"the_color": "Yellow", "the_size": "large"})
     >>> my_obj.color()
     "Yellow"
 
-    If a @prefix is given, it will be prepended to the value.
+    If a @prefix is given, it will be prepended to the value:
+
+    >>> my_obj.size()
+    "Size: large"
     """
 
     def __init__(self, key, prefix=None):
