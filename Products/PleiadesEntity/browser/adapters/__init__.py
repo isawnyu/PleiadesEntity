@@ -240,48 +240,28 @@ def portal_type(self):
 setattr(ContentExportAdapter, '@type', portal_type)
 
 
-class WrapDictKeyWithMethod(object):
-    """Descriptor which allows retrieval of values from the host object's
-    wrapped `context` attribute (a dictionary) via methods on the host object.
+def dict_getter(key, prefix=None):
+    def get(self):
+        __traceback_info__ = key
+        value = self.context[key]
+        if prefix and isinstance(value, str):
+            value = prefix + value
+        return value
 
-    class Example(object):
+    # plone.memoize (used internally by the @memoize_all_methods decorator) uses
+    # function __name__'s as cache keys. To avoid key collisions, we assign an
+    # unambiguous name to the returned function (otherwise all functions would
+    # share the name "get" and cache values would overwrite one another).
+    # This __name__ is based primarily on the underlying dict key we're accessing,
+    # but if a prefix is configured, we add a hash of that to the name also,
+    # sinced prefixed and un-prefixed functions wrapping the same key return
+    # different values and need to be cached separately.
+    #
+    # (see `type` and `citationTypeURI` on `ReferenceExportAdapter`, below)
+    getter_name_suffix = hashlib.md5(prefix).hexdigest()[:8] if prefix else ""
+    get.__name__ = '__get__{}'.format(key + getter_name_suffix)
 
-        color = WrapDictKeyWithMethod(key="the_color")
-        size = WrapDictKeyWithMethod(key="the_color", prefix="Size: ")
-
-        def __init__(self, context):
-            self.context = context  # a dict
-
-
-    >>> my_obj = Example({"the_color": "Yellow", "the_size": "large"})
-    >>> my_obj.color()
-    "Yellow"
-
-    If a @prefix is given, it will be prepended to the value:
-
-    >>> my_obj.size()
-    "Size: large"
-    """
-
-    def __init__(self, key, prefix=None):
-        self.key = key
-        self.prefix = prefix
-
-    def __get__(self, obj, objtype=None):
-        __traceback_info__ = self.key
-        if obj is None:
-            return
-
-        value = obj.context[self.key]
-        if self.prefix and isinstance(value, str):
-            value = self.prefix + value
-
-        return lambda: value
-
-    def __set__(self, obj, value):
-        # Included mainly to force data-descriptor precedence behavior
-        # See https://docs.python.org/2.7/howto/descriptor.html#descriptor-protocol
-        raise AttributeError("Read-only attribute!")
+    return get
 
 
 def archetypes_getter(fname, raw=True):
@@ -336,16 +316,17 @@ def export_children(portal_type):
 
 @memoize_all_methods
 class ReferenceExportAdapter(ExportAdapter):
-    shortTitle = WrapDictKeyWithMethod(key='short_title')
-    citationDetail = WrapDictKeyWithMethod(key='citation_detail')
-    formattedCitation = WrapDictKeyWithMethod(key='formatted_citation')
-    type = WrapDictKeyWithMethod(key='type')
-    citationTypeURI = WrapDictKeyWithMethod(
-        key='type', prefix='http://purl.org/spar/cito/'
+    shortTitle = dict_getter('short_title')
+    citationDetail = dict_getter('citation_detail')
+    formattedCitation = dict_getter('formatted_citation')
+    type = dict_getter('type')
+    citationTypeURI = dict_getter(
+        'type', prefix='http://purl.org/spar/cito/'
     )
-    bibliographicURI = WrapDictKeyWithMethod(key='bibliographic_uri')
-    accessURI = WrapDictKeyWithMethod(key='access_uri')
-    alternateURI = WrapDictKeyWithMethod(key='alternate_uri')
+
+    bibliographicURI = dict_getter('bibliographic_uri')
+    accessURI = dict_getter('access_uri')
+    alternateURI = dict_getter('alternate_uri')
 
     def otherIdentifier(self):
         identifier = self.context.get('identifier')
