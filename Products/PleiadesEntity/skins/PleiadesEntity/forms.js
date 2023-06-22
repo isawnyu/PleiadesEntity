@@ -153,13 +153,25 @@ jQuery(function () {
     return false;
   });
   const default_works = Object.keys(pleiades_default_works);
-  $('.short-title-wrapper input').each(function(i, el) {
-    var $bibliographicURIField = $(el).closest("fieldset").find('input[id$="bibliographic_uri"]');
-    $(el).autocomplete({
-      source: [default_works],
-      afterSelected: function () {
-        $bibliographicURIField.val(pleiades_default_works[$(el).val()]);
-      }
-    });
+  $("#archetypes-fieldname-referenceCitations").on('focusin', '.short-title-wrapper input', function() {
+    // The user just clicked on a field reuireing autocomplete. Let's get to work!
+    var $this = $(this);
+
+    if (!$this.data('ui-autocomplete-initialized')) {
+        var $bibliographicURIField = $this.closest("fieldset").find('input[id$="bibliographic_uri"]');
+
+        $this.autocomplete({
+            source: [default_works],
+            afterSelected: function () {
+                $bibliographicURIField.val(pleiades_default_works[$this.val()]);
+            }
+        });
+        // Great! We're done. But oh, no! The user clicked on the field to put focus there
+        // but the $this.autocomplete invocation above has stolen the focus away from the field.
+        // First let's make sure we're not triggering an endless loop!
+        $this.data('ui-autocomplete-initialized', true);
+        // Now let's give the focus back to the field.
+        $this.focus();
+    }
   });
 });
