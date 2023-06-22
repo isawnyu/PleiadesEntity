@@ -1,4 +1,5 @@
 import copy
+import hashlib
 import inspect
 import itertools
 import logging
@@ -246,7 +247,20 @@ def dict_getter(key, prefix=None):
         if prefix and isinstance(value, str):
             value = prefix + value
         return value
-    get.__name__ = '__get__{}'.format(key)
+
+    # plone.memoize (used internally by the @memoize_all_methods decorator) uses
+    # function __name__'s as cache keys. To avoid key collisions, we assign an
+    # unambiguous name to the returned function (otherwise all functions would
+    # share the name "get" and cache values would overwrite one another).
+    # This __name__ is based primarily on the underlying dict key we're accessing,
+    # but if a prefix is configured, we add a hash of that to the name also,
+    # sinced prefixed and un-prefixed functions wrapping the same key return
+    # different values and need to be cached separately.
+    #
+    # (see `type` and `citationTypeURI` on `ReferenceExportAdapter`, below)
+    getter_name_suffix = hashlib.md5(prefix).hexdigest()[:8] if prefix else ""
+    get.__name__ = '__get__{}'.format(key + getter_name_suffix)
+
     return get
 
 
