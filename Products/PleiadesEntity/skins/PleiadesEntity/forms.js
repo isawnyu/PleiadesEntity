@@ -78,9 +78,11 @@ jQuery(function () {
         $button.css("opacity", "0.5");
       } else {
         $button.css("opacity", "1");
-        // check if the key pressed was enter
+        // If the key pressed was enter press the button
         if (ev.keyCode == 13) {
           $button.click();
+          ev.preventDefault();
+          return false;
         }
       }
   });
@@ -94,6 +96,12 @@ jQuery(function () {
     '.short-title-wrapper .copy-zotero-uri',
     function (ev) {
       ev.preventDefault();
+      if (ev.view && ev.view.$button && ev.view.$button[0] !== this) {
+        // When this is triggered by the user hitting enter, the event is triggered twice
+        // once by the browser and once by our code above (search for keyCode == 13).
+        // This condition prevents the code from running twice.
+        return;
+      }
       $this = $(this);
       var $inputField = $this.parent("div.short-title-wrapper").find("input");
       var $resultDiv = $this.parent("div.short-title-wrapper").find(".zotero-api-result");
