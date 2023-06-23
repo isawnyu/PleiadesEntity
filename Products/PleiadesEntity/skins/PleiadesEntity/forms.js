@@ -152,7 +152,11 @@ jQuery(function () {
     $shortTitleField.val($this.attr("data-short-title"));
     return false;
   });
+
+  // Autocomplete for Short Title
   const default_works = Object.keys(pleiades_default_works);
+  // We hook to the `focusin` event to instantiate the autocomplete widget.
+  // We don't do it on page load because fields can be created dynamically.
   $("#archetypes-fieldname-referenceCitations").on('focusin', '.short-title-wrapper input', function() {
     // The user just clicked on a field reuireing autocomplete. Let's get to work!
     var $this = $(this);
