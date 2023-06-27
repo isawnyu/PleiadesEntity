@@ -106,4 +106,19 @@
     permission="cmf.ManagePortal"
     />
 
+  <browser:page
+    name="query-bibliographic-data"
+    for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+    class=".references.QueryBibliographicData"
+    permission="zope2.View"
+    />
+
+  <browser:viewlet
+    name="Products.PleiadesEntity.default-works"
+    for="Products.PleiadesEntity.content.interfaces.INamed"
+    manager="plone.app.layout.viewlets.interfaces.IPortalTop"
+    class=".viewlets.DefaultWorksViewlet"
+    permission="zope.Public"
+    />
+
 </configure>

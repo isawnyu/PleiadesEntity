@@ -2,4 +2,6 @@
 <object name="portal_javascripts" meta_type="JavaScripts Registry">
   <javascript cacheable="True" compression="safe" cookable="True" enabled="True"
               expression="" id="forms.js" inline="False"/>
+  <javascript cacheable="True" compression="safe" cookable="True" enabled="True"
+              expression="" id="jquery.autocomplete.js" inline="False"/>
 </object>

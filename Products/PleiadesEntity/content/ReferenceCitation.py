@@ -55,6 +55,7 @@ schema = Schema((
         name='short_title',
         required=False,
         widget=StringField._properties['widget'](
+            macro="short_title_widget",
             label="Short Title",
             description='Enter an "author year" short title or standard '
                 'abbreviation for the work being cited. This short title '
@@ -64,6 +65,24 @@ schema = Schema((
             size=40,
             label_msgid='PleiadesEntity_label_short_title',
             description_msgid='PleiadesEntity_help_short_title',
+            i18n_domain='PleiadesEntity',
+        ),
+    ),
+
+    StringField(
+        name='bibliographic_uri',
+        required=False,
+        validators=('isURL',),
+        widget=StringField._properties['widget'](
+            macro="url_widget",
+            label="Bibliographic URI",
+            description='Enter a link to a record in the <a '
+                'href="https://www.zotero.org/groups/2533/pleiades">Pleiades '
+                'Zotero Library</a> that provides information for the work '
+                'being cited.',
+            size=79,
+            label_msgid='PleiadesEntity_label_bibliographic_uri',
+            description_msgid='PleiadesEntity_help_bibliographic_uri',
             i18n_domain='PleiadesEntity',
         ),
     ),
@@ -99,24 +118,6 @@ schema = Schema((
             size=79,
             label_msgid='PleiadesEntity_label_formatted_citation',
             description_msgid='PleiadesEntity_help_formatted_citation',
-            i18n_domain='PleiadesEntity',
-        ),
-    ),
-
-    StringField(
-        name='bibliographic_uri',
-        required=False,
-        validators=('isURL',),
-        widget=StringField._properties['widget'](
-            macro="url_widget",
-            label="Bibliographic URI",
-            description='Enter a link to a record in the <a '
-                'href="https://www.zotero.org/groups/2533/pleiades">Pleiades '
-                'Zotero Library</a> that provides information for the work '
-                'being cited.',
-            size=79,
-            label_msgid='PleiadesEntity_label_bibliographic_uri',
-            description_msgid='PleiadesEntity_help_bibliographic_uri',
             i18n_domain='PleiadesEntity',
         ),
     ),
