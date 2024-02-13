@@ -115,10 +115,10 @@
 
   <browser:viewlet
     name="Products.PleiadesEntity.default-works"
-    for="Products.PleiadesEntity.content.interfaces.INamed"
+    for="Products.PleiadesEntity.content.interfaces.IHasDefaultWorks"
     manager="plone.app.layout.viewlets.interfaces.IPortalTop"
     class=".viewlets.DefaultWorksViewlet"
-    permission="zope.Public"
+    permission="zope2.View"
     />
 
 </configure>
