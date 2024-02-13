@@ -177,7 +177,12 @@ jQuery(function () {
   );
 
   // Autocomplete for Short Title
-  const default_works = Object.keys(pleiades_default_works);
+  var default_works = [];
+  if (typeof(window.pleiades_default_works) !== 'undefined') {
+      default_works = Object.keys(pleiades_default_works);
+  } else {
+    console.error("pleiades_default_works is not defined")
+  }
   // We hook to the `focusin` event to instantiate the autocomplete widget.
   // We don't do it on page load because fields can be created dynamically.
   $("#archetypes-fieldname-referenceCitations").on('focusin', '.short-title-wrapper input', function() {
