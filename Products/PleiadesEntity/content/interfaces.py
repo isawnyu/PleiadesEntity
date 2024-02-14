@@ -5,15 +5,20 @@ from zope.interface import Interface
 ##code-section HEAD
 ##/code-section HEAD
 
-class IName(Interface):
+
+class IHasDefaultWorks(Interface):
+    """Marker interface for content types that need `pleiades_default_works`
+    """
+
+class IName(IHasDefaultWorks):
     """Marker interface for .Name.Name
     """
 
-class ILocation(Interface):
+class ILocation(IHasDefaultWorks):
     """Marker interface for .Location.Location
     """
 
-class IConnection(Interface):
+class IConnection(IHasDefaultWorks):
     """Marker interface for .Location.Location
     """
 
@@ -41,7 +46,7 @@ class IWork(Interface):
     """Marker interface for .Work.Work
     """
 
-class INamed(Interface):
+class INamed(IHasDefaultWorks):
     """Marker interface for .Named.Named
     """
 
