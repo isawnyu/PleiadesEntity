@@ -219,7 +219,7 @@ class LocationsTable(ChildrenTable):
                     status = u''
                 accuracy = ob.getAccuracy()
                 if accuracy:
-                    status += u'Accuracy: +/- %i meters.' % int(accuracy.getValue())
+                    status += u'accuracy: +/- %i meters.' % int(accuracy.getValue())
                 innerHTML = [
                     u'<li id="%s_%s" class="placeChildItem Location" title="%s">' % (
                         ob.getId(),
