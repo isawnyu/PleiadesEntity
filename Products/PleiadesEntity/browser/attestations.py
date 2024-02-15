@@ -230,8 +230,6 @@ class LocationsTable(ChildrenTable):
                     u'</li>',
                 ]
                 output.append(u"\n".join(innerHTML))
-            output.append(u"</li>")
-        if any(labeled_locations.items()):
             output.append(u"</ul>")
         return output
 
