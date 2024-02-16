@@ -107,8 +107,8 @@
           <div id="map"></div>
           <div id="below-map">
             <div id="map-links">
-              <p tal:condition="placeurl">Show place in
-                <a href="" tal:attributes="href string:$placeurl/kml">Google Earth</a>.
+              <p tal:condition="url">Show place in
+                <a href="" tal:attributes="href string:$url/kml">Google Earth</a>.
               </p>
               <p tal:condition="where">
                 <span tal:define="mlon python:where['reprPt'][0]; mlat python:where['reprPt'][1]; underscore string:_">Show area in
