@@ -106,6 +106,10 @@
         <div id="map-block">
           <div id="map"></div>
           <div id="below-map">
+            <div id="accuracy-buffer-widget">
+              <input type="checkbox" id="accuracy-buffer" />
+              <label for="accuracy-buffer">Display location accuracy buffer(s)</label>
+            </div>
             <div id="map-links">
               <p tal:condition="url">Show place in
                 <a href="" tal:attributes="href string:$url/kml">Google Earth</a>.
@@ -380,7 +384,8 @@
 
 <script src='https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js'></script>
 <link href='https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css' rel='stylesheet' />
-<script tal:attributes="src string:${portal_url}/place_map.js?v=20220428-1" type="module"></script>
+<script tal:attributes="src string:${portal_url}/turf.min.js?v=20240219-1" type="module"></script>
+<script tal:attributes="src string:${portal_url}/place_map.js?v=20240219-1" type="module"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.12/clipboard.min.js"></script>
 <script>
   $(function () {

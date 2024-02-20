@@ -123,6 +123,15 @@ var layerMetadata = {
             'line-color': '#5587fc'
         }
     },
+    'location-buffers': {
+        'type': 'fill',
+        'layout': {'visibility': 'none'},
+        'paint': {
+            'fill-outline-color': 'rgba(255, 255, 0, 1)',
+            'fill-antialias': true,
+            'fill-color': 'rgba(255, 255, 0, 0.3)'
+        }
+    },
     'connections-inbound': {
         'type': 'symbol',
         'layout': {
@@ -145,7 +154,8 @@ map.on('click', function(e) {
                 'layer-location-points',
                 'layer-connections-inbound',
                 'layer-location-polygons',
-                'layer-location-geometries'
+                'layer-location-geometries',
+                'layer-location-buffers'
             ]
         });
     if (features.length > 0) {
@@ -172,6 +182,14 @@ map.on('click', function(e) {
             .addTo(map);
     }
 });
+
+$('input#accuracy-buffer').on('change', function (){
+    if ($(this).is(':checked')) {
+        map.setLayoutProperty('layer-location-buffers', 'visibility', 'visible');
+    } else {
+        map.setLayoutProperty('layer-location-buffers', 'visibility', 'none');
+    }
+})
 
 function populateMap(map) {
 
@@ -237,7 +255,7 @@ function makeLayer(map, layerTitle, features, before = undefined) {
             // 'maxzoom': maxzoom_awmc // over-zoom as necessary
     };
     Object.keys(layerMetadata[sourceID]).forEach(k => options[k] = layerMetadata[sourceID][k]);
-    if (typeof(before) === undefined) {
+    if (typeof(before) === "undefined") {
         map.addLayer(options);
     } else {
         map.addLayer(options, before);
@@ -283,6 +301,7 @@ function plotLocations(map, j) {
     var pointFeatures = Array();
     var polyFeatures = Array();
     var otherFeatures = Array();
+    var locationBuffers = Array();
     j.locations.forEach(function(location) {
         var geoType = location.geometry.type;
         var feature = {
@@ -301,11 +320,26 @@ function plotLocations(map, j) {
         } else {
             otherFeatures.push(feature);
         }
+        if (location.accuracy_value) {
+            var buffer = turf.convex.default(turf.buffer({
+                'type': 'Feature',
+                'geometry': location.geometry
+            }, location.accuracy_value, {units: 'meters'}));
+            buffer.properties = {
+                'title': 'Accuracy buffer for ' + location.title,
+                'description': location.accuracy_value.toString() + ' meter accuracy buffer'
+            }
+            locationBuffers.push(buffer);
+        }
     });
     makeLayer(map, 'Location Polygons', polyFeatures);
     makeLayer(map, 'Location Points', pointFeatures);
     makeLayer(map, 'Location Geometries', otherFeatures);
-    return pointFeatures.concat(polyFeatures).concat(otherFeatures);
+    makeLayer(map, 'Location Buffers', locationBuffers);
+    if (locationBuffers.length <= 0) {
+        $('input#accuracy-buffer').prop('disabled', true);
+    }
+    return pointFeatures.concat(polyFeatures).concat(otherFeatures).concat(locationBuffers);
 }
 
 function plotReprPoint(map, j) {
@@ -325,7 +359,7 @@ function plotReprPoint(map, j) {
 }
 
 function restack(map) {
-    const desired_layer_order = ['background-sepia', 'satellite-sepia', 'admin-1-boundary-bg', 'admin-0-boundary-bg', 'admin-1-boundary', 'admin-0-boundary', 'admin-0-boundary-disputed', 'settlement-subdivision-label', 'settlement-minor-label', 'settlement-major-label', 'state-label', 'country-label', 'layer-location-polygons', 'layer-location-geometries', 'layer-connections-inbound', 'layer-location-points', 'layer-representative-point'];
+    const desired_layer_order = ['background-sepia', 'satellite-sepia', 'admin-1-boundary-bg', 'admin-0-boundary-bg', 'admin-1-boundary', 'admin-0-boundary', 'admin-0-boundary-disputed', 'settlement-subdivision-label', 'settlement-minor-label', 'settlement-major-label', 'state-label', 'country-label', 'layer-location-buffers', 'layer-location-polygons', 'layer-location-geometries', 'layer-connections-inbound', 'layer-location-points', 'layer-representative-point'];
     var i;
     var this_layer;
     var current_layer_order;

@@ -1,0 +1,15 @@
+{
+    "name": "pleiades-turf",
+    "version": "0.0.1",
+    "private": true,
+    "devDependencies": {
+        "@turf/convex": "~6.5.0",
+        "@turf/buffer": "~6.5.0",
+        "uglify-js": "~3.17.4",
+        "browserify": "~17.0.0"
+    },
+    "scripts": {
+        "dev": "./node_modules/.bin/browserify main.js -s turf > turf.js",
+        "build": "./node_modules/.bin/browserify main.js -s turf | ./node_modules/.bin/uglifyjs > turf.min.js"
+    }
+}
