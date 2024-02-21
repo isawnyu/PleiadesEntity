@@ -217,6 +217,9 @@ class LocationsTable(ChildrenTable):
                     status = u' [%s by %s]' % (review_state, user['fullname'].decode('utf-8'))
                 else:
                     status = u''
+                accuracy = ob.getAccuracy()
+                if accuracy:
+                    status += u'accuracy: +/- %i meters.' % int(accuracy.getValue())
                 innerHTML = [
                     u'<li id="%s_%s" class="placeChildItem Location" title="%s">' % (
                         ob.getId(),
