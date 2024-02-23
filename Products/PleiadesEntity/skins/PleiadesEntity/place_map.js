@@ -338,6 +338,7 @@ function plotLocations(map, j) {
     makeLayer(map, 'Location Buffers', locationBuffers);
     if (locationBuffers.length <= 0) {
         $('input#accuracy-buffer').prop('disabled', true);
+        $('input#accuracy-buffer + label').text('No location accuracy information available');
     }
     return pointFeatures.concat(polyFeatures).concat(otherFeatures).concat(locationBuffers);
 }
