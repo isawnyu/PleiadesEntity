@@ -21,11 +21,11 @@ mapboxgl.setRTLTextPlugin(
 );
 
 // Bounding boxes are defined by SW and NE corners
-var max_bounds = new mapboxgl.LngLatBounds([
+const max_bounds = new mapboxgl.LngLatBounds([
     [MAX_WEST, MAX_SOUTH],
     [MAX_EAST, MAX_NORTH]
 ]);
-var initial_bounds = new mapboxgl.LngLatBounds([
+var bounds = new mapboxgl.LngLatBounds([
     [INITIAL_WEST, INITIAL_SOUTH],
     [INITIAL_EAST, INITIAL_NORTH]
 ]);
@@ -38,7 +38,7 @@ var mapOptionsInit = {
     container: 'map',
     style: 'mapbox://styles/isawnyu/ckg9eqejk2j4a19oexu5ywrqu',
     maxBounds: max_bounds,
-    bounds: initial_bounds,
+    bounds: bounds,
     renderWorldCopies: false,
     maxZoom: max_zoom,
 };
