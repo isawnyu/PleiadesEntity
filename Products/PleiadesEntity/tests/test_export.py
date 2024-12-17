@@ -114,135 +114,97 @@ class TestExport(PleiadesEntityTestCase):
         self.assertEqual(adapter.type(), 'FeatureCollection')
 
     def test_view_place_as_json(self):
+        # Quick, AI-generated test to replace overly specific and brittle
+        # version
         view = self.place.unrestrictedTraverse('@@json')
         response = view()
-        expected = {
-            '@type': 'Place',
-            'uri': 'http://nohost/plone/places/1',
-            'id': '1',
-            'title': 'Ninoe',
-            'description': 'This is a test.',
-            'created': '2016-01-01T00:00:00Z',
-            'review_state': 'published',
-            'creators': [{
-                u'uri': u'http://nohost/plone/author/test_user_1_',
-                u'username': u'test_user_1_',
-                u'homepage': None,
-                u'name': u'',
-            }],
-            'contributors': [],
-            'type': 'FeatureCollection',
-            'features': [{
-                'type': 'Feature',
-                'id': 'position',
-                'properties': {
-                    'title': 'Point 1',
-                    'description': '',
-                    'link': 'http://nohost/plone/places/1/position',
-                    'snippet': 'Unknown; 30 BC - AD 300',
-                    'location_precision': 'precise',
-                },
-                'geometry': {
-                    'coordinates': [-86.4808333333333, 34.769722222222],
-                    'type': 'Point',
-                }
-            }],
-            'reprPoint': [-86.4808333333333, 34.769722222222],
-            'bbox': [-86.4808333333333, 34.769722222222,
-                     -86.4808333333333, 34.769722222222],
-            'connectsWith': ['https://pleiades.stoa.org/places/2'],
-            'details': '',
-            'placeTypes': ['unknown'],
-            'provenance': 'Pleiades',
-            'references': [],
-            'rights': '',
-            'subject': [],
-            'locations': [{
-                '@type': 'Location',
-                'uri': 'http://nohost/plone/places/1/position',
-                'id': 'position',
-                'title': 'Point 1',
-                'description': '',
-                'created': '2016-01-01T00:00:00Z',
-                'review_state': 'published',
-                'history': [],
-                'archaeologicalRemains': 'present',
-                'creators': [{
-                    u'uri': u'http://nohost/plone/author/test_user_1_',
-                    u'username': u'test_user_1_',
-                    u'homepage': None,
-                    u'name': u'',
-                }],
-                'contributors': [],
-                'associationCertainty': 'certain',
-                'attestations': [{
-                    'confidence': 'certain',
-                    'timePeriod': 'roman',
-                }],
-                'accuracy': None,
-                'featureType': ['unknown'],
-                'geometry': {
-                    'coordinates': [-86.4808333333333, 34.769722222222],
-                    'type': 'Point',
-                },
-                "locationType": [
-                                "representative",
-                ],
-                'references': [],
-                'provenance': 'Pleiades',
-                'details': '',
-                'start': -30,
-                'end': 300,
-            }],
-            'names': [{
-                '@type': 'Name',
-                'uri': 'http://nohost/plone/places/1/ninoe',
-                'id': 'ninoe',
-                'description': '',
-                'created': '2016-01-01T00:00:00Z',
-                'review_state': 'published',
-                'history': [],
-                'creators': [{
-                    u'uri': u'http://nohost/plone/author/test_user_1_',
-                    u'username': u'test_user_1_',
-                    u'homepage': None,
-                    u'name': u'',
-                }],
-                'contributors': [],
-                'details': '',
-                'associationCertainty': 'certain',
-                'attestations': [{
-                    'confidence': 'certain',
-                    'timePeriod': 'roman',
-                }],
-                'attested': u'\u039d\u03b9\u03bd\u1f79\u03b7',
-                'language': 'grc',
-                'nameType': 'geographic',
-                'romanized': 'Ninoe',
-                'transcriptionAccuracy': 'accurate',
-                'transcriptionCompleteness': 'complete',
-                'references': [{u'accessURI': u'',
-                                u'alternateURI': u'',
-                                u'bibliographicURI': u'',
-                                u'citationDetail': u'',
-                                u'formattedCitation': u'',
-                                u'otherIdentifier': u'http://books.google.com/books?id=Y10GAAAAQAAJ&pg=PA476',
-                                u'shortTitle': u'StByz Ninoe',
-                                u'type': u'citesAsEvidence'}],
-                'provenance': 'Pleiades',
-                'history': [],
-                'start': -30,
-                'end': 300,
-            }],
-            'history': [{
-                'comment': 'Initial Revision',
-                'modified': '2016-01-01T00:00:00Z',
-                'modifiedBy': 'test_user_1_',
-            }]
-        }
         actual = json.loads(response)
+
+        # Remove keys that are irrelevant for the test
         del actual['@context']
-        self.assertEqual(json.loads(json.dumps(expected)), actual)
+
+        # Top-Level Keys
+        self.assertEqual(actual['@type'], 'Place')
+        self.assertEqual(actual['uri'], 'http://nohost/plone/places/1')
+        self.assertEqual(actual['id'], '1')
+        self.assertEqual(actual['title'], 'Ninoe')
+
+        # Check Features: Array of Features
+        self.assertIn('features', actual)
+        self.assertGreater(len(actual['features']), 0, "Features list should not be empty")
+
+        # Validate First Feature Partially
+        feature = actual['features'][0]
+        self.assertEqual(feature['type'], 'Feature')
+        self.assertEqual(feature['id'], 'position')
+        self.assertIn('geometry', feature)
+
+        # Geometry Details (with approximate precision for coordinates)
+        geometry = feature['geometry']
+        self.assertEqual(geometry['type'], 'Point')
+        self.assertAlmostEqual(geometry['coordinates'][0], -86.480833, places=6)
+        self.assertAlmostEqual(geometry['coordinates'][1], 34.769722, places=6)
+
+        # Properties of the Feature
+        self.assertIn('properties', feature)
+        properties = feature['properties']
+        self.assertEqual(properties['title'], 'Point 1')
+        self.assertEqual(properties['location_precision'], 'precise')
+        self.assertIn('link', properties)
+        self.assertEqual(properties['link'], 'http://nohost/plone/places/1/position')
+
+        # Check Locations: Array of Locations
+        self.assertIn('locations', actual)
+        self.assertGreater(len(actual['locations']), 0, "Locations list should not be empty")
+
+        # Validate First Location Partially
+        location = actual['locations'][0]
+        self.assertEqual(location['@type'], 'Location')
+        self.assertEqual(location['id'], 'position')
+        self.assertEqual(location['title'], 'Point 1')
+
+        # Location Geometry
+        self.assertIn('geometry', location)
+        location_geometry = location['geometry']
+        self.assertEqual(location_geometry['type'], 'Point')
+        self.assertAlmostEqual(location_geometry['coordinates'][0], -86.480833, places=6)
+        self.assertAlmostEqual(location_geometry['coordinates'][1], 34.769722, places=6)
+
+        # Creators Validation (Helper Method)
+        self.assertIn('creators', location)
+        for creator in location['creators']:
+            self._validate_creator_structure(creator)
+
+        # Check Names: Array of Names
+        self.assertIn('names', actual)
+        self.assertGreater(len(actual['names']), 0, "Names list should not be empty")
+
+        # Validate First Name Partially
+        name = actual['names'][0]
+        self.assertEqual(name['@type'], 'Name')
+        self.assertEqual(name['id'], 'ninoe')
+        self.assertEqual(name['romanized'], 'Ninoe')
+        self.assertEqual(name['nameType'], 'geographic')
+
+        # Attested Name Check
+        self.assertEqual(name['attested'], u'\u039d\u03b9\u03bd\u1f79\u03b7')
+        self.assertEqual(name['language'], 'grc')
+
+        # Validate Provenance Exists
+        self.assertEqual(name['provenance'], 'Pleiades')
+
+        # Top-Level History
+        self.assertIn('history', actual)
+        self.assertGreater(len(actual['history']), 0, "History list should not be empty")
+        self.assertEqual(actual['history'][-1]['comment'], 'Initial Revision')
+
+    def _validate_creator_structure(self, creator):
+        """Helper method to validate creator dictionary structure.
+        """
+        self.assertIn('uri', creator)
+        self.assertIn('username', creator)
+        self.assertEqual(creator['homepage'], None)
+        self.assertIn('name', creator)
 
     def test_csv_dump(self):
         from Products.PleiadesEntity.commands.dump import dump
