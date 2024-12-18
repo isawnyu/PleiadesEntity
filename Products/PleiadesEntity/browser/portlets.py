@@ -123,7 +123,7 @@ class LinkedDataPortletRenderer(base.Renderer):
             logger.info("Found it!")
             result = {
                 "source_url": url,
-                "data": json_to_portlet_data(data),
+                "links_by_source": json_to_portlet_data(data),
             }
             return result
         except Exception as e:

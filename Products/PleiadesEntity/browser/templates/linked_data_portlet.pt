@@ -1,15 +1,60 @@
 <dl class="portlet"
     tal:condition="view/available">
 
+<style>
+  li.reciprocal::marker {
+    content: "\2B50\FE0F ";
+  }
+
+  .portletItem h3 {
+    margin-top: 1rem;
+  }
+
+  .portletItem ul {
+    margin-left: 1em;
+  }
+
+  .portletItem li {
+    padding-left: .2em;
+  }
+
+  dl.portlet dt.portletHeader a.circle-question {
+    color: #fff;
+    background-color: #2575ad;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.2em;
+    height: 1.2em;
+  }
+</style>
+
+
     <dt class="portletHeader">
         <span class="portletTopLeft"></span>
-        Linked Data <a tal:attributes="href view/help_link">ℹ️</a>
+        Linked Data <a class="circle-question"
+                       tal:attributes="href view/help_link">?</a>
         <span class="portletTopRight"></span>
     </dt>
     <dd class="portletItem"
         tal:define="data view/github_data">
       <div tal:condition="data">
-        <pre tal:content="structure data">[JSON Data]</pre>
+        <tal:sources tal:repeat="source data/links_by_source">
+          <h3 tal:content="source">[Wikidata]</h3>
+          <ul tal:define="links python:data['links_by_source'][source]">
+            <li tal:repeat="link links"
+                tal:attributes="class python:'reciprocal' if link['is_reciprocal'] else ''">
+              <a tal:attributes="href link/url; title link/summary">
+                 <span tal:replace="link/title">[Title]</span>
+                 <title tal:condition="link/summary"
+                        tal:content="link/summary">[summary]</title>
+              </a>
+            </li>
+          </ul>
+        </tal:sources>
+        <hr>
+        <a tal:attributes="href data/source_url" target="_blank">JSON version</a>
       </div>
       <div tal:condition="not: data">
         <p>Error fetching GitHub data or no data available.</p>
