@@ -1,0 +1,18 @@
+<dl class="portlet"
+    tal:condition="view/available">
+
+    <dt class="portletHeader">
+        <span class="portletTopLeft"></span>
+        Linked Data <a tal:attributes="href view/help_link">ℹ️</a>
+        <span class="portletTopRight"></span>
+    </dt>
+    <dd class="portletItem"
+        tal:define="data view/github_data">
+      <div tal:condition="data">
+        <pre tal:content="structure data">[JSON Data]</pre>
+      </div>
+      <div tal:condition="not: data">
+        <p>Error fetching GitHub data or no data available.</p>
+      </div>
+    </dd>
+</dl>
