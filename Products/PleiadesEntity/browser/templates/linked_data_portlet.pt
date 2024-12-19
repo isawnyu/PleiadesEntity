@@ -70,12 +70,15 @@
     <div tal:condition="data">
       <tal:sources tal:repeat="source data/links_by_source">
         <tal:source tal:define="links python:data['links_by_source'][source];
-                                link_count python:len(links)">
-        <button class="expanded">
+                                link_count python:len(links);
+                                show_list python:link_count < 5;
+                                button_class python:'expanded' if show_list else 'closed';
+                                ul_class python: 'clicky-list' if show_list else 'clicky-list hidden';">
+        <button tal:attributes="class string:${button_class}">
           <span tal:replace="source">[Wikidata]</span>
           <span class="link-count" tal:content="string:($link_count)">[12]</span>
         </button>
-        <ul class="clicky-list"
+        <ul tal:attributes="class string:${ul_class}"
             tal:define="links python:data['links_by_source'][source]">
           <li tal:repeat="link links"
               tal:attributes="class python:'reciprocal' if link['is_reciprocal'] else ''">
