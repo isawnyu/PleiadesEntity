@@ -6,8 +6,29 @@
     content: "\2B50\FE0F ";
   }
 
-  .portletItem h3 {
-    margin-top: 1rem;
+  .portletItem button {
+    color: #2575ad;
+    font-size: initial;
+    border: none;
+    padding: 0;
+  }
+
+  .portletItem button.closed::before {
+    content: "\25B6 ";
+    margin-right: .3em;
+  }
+
+  .portletItem button.expanded::before {
+    content: "\25BC ";
+    margin-right: .2em;
+  }
+
+  button .link-count {
+    font-size: 75%;
+  }
+
+  .clicky-list {
+    margin-bottom: 1em;
   }
 
   .portletItem ul {
@@ -41,8 +62,14 @@
         tal:define="data view/github_data">
       <div tal:condition="data">
         <tal:sources tal:repeat="source data/links_by_source">
-          <h3 tal:content="source">[Wikidata]</h3>
-          <ul tal:define="links python:data['links_by_source'][source]">
+          <tal:source tal:define="links python:data['links_by_source'][source];
+                                  link_count python:len(links)">
+          <button class="expanded">
+            <span tal:replace="source">[Wikidata]</span>
+            <span class="link-count" tal:content="string:($link_count)">[12]</span>
+          </button>
+          <ul class="clicky-list"
+              tal:define="links python:data['links_by_source'][source]">
             <li tal:repeat="link links"
                 tal:attributes="class python:'reciprocal' if link['is_reciprocal'] else ''">
               <a tal:attributes="href link/url; title link/summary">
@@ -52,6 +79,7 @@
               </a>
             </li>
           </ul>
+          </tal:source>
         </tal:sources>
         <hr>
         <a tal:attributes="href data/source_url" target="_blank">JSON version</a>
