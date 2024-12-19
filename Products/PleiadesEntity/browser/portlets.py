@@ -1,5 +1,4 @@
 import collections
-import json
 import logging
 import requests
 from urlparse import urljoin, urlparse
@@ -27,13 +26,19 @@ class LinkedDataPortletAssignment(base.Assignment):
         pass
 
 
-labels_for_domains = {
-    u'itiner-e.org': u"Itiner-e",
-    u'www.wikidata.org': u"Wikidata",
-    u'resource.manto.unh.edu': u"UNH",
-    u'edh.ub.uni-heidelberg.de': u"U of Heidelberg",
-    u'nomisma.org': u"Nomisma",
-}
+def load_domain_to_label_map():
+    """Read the list of dicts stored in the registry and convert it
+    to a dict mapping domains to labels.
+
+    We use the registry so the mapping can be easily updated via
+    the /@@pleiades-settings view on the control panel.
+    """
+    record_name = (
+        "pleiades.vocabularies.interfaces.IPleiadesSettings.link_source_titles_for_urls"
+    )
+    vocab = plone_api.portal.get_registry_record(name=record_name)
+
+    return {rec["source_domain"]: rec["friendly_label"] for rec in vocab}
 
 
 def place_id_to_url_path(place_id):
@@ -75,6 +80,7 @@ def json_to_portlet_data(data):
         domain in the @id attribute of the raw JSON input value.
     """
     by_domain = collections.defaultdict(list)
+    labels_for_domains = load_domain_to_label_map()
     for record in data:
         url = record["@id"]
         domain = urlparse(url).netloc

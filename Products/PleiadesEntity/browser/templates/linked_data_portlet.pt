@@ -68,7 +68,7 @@
   <dd class="portletItem"
       tal:define="data view/github_data">
     <div tal:condition="data">
-      <tal:sources tal:repeat="source data/links_by_source">
+      <tal:sources tal:repeat="source python: sorted(data['links_by_source'])">
         <tal:source tal:define="links python:data['links_by_source'][source];
                                 link_count python:len(links);
                                 show_list python:link_count < 5;
@@ -82,7 +82,7 @@
             tal:define="links python:data['links_by_source'][source]">
           <li tal:repeat="link links"
               tal:attributes="class python:'reciprocal' if link['is_reciprocal'] else ''">
-            <a tal:attributes="href link/url; title link/summary">
+            <a tal:attributes="href link/url; title link/summary" target="_blank">
                 <span tal:replace="link/title">[Title]</span>
                 <title tal:condition="link/summary"
                       tal:content="link/summary">[summary]</title>
