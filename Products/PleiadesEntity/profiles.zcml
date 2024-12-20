@@ -116,4 +116,13 @@
       import_steps="jsregistry cssregistry"
       />
 
+  <upgradeDepends
+      profile="Products.PleiadesEntity:default"
+      source="1008"
+      destination="1009"
+      title="LinkedData portlet"
+      description=""
+      import_steps="portlets"
+      />
+
 </configure>

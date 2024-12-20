@@ -1,0 +1,131 @@
+<dl class="portlet portletLinkedData"
+    tal:condition="view/available">
+
+  <style>
+    li.reciprocal::marker {
+      content: "\2B50\FE0F ";
+    }
+
+    .portletItem button {
+      color: #2575ad;
+      font-size: initial;
+      border: none;
+      padding: 0;
+    }
+
+    .portletItem button.closed::before {
+      content: "\25B6 ";
+      margin-right: .3em;
+    }
+
+    .portletItem button.expanded::before {
+      content: "\25BC ";
+      margin-right: .2em;
+    }
+
+    button .link-count {
+      font-size: 75%;
+    }
+
+    button.expanded .link-count {
+      visibility: hidden;
+    }
+
+    .clicky-list {
+      margin-bottom: 1em;
+    }
+
+    .clicky-list.hidden {
+      display: none;
+    }
+
+    .portletItem ul {
+      margin-left: 1em;
+    }
+
+    .portletItem li {
+      padding-left: .2em;
+    }
+
+    dl.portlet dt.portletHeader a.circle-question {
+      color: #fff;
+      background-color: #2575ad;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 1.2em;
+      height: 1.2em;
+    }
+  </style>
+
+  <dt class="portletHeader">
+      <span class="portletTopLeft"></span>
+      Linked Data <a class="circle-question"
+                      tal:attributes="href view/help_link">?</a>
+      <span class="portletTopRight"></span>
+  </dt>
+  <dd class="portletItem"
+      tal:define="data view/link_data">
+    <div tal:condition="data">
+      <tal:sources tal:repeat="source python: sorted(data['links_by_source'])">
+        <tal:source tal:define="links python:data['links_by_source'][source];
+                                link_count python:len(links);
+                                show_list python:link_count < 5;
+                                button_class python:'expanded' if show_list else 'closed';
+                                ul_class python: 'clicky-list' if show_list else 'clicky-list hidden';">
+        <button tal:attributes="class string:${button_class}">
+          <span tal:replace="source">[Wikidata]</span>
+          <span class="link-count" tal:content="string:($link_count)">[12]</span>
+        </button>
+        <ul tal:attributes="class string:${ul_class}"
+            tal:define="links python:data['links_by_source'][source]">
+          <li tal:repeat="link links"
+              tal:attributes="class python:'reciprocal' if link['is_reciprocal'] else ''">
+            <a tal:attributes="href link/url; title link/summary" target="_blank">
+                <span tal:replace="link/title">[Title]</span>
+                <title tal:condition="link/summary"
+                      tal:content="link/summary">[summary]</title>
+            </a>
+          </li>
+        </ul>
+        </tal:source>
+      </tal:sources>
+      <hr>
+      <a tal:attributes="href data/source_url" target="_blank">JSON version</a>
+    </div>
+    <div tal:condition="not: data">
+      <p>Error fetching GitHub data or no data available.</p>
+    </div>
+  </dd>
+
+  <script>
+  document.addEventListener('DOMContentLoaded', function () {
+    // Select all source/domain heading buttons
+    const buttons = document.querySelectorAll('.portletLinkedData button');
+
+    buttons.forEach((button) => {
+      button.addEventListener('click', function () {
+        // The list of links are in the next sibling UL element
+        const ul = button.nextElementSibling;
+
+        if (ul && ul.classList.contains('clicky-list')) {
+          // Hide the list of links
+          ul.classList.toggle('hidden');
+
+          // Toggle the button's class to change the arrow/triangle
+          // and hide/reveal the link count
+          if (button.classList.contains('expanded')) {
+            button.classList.remove('expanded');
+            button.classList.add('closed');
+          } else {
+            button.classList.remove('closed');
+            button.classList.add('expanded');
+          }
+        }
+      });
+    });
+  });
+  </script>
+</dl>
+
