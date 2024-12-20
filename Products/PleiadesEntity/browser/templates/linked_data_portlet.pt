@@ -110,7 +110,7 @@
         const ul = button.nextElementSibling;
 
         if (ul && ul.classList.contains('clicky-list')) {
-          // Hide the list of links
+          // Toggle the visibility of the list of links
           ul.classList.toggle('hidden');
 
           // Toggle the button's class to change the arrow/triangle
