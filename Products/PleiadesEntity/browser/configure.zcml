@@ -2,6 +2,7 @@
   xmlns="http://namespaces.zope.org/zope"
   xmlns:browser="http://namespaces.zope.org/browser"
   xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+  xmlns:plone="http://namespaces.plone.org/plone"
   i18n_domain="Products.PleiadesEntity"
   >
 
@@ -112,6 +113,16 @@
     class=".references.QueryBibliographicData"
     permission="zope2.View"
     />
+
+  <plone:portlet
+      name="Products.PleiadesEntity.LinkedDataPortlet"
+      interface=".portlets.ILinkedDataPortlet"
+      assignment=".portlets.LinkedDataPortletAssignment"
+      view_permission="zope2.View"
+      edit_permission="cmf.ManagePortal"
+      renderer=".portlets.LinkedDataPortletRenderer"
+      addview=".portlets.LinkedDataPortletAddForm"
+      />
 
   <browser:viewlet
     name="Products.PleiadesEntity.default-works"
