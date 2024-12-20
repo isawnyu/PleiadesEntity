@@ -66,7 +66,7 @@
       <span class="portletTopRight"></span>
   </dt>
   <dd class="portletItem"
-      tal:define="data view/github_data">
+      tal:define="data view/link_data">
     <div tal:condition="data">
       <tal:sources tal:repeat="source python: sorted(data['links_by_source'])">
         <tal:source tal:define="links python:data['links_by_source'][source];

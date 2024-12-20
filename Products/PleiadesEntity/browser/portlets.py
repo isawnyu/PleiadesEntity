@@ -20,7 +20,6 @@ class ILinkedDataPortlet(IPortletDataProvider):
 @implementer(ILinkedDataPortlet)
 class LinkedDataPortletAssignment(base.Assignment):
     title = u"Linked Data Portlet"
-    json_root_url = u"https://raw.githubusercontent.com/isawnyu/pleiades.datasets/refs/heads/main/data/sidebar/"
 
     def __init__(self):
         pass
@@ -36,19 +35,28 @@ def load_domain_to_label_map():
     record_name = (
         "pleiades.vocabularies.interfaces.IPleiadesSettings.link_source_titles_for_urls"
     )
+
     vocab = plone_api.portal.get_registry_record(name=record_name)
 
     return {rec["source_domain"]: rec["friendly_label"] for rec in vocab}
 
 
-def place_id_to_url_path(place_id):
-    """Given a Place ID (short name), generate the path to
-    a JSON file with related content.
+def place_id_to_url(place_id):
+    """Given a Place ID (short name), calculate the URL for
+    the corresponding JSON file with related content, hosted
+    on Github.
+
+    The repository uses a directory structure where the first 3
+    digits of the Place ID are nested directories. So, ID 31459 will be
+    found at: [root]/3/1/4/31459.json
     """
-    first_three = list(place_id[:3])
+    root_url = u"https://raw.githubusercontent.com/isawnyu/pleiades.datasets/refs/heads/main/data/sidebar/"
+    directory_names = list(place_id[:3])
     filename = "{}.json".format(place_id)
-    parts = first_three + [filename]
-    return "/".join(parts)
+    parts = directory_names + [filename]
+    path = "/".join(parts)
+
+    return urljoin(root_url, path)
 
 
 def json_to_portlet_data(data):
@@ -114,34 +122,30 @@ class LinkedDataPortletRenderer(base.Renderer):
         return urljoin(site_root, "help/using-pleiades-data/linked-data-sidebar")
 
     @property
-    def github_data(self):
+    def link_data(self):
         """Fetch JSON data describing content related to the context
         Place, and restructure it for display in the portlet.
         """
-        resource = place_id_to_url_path(self.context.getId())
-        url = urljoin(self.data.json_root_url, resource)
-        logger.info("Looking for {}".format(url))
+        url = place_id_to_url(self.context.getId())
         try:
             response = requests.get(url)
             response.raise_for_status()
-            data = response.json()
-
-            logger.info("Found it!")
-            result = {
-                "source_url": url,
-                "links_by_source": json_to_portlet_data(data),
-            }
-            return result
-        except Exception as e:
-            logger.info("Didn't find it.")
+            raw_json = response.json()
+        except Exception:
+            logger.exception("Could not find (or parse) {}".format(url))
             return None
 
+        result = {
+            "source_url": url,
+            "links_by_source": json_to_portlet_data(raw_json),
+        }
+
+        return result
+
     def available(self):
-        """Show the portlet only for 'Place' content type."""
+        """Show the portlet only for 'Place' content"""
         context_type = getattr(self.context, "portal_type", "")
-        is_place = context_type == "Place"
-        logger.info("Available? {}".format(is_place))
-        return is_place
+        return context_type == "Place"
 
 
 class LinkedDataPortletAddForm(base.NullAddForm):
