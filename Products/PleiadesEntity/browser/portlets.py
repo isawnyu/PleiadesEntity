@@ -38,6 +38,9 @@ def load_domain_to_label_map():
 
     vocab = plone_api.portal.get_registry_record(name=record_name)
 
+    if vocab is None:
+        return {}
+
     return {rec["source_domain"]: rec["friendly_label"] for rec in vocab}
 
 
@@ -112,7 +115,6 @@ class LinkedDataPortletRenderer(base.Renderer):
 
     render = ViewPageTemplateFile("templates/linked_data_portlet.pt")
 
-    @property
     def help_link(self):
         # XXX possible weirdness
         # For urljoin to preserve the portal name, we need to make sure the
@@ -121,7 +123,6 @@ class LinkedDataPortletRenderer(base.Renderer):
 
         return urljoin(site_root, "help/using-pleiades-data/linked-data-sidebar")
 
-    @property
     def link_data(self):
         """Fetch JSON data describing content related to the context
         Place, and restructure it for display in the portlet.
