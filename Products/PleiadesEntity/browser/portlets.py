@@ -136,7 +136,7 @@ class LinkedDataPortletRenderer(base.Renderer):
             response.raise_for_status()
             raw_json = response.json()
         except Exception:
-            logger.exception("Could not find (or parse) {}".format(url))
+            logger.info("Could not find (or parse) {}".format(url))
             return None
 
         result = {
