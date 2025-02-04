@@ -7,6 +7,7 @@ from plone import api as plone_api
 from plone.app.portlets.portlets import base
 from plone.portlets.interfaces import IPortletDataProvider
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from zope.cachedescriptors.property import Lazy as lazy_property
 from zope.interface import implementer
 
 
@@ -115,6 +116,7 @@ class LinkedDataPortletRenderer(base.Renderer):
 
     render = ViewPageTemplateFile("templates/linked_data_portlet.pt")
 
+    @lazy_property
     def help_link(self):
         # XXX possible weirdness
         # For urljoin to preserve the portal name, we need to make sure the
@@ -123,6 +125,7 @@ class LinkedDataPortletRenderer(base.Renderer):
 
         return urljoin(site_root, "help/using-pleiades-data/linked-data-sidebar")
 
+    @lazy_property
     def link_data(self):
         """Fetch JSON data describing content related to the context
         Place, and restructure it for display in the portlet.
@@ -146,7 +149,10 @@ class LinkedDataPortletRenderer(base.Renderer):
     def available(self):
         """Show the portlet only for 'Place' content"""
         context_type = getattr(self.context, "portal_type", "")
-        return context_type == "Place"
+        if context_type != "Place":
+            return False
+
+        return self.link_data is not None
 
 
 class LinkedDataPortletAddForm(base.NullAddForm):
