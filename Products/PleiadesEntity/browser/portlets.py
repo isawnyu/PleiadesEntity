@@ -38,6 +38,9 @@ def load_domain_to_label_map():
 
     vocab = plone_api.portal.get_registry_record(name=record_name)
 
+    if vocab is None:
+        return {}
+
     return {rec["source_domain"]: rec["friendly_label"] for rec in vocab}
 
 
