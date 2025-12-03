@@ -11,9 +11,14 @@ const MAX_WEST = -30.0;
 const MAX_NORTH = 80.0;
 const MAX_EAST = 180.0;
 const MAX_SOUTH = -45.0;
+const mapboxToken = window.PLEIADES_MAPBOX_TOKEN || '';
+
+if (!mapboxToken && window.console && window.console.warn) {
+    window.console.warn('Mapbox access token is not configured.');
+}
 
 /* Configure and initialize map and standard controls */
-mapboxgl.accessToken = 'pk.eyJ1IjoiaXNhd255dSIsImEiOiJjbWluMzA2YWgyNHY1M2dweHRneGQwemVjIn0.2OjZgOxVAh8qNpY5rDipGg';
+mapboxgl.accessToken = mapboxToken;
 mapboxgl.setRTLTextPlugin(
     'https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-rtl-text/v0.2.3/mapbox-gl-rtl-text.js',
     null,

@@ -16,10 +16,10 @@
     <tal:block tal:define="place context/@@place; baseline place/@@iterate/baseline">
       <link rel="where" type="application/json" tal:attributes="href string:${place/absolute_url}/@@json"/>
       <link tal:condition="nocall:baseline"
-        rel="baseline-where" 
-        type="application/json" 
+        rel="baseline-where"
+        type="application/json"
         tal:attributes="href string:${baseline/absolute_url}/@@json" />
-      <link rel="stylesheet" 
+      <link rel="stylesheet"
         href="//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.css" />
     </tal:block>
       <style>
@@ -39,14 +39,14 @@
         <!-- header, h1 of Edit <Type>, schemata links and webdav lock message -->
         <!--metal:header define-macro="header">
         </metal:header-->
-        
+
         <!-- typedesription, typeDescription from the content type -->
         <!--metal:typedescription define-macro="typedescription">
         </metal:typedescription-->
 
-        <!-- body, editform , fields, buttons, the default macro 
+        <!-- body, editform , fields, buttons, the default macro
              contains a number of slots which usually provide enough
-             ways to customise so often I use that macro and just 
+             ways to customise so often I use that macro and just
              fill the slots
         -->
         <metal:body define-macro="body">
@@ -87,8 +87,12 @@
     </table>
 
 <script tal:attributes="src string:${context/portal_url}/location_map.js?v=20251201-1"></script>
+<script tal:define="token python:context.portal_registry.get('pleiades.mapbox.access_token', '')"
+        tal:content="structure string:window.PLEIADES_MAPBOX_TOKEN = &quot;${token}&quot;;">
+</script>
+<script tal:attributes="src string:${context/portal_url}/location_map.js?v=20251203"></script>
 <script tal:attributes="src string:${context/portal_url}/location_edit.js"></script>
-        
+
         </metal:body>
 
         <!-- footer, by line created date etc. -->

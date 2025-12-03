@@ -105,7 +105,10 @@
 
       </div>
 
-<script tal:attributes="src string:${context/portal_url}/location_map.js?v=20251201-1"></script>
+<script tal:define="token python:context.portal_registry.get('pleiades.mapbox.access_token', '')"
+        tal:content="structure string:window.PLEIADES_MAPBOX_TOKEN = &quot;${token}&quot;;">
+</script>
+<script tal:attributes="src string:${context/portal_url}/location_map.js?v=20251203"></script>
 
     </metal:body_macro>
 
