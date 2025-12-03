@@ -125,4 +125,13 @@
       import_steps="portlets"
       />
 
+  <upgradeDepends
+      profile="Products.PleiadesEntity:default"
+      source="1009"
+      destination="1010"
+      title="Add Mapbox registry record"
+      description=""
+      import_steps="plone.app.registry"
+      />
+
 </configure>
