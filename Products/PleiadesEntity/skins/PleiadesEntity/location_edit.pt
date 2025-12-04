@@ -86,7 +86,7 @@
     </tr>
     </table>
 
-<script tal:attributes="src string:${context/portal_url}/location_map.js"></script>
+<script tal:attributes="src string:${context/portal_url}/location_map.js?v=20251201-1"></script>
 <script tal:attributes="src string:${context/portal_url}/location_edit.js"></script>
         
         </metal:body>

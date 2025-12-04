@@ -21,6 +21,7 @@ from Products.Archetypes import atapi
 from Products.ATContentTypes.content import schemata
 from Products.ATContentTypes.content.document import ATDocumentBase, ATDocumentSchema
 from Products.CMFCore import permissions
+from Products.CMFCore.utils import getToolByName
 from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
 from Products.Five.browser import BrowserView
 from Products.PleiadesEntity.content.Named import Named
@@ -181,9 +182,13 @@ class Place(atapi.BaseFolder, ATDocumentBase, Named, Work, BrowserDefaultMixin):
         """Get list of feature types for the place, digging into backref'd
         features if no types are explicitly set on the place.
         """
+        wt = getToolByName(self, "portal_workflow")
         ftypes = self.getPlaceType()
         for f in list(self.getLocations()) + list(self.getFeatures()):
-            ftypes.extend([t for t in f.getFeatureType() if bool(t)])
+            # Since this is indexed in the catalog we only want to include
+            # published features
+            if wt.getInfoFor(f, 'review_state') == 'published':
+                ftypes.extend([t for t in f.getFeatureType() if bool(t)])
         ftypes = set(ftypes)
         if len(ftypes) > 1 and 'unknown' in ftypes:
             ftypes.remove('unknown')

@@ -13,7 +13,7 @@ const MAX_EAST = 180.0;
 const MAX_SOUTH = -45.0;
 
 /* Configure and initialize map and standard controls */
-mapboxgl.accessToken = 'pk.eyJ1IjoiaXNhd255dSIsImEiOiJja2FlaWk4MG0yaHY0MnNvemRneWF0d2RnIn0.FgwFQtymPTHYPYYha5mfHw';
+mapboxgl.accessToken = 'pk.eyJ1IjoiaXNhd255dSIsImEiOiJjbWluMzA2YWgyNHY1M2dweHRneGQwemVjIn0.2OjZgOxVAh8qNpY5rDipGg';
 mapboxgl.setRTLTextPlugin(
     'https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-rtl-text/v0.2.3/mapbox-gl-rtl-text.js',
     null,
