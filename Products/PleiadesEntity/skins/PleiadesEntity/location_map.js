@@ -1,6 +1,11 @@
 var L, PLZoom;
 var $ = jQuery;
 var target = null;
+var mapboxToken = window.PLEIADES_MAPBOX_TOKEN || '';
+
+if (!mapboxToken && window.console && window.console.warn) {
+    window.console.warn('Mapbox access token is not configured.');
+}
 
 PLZoom = L.Control.Zoom.extend({
     onAdd: function(map) {
@@ -79,21 +84,21 @@ $(function() {
     L.control.attribution({ prefix: false, position: 'bottomright' }).addTo(map);
 
     var outdoors2020 = L.tileLayer(
-        'https://api.mapbox.com/styles/v1/isawnyu/ckglabv7q0ald19mnlbluh4sn/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiaXNhd255dSIsImEiOiJjbWluMzA2YWgyNHY1M2dweHRneGQwemVjIn0.2OjZgOxVAh8qNpY5rDipGg', {
+        'https://api.mapbox.com/styles/v1/isawnyu/ckglabv7q0ald19mnlbluh4sn/tiles/{z}/{x}/{y}?access_token=' + mapboxToken, {
             attribution: 'Powered by <a href="http://leafletjs.com/">Leaflet</a> and <a href="https://www.mapbox.com/">Mapbox</a>. Map base from MapBox "Streets v8" and "Terrain v2" datasets using a modified "Outdoors" style in MapBox Studio.',
         });
     outdoors2020.addTo(map);
     /* This is a mapbox studio classic style; deprecated by mapbox 2020
     var awmcterrain = L.tileLayer(
-        'https://api.tiles.mapbox.com/v4/isawnyu.map-knmctlkh/{z}/{x}/{y}.mapbox?access_token=pk.eyJ1IjoiaXNhd255dSIsImEiOiJjbWluMzA2YWgyNHY1M2dweHRneGQwemVjIn0.2OjZgOxVAh8qNpY5rDipGg', {
+        'https://api.tiles.mapbox.com/v4/isawnyu.map-knmctlkh/{z}/{x}/{y}.mapbox?access_token=' + mapboxToken, {
             attribution: 'Powered by <a href="http://leafletjs.com/">Leaflet</a> and <a href="https://www.mapbox.com/">Mapbox</a>. Map base by <a title="Ancient World Mapping Center (UNC-CH)" href="http://awmc.unc.edu">AWMC</a>, 2014 (cc-by-nc).',
             maxZoom: 12
-        }); 
+        });
     awmcterrain.addTo(map); */
 
     /* Not added by default, only through user control action */
     var satellite2020 = L.tileLayer(
-        'https://api.mapbox.com/styles/v1/isawnyu/ckg9eqejk2j4a19oexu5ywrqu/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiaXNhd255dSIsImEiOiJjbWluMzA2YWgyNHY1M2dweHRneGQwemVjIn0.2OjZgOxVAh8qNpY5rDipGg', {
+        'https://api.mapbox.com/styles/v1/isawnyu/ckg9eqejk2j4a19oexu5ywrqu/tiles/{z}/{x}/{y}?access_token=' + mapboxToken, {
             attribution: 'Powered by <a href="http://leafletjs.com/">Leaflet</a> and <a href="https://www.mapbox.com/">Mapbox</a>. Map base from MapBox "Streets v8" and "Satellite" datasets using a modified "Satellite Streets" style in MapBox Studio.',
         });
 

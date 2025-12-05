@@ -2,7 +2,8 @@
 <metadata>
   <version>1009</version>
   <dependencies>
-  	<dependency>profile-pleiades.geographer:default</dependency>
-  	<dependency>profile-pleiades.vocabularies:default</dependency>
+    <dependency>profile-pleiades.geographer:default</dependency>
+    <dependency>profile-pleiades.vocabularies:default</dependency>
+    <dependency>profile-plone.app.registry:default</dependency>
   </dependencies>
 </metadata>

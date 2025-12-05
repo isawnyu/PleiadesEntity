@@ -13,3 +13,9 @@ class DefaultWorksViewlet(common.ViewletBase):
         for work in settings.default_works:
             pleiades_default_works[work['short_title']] = work['zotero_uri']
         return "<script>pleiades_default_works = {}</script>".format(json.dumps(pleiades_default_works))
+
+
+class MapboxSettingsViewlet(common.ViewletBase):
+
+    def render(self):
+        return "<script src='{}/@@mapbox-settings.js'></script>".format(self.context.portal_url())

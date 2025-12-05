@@ -105,7 +105,7 @@
 
       </div>
 
-<script tal:attributes="src string:${context/portal_url}/location_map.js?v=20251201-1"></script>
+<script tal:attributes="src string:${context/portal_url}/location_map.js?v=20251203"></script>
 
     </metal:body_macro>
 
