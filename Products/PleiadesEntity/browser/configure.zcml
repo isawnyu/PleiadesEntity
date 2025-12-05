@@ -132,4 +132,19 @@
     permission="zope2.View"
     />
 
+  <browser:viewlet
+    name="Products.PleiadesEntity.mapbox-settings"
+    for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+    manager="plone.app.layout.viewlets.interfaces.IHtmlHeadLinks"
+    class=".viewlets.MapboxSettingsViewlet"
+    permission="zope2.View"
+    />
+
+  <browser:page
+    name="mapbox-settings.js"
+    for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+    class=".mapbox.MapboxSettingsJS"
+    permission="zope2.View"
+    />
+
 </configure>

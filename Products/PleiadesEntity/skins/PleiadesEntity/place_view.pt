@@ -384,9 +384,6 @@
 
 <script src='https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js'></script>
 <link href='https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css' rel='stylesheet' />
-<script tal:define="token python:context.portal_registry.get('pleiades.mapbox.access_token', '')"
-        tal:content="structure string:window.PLEIADES_MAPBOX_TOKEN = &quot;${token}&quot;;">
-</script>
 <script tal:attributes="src string:${portal_url}/turf.min.js?v=20240219-1" type="module"></script>
 <script tal:attributes="src string:${portal_url}/place_map.js?v=20251203" type="module"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.12/clipboard.min.js"></script>
