@@ -1,6 +1,10 @@
 {
     "name": "pleiades-turf",
     "version": "0.0.1",
+    "engines": {
+        "node": ">=22.0.0 <23.0.0",
+        "npm": ">=10.0.0"
+    },
     "private": true,
     "devDependencies": {
         "@turf/convex": "~6.5.0",
