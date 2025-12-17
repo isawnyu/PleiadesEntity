@@ -9,7 +9,7 @@
         "browserify": "~17.0.0"
     },
     "scripts": {
-        "dev": "./node_modules/.bin/browserify main.js -s turf > turf.js",
-        "build": "./node_modules/.bin/browserify main.js -s turf | ./node_modules/.bin/uglifyjs > turf.min.js"
+        "dev": "./node_modules/.bin/browserify main.js -s turf -o turf.js",
+        "build": "./node_modules/.bin/browserify main.js -s turf | ./node_modules/.bin/uglifyjs -o turf.min.js"
     }
 }
