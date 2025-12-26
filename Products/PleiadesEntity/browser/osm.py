@@ -233,8 +233,9 @@ class OSMLocationFactory(BrowserView):
             type="citesAsDataSource",
             short_title='OSM',
             citation_detail='{} {}'.format(objtype.title(), objid),
-            formatted_citation="osm:%s=%s" % (objtype, objid),
+            formatted_citation='<div class="csl-entry"><i>OpenStreetMap</i>. OpenStreetMap Foundation, 2004. http://www.openstreetmap.org/.</div>',
             access_uri=browse_url,
+            bibliographic_uri="https://www.zotero.org/groups/2533/items/BA93AHVQ"
         )]
 
         field = locn.getField('referenceCitations')
