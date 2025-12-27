@@ -121,7 +121,10 @@
                   GeoNames</a>,
                 <a href=""
                   tal:attributes="href string:http://maps.google.com/?q=$mlat,$mlon">
-                  Google Maps</a>, or
+                  Google Maps</a>,
+                <a href=""
+                  tal:attributes="href string:http://maps.apple.com/?ll=$mlat,$mlon">
+                  Apple Maps</a>, or
                 <a href=""
                   tal:attributes="href string:http://openstreetmap.org/?mlat=$mlat&amp;mlon=$mlon&amp;zoom=12&amp;layers=M">
                   OpenStreetMap</a>.</span>
