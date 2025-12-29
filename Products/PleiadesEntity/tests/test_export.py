@@ -96,6 +96,15 @@ class TestExport(PleiadesEntityTestCase):
         self.portal.portal_workflow.doActionFor(places['2'], 'publish')
         self.portal.portal_workflow.doActionFor(place[cid], 'publish')
 
+        # Positional accuracy for footprint buffers
+        self.portal.invokeFactory(
+            'PositionalAccuracy',
+            id='acc',
+            value=100.0,
+        )
+        self.portal.portal_workflow.doActionFor(self.portal['acc'], 'publish')
+        place.position.setAccuracy(self.portal['acc'])
+
         place.setModificationDate(fake_date)
         self.portal.portal_catalog.catalog_object(place)
         place[nid].setModificationDate(fake_date)
@@ -197,6 +206,11 @@ class TestExport(PleiadesEntityTestCase):
         self.assertIn('history', actual)
         self.assertGreater(len(actual['history']), 0, "History list should not be empty")
         self.assertEqual(actual['history'][-1]['comment'], 'Initial Revision')
+
+        # Footprint is present
+        self.assertIn('footprint', actual)
+        self.assertIsNotNone(actual['footprint'])
+        self.assertEqual(actual['footprint']['type'], 'Polygon')
 
     def _validate_creator_structure(self, creator):
         """Helper method to validate creator dictionary structure.

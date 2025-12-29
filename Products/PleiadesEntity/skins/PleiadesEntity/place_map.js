@@ -143,6 +143,15 @@ var layerMetadata = {
             'fill-color': 'rgba(255, 255, 0, 0.3)'
         }
     },
+    'place-footprint': {
+        'type': 'fill',
+        'layout': {},
+        'paint': {
+            'fill-outline-color': '#f15c2c',
+            'fill-antialias': true,
+            'fill-color': 'rgba(241, 92, 44, 0.25)'
+        }
+    },
     'connections-inbound': {
         'type': 'symbol',
         'layout': {
@@ -166,7 +175,8 @@ map.on('click', function(e) {
                 'layer-connections-inbound',
                 'layer-location-polygons',
                 'layer-location-geometries',
-                'layer-location-buffers'
+                'layer-location-buffers',
+                'layer-place-footprint'
             ]
         });
     if (features.length > 0) {
@@ -212,19 +222,8 @@ function populateMap(map) {
     $.getJSON(jurl, rdata, function(j) {
         var sw, ne, features;
         bounds = new mapboxgl.LngLatBounds();
-        // Set an initial zoom level/boundary based on JSON
-        if (j.bbox !== null) {
-            sw = new mapboxgl.LngLat(j.bbox[0], j.bbox[1]);
-            ne = new mapboxgl.LngLat(j.bbox[2], j.bbox[3]);
-            bounds.extend(sw);
-            bounds.extend(ne);
-            map.fitBounds(bounds, { 'padding': boxpad, 'maxZoom': initial_zoom });
-        }
-        plotReprPoint(map, j);
-        map.flyTo({ 'center': j.reprPoint });
-        features = plotLocations(map, j);
         var extend_coords = function (coords_structure) {
-            if (!coords_structure.length) {
+            if (!coords_structure || !coords_structure.length) {
                 return;
             }
             if (Number.isFinite(coords_structure[0])) {
@@ -233,12 +232,27 @@ function populateMap(map) {
                 coords_structure.forEach(extend_coords);
             }
         }
+        // Set an initial zoom level/boundary based on JSON
+        if (j.bbox !== null) {
+            sw = new mapboxgl.LngLat(j.bbox[0], j.bbox[1]);
+            ne = new mapboxgl.LngLat(j.bbox[2], j.bbox[3]);
+            bounds.extend(sw);
+            bounds.extend(ne);
+            map.fitBounds(bounds, { 'padding': boxpad, 'maxZoom': initial_zoom });
+        }
+        if (j.footprint && j.footprint.coordinates) {
+            extend_coords(j.footprint.coordinates);
+        }
+        plotReprPoint(map, j);
+        map.flyTo({ 'center': j.reprPoint });
+        features = plotLocations(map, j);
         features.forEach(function (feature) {
             if (!feature.geometry || !feature.geometry.coordinates) {
                 return;
             }
             extend_coords(feature.geometry.coordinates);
         });
+        plotFootprint(map, j);
         // // Re-zoom
         if (features.length && bounds.getNorthEast()) {
             map.fitBounds(bounds, { 'padding': boxpad, 'maxZoom': initial_zoom });
@@ -354,6 +368,21 @@ function plotLocations(map, j) {
     return pointFeatures.concat(polyFeatures).concat(otherFeatures).concat(locationBuffers);
 }
 
+function plotFootprint(map, j) {
+    if (!j.footprint) {
+        return;
+    }
+    var features = [{
+        'type': 'Feature',
+        'geometry': j.footprint,
+        'properties': {
+            'title': 'Footprint for ' + j.title,
+            'description': j.description,
+        }
+    }];
+    makeLayer(map, 'Place Footprint', features, 'layer-location-polygons');
+}
+
 function plotReprPoint(map, j) {
     var features = [{
         'type': 'Feature',
@@ -371,7 +400,7 @@ function plotReprPoint(map, j) {
 }
 
 function restack(map) {
-    const desired_layer_order = ['background-sepia', 'satellite-sepia', 'admin-1-boundary-bg', 'admin-0-boundary-bg', 'admin-1-boundary', 'admin-0-boundary', 'admin-0-boundary-disputed', 'settlement-subdivision-label', 'settlement-minor-label', 'settlement-major-label', 'state-label', 'country-label', 'layer-location-buffers', 'layer-location-polygons', 'layer-location-geometries', 'layer-connections-inbound', 'layer-location-points', 'layer-representative-point'];
+    const desired_layer_order = ['background-sepia', 'satellite-sepia', 'admin-1-boundary-bg', 'admin-0-boundary-bg', 'admin-1-boundary', 'admin-0-boundary', 'admin-0-boundary-disputed', 'settlement-subdivision-label', 'settlement-minor-label', 'settlement-major-label', 'state-label', 'country-label', 'layer-location-buffers', 'layer-place-footprint', 'layer-location-polygons', 'layer-location-geometries', 'layer-connections-inbound', 'layer-location-points', 'layer-representative-point'];
     var i;
     var this_layer;
     var current_layer_order;
