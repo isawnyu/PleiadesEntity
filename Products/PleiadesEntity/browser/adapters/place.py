@@ -1,6 +1,7 @@
 from Products.PleiadesEntity.time import periodRanges
 from zope.globalrequest import getRequest
 from pleiades.vocabularies.vocabularies import get_vocabulary
+from pleiades.geographer.interfaces import IFootprint
 from pleiades.geographer.geo import is_clockwise
 from . import archetypes_getter
 from . import export_children
@@ -162,3 +163,12 @@ class PlaceExportAdapter(WorkExportAdapter, ContentExportAdapter):
             note = unicode(note.replace(unichr(174), unichr(0x2194)))
             note = note.replace(unichr(0x2192), unichr(0x2194))
         return note
+
+    def footprint(self):
+        cached = getattr(self.brain, 'footprint', None)
+        if cached:
+            return cached
+        try:
+            return IFootprint(self.context).footprint()
+        except Exception:
+            return None
